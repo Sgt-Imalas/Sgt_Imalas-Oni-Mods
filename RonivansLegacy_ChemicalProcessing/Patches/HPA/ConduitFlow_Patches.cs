@@ -88,7 +88,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				if (TranspilerHelper.GetLocIndexOfFirst<ConduitFlow.ConduitContents>(original, out int contentIndex))
 					locIndex = contentIndex - 1;
 
-
+				SgtLogger.l("ConduitFlow_UpdateConduit_Patch LocIndex: " + locIndex);
 				//This variable is used for the patch to determine the cell of the conduit being updated. The cell is then used in determining what its MaxMass (max capacity) should be
 				CodeInstruction getCellInstruction = new CodeInstruction(OpCodes.Ldloc_S, locIndex);
 				foreach (CodeInstruction code in orig)

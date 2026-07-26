@@ -126,6 +126,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 		}
 
 		static bool Initialized = false;
+		static bool InitializationFailed = false;
 		static GetConfigValueDelegate Delegate_TryGetConfigValue;
 		public delegate object GetConfigValueDelegate(string name);
 
@@ -147,20 +148,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			value = (T)propertyValue;
 			return true;
 		}
+
 		static void InitTypes(bool force = false)
 		{
-			if (Initialized && !force)
+			if ((InitializationFailed || Initialized) && !force)
 				return;
-
 
 			///fetch the config class type
 			var CustomizeBuildings_CustomizeBuildingsState = Type.GetType("CustomizeBuildings.CustomizeBuildingsState, CustomizeBuildings");
 			if (CustomizeBuildings_CustomizeBuildingsState == null)
 			{
 				Debug.Log("CustomizeBuildings types not found.");
+				InitializationFailed = true;
 				return;
 			}
-			if(CustomizeBuildings_CustomizeBuildingsState.BaseType == null)
+			if (CustomizeBuildings_CustomizeBuildingsState.BaseType == null)
 			{
 				Debug.Log("CustomizeBuildings_CustomizeBuildingsState BaseType was null");
 			}
@@ -169,6 +171,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			if (m_TryGetVal == null)
 			{
 				Debug.LogWarning("CustomizeBuildings.CustomizeBuildingsState.TryGetValue not found.");
+				InitializationFailed = true;
 				return;
 			}
 			///create delegate for static TryGet method
@@ -179,6 +182,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			catch (Exception e)
 			{
 				Debug.LogWarning("Failure to create delegate for CustomizeBuildingsState.TryGetValue:\n" + e.Message);
+				InitializationFailed = true;
 			}
 			Initialized = Delegate_TryGetConfigValue != null;
 			Debug.Log("CustomizeBuildings integration: " + (Initialized ? "Success" : "Failed"));
@@ -204,7 +208,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 
 			//absolute garbage patch in a chinese cheat mod that breaks roughly everything about the the oil well
 			harmony.Unpatch(m_OilWellCapConfig_ConfigureBuildingTemplate, HarmonyPatchType.Prefix, "gengjiaqingsong");
-			
+
 		}
 		/// <summary>
 		/// CustomizeBuildings temperature valve does not respect proper inheritance, skipping base.OnSpawn()
@@ -215,7 +219,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 				return;
 
 			Type valveBaseTempType = Type.GetType("CustomizeBuildings.ValveBaseTemperature, CustomizeBuildings");
-			if(valveBaseTempType == null)
+			if (valveBaseTempType == null)
 			{
 				SgtLogger.warning("CustomizeBuildings.ValveBaseTemperature not found, skipping patch.");
 				return;
@@ -231,7 +235,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 		}
 		public static void ValveBaseTemperature_OnSpawn_Postfix(ValveBase __instance)
 		{
-			SgtLogger.l("ValveBaseTemperature OnSpawn postfix running for " + __instance.name+", conduitType: "+__instance.conduitType);
+			SgtLogger.l("ValveBaseTemperature OnSpawn postfix running for " + __instance.name + ", conduitType: " + __instance.conduitType);
 			if (__instance.conduitType == ConduitType.Gas || __instance.conduitType == ConduitType.Liquid)
 			{
 				float conduitMax = HighPressureConduitRegistration.GetMaxConduitCapacity(__instance.conduitType, true);
