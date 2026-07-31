@@ -1,0 +1,36 @@
+name: Validate translations
+
+on:
+  pull_request:
+    paths:
+      - "**/ModAssets/translations/*.po"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install gettext
+        run: sudo apt-get update && sudo apt-get install --yes gettext
+
+      - name: Validate changed PO files
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git diff --name-only --diff-filter=ACM \
+            "$BASE_SHA" "$HEAD_SHA" -- '*.po' |
+          while IFS= read -r file; do
+            echo "Validating $file"
+            msgfmt --check --check-format \
+              --output-file=/dev/null "$file"
+          done
