@@ -286,6 +286,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MugConversionRecipes", "Mug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BionicBoostersPlus", "BionicBoostersPlus\BionicBoostersPlus.csproj", "{8D9EB7E9-839E-42FD-8F75-628C67AAC1BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkTheme", "DarkTheme\DarkTheme.csproj", "{A3665293-4E17-4CFC-B02F-763C5008F847}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_POVerify", "_POVerify\_POVerify.csproj", "{B0C0F3C6-4273-4301-9A52-AB1548220CB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -792,6 +796,14 @@ Global
 		{8D9EB7E9-839E-42FD-8F75-628C67AAC1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D9EB7E9-839E-42FD-8F75-628C67AAC1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D9EB7E9-839E-42FD-8F75-628C67AAC1BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3665293-4E17-4CFC-B02F-763C5008F847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3665293-4E17-4CFC-B02F-763C5008F847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3665293-4E17-4CFC-B02F-763C5008F847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3665293-4E17-4CFC-B02F-763C5008F847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0C0F3C6-4273-4301-9A52-AB1548220CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C0F3C6-4273-4301-9A52-AB1548220CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C0F3C6-4273-4301-9A52-AB1548220CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C0F3C6-4273-4301-9A52-AB1548220CB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
