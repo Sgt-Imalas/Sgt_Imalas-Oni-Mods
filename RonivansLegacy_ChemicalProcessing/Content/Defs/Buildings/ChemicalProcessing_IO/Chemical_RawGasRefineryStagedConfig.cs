@@ -34,15 +34,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		static Chemical_RawGasRefineryStagedConfig()
 		{
-			steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(-2, 0), color: new Color?((Color)new Color32(167, 180, 201, byte.MaxValue)));
-			hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2), color: new Color?((Color)new Color32(224, 67, 203, byte.MaxValue)));
-			propaneGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color: new Color?((Color)new Color32(3, 44, 252, byte.MaxValue)));
-			sourGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 3), color: new Color?((Color)new Color32(byte.MaxValue, 173, 248, byte.MaxValue)));
-			nitricInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(4, 0), color: new Color?((Color)new Color32(byte.MaxValue, 68, 0, byte.MaxValue)));
-			propaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 0), color: new Color?((Color)new Color32(3, 44, 252, byte.MaxValue)));
-			sourGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 2), color: new Color?((Color)new Color32(byte.MaxValue, 173, 248, byte.MaxValue)));
-			ammoniaGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 1), color: new Color?((Color)new Color32(215, 227, 252, byte.MaxValue)));
-			waterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-3, 0), color: new Color?((Color)new Color32(72, 129, 247, byte.MaxValue)));
+			steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(-2, 0),color: (new Color32(167, 180, 201, byte.MaxValue)));
+			hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2),color: UIUtils.rgb(202, 109, 139));
+			propaneGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1),color: (new Color32(3, 44, 252, byte.MaxValue)));
+			sourGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 3),color: UIUtils.rgb(116, 36, 92));
+			nitricInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(4, 0),color: (new Color32(byte.MaxValue, 68, 0, byte.MaxValue)));
+			propaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 0),color: (new Color32(3, 44, 252, byte.MaxValue)));
+			sourGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 2),color: UIUtils.rgb(116, 36, 92));
+			ammoniaGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 1),color: (new Color32(215, 227, 252, byte.MaxValue)));
+			waterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-3, 0),color: (new Color32(72, 129, 247, byte.MaxValue)));
 
 		}
 
@@ -51,8 +51,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			float[] construction_mass = [500f, 200f];
 			string[] construction_materials =
 			[
-				"RefinedMetal",
-				SimHashes.Steel.ToString()
+				MATERIALS.REFINED_METAL,
+				GameTags.Steel.ToString()
 			];
 			EffectorValues tieR6 = NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 8, 5, "rawgas_refinery_staged_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
@@ -193,10 +193,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			propaneDispenser.SkipSetOperational = true;//handled by threshold instead
 			propaneDispenser.elementFilter = [SimHashes.Propane];
 			propaneDispenser.AssignPort(propaneGasOutputPort);
+
 			var propaneLimit = go.AddComponent<ElementThresholdOperational>();
 			propaneLimit.Threshold = 100f;
 			propaneLimit.ThresholdTag = SimHashes.Propane.CreateTag();
-
 
 			PipedConduitDispenser sourGasDispenser = go.AddComponent<PipedConduitDispenser>();
 			sourGasDispenser.storage = storage;
@@ -205,6 +205,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			sourGasDispenser.elementFilter = [SimHashes.SourGas];
 			sourGasDispenser.AssignPort(sourGasOutputPort);
 			sourGasDispenser.SkipSetOperational = true; //handled by threshold instead
+
 			var sourGasLimit = go.AddComponent<ElementThresholdOperational>();
 			sourGasLimit.Threshold = 100f;
 			sourGasLimit.ThresholdTag = SimHashes.SourGas.CreateTag();
