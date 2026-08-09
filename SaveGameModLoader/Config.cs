@@ -43,7 +43,7 @@ namespace SaveGameModLoader
 
 		[Option("STRINGS.MPM_CONFIG.HIDEINCOMPATIBLESAVES.NAME", "STRINGS.MPM_CONFIG.HIDEINCOMPATIBLESAVES.TOOLTIP")]
 		[JsonProperty]
-		public bool HideIncompatibleSaves { get; set; } = true;
+		public bool HideIncompatibleSaves { get; set; } = false;
 
 		public Config()
 		{
