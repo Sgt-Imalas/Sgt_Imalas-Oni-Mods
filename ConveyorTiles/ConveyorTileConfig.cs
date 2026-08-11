@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿, using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace ConveyorTiles
 {
@@ -92,6 +93,8 @@ namespace ConveyorTiles
 			go.AddComponent<ZoneTile>();
 			// go.AddOrGet<PortAttachment>();
 			//mdh.targetCellOffset = new CellOffset(0, 1);
+
+			BuildingUtil.RenderAboveLiquids(go);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

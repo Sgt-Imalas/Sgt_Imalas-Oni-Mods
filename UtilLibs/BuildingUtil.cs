@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
+using UnityEngine;
 
 namespace UtilLibs
 {
@@ -58,6 +59,23 @@ namespace UtilLibs
 			def.BlockTileMaterial = global::Assets.GetMaterial("tiles_solid");
 
 			return def;
+		}
+
+		/// <summary>
+		/// Makes the kbac render above liquids for buildings that are meant to show up in front of them, like conveyortiles
+		/// </summary>
+		/// <param name="go"></param>
+		public static void RenderAboveLiquids(GameObject go)
+		{
+			//mirrored from Fake tile buildings like storage tile and farm tiles
+			if (go.TryGetComponent<KBatchedAnimController>(out var kbac))
+				kbac.initialBlendParameters = 4;
+			else
+				SgtLogger.error("KBatchedAnimController not found on " + go.name + ", cannot mark to render above liquids!");
+		}
+		public static void RenderAboveLiquids(KBatchedAnimController kbac)
+		{
+			kbac.initialBlendParameters = 4;
 		}
 	}
 }

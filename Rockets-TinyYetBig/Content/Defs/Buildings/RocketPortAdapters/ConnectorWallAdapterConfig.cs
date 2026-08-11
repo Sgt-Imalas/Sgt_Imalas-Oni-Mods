@@ -1,5 +1,6 @@
 ﻿using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
@@ -89,6 +90,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 			SymbolOverrideControllerUtil.AddToPrefab(go);
 			go.AddOrGet<WallAdapter_TrueTilesHandler>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
+
+			BuildingUtil.RenderAboveLiquids(go);
 		}
 	}
 }
