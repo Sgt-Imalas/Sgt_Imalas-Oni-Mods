@@ -56,7 +56,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			//		var bodyCell = Grid.OffsetCell(cell, cellOffset);
 			//		if (!Grid.IsValidCell(bodyCell))
 			//			continue;
-			if (ForceFieldTile.ForceFieldAt(cell, out var projector))
+			if (ForceFieldTile.ForceFieldAt(cell, out var projector) && projector.ShieldActive)
 			{
 				projector.RecievePercentageDamage(shieldDamage * dt);
 				stuckInBarrier = true;

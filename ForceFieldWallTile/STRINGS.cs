@@ -85,6 +85,11 @@ namespace ForceFieldWallTile
 				public static LocString NAME = "Overload Cooldown";
 				public static LocString TOOLTIP = "Time it takes for an overloaded forcefield to restart";
 			}
+			public class FFT_BUILDINGLAYER
+			{
+				public static LocString NAME = "Projector Building Layer";
+				public static LocString TOOLTIP = "Layer the forcefield projector is constructed on";
+			}
 		}
 	}
 }
