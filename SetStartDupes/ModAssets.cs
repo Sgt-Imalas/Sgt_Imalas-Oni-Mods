@@ -932,6 +932,9 @@ namespace SetStartDupes
 		public static NextType GetTraitListOfTrait(Trait trait) => GetTraitListOfTrait(trait.Id);
 		public static NextType GetTraitListOfTrait(string traitId)
 		{
+			if(traitId.IsNullOrWhiteSpace())
+				return NextType.undefined;
+
 			if (!NextTypesPerTrait.ContainsKey(traitId))
 			{
 				return GetTraitListOfTrait(traitId, out _);

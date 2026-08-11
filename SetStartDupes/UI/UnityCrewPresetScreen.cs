@@ -85,7 +85,7 @@ namespace SetStartDupes
 			if (ReferencedCrewController != null)
 				tempStats = MinionCrewPreset.CreateCrewPreset(ReferencedCrewController);
 			else
-				tempStats = MinionCrewPreset.CreateCrewPresetFromLiveDuplicants();			
+				tempStats = MinionCrewPreset.CreateCrewPresetFromLiveDuplicants();
 			SetAsCurrent(tempStats);
 		}
 
@@ -233,7 +233,7 @@ namespace SetStartDupes
 		   DELETEWINDOW.CANCEL
 		   , nothing
 		   , useScreenSpaceOverlay: true
-		   ,parent:ModAssets.ParentScreen
+		   , parent: ModAssets.ParentScreen
 		   );
 		}
 
@@ -312,6 +312,12 @@ namespace SetStartDupes
 
 				foreach (var trait in mate.second.Traits)
 				{
+					if (trait.IsNullOrWhiteSpace())
+					{
+						SgtLogger.warning("found a Trait that was null or whitespace for " + mate.second.ConfigName + " in " + CurrentlySelected.CrewName);
+						continue;
+					}
+
 					if (ModAssets.IsMinionBaseTrait(trait))
 						continue;
 					var traitcon = Util.KInstantiateUI(TraitPrefab, TraitContainer, true);
@@ -326,6 +332,10 @@ namespace SetStartDupes
 				}
 
 				var JoyTrait = mate.second.joyTrait;
+				if (JoyTrait.IsNullOrWhiteSpace())
+				{
+					JoyTrait = "None";
+				}
 				var joy = CrewmatePrefab.transform.Find("Reactions/JoyTrait").gameObject;
 				UIUtils.TryChangeText(joy.transform, "Label", ModAssets.GetTraitName(traitRef.TryGet(JoyTrait)));
 				UIUtils.AddSimpleTooltipToObject(joy.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(JoyTrait), JoyTrait), true);
@@ -333,6 +343,8 @@ namespace SetStartDupes
 
 				var StressTrait = mate.second.stressTrait;
 
+				if (StressTrait.IsNullOrWhiteSpace())
+					StressTrait = "None";
 				var stress = CrewmatePrefab.transform.Find("Reactions/StressTrait").gameObject;
 				UIUtils.TryChangeText(stress.transform, "Label", ModAssets.GetTraitName(traitRef.TryGet(StressTrait)));
 				UIUtils.AddSimpleTooltipToObject(stress.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(StressTrait), StressTrait), true);
