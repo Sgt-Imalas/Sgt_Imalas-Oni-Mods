@@ -30,7 +30,7 @@ namespace DemoliorStoryTrait.Patches
 
 				///the dupe that reached space
 				int myWorldId = ((GameObject)obj).GetMyWorldId();
-				///this is the Klei code and its fucking garbage, it assumes the most left asteroid is the one with the impactor, which is not true if on a moonlet
+				///this is the Klei code; it assumes the most left asteroid is the one with the impactor, which is not true if on a moonlet
 				//int impactorTargetWorldId = smi.gameObject.GetMyWorldId();
 				///replace it with a proper check
 				GameplayEventInstance impactorEventInstance = GameplayEventManager.Instance.GetGameplayEventInstance(Db.Get().GameplayEvents.LargeImpactor.Id);
