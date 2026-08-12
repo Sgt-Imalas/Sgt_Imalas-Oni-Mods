@@ -61,12 +61,11 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		bool markedForDeletion = false;
 		HashSet<ObjectLayer> layersToReplace = null;
 
-		public void Configure(int cell, BuildingConfig building, Orientation orientation, IEnumerable<Tag> elements)
+		public void Configure(int cell, BuildingConfig building, Orientation orientation, IEnumerable<Tag> elements, int flags)
 		{
 			this.cell = cell;
 			this.buildingDefId = building.BuildingDef.PrefabID;
 			this.orientation = orientation;
-			building.GetConduitFlags(out int flags);
 			this.conduitFlags = flags;
 			this.selectedElements = elements.ToArray();
 			this.buildingDataSerialized = new();
@@ -354,10 +353,12 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 			else
 				kbac.Play("place");
 		}
-		protected bool PlayUtilityAnim(KBatchedAnimController targetKbac)
+		protected bool PlayUtilityAnim(KBatchedAnimController targetKbac, bool built = false)
 		{
 			IUtilityNetworkMgr utilityNetworkManager = def.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>().GetNetworkManager();
-			string animation = utilityNetworkManager.GetVisualizerString((UtilityConnections)conduitFlags) + "_place";
+			string animation = utilityNetworkManager.GetVisualizerString((UtilityConnections)conduitFlags);
+			if (!built)
+				animation += "_place";
 
 			if (utilityNetworkManager != null && targetKbac.HasAnimation(animation))
 			{

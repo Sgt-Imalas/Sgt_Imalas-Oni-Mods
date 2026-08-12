@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UtilLibs;
 using static BlueprintsV2.BlueprintData.BlueprintState;
+using static Grid.Restriction;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.DUPLICANTS.MODIFIERS;
 using static STRINGS.UI.SANDBOXTOOLS.SETTINGS;
@@ -24,7 +25,7 @@ namespace BlueprintsV2.Visualizers
 	{
 		///store the rotation state of the blueprint without affecting conduits/wires itself; only used by conduits
 		protected Orientation BlueprintRotationStateHolder = Orientation.Neutral;
-		
+
 		public GameObject Visualizer { get; protected set; }
 		public Vector2I Offset { get; protected set; }
 
@@ -94,7 +95,7 @@ namespace BlueprintsV2.Visualizers
 		}
 		public virtual bool IsPlaceable(int cellParam)
 		{
-			return ValidCell(cellParam) && HasTech() && AllowedInWorld();
+			return HasTech() && AllowedInWorld() && ValidCell(cellParam, out bool needsToReplace);
 		}
 		public virtual void ForceRedraw() => MoveVisualizer(cell, true);
 		public virtual void MoveVisualizer(int cellParam, bool forceRedraw = false)
@@ -168,16 +169,16 @@ namespace BlueprintsV2.Visualizers
 		//	return false;
 		//}
 		#endregion
-		public virtual void ApplyBuildingData(GameObject building)
+		public virtual void ApplyBuildingData(GameObject building, bool includeTime = true)
 		{
 			bool isPlanned = building.TryGetComponent<BuildingUnderConstruction>(out var buildingUnderConstruction);
-			bool isCOmplete = building.TryGetComponent<BuildingComplete>(out var buildingComplete);
+			bool isComplete = building.TryGetComponent<BuildingComplete>(out var buildingComplete);
 
 			var def = buildingConfig.BuildingDef;
 
 			if (isPlanned && buildingUnderConstruction.Def != def)
 				return;
-			if (isCOmplete && buildingComplete.Def != def)
+			if (isComplete && buildingComplete.Def != def)
 				return;
 
 			if (building.TryGetComponent<Rotatable>(out var rotatable))
@@ -197,8 +198,9 @@ namespace BlueprintsV2.Visualizers
 			{
 				building.FindOrAddComponent<Prioritizable>().SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
 			}
+			if (isComplete && includeTime)
+				buildingComplete.SetCreationTime(GameClock.Instance.GetTime());
 			UpdateConduitConnectionBits(building);
-
 		}
 
 		public int GetRotatedUtilityConnectionFlags(int plannedFlags)
@@ -296,37 +298,75 @@ namespace BlueprintsV2.Visualizers
 			}
 		}
 
+		protected GameObject CreateFinishedBuildingInternal(int cellParam, Vector3 positionCbc)
+		{
+			var def = buildingConfig.BuildingDef;
+			var selectedElements = GetConstructionElements();
+			var finishedBuilding = def.Create(positionCbc, null, GetConstructionElements(), def.CraftRecipe, ElementLoader.GetMinMeltingPointAmongElements(selectedElements), def.BuildingComplete);
+
+			if (finishedBuilding == null)
+			{
+				SgtLogger.warning("failed to place finished building " + def.PrefabID);
+				return null;
+			}
+			ApplyBuildingData(finishedBuilding);
+
+			def.MarkArea(cellParam, RotatedOrientation, def.ObjectLayer, finishedBuilding);
+			if (def.IsTilePiece)
+			{
+				def.MarkArea(cellParam, RotatedOrientation, def.TileLayer, finishedBuilding);
+				def.RunOnArea(cellParam, RotatedOrientation, cell0 => TileVisualizer.RefreshCell(cell0, def.TileLayer, def.ReplacementLayer));
+			}
+
+			if (finishedBuilding.TryGetComponent<Deconstructable>(out var decon))
+			{
+				decon.constructionElements = selectedElements;
+			}
+
+			finishedBuilding.SetActive(true);
+			return finishedBuilding;
+		}
+
 		public virtual bool PlaceFinishedBuilding(int cellParam)
 		{
 			Vector3 positionCbc = Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer);
 			var def = buildingConfig.BuildingDef;
-			GameObject building = def.Create(positionCbc, null, selected_elements: GetConstructionElements(), def.CraftRecipe, 293.15f, def.BuildingComplete);
+
+			GameObject building = null;
+
+			if (CanReplaceExistingBuilding(cellParam, out var replacementCandidate)
+				&& BlueprintState.InstantBuild)
+			{
+				return InstantBuildReplace(cellParam, positionCbc, replacementCandidate);
+			}
+			else
+				building = CreateFinishedBuildingInternal(cellParam, positionCbc);
+
 			if (building == null)
 			{
 				SgtLogger.warning("failed to place finished building " + def.PrefabID);
 				return false;
 			}
-
-			def.MarkArea(cellParam, RotatedOrientation, def.ObjectLayer, building);
-			if (def.IsFoundation)
-				def.RunOnArea(cellParam, RotatedOrientation, cell0 => TileVisualizer.RefreshCell(cell0, def.TileLayer, def.ReplacementLayer));
-
-			if (building.GetComponent<Deconstructable>() != null)
-			{
-				building.GetComponent<Deconstructable>().constructionElements = this.GetConstructionElements();
-			}
-
 			ApplyBuildingData(building);
-
-			building.SetActive(true);
 			return true;
 		}
+
 		public virtual bool PlacePlannedBuilding(int cellParam)
 		{
 			var def = buildingConfig.BuildingDef;
 			var orientation = RotatedOrientation;
 			Vector3 positionCbc = Grid.CellToPosCBC(cellParam, def.SceneLayer);
-			GameObject building = def.Instantiate(positionCbc, orientation, this.GetConstructionElements());
+			GameObject building = null;
+
+			if (CanReplaceExistingBuilding(cellParam, out var replacementCandidate)
+				&& !BlueprintState.InstantBuild)
+			{
+				building = def.TryReplaceTile(Visualizer, positionCbc, orientation, this.GetConstructionElements());
+				Grid.Objects[cell, (int)def.ReplacementLayer] = building;
+			}
+			else
+				building = def.Instantiate(positionCbc, orientation, this.GetConstructionElements());
+
 			if (building == null)
 			{
 				SgtLogger.warning("failed to place planned building " + def.PrefabID);
@@ -336,6 +376,76 @@ namespace BlueprintsV2.Visualizers
 
 			building.SetActive(true);
 			return true;
+		}
+		protected virtual bool InstantBuildReplace(int cell, Vector3 pos, GameObject tile)
+		{
+			var def = buildingConfig.BuildingDef;
+			var buildingOrientation = RotatedOrientation;
+			var selectedElements = GetConstructionElements();
+
+			if (def.PlacementOffsets.Length > 1)
+				def.RunOnArea(cell, buildingOrientation, (offset_cell =>
+				{
+					if (offset_cell == cell)
+						return;
+					GameObject neighborTile = def.GetReplacementCandidate(offset_cell);
+					if (neighborTile == null)
+						return;
+					if (neighborTile.TryGetComponent<SimCellOccupier>(out var sco))
+						sco.DestroySelf((() => UnityEngine.Object.Destroy(neighborTile)));
+					else
+						UnityEngine.Object.Destroy(neighborTile);
+				}));
+			if (!tile.TryGetComponent<SimCellOccupier>(out var sco))
+			{
+				UnityEngine.Object.Destroy(tile);
+				return CreateFinishedBuildingInternal(cell, pos);
+			}
+			sco.DestroySelf(() =>
+			{
+				UnityEngine.Object.Destroy(tile);
+				var builtTile = CreateFinishedBuildingInternal(cell, pos);
+			});
+			return true;
+		}
+
+		///this has issues with tiles and conduits; dont use.
+		protected virtual bool CanReplaceExistingBuilding(int cell, out GameObject replacementCandidate)
+		{
+
+			replacementCandidate = null;
+			var def = buildingConfig.BuildingDef;
+			bool replacementLayerOccupied = false;
+			return false;
+
+			if (ValidCell(cell, out bool isReplacement) && isReplacement)
+			{
+				replacementCandidate = def.GetReplacementCandidate(cell);
+				def.RunOnArea(cell, RotatedOrientation, (offset_cell =>
+				{
+					if (!def.IsReplacementLayerOccupied(offset_cell))
+						return;
+					replacementLayerOccupied = true;
+				}));
+			}
+			else
+				return false;
+
+			if (replacementLayerOccupied || replacementCandidate == null)
+				return false;
+
+			bool allowedToReplace = false;
+			if (replacementCandidate.TryGetComponent<BuildingComplete>(out var repBuildingComplete))
+			{
+				Tag primaryReplaceElement = replacementCandidate.GetComponent<PrimaryElement>().Element.tag;
+				if (primaryReplaceElement == SimHashes.StableSnow.CreateTag())
+					primaryReplaceElement = SimHashes.Snow.CreateTag();
+
+				allowedToReplace = repBuildingComplete.Def.Replaceable && def.CanReplace(replacementCandidate) && (repBuildingComplete.Def != def || GetConstructionElements()[0] != primaryReplaceElement);
+			}
+
+			return allowedToReplace;
+
 		}
 
 		public virtual bool TryForceRebuild(int cellParam)
@@ -352,7 +462,12 @@ namespace BlueprintsV2.Visualizers
 			Vector3 positionCbc = Grid.CellToPosCBC(cellParam, def.SceneLayer);
 			var overrider = Util.KInstantiate(prefab, positionCbc);
 			var vis = overrider.GetComponent<ReplacementVis>();
-			vis.Configure(cellParam, buildingConfig, RotatedOrientation, this.GetConstructionElements());
+
+			int flags = -1;
+			if (buildingConfig.GetConduitFlags(out var conduitFlags))
+				flags = GetRotatedUtilityConnectionFlags(conduitFlags);
+
+			vis.Configure(cellParam, buildingConfig, RotatedOrientation, this.GetConstructionElements(), flags);
 			vis.gameObject.SetActive(true);
 			return true;
 		}
@@ -362,12 +477,12 @@ namespace BlueprintsV2.Visualizers
 			if (CanRebuildWithMaterial(cellParam, out var reconstructable))
 			{
 				reconstructable.RequestReconstruct(buildingConfig.SelectedElements[0]);
-				ApplyBuildingData(reconstructable.gameObject);
+				ApplyBuildingData(reconstructable.gameObject, false);
 				return true;
 			}
 			else if (reconstructable != null && reconstructable.gameObject != null)
 			{
-				ApplyBuildingData(reconstructable.gameObject);
+				ApplyBuildingData(reconstructable.gameObject, false);
 			}
 			return false;
 		}
@@ -439,7 +554,7 @@ namespace BlueprintsV2.Visualizers
 		{
 			if (!Grid.IsValidCell(cellParam))
 				return false;
-			if (BlueprintState.InstantBuild && ValidCell(cellParam) && AllowedInWorld()) //sandbox insta build
+			if (BlueprintState.InstantBuild && ValidCell(cellParam, out _) && AllowedInWorld()) //sandbox insta build
 			{
 				BuildingDef.RunOnArea(cell, RotatedOrientation, offset_cell =>
 				{
@@ -477,7 +592,7 @@ namespace BlueprintsV2.Visualizers
 			//}
 			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
 			{
-				ApplyBuildingData(bc.gameObject);
+				ApplyBuildingData(bc.gameObject, false);
 				if (buildingConfig.HasAnyBuildingData)
 				{
 					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED, null, offset: Grid.CellToPos(cellParam), Config.Instance.FXTime);
@@ -505,7 +620,7 @@ namespace BlueprintsV2.Visualizers
 		//	if (tileLayerObject != null && !tileLayerObject.TryGetComponent<Constructable>(out _) || !(replacementLayerObject == null) && !replacementLayerObject != Visualizer)
 		//		return;
 		//	Grid.Objects[cell, (int)def.ReplacementLayer] = null;
-			
+
 		//	CustomTileRenderer.RemoveTileBlock(GetPlayerId(), def, false, SimHashes.Void, cell);
 		//	CustomTileRenderer.RemoveTileBlock(GetPlayerId(), def, true, SimHashes.Void, cell);
 		//	CustomTileRenderer.RefreshCell(GetPlayerId(), cell, def.TileLayer, def.ReplacementLayer);
@@ -624,8 +739,9 @@ namespace BlueprintsV2.Visualizers
 		{
 			return BlueprintState.InstantBuild || !Config.Instance.RequireConstructable_Tech || Db.Get().TechItems.IsTechItemComplete(buildingConfig.BuildingDef.PrefabID);
 		}
-		public virtual bool ValidCell(int cellParam)
+		public virtual bool ValidCell(int cellParam, out bool replacement)
 		{
+			replacement = false;
 			var pos = Grid.CellToPos(cellParam);
 			if (Grid.IsValidCellInWorld(cellParam, ClusterManager.Instance.activeWorldId)
 				&& Grid.IsVisible(cellParam))
@@ -642,12 +758,14 @@ namespace BlueprintsV2.Visualizers
 
 				bool validCell = (IsValidPlaceLocation || IgnorableFailReason);
 
-				bool replacement = false;
-				//BlueprintState.InstantBuild ? false : buildingConfig.BuildingDef.IsValidReplaceLocation(pos, RotatedOrientation, buildingConfig.BuildingDef.ReplacementLayer, buildingConfig.BuildingDef.ObjectLayer);
+
+				//replacement = buildingConfig.BuildingDef.IsValidReplaceLocation(pos, RotatedOrientation, buildingConfig.BuildingDef.ReplacementLayer, buildingConfig.BuildingDef.ObjectLayer);
+				//if (replacement)
+				//	replacement = buildingConfig.BuildingDef.GetReplacementCandidate(cellParam) != null;
+
 
 				return (validCell || replacement);
 			}
-
 			return false;
 		}
 
@@ -665,7 +783,7 @@ namespace BlueprintsV2.Visualizers
 
 			//_lastColor = newColor;
 
-			if(hasKbac)
+			if (hasKbac)
 				kbac.TintColour = newColor;
 		}
 
@@ -689,7 +807,7 @@ namespace BlueprintsV2.Visualizers
 				else
 					return ModAssets.BLUEPRINTS_COLOR_INVISIBLE;
 			}
-			else if (!ValidCell(cellParam))
+			else if (!ValidCell(cellParam, out _))
 			{
 				return ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
 			}

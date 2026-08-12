@@ -43,13 +43,15 @@ namespace BlueprintsV2.Visualizers
 			base.ApplyRotation(rotation, flippedX, flippedY);
 			UpdateConnectionVis(Visualizer);
 		}
-		void UpdateConnectionVis(GameObject go)
+		void UpdateConnectionVis(GameObject go, bool built = false)
 		{
 			var mng = buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>().GetNetworkManager();
 			if (mng != null && buildingConfig.GetConduitFlags(out var flags) && go.TryGetComponent<KBatchedAnimController>(out var kbac))
 			{
-				string animation = mng.GetVisualizerString((UtilityConnections)GetRotatedUtilityConnectionFlags(flags)) + "_place";
-
+				string animation = mng.GetVisualizerString((UtilityConnections)GetRotatedUtilityConnectionFlags(flags));
+				if(!built)
+					animation += "_place";
+				
 				if (kbac.HasAnimation(animation))
 					kbac.Play(animation);
 			}
