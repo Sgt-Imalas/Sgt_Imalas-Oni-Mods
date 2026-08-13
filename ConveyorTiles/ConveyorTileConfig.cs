@@ -1,4 +1,4 @@
-﻿, using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -45,7 +45,7 @@ namespace ConveyorTiles
 			buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
 			buildingDef.ForegroundLayer = Grid.SceneLayer.TileFront;
 
-            buildingDef.ConstructionOffsetFilter = BuildingDef.ConstructionOffsetFilter_OneDown;
+			buildingDef.ConstructionOffsetFilter = BuildingDef.ConstructionOffsetFilter_OneDown;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.DefaultAnimState = "off";
