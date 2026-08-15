@@ -78,14 +78,17 @@ namespace UtilLibs
 			
 			if (mainLayerOnly)
 				return;
-
-			//sets all other kbacs (bloom, foreground, etc) to render above liquids as well
+			RenderSubKanimsAboveLiquids(go);
+		}
+		///sets all other kbacs (bloom, foreground, etc) to render above liquids as well
+		public static void RenderSubKanimsAboveLiquids(GameObject go)
+		{
 			if (go.TryGetComponent<KPrefabID>(out var kPrefabID))
 			{
-				kPrefabID.prefabInitFn += new KPrefabID.PrefabFn(SetAllKBACsAboveWater);
+				kPrefabID.prefabInitFn += new KPrefabID.PrefabFn(SetSecondaryKBACsAboveWater);
 			}
 		}
-		private static void SetAllKBACsAboveWater(GameObject instance)
+		private static void SetSecondaryKBACsAboveWater(GameObject instance)
 		{
 			foreach (KBatchedAnimController kbatchedAnimController in instance.GetComponentsInChildrenOnly<KBatchedAnimController>())
 			{
