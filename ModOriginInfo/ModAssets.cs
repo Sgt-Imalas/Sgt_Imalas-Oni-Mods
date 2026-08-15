@@ -45,6 +45,8 @@ namespace ModOriginInfo
 			{
 				ModdedContentPrefabIdToModId[def.PrefabID] = modID;
 				ModdedBuildings.Add(def.PrefabID);
+				def.AddSearchTerms(modID);
+				def.AddSearchTerms(GetModName(modID));
 				//SgtLogger.l("Modded Building: " + def.PrefabID + " from " + modID);
 			}
 			//else
@@ -75,7 +77,7 @@ namespace ModOriginInfo
 		{
 			if (AssemblyToModIdMap.TryGetValue(assembly, out string modID))
 			{
-				string geyserId = "GeyserGeneric_"+geyser.id;
+				string geyserId = "GeyserGeneric_" + geyser.id;
 				if (ModdedContentPrefabIdToModId.ContainsKey(geyserId))
 					return;
 
@@ -121,7 +123,7 @@ namespace ModOriginInfo
 
 				foreach (var dll in mod.loaded_mod_data.dlls)
 				{
-					if(!AssemblyToModIdMap.ContainsKey(dll))
+					if (!AssemblyToModIdMap.ContainsKey(dll))
 					{
 						AssemblyToModIdMap.Add(dll, mod.staticID);
 					}
@@ -142,15 +144,9 @@ namespace ModOriginInfo
 		internal static string GetModNameIfValid(BuildingDef def, int newLineCount) => def != null ? GetModNameIfValid(def.PrefabID, newLineCount) : string.Empty;
 		internal static string GetModNameIfValid(Tag tag, int newLineCount) => GetModNameIfValid(tag.ToString(), newLineCount);
 		internal static string GetResearchModNameIfValid(string tag, int newLineCount) => GetModNameIfValid(tag, newLineCount, modLabelResearchColor);
-		internal static string GetModNameIfValid(string tag, int newLineCount, Color? colorOverride = null)
+
+		internal static string GetModName(string modId)
 		{
-			if (!colorOverride.HasValue)
-				colorOverride = modLabelColor;
-			var result = string.Empty;
-
-			if (!IsModded(tag, out string modId))
-				return result;
-
 			if (!modIdToNamesMap.TryGetValue(modId, out string modName))
 			{
 				var mod = Global.Instance.modManager.mods.FirstOrDefault(mod => mod.IsEnabledForActiveDlc() && mod.staticID == modId);
@@ -165,6 +161,19 @@ namespace ModOriginInfo
 
 				modIdToNamesMap[modId] = modName;
 			}
+			return modIdToNamesMap[modId];
+		}
+
+		internal static string GetModNameIfValid(string tag, int newLineCount, Color? colorOverride = null)
+		{
+			if (!colorOverride.HasValue)
+				colorOverride = modLabelColor;
+			var result = string.Empty;
+
+			if (!IsModded(tag, out string modId))
+				return result;
+
+			string modName = GetModName(modId);
 
 			string selectedInfoPrefix = TextEntity;
 			if (ModdedBuildings.Contains(tag))
