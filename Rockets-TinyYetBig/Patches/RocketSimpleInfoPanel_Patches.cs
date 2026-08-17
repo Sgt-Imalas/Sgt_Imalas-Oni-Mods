@@ -255,7 +255,7 @@ namespace Rockets_TinyYetBig.Patches
 							RocketHeight += building.Def.HeightInCells;
 							RocketWidth = building.Def.WidthInCells > RocketWidth ? building.Def.WidthInCells : RocketWidth;
 
-							ModuleOrderTOOLTIP = string.Concat((NumberOfModules - moduleCounter).ToString(), ") ", building.GetProperName(), ": ", building.Def.WidthInCells, "x", building.Def.HeightInCells, "\n", ModuleOrderTOOLTIP);
+							ModuleOrderTOOLTIP = string.Concat((NumberOfModules - moduleCounter).ToString(), ") ", building.Def.Name, ": ", building.Def.WidthInCells, "x", building.Def.HeightInCells, "\n", ModuleOrderTOOLTIP);
 
 							++moduleCounter;
 						}
