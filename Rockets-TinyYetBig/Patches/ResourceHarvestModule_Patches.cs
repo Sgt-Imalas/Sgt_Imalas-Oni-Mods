@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig.Patches
 		{
 			public static void Postfix(ResourceHarvestModule.StatesInstance __instance, IStateMachineTarget master, ResourceHarvestModule.Def def)
 			{
-				if (master.gameObject.TryGetComponent(out ResourceHarvestModuleHEPInjector hepHarvester)|| master.gameObject.TryGetComponent(out hepHarvester))
+				if (master.gameObject.TryGetComponent(out ResourceHarvestModuleHEPInjector hepHarvester) || master.gameObject.TryGetComponent(out hepHarvester))
 				{
 					hepHarvester.Inject_Constructor(__instance, master, def);
 				}
@@ -103,7 +103,7 @@ namespace Rockets_TinyYetBig.Patches
 		{
 			public static void Postfix(ResourceHarvestModule __instance)
 			{
-				__instance.not_grounded.EventHandler(GameHashes.OnParticleStorageChanged, (smi)=>
+				__instance.not_grounded.EventHandler(GameHashes.OnParticleStorageChanged, (smi) =>
 				{
 					smi.CheckIfCanDrill();
 				});
@@ -143,7 +143,7 @@ namespace Rockets_TinyYetBig.Patches
 		[HarmonyPatch(typeof(ResourceHarvestModule.StatesInstance), nameof(ResourceHarvestModule.StatesInstance.HarvestFromPOI))]
 		public static class AddDrillconeHarvestSpeedBuff
 		{
-			
+
 			//since these arent running in parallel, caching that for the transpiler below. initialisation value = NoseconeHarvestConfig.solidCapacity/NoseconeHarvestConfig.timeToFill
 			static float actualMiningSpeed = ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE / 3600f;
 			public static void Prefix(ResourceHarvestModule.StatesInstance __instance)
@@ -160,7 +160,7 @@ namespace Rockets_TinyYetBig.Patches
 					}
 					//SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
 					// __instance.def.harvestSpeed;
-					actualMiningSpeed =  (ModAssets.GetMiningPilotSkillMultiplier(Module.CraftInterface.m_clustercraft) + (SupportModuleCount * Config.Instance.DrillconeSupportSpeedBoost / 100f)) * ModAssets.DefaultDrillconeHarvestSpeed;
+					actualMiningSpeed = (ModAssets.GetMiningPilotSkillMultiplier(Module.CraftInterface.m_clustercraft) + (SupportModuleCount * Config.Instance.DrillconeSupportSpeedBoost / 100f)) * ModAssets.DefaultDrillconeHarvestSpeed;
 				}
 			}
 			/// <summary>

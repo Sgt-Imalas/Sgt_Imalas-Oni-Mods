@@ -44,13 +44,16 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 					clustercraft.AddTag(GameTags.RocketDrilling);
 					try
 					{
-						var controlStations = Components.RocketControlStations.GetWorldItems(clustercraft.GetComponent<WorldContainer>().id);
-						if (controlStations != null && controlStations.Count > 0)
+						if (clustercraft.TryGetComponent<WorldContainer>(out var container))
 						{
-							var station = controlStations.First();
-							if (station != null)
+							var controlStations = Components.RocketControlStations.GetWorldItems(container.id);
+							if (controlStations != null && controlStations.Count > 0)
 							{
-								station.smi.sm.CreateLaunchChore(station.smi);
+								var station = controlStations.First();
+								if (station != null)
+								{
+									station.smi.sm.CreateLaunchChore(station.smi);
+								}
 							}
 						}
 					}
@@ -74,7 +77,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 					smi.HarvestFromPOI(dt);
 					lastHarvestTime.Set(Time.time, smi);
 				}, UpdateRate.SIM_4000ms)
-				.ParamTransition(canHarvest, not_grounded.not_drilling, IsFalse)				
+				.ParamTransition(canHarvest, not_grounded.not_drilling, IsFalse)
 				;
 		}
 
@@ -192,7 +195,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			{
 				if (statusTarget.TryGetComponent<KSelectable>(out var selectable))
 				{
-					selectable.AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting, new Tuple<Clustercraft,float>(craft,harvestRate));
+					selectable.AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting, new Tuple<Clustercraft, float>(craft, harvestRate));
 					BuildBoostStatusString(statusTarget, harvestRate, selectable);
 				}
 			}
