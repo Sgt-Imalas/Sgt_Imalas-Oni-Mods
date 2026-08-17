@@ -2,6 +2,7 @@
 using STRINGS;
 using System;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
@@ -13,6 +14,8 @@ namespace Rockets_TinyYetBig.Behaviours
 	{
 		[MyCmpGet] RocketModuleCluster module;
 
+		[MyCmpReq]
+		private LogicPorts logicPorts;
 		[MyCmpReq]
 		private KSelectable selectable;
 		[MyCmpReq]
@@ -33,12 +36,11 @@ namespace Rockets_TinyYetBig.Behaviours
 		[MyCmpAdd]
 		public CopyBuildingSettings copyBuildingSettings;
 
-		public bool AllowSpawnParticles => hasLogicWire && isLogicActive;
+		public bool AllowSpawnParticles => hasLogicWire && isLogicActive && ModuleLanded();
 		private bool hasLogicWire;
 		private bool isLogicActive;
 		private float launchTimer = 0;
 		private readonly float minLaunchInterval = 1f;
-
 
 		public void Sim200ms(float dt)
 		{
@@ -50,10 +52,15 @@ namespace Rockets_TinyYetBig.Behaviours
 				m_skipFirstUpdate = 10;
 
 			UpdateDecayStatusItem(shouldDecay);
+			SpawnRadboltIfReady(dt);
+		}
+
+		void SpawnRadboltIfReady(float dt)
+		{
 			launchTimer += dt;
 			if (launchTimer < minLaunchInterval || !AllowSpawnParticles || hepStorage.Particles < particleThreshold)
 				return;
-			launchTimer = 0.0f;
+			launchTimer = 0;
 			Fire();
 		}
 
@@ -95,24 +102,14 @@ namespace Rockets_TinyYetBig.Behaviours
 			operational.SetActive(!solarPanelsHaveLight);
 		}
 
+		public bool ModuleLanded() => module.CraftInterface.m_clustercraft.Status == Clustercraft.CraftStatus.Grounded;
+
 		public bool ShouldDecay(float dt)
 		{
-			if (HasSkyVisibility() || module.CraftInterface.m_clustercraft.Status != Clustercraft.CraftStatus.Grounded)
+			if (HasSkyVisibility() || !ModuleLanded())
 				return false;
 
 			return !operational.IsOperational;
-		}
-		public bool TryLeechPowerFromBatteries(float dt)
-		{
-			return false;
-			//var network = Game.Instance.electricalConduitSystem.GetNetworkForVirtualKey(module.CraftInterface);
-			//if (network == null)
-			//	return false;
-
-			//if(network is not ElectricalUtilityNetwork eNetwork)
-			//	return false;
-
-			//eNetwork.ba
 		}
 
 		public bool HasSkyVisibility()
@@ -123,8 +120,10 @@ namespace Rockets_TinyYetBig.Behaviours
 				m_skipFirstUpdate = 10;
 				return true;
 			}
-			bool cellsClear = Grid.ExposedToSunlight[CellCenter - 2] >= 1 && Grid.ExposedToSunlight[CellCenter + 2] >= 1;
-			return cellsClear;
+
+			bool leftSolarPanelClear = Grid.IsValidCell(CellCenter - 2) && Grid.ExposedToSunlight[CellCenter - 2] >= 1;
+			bool rightSolarPanelClear = Grid.IsValidCell(CellCenter + 2) && Grid.ExposedToSunlight[CellCenter + 2] >= 1;
+			return leftSolarPanelClear && rightSolarPanelClear;
 		}
 
 		private int m_skipFirstUpdate = 10;
@@ -143,13 +142,22 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		private void OnLogicValueChanged(object data)
 		{
-			LogicValueChanged logicValueChanged = (LogicValueChanged)data;
-			if (!(logicValueChanged.portID == HEPBattery.FIRE_PORT_ID))
-				return;
-			isLogicActive = logicValueChanged.newValue > 0;
-			hasLogicWire = GetNetwork() != null;
+			RefreshLogicValue();
 		}
-		private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(GetComponent<LogicPorts>().GetPortCell(HEPBattery.FIRE_PORT_ID));
+		void RefreshLogicValue()
+		{
+			if(!ModuleLanded())
+			{
+				hasLogicWire = false;
+				isLogicActive = false;
+				return;
+			}
+			hasLogicWire = GetNetwork() != null;
+			isLogicActive = hasLogicWire ? logicPorts.GetInputValue(HEPBattery.FIRE_PORT_ID) > 0 : false;
+		}
+
+
+		private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(logicPorts.GetPortCell(HEPBattery.FIRE_PORT_ID));
 
 		public int GetCircularHEPOutputCell()
 		{
@@ -168,7 +176,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			offset.x += x;
 			offset.y += y;
 
-			int cell = Grid.OffsetCell(GetComponent<Building>().GetCell(), offset);
+			int cell = Grid.OffsetCell(this.NaturalBuildingCell(), offset);
 			return cell;
 		}
 
@@ -242,9 +250,9 @@ namespace Rockets_TinyYetBig.Behaviours
 			OnStorageChange(null);
 			//this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.ParticleStorageCapacityChanged, OnStorageChangedDelegate);
 			Subscribe((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
-			Subscribe((int)GameHashes.LogicEvent, new Action<object>(OnLogicValueChanged));
-			Subscribe(-905833192, OnCopySettings);
-
+			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			Subscribe((int)GameHashes.CopySettings, OnCopySettings);
+			Subscribe((int)GameHashes.ClustercraftStateChanged, OnLogicValueChanged);
 		}
 
 		public void OnCopySettings(object data)
