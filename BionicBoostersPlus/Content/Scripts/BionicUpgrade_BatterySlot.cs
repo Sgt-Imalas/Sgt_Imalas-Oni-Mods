@@ -45,11 +45,15 @@ namespace BionicBoostersPlus.Content.Scripts
 		{
 			[MyCmpGet]
 			public MinionResume resume;
-			public AttributeModifier inWaterStressReduction;
 
+			public AttributeModifier radiationRemoval;
+			public AttributeModifier healthRegen;
 
 			public Instance(IStateMachineTarget master, Def def) : base(master, def)
 			{
+				var db = Db.Get();
+				this.radiationRemoval = new AttributeModifier(db.Attributes.RadiationRecovery.Id, BB_TUNING.Medkit_RadsRemovedPerSecond, STRINGS.ITEMS.BIONIC_BOOSTERS.BB_BOOSTER_MEDIKIT.NAME);
+				this.healthRegen = new AttributeModifier(db.Amounts.HitPoints.deltaAttribute.Id, BB_TUNING.Medkit_HealthRegeneratedPerSecond, STRINGS.ITEMS.BIONIC_BOOSTERS.BB_BOOSTER_MEDIKIT.NAME);
 			}
 
 			public override float GetCurrentWattageCost() => 0;
@@ -66,9 +70,9 @@ namespace BionicBoostersPlus.Content.Scripts
 			}
 			private void ToggleAttributeModifiers(bool on)
 			{
-				Klei.AI.Attributes attributes = this.resume.GetIdentity.GetAttributes();
+				Klei.AI.Attributes attributes = resume.GetIdentity.GetAttributes();
 
-				foreach (AttributeModifier modifier in ((BionicUpgrade_BatterySlot.Def)this.smi.def).modifiers)
+				foreach (AttributeModifier modifier in ((Def)smi.def).modifiers)
 				{
 					if (on)
 						attributes.Add(modifier);
@@ -80,9 +84,7 @@ namespace BionicBoostersPlus.Content.Scripts
 			}
 		}
 
-		public State noBooster;
 		public State idle;
-		public State dreaming;
 
 		public override void InitializeStates(out BaseState default_state)
 		{
@@ -91,6 +93,8 @@ namespace BionicBoostersPlus.Content.Scripts
 
 			root.Enter(OnBoosterAdded)
 				.Exit(OnBoosterRemoved);
+
+
 		}
 	}
 }

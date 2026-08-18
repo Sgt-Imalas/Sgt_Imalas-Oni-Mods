@@ -52,7 +52,13 @@ namespace BionicBoostersPlus
 
 					public static LocString TOOLTIP = "This Duplicant is adventuring through their own subconscious\n\nBionic Dreams are caused by equipping a " + FormatAsLink("Dreaming Booster", "BB_BOOSTER_DREAM") + "\n\n" + FormatAsLink("Dream Journal", "DREAMJOURNAL") + " will be ready in {time}";
 				}
-				
+				public class MEDBOOSTER_REPAIRING
+				{
+					public static LocString NAME = "Repairing Damage";
+
+					public static LocString TOOLTIP = "This Bionic Duplicant is currently reparing tissue damage.";
+				}
+
 			}
 			public class ROLES
 			{
@@ -92,7 +98,13 @@ namespace BionicBoostersPlus
 				public class BB_BOOSTER_WATERPROOFED
 				{
 					public static LocString NAME = FormatAsLink("Waterproofing Booster", "BB_BOOSTER_WATERPROOFED");
-					public static LocString DESC = "Coats the internal electric components of the Bionic Duplicant in a thick layer of gear oil,\nprotecting them from most adverse effects of water induced stress.";
+					public static LocString DESC = "Actively coats the internal electric components of the Bionic Duplicant in a thick layer of gear oil with persistent reapplication,\nprotecting them from most adverse effects of water induced stress.";
+					//public static LocString EFFECT = "Trading skills for power bank capacity";
+				}
+				public class BB_BOOSTER_MEDIKIT
+				{
+					public static LocString NAME = FormatAsLink("Biomechanical Repair Booster", "BB_BOOSTER_MEDIKIT");
+					public static LocString DESC = "Repairs both the organic tissue and mechanical components of Bionic Duplicants in case of direct or radiation induced damage.";
 					//public static LocString EFFECT = "Trading skills for power bank capacity";
 				}
 			}

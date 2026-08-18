@@ -23,7 +23,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Bionics Expanded</ModName>
-		<ModDescription></ModDescription>
+		<ModDescription>a ton of new boosters and skills to elevate your bionic duplicants to the next level</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

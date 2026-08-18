@@ -10,9 +10,14 @@ namespace BionicBoostersPlus
 	{
 		public override void OnLoad(Harmony harmony)
 		{
-			base.OnLoad(harmony);
 			harmony.RegisterForLocalization(typeof(STRINGS), true);
 			SgtLogger.LogVersion(this, harmony);
+			if(!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID))
+			{
+				SgtLogger.error("Bionic booster pack not owned!");
+				return;
+			}
+			base.OnLoad(harmony);
 			UtilLibs.SharedTweaks.SelectedRecipeQueueScreenSizeFix.Register();
 		}
 

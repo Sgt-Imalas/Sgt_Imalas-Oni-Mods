@@ -15,6 +15,8 @@ namespace BionicBoostersPlus.Content.ModDb
 		public static StatusItem DreamBoosterJournalStorage;
 		public static StatusItem DreamBoosterJournalStorageFull;
 
+		public static StatusItem MedBooster_Repairing;
+
 		public static void InitStatusitems(Db db)
 		{
 			var dsi = Db.Get().DuplicantStatusItems;
@@ -42,6 +44,8 @@ namespace BionicBoostersPlus.Content.ModDb
 			};
 
 			DreamBoosterJournalStorageFull = msi.CreateStatusItem("DreamBoosterJournalStorageFull", "MISC", "", StatusItem.IconType.Info, NotificationType.Good, false, OverlayModes.None.ID);
+
+			MedBooster_Repairing = msi.CreateStatusItem("MedBooster_Repairing", "DUPLICANTS", "", StatusItem.IconType.Info, NotificationType.Good, false, OverlayModes.None.ID);
 
 		}
 	}
