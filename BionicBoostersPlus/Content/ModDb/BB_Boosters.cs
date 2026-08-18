@@ -21,6 +21,7 @@ namespace BionicBoostersPlus.Content.ModDb
 		const string BatteryBoosterID = "BB_Booster_Batteryslot";
 		const string WaterproofBoosterID = "BB_Booster_Waterproofed";
 		const string MedikitBoosterID = "BB_Booster_Medikit";
+		const string SolarBoosterID = "BB_Booster_Solar";
 
 		public static Dictionary<string, string> OC_Boosters_with_original = [];
 
@@ -35,6 +36,7 @@ namespace BionicBoostersPlus.Content.ModDb
 			MakeBooster_BatterySlot(boosterList);
 			MakeBooster_Waterproofing(boosterList);
 			MakeBooster_Medikit(boosterList);
+			MakeBooster_Solar(boosterList);
 
 			//release reference.
 			ConfigInstance = null;
@@ -437,7 +439,7 @@ namespace BionicBoostersPlus.Content.ModDb
 			{
 				{
 					db.Attributes.Athletics.Id,
-					4
+					2
 				}
 			});
 
@@ -453,7 +455,39 @@ namespace BionicBoostersPlus.Content.ModDb
 				"bbp_medbooster_kanim",
 				booster: BionicUpgradeComponentConfig.BoosterType.Intermediate,
 				skillPerks: [],
-				recipeInputOverride: [new ComplexRecipe.RecipeElement(PowerStationToolsConfig.tag, 6f), new ComplexRecipe.RecipeElement(RefinementRecipeHelper.GetPlastics().ToArray(), 5f)],
+				addTechItem: false);
+
+
+			boosterList.Add(boosterGO);
+
+		}
+		public static void MakeBooster_Solar(List<GameObject> boosterList)
+		{
+			var db = Db.Get();
+			string id = SolarBoosterID;
+
+			AttributeModifier[] modifiers = ConfigInstance.CreateBoosterModifiers(id, new Dictionary<string, float>()
+			{
+				{
+					db.Attributes.Athletics.Id,
+					2
+				}
+			});
+
+			var boosterDef = new BionicUpgrade_Solar.Def(id, modifiers);
+			var boosterGO = BionicUpgradeComponentConfig.CreateNewUpgradeComponent(
+				id,
+				null,
+				null,
+				0,
+				(smi => new BionicUpgrade_Solar.Instance(smi.GetMaster(), boosterDef)),
+				$"{boosterDef.GetDescription()}\n\n{string.Format(global::STRINGS.ITEMS.BIONIC_BOOSTERS.FABRICATION_SOURCE, global::STRINGS.BUILDINGS.PREFABS.ADVANCEDCRAFTINGTABLE.NAME)}",
+				DlcManager.DLC3,
+				"bbp_solarbooster_kanim",
+				booster: BionicUpgradeComponentConfig.BoosterType.Intermediate,
+				skillPerks: [], 
+				recipeInputOverride: [new ComplexRecipe.RecipeElement(PowerStationToolsConfig.tag, 6f), new ComplexRecipe.RecipeElement(RefinementRecipeHelper.GetGlassyIds().ToArray(), 25f)],
+
 				addTechItem: false);
 
 

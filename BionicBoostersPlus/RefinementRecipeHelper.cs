@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 
 namespace BionicBoostersPlus
 {
@@ -29,6 +30,14 @@ namespace BionicBoostersPlus
 			return ElementLoader.elements.FindAll(e => e.IsSolid
 			&& e.HasTag(GameTags.Plastic)
 			&& e.id != SimHashes.SolidViscoGel
+			&& (exclude == null || !exclude.Contains(e.id)))
+				.Select(e => e.tag);
+		}
+		public static IEnumerable<Tag> GetGlassyIds() => GetGlassyIds([]);
+		public static IEnumerable<Tag> GetGlassyIds(HashSet<SimHashes> exclude = null)
+		{
+			return ElementLoader.elements.FindAll(e => e.IsSolid
+			&& e.HasTag(MATERIALS.ALL_GLASSES)
 			&& (exclude == null || !exclude.Contains(e.id)))
 				.Select(e => e.tag);
 		}

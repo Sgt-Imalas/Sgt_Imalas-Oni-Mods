@@ -21,5 +21,7 @@ namespace BionicBoostersPlus.Content.ModDb
 		public const float Medkit_RadsThreshold_Upper = 25;
 		public const float Medkit_RadsThreshold_Lower = 5;
 		public const float Medkit_Wattage = 50;
+
+		public const float SolarBooster_LuxThreshold = 2000;
 	}
 }

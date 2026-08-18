@@ -52,8 +52,6 @@ namespace BionicBoostersPlus.Content.Scripts
 
 			private readonly AmountInstance _health, _rads;
 
-			public bool activelyRepairing = false;
-
 			public Instance(IStateMachineTarget master, Def def) : base(master, def)
 			{
 				var db = Db.Get();
@@ -82,7 +80,6 @@ namespace BionicBoostersPlus.Content.Scripts
 			public bool CanStartReparing() => CanStartRepairing_Health() || CanStartRepairing_Rads();
 			private bool CanStartRepairing_Health()
 			{
-				SgtLogger.l($"CanStartReparing? {_health.value} < {_health.GetMax()}");
 				float current = _health.value;
 				return current < _health.GetMax();
 			}
@@ -98,7 +95,6 @@ namespace BionicBoostersPlus.Content.Scripts
 			public bool CanStopRepairing() => CanStopRepairing_Health() && CanStopRepairing_Rads();
 			private bool CanStopRepairing_Health()
 			{
-				SgtLogger.l($"CanStopRepariing? {_health.value} >= {_health.GetMax()}");
 				return _health.value >= _health.GetMax();
 			}
 			private bool CanStopRepairing_Rads()
@@ -131,8 +127,6 @@ namespace BionicBoostersPlus.Content.Scripts
 					else
 						attributes.Remove(modifier);
 				}
-				//trigger BionicBatteryMonitor.OnSkillsChanged to drop excess powerbanks on removal
-				Trigger((int)GameHashes.AssignedRoleChanged);
 			}
 			public void ToggleRepairAttributeModifiers(bool on)
 			{

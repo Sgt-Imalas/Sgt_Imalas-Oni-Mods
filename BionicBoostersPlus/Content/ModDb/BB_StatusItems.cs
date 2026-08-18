@@ -17,6 +17,8 @@ namespace BionicBoostersPlus.Content.ModDb
 
 		public static StatusItem MedBooster_Repairing;
 
+		public static StatusItem SolarBooster_ConsumingSun;
+
 		public static void InitStatusitems(Db db)
 		{
 			var dsi = Db.Get().DuplicantStatusItems;
@@ -46,7 +48,23 @@ namespace BionicBoostersPlus.Content.ModDb
 			DreamBoosterJournalStorageFull = msi.CreateStatusItem("DreamBoosterJournalStorageFull", "MISC", "", StatusItem.IconType.Info, NotificationType.Good, false, OverlayModes.None.ID);
 
 			MedBooster_Repairing = msi.CreateStatusItem("MedBooster_Repairing", "DUPLICANTS", "", StatusItem.IconType.Info, NotificationType.Good, false, OverlayModes.None.ID);
-
+			SolarBooster_ConsumingSun = msi.CreateStatusItem("SolarBooster_ConsumingSun", "DUPLICANTS", "", StatusItem.IconType.Info, NotificationType.Good, false, OverlayModes.None.ID);
+			SolarBooster_ConsumingSun.resolveStringCallback = (string str, object obj) =>
+			 {
+				 if (obj is BionicUpgrade_Solar.Instance smi)
+				 {
+					 return str.Replace("{Wattage}", GameUtil.GetFormattedWattage(smi.lastSolarWattage));
+				 }
+				 return str;
+			 };
+			SolarBooster_ConsumingSun.resolveTooltipCallback = (string str, object obj) =>
+			{
+				if (obj is BionicUpgrade_Solar.Instance smi)
+				{
+					return str.Replace("{Wattage}", GameUtil.GetFormattedWattage(smi.lastSolarWattage));
+				}
+				return str;
+			};
 		}
 	}
 }

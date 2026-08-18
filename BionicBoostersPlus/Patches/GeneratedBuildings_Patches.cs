@@ -16,10 +16,14 @@ namespace BionicBoostersPlus.Patches
 			public static void Postfix()
 			{
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, BoosterRecyclerConfig.ID, AdvancedCraftingTableConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
-				//InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.InteriorDecor, BubbleChestConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.BruteForceRefinement, BoosterRecyclerConfig.ID);
 
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, Mk3BoosterMakerConfig.ID, AdvancedCraftingTableConfig.ID, ordering: ModUtil.BuildingOrdering.After);
-				//InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.InteriorDecor, BubbleChestConfig.ID);
+				
+				if(DlcManager.IsExpansion1Active())
+					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadiationRefinement, Mk3BoosterMakerConfig.ID);
+				else
+					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SoundAmplifiers, Mk3BoosterMakerConfig.ID);
 			}
 		}
 	}

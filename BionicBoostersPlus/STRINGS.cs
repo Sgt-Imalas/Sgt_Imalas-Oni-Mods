@@ -58,6 +58,12 @@ namespace BionicBoostersPlus
 
 					public static LocString TOOLTIP = "This Bionic Duplicant is currently reparing tissue damage.";
 				}
+				public class SOLARBOOSTER_CONSUMINGSUN
+				{
+					public static LocString NAME = "Current Wattage: {Wattage}";
+					public static LocString TOOLTIP = $"This Bionic Duplicant is currently generating {FormatAsPositiveRate("{Wattage}")} of {PRE_KEYWORD}Power{PST_KEYWORD} from absorbed light.";
+				}
+				
 
 			}
 			public class ROLES
@@ -99,13 +105,16 @@ namespace BionicBoostersPlus
 				{
 					public static LocString NAME = FormatAsLink("Waterproofing Booster", "BB_BOOSTER_WATERPROOFED");
 					public static LocString DESC = "Actively coats the internal electric components of the Bionic Duplicant in a thick layer of gear oil with persistent reapplication,\nprotecting them from most adverse effects of water induced stress.";
-					//public static LocString EFFECT = "Trading skills for power bank capacity";
 				}
 				public class BB_BOOSTER_MEDIKIT
 				{
 					public static LocString NAME = FormatAsLink("Biomechanical Repair Booster", "BB_BOOSTER_MEDIKIT");
 					public static LocString DESC = "Repairs both the organic tissue and mechanical components of Bionic Duplicants in case of direct or radiation induced damage.";
-					//public static LocString EFFECT = "Trading skills for power bank capacity";
+				}
+				public class BB_BOOSTER_SOLAR
+				{
+					public static LocString NAME = FormatAsLink("Subdermal Solar Booster", "BB_BOOSTER_SOLAR");
+					public static LocString DESC = "Installs small subdermal solar arrays in various locations, allowing the Bionic Duplicant to harvest the power of the sun directly\n\nSunscreen not included.";
 				}
 			}
 		}
