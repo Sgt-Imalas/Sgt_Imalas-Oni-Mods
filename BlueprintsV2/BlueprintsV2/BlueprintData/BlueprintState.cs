@@ -858,6 +858,10 @@ namespace BlueprintsV2.BlueprintData
 				var flipMatrix = Matrix4x4.Scale(new Vector3(FlippedX ? -1 : 1, FlippedY ? -1 : 1, 1));
 				visPos = flipMatrix.MultiplyVector(visPos);
 
+				///Fixes some tiles going offset by 1 tile when rotated, ty StuffyDoll for finding this fix
+				visPos.x = Mathf.Round(visPos.x);
+				visPos.y = Mathf.Round(visPos.y);
+
 				return Grid.PosToCell(origin + visPos);
 			}
 
