@@ -9,7 +9,43 @@ permissions:
   actions: write # Grant write permission to delete old workflow runs
 
 jobs:
+  validate-translations:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Validate changed PO files
+      shell: bash
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      run: |
+        mapfile -d '' files < <(
+          git diff --name-only --diff-filter=ACM -z \
+            "$BASE_SHA" "$HEAD_SHA" -- '*.po'
+        )
+
+        if (( ${#files[@]} == 0 )); then
+          echo "No added or modified PO files to validate."
+          exit 0
+        fi
+
+        sudo apt-get update
+        sudo apt-get install --yes gettext
+
+        for file in "${files[@]}"; do
+          echo "Validating $file"
+          msgfmt --check --check-format \
+            --output-file=/dev/null "$file"
+        done
+
   build:
+    needs: validate-translations
     runs-on: windows-latest
 
     steps:
@@ -32,4 +68,3 @@ jobs:
     #     retain_days: 1
     #     keep_minimum_runs: 3
           
-
