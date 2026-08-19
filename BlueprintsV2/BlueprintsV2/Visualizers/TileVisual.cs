@@ -61,6 +61,7 @@ namespace BlueprintsV2.Visualizers
 		public int DirtyCell { get; private set; } = -1;
 
 		private readonly bool hasReplacementLayer;
+		private bool seated = false;
 
 		public TileVisual(BuildingConfig buildingConfig, int cell, ulong playerId) : base(buildingConfig, cell, playerId)
 		{
@@ -102,7 +103,7 @@ namespace BlueprintsV2.Visualizers
 
 		public void Clean()
 		{
-			if (!Grid.IsValidBuildingCell(DirtyCell))
+			if (!Grid.IsValidBuildingCell(DirtyCell) || !seated)
 			{
 				return;
 			}
@@ -118,22 +119,26 @@ namespace BlueprintsV2.Visualizers
 				}
 			}
 			DirtyCell = -1;
-
+			seated = false;
 		}
 		private void UpdateGrid(int cellParam)
 		{
 			Clean();
+			if (seated)
+				return;
 			if (Grid.IsValidBuildingCell(cellParam) && isTile)
 			{
 				if (ActiveTileVisuals[_playerId].TryGetValue(cellParam, out var existing))
 				{
-					SgtLogger.warning(_playerId + ": there is already a tilevisual in " + cellParam);
+					//SgtLogger.warning(_playerId + ": there is already a tilevisual in " + cellParam);
+					return;
 				}
 				//bool replacing = hasReplacementLayer && CanReplace(cell);
 				CustomTileRenderer.AddTileBlock(_playerId, LayerMask.NameToLayer("Overlay"), buildingConfig.BuildingDef, false, SimHashes.Void, cellParam);
 				ActiveTileVisuals[_playerId][cellParam] = this.BuildingDef;
 				CustomTileRenderer.RefreshCell(_playerId, cellParam, buildingConfig.BuildingDef.TileLayer, buildingConfig.BuildingDef.ReplacementLayer);
-				DirtyCell = cellParam;	
+				DirtyCell = cellParam;
+				seated = true;	
 			}
 		}
 	}

@@ -115,6 +115,10 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			FlipV.SetInteractable(canFlipV);
 			CanFlipV_TT.SetSimpleTooltip(canFlipV ? string.Empty : string.Format(USEBLUEPRINTSTATECONTAINER.FLIP_BLOCKED, info.TransformationBlockedByBuildingName));
 			RefreshStateChangeBPs();
+
+			ApplyBPSettings.SetOnFromCode(info.ApplyBlueprintSettings);
+			ForceRebuildMismatchedBuildings.SetOnFromCode(false);
+
 		}
 		void RefreshStateChangeBPs()
 		{

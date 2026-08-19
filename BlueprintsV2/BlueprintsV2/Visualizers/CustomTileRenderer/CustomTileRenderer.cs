@@ -181,7 +181,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 
 
 
-		public static void AddTileBlock(ulong playerId, int renderLayer, BuildingDef def, bool isReplacement, SimHashes element, int cell, bool isBlueprint = false)
+		public static void AddTileBlock(ulong playerId, int renderLayer, BuildingDef def, bool isReplacement, SimHashes element, int cell, bool isBlueprint = true)
 		{
 			if (customTileRenderers.TryGetValue(playerId, out var r))
 			{

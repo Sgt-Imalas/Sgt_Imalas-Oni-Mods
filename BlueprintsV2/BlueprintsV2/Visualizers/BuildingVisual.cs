@@ -66,7 +66,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				rotatable.SetOrientation(RotatedOrientation);
 			}
-			ModAPI.API_Methods.ApplyAdditionalBuildingData(Visualizer, buildingConfig);
+			ModAPI.API_Methods.ApplyAdditionalBuildingData(Visualizer, buildingConfig, _playerId);
 
 			if (Visualizer.TryGetComponent<KBatchedAnimController>(out var batchedAnimController))
 			{
@@ -185,7 +185,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				rotatable.SetOrientation(RotatedOrientation);
 			}
-			ModAPI.API_Methods.ApplyAdditionalBuildingData(building, buildingConfig);
+			ModAPI.API_Methods.ApplyAdditionalBuildingData(building, buildingConfig, _playerId);
 
 			if (Visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
 			{
@@ -467,7 +467,7 @@ namespace BlueprintsV2.Visualizers
 			if (buildingConfig.GetConduitFlags(out var conduitFlags))
 				flags = GetRotatedUtilityConnectionFlags(conduitFlags);
 
-			vis.Configure(cellParam, buildingConfig, RotatedOrientation, this.GetConstructionElements(), flags);
+			vis.Configure(cellParam, buildingConfig, RotatedOrientation, this.GetConstructionElements(), flags, _playerId);
 			vis.gameObject.SetActive(true);
 			return true;
 		}

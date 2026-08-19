@@ -271,9 +271,9 @@ namespace BlueprintsV2.ModAPI
 		/// </summary>
 		/// <param name="gameObject"></param>
 		/// <param name="buildingConfig"></param>
-		public static void ApplyAdditionalBuildingData(GameObject gameObject, BuildingConfig buildingConfig)
+		public static void ApplyAdditionalBuildingData(GameObject gameObject, BuildingConfig buildingConfig, ulong playerId = BlueprintState.PlayerId_DefaultTilePreviews)
 		{
-			if (BlueprintState.CurrentStateInfo().ApplyBlueprintSettings == false)
+			if (BlueprintState.CurrentStateInfo(playerId).ApplyBlueprintSettings == false)
 				return;
 
 			if (gameObject.TryGetComponent<Building>(out var building) && building.Def != buildingConfig.BuildingDef)

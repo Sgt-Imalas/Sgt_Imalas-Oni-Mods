@@ -61,7 +61,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		bool markedForDeletion = false;
 		HashSet<ObjectLayer> layersToReplace = null;
 
-		public void Configure(int cell, BuildingConfig building, Orientation orientation, IEnumerable<Tag> elements, int flags)
+		public void Configure(int cell, BuildingConfig building, Orientation orientation, IEnumerable<Tag> elements, int flags, ulong playerId = BlueprintState.PlayerId_DefaultTilePreviews)
 		{
 			this.cell = cell;
 			this.buildingDefId = building.BuildingDef.PrefabID;
@@ -69,9 +69,12 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 			this.conduitFlags = flags;
 			this.selectedElements = elements.ToArray();
 			this.buildingDataSerialized = new();
-			if (building.AdditionalBuildingData != null)
+
+			if (BlueprintState.CurrentStateInfo(playerId).ApplyBlueprintSettings && building.AdditionalBuildingData != null)
+			{
 				foreach (var data in building.AdditionalBuildingData)
 					buildingDataSerialized[data.Key] = JsonConvert.SerializeObject(data.Value);
+			}
 
 			InitDefAndAnim();
 		}
@@ -227,7 +230,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 				{
 					queuedDeconstructablesGlobal[decon] = this;
 					//Sandbox QueueDecon needs to be instant, but isnt without DebugInstaBuild, so it needs to be forced
-					if(BlueprintState.InstantBuild && !DebugHandler.InstantBuildMode)
+					if (BlueprintState.InstantBuild && !DebugHandler.InstantBuildMode)
 						decon.OnCompleteWork(null);
 					else
 						decon.QueueDeconstruction();
