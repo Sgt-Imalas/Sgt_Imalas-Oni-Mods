@@ -41,7 +41,7 @@ namespace ModOriginInfo.Patches
 			{
 				var m_Injection = AccessTools.Method(typeof(EntityConfigManager_RegisterEntities_Patch), nameof(FetchEntityList));
 				var patched = Patch(orig, m_Injection).ToList();
-				TranspilerHelper.PrintInstructions(patched);
+				//TranspilerHelper.PrintInstructions(patched);
 				return patched;
 			}
 			private static KPrefabID FetchEntityList(KPrefabID prefabId)
