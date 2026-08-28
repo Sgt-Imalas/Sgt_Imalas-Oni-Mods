@@ -207,7 +207,7 @@ namespace RotatableRadboltStorage
 			public static void Postfix(HighEnergyParticleRedirector __instance, object data)
 			{
 				LogicValueChanged logicValueChanged = (LogicValueChanged)data;
-				SgtLogger.l("HEPPORT: " + (logicValueChanged.portID == HighEnergyParticleRedirector.PORT_ID)+": " + __instance.isLogicActive + " <- " + logicValueChanged.newValue);
+				//SgtLogger.l("HEPPORT: " + (logicValueChanged.portID == HighEnergyParticleRedirector.PORT_ID)+": " + __instance.isLogicActive + " <- " + logicValueChanged.newValue);
 				if (logicValueChanged.portID == HighEnergyParticleRedirector.PORT_ID)
 				{
 					__instance.isLogicActive = LogicCircuitNetwork.IsBitActive(0, logicValueChanged.newValue);
