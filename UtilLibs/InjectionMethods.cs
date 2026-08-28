@@ -4,20 +4,23 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using YamlDotNet.Serialization;
+using static FuzzySearch;
 using static ModUtil;
+using static STRINGS.CODEX;
+using static STRINGS.DUPLICANTS.ATTRIBUTES;
 using static STRINGS.SUBWORLDS;
 
 namespace UtilLibs
 {
 	public static class InjectionMethods
 	{
-
-
 
 		public class BATCH_TAGS
 		{
@@ -38,6 +41,190 @@ namespace UtilLibs
 			}
 		}
 
+		public static bool LoadAllPackedKanimsRecursively(string directory)
+		{
+			SgtLogger.l("Loading packed kanims from directory: " + directory);
+			if (!System.IO.Directory.Exists(directory))
+				return false;
+			var dirInfo = new DirectoryInfo(directory);
+			bool foundAny = false;
+			foreach (var subdir in dirInfo.GetDirectories())
+			{
+				if (LoadAllPackedKanimsRecursively(subdir.FullName))
+					foundAny = true;
+			}
+			foreach (var file in dirInfo.GetFiles())
+			{ 
+				if (IO_Utils.MacFile(file))
+					continue;
+
+				if (file.Extension == ".zip")
+				{
+					if(LoadPackedKanims(file.FullName))
+						foundAny = true;
+				}
+			}
+			return foundAny;
+		}
+
+		public static bool LoadPackedKanims(string zipFilePath)
+		{
+			if (!File.Exists(zipFilePath)) return false;
+			ZipArchive zip = null;
+			try
+			{
+				zip = ZipFile.OpenRead(zipFilePath);
+				Dictionary<string, KAnimFile.Mod> foundKanims = [];
+
+				foreach (var entry in zip.Entries)
+				{
+					if (entry.FullName.EndsWith("/"))
+						continue; //skip directories
+
+					byte[] bytes = null;
+					try
+					{
+						MemoryStream ms = new MemoryStream();
+						var stream = entry.Open();
+						stream.CopyTo(ms);
+						bytes = ms.ToArray();
+					}
+					catch (Exception ex)
+					{
+						// TODO: Log this error
+						continue;
+					}
+					string kanimName = Directory.GetParent(entry.FullName)?.Name + "_kanim";
+					string fileName = Path.GetFileNameWithoutExtension(entry.FullName).ToLowerInvariant();
+					string extension = Path.GetExtension(entry.FullName).ToLowerInvariant();
+
+					if (extension == ".bytes" || extension == ".txt")
+					{
+						if (!foundKanims.ContainsKey(kanimName))
+							foundKanims[kanimName] = new KAnimFile.Mod();
+
+						if (fileName.EndsWith("_anim"))
+						{
+							foundKanims[kanimName].anim = bytes;
+						}
+						else if (fileName.EndsWith("_build"))
+						{
+							foundKanims[kanimName].build = bytes;
+						}
+					}
+					else if (extension == ".png")
+					{
+						if (!foundKanims.ContainsKey(kanimName))
+							foundKanims[kanimName] = new KAnimFile.Mod();
+
+						Texture2D texture = new Texture2D(2, 2);
+						texture.LoadImage(bytes);
+						foundKanims[kanimName].textures.Add(texture);
+					}
+					else if (extension == ".dds")
+					{
+						if (!foundKanims.ContainsKey(kanimName))
+							foundKanims[kanimName] = new KAnimFile.Mod();
+
+						var texture = new Texture2D(
+							2,
+							2,
+							TextureFormat.BC7,
+							mipChain: true,
+							linear: false
+							);
+
+						texture.LoadRawTextureData(bytes);
+						texture.Apply(false, true);
+						foundKanims[kanimName].textures.Add(texture);
+					}
+				}
+				SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
+				bool anyValid = false;
+				foreach (var kanim in foundKanims)
+				{
+					//SgtLogger.l("adding kanim: " + kanim.Key);
+					if (kanim.Value.IsValid())
+					{
+						if(ModUtil.AddKAnimMod(kanim.Key, kanim.Value) != null)
+							anyValid = true;
+					}
+					else
+					{
+						SgtLogger.logwarning("Packed kanim " + kanim.Key + " is not valid, skipping");
+					}
+				}
+				return anyValid;
+			}
+			catch (Exception ex)
+			{
+				SgtLogger.logError(zipFilePath + " could not be loaded as a packed kanim. Exception: " + ex.ToString());
+				return false;
+			}
+			finally
+			{
+				if(zip != null)
+					zip.Dispose();
+			}
+		}
+
+		/// <summary>
+		/// untested and likely not working
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="lowRes"></param>
+		/// <returns></returns>
+		//public static bool LoadBC7Animation(string path, bool lowRes)
+		//{
+		//	if (!System.IO.Directory.Exists(path))
+		//		return false;
+
+		//	KAnimFile.Mod anim_mod = new KAnimFile.Mod();
+		//	var dirInfo = new DirectoryInfo(path);
+		//	string name = dirInfo.Name + "_kanim";
+
+		//	foreach (var file in dirInfo.GetFiles())
+		//	{
+		//		if (IO_Utils.MacFile(file))
+		//			continue;
+		//		if (file.Extension == ".bytes")
+		//		{
+		//			string withoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.Name);
+		//			byte[] numArray = File.ReadAllBytes(file.FullName);
+		//			if (withoutExtension.EndsWith("_anim"))
+		//				anim_mod.anim = numArray;
+		//			else if (withoutExtension.EndsWith("_build"))
+		//				anim_mod.build = numArray;
+		//			else
+		//				DebugUtil.LogWarningArgs((object)$"Unhandled TextAsset ({file.FullName})...ignoring");
+		//		}
+		//		else if (file.Extension == ".dss")
+		//		{
+		//			if (file.FullName.Contains("_lowres") != lowRes)
+		//			{
+		//				continue;
+		//			}
+
+		//			byte[] bc7Data = File.ReadAllBytes(file.FullName);
+		//			var texture = new Texture2D(
+		//				2,
+		//				2,
+		//				TextureFormat.BC7,
+		//				mipChain: true,
+		//				linear: false
+		//				);
+
+		//			texture.LoadRawTextureData(bc7Data);
+		//			texture.Apply(false, true);
+		//			anim_mod.textures.Add(texture);
+		//		}
+
+		//		else
+		//			DebugUtil.LogWarningArgs((object)$"Unhandled asset ({file.FullName})...ignoring");
+
+		//	}
+		//	return (anim_mod.IsValid() && (bool)ModUtil.AddKAnimMod(name, anim_mod));
+		//}
 
 		///Use the following patch to add any custom interact anims;
 		//      [HarmonyPatch(typeof(KAnimGroupFile), "Load")]
@@ -189,7 +376,7 @@ namespace UtilLibs
 		public static TechItem AddItemToTechnologySprite(string techItemId, string targetTechId, string name, string description, string spriteName, string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
 		{
 			AddBuildingToTechnology(targetTechId, techItemId);
-			return Db.Get().TechItems.AddTechItem(techItemId, name, description,GetSpriteFnBuilder(spriteName), requiredDLcs, forbiddenDlc, isPoiUnlock);
+			return Db.Get().TechItems.AddTechItem(techItemId, name, description, GetSpriteFnBuilder(spriteName), requiredDLcs, forbiddenDlc, isPoiUnlock);
 		}
 
 		public static TechItem AddItemToTechnologyKanim(string techItemId, string targetTechId, string name, string description, string kanimName, string uiAnim = "ui", string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
@@ -303,7 +490,7 @@ namespace UtilLibs
 			ResearchablesFromMod.Add(buildingId);
 			var techs = Db.Get().Techs;
 
-			foreach(var tech in techs.resources)
+			foreach (var tech in techs.resources)
 			{
 				if (tech.unlockedItemIDs.Contains(otherBuildingId))
 				{

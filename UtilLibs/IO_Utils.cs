@@ -129,7 +129,11 @@ namespace UtilLibs
 
 		public static bool NotAMacFile(FileInfo fileInfo)
 		{
-			return !fileInfo.Name.StartsWith("._");
+			return !MacFile(fileInfo);
+		}
+		public static bool MacFile(FileInfo fileInfo)
+		{
+			return fileInfo.Name.StartsWith("._");
 		}
 
 		public sealed class Vector2IConverter : JsonConverter
