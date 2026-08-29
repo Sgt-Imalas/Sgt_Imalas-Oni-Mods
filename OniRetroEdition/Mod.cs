@@ -21,9 +21,11 @@ namespace OniRetroEdition
 	public class Mod : UserMod2
 	{
 		public static Harmony HarmonyInstance;
+		public static Mod Instance;
 		public override void OnLoad(Harmony harmony)
 		{
-			UnpackAnimFiles(this.mod);
+			Instance = this;
+			//UnpackAnimFiles(this.mod);
 
 			STEAMTURBINE.NAME = global::STRINGS.UI.FormatAsLink("Steam Turbine", nameof(STEAMTURBINE));
 			STEAMTURBINE.EFFECT = STEAMTURBINE.EFFECT.Replace("THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT.\n\n", string.Empty);
@@ -48,6 +50,7 @@ namespace OniRetroEdition
 				overlayBits.Add(OverlayModes.Sound.ID, StatusItemOverlays.None);
 
 			FixSkinny();
+			RetroLights();
 		}
 
 		public static void FixSkinny()
@@ -55,19 +58,50 @@ namespace OniRetroEdition
 			///prevents default insulation of 0.002 to dip below 0, causing sim crashes;
 			DUPLICANTSTATS.STANDARD.Temperature.Conductivity_Barrier_Modification.SKINNY = -0.001f;
 		}
+		static void RetroLights()
+		{
+			if (!Config.Instance.oldLights)
+				return;
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.LIGHT_YELLOW)).SetValue(null, ModAssets.RetroYellow);
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.LIGHT_OVERLAY)).SetValue(null, ModAssets.RetroYellowOverlay);
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.SUNLAMP_COLOR)).SetValue(null, ModAssets.RetroYellow);
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.SUNLAMP_OVERLAYCOLOR)).SetValue(null, ModAssets.RetroYellowOverlay);
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.CEILINGLIGHT_COLOR)).SetValue(null, ModAssets.RetroYellow);
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.CEILINGLIGHT_OVERLAYCOLOR)).SetValue(null, ModAssets.RetroYellowOverlay);
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.FLOORLAMP_COLOR)).SetValue(null, ModAssets.RetroYellow);
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.FLOORLAMP_OVERLAYCOLOR)).SetValue(null, ModAssets.RetroYellowOverlay);
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.MERCURYCEILINGLIGHT_LUX_OVERLAYCOLOR)).SetValue(null, ModAssets.RetroYellowOverlay);
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.HEADQUARTERS_COLOR)).SetValue(null, ModAssets.RetroYellow);
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.HEADQUARTERS_OVERLAYCOLOR)).SetValue(null, ModAssets.RetroYellowOverlay);
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.POI_TECH_UNLOCK_COLOR)).SetValue(null, ModAssets.RetroYellow);
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.POI_TECH_UNLOCK_OVERLAYCOLOR)).SetValue(null, ModAssets.RetroYellowOverlay);
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.WALLLIGHT_COLOR)).SetValue(null, ModAssets.RetroYellow);
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.WALLLIGHT_OVERLAYCOLOR)).SetValue(null, ModAssets.RetroYellowOverlay);
+
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.MAGMALAMP_COLOR)).SetValue(null, ModAssets.RetroYellow);
+			AccessTools.Field(typeof(LIGHT2D), nameof(LIGHT2D.MAGMALAMP_OVERLAYCOLOR)).SetValue(null, ModAssets.RetroYellowOverlay);
+		}
 
 		static readonly string KanimZip = "anim.zip";
 
-		private void UnpackAnimFiles(KMod.Mod mod)
-		{
-			var file = Path.Combine(this.mod.ContentPath, KanimZip);
-			if (File.Exists(file))
-			{
-				System.IO.Compression.ZipFile.ExtractToDirectory(file, this.mod.ContentPath);
-				File.Delete(file);
-				this.mod.available_content |= Content.Animation;
-			}
-		}
+		//private void UnpackAnimFiles(KMod.Mod mod)
+		//{
+		//	var file = Path.Combine(this.mod.ContentPath, KanimZip);
+		//	if (File.Exists(file))
+		//	{
+		//		System.IO.Compression.ZipFile.ExtractToDirectory(file, this.mod.ContentPath);
+		//		File.Delete(file);
+		//		this.mod.available_content |= Content.Animation;
+		//	}
+		//}
 
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

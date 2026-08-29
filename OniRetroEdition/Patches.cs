@@ -17,17 +17,6 @@ namespace OniRetroEdition
 {
 	internal class Patches
 	{
-
-		[HarmonyPatch(typeof(HeadquartersConfig), nameof(HeadquartersConfig.ConfigureBuildingTemplate))]
-		public class HeadquartersConfig_ConfigureBuildingTemplate_Patch
-		{
-			public static void Postfix(GameObject go)
-			{
-				go.GetComponent<Light2D>().Color = new Color(1, 0.5f, 0.11f) * 3.5f;
-				go.GetComponent<Light2D>().overlayColour = new Color(1, 0.5f, 0.11f) * 2f;
-			}
-		}
-
 		/// <summary>
 		/// add buildings to plan screen
 		/// </summary>

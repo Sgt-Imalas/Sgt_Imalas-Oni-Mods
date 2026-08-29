@@ -58,5 +58,9 @@ namespace OniRetroEdition
 		[Option("Old Dupe Outfits", "all outfits are red")]
 		[JsonProperty]
 		public bool oldDupeSuits { get; set; } = true;
+
+		[Option("Old Lights", "old lighting color")]
+		[JsonProperty]
+		public bool oldLights { get; set; } = true;
 	}
 }
