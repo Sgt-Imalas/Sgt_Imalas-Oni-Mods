@@ -230,7 +230,7 @@
 								{
 									public class DESCRIPTOR
 									{
-										public static LocString LABEL = "Allow Story Traits on these Asteroids:";
+										public static LocString LABEL = "Allow Story Trait on these Asteroids:";
 										public static LocString TOOLTIP = "Allows you to block the game from spawning this story trait on certain asteroids.\n\nBlocking too many asteroids can prevent the worldgen from succeeding!";
 									}
 								}
