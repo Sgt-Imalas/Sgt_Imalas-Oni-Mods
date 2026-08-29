@@ -72,18 +72,18 @@ namespace DarkTheme.Patches
 			}
 		}
 
-		[HarmonyPatch(typeof(ComplexRecipeManager), nameof(ComplexRecipeManager.PostProcess))]
-		public class ComplexRecipeManager_PostProcess_Patch
-		{
-			public static void Prefix(ComplexRecipeManager __instance)
-			{
-				SgtLogger.l("DUMPING RECIPES: ");
-				foreach(var recipe in __instance.preProcessRecipes)
-				{
-					Console.WriteLine(recipe.id + "," + recipe.recipeCategoryID + ";");
-				}
-			}
-		}
+		//[HarmonyPatch(typeof(ComplexRecipeManager), nameof(ComplexRecipeManager.PostProcess))]
+		//public class ComplexRecipeManager_PostProcess_Patch
+		//{
+		//	public static void Prefix(ComplexRecipeManager __instance)
+		//	{
+		//		SgtLogger.l("DUMPING RECIPES: ");
+		//		foreach(var recipe in __instance.preProcessRecipes)
+		//		{
+		//			Console.WriteLine(recipe.id + "," + recipe.recipeCategoryID + ";");
+		//		}
+		//	}
+		//}
 		//[HarmonyPatch(typeof(TableRow), nameof(TableRow.OnPrefabInit))]
 		//public class TableRow_OnPrefabInit_Patch
 		//{
