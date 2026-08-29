@@ -8,9 +8,50 @@
 	<ItemGroup>
 		<None Include="PackKanims.cs" />
 	</ItemGroup>
+	<PropertyGroup>
+		<PlatformTarget>x64</PlatformTarget>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Build.Framework" Version="*" />
 		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Magick.NET.Core" Version="14.16.0" />
+		<PackageReference Include="Magick.NET-Q16-x64" Version="14.16.0" />		
+	</ItemGroup>
+	<PropertyGroup>
+		<MagickCopyNativeWindows>true</MagickCopyNativeWindows>
+		<!--<MagickCopyNativeLinux>true</MagickCopyNativeLinux>
+		<MagickCopyNativeLinuxMusl>true</MagickCopyNativeLinuxMusl>
+		<MagickCopyNativeMacOS>true</MagickCopyNativeMacOS>-->
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(NuGetPackageRoot)magick.net-q16-x64\14.16.0\runtimes\win-x64\native\Magick.Native-Q16-x64.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Remove="Assembly-CSharp" />
+		<Reference Remove="Assembly-CSharp-firstpass" />
+		<Reference Remove="0Harmony" />
+		<Reference Remove="com.rlabrecque.steamworks.net" />
+		<Reference Remove="FMODUnity" />
+		<Reference Remove="UnityEngine" />
+		<Reference Remove="UnityEngine.AssetBundleModule" />
+		<Reference Remove="Unity.TextMeshPro" />
+		<Reference Remove="UnityEngine.CoreModule" />
+		<Reference Remove="UnityEngine.ImageConversionModule" />
+		<Reference Remove="UnityEngine.ParticleSystemModule" />
+		<Reference Remove="UnityEngine.Physics2DModule" />
+		<Reference Remove="UnityEngine.PhysicsModule" />
+		<Reference Remove="UnityEngine.UI" />
+		<Reference Remove="UnityEngine.UIModule" />
+		<Reference Remove="UnityEngine.TextRenderingModule" />
+		<Reference Remove="Newtonsoft.Json" />
+		<Reference Remove="netstandard" />
+		<Reference Remove="UnityEngine.WebRequestModule" />
 	</ItemGroup>
 </Project>

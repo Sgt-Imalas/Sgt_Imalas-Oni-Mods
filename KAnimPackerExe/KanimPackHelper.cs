@@ -1,16 +1,26 @@
 ﻿using ImageMagick;
-using Microsoft.Build.Framework;
+using System.ComponentModel.DataAnnotations;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.IO.Compression;
 
-namespace _KAnimPacker
+namespace _KAnimPackerExe
 {
-	public class PackKanims : Microsoft.Build.Utilities.Task
+	public class KanimPackHelper
 	{
+		public KanimPackHelper(string exePath, string inputDir)
+		{
+			Executable = exePath;
+			InputDirectory = inputDir;
+		}
+
 		[Required] public string Executable { get; set; }
 		[Required] public string InputDirectory { get; set; }
-		public override bool Execute()
+		private int _converted = 0;
+		private DateTime _start;
+		public bool Execute()
 		{
+			_start = DateTime.Now;
 			if (!File.Exists(Executable))
 			{
 				Log.LogError($"texconv executable not found: {Executable}"); return false;
@@ -34,6 +44,10 @@ namespace _KAnimPacker
 			{
 				Log.LogErrorFromException(ex, true);
 				return false;
+			}
+			finally
+			{
+				Report();
 			}
 		}
 		private void ProcessDirectory(string inputDirectory, string outputDirectory)
@@ -62,7 +76,7 @@ namespace _KAnimPacker
 		}
 		private void ProcessPackedDirectory(string inputDirectory, string outputDirectory)
 		{
-			Log.LogMessage(MessageImportance.Normal, $"Packing: {inputDirectory}");
+			Log.LogMessage($"Packing: {inputDirectory}");
 			string tempDirectory = Path.Combine(Path.GetTempPath(), "TexconvTask", Guid.NewGuid().ToString("N"));
 
 			try
@@ -90,6 +104,7 @@ namespace _KAnimPacker
 					File.Delete(zipPath);
 
 				ZipFile.CreateFromDirectory(tempDirectory, zipPath, CompressionLevel.Optimal, false);
+				_converted++;
 				Directory.Delete(outputDirectory, true);
 			}
 			finally { if (Directory.Exists(tempDirectory)) Directory.Delete(tempDirectory, true); }
@@ -100,6 +115,7 @@ namespace _KAnimPacker
 			string normalized = string.Empty;
 			try
 			{
+				string fileName = Path.GetFileNameWithoutExtension(png);
 				normalized = CreateNormalizedTempPng(inputPath);
 
 				var psi = new ProcessStartInfo
@@ -118,7 +134,7 @@ namespace _KAnimPacker
 				{
 					if (!string.IsNullOrEmpty(e.Data))
 					{
-						Log.LogMessage(MessageImportance.Normal, e.Data);
+						Log.LogMessage(e.Data);
 					}
 				};
 				process.ErrorDataReceived += (sender, e) =>
@@ -127,7 +143,7 @@ namespace _KAnimPacker
 					{
 						Log.LogError(e.Data);
 					}
-				}; Log.LogMessage(MessageImportance.Normal, $"Converting: {png}");
+				}; Log.LogMessage($"Converting: {png}");
 				process.Start();
 				process.BeginOutputReadLine();
 				process.BeginErrorReadLine();
@@ -144,13 +160,17 @@ namespace _KAnimPacker
 			}
 			finally
 			{
-				if(File.Exists(normalized))
+				if (File.Exists(normalized))
 					File.Delete(normalized);
 			}
 		}
 		private static string CreateNormalizedTempPng(string source)
 		{
-			string temp = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".png");
+			string fileNameInput = Path.GetFileName(source);
+			var targetDir = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetRandomFileName()));
+			Directory.CreateDirectory(targetDir);
+			string temp = Path.Combine(targetDir, fileNameInput);
+			Log.LogMessage("Temp file: " + temp);
 
 			using var image = new MagickImage(source);
 
@@ -159,6 +179,13 @@ namespace _KAnimPacker
 			image.Write(temp, MagickFormat.Png);
 
 			return temp;
+		}
+		public void Report()
+		{
+			Log.LogMessage($"Conversion finished for {InputDirectory}");
+			Log.LogMessage($"Number of zipped folders created: {_converted}");
+			Log.LogMessage($"Time taken: {(DateTime.Now - _start).TotalSeconds.ToString("0.00")} s");
+
 		}
 	}
 }
