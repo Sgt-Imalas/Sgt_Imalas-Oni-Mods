@@ -290,6 +290,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkTheme", "DarkTheme\Dark
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_POVerify", "_POVerify\_POVerify.csproj", "{B0C0F3C6-4273-4301-9A52-AB1548220CB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_KAnimPacker", "_KAnimPacker\_KAnimPacker.csproj", "{0919ACF8-1DCD-4511-9052-66E727DE810E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_KAnimPackerExe", "KAnimPackerExe\_KAnimPackerExe.csproj", "{4002E25B-3B47-4B66-84FA-556C841812DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -804,6 +808,14 @@ Global
 		{B0C0F3C6-4273-4301-9A52-AB1548220CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0C0F3C6-4273-4301-9A52-AB1548220CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0C0F3C6-4273-4301-9A52-AB1548220CB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0919ACF8-1DCD-4511-9052-66E727DE810E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0919ACF8-1DCD-4511-9052-66E727DE810E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0919ACF8-1DCD-4511-9052-66E727DE810E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0919ACF8-1DCD-4511-9052-66E727DE810E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4002E25B-3B47-4B66-84FA-556C841812DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4002E25B-3B47-4B66-84FA-556C841812DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4002E25B-3B47-4B66-84FA-556C841812DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4002E25B-3B47-4B66-84FA-556C841812DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

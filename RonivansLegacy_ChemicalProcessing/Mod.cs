@@ -25,6 +25,8 @@ namespace RonivansLegacy_ChemicalProcessing
 		public static Harmony HarmonyInstance;
 		public override void OnLoad(Harmony harmony)
 		{
+			AssetUtils.UsePackedAtlasTextures = true;
+			SgtElementUtil.LoadCompressedTextures = true;
 			Instance = this;
 
 			ModAssets.LoadAssets();

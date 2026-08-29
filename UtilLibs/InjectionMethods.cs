@@ -11,11 +11,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using YamlDotNet.Serialization;
-using static FuzzySearch;
-using static ModUtil;
-using static STRINGS.CODEX;
-using static STRINGS.DUPLICANTS.ATTRIBUTES;
-using static STRINGS.SUBWORLDS;
 
 namespace UtilLibs
 {
@@ -54,13 +49,13 @@ namespace UtilLibs
 					foundAny = true;
 			}
 			foreach (var file in dirInfo.GetFiles())
-			{ 
+			{
 				if (IO_Utils.MacFile(file))
 					continue;
 
 				if (file.Extension == ".zip")
 				{
-					if(LoadPackedKanims(file.FullName))
+					if (LoadPackedKanims(file.FullName))
 						foundAny = true;
 				}
 			}
@@ -94,8 +89,8 @@ namespace UtilLibs
 						// TODO: Log this error
 						continue;
 					}
-					string kanimName = entry.FullName.Contains("/") 
-						? Directory.GetParent(entry.FullName)?.Name + "_kanim" 
+					string kanimName = entry.FullName.Contains("/")
+						? Directory.GetParent(entry.FullName)?.Name + "_kanim"
 						: Path.GetFileNameWithoutExtension(zipFilePath) + "_kanim";
 
 					string fileName = Path.GetFileNameWithoutExtension(entry.FullName).ToLowerInvariant();
@@ -129,36 +124,7 @@ namespace UtilLibs
 						if (!foundKanims.ContainsKey(kanimName))
 							foundKanims[kanimName] = new KAnimFile.Mod();
 
-						int width = BitConverter.ToInt32(bytes, 16);
-						int height = BitConverter.ToInt32(bytes, 12);
-						int mipCount = BitConverter.ToInt32(bytes, 28);
-
-						int dxgiFormat = BitConverter.ToInt32(bytes, 128);
-
-						bool isSrgb = false;// dxgiFormat == 99;
-
-						int dataOffset = 148;
-
-						byte[] textureData = new byte[bytes.Length - dataOffset];
-
-						Buffer.BlockCopy(
-							bytes,
-							dataOffset,
-							textureData,
-							0,
-							textureData.Length
-						);
-
-						var texture = new Texture2D(
-							width,
-							height,
-							TextureFormat.BC7,
-							mipCount > 1,
-							isSrgb
-						);
-
-						texture.LoadRawTextureData(textureData);
-						texture.Apply(false, true);
+						var texture = LoadTextureBC7(bytes);
 
 						foundKanims[kanimName].textures.Add(texture);
 					}
@@ -170,7 +136,7 @@ namespace UtilLibs
 					SgtLogger.l("adding kanim: " + kanim.Key);
 					if (kanim.Value.IsValid())
 					{
-						if(ModUtil.AddKAnimMod(kanim.Key, kanim.Value) != null)
+						if (ModUtil.AddKAnimMod(kanim.Key, kanim.Value) != null)
 							anyValid = true;
 					}
 					else
@@ -187,9 +153,128 @@ namespace UtilLibs
 			}
 			finally
 			{
-				if(zip != null)
+				if (zip != null)
 					zip.Dispose();
 			}
+		}
+
+		public static Texture2D LoadTextureBC7(string zipFilePath, string nameInZip)
+		{
+			var textures = LoadTexturesBC7(zipFilePath, nameInZip);
+			if (!textures.Any())
+			{
+				SgtLogger.warning($"could not find {nameInZip} in {zipFilePath}");
+				return null;
+			}
+			return textures.First();
+		}
+		public static Texture2D LoadTextureBC7(string zipFilePath)
+		{
+			var textures = LoadTexturesBC7(zipFilePath);
+			if (!textures.Any())
+			{
+				SgtLogger.warning($"could not find valid BC7 DDS texture in {zipFilePath}");
+				return null;
+			}
+			return textures.First();
+		}
+		public static List<Texture2D> LoadTexturesBC7(string zipFilePath, string lookFor = null)
+		{
+			if (!File.Exists(zipFilePath))
+				return [];
+			List<Texture2D> textures = [];
+			ZipArchive zip = null;
+			try
+			{
+				zip = ZipFile.OpenRead(zipFilePath);
+
+				foreach (var entry in zip.Entries)
+				{
+					if (entry.FullName.EndsWith("/"))
+						continue; //skip directories
+
+					byte[] bytes = null;
+					try
+					{
+						MemoryStream ms = new MemoryStream();
+						var stream = entry.Open();
+						stream.CopyTo(ms);
+						bytes = ms.ToArray();
+					}
+					catch (Exception ex)
+					{
+						// TODO: Log this error
+						continue;
+					}
+
+					string fileName = Path.GetFileNameWithoutExtension(entry.FullName).ToLowerInvariant();
+					string extension = Path.GetExtension(entry.FullName).ToLowerInvariant();
+
+					if (extension == ".png")
+					{
+						Texture2D texture = new Texture2D(2, 2);
+						texture.LoadImage(bytes);
+						texture.name = fileName;
+						textures.Add(texture);
+					}
+					else if (extension == ".dds")
+					{
+						var texture = LoadTextureBC7(bytes);
+						texture.name = fileName;
+						textures.Add(texture);
+					}
+					if (lookFor != null && fileName.Contains(lookFor) && textures.Any())
+					{
+						break;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				SgtLogger.logError(zipFilePath + " failed to extract all dds textures, Exception: " + ex.ToString());
+			}
+			finally
+			{
+				if (zip != null)
+					zip.Dispose();
+
+			}
+			return textures;
+		}
+		public static Texture2D LoadTextureBC7(byte[] bytes)
+		{
+			//this header stuff here is tailored for the files created by the converter project, not a general solution!
+			int width = BitConverter.ToInt32(bytes, 16);
+			int height = BitConverter.ToInt32(bytes, 12);
+			int mipCount = BitConverter.ToInt32(bytes, 28);
+
+			int dxgiFormat = BitConverter.ToInt32(bytes, 128);
+
+			bool isSrgb = dxgiFormat == 99;
+
+			int dataOffset = 148; //BC7 has two separate byte headers, +128 for first header, +20 for second header
+
+			byte[] textureData = new byte[bytes.Length - dataOffset];
+
+			Buffer.BlockCopy(
+				bytes,
+				dataOffset,
+				textureData,
+				0,
+				textureData.Length
+			);
+
+			var texture = new Texture2D(
+				width,
+				height,
+				TextureFormat.BC7,
+				mipCount > 1,
+				isSrgb
+			);
+
+			texture.LoadRawTextureData(textureData);
+			texture.Apply(false, true);
+			return texture;
 		}
 
 		/// <summary>

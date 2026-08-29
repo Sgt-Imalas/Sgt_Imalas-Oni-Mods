@@ -22,6 +22,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public CellOffset SpawnOffset = CellOffset.none;
 
+		[SerializeField]
+		public Tag[] Skip = [];
+
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
@@ -43,7 +46,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			foreach (var tag in tagsInStorage) 
 			{
 				var element = ElementLoader.GetElement(tag);
-				if (element == null)
+				if (element == null || Skip.Any(tag => element.HasTag(tag)))
 					continue;
 				if (element.IsSolid && DropSolids)
 					toDrop.Add(tag);

@@ -1,0 +1,1 @@
+this file is a placeholder so the folder gets copied over, this in turn marks the mod as having animations, so the load anim method is not skipped :D

@@ -13,12 +13,17 @@ namespace _KAnimPackerExe
 			Executable = exePath;
 			InputDirectory = inputDir;
 		}
+		public KanimPackHelper(string inputDir)
+		{
+			Executable = "texconv.exe";
+			InputDirectory = inputDir;
+		}
 
 		[Required] public string Executable { get; set; }
 		[Required] public string InputDirectory { get; set; }
 		private int _converted = 0;
 		private DateTime _start;
-		public bool Execute()
+		public bool ConvertToKanims()
 		{
 			_start = DateTime.Now;
 			if (!File.Exists(Executable))
@@ -37,7 +42,7 @@ namespace _KAnimPackerExe
 					Directory.Delete(outputDirectory, true);
 
 				Directory.CreateDirectory(outputDirectory);
-				ProcessDirectory(InputDirectory, outputDirectory);
+				ProcessDirectoryKANIM(InputDirectory, outputDirectory);
 				return !Log.HasLoggedErrors;
 			}
 			catch (Exception ex)
@@ -50,14 +55,118 @@ namespace _KAnimPackerExe
 				Report();
 			}
 		}
-		private void ProcessDirectory(string inputDirectory, string outputDirectory)
+		public bool ConvertSingularTextures()
+		{
+			_start = DateTime.Now;
+
+			if (!File.Exists(Executable))
+			{
+				Log.LogError($"texconv executable not found: {Executable}");
+				return false;
+			}
+
+			if (!Directory.Exists(InputDirectory))
+			{
+				Log.LogError($"Input directory not found: {InputDirectory}");
+				return false;
+			}
+
+			string outputDirectory =
+				InputDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + "_packed";
+
+			try
+			{
+				if (Directory.Exists(outputDirectory))
+					Directory.Delete(outputDirectory, true);
+
+				Directory.CreateDirectory(outputDirectory);
+				ProcessDirectoryTEX(InputDirectory, outputDirectory);
+
+				return !Log.HasLoggedErrors;
+			}
+			catch (Exception ex)
+			{
+				Log.LogErrorFromException(ex, true);
+				return false;
+			}
+			finally
+			{
+				Report();
+			}
+		}
+
+		private void ProcessDirectoryTEX(string inputDirectory, string outputDirectory)
+		{
+			Directory.CreateDirectory(outputDirectory);
+
+			// Only PNG files are processed.
+			foreach (string png in Directory.GetFiles(inputDirectory, "*.png", SearchOption.TopDirectoryOnly))
+			{
+				ProcessPngFileTEX(png, outputDirectory);
+			}
+
+			// Continue processing subdirectories.
+			foreach (string directory in Directory.GetDirectories(inputDirectory))
+			{
+				string name = Path.GetFileName(directory);
+				string destination = Path.Combine(outputDirectory, name);
+
+				ProcessDirectoryTEX(directory, destination);
+			}
+		}
+		private void ProcessPngFileTEX(string png, string outputDirectory)
+		{
+			string fileName = Path.GetFileNameWithoutExtension(png);
+			string tempDirectory = Path.Combine(
+				Path.GetTempPath(),
+				"TexconvTask",
+				Guid.NewGuid().ToString("N"));
+
+			try
+			{
+				Directory.CreateDirectory(tempDirectory);
+
+				// Do not modify ConvertPngToDds.
+				ConvertPngToDds(png, tempDirectory);
+
+				string ddsFile = Path.Combine(tempDirectory, fileName + ".dds");
+
+				if (!File.Exists(ddsFile))
+				{
+					Log.LogError($"DDS file was not created: {ddsFile}");
+					return;
+				}
+
+				string zipPath = Path.Combine(outputDirectory, fileName + ".zip");
+
+				if (File.Exists(zipPath))
+					File.Delete(zipPath);
+
+				// Create a ZIP containing exactly one DDS.
+				ZipFile.CreateFromDirectory(
+					tempDirectory,
+					zipPath,
+					CompressionLevel.Optimal,
+					false);
+
+				_converted++;
+				Log.LogMessage($"Packing: {png} -> {zipPath}");
+			}
+			finally
+			{
+				if (Directory.Exists(tempDirectory))
+					Directory.Delete(tempDirectory, true);
+			}
+		}
+
+		private void ProcessDirectoryKANIM(string inputDirectory, string outputDirectory)
 		{
 			Directory.CreateDirectory(outputDirectory);
 			string[] pngFiles = Directory.GetFiles(inputDirectory, "*.png", SearchOption.TopDirectoryOnly);
 
 			if (pngFiles.Any())
 			{
-				ProcessPackedDirectory(inputDirectory, outputDirectory);
+				ProcessPackedDirectoryKANIM(inputDirectory, outputDirectory);
 				return;
 			}
 
@@ -71,10 +180,10 @@ namespace _KAnimPackerExe
 			{
 				string name = Path.GetFileName(directory);
 				string destination = Path.Combine(outputDirectory, name);
-				ProcessDirectory(directory, destination);
+				ProcessDirectoryKANIM(directory, destination);
 			}
 		}
-		private void ProcessPackedDirectory(string inputDirectory, string outputDirectory)
+		private void ProcessPackedDirectoryKANIM(string inputDirectory, string outputDirectory)
 		{
 			Log.LogMessage($"Packing: {inputDirectory}");
 			string tempDirectory = Path.Combine(Path.GetTempPath(), "TexconvTask", Guid.NewGuid().ToString("N"));
@@ -97,7 +206,7 @@ namespace _KAnimPackerExe
 				foreach (string directory in Directory.GetDirectories(inputDirectory))
 				{
 					string name = Path.GetFileName(directory);
-					ProcessDirectory(directory, Path.Combine(tempDirectory, name));
+					ProcessDirectoryKANIM(directory, Path.Combine(tempDirectory, name));
 				}
 				string zipPath = outputDirectory + ".zip";
 				if (File.Exists(zipPath))
@@ -116,7 +225,7 @@ namespace _KAnimPackerExe
 			try
 			{
 				string fileName = Path.GetFileNameWithoutExtension(png);
-				normalized = CreateNormalizedTempPng(inputPath);
+				normalized =  PNGConverter.CreateNormalizedTempPng(inputPath);
 
 				var psi = new ProcessStartInfo
 				{
@@ -163,22 +272,6 @@ namespace _KAnimPackerExe
 				if (File.Exists(normalized))
 					File.Delete(normalized);
 			}
-		}
-		private static string CreateNormalizedTempPng(string source)
-		{
-			string fileNameInput = Path.GetFileName(source);
-			var targetDir = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetRandomFileName()));
-			Directory.CreateDirectory(targetDir);
-			string temp = Path.Combine(targetDir, fileNameInput);
-			Log.LogMessage("Temp file: " + temp);
-
-			using var image = new MagickImage(source);
-
-			image.ColorSpace = ColorSpace.sRGB;
-			image.Strip();
-			image.Write(temp, MagickFormat.Png);
-
-			return temp;
 		}
 		public void Report()
 		{

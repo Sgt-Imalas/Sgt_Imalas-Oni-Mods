@@ -35,7 +35,7 @@ namespace UtilLibs
 
 			HashedString key = new HashedString(sprite.name);
 
-			if(Assets.Sprites != null)
+			if (Assets.Sprites != null)
 				Assets.Sprites[key] = sprite;
 
 			return sprite;
@@ -63,7 +63,7 @@ namespace UtilLibs
 				{
 					try
 					{
-						items.Add(AddSpriteToAssets(fileInfo,instance,overrideExisting));
+						items.Add(AddSpriteToAssets(fileInfo, instance, overrideExisting));
 					}
 					catch { }
 				}
@@ -95,7 +95,7 @@ namespace UtilLibs
 			string spriteId = Path.GetFileNameWithoutExtension(file.Name);
 			var texture = AssetUtils.LoadTexture(file.FullName);
 
-			if (instance.TextureAssets?.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId)??false)
+			if (instance.TextureAssets?.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId) ?? false)
 			{
 				SgtLogger.l("removed existing TextureAsset: " + spriteId);
 				instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
@@ -138,7 +138,7 @@ namespace UtilLibs
 			}
 			instance.SpriteAssets?.Add(sprite);
 
-			if (Assets.Sprites?.ContainsKey(spriteId)??false)
+			if (Assets.Sprites?.ContainsKey(spriteId) ?? false)
 			{
 				SgtLogger.l("removed existing Sprite" + spriteId);
 				Assets.Sprites.Remove(spriteId);
@@ -197,6 +197,10 @@ namespace UtilLibs
 		}
 
 		public static string baseAtlasFolder = Path.Combine("assets", "customatlastiles");
+		public static string packedAtlasFolder = Path.Combine("assets", "textures_packed", "customatlastiles");
+		public static bool UsePackedAtlasTextures = false;
+
+		public static string GetBaseAtlasFolder() => UsePackedAtlasTextures ? packedAtlasFolder : baseAtlasFolder;
 		public static void AddCustomTileTops(BuildingDef def, string name, bool shiny = false, string decorInfo = "tiles_glass_tops_decor_info", string existingPlaceID = null, string existingSpecID = null)
 		{
 			var info = UnityEngine.Object.Instantiate(global::Assets.GetBlockTileDecorInfo(decorInfo));
@@ -205,7 +209,7 @@ namespace UtilLibs
 			// base
 			if (info is object)
 			{
-				info.atlas = GetCustomAtlas(topsName, baseAtlasFolder, info.atlas);
+				info.atlas = GetCustomAtlas(topsName, GetBaseAtlasFolder(), info.atlas);
 				def.DecorBlockTileInfo = info;
 			}
 
@@ -213,7 +217,7 @@ namespace UtilLibs
 			if (existingPlaceID.IsNullOrWhiteSpace())
 			{
 				var placeInfo = UnityEngine.Object.Instantiate(global::Assets.GetBlockTileDecorInfo(decorInfo));
-				placeInfo.atlas = GetCustomAtlas(topsName+"_place", baseAtlasFolder, placeInfo.atlas);
+				placeInfo.atlas = GetCustomAtlas(topsName + "_place", GetBaseAtlasFolder(), placeInfo.atlas);
 				def.DecorPlaceBlockTileInfo = placeInfo;
 			}
 			else
@@ -225,25 +229,25 @@ namespace UtilLibs
 			if (shiny)
 			{
 				string id = existingSpecID.IsNullOrWhiteSpace() ? $"{topsName}_spec" : existingSpecID;
-				info.atlasSpec = GetCustomAtlas(id, baseAtlasFolder, info.atlasSpec);
+				info.atlasSpec = GetCustomAtlas(id, GetBaseAtlasFolder(), info.atlasSpec);
 			}
 		}
-		public static void AddCustomTileAtlas(BuildingDef def, string name, bool shiny = false, string referenceAtlas = "tiles_metal")
+		public static void AddCustomTileAtlas(BuildingDef def, string name, bool shiny = false, string referenceAtlas = "tiles_metal", bool loadPacked = false)
 		{
 			TextureAtlas reference = global::Assets.GetTextureAtlas(referenceAtlas);
 
 			string atlasName = name.Contains("tiles") ? name : $"{name}_tiles";
 
 			// base
-			def.BlockTileAtlas = GetCustomAtlas(atlasName, baseAtlasFolder, reference);
+			def.BlockTileAtlas = GetCustomAtlas(atlasName, GetBaseAtlasFolder(), reference);
 
 			// place
-			def.BlockTilePlaceAtlas = GetCustomAtlas($"{atlasName}_place", baseAtlasFolder, reference);
+			def.BlockTilePlaceAtlas = GetCustomAtlas($"{atlasName}_place", GetBaseAtlasFolder(), reference);
 
 			// specular
 			if (shiny)
 			{
-				def.BlockTileShineAtlas = GetCustomAtlas($"{atlasName}_spec", baseAtlasFolder, reference);
+				def.BlockTileShineAtlas = GetCustomAtlas($"{atlasName}_spec", GetBaseAtlasFolder(), reference);
 			}
 		}
 		public static TextureAtlas GetCustomAtlas(string fileName, string folder, TextureAtlas tileAtlas)
@@ -255,11 +259,11 @@ namespace UtilLibs
 				path = Path.Combine(path, folder);
 			}
 
-			var tex = LoadTexture(fileName, path);
+			var tex = UsePackedAtlasTextures ? InjectionMethods.LoadTextureBC7(Path.Combine(path, fileName + ".zip")) : LoadTexture(fileName, path);
 
 			if (tex == null)
 			{
-				SgtLogger.error("could not load custom tile atlas texture: " + fileName + " in folder: " + path);	
+				SgtLogger.error("could not load custom tile atlas texture: " + fileName + " in folder: " + path);
 				return null;
 			}
 

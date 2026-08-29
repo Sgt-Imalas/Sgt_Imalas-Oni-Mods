@@ -14,6 +14,8 @@ namespace ElementUtilNamespace
 {
 	public static class SgtElementUtil
 	{
+		public static bool LoadCompressedTextures = false;
+
 		public static readonly Dictionary<SimHashes, string> SimHashNameLookup = new Dictionary<SimHashes, string>();
 		//public static readonly Dictionary<string, string> StringifiedSimHashToTagLookup = new Dictionary<string, string>();
 		public static readonly Dictionary<string, object> ReverseSimHashNameLookup = new Dictionary<string, object>();
@@ -319,7 +321,9 @@ namespace ElementUtilNamespace
 
 		private static void SetTexture(Material material, string texture, string property)
 		{
-			var path = Path.Combine(UtilMethods.ModPath, "assets", "textures", texture + ".png");
+			var path = LoadCompressedTextures 
+				? Path.Combine(UtilMethods.ModPath, "assets", "textures_packed", texture + ".zip")
+				: Path.Combine(UtilMethods.ModPath, "assets", "textures", texture + ".png");
 
 			if (TryLoadTexture(path, out var tex))
 			{
@@ -329,7 +333,11 @@ namespace ElementUtilNamespace
 
 		public static bool TryLoadTexture(string path, out Texture2D texture)
 		{
-			texture = LoadTexture(path, true);
+			if (LoadCompressedTextures)
+				texture = InjectionMethods.LoadTextureBC7(path);
+			else
+				texture = LoadTexture(path, true);
+
 			return texture != null;
 		}
 

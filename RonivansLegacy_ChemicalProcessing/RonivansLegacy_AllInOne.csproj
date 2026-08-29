@@ -18,8 +18,9 @@
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
+		<CompressKanims>true</CompressKanims>
+		<CompressTextures>true</CompressTextures>
 	</PropertyGroup>
-
 
 	<!-- Mod Info -->
 	<PropertyGroup>
@@ -55,6 +56,7 @@
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_valve\" />
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_transferarm\" />
 	  <Folder Include="ModAssets\dlc\" />
+	  <Folder Include="ModAssets\buildingfacades\" />
 	</ItemGroup>
 
 	<ItemGroup>

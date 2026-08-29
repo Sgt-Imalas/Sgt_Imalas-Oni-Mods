@@ -119,6 +119,7 @@ namespace Mineral_Processing_Mining.Buildings
 			worldElementDropper.DropLiquids = true;
 			worldElementDropper.TargetStorage = drillRig.outStorage;
 			worldElementDropper.SpawnOffset = new CellOffset(4, 1);
+			worldElementDropper.Skip = [this.fuelTag];
 			
 
 			var guidanceDeviceHandler = go.AddOrGet<GuidanceDeviceWearHandler>();

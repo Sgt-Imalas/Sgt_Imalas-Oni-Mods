@@ -66,6 +66,32 @@
 		<ValidatePoFiles Files="@(POFiles)" />
 	</Target>
 
+	<!--Compresses Kanims--><!--
+	<PropertyGroup>
+		<_KAnimPacker>$(MSBuildThisFileDirectory)_KAnimPacker\bin\$(Configuration)\netstandard2.0\_KAnimPacker.dll</_KAnimPacker>
+	</PropertyGroup>
+
+	<UsingTask
+    TaskName="_KAnimPacker.PackKanims"
+    AssemblyFile="$(_KAnimPacker)"
+    Condition="Exists('$(_KAnimPacker)')" />-->
+
+	<!--BeforeTargets="Build"--><!--
+	<Target Name="CompressKanims"
+			BeforeTargets="Clean"
+			Condition="'$(CompressKanims)' == 'true' and '$(DoNotBuildAsMod)' != 'true' and Exists('$(_KAnimPacker)')">
+		<ItemGroup>
+			<KAnims Include=".\ModAssets\translations\**\*.po" />
+		</ItemGroup>
+
+		<PackKanims Executable="$(MSBuildThisFileDirectory)_KAnimPacker\texconv.exe" InputDirectory=".\ModAssets\anim" />
+	</Target>
+
+
+	<Target Name="PackTextures">
+		<TexconvTask Executable="$(ProjectDir)Tools\texconv.exe" InputDirectory="$(ProjectDir)Textures" />
+	</Target>-->
+
 
 	<!--Merges all dlls in the output folder into a single dll-->
 	<Target Name="ILRepack" AfterTargets="Build" Condition="'$(IsPacked)' == 'true'">
@@ -89,15 +115,43 @@
 		<TargetFolder Condition="'$(GameLibsFolder)' == '../Lib'">../Builds\$(TargetName)</TargetFolder>
 	</PropertyGroup>
 
+	<!--<Target Name="PackKanims" BeforeTargets="CopyModsToDevFolder" Condition="'$(CompressKanims)' == 'true' and '$(DoNotBuildAsMod)' != 'true'">
+		<ItemGroup>
+			<IgnorableAssets Include=".\**\*.afphoto;.\**\*.mo;.\**\*.afphoto~lock~;.\**\*.pdn;.\**\.gitkeep" />
+		</ItemGroup>
+
+		<ItemGroup>
+			<ModAnimBytes Include=".\ModAssets\anims\**\*.bytes" Exclude="@(IgnorableAssets)"/>
+			<ModAnimPngs Include=".\ModAssets\anims\**\*.png" Exclude="@(IgnorableAssets)"/>
+		</ItemGroup>
+
+
+		<Copy
+		  SourceFiles="@(ModAnimBytes)"
+		  DestinationFolder=".\ModAssets\anims_packed\%(RecursiveDir)')"
+		  SkipUnchangedFiles="false" />
+
+
+		<Message Text="Compressing Kanims" Importance="High"/>
+		--><!--<Exec Command='texconv -f BC7_UNORM -m 1 -y "%(ModAnimPngs.FileName)" -o ".\ModAssets\anims_packed\%(ModAnimPngs.RecursiveDir)"' />--><!--
+
+	</Target>-->
+
 	<!--Copies the mod dll, the two yaml files and everything inside the ModAssets folder to the target mod folder-->
 	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(DoNotBuildAsMod)' != 'true'">
 
 		<Message Text="Executing CopyDLLs task" Importance="High" />
+		<ItemGroup>
+			<IgnorableAssets Include=".\**\*.afphoto;.\**\*.mo;.\**\*.afphoto~lock~;.\**\*.pdn;.\**\.gitkeep" />
 
+			<IgnorableAssets Include=".\ModAssets\anim\**\*.*" Condition="'$(CompressKanims)' == 'true'" />
+			<IgnorableAssets Include=".\ModAssets\assets\textures\**\*.*" Condition="'$(CompressTextures)' == 'true'" />
+
+		</ItemGroup>
 		<ItemGroup>
 			<ModAssets
 				Include = ".\ModAssets\**\*.*"
-				Exclude = ".\**\*.afphoto;.\**\*.mo;.\**\*.afphoto~lock~;.\**\*.pdn;.\**\.gitkeep;"
+				Exclude="@(IgnorableAssets)"
 				/>
 		</ItemGroup>
 
