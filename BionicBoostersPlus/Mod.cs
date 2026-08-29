@@ -19,6 +19,7 @@ namespace BionicBoostersPlus
 			}
 			base.OnLoad(harmony);
 			UtilLibs.SharedTweaks.SelectedRecipeQueueScreenSizeFix.Register();
+			UtilLibs.SharedTweaks.SkillsWidgetBetterConnectionLines.Register();
 		}
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
