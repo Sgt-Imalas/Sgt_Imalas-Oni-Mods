@@ -94,7 +94,10 @@ namespace UtilLibs
 						// TODO: Log this error
 						continue;
 					}
-					string kanimName = Directory.GetParent(entry.FullName)?.Name + "_kanim";
+					string kanimName = entry.FullName.Contains("/") 
+						? Directory.GetParent(entry.FullName)?.Name + "_kanim" 
+						: Path.GetFileNameWithoutExtension(zipFilePath) + "_kanim";
+
 					string fileName = Path.GetFileNameWithoutExtension(entry.FullName).ToLowerInvariant();
 					string extension = Path.GetExtension(entry.FullName).ToLowerInvariant();
 
@@ -126,24 +129,45 @@ namespace UtilLibs
 						if (!foundKanims.ContainsKey(kanimName))
 							foundKanims[kanimName] = new KAnimFile.Mod();
 
-						var texture = new Texture2D(
-							2,
-							2,
-							TextureFormat.BC7,
-							mipChain: true,
-							linear: false
-							);
+						int width = BitConverter.ToInt32(bytes, 16);
+						int height = BitConverter.ToInt32(bytes, 12);
+						int mipCount = BitConverter.ToInt32(bytes, 28);
 
-						texture.LoadRawTextureData(bytes);
+						int dxgiFormat = BitConverter.ToInt32(bytes, 128);
+
+						bool isSrgb = false;// dxgiFormat == 99;
+
+						int dataOffset = 148;
+
+						byte[] textureData = new byte[bytes.Length - dataOffset];
+
+						Buffer.BlockCopy(
+							bytes,
+							dataOffset,
+							textureData,
+							0,
+							textureData.Length
+						);
+
+						var texture = new Texture2D(
+							width,
+							height,
+							TextureFormat.BC7,
+							mipCount > 1,
+							isSrgb
+						);
+
+						texture.LoadRawTextureData(textureData);
 						texture.Apply(false, true);
+
 						foundKanims[kanimName].textures.Add(texture);
 					}
 				}
-				SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
+				//SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
 				bool anyValid = false;
 				foreach (var kanim in foundKanims)
 				{
-					//SgtLogger.l("adding kanim: " + kanim.Key);
+					SgtLogger.l("adding kanim: " + kanim.Key);
 					if (kanim.Value.IsValid())
 					{
 						if(ModUtil.AddKAnimMod(kanim.Key, kanim.Value) != null)
