@@ -293,5 +293,22 @@ namespace SaveGameModLoader
 					BrokenModInstallations.Add(mod.label.defaultStaticID);
 			}
 		}
+
+		internal static void OnModUpdated(KMod.Label mod)
+		{
+			var installDir = mod.install_path;
+
+			bool filesExisting = (Directory.Exists(installDir) && Directory.EnumerateFileSystemEntries(installDir).Any());
+			string modID = mod.defaultStaticID;
+
+			if(filesExisting && BrokenModInstallations.Contains(modID))
+			{
+				BrokenModInstallations.Remove(modID);
+			}
+			else if(!filesExisting && !BrokenModInstallations.Contains(modID))
+			{
+				BrokenModInstallations.Add(modID);
+			}
+		}
 	}
 }
