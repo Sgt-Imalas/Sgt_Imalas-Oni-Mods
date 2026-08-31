@@ -10,6 +10,7 @@ namespace UtilLibs
 {
 	public static class DialogUtil
 	{
+		public static bool IsInputDialogActive = false;
 		public static void CreateConfirmDialogFrontend(string title = null, string text = null, string confirm_text = null, System.Action on_confirm = null, string cancel_text = null, System.Action on_cancel = null, string configurable_text = null, System.Action on_configurable_clicked = null, Sprite image_sprite = null, bool useScreenSpaceOverlay = false, GameObject parent = null)
 		=> CreateConfirmDialog(title, text, confirm_text, on_confirm, cancel_text, on_cancel, configurable_text, on_configurable_clicked, image_sprite, true, useScreenSpaceOverlay, parent);
 		public static ConfirmDialogScreen CreateConfirmDialog(string title = null, string text = null, string confirm_text = null, System.Action on_confirm = null, string cancel_text = null, System.Action on_cancel = null, string configurable_text = null, System.Action on_configurable_clicked = null, Sprite image_sprite = null, bool frontend = false, bool useScreenSpaceOverlay = false, GameObject parent = null)
@@ -120,6 +121,12 @@ namespace UtilLibs
 			{
 				titleText.text = title;
 			}
+			
+			// ===== 新增：IME 开关控制 =====
+			IsInputDialogActive = true;
+			textDialog.onConfirm += (string result) => { IsInputDialogActive = false; };
+			textDialog.onCancel += () => { IsInputDialogActive = false; };
+			// ===== 新增结束 =====
 
 			return textDialog;
 		}
