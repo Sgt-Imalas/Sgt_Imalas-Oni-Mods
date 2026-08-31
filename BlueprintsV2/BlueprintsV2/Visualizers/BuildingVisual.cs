@@ -592,12 +592,25 @@ namespace BlueprintsV2.Visualizers
 			//}
 			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
 			{
-				ApplyBuildingData(bc.gameObject, false);
+				var buildingGO = bc.gameObject;
+				var underConstruction = buildingGO.GetComponent<BuildingUnderConstruction>();
+				var complete = buildingGO.GetComponent<BuildingComplete>();
+				
+				// 如果建筑已完工，跳过所有设置应用（直接抛弃）
+				if (complete != null && underConstruction == null)
+				{
+					// 不做任何修改，静默跳过
+					return true;
+				}
+				
+				// 正在建造的建筑：直接应用设置（原版逻辑）
+				ApplyBuildingData(buildingGO, false);
 				if (buildingConfig.HasAnyBuildingData)
 				{
-					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED, null, offset: Grid.CellToPos(cellParam), Config.Instance.FXTime);
+					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE, 
+						STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED, 
+						null, offset: Grid.CellToPos(cellParam), Config.Instance.FXTime);
 				}
-
 				return true;
 			}
 
