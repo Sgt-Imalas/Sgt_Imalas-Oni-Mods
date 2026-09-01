@@ -67,16 +67,18 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 
 			_rectTransform.pivot = new(1f / width, 1f / heigh);
 
+			float xPosOffset = orientation == Orientation.FlipH ? -50 : 50;
+
 			if (correctX)
 			{
 				switch (orientation)
 				{
 					default:
-						transform.localPosition += new Vector3(50, 0); break;
+						transform.localPosition += new Vector3(xPosOffset, 0); break;
 					case Orientation.R90:
 						transform.localPosition += new Vector3(0, -50); break;
 					case Orientation.R180:
-						transform.localPosition += new Vector3(-50, 0); break;
+						transform.localPosition += new Vector3(-xPosOffset, 0); break;
 					case Orientation.R270:
 						transform.localPosition += new Vector3(0, 50); break;
 				}
