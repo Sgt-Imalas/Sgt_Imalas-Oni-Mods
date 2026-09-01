@@ -97,8 +97,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			inputs.requireConduit = false;
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
 
-			PreciseStorageControl.AddComponent(go);
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 		}
 	}
 }

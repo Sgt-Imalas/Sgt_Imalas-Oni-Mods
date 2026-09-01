@@ -70,8 +70,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			requirement.RequiresHighPressureOutput = true;
 			requirement.IsLogisticRail = true;
 
-			PreciseStorageControl.AddComponent(go);
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.RailLoaderStorageIntegations(go);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

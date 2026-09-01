@@ -131,8 +131,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			AttachPort(go);
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
 
-			PreciseStorageControl.AddComponent(go);
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 
 		}
 		private void AttachPort(GameObject go)

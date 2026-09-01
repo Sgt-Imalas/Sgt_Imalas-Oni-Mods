@@ -29,7 +29,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			if (typesInitialized) return;
 			typesInitialized = true;
 			PreciselyFilteredStorageControllerType = Type.GetType("PreciselyControlled.PreciselyFilteredStorageController, PreciseControlStorage");
-			SgtLogger.l("PreciselyControlled integration: " + (PreciselyFilteredStorageControllerType != null ? "Success" : "Failed"));
+			SgtLogger.l("PreciselyControlled integration: " + (PreciselyFilteredStorageControllerType != null ? "Active" : "Inactive"));
 		}
 	}
 }

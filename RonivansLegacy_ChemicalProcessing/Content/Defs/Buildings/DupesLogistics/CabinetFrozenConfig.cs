@@ -55,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
 			SoundEventVolumeCache.instance.AddVolume("cabinet_frozen_kanim", "StorageLocker_Hit_metallic_low", TUNING.NOISE_POLLUTION.NOISY.TIER1);
 			Prioritizable.AddRef(go);
-			go.AddOrGet<Automatable>();
+			//go.AddOrGet<Automatable>();
 			Storage storage = go.AddOrGet<Storage>();
 			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			storage.showInUI = true;
@@ -82,7 +82,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			go.AddOrGet<FilteredSolidConduitConsumer>();
 			go.AddOrGet<EnergySaverLogicOutput>();
 
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 		}
 	}
 }

@@ -80,7 +80,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGet<ConfigurableSolidConduitDispenser>().massDispensed = HighPressureConduitRegistration.SolidCap_HP;
 			go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.RailLoaderStorageIntegations(go);
 		}
 	}
 }
