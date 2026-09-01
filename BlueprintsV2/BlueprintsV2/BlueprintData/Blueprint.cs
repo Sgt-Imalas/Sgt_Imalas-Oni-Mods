@@ -1054,6 +1054,9 @@ namespace BlueprintsV2.BlueprintData
 			BuildingConfigurations = [.. newBuildings.BuildingConfigurations];
 			DigLocations = [.. newBuildings.DigLocations];
 			WorldNotes = newBuildings.WorldNotes.ToDictionary(entry => entry.Key, entry => entry.Value.GetClone());
+			PlanningToolMod_PlanDataValues = newBuildings.PlanningToolMod_PlanDataValues.ToDictionary(entry => entry.Key, entry => entry.Value);
+			//dont delete metadata!
+			//Metadata = newBuildings.Metadata.ToDictionary(entry => entry.Key, entry => entry.Value);
 			CacheCost();
 			WriteJson();
 		}
