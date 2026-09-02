@@ -41,53 +41,40 @@ namespace BlueprintsV2.Tools
             if (targetPrefab == null)
                 return false;
 
-            GameObject sourceGO = null;
-            try
+            // 从缓存获取模板（隐藏、非激活）
+            var buildingDef = buildingConfig.BuildingDef;
+            if (buildingDef == null)
+                return false;
+
+            GameObject sourceGO = BlueprintTemplateCache.GetOrCreateTemplate(buildingDef);
+            if (sourceGO == null)
+                return false;
+
+            // 将蓝图数据应用到模板（完全覆盖）
+            ModAPI.API_Methods.ApplyAdditionalBuildingData(sourceGO, buildingConfig, playerId);
+
+            // 执行复制（触发事件）
+            var sourceCopy = sourceGO.GetComponent<CopyBuildingSettings>();
+            bool success = CopyBuildingSettings.ApplyCopy(
+                targetPrefab,
+                sourceGO,
+                sourceGO.GetComponent<KPrefabID>(),
+                sourceCopy
+            );
+
+            // 显示提示
+            if (success && cell != Grid.InvalidCell)
             {
-                // 3. 创建临时源建筑（隐藏，不激活物理）
-                var sourcePrefab = buildingConfig.BuildingDef.BuildingComplete;
-                Vector3 hiddenPos = new Vector3(-10000f, -10000f, 0f);
-                sourceGO = GameUtil.KInstantiate(sourcePrefab, hiddenPos, Grid.SceneLayer.Background, null, 0);
-                sourceGO.SetActive(false);
-                sourceGO.GetComponent<KPrefabID>().AddTag(GameTags.TemplateBuilding);
-
-                // 4. 将蓝图设置应用到临时源建筑
-                ModAPI.API_Methods.ApplyAdditionalBuildingData(sourceGO, buildingConfig, playerId);
-                sourceGO.SetActive(false);
-
-                // 5. 确保源建筑有 CopyBuildingSettings
-                var sourceCopy = sourceGO.GetComponent<CopyBuildingSettings>();
-                if (sourceCopy == null)
-                    sourceCopy = sourceGO.AddComponent<CopyBuildingSettings>();
-
-                // 6. 调用 ApplyCopy 触发复制事件（各组件会监听并生成任务）
-                bool success = CopyBuildingSettings.ApplyCopy(
-                    targetPrefab,
-                    sourceGO,
-                    sourceGO.GetComponent<KPrefabID>(),
-                    sourceCopy
+                PopFXManager.Instance.SpawnFX(
+                    ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE,
+                    "Settings copied, waiting for Duplicant",
+                    null,
+                    offset: Grid.CellToPos(cell),
+                    Config.Instance.FXTime
                 );
-
-                // 7. 显示提示
-                if (success && cell != Grid.InvalidCell)
-                {
-                    PopFXManager.Instance.SpawnFX(
-                        ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE,
-                        "Settings copied, waiting for Duplicant",
-                        null,
-                        offset: Grid.CellToPos(cell),
-                        Config.Instance.FXTime
-                    );
-                }
-
-                return success;
             }
-            finally
-            {
-                // 清理临时对象
-                if (sourceGO != null)
-                    UnityEngine.Object.Destroy(sourceGO);
-            }
+
+            return success;
         }
     }
 }
