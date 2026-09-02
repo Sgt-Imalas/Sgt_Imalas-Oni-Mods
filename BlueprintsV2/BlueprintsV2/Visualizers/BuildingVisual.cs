@@ -592,12 +592,28 @@ namespace BlueprintsV2.Visualizers
 			//}
 			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
 			{
+				// 已完工建筑：使用封装的方法复制设置并生成任务
+				var buildingGO = bc.gameObject;
+				var underConstruction = buildingGO.GetComponent<BuildingUnderConstruction>();
+				var complete = buildingGO.GetComponent<BuildingComplete>();
+				if (complete != null && underConstruction == null)
+				{
+					BlueprintSettingsApplier.ApplySettingsToCompletedBuilding(
+						buildingGO,
+						buildingConfig,
+						_playerId,
+						cellParam
+					);
+					return true;
+				}
+
+				// 正在建造的建筑：直接应用设置
 				ApplyBuildingData(bc.gameObject, false);
 				if (buildingConfig.HasAnyBuildingData)
 				{
 					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED, null, offset: Grid.CellToPos(cellParam), Config.Instance.FXTime);
 				}
-
+				
 				return true;
 			}
 
