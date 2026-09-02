@@ -592,10 +592,29 @@ namespace BlueprintsV2.Visualizers
 			//}
 			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
 			{
-				// 已完工建筑：使用封装的方法复制设置并生成任务
+				// 已完工建筑：使用封装的方法复制设置并生成任务	
+				// Completed Buildings: Use the encapsulation method to replicate settings and generate tasks
 				var buildingGO = bc.gameObject;
 				var underConstruction = buildingGO.GetComponent<BuildingUnderConstruction>();
 				var complete = buildingGO.GetComponent<BuildingComplete>();
+				
+					//1. 网络类建筑直接应用设置（不生成任务）
+					//1. Direct Application Settings for Network-Based Structures (No Tasks Generated)
+				if (buildingGO.GetComponent<IHaveUtilityNetworkMgr>() != null)
+				{
+					// 水管、气体管道、电线、信号线、运输轨道直接应用设置 Direct installation of water pipes, gas lines, electrical wires, signal cables, and transport tracks
+					ApplyBuildingData(buildingGO, false);
+					if (buildingConfig.HasAnyBuildingData)
+					{
+						PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE, 
+							STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED, 
+							null, offset: Grid.CellToPos(cellParam), Config.Instance.FXTime);
+					}
+					return true;
+				}
+				
+					//2. 已完工建筑（非网络类）：生成任务
+					//2. Completed Buildings (Non-Network): Generate Task
 				if (complete != null && underConstruction == null)
 				{
 					BlueprintSettingsApplier.ApplySettingsToCompletedBuilding(
@@ -608,6 +627,7 @@ namespace BlueprintsV2.Visualizers
 				}
 
 				// 正在建造的建筑：直接应用设置
+				// Buildings Under Construction: Direct Application Settings
 				ApplyBuildingData(bc.gameObject, false);
 				if (buildingConfig.HasAnyBuildingData)
 				{
