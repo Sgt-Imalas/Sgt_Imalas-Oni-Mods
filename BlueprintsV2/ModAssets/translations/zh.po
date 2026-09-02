@@ -20,7 +20,7 @@ msgstr "蓝图工具概览同步"
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TOOLTIP"
 msgid "Whether the Blueprint Tool syncs with the current overlay. (configurable in game too)"
-msgstr "是否使蓝图工具与当前概览同步。（游戏内也可配置）"
+msgstr "蓝图工具与当前概览同步。（游戏内也可调）"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL"
@@ -40,7 +40,7 @@ msgstr "默认菜单选择"
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TOOLTIP"
 msgid "The default selections made when an advanced filter menu is opened."
-msgstr "打开高级筛选菜单时的默认选项。"
+msgstr "高级筛选菜单默认选项。"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.FXTIME.TITLE
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.FXTIME.TITLE"
@@ -50,7 +50,7 @@ msgstr "特效时长"
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.FXTIME.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.FXTIME.TOOLTIP"
 msgid "How long FX created by Blueprints remain on the screen. Measured in seconds."
-msgstr "蓝图创建的视觉效果在屏幕上持续的时间。以秒为单位。"
+msgstr "创建蓝图时动画持续的时间。（单位：s）。"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_MATERIAL.TITLE
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_MATERIAL.TITLE"
@@ -60,17 +60,17 @@ msgstr "蓝图需要建造材料充足"
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_MATERIAL.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_MATERIAL.TOOLTIP"
 msgid "If enabled, buildings in blueprints are only placed down if their materials are available."
-msgstr "如果启用，蓝图中的建筑只有在其所需材料足够的情况下才能放置。"
+msgstr "仅在材料充足时才能放置。"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_TECH.TITLE
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_TECH.TITLE"
 msgid "Require blueprint building tech"
-msgstr "蓝图需要建筑解锁科技"
+msgstr "蓝图需要解锁科技"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_TECH.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_TECH.TOOLTIP"
 msgid "If enabled, buildings in blueprints are only placed down if their required tech has been researched."
-msgstr "如果启用，蓝图中的建筑只有在其所需技术已被研究出来的情况下才能放置。"
+msgstr "蓝图中的建筑只有在其科技解锁才能放置。"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TITLE
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TITLE"
@@ -80,12 +80,12 @@ msgstr "快照工具概览同步"
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TOOLTIP"
 msgid "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)"
-msgstr "是否使快照工具与当前概览同步。（游戏内也可配置）"
+msgstr "快照工具与当前概览同步。（游戏内也可配置）"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE"
 msgid "Change Blueprint Anchor"
-msgstr "更改蓝图锚点"
+msgstr "蓝图锚点"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.CREATE_TITLE
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.CREATE_TITLE"
@@ -95,42 +95,42 @@ msgstr "创建蓝图"
 #. BlueprintsV2.STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H"
 msgid "Flip Blueprint Horizontal"
-msgstr "水平翻转蓝图"
+msgstr "水平翻转"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_V
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_V"
 msgid "Flip Blueprint Vertical"
-msgstr "垂直翻转蓝图"
+msgstr "垂直翻转"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT"
 msgid "Rotate Blueprint"
-msgstr "旋转蓝图"
+msgstr "旋转"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.ROTATE_INV_BLUEPRINT
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.ROTATE_INV_BLUEPRINT"
 msgid "Reverse Rotate Blueprint"
-msgstr "反方向旋转蓝图"
+msgstr "反向旋转"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE"
 msgid "Select different Blueprint"
-msgstr "选择其他蓝图"
+msgstr "其他蓝图"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_NEXT
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_NEXT"
 msgid "Next Blueprint"
-msgstr "下一个蓝图"
+msgstr "下一个"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_PREV
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_PREV"
 msgid "Previous Blueprint"
-msgstr "上一个蓝图"
+msgstr "上一个"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.SNAPSHOT_REUSE_TITLE
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SNAPSHOT_REUSE_TITLE"
 msgid "Use last Snapshot"
-msgstr "使用最后的快照"
+msgstr "最后的快照"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.SNAPSHOT_TITLE
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SNAPSHOT_TITLE"
@@ -165,12 +165,12 @@ msgstr "关闭"
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TEXT
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TEXT"
 msgid "Import new blueprint from clipboard"
-msgstr "从剪贴板导入新蓝图"
+msgstr "剪贴板导入新蓝图"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TOOLTIP"
 msgid "Import a bluprint string you have stored in your clipboard"
-msgstr "从剪贴板导入新蓝图字符串"
+msgstr "剪贴板导入新蓝图字符串"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_DELETE
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_DELETE"
@@ -194,23 +194,23 @@ msgid ""
 "Leaving the new folder name empty will move the blueprint to the main folder."
 msgstr ""
 "将蓝图移至其他文件夹。\n"
-"如果目标文件夹不存在则会新建。\n"
-"留空文件夹名称会将蓝图移至主文件夹。"
+"目标文件夹不存在则新建。\n"
+"空文件夹名将蓝图移至主文件夹。"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_RENAME
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_RENAME"
 msgid "Rename Blueprint"
-msgstr "重命名蓝图"
+msgstr "重命名"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_RETAKE
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_RETAKE"
 msgid "Re-Take the blueprint, replacing its content with a new selection of buildings."
-msgstr "重新截图蓝图，将蓝图内容替换为新选择的建筑。"
+msgstr "重新截取蓝图，替换为新选择的建筑。"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.FOLDERUP.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.FOLDERUP.LABEL"
 msgid "Go to parent folder"
-msgstr "返回上级文件夹"
+msgstr "上级文件夹"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL"
@@ -251,7 +251,7 @@ msgstr ""
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTFOUND
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTFOUND"
 msgid "This material has not been found in the current game!"
-msgstr "当前游戏中未找到该材料！"
+msgstr "未找到该材料！"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.NOREPLACEELEMENTS.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.NOREPLACEELEMENTS.LABEL"
@@ -266,7 +266,7 @@ msgstr "材料类型："
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.CREATEMODIFIED.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.CREATEMODIFIED.TOOLTIP"
 msgid "Create a copy of the current blueprint with all local material replacements applied to it."
-msgstr "创建应用了所有本地材料替换的蓝图副本。"
+msgstr "创建本地材料替换的蓝图副本。"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.PLACEBPBTN.TEXT
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.PLACEBPBTN.TEXT"
@@ -291,7 +291,7 @@ msgstr "高级材料覆盖："
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.PERBUILDINGOVERRIDES.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.PERBUILDINGOVERRIDES.TOOLTIP"
 msgid "Enabling this allows selecting replacement materials per building type."
-msgstr "启用后可针对每种建筑类型选择替换材料。"
+msgstr "对建筑类型选择替换材料。"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.NOELEMENTSINBLUEPRINT.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.NOELEMENTSINBLUEPRINT.LABEL"
@@ -321,12 +321,12 @@ msgstr "否"
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.WARNING
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.WARNING"
 msgid "Some materials in the blueprint require more mass than available on the current asteroid!"
-msgstr "蓝图中部分材料所需质量超过当前小行星可用量！"
+msgstr "蓝图部分材料在小行星可用量不够！"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.WARNINGSEVERE
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.WARNINGSEVERE"
 msgid "Some materials in the blueprint are not unlocked yet!"
-msgstr "蓝图中部分材料尚未解锁！"
+msgstr "蓝图部分材料尚未解锁！"
 
 #. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS
 msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS"
@@ -336,12 +336,12 @@ msgstr "可以使用存储的蓝图设定"
 #. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_INVALIDPLACEMENT
 msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_INVALIDPLACEMENT"
 msgid "Invalid Building Placement"
-msgstr "无效的建筑地点"
+msgstr "建造地点无效"
 
 #. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOMATERIALS
 msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOMATERIALS"
 msgid "Missing Construction Materials"
-msgstr "缺少建筑材料"
+msgstr "缺少材料"
 
 #. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOTALLOWEDINWORLD
 msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOTALLOWEDINWORLD"
@@ -361,12 +361,12 @@ msgstr "可用的建筑地点"
 #. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_EXPORTED.TEXT
 msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_EXPORTED.TEXT"
 msgid "The blueprint has been added to your clipboard."
-msgstr "蓝图已被导出到剪贴板。"
+msgstr "蓝图已导出到剪贴板。"
 
 #. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_EXPORTED.TITLE
 msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_EXPORTED.TITLE"
 msgid "Copied to Clipboard!"
-msgstr "复制到剪贴板！"
+msgstr "已复制到剪贴板！"
 
 #. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_FAIL.TEXT
 msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_FAIL.TEXT"
@@ -426,7 +426,7 @@ msgstr "预设建筑设置"
 #. BlueprintsV2.STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TOOLTIP"
 msgid "Use blueprint data transfer to preconfigure this building"
-msgstr "使用蓝图的数据来预设此建筑"
+msgstr "使用预设数据设置建筑"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.ACTION_BACK
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.ACTION_BACK"
@@ -491,12 +491,12 @@ msgstr "自动同步"
 #. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.NAME
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.NAME"
 msgid "Air Pockets"
-msgstr "气密室"
+msgstr "空腔(镂空)"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.TOOLTIP"
 msgid "Dig commands on tiles that are not solid"
-msgstr "对非固体砖块的挖掘指令"
+msgstr "放置蓝图时自动挖开堵塞区域"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.NONE
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.NONE"
@@ -679,7 +679,7 @@ msgstr "使用蓝图工具"
 #. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSTOREDSETTINGS.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSTOREDSETTINGS.LABEL"
 msgid "Apply stored building settings on place:"
-msgstr "在此处使用已储存的建筑设置:"
+msgstr "使用已储存的建筑设置:"
 
 #. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FLIPACTIONS.FLIPH.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FLIPACTIONS.FLIPH.LABEL"
@@ -704,7 +704,7 @@ msgstr "当前快照: {0}/{1}"
 #. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCEREBUILD.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCEREBUILD.LABEL"
 msgid "Rebuild existing with mismatched material:"
-msgstr "重建已有但材料不匹配的建筑:"
+msgstr "重建已有材料不匹配的建筑:"
 
 #. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALOVERRIDES.BUTTON.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALOVERRIDES.BUTTON.LABEL"
@@ -910,7 +910,7 @@ msgstr "建筑列表："
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.BUILDINGLIST.SCROLLAREA.CONTENT.NOBUILDINGSINBLUEPRINT.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.BUILDINGLIST.SCROLLAREA.CONTENT.NOBUILDINGSINBLUEPRINT.LABEL"
 msgid "Blueprint does not contain any buildings"
-msgstr "蓝图中不包含任何建筑"
+msgstr "蓝图中没有何建筑"
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.BUTTONS.APPLYBUTTON.TEXT
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.BUTTONS.APPLYBUTTON.TEXT"
@@ -940,7 +940,7 @@ msgstr "建筑数量："
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS.DIGCOUNT.DESCRIPTOR.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS.DIGCOUNT.DESCRIPTOR.LABEL"
 msgid "Number of non-solid tiles:"
-msgstr "非固体方格数量："
+msgstr "空腔(镂空)数量："
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS.DIMENSION.DESCRIPTOR.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS.DIMENSION.DESCRIPTOR.LABEL"
