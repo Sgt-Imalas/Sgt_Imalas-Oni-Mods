@@ -154,20 +154,26 @@ namespace BlueprintsV2.Tools
 				ModAssets.BlueprintFileHandling.HandleBlueprintLoading(blueprint.FilePath);
 
 				SpeedControlScreen.Instance.Unpause(false);
-
+				
 				CameraController.Instance.DisableUserCameraControl = false;
 				PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CREATED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
 				UnlockCam();
+				// Restore IME (optional)
+				Input.imeCompositionMode = IMECompositionMode.Auto;
 			}
 			void OnCancelDelegate()
 			{
 				SpeedControlScreen.Instance.Unpause(false);
-
+				
 				PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CANCELLED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
 				UnlockCam();
+				// Restore IME (optional)
+				Input.imeCompositionMode = IMECompositionMode.Auto;
 			}
-					
+
 			SpeedControlScreen.Instance.Pause(false);
+			// Enable IME
+			Input.imeCompositionMode = IMECompositionMode.On;
 			FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, null, true, OnConfirmDelegate, OnCancelDelegate);
 
 			blueprintNameDialog.Activate();

@@ -50,5 +50,9 @@
 			<HintPath>..\TwitchLib\ONI_Together_API.dll</HintPath>
 			<!--<HintPath>C:\Users\Admin\source\repos\Oxygen_Not_Included_Multiplayer\ONI_Together_API\bin\Debug\net472\ONI_Together_API.dll</HintPath>-->
 		</Reference>
+		<Reference Include="UnityEngine.InputLegacyModule">
+			<HintPath>$(GameLibsFolder)\UnityEngine.InputLegacyModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 	</ItemGroup>
 </Project>
