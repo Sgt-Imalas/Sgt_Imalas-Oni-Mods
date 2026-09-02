@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<DoNotBuildAsMod>true</DoNotBuildAsMod>
+	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Magick.NET.Core" Version="14.16.0" />
 		<PackageReference Include="Magick.NET-Q16-x64" Version="14.16.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="texconv.exe">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="texconv.exe">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 	<PropertyGroup>
 		<PlatformTarget>x64</PlatformTarget>

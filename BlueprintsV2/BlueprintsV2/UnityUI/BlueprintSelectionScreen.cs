@@ -327,6 +327,8 @@ namespace BlueprintsV2.UnityUI
 			StartOverriding.OnClick += OnStartOverriding;
 
 			init = true;
+
+			InitialHookupRefresh();
 		}
 		void ChangeSortBy(OrderBy orderBy)
 		{
@@ -645,7 +647,7 @@ namespace BlueprintsV2.UnityUI
 			var targetFolder = ModAssets.SelectedFolder;
 			bool root = targetFolder == null;
 			FolderUpBtn.SetInteractable(!root);
-			SgtLogger.l("rebuilding folders");
+			//SgtLogger.l("rebuilding folders");
 			if (root)
 			{
 				targetFolder = ModAssets.BlueprintFileHandling.RootFolder;
@@ -660,8 +662,8 @@ namespace BlueprintsV2.UnityUI
 
 				//SgtLogger.l(ModAssets.BlueprintFileHandling.BlueprintFolders.Count + "", "folder count");
 			}
-			else
-				SgtLogger.l("not root");
+			//else
+			//	SgtLogger.l("not root");
 
 			//SgtLogger.l(targetFolder.BlueprintCount + "", "count");
 			var bps = SortBlueprintsBy switch
@@ -793,7 +795,8 @@ namespace BlueprintsV2.UnityUI
 				if (cloneCreation)
 					ModAssets.BlueprintFileHandling.HandleBlueprintLoading(blueprint.FilePath);
 			};
-			DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.RENAMEBLUEPRINT_TITLE, blueprint.FriendlyName, null, false, RenameAction, () => DialogueOpen(false), ModAssets.ParentScreen, true, false);
+			BlueprintRenamingScreen.OpenNamingDialogue(STRINGS.UI.DIALOGUE.RENAMEBLUEPRINT_TITLE, RenameAction, () => DialogueOpen(false), blueprint.FriendlyName);
+			//DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.RENAMEBLUEPRINT_TITLE, blueprint.FriendlyName, null, false, RenameAction, () => DialogueOpen(false), ModAssets.ParentScreen, true, false);
 		}
 
 		void OnPlaceBlueprint()
@@ -1070,6 +1073,9 @@ namespace BlueprintsV2.UnityUI
 				return false;
 			return Instance.TargetBlueprint != null;
 		}
+
+
+		public static void DestroyInstance() { Instance = null; }
 	}
 }
 

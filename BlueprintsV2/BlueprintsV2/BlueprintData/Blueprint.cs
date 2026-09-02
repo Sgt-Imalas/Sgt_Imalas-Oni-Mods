@@ -868,7 +868,12 @@ namespace BlueprintsV2.BlueprintData
 		{
 			if (BlueprintFileHandling.TryGetFolder(this, out var folder))
 			{
+				SgtLogger.l($"Removing {FriendlyName} from folder {Folder}");
 				folder.RemoveBlueprint(this);
+			}
+			else
+			{
+				SgtLogger.l($"Could not remove blueprint {FriendlyName} from folder {Folder}");
 			}
 		}
 

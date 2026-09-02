@@ -487,7 +487,7 @@ namespace BlueprintsV2.Visualizers
 			return false;
 		}
 
-		public virtual bool SameBuildingAlreadyInPlace(int cellParam, out BuildingComplete bc, bool excludeConduits)
+		public virtual bool SameBuildingAlreadyFinishedInPlace(int cellParam, out BuildingComplete bc, bool excludeConduits)
 		{
 			bc = null;
 			var def = buildingConfig.BuildingDef;
@@ -507,7 +507,7 @@ namespace BlueprintsV2.Visualizers
 		}
 		public virtual bool CanApplyConduitSettings(int cellParam)
 		{
-			if (!SameBuildingAlreadyInPlace(cellParam, out var otherConduit, false))
+			if (!SameBuildingAlreadyFinishedInPlace(cellParam, out var otherConduit, false))
 				return false;
 			if (otherConduit.TryGetComponent<IHaveUtilityNetworkMgr>(out var mng) && buildingConfig.GetConduitFlags(out var ownFlags))
 			{
@@ -524,7 +524,7 @@ namespace BlueprintsV2.Visualizers
 			if (!allowed)
 				return false;
 
-			if (SameBuildingAlreadyInPlace(cellParam, out var bc, false))
+			if (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, false))
 			{
 				if (bc.TryGetComponent<PrimaryElement>(out var e) && e.Element.tag == GetConstructionElements()[0])
 					return false;
@@ -536,7 +536,7 @@ namespace BlueprintsV2.Visualizers
 		{
 			reconstructable = null;
 			var def = buildingConfig.BuildingDef;
-			if (SameBuildingAlreadyInPlace(cellParam, out var bc, false))
+			if (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, false))
 			{
 				if (bc.Def == def
 					&& bc.TryGetComponent<Reconstructable>(out reconstructable)
@@ -590,8 +590,16 @@ namespace BlueprintsV2.Visualizers
 			//{
 			//	return TryReconstructExistingBuilding(cellParam);
 			//}
-			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
+			else if (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
 			{
+				switch (Config.Instance.DataApplicationMode)
+				{
+					case DataApplicationMode.None:
+						return false;
+
+				}
+
+
 				ApplyBuildingData(bc.gameObject, false);
 				if (buildingConfig.HasAnyBuildingData)
 				{
@@ -798,7 +806,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
 			}
-			else if (SameBuildingAlreadyInPlace(cellParam, out _, false))
+			else if (SameBuildingAlreadyFinishedInPlace(cellParam, out _, false))
 			{
 				if (buildingConfig.HasAnyBuildingData || CanApplyConduitSettings(cellParam))
 				{

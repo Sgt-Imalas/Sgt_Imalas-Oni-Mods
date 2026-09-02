@@ -146,7 +146,7 @@ namespace BlueprintsV2.Tools
 			PlayerController.Instance.ActivateTool(UseBlueprintTool.Instance);
 		}
 
-		void FinalizeBlueprintCreation(Blueprint blueprint)
+		void FinalizeBlueprintCreation(Blueprint blueprint)			
 		{
 			void OnConfirmDelegate(string blueprintName)
 			{
@@ -168,9 +168,12 @@ namespace BlueprintsV2.Tools
 			}
 					
 			SpeedControlScreen.Instance.Pause(false);
-			FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, null, true, OnConfirmDelegate, OnCancelDelegate);
 
-			blueprintNameDialog.Activate();
+			BlueprintRenamingScreen.OpenNamingDialogue(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, OnConfirmDelegate, OnCancelDelegate);
+
+			//FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, null, false, OnConfirmDelegate, OnCancelDelegate, ModAssets.ParentScreen);
+			//blueprintNameDialog.Activate();
+			//blueprintNameDialog.SetTextAndSelect("");
 		}
 
 		public override void OnSyncChanged(bool synced)

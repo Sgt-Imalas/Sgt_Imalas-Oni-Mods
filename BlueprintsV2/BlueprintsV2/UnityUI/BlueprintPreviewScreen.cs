@@ -259,8 +259,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		void RegisterImageToLayer(BuildingConfig building, Vis_SpritePreview spriteVis) => RegisterImageToLayer(building.BuildingDef.ObjectLayer, spriteVis);
 		void RegisterImageToLayer(ObjectLayer layer, Vis_SpritePreview spriteVis)
 		{
-			if (spriteVis is Vis_TilePreview tilePreview)
-				SgtLogger.l("registering tile preview to " + layer);
+			//if (spriteVis is Vis_TilePreview tilePreview)
+			//	SgtLogger.l("registering tile preview to " + layer);
 			if (ModAssets.TryGetFilterLayerId(layer, out var layerId))
 			{
 				FilterLayerImages[layerId].Add(spriteVis);

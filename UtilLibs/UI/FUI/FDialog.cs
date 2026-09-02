@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,18 @@ namespace UtilLibs.UIcmp //Source: Aki
 		{
 			activateOnSpawn = true;
 			gameObject.SetActive(true);
+		}
+
+		public void InitialHookupRefresh()
+		{
+			Global.Instance.StartCoroutine(FirstTimeRefresh(gameObject));
+		}
+		static IEnumerator FirstTimeRefresh(GameObject instance)
+		{
+			yield return null;
+			instance.SetActive(false);
+			//yield return null;
+			instance.SetActive(true);
 		}
 
 

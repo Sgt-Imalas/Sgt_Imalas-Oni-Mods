@@ -1,6 +1,7 @@
 ﻿using BlueprintsV2.BlueprintsV2.Tools;
 using BlueprintsV2.BlueprintsV2.UnityUI;
 using BlueprintsV2.Tools;
+using BlueprintsV2.UnityUI;
 using HarmonyLib;
 
 namespace BlueprintsV2.Patches
@@ -22,7 +23,9 @@ namespace BlueprintsV2.Patches
 				ModAssets.BLUEPRINTS_AUTOFILE_WATCHER.Dispose();
 				CurrentBlueprintStateScreen.DestroyInstance();
 				NoteToolScreen.DestroyInstance();
-				SpriteSelectorScreen.DestroyInstance();				
+				SpriteSelectorScreen.DestroyInstance();		
+				BlueprintSelectionScreen.DestroyInstance();
+				BlueprintRenamingScreen.DestroyInstance();
 			}
 		}
 	}

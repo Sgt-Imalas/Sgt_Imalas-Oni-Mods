@@ -130,7 +130,9 @@ namespace BlueprintsV2.UnityUI.Components
 				if (OnMoved != null)
 					OnMoved(result);
 			};
-			DialogUtil.CreateTextInputDialog(MOVETOFOLDER_TITLE, blueprint.Folder, null, true, ChangeFolderAction, () => SetDialogueState(false), ModAssets.ParentScreen, true, false);
+			BlueprintRenamingScreen.OpenNamingDialogue(STRINGS.UI.DIALOGUE.MOVETOFOLDER_TITLE, ChangeFolderAction, () => SetDialogueState(false), blueprint.Folder, true);
+
+			//DialogUtil.CreateTextInputDialog(MOVETOFOLDER_TITLE, blueprint.Folder, null, true, ChangeFolderAction, () => SetDialogueState(false), ModAssets.ParentScreen, true, false);
 		}
 
 		void SetDialogueState(bool state)
@@ -153,7 +155,8 @@ namespace BlueprintsV2.UnityUI.Components
 				if (OnRenamed != null)
 					OnRenamed(result);
 			};
-			DialogUtil.CreateTextInputDialog(RENAMEBLUEPRINT_TITLE, blueprint.FriendlyName, null, false, RenameAction, () => SetDialogueState(false), ModAssets.ParentScreen, true, false);
+			BlueprintRenamingScreen.OpenNamingDialogue(STRINGS.UI.DIALOGUE.RENAMEBLUEPRINT_TITLE, RenameAction, () => SetDialogueState(false), blueprint.FriendlyName);
+			//DialogUtil.CreateTextInputDialog(RENAMEBLUEPRINT_TITLE, blueprint.FriendlyName, null, false, RenameAction, () => SetDialogueState(false), ModAssets.ParentScreen, true, false);
 		}
 		void ConfirmDelete()
 		{

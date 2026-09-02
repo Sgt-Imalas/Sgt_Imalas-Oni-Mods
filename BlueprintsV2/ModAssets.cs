@@ -69,6 +69,7 @@ namespace BlueprintsV2
 		public static GameObject NoteToolStateScreenGO;
 		public static GameObject IconSelectorGO;
 		public static GameObject TileReplaceVisGO;
+		public static GameObject RenamingScreenGO;
 		public static void LoadAssets()
 		{
 			var bundle = AssetUtils.LoadAssetBundle("blueprints_ui", platformSpecific: true);
@@ -76,6 +77,7 @@ namespace BlueprintsV2
 			BlueprintInfoStateGO = bundle.LoadAsset<GameObject>("Assets/UIs/UseBlueprintStateContainer.prefab");
 			NoteToolStateScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/NoteToolStateContainer.prefab");
 			IconSelectorGO = bundle.LoadAsset<GameObject>("Assets/UIs/IconSelector.prefab");
+			RenamingScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/BlueprintNameDialogue.prefab");
 			//UIUtils.ListAllChildren(Assets.transform);
 			BlueprintInfoStateGO.AddOrGet<CurrentBlueprintStateScreen>();
 			NoteToolStateScreenGO.AddOrGet<NoteToolScreen>();
@@ -86,6 +88,7 @@ namespace BlueprintsV2
 			TMPConverter.ReplaceAllText(BlueprintInfoStateGO);
 			TMPConverter.ReplaceAllText(NoteToolStateScreenGO);
 			TMPConverter.ReplaceAllText(IconSelectorGO);
+			TMPConverter.ReplaceAllText(RenamingScreenGO);
 		}
 		public static bool HasPrevFolder()
 		{
