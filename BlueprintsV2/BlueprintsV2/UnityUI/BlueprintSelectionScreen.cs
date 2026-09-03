@@ -440,7 +440,11 @@ namespace BlueprintsV2.UnityUI
 
 		public override void OnKeyDown(KButtonEvent e)
 		{
-			if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
+			e.TryConsume(Action.MouseRight);
+
+			if (e.TryConsume(Action.Escape)
+				//|| e.TryConsume(Action.MouseRight)
+				)
 			{
 				SgtLogger.l("BlueprintSelectionScreen consume esc.");
 				if (!DialogueCurrentlyOpen)
@@ -620,7 +624,7 @@ namespace BlueprintsV2.UnityUI
 			var buildingIds = TargetBlueprint.GetBuildingCounts().OrderByDescending(b => b.Value);
 			foreach (var buildingWithCount in buildingIds)
 			{
-				var uiEntry = AddOrGetBuildingInfoEntry(buildingWithCount.Key);
+				BuildingInfoEntry uiEntry = AddOrGetBuildingInfoEntry(buildingWithCount.Key);
 				uiEntry.transform.SetAsLastSibling();
 				uiEntry.gameObject.SetActive(true);
 				uiEntry.SetBuildingCount(buildingWithCount.Value);
@@ -699,6 +703,22 @@ namespace BlueprintsV2.UnityUI
 		//		CameraController.Instance.DisableUserCameraControl = false;
 		//	});
 		//}
+		void TempDisableBuildingToggle(int buildingIndex, bool enabled)
+		{
+			TargetBlueprint?.TempDisableToggleBuilding(buildingIndex, enabled);
+			UpdateBuildingButtons();
+			Preview.RefreshVisualizerVisibility();
+		}
+		void TempDisableBuildingsToggle(string id, bool enabled)
+		{
+			TargetBlueprint?.TempDisableToggleAllBuildings(id, enabled);
+			RefreshPreview();
+		}
+		public void RefreshPreview()
+		{
+			UpdateBuildingButtons();
+			Preview.RefreshVisualizerVisibility();
+		}
 
 		private void OnAdvancedReplacementToggleChanged(bool enabled)
 		{
@@ -750,6 +770,9 @@ namespace BlueprintsV2.UnityUI
 			{
 				BuildingInfoEntry bpEntry = Util.KInstantiateUI<BuildingInfoEntry>(BuildingInfoEntryPrefab.gameObject, BuildingInfoContainer);
 				bpEntry.SetBuilding(buildingId);
+				bpEntry.DisableAllBuildings = () => TempDisableBuildingsToggle(buildingId, false);
+				bpEntry.EnableAllBuildings = () => TempDisableBuildingsToggle(buildingId, true);
+
 				BuildingInfoEntries[buildingId] = bpEntry;
 			}
 			return BuildingInfoEntries[buildingId];
@@ -989,19 +1012,19 @@ namespace BlueprintsV2.UnityUI
 				entry.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, entry.Name));
 			}
 		}
-		public void ApplyBuildingsFilter(string filterstring = "")
-		{
-			if (filterstring.Length == 0)
-			{
-				UpdateBuildingButtons();
-				return;
-			}
+		//public void ApplyBuildingsFilter(string filterstring = "")
+		//{
+		//	if (filterstring.Length == 0)
+		//	{
+		//		UpdateBuildingButtons();
+		//		return;
+		//	}
 
-			foreach (var go in BuildingInfoEntries)
-			{
-				go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Value.BuildingName));
-			}
-		}
+		//	foreach (var go in BuildingInfoEntries)
+		//	{
+		//		go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Value.BuildingName));
+		//	}
+		//}
 
 		public void ApplyBlueprintFilter(string filterstring = "")
 		{

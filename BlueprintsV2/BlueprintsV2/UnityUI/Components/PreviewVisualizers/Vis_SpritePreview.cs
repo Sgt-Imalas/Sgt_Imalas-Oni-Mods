@@ -41,8 +41,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 			_desaturated.a = 0.50f;
 		}
 
+		protected virtual Color GetDefaultColor()
+		{
+			return _color;
+		}
 
-		internal void RefreshOpacity(bool layerActive, bool useLowOpacity, bool highLighted)
+		internal virtual void RefreshOpacity(bool layerActive, bool useLowOpacity, bool highLighted)
 		{
 			bool disabledButHighlighted = !layerActive && highLighted;
 			if (disabledButHighlighted)
@@ -52,7 +56,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 			else if (useLowOpacity)
 				SpriteRenderer.color = _desaturated;
 			else
-				SpriteRenderer.color = _color;
+				SpriteRenderer.color = GetDefaultColor();
 		}
 	}
 }

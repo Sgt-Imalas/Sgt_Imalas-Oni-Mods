@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.UnityUI;
 using Rendering;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UIcmp;
 using static Rendering.BlockTileRenderer.RenderInfo;
 using static STRINGS.DUPLICANTS.ATTRIBUTES;
 
@@ -23,8 +25,39 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		BuildingConfig _config;
 		RectMask2D _mask;
 
+		protected FButton _disableToggle;
+		protected Image _disableToggleHover;
+		protected RectTransform _disableToggleSize;
+
+		protected Color _tempDisabled = UIUtils.rgba(2, 198, 246, 0.75);
+
+		protected BuildingConfig _building;
+
+		protected void InitClickable()
+		{
+			var toggle = transform.Find("ClickableOverlay");
+			_disableToggleSize = toggle.rectTransform();
+			_disableToggleHover = toggle.GetComponent<Image>();
+			_disableToggle = transform.gameObject.AddOrGet<FButton>();
+
+			_disableToggle.OnClick += () => ToggleBuildingDisabled(true);
+			_disableToggle.OnRightClick += () => ToggleBuildingDisabled(false);
+		}
+		void ToggleBuildingDisabled(bool on)
+		{
+			_building?.SkipPlacement = !on;
+			BlueprintSelectionScreen.Instance?.RefreshPreview();
+		}
+
+		protected override Color GetDefaultColor()
+		{
+			return _config .SkipPlacement ? _tempDisabled : base.GetDefaultColor();
+		}
+
 		internal Vis_TilePreview Init(BuildingConfig building)
 		{
+			_building = building;
+			InitClickable();
 			SpriteRenderer = transform.Find("TileMask/TileVis").gameObject.GetComponent<Image>();
 			_mask = transform.Find("TileMask").GetComponent<RectMask2D>();
 			SpriteRenderer.gameObject.SetActive(true);

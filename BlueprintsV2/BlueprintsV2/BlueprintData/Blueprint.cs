@@ -925,12 +925,35 @@ namespace BlueprintsV2.BlueprintData
 					continue;
 
 				if (!dict.ContainsKey(id))
-					dict[id] = 1;
-				else
-					dict[id]++;
+					dict[id] = 0;
+
+				if (buildingConfig.SkipPlacement)
+					continue;
+				dict[id]++;
 			}
 
 			return dict;
+		}
+		public void TempDisableToggleAllBuildings(string buildingId, bool enabled)
+		{
+			foreach(var buildingConfig in BuildingConfigurations)
+			{
+				if (buildingConfig.BuildingDef?.PrefabID == buildingId)
+				{
+					buildingConfig.SkipPlacement = !enabled;
+				}
+			}
+		}
+		public void TempDisableToggleBuilding(int index, bool on)
+		{
+			if(index >= 0 && index < BuildingConfigurations.Count)
+			{
+				BuildingConfigurations[index].SkipPlacement = on;
+			}
+			else
+			{
+				SgtLogger.warning("TempDisableToggleBuilding index out of range: " + index);
+			}
 		}
 
 

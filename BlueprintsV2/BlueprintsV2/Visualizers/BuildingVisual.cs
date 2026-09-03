@@ -494,7 +494,7 @@ namespace BlueprintsV2.Visualizers
 			var existingBuilding = Grid.Objects[cellParam, (int)def.ObjectLayer];
 			if (existingBuilding != null && existingBuilding.TryGetComponent<BuildingComplete>(out bc))
 			{
-				//is same def AND the building cell is alligned with the visualizer cell (aka the building is in the exact same spot as the vis.)
+				//is same def AND the building cell is aligned with the visualizer cell (aka the building is in the exact same spot as the vis.)
 				if (bc.Def == def && Grid.PosToCell(existingBuilding) == cellParam)
 				{
 					if (excludeConduits)

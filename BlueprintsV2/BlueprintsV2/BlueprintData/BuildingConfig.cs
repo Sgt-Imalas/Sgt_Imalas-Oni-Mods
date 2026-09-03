@@ -2,6 +2,7 @@
 using BlueprintsV2.BlueprintsV2.BlueprintData;
 using BlueprintsV2.ModAPI;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,8 @@ namespace BlueprintsV2.BlueprintData
 			data = null;
 			return AdditionalBuildingData != null && AdditionalBuildingData.TryGetValue(id, out data);
 		}
+
+		public bool SkipPlacement = false;
 
 		//old binary method, not compatible with new data format
 		///// <summary>
@@ -213,6 +216,11 @@ namespace BlueprintsV2.BlueprintData
 				);
 				jsonWriter.WriteEndArray();
 			}
+			if (SkipPlacement == true)
+			{
+				jsonWriter.WritePropertyName("tempDisabled");
+				jsonWriter.WriteValue(SkipPlacement);
+			}
 
 			jsonWriter.WriteEndObject();
 		}
@@ -273,9 +281,9 @@ namespace BlueprintsV2.BlueprintData
 				JToken xToken = offsetToken.SelectToken("x");
 				JToken yToken = offsetToken.SelectToken("y");
 				int x = 0, y = 0;
-				if(xToken != null && xToken.Type == JTokenType.Integer)
+				if (xToken != null && xToken.Type == JTokenType.Integer)
 					x = xToken.Value<int>();
-				if(yToken != null && yToken.Type == JTokenType.Integer)
+				if (yToken != null && yToken.Type == JTokenType.Integer)
 					y = yToken.Value<int>();
 
 				Offset = new(x, y);
@@ -338,6 +346,11 @@ namespace BlueprintsV2.BlueprintData
 					}
 				}
 			}
+			JToken temporarilyDisabledToken = rootObject.SelectToken("tempDisabled");
+			if (temporarilyDisabledToken != null && temporarilyDisabledToken.Type == JTokenType.Boolean)
+			{
+				SkipPlacement = temporarilyDisabledToken.Value<bool>();
+			}
 		}
 
 		void SanitizeSelectedTags()
@@ -379,7 +392,7 @@ namespace BlueprintsV2.BlueprintData
 						SelectedElements[i] = mat;
 					else
 						SelectedElements.Add(mat);
-					
+
 				}
 			}
 		}

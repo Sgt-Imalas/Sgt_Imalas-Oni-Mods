@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UIcmp;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 {
@@ -15,8 +16,23 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 		public ToolTip BuildingNameText;
 		public Image BuildingIcon;
 		public LocText BuildingCount;
+		Image BGImage;
+		FButton Btn;
+		static Color allDisabled = UIUtils.rgb(154, 65, 65);
+		static Color regular = UIUtils.rgb(79, 79, 79);
 
-		public void SetBuildingCount(int count) => BuildingCount.SetText("x"+count.ToString());
+		public System.Action EnableAllBuildings = null, DisableAllBuildings = null;
+
+		public void SetBuildingCount(int count)
+		{
+			BuildingCount.SetText("x" + count.ToString());
+			SetBGImage(count <= 0);
+		}
+
+		void SetBGImage(bool disabled)
+		{
+			BGImage?.color = disabled ? allDisabled : regular;
+		}
 
 		public void SetBuilding(string id)
 		{
@@ -57,7 +73,22 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 			BuildingCount = transform.Find("Amount").gameObject.GetComponent<LocText>();
 			InitLabelMat();
 			BuildingIcon = transform.Find("BuildingIcon").gameObject.GetComponent<Image>();
+			BGImage = transform.Find("Background").gameObject.GetComponent<Image>();
+			Btn = gameObject.AddOrGet<FButton>();
+
+			Btn.OnClick += EnableBuildings;
+			Btn.OnRightClick += DisableBuildings;
 		}
+
+		public void EnableBuildings()
+		{
+			EnableAllBuildings?.Invoke();
+		}
+		public void DisableBuildings()
+		{ 
+			DisableAllBuildings?.Invoke();
+		}
+
 		public override void OnSpawn()
 		{
 			base.OnSpawn();

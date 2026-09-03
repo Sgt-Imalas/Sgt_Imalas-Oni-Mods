@@ -1,11 +1,14 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers;
+using BlueprintsV2.UnityUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS;
 using static Grid.Restriction;
 
@@ -17,13 +20,39 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		protected KBatchedAnimController kbac;
 		protected string defaultAnim;
 
+		protected FButton _disableToggle;
+		protected Image _disableToggleHover;
+		protected RectTransform _disableToggleSize;
+
 		private Color _color = Color.white;
 		private Color _desaturated = new(1, 1, 1, 0.25f);
 		private Color _disabledHighlighted = new(1, 1, 1, 0.50f);
+		protected Color _tempDisabled = UIUtils.rgba(2, 198, 246, 0.75);
+
+		protected BuildingConfig _building;
+
+		protected void InitClickable()
+		{
+			var toggle = transform.Find("ClickableOverlay");
+			_disableToggleSize = toggle.rectTransform();
+			_disableToggleHover = toggle.GetComponent<Image>();
+			_disableToggle = transform.gameObject.AddOrGet<FButton>();
+
+			_disableToggle.OnClick += () => ToggleBuildingDisabled(true);
+			_disableToggle.OnRightClick += () => ToggleBuildingDisabled(false);
+		}
+		void ToggleBuildingDisabled(bool on)
+		{
+			_building?.SkipPlacement = !on;
+			BlueprintSelectionScreen.Instance?.RefreshPreview();
+		}
+
 		internal virtual Vis_BuildingPreview Init(BuildingConfig building)
 		{
+			_building = building;
+			InitClickable();
 			_rectTransform = GetComponent<RectTransform>();
-			var def = building.BuildingDef;
+
 			kbac = gameObject.AddComponent<KBatchedAnimController>();
 			var renderer = gameObject.AddComponent<KBatchedAnimCanvasRenderer>();
 			kbac.materialType = KAnimBatchGroup.MaterialType.UI;
@@ -107,6 +136,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 					transform.localPosition += new Vector3(50, 50, 0);
 					break;
 			}
+
+			_disableToggleSize.sizeDelta = new(width * 100f, heigh * 100f);
+			_disableToggleSize.localPosition = Vector3.zero;
 		}
 
 		void CorrectDefaultAnim()
@@ -136,10 +168,14 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 				kbac.TintColour = _disabledHighlighted;
 			else if (useLowOpacity)
 				kbac.TintColour = _desaturated;
+			else if (_building.SkipPlacement)
+				kbac.TintColour = _tempDisabled;
 			else
 				kbac.TintColour = Color.white;
 
 			kbac.SetVisiblity(layerActive || highLighted);
+
+			_disableToggleHover.raycastTarget = layerActive;
 		}
 	}
 }

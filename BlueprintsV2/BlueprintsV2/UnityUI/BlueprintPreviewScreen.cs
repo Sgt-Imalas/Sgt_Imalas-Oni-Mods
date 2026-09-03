@@ -127,7 +127,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			FilterDropDown.InitializeDropDown();
 		}
 
-		void RefreshVisualizerVisibility()
+		internal void RefreshVisualizerVisibility()
 		{
 			bool lowOpacity = _hoveredFilter != null;
 
@@ -212,6 +212,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			GeneratePreview_Buildings(blueprint, centerOffset);
 			GeneratePreview_Notes(blueprint, centerOffset);
 			GeneratePreview_Shapes(blueprint, centerOffset);
+
+			RefreshVisualizerVisibility();
 
 		}
 		void GeneratePreview_Buildings(Blueprint blueprint, Vector3 centerOffset)
