@@ -3,6 +3,7 @@ using BlueprintsV2.BlueprintsV2.UnityUI;
 using BlueprintsV2.BlueprintsV2.UnityUI.Components;
 using BlueprintsV2.Tools;
 using BlueprintsV2.UnityUI.Components;
+using Database;
 using rail;
 using STRINGS;
 using System.Collections;
@@ -11,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UI.FUI;
@@ -26,6 +28,50 @@ namespace BlueprintsV2.UnityUI
 {
 	internal class BlueprintRenamingScreen : FScreen
 	{
+		class BlueprintNameOption : FButton
+		{
+			public LocText Text;
+			public string Name;
+			public System.Action<string> OnClicked;
+
+			bool spawned = false;
+
+			public void Init(string name, System.Action<string> onClicked)
+			{
+				Name = name;
+				OnClicked = onClicked;
+				if (spawned)
+					Text?.SetText(name);
+				Name = name;
+			}
+
+			public override void OnSpawn()
+			{
+				base.OnSpawn();
+				Text = transform.Find("Label").gameObject.GetComponent<LocText>();
+				if (!Name.IsNullOrWhiteSpace())
+					Text.SetText(Name);
+				OnClick += OnClickedInternal;
+			}
+			void OnClickedInternal()
+			{
+				OnClicked?.Invoke(Name);
+			}
+		}
+		class DropDownCheckMouse : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+		{
+			public BlueprintRenamingScreen parent;
+			public void OnPointerEnter(PointerEventData eventData)
+			{
+				parent.MouseOverDropdown = true;
+			}
+			public void OnPointerExit(PointerEventData eventData)
+			{
+				parent.MouseOverDropdown = false;
+			}
+		}
+
+
 		public static BlueprintRenamingScreen Instance = null;
 
 
@@ -41,9 +87,20 @@ namespace BlueprintsV2.UnityUI
 		System.Action<string> _onConfirm;
 		System.Action _onCancel;
 
+		private Image _dropDownIcon;
+		private FButton _dropDownBtn;
+		private GameObject _dropDownGO;
+		private GameObject _dropDownContainer;
+		private BlueprintNameOption _dropDownEntryPrefab;
+		private Dictionary<string, BlueprintNameOption> _dropDownEntries = [];
+
+
 		private bool init, spawned, _allowEmpty;
 		private string _cachedTitle;
+		private Sprite _dropdownOpen, _dropdownClose;
+		private HashSet<string> _currentSelectableNames = [];
 		public static void DestroyInstance() { Instance = null; }
+		public bool MouseOverDropdown = false;
 
 		public override float GetSortKey()
 		{
@@ -84,6 +141,7 @@ namespace BlueprintsV2.UnityUI
 
 			NameInput = transform.Find("Body/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
 			NameInput.OnValueChanged.AddListener(OnNameInputChanged);
+			NameInput.OnSelect.AddListener(OnStartedTyping);
 			NameInput.Text = string.Empty;
 
 			transform.Find("Body/SearchBar/Input/TextArea/Placeholder").gameObject.GetComponent<LocText>().SetText(FILE_NAME_DIALOG.ENTER_TEXT);
@@ -91,8 +149,28 @@ namespace BlueprintsV2.UnityUI
 			ConfirmBtn.transform.Find("Text").gameObject.GetComponent<LocText>().SetText(CONFIRMDIALOG.OK);
 			CancelBtn.transform.Find("Text").gameObject.GetComponent<LocText>().SetText(CONFIRMDIALOG.CANCEL);
 
+			//dropdown:
+			_dropDownIcon = transform.Find("Body/SearchBar/OpenDropdown/Image").gameObject.GetComponent<Image>();
+			_dropDownBtn = transform.Find("Body/SearchBar/OpenDropdown").gameObject.AddOrGet<FButton>();
+			_dropDownBtn.OnClick += ToggleDropDown;
+
+			_dropDownGO = transform.Find("Body/DropDownArea").gameObject;
+			_dropDownGO.AddOrGet<DropDownCheckMouse>().parent = this;
+			_dropDownContainer = transform.Find("Body/DropDownArea/Content").gameObject;
+			_dropDownEntryPrefab = transform.Find("Body/DropDownArea/Content/EntryPrefab").gameObject.AddOrGet<BlueprintNameOption>();
+			_dropDownEntryPrefab.gameObject.SetActive(false);
+
+			_dropdownClose = Assets.GetSprite("icon_TrendArrows_Up_1");
+			_dropdownOpen = Assets.GetSprite("icon_TrendArrows_Down_1");
+
+
 			init = true;
 			InitialHookupRefresh();
+		}
+		void ToggleDropDown()
+		{
+			_dropDownGO.SetActive(!_dropDownGO.activeSelf);
+			RefreshDropdownIcon();
 		}
 
 		void GetNameFromClipboard()
@@ -107,8 +185,18 @@ namespace BlueprintsV2.UnityUI
 		public void OnNameInputChanged(string filterstring = "")
 		{
 			ConfirmBtn.SetInteractable(_allowEmpty ? true : filterstring.Any());
+			if(_currentSelectableNames.Any())
+				FilterSelectableOptions(filterstring);
 		}
-
+		void OnStartedTyping(string _)
+		{
+			if (_currentSelectableNames.Any())
+			{
+				_dropDownGO.SetActive(true);
+				FilterSelectableOptions(NameInput.Text);
+				RefreshDropdownIcon();
+			}
+		}
 		void OnConfirmClicked()
 		{
 			if (!NameInput.Text.Any() && !_allowEmpty)
@@ -128,9 +216,94 @@ namespace BlueprintsV2.UnityUI
 			}
 			Deactivate();
 		}
+		void RefreshDropDownEntries(string[] selectableOptions)
+		{
+			if (selectableOptions == null || selectableOptions.Length == 0)
+			{
+				_dropDownGO.SetActive(false);
+				_dropDownBtn.gameObject.SetActive(false);
+				_currentSelectableNames.Clear();
+				return;
+			}
+			_dropDownGO.SetActive(true);
+			foreach (var entry in _dropDownEntries.Values)
+			{
+				entry.gameObject.SetActive(false);
+			}
+			foreach (var name in selectableOptions.StableSort())
+			{
+				var entry = AddOrGetDropDownEntry(name);
+				entry.transform.SetAsLastSibling();
+				entry.gameObject.SetActive(true);
+			}
+			_currentSelectableNames = selectableOptions.ToHashSet();
+			SetDropdownSize(_currentSelectableNames.Count);
+			_dropDownGO.SetActive(false);
+			RefreshDropdownIcon();
 
+		}
 
-		public static void OpenNamingDialogue(string title, System.Action<string> onConfirm, System.Action onCancel, string startString = "",bool allowEmpty = false)
+		void FilterSelectableOptions(string filterString = "")
+		{
+			foreach (var entry in _dropDownEntries.Values)
+			{
+				entry.gameObject.SetActive(false);
+			}
+			int count = 0;
+			foreach (var name in _currentSelectableNames)
+			{
+				bool matchesFilter = string.IsNullOrWhiteSpace(filterString) || name.ToLower().Contains(filterString.ToLower());
+
+				var entry = AddOrGetDropDownEntry(name);
+				entry.gameObject.SetActive(matchesFilter);
+				if(matchesFilter)
+					count++;
+			}
+			SetDropdownSize(count);
+		}
+		void SetDropdownSize(int count)
+		{
+			float height = Mathf.Clamp(count * 30, 10, 140);
+			_dropDownGO.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+		}
+
+		BlueprintNameOption AddOrGetDropDownEntry(string name)
+		{
+			if (_dropDownEntries.TryGetValue(name, out BlueprintNameOption entry))
+				return entry;
+			var newEntry = Util.KInstantiateUI<BlueprintNameOption>(_dropDownEntryPrefab.gameObject, _dropDownContainer);
+			newEntry.gameObject.SetActive(true);
+			newEntry.Init(name, OnDropDownEntryClicked);
+			_dropDownEntries[name] = newEntry;
+			return newEntry;
+		}
+		void OnDropDownEntryClicked(string name)
+		{
+			NameInput.Text = name;
+			_dropDownGO.SetActive(false);
+			RefreshDropdownIcon();
+		}
+		void RefreshDropdownIcon()
+		{
+			_dropDownIcon.sprite = _dropDownGO.activeSelf ? _dropdownClose : _dropdownOpen;
+		}
+
+		private void Refresh(string title, System.Action<string> onConfirm, System.Action onCancel, string startString = "", bool allowEmpty = false, string[] selectableOptions = null)
+		{
+			_onConfirm = onConfirm;
+			_onCancel = onCancel;
+			if (spawned)
+				TitleText.SetText(title);
+			else
+				_cachedTitle = title;
+
+			NameInput.Text = startString;
+			ConfirmBtn.SetInteractable(allowEmpty ? true : startString.Any());
+			_allowEmpty = allowEmpty;
+			RefreshDropDownEntries(selectableOptions);
+			this.Activate();
+		}
+		public static void OpenNamingDialogue(string title, System.Action<string> onConfirm, System.Action onCancel, string startString = "", bool allowEmpty = false, string[] selectableOptions = null)
 		{
 			if (Instance == null)
 			{
@@ -140,26 +313,11 @@ namespace BlueprintsV2.UnityUI
 				Instance.Init();
 			}
 			Instance.mouseOver = true;
-			Instance.Refresh(title, onConfirm, onCancel, startString, allowEmpty);
+			Instance.Refresh(title, onConfirm, onCancel, startString, allowEmpty, selectableOptions);
 			Instance.transform.SetAsLastSibling();
 			//Instance.NameInput.ExternalStartEditing();
 
 			//KScreenManager.Instance.RefreshStack();
-		}
-
-		private void Refresh(string title, System.Action<string> onConfirm, System.Action onCancel, string startString = "", bool allowEmpty = false)
-		{
-			_onConfirm = onConfirm;
-			_onCancel = onCancel;
-			if(spawned)
-				TitleText.SetText(title);
-			else
-				_cachedTitle = title;
-
-			NameInput.Text = startString;
-			ConfirmBtn.SetInteractable(allowEmpty ? true : startString.Any());
-			_allowEmpty = allowEmpty;
-			this.Activate();
 		}
 
 
@@ -175,6 +333,7 @@ namespace BlueprintsV2.UnityUI
 			e.Consumed = true;
 			//base.OnKeyDown(e);
 		}
+
 		public override void OnKeyUp(KButtonEvent e)
 		{
 			e.Consumed = true;

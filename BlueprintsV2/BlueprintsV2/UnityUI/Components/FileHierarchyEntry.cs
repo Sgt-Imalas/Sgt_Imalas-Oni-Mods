@@ -130,7 +130,7 @@ namespace BlueprintsV2.UnityUI.Components
 				if (OnMoved != null)
 					OnMoved(result);
 			};
-			BlueprintRenamingScreen.OpenNamingDialogue(STRINGS.UI.DIALOGUE.MOVETOFOLDER_TITLE, ChangeFolderAction, () => SetDialogueState(false), blueprint.Folder, true);
+			BlueprintRenamingScreen.OpenNamingDialogue(STRINGS.UI.DIALOGUE.MOVETOFOLDER_TITLE, ChangeFolderAction, () => SetDialogueState(false), blueprint.Folder, true, ModAssets.GetAllFolderNames());
 
 			//DialogUtil.CreateTextInputDialog(MOVETOFOLDER_TITLE, blueprint.Folder, null, true, ChangeFolderAction, () => SetDialogueState(false), ModAssets.ParentScreen, true, false);
 		}

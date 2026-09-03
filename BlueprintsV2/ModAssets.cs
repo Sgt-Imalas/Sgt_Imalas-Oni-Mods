@@ -156,6 +156,10 @@ namespace BlueprintsV2
 			SelectedBlueprint = folder.Blueprints.First();
 		}
 
+		public static string[] GetAllFolderNames()
+		{
+			return BlueprintFileHandling.BlueprintFolders.Select(x => x.Name).ToArray();
+		}
 		public static BlueprintFolder GetCurrentFolder() => SelectedFolder == null ? BlueprintFileHandling.RootFolder : SelectedFolder;
 		public static BlueprintFolder SelectedFolder;
 		public static Blueprint SelectedBlueprint;
