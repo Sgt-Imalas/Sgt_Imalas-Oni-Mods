@@ -727,11 +727,15 @@ namespace BlueprintsV2.BlueprintData
 					if (t1 != null)
 					{
 						var requestedState = (Door.ControlState)t1.Value<int>();
-						SgtLogger.l("Setting " + building.name + " to state: " + requestedState);
+						//SgtLogger.l("Setting " + building.name + " to state: " + requestedState);
 						//targetComponent.requestedState = requestedState;
-						targetComponent.requestedState = requestedState;
-						if (!DebugHandler.InstantBuildMode)
+						if (BlueprintState.InstantBuild)
+						{
+							targetComponent.requestedState = requestedState;
 							targetComponent.ApplyRequestedControlState();
+						}
+						else
+							targetComponent.QueueStateChange(requestedState);
 					}
 				}
 			}
