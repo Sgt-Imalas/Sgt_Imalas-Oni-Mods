@@ -1,13 +1,15 @@
 ﻿using Newtonsoft.Json;
 using PeterHan.PLib.Options;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace OniRetroEdition
 {
 	[Serializable]
 	[RestartRequired]
 	//[ConfigFile(SharedConfigLocation: true)]
-	public class Config : SingletonOptions<Config>
+	public class Config : SingletonOptions<Config>, IOptions
 	{
 		public enum EarlierVersion
 		{
@@ -62,5 +64,30 @@ namespace OniRetroEdition
 		[Option("Old Lights", "old lighting color")]
 		[JsonProperty]
 		public bool oldLights { get; set; } = true;
+
+
+		[Option("DarkenTints1", "")]
+		[JsonProperty]
+		public UnityEngine.Color DarkenTints1 { get; set; } = new UnityEngine.Color(0.846f, 0.846f, 0.846f, 1.000f);
+		[Option("DarkenTints2", "")]
+		public UnityEngine.Color DarkenTints2 { get; set; } = UnityEngine.Color.white;
+		[Option("DarkenTints3", "")]
+		public UnityEngine.Color DarkenTints3 { get; set; } = new UnityEngine.Color(1, 0.809f, 0.809f, 1.000f);
+		[Option("CharacterLit", "")]
+		public UnityEngine.Color CharacterLit { get; set; } = new UnityEngine.Color(1.000f, 0.98f, 0.816f, 1.000f);
+		[Option("CharacterUnLit", "")]
+		public UnityEngine.Color CharacterUnLit { get; set; } = new UnityEngine.Color(0.651f, 0.647f, 0.757f, 1.000f);
+		[Option("Global_LightColor", "")]
+		public UnityEngine.Color32 GlobalLightColor { get; set; } = Color.white;
+
+		public IEnumerable<IOptionsEntry> CreateOptions()
+		{
+			return [];
+		}
+
+		public void OnOptionsChanged()
+		{
+			Instance = this;
+		}
 	}
 }
