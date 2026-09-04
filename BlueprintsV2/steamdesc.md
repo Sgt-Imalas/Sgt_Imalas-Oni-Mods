@@ -21,7 +21,7 @@ An updated and improved Blueprint mod - now with settings transfer and material 
 [*] Placement Layer Filter: turn off buildings layers of the blueprint to place partial blueprint
 [*] Disable Blueprint buildings: rightclick a building in the preview (or in the building list) to temporarily disable it for placement. leftlick to re-enable it.
 [*] Preconfigure planned buildings - by using blueprint settings transfer, you now can change settings on planned buildings in advance.
-[*] (limited) Blueprint Rotating / Flipping - possible blueprint rotations are defined by its contents. (You can force these transformations, this will remove incompatible buildings from your hand)
+[*] (limited) Blueprint Rotating / Flipping - possible blueprint rotations are defined by its contents. (You can force these transformations, this will however remove incompatible buildings from your hand until the next placement)
 [*] Note Tool: leave small text notes in the world as a reminder for later or note down element plans for specific tiles.
 [*] Integration with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2982316671]Planning Tool[/url] mod
 [/list]
@@ -33,7 +33,7 @@ Make sure to disable other blueprint mod variants when using this mod.
 check out [url=https://onimaxxing.com/blueprints/]onimaxxing[/url] or [url=https://blueprintnotincluded.org/]blueprintsnotincluded[/url]
 (creating your blueprints on onimaxxing will allow you to use most building setting configs, notes and building skins, bpni does not support it currently.)
 
-[h1]Huge Tanks to Mayall for allowing me to use his original blueprint mod code as a baseline of this mod[/h1]
+[h1]Huge Thanks to Mayall for allowing me to use his original blueprint mod code as a baseline of this mod[/h1]
 
 [h1]Credits[/h1]
 [list][*] Original Blueprints mod by Mayall, [url=https://github.com/Mayall0513/oni-mods]available[/url] under MIT License
