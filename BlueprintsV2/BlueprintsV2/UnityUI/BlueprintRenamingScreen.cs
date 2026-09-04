@@ -336,7 +336,7 @@ namespace BlueprintsV2.UnityUI
 		void OnDropDownEntryClicked(string name)
 		{
 			NameInput.Text = name;
-			_dropDownGO.SetActive(false);
+			FilterSelectableOptions(NameInput.Text, true); // 刷新进入列表选择模式 / Refresh to enter list selection mode
 			RefreshDropdownIcon();
 		}
 		void RefreshDropdownIcon()
