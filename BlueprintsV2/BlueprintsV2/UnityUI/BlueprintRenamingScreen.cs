@@ -169,21 +169,31 @@ namespace BlueprintsV2.UnityUI
 		}
 		void ToggleDropDown()
 		{
-			_dropDownGO.SetActive(!_dropDownGO.activeSelf);
+			bool setActive = !_dropDownGO.activeSelf;
+			_dropDownGO.SetActive(setActive);
 			RefreshDropdownIcon();
+			if (setActive)
+				RefreshOptions();
+
+		}
+		void RefreshOptions()
+		{
+			if (_currentSelectableNames.Any())
+				FilterSelectableOptions(NameInput.Text.Trim());
 		}
 
 		void GetNameFromClipboard()
 		{
 			if (IO_Utils.TryGetStringFromClipboard(out string clipboardText))
 			{
-				NameInput.Text = clipboardText;
+				NameInput.Text = clipboardText.Trim();
 			}
 		}
 		void OnCloseClicked() => OnCancelClicked();
 
 		public void OnNameInputChanged(string filterstring = "")
 		{
+			filterstring = filterstring.Trim();
 			ConfirmBtn.SetInteractable(_allowEmpty ? true : filterstring.Any());
 			if(_currentSelectableNames.Any())
 				FilterSelectableOptions(filterstring);
@@ -193,18 +203,19 @@ namespace BlueprintsV2.UnityUI
 			if (_currentSelectableNames.Any())
 			{
 				_dropDownGO.SetActive(true);
-				FilterSelectableOptions(NameInput.Text);
+				RefreshOptions();
 				RefreshDropdownIcon();
 			}
 		}
 		void OnConfirmClicked()
 		{
-			if (!NameInput.Text.Any() && !_allowEmpty)
+			string text = NameInput.Text.Trim();
+			if (!text.Any() && !_allowEmpty)
 				return;
 
 			if (_onConfirm != null)
 			{
-				_onConfirm.Invoke(NameInput.Text);
+				_onConfirm.Invoke(text);
 			}
 			Deactivate();
 		}
@@ -252,7 +263,7 @@ namespace BlueprintsV2.UnityUI
 			int count = 0;
 			foreach (var name in _currentSelectableNames)
 			{
-				bool matchesFilter = string.IsNullOrWhiteSpace(filterString) || name.ToLower().Contains(filterString.ToLower());
+				bool matchesFilter = string.IsNullOrWhiteSpace(filterString) || name.ToLowerInvariant().Contains(filterString.ToLowerInvariant());
 
 				var entry = AddOrGetDropDownEntry(name);
 				entry.gameObject.SetActive(matchesFilter);
@@ -263,7 +274,7 @@ namespace BlueprintsV2.UnityUI
 		}
 		void SetDropdownSize(int count)
 		{
-			float height = Mathf.Clamp(count * 30, 10, 140);
+			float height = Mathf.Clamp(count * (25+2) + 4, 10, 150);
 			_dropDownGO.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
 		}
 
@@ -296,7 +307,7 @@ namespace BlueprintsV2.UnityUI
 				TitleText.SetText(title);
 			else
 				_cachedTitle = title;
-
+			startString = startString.Trim();
 			NameInput.Text = startString;
 			ConfirmBtn.SetInteractable(allowEmpty ? true : startString.Any());
 			_allowEmpty = allowEmpty;
@@ -328,7 +339,7 @@ namespace BlueprintsV2.UnityUI
 				//SgtLogger.l("BlueprintRenamingScreen consume esc.");
 				OnCancelClicked();
 			}
-			else if (e.TryConsume(Action.DialogSubmit) && NameInput.Text.Any())
+			else if (e.TryConsume(Action.DialogSubmit) && NameInput.Text.Trim().Any())
 				this.OnConfirmClicked();
 			e.Consumed = true;
 			//base.OnKeyDown(e);
