@@ -98,7 +98,7 @@ namespace BlueprintsV2.UnityUI
 
 		private bool init, spawned, _allowEmpty;
 		private string _cachedTitle;
-		private Sprite _dropdownOpen, _dropdownClose;
+		private Sprite _dropdownOpen, _dropdownClose, _dropdownRefresh;
 		private HashSet<string> _currentSelectableNames = [];
 		public static void DestroyInstance() { Instance = null; }
 		public bool MouseOverDropdown = false;
@@ -176,6 +176,7 @@ namespace BlueprintsV2.UnityUI
 
 			_dropdownClose = Assets.GetSprite("icon_TrendArrows_Up_1");
 			_dropdownOpen = Assets.GetSprite("icon_TrendArrows_Down_1");
+			_dropdownRefresh = Assets.GetSprite("icon_refresh");
 
 
 			init = true;
@@ -183,17 +184,25 @@ namespace BlueprintsV2.UnityUI
 		}
 		void ToggleDropDown()
 		{
-			bool willOpen = !_dropDownGO.activeSelf;
-			_dropDownGO.SetActive(willOpen);
-
-            
-			// 手动点击下拉按钮进入选择模式（非搜索） / Manual dropdown toggle enters selection mode (not search)
-			if (willOpen && _currentSelectableNames.Any())
+			if (_dropDownGO.activeSelf)
 			{
-				FilterSelectableOptions(NameInput.Text, true);
+				// 已打开：点击刷新（重新过滤）/ Open: Click to refresh (reapply filter)
+				if (_currentSelectableNames.Any())
+				{
+					FilterSelectableOptions(NameInput.Text, true);
+					RefreshDropdownIcon();
+				}
 			}
-
-			RefreshDropdownIcon();
+			else
+			{
+				// 关闭状态：打开并过滤 / Off state: On and filtered
+				_dropDownGO.SetActive(true);
+				if (_currentSelectableNames.Any())
+				{
+					FilterSelectableOptions(NameInput.Text, true);
+					RefreshDropdownIcon();
+				}
+			}
 		}
 
 		void GetNameFromClipboard()
@@ -341,7 +350,7 @@ namespace BlueprintsV2.UnityUI
 		}
 		void RefreshDropdownIcon()
 		{
-			_dropDownIcon.sprite = _dropDownGO.activeSelf ? _dropdownClose : _dropdownOpen;
+			_dropDownIcon.sprite = _dropDownGO.activeSelf ? _dropdownRefresh : _dropdownOpen;
 		}
 
 		private void Refresh(string title, System.Action<string> onConfirm, System.Action onCancel, string startString = "", bool allowEmpty = false, string[] selectableOptions = null)

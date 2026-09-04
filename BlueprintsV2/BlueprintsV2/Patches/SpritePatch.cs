@@ -43,6 +43,8 @@ namespace BlueprintsV2.Patches
 				ModAssets.PlanningToolPreview_Square = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_PlantoolPlacer_Square");
 				ModAssets.PlanningToolPreview_Circle = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_PlantoolPlacer_Circle");
 				ModAssets.PlanningToolPreview_Diamond= InjectionMethods.AddSpriteToAssets(__instance, "BPV2_PlantoolPlacer_Diamond");
+				
+				InjectionMethods.AddSpriteToAssets(__instance, "icon_refresh");
 
 				var textnoteIcons = AssetUtils.AddAllSpritesInAssetsSubDir(__instance, "textnote_icons");
 				foreach(var sprite in textnoteIcons)
