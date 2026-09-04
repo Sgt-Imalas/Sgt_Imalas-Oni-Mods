@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using HarmonyLib;
 using KSerialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -267,6 +268,30 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 				return;
 			check = StartCoroutine(DelayedPlacementCheck());
 		}
+
+
+
+		//IEnumerator RemovePlacerLogicPortsVis(List<ILogicUIElement> inputs, List<ILogicUIElement> outputs)
+		//{
+		//	yield return null;
+		//	foreach (var input in inputs)
+		//	{
+		//		Game.Instance.logicCircuitManager.RemoveVisElem(input);
+		//	}
+		//	foreach (var output in outputs)
+		//	{
+		//		Game.Instance.logicCircuitManager.RemoveVisElem(output);
+		//	}
+		//}
+
+		//IEnumerator DeleteVisDelayed(GameObject go)
+		//{
+		//	yield return null;
+		//	if (go.TryGetComponent<LogicPorts>(out var ports))
+		//		ports.DestroyVisualizers();
+		//	UnityEngine.Object.Destroy(go);
+		//}
+
 		bool TryPlacingQueuedBP()
 		{
 			replacementInProgress = true;
@@ -275,9 +300,14 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 
 			if (!BlueprintState.InstantBuild)
 			{
-				var placer = Util.KInstantiate(def.BuildingUnderConstruction, Grid.CellToPosCBC(cell, def.SceneLayer));
+				var placer = Util.KInstantiate(def.BuildingPreview, Grid.CellToPosCBC(cell, def.SceneLayer));
+				//Global.Instance.StartCoroutine(RemovePlacerLogicPortsVis(ports.inputPorts != null ? [.. ports.inputPorts] : [], ports.outputPorts != null ?[.. ports.outputPorts] : []));
 				builtItem = def.TryPlace(placer, posCbc, orientation, selectedElements, null);
-				UnityEngine.Object.DestroyImmediate(placer);
+				if (placer.TryGetComponent<LogicPorts>(out var ports))
+					ports.DestroyVisualizers();
+				//Global.Instance.StartCoroutine(DeleteVisDelayed(placer));
+				//else
+				UnityEngine.Object.Destroy(placer);
 			}
 			else
 			{

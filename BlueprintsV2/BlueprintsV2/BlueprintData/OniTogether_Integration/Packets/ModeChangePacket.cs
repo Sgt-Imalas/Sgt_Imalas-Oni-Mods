@@ -27,6 +27,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packet
 		public bool applySettings = true;
 		public bool UseToolPriority;
 		public List<string> BlockedPlacementFilterLayers;
+		public bool ForceOverrideTransformations;
+		public bool ApplySettingsToExistingBuildings;
+
 		public ModeChangePacket()
 		{
 			SenderId = SessionInfoAPI.LocalUserID;
@@ -51,7 +54,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packet
 			BlockedPlacementFilterLayers = [];
 			for (int i = 0; i < count; i++)
 				BlockedPlacementFilterLayers[i] = reader.ReadString();
-
+			ForceOverrideTransformations = reader.ReadBoolean();
+			ApplySettingsToExistingBuildings = reader.ReadBoolean();
 		}
 		public void Serialize(BinaryWriter writer)
 		{
@@ -72,6 +76,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packet
 			writer.Write(BlockedPlacementFilterLayers.Count);
 			for (int i = 0; i < BlockedPlacementFilterLayers.Count; i++)
 				writer.Write(BlockedPlacementFilterLayers[i]);
+			writer.Write(ForceOverrideTransformations);
+			writer.Write(ApplySettingsToExistingBuildings);
 		}
 		public void OnDispatched()
 		{

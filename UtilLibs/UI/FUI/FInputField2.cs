@@ -97,6 +97,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 		}
 
 		public TMP_InputField.OnChangeEvent OnValueChanged => inputField.onValueChanged;
+		public TMP_InputField.SelectionEvent OnSelect => inputField.onSelect;
 
 		public void AddListener(System.Action<string> onValueChangedEvent)
 		{

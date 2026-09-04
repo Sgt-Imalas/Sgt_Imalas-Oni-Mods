@@ -193,6 +193,20 @@ namespace BlueprintsV2
 						//public static LocString LABEL = "Rebuild existing with mismatched material:";
 						public static LocString LABEL = "Force build over existing buildings:";
 					}
+					public class FORCETRANSFORMATIONTOGGLE
+					{
+						public static LocString LABEL = "Force Transformations:";
+						public static LocString FX_TEXT = "{0} removed from hand";
+						public static LocString TOOLTIP = 
+							"Override checks to allow rotating/flipping of blueprints containing buildings that don't support it." +
+							"\nVisualizers of buildings incompatible with the transformation will be removed from your hand" +
+							"\nwhen performing a rotation/flipping, until you re-select this blueprint for placement.";
+					}
+					public class APPLYSETTINGSTOEXISTING
+					{
+						public static LocString LABEL = "Apply settings to existing buildings:";
+						public static LocString TOOLTIP = "Finished buildings overlapping with blueprint visualizers containing settings will receive those settings when the blueprint is placed down.";
+					}
 					public class ROTATEACTIONS
 					{
 						public class ROTATEL

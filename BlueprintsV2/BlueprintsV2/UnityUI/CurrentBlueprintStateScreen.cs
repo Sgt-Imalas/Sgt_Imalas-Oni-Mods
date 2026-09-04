@@ -30,7 +30,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
 		GameObject ColorPreviewPrefab;
 
-		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings, EnableSnapshotMaterialOverrides, UseToolPriority;
+		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings, EnableSnapshotMaterialOverrides, UseToolPriority, ForceOverrideTransformations, ApplySettingsToExistingBuildings;
 		//YesNoInfo CanRotate;
 		FButton RotateL, RotateR, ChangeMaterialOverrides;
 		//YesNoInfo CanFlipH, CanFlipV;
@@ -117,7 +117,10 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			RefreshStateChangeBPs();
 
 			ApplyBPSettings.SetOnFromCode(info.ApplyBlueprintSettings);
+			UseToolPriority.SetOnFromCode(info.UseToolPriority);
 			ForceRebuildMismatchedBuildings.SetOnFromCode(false);
+			ForceOverrideTransformations.SetOnFromCode(info.ForceOverrideTransformations);
+			ApplySettingsToExistingBuildings.SetOnFromCode(info.ApplySettingsToExistingBuildings);
 
 		}
 		void RefreshStateChangeBPs()
@@ -189,6 +192,17 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			UseToolPriority.OnChange += OnToolPriorityChanged;
 			UIUtils.AddSimpleTooltipToObject(UseToolPriority.gameObject, PRIORITYOVERRIDE.TOOLTIP);
 
+			ForceOverrideTransformations = transform.Find("InfoItemsContainer/ForceTransformationToggle").gameObject.AddOrGet<FToggle>();
+			ForceOverrideTransformations.SetCheckmark("Checkbox/Checkmark");
+			ForceOverrideTransformations.SetOnFromCode(BlueprintState.CurrentStateInfo().ForceOverrideTransformations);
+			ForceOverrideTransformations.OnChange += OnForceOverrideTransformationsChanged;
+			UIUtils.AddSimpleTooltipToObject(ForceOverrideTransformations.gameObject, APPLYSETTINGSTOEXISTING.TOOLTIP);
+
+			ApplySettingsToExistingBuildings = transform.Find("InfoItemsContainer/ApplySettingsToExisting").gameObject.AddOrGet<FToggle>();
+			ApplySettingsToExistingBuildings.SetCheckmark("Checkbox/Checkmark");
+			ApplySettingsToExistingBuildings.SetOnFromCode(BlueprintState.CurrentStateInfo().ApplySettingsToExistingBuildings);
+			ApplySettingsToExistingBuildings.OnChange += OnApplySettingsToExistingChanged;
+			UIUtils.AddSimpleTooltipToObject(ApplySettingsToExistingBuildings.gameObject, FORCETRANSFORMATIONTOGGLE.TOOLTIP);
 
 			ChangeMaterialOverrides = transform.Find("InfoItemsContainer/MaterialOverrides/Button").gameObject.AddOrGet<FButton>();
 			ChangeMaterialOverrides.OnClick += ShowMaterialReplacementList;
@@ -223,6 +237,15 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			BuildColorLegend();
 		}
 
+		void OnApplySettingsToExistingChanged(bool on)
+		{
+			BlueprintState.CurrentStateInfo().ApplySettingsToExistingBuildings = on;
+		}
+		void OnForceOverrideTransformationsChanged(bool on)
+		{
+			BlueprintState.CurrentStateInfo().ForceOverrideTransformations = on;
+			RefreshButtonStates();
+		}
 		void OnToolPriorityChanged(bool on)
 		{
 			BlueprintState.CurrentStateInfo().UseToolPriority = on;

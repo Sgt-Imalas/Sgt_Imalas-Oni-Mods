@@ -14,10 +14,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UtilLibs;
 using static BlueprintsV2.BlueprintData.BlueprintState;
-using static Grid.Restriction;
-using static STRINGS.BUILDINGS.PREFABS;
-using static STRINGS.DUPLICANTS.MODIFIERS;
-using static STRINGS.UI.SANDBOXTOOLS.SETTINGS;
+using static BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER;
 
 namespace BlueprintsV2.Visualizers
 {
@@ -590,22 +587,13 @@ namespace BlueprintsV2.Visualizers
 			//{
 			//	return TryReconstructExistingBuilding(cellParam);
 			//}
-			else if (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
+			else if (CurrentStateInfo(_playerId).ApplySettingsToExistingBuildings && (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam))) //apply building settings to existing, does not apply to conduits
 			{
-				switch (Config.Instance.DataApplicationMode)
-				{
-					case DataApplicationMode.None:
-						return false;
-
-				}
-
-
 				ApplyBuildingData(bc.gameObject, false);
 				if (buildingConfig.HasAnyBuildingData)
 				{
 					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED, null, offset: Grid.CellToPos(cellParam), Config.Instance.FXTime);
 				}
-
 				return true;
 			}
 
@@ -800,7 +788,7 @@ namespace BlueprintsV2.Visualizers
 			Color playerColor = default;
 			if (!LocalPlayerId(_playerId) && IsMultiplayerVisualizer(_playerId, ref playerColor))
 				return playerColor;
-
+			var stateInfo = BlueprintState.CurrentStateInfo(_playerId);
 			UpdateRequirementsState();
 			if (CanForceRebuild(cellParam))// && CanRebuildWithMaterial(cellParam, out _))
 			{
@@ -808,7 +796,7 @@ namespace BlueprintsV2.Visualizers
 			}
 			else if (SameBuildingAlreadyFinishedInPlace(cellParam, out _, false))
 			{
-				if (buildingConfig.HasAnyBuildingData || CanApplyConduitSettings(cellParam))
+				if ((buildingConfig.HasAnyBuildingData || CanApplyConduitSettings(cellParam)) && stateInfo.ApplySettingsToExistingBuildings)
 				{
 					return ModAssets.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS;
 				}
@@ -847,6 +835,20 @@ namespace BlueprintsV2.Visualizers
 				return PermittedRotations.FlipH;
 
 			return PermittedRotations.Unrotatable;
+		}
+		public virtual bool AllowedForRotation(Orientation rotation, bool flippedX, bool flippedY)
+		{
+			var allowed = GetAllowedRotations();
+			switch (allowed)
+			{
+				case BlueprintTransformationInfo.All:
+					return true;
+				case PermittedRotations.Unrotatable:
+					return false;
+				case PermittedRotations.FlipH:
+					return (rotation == Orientation.Neutral || rotation == Orientation.FlipH) && !flippedY;
+			}
+			return false;
 		}
 		public virtual void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
 		{
@@ -1033,6 +1035,10 @@ namespace BlueprintsV2.Visualizers
 				ports.DestroyVisualizers();
 			}
 			UnityEngine.Object.Destroy(Visualizer);
+		}
+		public void SpawnDestroyedByForceTransformFx()
+		{
+			PopFXManager.Instance.SpawnFX(Assets.GetSprite("icon_action_cancel"), string.Format(FORCETRANSFORMATIONTOGGLE.FX_TEXT,BuildingDef.Name), null, offset: Grid.CellToPos(cell), Config.Instance.FXTime);
 		}
 	}
 }

@@ -141,6 +141,7 @@ namespace BlueprintsV2.Visualizers
 				seated = true;	
 			}
 		}
+		public override bool AllowedForRotation(Orientation rotation, bool flippedX, bool flippedY) => true;
 	}
 
 }

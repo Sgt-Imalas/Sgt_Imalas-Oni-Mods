@@ -45,7 +45,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 
 		public bool IsPlaceable(int cellParam)
 		{
-			return Grid.IsValidCell(cellParam) && Grid.IsVisible(cellParam) && !(Grid.Solid[cellParam] && Grid.Foundation[cellParam]);
+			return Grid.IsValidCell(cellParam) && Grid.IsVisible(cellParam);
 		}
 
 		public void MoveVisualizer(int cellParam, bool forceRedraw)
@@ -98,5 +98,14 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 			//no tinting
 		}
 
+		public bool AllowedForRotation(Orientation rotation, bool flippedX, bool flippedY) => true;
+		public void DestroyVisualizer()
+		{
+			UnityEngine.Object.Destroy(Visualizer);
+		}
+
+		public void SpawnDestroyedByForceTransformFx()
+		{
+		}
 	}
 }

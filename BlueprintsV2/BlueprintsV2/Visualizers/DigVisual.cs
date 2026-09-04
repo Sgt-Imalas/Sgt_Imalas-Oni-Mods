@@ -72,5 +72,16 @@ namespace BlueprintsV2.Visualizers
 		{
 			//no tinting
 		}
+		public bool AllowedForRotation(Orientation rotation, bool flippedX, bool flippedY) => true;
+
+		public void DestroyVisualizer()
+		{
+			UnityEngine.Object.Destroy(Visualizer);
+		}
+
+		public void SpawnDestroyedByForceTransformFx()
+		{
+		}
+
 	}
 }

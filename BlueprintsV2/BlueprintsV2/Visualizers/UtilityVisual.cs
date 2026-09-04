@@ -71,5 +71,6 @@ namespace BlueprintsV2.Visualizers
 		{
 			ApplyColorIfChanged(cell);
 		}
+		public override bool AllowedForRotation(Orientation rotation, bool flippedX, bool flippedY) => true;
 	}
 }

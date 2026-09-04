@@ -19,7 +19,6 @@ namespace BlueprintsV2.ModAPI
 	/// </summary>
 	class IntegrationExample : KMonoBehaviour
 	{
-
 		internal void SetData(string key1, string key2)
 		{
 			this.key1 = key1;
@@ -70,7 +69,6 @@ namespace BlueprintsV2.ModAPI
 		/// Optional Method!
 		/// Allows you to register data under a specific key
 		/// </summary>
-		/// <param name="source"></param>
 		/// <returns>custom data key</returns>
 		public static string Blueprints_ID()
 		{

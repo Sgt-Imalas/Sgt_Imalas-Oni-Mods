@@ -64,6 +64,10 @@ namespace BlueprintsV2.BlueprintData
 
 		#region MP_Integration
 
+		/// <summary>
+		/// used as default key for anything the player does, becomes relevant for if multiplayer is active to distinguish between other players and anything done locally
+		/// also acts as default tile layer for normal tile previews
+		/// </summary>
 		public const ulong PlayerId_DefaultTilePreviews = ulong.MinValue;
 		public const ulong PlayerId_ReplacementTiles = ulong.MaxValue;
 
@@ -72,7 +76,7 @@ namespace BlueprintsV2.BlueprintData
 
 		public static void AddCachesForPlayer(ulong id)
 		{
-			SgtLogger.l("Adding Blueprint Caches for " + id);
+			SgtLogger.l("Adding Blueprint Caches for player id: " + id);
 			if (OccupiedCells.ContainsKey(id))
 				SgtLogger.warning(id + " was already cached");
 
@@ -89,19 +93,19 @@ namespace BlueprintsV2.BlueprintData
 		}
 		public static void CachePlayerColor(ulong id)
 		{
-			SgtLogger.l("Caching Blueprint Player color for " + id);
+			SgtLogger.l("Caching Blueprint Player color for player id: " + id);
 			if (SessionInfoAPI.TryGetPlayerColor(id, out var playerColor))
 				PlayerColorsCached[id] = playerColor;
 			else
 			{
-				SgtLogger.warning("Could not cache player color for " + id);
+				SgtLogger.warning("Could not cache player color for player id: " + id);
 				PlayerColorsCached[id] = UIUtils.GetRandomRainbowColor(true);
 			}
 			SgtLogger.l("Color cached: " + PlayerColorsCached[id]);
 		}
 		public static void RemoveCachesForPlayer(ulong id)
 		{
-			SgtLogger.l("Removing Blueprint Caches for " + id);
+			SgtLogger.l("Removing Blueprint Caches for player id: " + id);
 			ClearVisuals(id);
 			OccupiedCells.Remove(id);
 			FoundationVisuals.Remove(id);
@@ -698,6 +702,8 @@ namespace BlueprintsV2.BlueprintData
 				this.originShiftY = data.originShiftY;
 				this.UseToolPriority = data.UseToolPriority;
 				this.BlockedPlacementFilterLayers = data.BlockedPlacementFilterLayers.ToHashSet();
+				this.ForceOverrideTransformations = data.ForceOverrideTransformations;
+				this.ApplySettingsToExistingBuildings = data.ApplySettingsToExistingBuildings;
 			}
 			public ModeChangePacket GetFilledModePacket()
 			{
@@ -715,6 +721,8 @@ namespace BlueprintsV2.BlueprintData
 				packet.originShiftY = originShiftY;
 				packet.UseToolPriority = UseToolPriority;
 				packet.BlockedPlacementFilterLayers = BlockedPlacementFilterLayers.ToList();
+				packet.ForceOverrideTransformations = ForceOverrideTransformations;
+				packet.ApplySettingsToExistingBuildings = ApplySettingsToExistingBuildings;
 				return packet;
 			}
 
@@ -727,6 +735,8 @@ namespace BlueprintsV2.BlueprintData
 			public bool ForceBuild = false;
 			public bool MaterialReplacementInSnapshots = false;
 			public bool UseToolPriority = true;
+			public bool ForceOverrideTransformations = false;
+			public bool ApplySettingsToExistingBuildings = true;
 			public bool IsPlacingSnapshot { get; set; }
 			public bool ApplyBlueprintSettings = true;
 			public HashSet<string> BlockedPlacementFilterLayers = [];
@@ -762,9 +772,9 @@ namespace BlueprintsV2.BlueprintData
 			PermittedRotations Permitted = All;
 			public string TransformationBlockedByBuildingName;
 
-			public bool CanRotate => Permitted == All || Permitted == PermittedRotations.R360;
-			public bool CanFlipH => Permitted == All || Permitted == PermittedRotations.FlipH;
-			public bool CanFlipV => Permitted == All || Permitted == PermittedRotations.FlipV;
+			public bool CanRotate => Permitted == All || Permitted == PermittedRotations.R360 || ForceOverrideTransformations;
+			public bool CanFlipH => Permitted == All || Permitted == PermittedRotations.FlipH || ForceOverrideTransformations;
+			public bool CanFlipV => Permitted == All || Permitted == PermittedRotations.FlipV || ForceOverrideTransformations;
 
 			internal Vector2I lastBlueprintPos, lastBlueprintDimensions;
 
@@ -860,7 +870,7 @@ namespace BlueprintsV2.BlueprintData
 				var flipMatrix = Matrix4x4.Scale(new Vector3(FlippedX ? -1 : 1, FlippedY ? -1 : 1, 1));
 				visPos = flipMatrix.MultiplyVector(visPos);
 
-				///Fixes some tiles going offset by 1 tile when rotated, ty StuffyDoll for finding this fix
+				///Fixes some tiles going offset by 1 cell when rotated, ty StuffyDoll for finding this fix
 				visPos.x = Mathf.Round(visPos.x);
 				visPos.y = Mathf.Round(visPos.y);
 
@@ -869,22 +879,26 @@ namespace BlueprintsV2.BlueprintData
 
 			public void FlipVertical()
 			{
-				if (Permitted != All && Permitted != PermittedRotations.FlipV)
+				if (Permitted != All && Permitted != PermittedRotations.FlipV && !ForceOverrideTransformations)
 					return;
 
 				FlippedY = !FlippedY;
 				SgtLogger.l("Flipped Vertically: " + FlippedY);
+				if (ForceOverrideTransformations)
+					RemoveInvalidVisuals();
 			}
 			public void FlipHorizontal()
 			{
-				if (Permitted != All && Permitted != PermittedRotations.FlipH)
+				if (Permitted != All && Permitted != PermittedRotations.FlipH && !ForceOverrideTransformations)
 					return;
 				FlippedX = !FlippedX;
 				SgtLogger.l("Flipped Horizontally: " + FlippedX);
+				if (ForceOverrideTransformations)
+					RemoveInvalidVisuals();
 			}
 			public void TryRotateBlueprint(bool inverted = false)
 			{
-				if (Permitted != All && Permitted != PermittedRotations.R360)
+				if (Permitted != All && Permitted != PermittedRotations.R360 && !ForceOverrideTransformations)
 					return;
 
 				bool flipInversion = FlippedX != FlippedY;
@@ -905,7 +919,38 @@ namespace BlueprintsV2.BlueprintData
 						BlueprintOrientation = inverted ? Orientation.R180 : Orientation.Neutral;
 						break;
 				}
+				if (ForceOverrideTransformations)
+					RemoveInvalidVisuals();
 			}
+
+			void RemoveInvalidVisuals()
+			{
+
+
+
+
+				FoundationVisuals[playerId].RemoveAll(vis =>
+				{
+					if (!vis.AllowedForRotation(this.BlueprintOrientation, FlippedX, FlippedY))
+					{
+						vis.SpawnDestroyedByForceTransformFx();
+						vis.DestroyVisualizer();
+						return true;
+					}
+					return false;
+				});
+				DependentVisuals[playerId].RemoveAll(vis =>
+				{
+					if (!vis.AllowedForRotation(this.BlueprintOrientation, FlippedX, FlippedY))
+					{
+						vis.SpawnDestroyedByForceTransformFx();
+						vis.DestroyVisualizer();
+						return true;
+					}
+					return false;
+				});
+			}
+
 			#endregion
 			#region AnchorShift
 			BlueprintAnchorState _state = 0;

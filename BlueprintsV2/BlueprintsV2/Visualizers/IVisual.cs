@@ -22,12 +22,11 @@ namespace BlueprintsV2.Visualizers
 
 		PermittedRotations GetAllowedRotations();
 		void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY);
+		bool AllowedForRotation(Orientation rotation, bool flippedX, bool flippedY);
 
-		void DestroyVisualizer()
-		{
-			UnityEngine.Object.Destroy(Visualizer);
-		}
+		void DestroyVisualizer();
 		///relevant for rendering tiles in the multiplayer mod integration
 		public ulong GetPlayerId();
+		void SpawnDestroyedByForceTransformFx();
 	}
 }
