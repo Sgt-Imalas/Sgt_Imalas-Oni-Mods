@@ -944,17 +944,17 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
-		public void TempDisableToggleBuilding(int index, bool on)
-		{
-			if(index >= 0 && index < BuildingConfigurations.Count)
-			{
-				BuildingConfigurations[index].SkipPlacement = on;
-			}
-			else
-			{
-				SgtLogger.warning("TempDisableToggleBuilding index out of range: " + index);
-			}
-		}
+		//public void TempDisableToggleBuilding(int index, bool on)
+		//{
+		//	if(index >= 0 && index < BuildingConfigurations.Count)
+		//	{
+		//		BuildingConfigurations[index].SkipPlacement = on;
+		//	}
+		//	else
+		//	{
+		//		SgtLogger.warning("TempDisableToggleBuilding index out of range: " + index);
+		//	}
+		//}
 
 
 		/// <summary>

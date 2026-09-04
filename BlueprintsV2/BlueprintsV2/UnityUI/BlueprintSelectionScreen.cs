@@ -703,12 +703,12 @@ namespace BlueprintsV2.UnityUI
 		//		CameraController.Instance.DisableUserCameraControl = false;
 		//	});
 		//}
-		void TempDisableBuildingToggle(int buildingIndex, bool enabled)
-		{
-			TargetBlueprint?.TempDisableToggleBuilding(buildingIndex, enabled);
-			UpdateBuildingButtons();
-			Preview.RefreshVisualizerVisibility();
-		}
+		//void TempDisableBuildingToggle(int buildingIndex, bool enabled)
+		//{
+		//	TargetBlueprint?.TempDisableToggleBuilding(buildingIndex, enabled);
+		//	UpdateBuildingButtons();
+		//	Preview.RefreshVisualizerVisibility();
+		//}
 		void TempDisableBuildingsToggle(string id, bool enabled)
 		{
 			TargetBlueprint?.TempDisableToggleAllBuildings(id, enabled);
