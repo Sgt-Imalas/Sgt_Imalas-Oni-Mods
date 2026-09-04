@@ -122,14 +122,7 @@ namespace MassMoveTo.Tools.SweepByType
 				bool firstTime = TypeSelect.CategoryCount < 1;
 				TypeSelect.Update();
 				if (firstTime)
-				{
-					var savedTypes = SaveGame.Instance?.GetComponent<SavedTypeSelections>()?.
-						GetSavedTypes();
-					// First time, load the user's old settings if available
-					// If nothing at all is selected, then this is probably the first ever load
-					if (savedTypes != null && savedTypes.Any())
-						TypeSelect.SetSelections(savedTypes);
-				}
+					TypeSelect.SwitchPreset(-1);
 				root.SetParent(menu.gameObject);
 				root.transform.SetAsFirstSibling();
 				root.SetActive(true);
