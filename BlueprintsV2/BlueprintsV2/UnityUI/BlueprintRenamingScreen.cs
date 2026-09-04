@@ -23,6 +23,7 @@ using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS;
 using static BlueprintsV2.STRINGS.UI.DIALOGUE;
 using static STRINGS.UI;
+using TMPro;
 
 namespace BlueprintsV2.UnityUI
 {
@@ -141,7 +142,7 @@ namespace BlueprintsV2.UnityUI
 
 			NameInput = transform.Find("Body/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
 			NameInput.OnValueChanged.AddListener(OnNameInputChanged);
-			NameInput.OnSelect.AddListener(OnStartedTyping);
+			NameInput.inputField.onSelect.AddListener(OnStartedTyping);
 			NameInput.Text = string.Empty;
 
 			transform.Find("Body/SearchBar/Input/TextArea/Placeholder").gameObject.GetComponent<LocText>().SetText(FILE_NAME_DIALOG.ENTER_TEXT);
@@ -156,6 +157,19 @@ namespace BlueprintsV2.UnityUI
 
 			_dropDownGO = transform.Find("Body/DropDownArea").gameObject;
 			_dropDownGO.AddOrGet<DropDownCheckMouse>().parent = this;
+			// 下移60像素 / Move down 60 pixels
+			_dropDownGO.transform.localPosition += new Vector3(0, -65, 0);
+			
+			RectTransform dropRect = _dropDownGO.GetComponent<RectTransform>();
+			// 水平方向拉伸：左对齐到 0，右对齐到 1 / Horizontal stretch: left anchor 0, right anchor 1
+			dropRect.anchorMin = new Vector2(0, dropRect.anchorMin.y);
+			dropRect.anchorMax = new Vector2(1, dropRect.anchorMax.y);
+			dropRect.pivot = new Vector2(0.5f, dropRect.pivot.y); // 轴心水平居中 / Pivot centered horizontally
+			// 宽度自动匹配父物体，sizeDelta.x = 0 表示无偏移 / Width auto-matches parent, sizeDelta.x = 0 means no offset
+			dropRect.sizeDelta = new Vector2(-20, dropRect.sizeDelta.y);
+			// 水平位置归零（因为拉伸锚点下，anchoredPosition.x 控制整体偏移） / Reset horizontal position (with stretch anchors, anchoredPosition.x controls overall offset)
+			dropRect.anchoredPosition = new Vector2(0, dropRect.anchoredPosition.y);
+			
 			_dropDownContainer = transform.Find("Body/DropDownArea/Content").gameObject;
 			_dropDownEntryPrefab = transform.Find("Body/DropDownArea/Content/EntryPrefab").gameObject.AddOrGet<BlueprintNameOption>();
 			_dropDownEntryPrefab.gameObject.SetActive(false);
@@ -169,7 +183,16 @@ namespace BlueprintsV2.UnityUI
 		}
 		void ToggleDropDown()
 		{
-			_dropDownGO.SetActive(!_dropDownGO.activeSelf);
+			bool willOpen = !_dropDownGO.activeSelf;
+			_dropDownGO.SetActive(willOpen);
+
+            
+			// 手动点击下拉按钮进入选择模式（非搜索） / Manual dropdown toggle enters selection mode (not search)
+			if (willOpen && _currentSelectableNames.Any())
+			{
+				FilterSelectableOptions(NameInput.Text, true);
+			}
+
 			RefreshDropdownIcon();
 		}
 
@@ -185,17 +208,36 @@ namespace BlueprintsV2.UnityUI
 		public void OnNameInputChanged(string filterstring = "")
 		{
 			ConfirmBtn.SetInteractable(_allowEmpty ? true : filterstring.Any());
-			if(_currentSelectableNames.Any())
-				FilterSelectableOptions(filterstring);
+
+			if (_currentSelectableNames.Any())
+			{
+				bool hasMatch = _currentSelectableNames.Any(name => 
+					name.ToLower().Contains(filterstring.ToLower()));
+
+				if (hasMatch)
+				{
+					_dropDownGO.SetActive(true);
+					FilterSelectableOptions(filterstring); // 显示匹配项（搜索模式） / Show matching items (search mode)
+				}
+				else
+				{
+					_dropDownGO.SetActive(false);
+				}
+				RefreshDropdownIcon();
+			}
 		}
 		void OnStartedTyping(string _)
 		{
-			if (_currentSelectableNames.Any())
-			{
-				_dropDownGO.SetActive(true);
-				FilterSelectableOptions(NameInput.Text);
-				RefreshDropdownIcon();
-			}
+			if (!_currentSelectableNames.Any())
+				return;
+
+			string currentText = NameInput.Text;
+			bool excludeCurrent = !string.IsNullOrEmpty(currentText);
+			
+			// 进入选择模式 / Enter selection mode
+			_dropDownGO.SetActive(true);
+			FilterSelectableOptions(currentText, excludeCurrent);
+			RefreshDropdownIcon();
 		}
 		void OnConfirmClicked()
 		{
@@ -238,12 +280,16 @@ namespace BlueprintsV2.UnityUI
 			}
 			_currentSelectableNames = selectableOptions.ToHashSet();
 			SetDropdownSize(_currentSelectableNames.Count);
-			_dropDownGO.SetActive(false);
-			RefreshDropdownIcon();
 
+			// 打开输入框就进入选择模式 / Enter selection mode when input is focused
+			string currentText = NameInput.Text;
+			bool excludeCurrent = !string.IsNullOrEmpty(currentText);
+			FilterSelectableOptions(currentText, excludeCurrent);
+			
+			RefreshDropdownIcon();
 		}
 
-		void FilterSelectableOptions(string filterString = "")
+		void FilterSelectableOptions(string filterString = "", bool invertMatch = false)
 		{
 			foreach (var entry in _dropDownEntries.Values)
 			{
@@ -252,8 +298,9 @@ namespace BlueprintsV2.UnityUI
 			int count = 0;
 			foreach (var name in _currentSelectableNames)
 			{
-				bool matchesFilter = string.IsNullOrWhiteSpace(filterString) || name.ToLower().Contains(filterString.ToLower());
-
+				bool contains = name.ToLower().Contains(filterString.ToLower());
+                bool matchesFilter = string.IsNullOrWhiteSpace(filterString) || (invertMatch ? !contains : contains);	
+				
 				var entry = AddOrGetDropDownEntry(name);
 				entry.gameObject.SetActive(matchesFilter);
 				if(matchesFilter)
@@ -263,7 +310,7 @@ namespace BlueprintsV2.UnityUI
 		}
 		void SetDropdownSize(int count)
 		{
-			float height = Mathf.Clamp(count * 30, 10, 140);
+			float height = Mathf.Clamp(count * 32 + 2, 10, 300);
 			_dropDownGO.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
 		}
 
@@ -274,6 +321,15 @@ namespace BlueprintsV2.UnityUI
 			var newEntry = Util.KInstantiateUI<BlueprintNameOption>(_dropDownEntryPrefab.gameObject, _dropDownContainer);
 			newEntry.gameObject.SetActive(true);
 			newEntry.Init(name, OnDropDownEntryClicked);
+			
+			// 强制设置 RectTransform 锚点为左右拉伸，宽度自动填充父容器 / Force RectTransform anchors to stretch horizontally, width fills parent
+			var rect = newEntry.GetComponent<RectTransform>();
+			rect.anchorMin = new Vector2(0, 1);   // 左上角 / Top-left
+			rect.anchorMax = new Vector2(1, 1);   // 右上角（宽度拉伸） / Top-right (stretch width)
+			rect.pivot = new Vector2(0.5f, 1);    // 顶部中心 / Top-center
+			rect.anchoredPosition = Vector2.zero;
+			rect.sizeDelta = new Vector2(0, 30);  // 宽度为0由锚点决定，高度固定30 / Width 0 determined by anchors, height fixed 30
+			
 			_dropDownEntries[name] = newEntry;
 			return newEntry;
 		}
