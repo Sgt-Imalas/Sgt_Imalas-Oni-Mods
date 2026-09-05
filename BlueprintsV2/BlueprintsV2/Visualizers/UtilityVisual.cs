@@ -13,7 +13,7 @@ namespace BlueprintsV2.Visualizers
 
 		public UtilityVisual(BuildingConfig buildingConfig, int cell, ulong playerId) : base(buildingConfig, cell, playerId)
 		{
-			if (Visualizer.TryGetComponent<KBatchedAnimController>(out var batchedAnimController))
+			if (hasKbac)
 			{
 				IUtilityNetworkMgr utilityNetworkManager = buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>().GetNetworkManager();
 
@@ -21,20 +21,12 @@ namespace BlueprintsV2.Visualizers
 				{
 					string animation = utilityNetworkManager.GetVisualizerString((UtilityConnections)flags) + "_place";
 
-					if (batchedAnimController.HasAnimation(animation))
+					if (kbac.HasAnimation(animation))
 					{
-						batchedAnimController.Play(animation);
+						kbac.Play(animation);
 					}
 				}
-
-				batchedAnimController.visibilityType = KAnimControllerBase.VisibilityType.Always;
-				batchedAnimController.isMovable = true;
-				batchedAnimController.Offset = buildingConfig.BuildingDef.GetVisualizerOffset();
-				//batchedAnimController.TintColour = GetVisualizerColor(cell);
-
-				batchedAnimController.SetLayer(LayerMask.NameToLayer("Place"));
 			}
-			ApplyColorIfChanged(cell);
 		}
 
 		public override void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
