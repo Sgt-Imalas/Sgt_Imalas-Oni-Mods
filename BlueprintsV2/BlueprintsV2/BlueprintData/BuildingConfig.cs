@@ -53,7 +53,11 @@ namespace BlueprintsV2.BlueprintData
 		/// ConduitFlag stores the bitflagged UtilityConnections value of conduit buildings (wires,rails,pipes,logicwires)
 		/// </summary>
 		private int ConduitFlags = -1;
-
+		/// <summary>
+		/// if active, the building will be skipped if the blueprint gets placed
+		/// it will also be skipped when creating a blueprint with overrides applied
+		/// </summary>
+		public bool BuildingDisabled { get; set; } = false;
 
 		public bool HasAnyBuildingData => AdditionalBuildingData != null && AdditionalBuildingData.Any();
 
@@ -63,7 +67,6 @@ namespace BlueprintsV2.BlueprintData
 			return AdditionalBuildingData != null && AdditionalBuildingData.TryGetValue(id, out data);
 		}
 
-		public bool SkipPlacement = false;
 
 		//old binary method, not compatible with new data format
 		///// <summary>
@@ -216,10 +219,10 @@ namespace BlueprintsV2.BlueprintData
 				);
 				jsonWriter.WriteEndArray();
 			}
-			if (SkipPlacement == true)
+			if (BuildingDisabled == true)
 			{
 				jsonWriter.WritePropertyName("tempDisabled");
-				jsonWriter.WriteValue(SkipPlacement);
+				jsonWriter.WriteValue(BuildingDisabled);
 			}
 
 			jsonWriter.WriteEndObject();
@@ -349,7 +352,7 @@ namespace BlueprintsV2.BlueprintData
 			JToken temporarilyDisabledToken = rootObject.SelectToken("tempDisabled");
 			if (temporarilyDisabledToken != null && temporarilyDisabledToken.Type == JTokenType.Boolean)
 			{
-				SkipPlacement = temporarilyDisabledToken.Value<bool>();
+				BuildingDisabled = temporarilyDisabledToken.Value<bool>();
 			}
 		}
 

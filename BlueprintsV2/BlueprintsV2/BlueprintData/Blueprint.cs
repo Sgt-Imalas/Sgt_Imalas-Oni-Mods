@@ -154,8 +154,11 @@ namespace BlueprintsV2.BlueprintData
 		{
 			int x_min = 0, x_max = 0, visibleX_min = 0, visibleX_max = 0;
 			int y_min = 0, y_max = 0, visibleY_min = 0, visibleY_max = 0;
-			foreach (var building in BuildingConfigurations)
+			foreach (BuildingConfig building in BuildingConfigurations)
 			{
+				if (building.BuildingDisabled)
+					continue;
+
 				var offset = building.Offset;
 				if (-100000 > offset.x || offset.x > 100000
 				|| -100000 > offset.y || offset.y > 100000)
@@ -263,12 +266,6 @@ namespace BlueprintsV2.BlueprintData
 			VisibleDimensions = new Vector2I(visibleX_max - visibleX_min, visibleY_max - visibleY_min);
 
 			TileMap = new int[_dimensionX, _dimensionY];
-			//foreach (var building in BuildingConfigurations)
-			//{
-			//	if (!building.IsValid())
-			//		continue;
-
-			//}
 		}
 
 		/// <summary>
@@ -897,7 +894,10 @@ namespace BlueprintsV2.BlueprintData
 				Write();
 			}
 		}
-
+		public void RemoveAllDisabledBuildings()
+		{
+			BuildingConfigurations.RemoveAll(b => b.BuildingDisabled);
+		}
 		public void ApplyGlobalMaterialOverrides()
 		{
 			foreach (var buildingConfig in BuildingConfigurations)
@@ -927,7 +927,7 @@ namespace BlueprintsV2.BlueprintData
 				if (!dict.ContainsKey(id))
 					dict[id] = 0;
 
-				if (buildingConfig.SkipPlacement)
+				if (buildingConfig.BuildingDisabled)
 					continue;
 				dict[id]++;
 			}
@@ -940,7 +940,7 @@ namespace BlueprintsV2.BlueprintData
 			{
 				if (buildingConfig.BuildingDef?.PrefabID == buildingId)
 				{
-					buildingConfig.SkipPlacement = !enabled;
+					buildingConfig.BuildingDisabled = !enabled;
 				}
 			}
 		}
@@ -1023,6 +1023,8 @@ namespace BlueprintsV2.BlueprintData
 
 			foreach (BuildingConfig buildingConfig in BuildingConfigurations)
 			{
+				if (buildingConfig.BuildingDisabled)
+					continue;
 				Recipe buildingRecipe = buildingConfig.BuildingDef?.CraftRecipe;
 				List<Tag> selectedElements = buildingConfig.SelectedElements;
 

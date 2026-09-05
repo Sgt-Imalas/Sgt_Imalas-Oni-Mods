@@ -714,8 +714,10 @@ namespace BlueprintsV2.UnityUI
 			TargetBlueprint?.TempDisableToggleAllBuildings(id, enabled);
 			RefreshPreview();
 		}
+
 		public void RefreshPreview()
 		{
+			TargetBlueprint?.CacheCost();
 			UpdateBuildingButtons();
 			Preview.RefreshVisualizerVisibility();
 		}
@@ -803,6 +805,7 @@ namespace BlueprintsV2.UnityUI
 				return;
 
 			var clone = TargetBlueprint.GetClone();
+			clone.RemoveAllDisabledBuildings();
 			clone.ApplyGlobalMaterialOverrides();
 			OpenRenameDialogue(clone, true);
 		}

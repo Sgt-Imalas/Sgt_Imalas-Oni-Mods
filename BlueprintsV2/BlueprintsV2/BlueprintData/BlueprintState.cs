@@ -503,7 +503,7 @@ namespace BlueprintsV2.BlueprintData
 				}
 				if (notSnapshot && ModAssets.TryGetFilterLayerId(buildingConfig.BuildingDef.ObjectLayer, out var filterLayerId) && blockedLayers.Contains(filterLayerId))
 					continue;
-				if (buildingConfig.SkipPlacement)
+				if (buildingConfig.BuildingDisabled)
 					continue;
 
 				if (buildingConfig.BuildingDef.BuildingPreview != null)

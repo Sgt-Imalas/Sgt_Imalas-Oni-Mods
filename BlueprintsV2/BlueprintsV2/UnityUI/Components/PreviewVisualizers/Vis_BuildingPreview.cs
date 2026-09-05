@@ -43,7 +43,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		}
 		void ToggleBuildingDisabled(bool on)
 		{
-			_building?.SkipPlacement = !on;
+			_building?.BuildingDisabled = !on;
 			BlueprintSelectionScreen.Instance?.RefreshPreview();
 		}
 
@@ -168,7 +168,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 				kbac.TintColour = _disabledHighlighted;
 			else if (useLowOpacity)
 				kbac.TintColour = _desaturated;
-			else if (_building.SkipPlacement)
+			else if (_building.BuildingDisabled)
 				kbac.TintColour = _tempDisabled;
 			else
 				kbac.TintColour = Color.white;

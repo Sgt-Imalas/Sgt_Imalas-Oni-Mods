@@ -45,13 +45,13 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		}
 		void ToggleBuildingDisabled(bool on)
 		{
-			_building?.SkipPlacement = !on;
+			_building?.BuildingDisabled = !on;
 			BlueprintSelectionScreen.Instance?.RefreshPreview();
 		}
 
 		protected override Color GetDefaultColor()
 		{
-			return _config .SkipPlacement ? _tempDisabled : base.GetDefaultColor();
+			return _config .BuildingDisabled ? _tempDisabled : base.GetDefaultColor();
 		}
 
 		internal Vis_TilePreview Init(BuildingConfig building)
