@@ -61,8 +61,8 @@ namespace BlueprintsV2.Visualizers
 			///the kanim batch set a controller ends up in is chosen on registration (which happens on activation),
 			///and a controller that is not flagged as always visible at that point lands in a spatially culled batch set of its spawn chunk.
 			///always visible controllers never re-register on chunk change, so it would then disappear as soon as that chunk scrolls off screen.
-			Visualizer.TryGetComponent<KBatchedAnimController>(out var batchedAnimController);
-			if (batchedAnimController != null)
+			bool hasBatchedAnimController = Visualizer.TryGetComponent<KBatchedAnimController>(out var batchedAnimController);
+			if (hasBatchedAnimController)
 			{
 				batchedAnimController.visibilityType = KAnimControllerBase.VisibilityType.Always;
 				batchedAnimController.isMovable = true;
@@ -77,7 +77,7 @@ namespace BlueprintsV2.Visualizers
 			}
 			ModAPI.API_Methods.ApplyAdditionalBuildingData(Visualizer, buildingConfig, _playerId);
 
-			if (batchedAnimController != null)
+			if (hasBatchedAnimController)
 			{
 				//batchedAnimController.TintColour = GetVisualizerColor(cell);
 
@@ -89,8 +89,8 @@ namespace BlueprintsV2.Visualizers
 			{
 				Visualizer.SetLayerRecursively(LayerMask.NameToLayer("Place"));
 			}
-			ApplyColorIfChanged(cell);
 			hasKbac = kbac != null;
+			ApplyColorIfChanged(cell);
 			UpdateRequirementsState();
 		}
 
