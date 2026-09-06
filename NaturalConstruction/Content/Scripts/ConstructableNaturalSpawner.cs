@@ -170,9 +170,9 @@ namespace NaturalConstruction.Content.Scripts
 		public string SliderUnits => global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM;
 		public int SliderDecimalPlaces(int index) => 0;
 
-		public float GetSliderMin(int index) => 1;
+		public float GetSliderMin(int index) => ModAssets.MinMass;
 
-		public float GetSliderMax(int index) => 2000;
+		public float GetSliderMax(int index) => ModAssets.MaxMass;
 
 		public float GetSliderValue(int index) => naturalMass;
 

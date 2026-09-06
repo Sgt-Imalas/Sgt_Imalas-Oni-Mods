@@ -11,6 +11,8 @@ namespace NaturalConstruction
 {
 	internal class ModAssets
 	{
+		public const float MaxMass = 5000f;
+		public const float MinMass = 1f;
 		public static void MovePickupables(int cell)
 		{
 			List<int> possibleDisplacementTargets = [
