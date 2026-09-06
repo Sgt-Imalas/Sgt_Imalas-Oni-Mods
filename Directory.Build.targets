@@ -58,7 +58,7 @@
     AssemblyFile="$(_POVerify)"
     Condition="Exists('$(_POVerify)')" />
 	
-	<Target Name="Verify PO files" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true' and Exists('$(_POVerify)')">
+	<Target Name="Verify PO files" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true' and Exists('$(_POVerify)') and '$(GameLibsFolder)' != '../Lib'">
 		<ItemGroup>
 			<POFiles Include=".\ModAssets\translations\**\*.po" />
 		</ItemGroup>
