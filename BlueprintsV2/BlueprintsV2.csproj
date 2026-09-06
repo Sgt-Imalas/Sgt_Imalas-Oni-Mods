@@ -21,7 +21,6 @@
 		<IsPacked>true</IsPacked>
 	</PropertyGroup>
 
-
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Blueprints Expanded</ModName>
