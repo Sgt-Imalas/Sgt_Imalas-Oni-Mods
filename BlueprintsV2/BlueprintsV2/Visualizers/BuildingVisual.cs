@@ -57,6 +57,15 @@ namespace BlueprintsV2.Visualizers
 			Vector3 positionCbc = Grid.CellToPosCBC(cell, buildingConfig.BuildingDef.SceneLayer);
 			Visualizer = GameUtil.KInstantiate(buildingConfig.BuildingDef.BuildingPreview, positionCbc, Grid.SceneLayer.Front, "BlueprintModBuildingVisualizer", LayerMask.NameToLayer("Place"));
 			Visualizer.transform.SetPosition(positionCbc);
+
+			hasKbac = Visualizer.TryGetComponent<KBatchedAnimController>(out kbac);
+			if (hasKbac)
+			{
+				//set visibility type before activating GO, otherwise it will get culled when its original chunk goes offscreen.
+				kbac.visibilityType = KAnimControllerBase.VisibilityType.Always;
+				kbac.isMovable = true;
+				kbac.Offset = buildingConfig.BuildingDef.GetVisualizerOffset();
+			}
 			Visualizer.SetActive(true);
 
 			if (Visualizer.TryGetComponent<Rotatable>(out var rotatable))
@@ -65,27 +74,20 @@ namespace BlueprintsV2.Visualizers
 			}
 			ModAPI.API_Methods.ApplyAdditionalBuildingData(Visualizer, buildingConfig, _playerId);
 
-			if (Visualizer.TryGetComponent<KBatchedAnimController>(out var batchedAnimController))
+			if (hasKbac)
 			{
-				batchedAnimController.visibilityType = KAnimControllerBase.VisibilityType.Always;
-				batchedAnimController.isMovable = true;
-				batchedAnimController.Offset = buildingConfig.BuildingDef.GetVisualizerOffset();
-				//batchedAnimController.TintColour = GetVisualizerColor(cell);
-
-				batchedAnimController.SetLayer(LayerMask.NameToLayer("Place"));
-				batchedAnimController.Play("place");
-				kbac = batchedAnimController;
+				kbac.SetLayer(LayerMask.NameToLayer("Place"));
+				kbac.Play("place");
 			}
 			else
 			{
 				Visualizer.SetLayerRecursively(LayerMask.NameToLayer("Place"));
 			}
 			ApplyColorIfChanged(cell);
-			hasKbac = kbac != null;
 			UpdateRequirementsState();
 		}
 
-		///relevant for rendering tiles in the multiplayer mod integration
+		///relevant for rendering visualizers in the multiplayer mod integration
 		public ulong GetPlayerId()
 		{
 			return _playerId;

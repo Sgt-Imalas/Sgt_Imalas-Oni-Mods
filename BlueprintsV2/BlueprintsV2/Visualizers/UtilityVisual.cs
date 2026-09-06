@@ -10,53 +10,30 @@ namespace BlueprintsV2.Visualizers
 
 	public sealed class UtilityVisual : BuildingVisual
 	{
-
+		private IUtilityNetworkMgr _networkMgr;
 		public UtilityVisual(BuildingConfig buildingConfig, int cell, ulong playerId) : base(buildingConfig, cell, playerId)
 		{
-			if (Visualizer.TryGetComponent<KBatchedAnimController>(out var batchedAnimController))
-			{
-				IUtilityNetworkMgr utilityNetworkManager = buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>().GetNetworkManager();
-
-				if (utilityNetworkManager != null && buildingConfig.GetConduitFlags(out int flags))
-				{
-					string animation = utilityNetworkManager.GetVisualizerString((UtilityConnections)flags) + "_place";
-
-					if (batchedAnimController.HasAnimation(animation))
-					{
-						batchedAnimController.Play(animation);
-					}
-				}
-
-				batchedAnimController.visibilityType = KAnimControllerBase.VisibilityType.Always;
-				batchedAnimController.isMovable = true;
-				batchedAnimController.Offset = buildingConfig.BuildingDef.GetVisualizerOffset();
-				//batchedAnimController.TintColour = GetVisualizerColor(cell);
-
-				batchedAnimController.SetLayer(LayerMask.NameToLayer("Place"));
-			}
-			ApplyColorIfChanged(cell);
+			_networkMgr = buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>()?.GetNetworkManager();
+			UpdateConnectionVis();
 		}
 
 		public override void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
 		{
 			BlueprintRotationStateHolder = rotation;
 			base.ApplyRotation(rotation, flippedX, flippedY);
-			UpdateConnectionVis(Visualizer);
+			UpdateConnectionVis();
 		}
-		void UpdateConnectionVis(GameObject go, bool built = false)
+		void UpdateConnectionVis(bool built = false)
 		{
-			var mng = buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>().GetNetworkManager();
-			if (mng != null && buildingConfig.GetConduitFlags(out var flags) && go.TryGetComponent<KBatchedAnimController>(out var kbac))
+			if (hasKbac && _networkMgr != null && buildingConfig.GetConduitFlags(out var flags))
 			{
-				string animation = mng.GetVisualizerString((UtilityConnections)GetRotatedUtilityConnectionFlags(flags));
+				string animation = _networkMgr.GetVisualizerString((UtilityConnections)GetRotatedUtilityConnectionFlags(flags));
 				if(!built)
 					animation += "_place";
 				
 				if (kbac.HasAnimation(animation))
 					kbac.Play(animation);
 			}
-			//else
-			//	SgtLogger.l("no connections to update on " + go.name);
 		}
 		public override void MoveVisualizer(int cellParam, bool forceRedraw)
 		{
