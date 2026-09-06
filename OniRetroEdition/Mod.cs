@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -103,6 +104,27 @@ namespace OniRetroEdition
 		//	}
 		//}
 
+
+
+		//[HarmonyPatch(typeof(Manager), nameof(Manager.Load))]
+		//public class Manager_Load_Patch
+		//{
+		//	public static void Prefix(Manager __instance, Content content)
+		//	{
+		//		SgtLogger.l("Loading Content Type: " + content);
+		//		var mod = __instance.mods.FirstOrDefault(m => m.staticID == Instance.mod.staticID);
+		//		if (mod == null)
+		//			return;
+
+		//		Content content1 = mod.loaded_content & content;
+		//		Content content2 = mod.available_content & content;
+
+
+		//		SgtLogger.l("loaded_content: " + content1);
+		//		SgtLogger.l("available_content: " + content2);
+		//		SgtLogger.l("Equal? : " + (content2 == content1));
+		//	}
+		//}
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

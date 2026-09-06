@@ -21,7 +21,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
                     return;
 
                 SgtLogger.l("Loading Packed Kanims from Mod Folder");
-				__result = InjectionMethods.LoadAllPackedKanimsRecursively(FileSystem.Normalize(System.IO.Path.Combine(IO_Utils.ModPath, "anim_packed")));
+
+				bool packedKanimsLoaded = InjectionMethods.LoadAllPackedKanimsRecursively(FileSystem.Normalize(System.IO.Path.Combine(IO_Utils.ModPath, "anim_packed")));
+				__result = __result || packedKanimsLoaded;
 			}
         }
 	}
