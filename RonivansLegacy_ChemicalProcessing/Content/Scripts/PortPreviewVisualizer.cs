@@ -19,22 +19,36 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[MyCmpReq]
 		PortDisplayController PortController;
 
-		Dictionary<CellOffset, GameObject> PortPreviews = []; 
+		Dictionary<CellOffset, GameObject> PortPreviews = [];
 		Dictionary<CellOffset, Image> PortPreviewImagess = [];
 
 		[SerializeField]
-		public HashedString DisableInOverlay = HashedString.Invalid;
+		public bool DisableInLiquidOverlay = true;
+		[SerializeField]
+		public bool DisableInGasOverlay = true;
 
 		int _lastCell = -1;
+		public void SetOverlayToggles(bool disableInGas, bool disableInLiquid)
+		{
+			DisableInGasOverlay = disableInGas;
+			DisableInLiquidOverlay = disableInLiquid;
+		}
 
 		void OnOverlaySwitched(HashedString overlay)
 		{
-			TogglePorts(overlay != DisableInOverlay);
+			bool setEnabled = true;
+			if (DisableInGasOverlay && overlay == OverlayModes.GasConduits.ID)
+				setEnabled = false;
+			else if (DisableInLiquidOverlay && overlay == OverlayModes.LiquidConduits.ID)
+				setEnabled = false;
+
+			TogglePorts(setEnabled);
 		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			OverlayScreen.Instance.OnOverlayChanged += OnOverlaySwitched;
+			if (DisableInGasOverlay || DisableInGasOverlay) 
+				OverlayScreen.Instance.OnOverlayChanged += OnOverlaySwitched;
 			SpawnPortPreviews();
 			OnOverlaySwitched(OverlayScreen.Instance.mode);
 		}
@@ -42,7 +56,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		void Update()
 		{
 			var cell = Grid.PosToCell(this);
-			if(!Grid.IsValidCell(cell) || cell == _lastCell)
+			if (!Grid.IsValidCell(cell) || cell == _lastCell)
 				return;
 
 			_lastCell = cell;
@@ -52,12 +66,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnCleanUp()
 		{
 			CleanupPorts();
-			OverlayScreen.Instance.OnOverlayChanged -= OnOverlaySwitched;
+			if (DisableInGasOverlay || DisableInGasOverlay)
+				OverlayScreen.Instance.OnOverlayChanged -= OnOverlaySwitched;
 			base.OnCleanUp();
 		}
 		void CleanupPorts()
 		{
-			foreach(var port in PortPreviews.Values)
+			foreach (var port in PortPreviews.Values)
 			{
 				if (port != null)
 				{
@@ -70,7 +85,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		void TogglePorts(bool enabled)
 		{
-			foreach(var port in PortPreviews.Values)
+			foreach (var port in PortPreviews.Values)
 			{
 				port.SetActive(enabled);
 			}
@@ -91,12 +106,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				Sprite sprite = port.Input ? previewSpriteIn : previewSpriteOut;
 				CreatePortPreview(offset, sprite);
 			}
-			if(building.Def.InputConduitType != ConduitType.None)
+			if (building.Def.InputConduitType != ConduitType.None)
 			{
 				CellOffset inputOffset = building.GetUtilityInputOffset();
-				CreatePortPreview(inputOffset, previewSpriteIn);				
+				CreatePortPreview(inputOffset, previewSpriteIn);
 			}
-			if(building.Def.OutputConduitType != ConduitType.None)
+			if (building.Def.OutputConduitType != ConduitType.None)
 			{
 				CellOffset outputOffset = building.GetUtilityOutputOffset();
 				CreatePortPreview(outputOffset, previewSpriteOut);
@@ -104,7 +119,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public void MovePortPreviews()
 		{
-			foreach(var port in PortPreviews)
+			foreach (var port in PortPreviews)
 			{
 				if (port.Value != null)
 				{

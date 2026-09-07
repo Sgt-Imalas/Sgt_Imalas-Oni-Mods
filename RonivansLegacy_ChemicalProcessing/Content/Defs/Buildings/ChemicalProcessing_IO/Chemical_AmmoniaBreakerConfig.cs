@@ -125,7 +125,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigurePreview(def, go);
 			this.AttachPort(go);
-			go.AddOrGet<PortPreviewVisualizer>().DisableInOverlay = OverlayModes.GasConduits.ID;
+			go.AddOrGet<PortPreviewVisualizer>().SetOverlayToggles(true, false);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

@@ -86,6 +86,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT = engineEffectClusterText;
 				//SgtLogger.l("EngineEffectCluster:\n" + engineEffectClusterText);
 			}
+			if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				string sodaFountainEffect = global::STRINGS.BUILDINGS.PREFABS.SODAFOUNTAIN.EFFECT;
 				//SgtLogger.l("sodaFountainEffect:\n" + sodaFountainEffect);
