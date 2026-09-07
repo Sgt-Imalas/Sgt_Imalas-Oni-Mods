@@ -511,6 +511,7 @@ namespace BlueprintsV2.Visualizers
 			}
 			return false;
 		}
+
 		public virtual bool CanApplyConduitSettings(int cellParam)
 		{
 			if (!SameBuildingAlreadyFinishedInPlace(cellParam, out var otherConduit, false, true))
