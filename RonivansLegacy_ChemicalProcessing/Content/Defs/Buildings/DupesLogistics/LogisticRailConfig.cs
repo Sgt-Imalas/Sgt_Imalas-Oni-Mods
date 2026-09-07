@@ -48,6 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			local1.isPhysicalBuilding = true;
 			LiquidConduitConfig.CommonConduitPostConfigureComplete(go);
 			go.AddOrGet<LogisticConduit>();
+			go.AddOrGet<EmptySolidConduitWorkable>();
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{

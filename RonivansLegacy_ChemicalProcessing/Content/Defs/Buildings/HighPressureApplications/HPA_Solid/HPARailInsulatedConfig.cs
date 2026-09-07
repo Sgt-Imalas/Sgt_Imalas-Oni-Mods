@@ -50,6 +50,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			local1.connectionSource = KAnimGraphTileVisualizer.ConnectionSource.Solid;
 			local1.isPhysicalBuilding = true;
 			LiquidConduitConfig.CommonConduitPostConfigureComplete(go);
+			go.AddOrGet<EmptySolidConduitWorkable>();
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
