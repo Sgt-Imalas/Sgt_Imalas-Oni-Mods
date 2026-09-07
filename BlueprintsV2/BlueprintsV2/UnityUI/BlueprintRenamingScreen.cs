@@ -252,7 +252,6 @@ namespace BlueprintsV2.UnityUI
 			float height = Mathf.Clamp(count * (25+2) + 4, 10, 150);
 			_dropDownGO.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
 		}
-
 		BlueprintNameOption AddOrGetDropDownEntry(string name)
 		{
 			if (_dropDownEntries.TryGetValue(name, out BlueprintNameOption entry))
@@ -302,7 +301,6 @@ namespace BlueprintsV2.UnityUI
 			Instance.Refresh(title, onConfirm, onCancel, startString, allowEmpty, selectableOptions);
 			Instance.transform.SetAsLastSibling();
 			//Instance.NameInput.ExternalStartEditing();
-
 			//KScreenManager.Instance.RefreshStack();
 		}
 

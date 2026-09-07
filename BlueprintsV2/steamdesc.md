@@ -4,7 +4,7 @@ An updated and improved Blueprint mod - now with settings transfer and material 
 
 [img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All.png[/img]
 
-[h1]Current latest Version: 7.0[/h1]
+[h1]Current latest Version: 7.2[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]

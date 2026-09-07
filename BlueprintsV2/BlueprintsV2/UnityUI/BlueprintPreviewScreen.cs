@@ -19,6 +19,7 @@ using UtilLibs.UIcmp;
 using static BlueprintsV2.BlueprintsV2.UnityUI.Components.BuildingFilterDropdown;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.PREVIEW;
+using static BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS;
 using static Database.MonumentPartResource;
 using static STRINGS.LORE.BUILDINGS;
 using static STRINGS.MISC.STATUSITEMS;
@@ -112,6 +113,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				FilterLayerKbacs[filterId] = new();
 				FilterLayerImages[filterId] = new();
 
+
 				entries.Add(new FHoverableDropDownEntry(
 					Strings.Get("STRINGS.UI.TOOLS.FILTERLAYERS." + filterId + ".NAME"),
 					(on) => OnPreviewFilterChanged(filterId, on),
@@ -121,6 +123,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				() => OnCategoryUnhovered(filterId)
 				));
 			}
+			entries.Add(new FHoverableDropDownEntry(
+					BLUEPRINTV2_PRESERVEAIRTILES.NAME,
+					(on) => OnPreviewFilterChanged(ToolParameterMenu.FILTERLAYERS.DIGPLACER, on),
+					true,
+					BLUEPRINTV2_PRESERVEAIRTILES.TOOLTIP
+				));
 			entries.Add(new FDropDownButtonEntry(FILTERBUTTON.RESETALL, (_) => ResetPreviewFilters()));
 
 			FilterDropDown.DropDownEntries = entries;

@@ -526,9 +526,12 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 
-			foreach (var digLocation in blueprint.DigLocations)
+			if (!blockedLayers.Contains(ToolParameterMenu.FILTERLAYERS.DIGPLACER))
 			{
-				FoundationVisuals[playerId].Add(new DigVisual(playerId, Grid.XYToCell(topLeft.x + digLocation.x, topLeft.y + digLocation.y), digLocation));
+				foreach (var digLocation in blueprint.DigLocations)
+				{
+					FoundationVisuals[playerId].Add(new DigVisual(playerId, Grid.XYToCell(topLeft.x + digLocation.x, topLeft.y + digLocation.y), digLocation));
+				}
 			}
 
 			foreach (var elementIndicator in blueprint.WorldNotes)
