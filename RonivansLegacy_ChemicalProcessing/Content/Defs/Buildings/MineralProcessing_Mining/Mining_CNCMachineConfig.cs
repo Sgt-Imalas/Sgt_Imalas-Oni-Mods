@@ -5,6 +5,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Gaskets;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,7 @@ namespace Mineral_Processing_Mining.Buildings
 			combustibleLiquidPortConsumer.AssignPort(combustibleLiquidPort);
 
 			Prioritizable.AddRef(go);
+
 			this.ConfigureRecipes();
 		}
 		public static void AttachPorts(GameObject go)
@@ -180,6 +182,8 @@ namespace Mineral_Processing_Mining.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			AttachPorts(go);
+			SymbolOverrideControllerUtil.AddToPrefab(go);
+			go.AddOrGet<CNC_SymbolOverride>();
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
