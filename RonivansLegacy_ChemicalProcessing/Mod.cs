@@ -77,6 +77,7 @@ namespace RonivansLegacy_ChemicalProcessing
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
 			base.OnAllModsLoaded(harmony, mods);
+			ChooseIngredient.CheckIfEnabled(mods);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			DisableOldRonivanMods(harmony, mods);

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			[HarmonyPostfix]
 			public static void Postfix(GameObject go)
 			{
+				if (ChooseIngredient.ModActive)
+					return;
+
 				var o = go.AddOrGet<SolidDeliverySelection>();
 				o.Options = [.. RefinementRecipeHelper.GetWoods().Select(sh => sh.CreateTag())];
 				o.AnyTag = GameTags.BuildingWood;
