@@ -1005,7 +1005,6 @@ elements:
     radiationPer1000Mass: 0
     tags:
     - Mixture
-    - Beached_VeryCorrosive #Beached Acid simulation
     - AIO_SulphuricAcidBuildable #buildable acid material 
     isDisabled: false
     state: Liquid
@@ -1062,7 +1061,6 @@ elements:
     radiationPer1000Mass: 0
     tags:
     - Mixture
-    - Beached_VeryCorrosive #Beached Acid simulation
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDNITRIC.NAME
