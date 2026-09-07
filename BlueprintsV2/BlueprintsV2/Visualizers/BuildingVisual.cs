@@ -44,6 +44,7 @@ namespace BlueprintsV2.Visualizers
 		protected KBatchedAnimController kbac;
 		protected bool hasKbac = false;
 		protected bool isTile = false;
+		protected IUtilityNetworkMgr _networkMgr = null;
 		//protected Color? _lastColor = null;
 
 		public BuildingVisual(BuildingConfig buildingConfig, int cell, ulong playerId)
@@ -180,7 +181,7 @@ namespace BlueprintsV2.Visualizers
 			if (isComplete && buildingComplete.Def != def)
 				return;
 
-			if (building.TryGetComponent<Rotatable>(out var rotatable))
+			if (building.TryGetComponent<Rotatable>(out var rotatable) && rotatable.Orientation != RotatedOrientation)
 			{
 				rotatable.SetOrientation(RotatedOrientation);
 			}
@@ -282,7 +283,7 @@ namespace BlueprintsV2.Visualizers
 
 		void UpdateConduitConnectionBits(GameObject go)
 		{
-			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null
+			if (_networkMgr != null
 				&& go.TryGetComponent<KAnimGraphTileVisualizer>(out var vis)
 				&& buildingConfig.GetConduitFlags(out var flags))
 			{
@@ -301,7 +302,7 @@ namespace BlueprintsV2.Visualizers
 		{
 			var def = buildingConfig.BuildingDef;
 			var selectedElements = GetConstructionElements();
-			var finishedBuilding = def.Create(positionCbc, null, GetConstructionElements(), def.CraftRecipe, ElementLoader.GetMinMeltingPointAmongElements(selectedElements), def.BuildingComplete);
+			var finishedBuilding = def.Create(positionCbc, null, GetConstructionElements(), def.CraftRecipe, ModAssets.GetSpawnTemperature(def, selectedElements), def.BuildingComplete);
 
 			if (finishedBuilding == null)
 			{
@@ -486,18 +487,24 @@ namespace BlueprintsV2.Visualizers
 			return false;
 		}
 
-		public virtual bool SameBuildingAlreadyFinishedInPlace(int cellParam, out BuildingComplete bc, bool excludeConduits)
+		public virtual bool SameBuildingAlreadyFinishedInPlace(int cellParam, out Building building, bool excludeConduits, bool includePlanned)
 		{
-			bc = null;
+			building = null;
 			var def = buildingConfig.BuildingDef;
 			var existingBuilding = Grid.Objects[cellParam, (int)def.ObjectLayer];
-			if (existingBuilding != null && existingBuilding.TryGetComponent<BuildingComplete>(out bc))
+			if (existingBuilding == null)
+				return false;
+
+			if (existingBuilding.TryGetComponent<Building>(out building))
 			{
+				if (building is not BuildingComplete && !includePlanned)
+					return false;
+
 				//is same def AND the building cell is aligned with the visualizer cell (aka the building is in the exact same spot as the vis.)
-				if (bc.Def == def && Grid.PosToCell(existingBuilding) == cellParam)
+				if (building.Def == def && Grid.PosToCell(existingBuilding) == cellParam)
 				{
 					if (excludeConduits)
-						return !bc.TryGetComponent<IHaveUtilityNetworkMgr>(out _);
+						return !building.TryGetComponent<IHaveUtilityNetworkMgr>(out _);
 
 					return true;
 				}
@@ -506,7 +513,7 @@ namespace BlueprintsV2.Visualizers
 		}
 		public virtual bool CanApplyConduitSettings(int cellParam)
 		{
-			if (!SameBuildingAlreadyFinishedInPlace(cellParam, out var otherConduit, false))
+			if (!SameBuildingAlreadyFinishedInPlace(cellParam, out var otherConduit, false, true))
 				return false;
 			if (otherConduit.TryGetComponent<IHaveUtilityNetworkMgr>(out var mng) && buildingConfig.GetConduitFlags(out var ownFlags))
 			{
@@ -523,7 +530,7 @@ namespace BlueprintsV2.Visualizers
 			if (!allowed)
 				return false;
 
-			if (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, false))
+			if (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, false, true))
 			{
 				if (bc.TryGetComponent<PrimaryElement>(out var e) && e.Element.tag == GetConstructionElements()[0])
 					return false;
@@ -535,7 +542,7 @@ namespace BlueprintsV2.Visualizers
 		{
 			reconstructable = null;
 			var def = buildingConfig.BuildingDef;
-			if (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, false))
+			if (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, false, false))
 			{
 				if (bc.Def == def
 					&& bc.TryGetComponent<Reconstructable>(out reconstructable)
@@ -589,7 +596,7 @@ namespace BlueprintsV2.Visualizers
 			//{
 			//	return TryReconstructExistingBuilding(cellParam);
 			//}
-			else if (CurrentStateInfo(_playerId).ApplySettingsToExistingBuildings && (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam))) //apply building settings to existing, does not apply to conduits
+			else if (CurrentStateInfo(_playerId).ApplySettingsToExistingBuildings && (SameBuildingAlreadyFinishedInPlace(cellParam, out var bc, true, true) || CanApplyConduitSettings(cellParam))) //apply building settings to existing, does not apply to conduits
 			{
 				ApplyBuildingData(bc.gameObject, false);
 				if (buildingConfig.HasAnyBuildingData)
@@ -796,7 +803,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
 			}
-			else if (SameBuildingAlreadyFinishedInPlace(cellParam, out _, false))
+			else if (SameBuildingAlreadyFinishedInPlace(cellParam, out _, false, true))
 			{
 				if ((buildingConfig.HasAnyBuildingData || CanApplyConduitSettings(cellParam)) && stateInfo.ApplySettingsToExistingBuildings)
 				{
@@ -1040,7 +1047,7 @@ namespace BlueprintsV2.Visualizers
 		}
 		public void SpawnDestroyedByForceTransformFx()
 		{
-			PopFXManager.Instance.SpawnFX(Assets.GetSprite("icon_action_cancel"), string.Format(FORCETRANSFORMATIONTOGGLE.FX_TEXT,BuildingDef.Name), null, offset: Grid.CellToPos(cell), Config.Instance.FXTime);
+			PopFXManager.Instance.SpawnFX(Assets.GetSprite("icon_action_cancel"), string.Format(FORCETRANSFORMATIONTOGGLE.FX_TEXT, BuildingDef.Name), null, offset: Grid.CellToPos(cell), Config.Instance.FXTime);
 		}
 	}
 }

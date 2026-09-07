@@ -10,7 +10,6 @@ namespace BlueprintsV2.Visualizers
 
 	public sealed class UtilityVisual : BuildingVisual
 	{
-		private IUtilityNetworkMgr _networkMgr;
 		public UtilityVisual(BuildingConfig buildingConfig, int cell, ulong playerId) : base(buildingConfig, cell, playerId)
 		{
 			_networkMgr = buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>()?.GetNetworkManager();
