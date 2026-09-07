@@ -1,15 +1,16 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
+using UtilLibs;
 using UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.ReorderableList;
 using UtilLibs.UIcmp;
-using UtilLibs;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using static GeyserGenericConfig;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 {
@@ -32,10 +33,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 		public FMultiSelectDropdown FilterDropDown;
 
-		GameObject WattageContainer, StorageCapacityContainer, RangeContainer;
-		LocText WattageLabel, RangeLabel;
+		GameObject WattageContainer, StorageCapacityContainer, RangeContainer, RateContainer;
+		LocText WattageLabel, RangeLabel, RateLabel;
+		ToolTip RateTooltip;
 
-		FInputField2 WattageInput, StorageCapacityInput, RangeInput;
+		FInputField2 WattageInput, StorageCapacityInput, RangeInput, RateInput;
+		FSlider RateInputSlider;
 		FToggle BuildingEnabledToggle;
 
 		FButton ResetSingleBuilding;
@@ -200,6 +203,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			RangeLabel = RangeContainer.GetComponent<LocText>();
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.TILES);
 
+			RateContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/MultiplierSettings").gameObject;
+			RateInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/MultiplierSettings/Input").FindOrAddComponent<FInputField2>();
+			RateInput.Text = "100";
+			RateInput.AddListener(UpdateItemMultiplier);
+			RateLabel = RateContainer.GetComponent<LocText>();
+			RateLabel.key = string.Empty;
+			RateLabel.text = "FILLER:";
+			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/MultiplierSettings/Unit").gameObject.GetComponent<LocText>().SetText("%");
+
+			RateInputSlider = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/MultiplierSettings/Slider").FindOrAddComponent<FSlider>();
+			RateInputSlider.TrailingOutputNumbers = 2;
+			RateInputSlider.SetWholeNumbers(true);
+			RateInputSlider.OnChange += UpdateItemMultiplierSlider;
+			RateInputSlider.SetMinMaxCurrent(10, 1000, 100);
+
+			RateTooltip = UIUtils.AddSimpleTooltipToObject(RateContainer, "");
+
+
 			StorageCapacityContainer.gameObject.SetActive(false);
 
 			BuildingEnabledToggle = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/EnableBuilding/Checkbox").gameObject.AddOrGet<FToggle>();
@@ -236,13 +257,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		FMultiSelectDropdown.FDropDownEntry CreateFilterEntry(SourceModInfo mod)
 		{
 			var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{mod.ToString().ToUpperInvariant()}").ToString();
-			return new FMultiSelectDropdown.FDropDownEntry(ModName, (_)=>ToggleModFiltered(mod),true);
+			return new FMultiSelectDropdown.FDropDownEntry(ModName, (_) => ToggleModFiltered(mod), true);
 		}
 
 		void SetToggleButtonState()
 		{
 			bool shouldDisable = FilteredMods.Any();
-			if(shouldDisable)
+			if (shouldDisable)
 				ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.DISABLE_ALL);
 			else
 				ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.ENABLE_ALL);
@@ -298,7 +319,34 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			}
 			OnOutlineEntryUpdated();
 		}
+		void UpdateItemMultiplierSlider(float rate)
+		{
+			if (SelectedOutline == null)
+				return;
+			SelectedOutline?.SetRateMultiplier(rate / 100f);
 
+			rate = SelectedOutline.GetRateMultiplier() * 100f;
+			RateInput.SetTextFromData(rate.ToString());
+
+			RateTooltip.toolTip = SelectedOutline.GetMultiplierToolTip();
+			OnOutlineEntryUpdated();
+		}
+		void UpdateItemMultiplier(string text)
+		{
+			if (SelectedOutline == null)
+				return;
+			if (float.TryParse(text, out float rate))
+			{
+				SelectedOutline?.SetRateMultiplier(rate / 100f);
+			}
+
+			rate = SelectedOutline.GetRateMultiplier() * 100f;
+			RateInput.SetTextFromData(rate.ToString());
+			RateInputSlider.SetCurrentFromCode(rate);
+
+			RateTooltip.toolTip = SelectedOutline.GetMultiplierToolTip();
+			OnOutlineEntryUpdated();
+		}
 		void UpdateItemRange(string text)
 		{
 			if (SelectedOutline == null)
@@ -440,7 +488,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			{
 				StorageCapacityContainer.SetActive(false);
 			}
-			if(SelectedOutline.HasWattage(out var wattage))
+			if (SelectedOutline.HasWattage(out var wattage))
 			{
 				WattageContainer.SetActive(true);
 				WattageLabel.SetText(SelectedOutline.IsGenerator
@@ -452,10 +500,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			{
 				WattageContainer.SetActive(false);
 			}
-			if(SelectedOutline.HasTileRange(out int range))
+			if (SelectedOutline.HasTileRange(out int range))
 			{
 				RangeContainer.SetActive(true);
-				if(SelectedOutline.HasTileRangeDescriptor(out string descriptor))
+				if (SelectedOutline.HasTileRangeDescriptor(out string descriptor))
 				{
 					RangeLabel.SetText(descriptor);
 				}
@@ -469,6 +517,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			{
 				RangeContainer.SetActive(false);
 			}
+			if (SelectedOutline.HasRateMultiplier(out float rate))
+			{
+				RateContainer.SetActive(true);
+				RateLabel.SetText(SelectedOutline.RateMultiplierLabel);
+				RateTooltip.toolTip = SelectedOutline.GetMultiplierToolTip();
+
+				int roundRate = Mathf.RoundToInt(rate * 100f);
+
+				RateInput.SetTextFromData(roundRate.ToString());
+				RateInputSlider.SetCurrentFromCode(roundRate);
+			}
+			else
+			{
+				RateContainer.SetActive(false);
+			}
+
+			
 			SelectedEntryPreviewImage.sprite = Def.GetUISprite(SelectedOutline.BuildingID).first;
 		}
 

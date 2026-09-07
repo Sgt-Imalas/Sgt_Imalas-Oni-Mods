@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
@@ -15,7 +16,7 @@ using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
-    class CustomSolidGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding
+    class CustomSolidGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding ,IHasConfigurableRateMultiplier
 	{
 		public static float Wattage = 750;
 		public float GetWattage() => Wattage;
@@ -24,6 +25,29 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 		public static string ID = "CustomSolidGenerator";
 
 		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
+		public static float RateMultiplier = 1;
+		public void SetMultiplier(float multiplier)
+		{
+			RateMultiplier = multiplier;
+		}
+
+		public Func<BuildingConfigurationEntry, string> GetCurrentRateDescription()
+		{
+			return (entry) =>
+			{
+				string toFormat = STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RATESETTING_GENERATOR_TOOLTIP;
+
+				float currentMultiplier = entry.GetRateMultiplier();
+
+				return toFormat
+				.Replace("{PERCENTAGE}", GameUtil.GetFormattedPercent(currentMultiplier * 100f))
+				.Replace("{WATTAGE}", GameUtil.GetFormattedWattage(entry.GetWattage() * currentMultiplier))
+				.Replace("{FUEL}", global::STRINGS.ELEMENTS.REFINEDCARBON.NAME)
+				.Replace("{RATE}", GameUtil.GetFormattedMass(0.75f * currentMultiplier, GameUtil.TimeSlice.PerSecond))
+				;
+			};
+		}
+		public string GetRateLabel() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RATESETTING_GENERATOR;
 
 		static CustomSolidGeneratorConfig()
 		{
@@ -47,10 +71,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 				construction_mass, construction_materials,
 				2400f, BuildLocationRule.OnFloor, decor, noise);
 
-			buildingDef.GeneratorWattageRating = GetWattage();
+			buildingDef.GeneratorWattageRating = GetWattage() * RateMultiplier;
 			buildingDef.GeneratorBaseCapacity = buildingDef.GeneratorWattageRating;
-			buildingDef.ExhaustKilowattsWhenActive = 8f;
-			buildingDef.SelfHeatKilowattsWhenActive = 1f;
+			buildingDef.ExhaustKilowattsWhenActive = 8f * RateMultiplier;
+			buildingDef.SelfHeatKilowattsWhenActive = 1f * RateMultiplier;
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.RequiresPowerOutput = true;
@@ -77,13 +101,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 
 
 			var fuel = SimHashes.RefinedCarbon.CreateTag();
-			float maxFuelCapacity = 600;
+			float maxFuelCapacity = 600 * RateMultiplier;
 
 			ManualDeliveryKG ykg = go.AddOrGet<ManualDeliveryKG>();
 			ykg.SetStorage(fuelStorage);
 			ykg.RequestedItemTag = fuel;
 			ykg.capacity = maxFuelCapacity;
-			ykg.refillMass = 100f;
+			ykg.refillMass = 100f * RateMultiplier;
 			ykg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 			EnergyGenerator generator = go.AddOrGet<EnergyGenerator>();
@@ -93,8 +117,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 
 			generator.formula = new EnergyGenerator.Formula()
 			{
-				inputs = [new(fuel, 0.75f, maxFuelCapacity)],
-				outputs = [new(SimHashes.CarbonDioxide, 0.01f, true, new CellOffset(0, 2), 383.15f)]
+				inputs = [new(fuel, 0.75f * RateMultiplier, maxFuelCapacity)],
+				outputs = [new(SimHashes.CarbonDioxide, 0.01f * RateMultiplier, true, new CellOffset(0, 2), 383.15f)]
 			};
 
 			PipedConduitDispenser co2Dispenser = go.AddOrGet<PipedConduitDispenser>();

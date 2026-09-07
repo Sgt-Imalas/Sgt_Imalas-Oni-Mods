@@ -8,7 +8,7 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 {
-	class BuildingConfigurationEntry
+	public class BuildingConfigurationEntry
 	{
 		public string BuildingID;
 		[JsonIgnore]
@@ -18,6 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public float BuildingWattage = -1;
 		public float BuildingTileRange = -1;
 		public bool BuildingEnabledForce = false;
+		public float BuildingRateMultiplier = -1;
 		[JsonIgnore]
 		public float BuildingMassCapacityDefault = -1;
 		[JsonIgnore]
@@ -28,9 +29,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public BuildingInjectionEntry BuildingInjection = null;
 		[JsonIgnore]
 		public bool IsGenerator;
+		[JsonIgnore]
+		public float BuildingRateMultiplierDefault = -1;
 
 		[JsonIgnore]
 		public string RangeLabel = null;
+
+		[JsonIgnore]
+		public string RateMultiplierLabel = string.Empty;
+		[JsonIgnore]
+		public Func<BuildingConfigurationEntry, string> RateMultiplierTooltipGetter = null;
+
 		[JsonIgnore]
 		public Tuple<int, int> TileRangeValueRange = new(1, 99);
 
@@ -46,6 +55,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		{
 			BuildingID = buildingID;
 			BuildingEnabled = buildingEnabled;
+		}
+		public BuildingConfigurationEntry SetDefaultMultiplier(float multiplier)
+		{
+			BuildingRateMultiplierDefault = multiplier;
+			return this;
 		}
 		public BuildingConfigurationEntry SetDefaultWattage(float wattage)
 		{
@@ -64,6 +78,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			BuildingTileRangeDefault = range;
 			return this;
 		}
+		public float GetRateMultiplier()
+		{
+			return BuildingRateMultiplier <= 0 ? BuildingRateMultiplierDefault : BuildingRateMultiplier;
+		}
 		public float GetWattage()
 		{
 			return BuildingWattage < 0 ? BuildingWattageDefault : BuildingWattage;
@@ -77,6 +95,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			return BuildingTileRange < 0 ? (int)BuildingTileRangeDefault : (int)BuildingTileRange;
 		}
 
+		public bool HasRateMultiplier(out float rate)
+		{
+			rate = GetRateMultiplier();
+			return BuildingRateMultiplierDefault >= 0;
+		}
 		public bool HasWattage(out float wattage)
 		{
 			wattage = GetWattage();
@@ -135,6 +158,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			if (wattage >= 0)
 				BuildingWattage = wattage;
 		}
+		public void SetRateMultiplier(float multiplier)
+		{
+			if (multiplier > 0)
+				BuildingRateMultiplier = multiplier;
+		}
 		public void SetMassCapacity(float mass)
 		{
 			if (mass > 0)
@@ -159,6 +187,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			BuildingMassCapacity = -1;
 			BuildingWattage = -1;
 			BuildingTileRange = -1;
+			BuildingRateMultiplier = -1;
 			BuildingEnabled = true;
 		}
 
@@ -196,12 +225,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 
 		internal bool HasConfigurables()
 		{
-			return HasWattage(out _) || HasStorageCapacity(out _);
+			return HasWattage(out _) || HasStorageCapacity(out _) || HasTileRange(out _) || HasRateMultiplier(out _);
 		}
 
 		internal void SetIsGenerator(bool v)
 		{
 			IsGenerator = v;
+		}
+
+		internal void SetRateStrings(string label, Func<BuildingConfigurationEntry, string> tooltipFunc)
+		{
+			this.RateMultiplierLabel = label;
+			this.RateMultiplierTooltipGetter = tooltipFunc;
+		}
+		public string GetMultiplierToolTip()
+		{
+			if (RateMultiplierTooltipGetter == null)
+				return string.Empty;
+
+			return RateMultiplierTooltipGetter.Invoke(this);
 		}
 	}
 }

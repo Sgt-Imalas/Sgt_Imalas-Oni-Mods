@@ -70,6 +70,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					storageConfigurator.SetStorageCapacity(entry.GetStorageCapacity());
 				}
 			}
+			if (typeof(IHasConfigurableRateMultiplier).IsAssignableFrom(buildingType))
+			{
+				var generatorMultiplier = (IHasConfigurableRateMultiplier)Activator.CreateInstance(buildingType);
+				if (generatorMultiplier != default)
+				{
+					//set the default value in the config class
+					entry.SetDefaultMultiplier(generatorMultiplier.GetDefaultMultiplier());
+					entry.SetRateStrings(generatorMultiplier.GetRateLabel(), generatorMultiplier.GetCurrentRateDescription());
+					generatorMultiplier.SetMultiplier(entry.GetRateMultiplier());
+				}
+			}
 			if (typeof(IGeneratorBuilding).IsAssignableFrom(buildingType))
 			{
 				entry.SetIsGenerator(true);

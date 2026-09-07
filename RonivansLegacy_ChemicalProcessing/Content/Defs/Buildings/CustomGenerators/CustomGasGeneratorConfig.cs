@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
@@ -16,7 +17,7 @@ using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
-    class CustomGasGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding
+	class CustomGasGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding, IHasConfigurableRateMultiplier
 	{
 		public const float SizeMultiplier = 1f / 3f; // percentage of the original area
 
@@ -29,7 +30,34 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 		private static readonly PortDisplayOutput pWaterPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(0, 1));
 		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
-		const float conduitInputRate = 2 * SizeMultiplier;
+		public static float RateMultiplier = 1f;
+		static float _conduitInputRate => 2 * SizeMultiplier * RateMultiplier;
+
+
+		public void SetMultiplier(float multiplier)
+		{
+			RateMultiplier = multiplier;
+		}
+
+		public Func<BuildingConfigurationEntry, string> GetCurrentRateDescription()
+		{
+			return (entry) =>
+			{
+				string toFormat = STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RATESETTING_GENERATOR_TOOLTIP;
+
+				float currentMultiplier = entry.GetRateMultiplier();
+
+				return toFormat
+				.Replace("{PERCENTAGE}", GameUtil.GetFormattedPercent(currentMultiplier * 100f))
+				.Replace("{WATTAGE}", GameUtil.GetFormattedWattage(entry.GetWattage() * currentMultiplier))
+				.Replace("{FUEL}", global::STRINGS.ELEMENTS.METHANE.NAME)
+				.Replace("{RATE}", GameUtil.GetFormattedMass(0.09f * SizeMultiplier * currentMultiplier, GameUtil.TimeSlice.PerSecond))
+				;
+			};
+		}
+
+		public string GetRateLabel() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RATESETTING_GENERATOR;
+
 		static CustomGasGeneratorConfig()
 		{
 			//hide coal gen slider
@@ -51,10 +79,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 				construction_mass, construction_materials,
 				2400f, BuildLocationRule.OnFloor, decor, noise);
 
-			buildingDef.GeneratorWattageRating = GetWattage();
+			buildingDef.GeneratorWattageRating = GetWattage() * RateMultiplier;
 			buildingDef.GeneratorBaseCapacity = buildingDef.GeneratorWattageRating;
-			buildingDef.ExhaustKilowattsWhenActive = 2f * SizeMultiplier;
-			buildingDef.SelfHeatKilowattsWhenActive = 8f * SizeMultiplier;
+			buildingDef.ExhaustKilowattsWhenActive = 2f * SizeMultiplier * RateMultiplier;
+			buildingDef.SelfHeatKilowattsWhenActive = 8f * SizeMultiplier * RateMultiplier;
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
@@ -84,9 +112,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			go.AddOrGet<LoopingSounds>();
 			ConduitConsumer consumer = go.AddOrGet<ConduitConsumer>();
 			consumer.conduitType = go.GetComponent<Building>().Def.InputConduitType;
-			consumer.consumptionRate = conduitInputRate;
+			consumer.consumptionRate = _conduitInputRate;
 			consumer.capacityTag = GameTags.CombustibleGas;
-			consumer.capacityKG = conduitInputRate * 2;
+			consumer.capacityKG = _conduitInputRate * 2;
 			consumer.forceAlwaysSatisfied = true;
 			consumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -104,9 +132,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 
 			generator.formula = new EnergyGenerator.Formula()
 			{
-				inputs = [new(GameTags.CombustibleGas, 0.09f * SizeMultiplier, conduitInputRate * 2)],
-				outputs = [new(SimHashes.CarbonDioxide, 0.0225f * SizeMultiplier, true, new CellOffset(0, 0), 383.15f),
-										new (SimHashes.DirtyWater, 0.0675f * SizeMultiplier, true, new CellOffset(0, 0), 313.15f)]
+				inputs = [new(GameTags.CombustibleGas, 0.09f * SizeMultiplier * RateMultiplier, _conduitInputRate * 2)],
+				outputs = [new(SimHashes.CarbonDioxide, 0.0225f * SizeMultiplier  * RateMultiplier, true, new CellOffset(0, 0), 383.15f),
+										new (SimHashes.DirtyWater, 0.0675f * SizeMultiplier  * RateMultiplier, true, new CellOffset(0, 0), 313.15f)]
 			};
 
 			PipedConduitDispenser co2Dispenser = go.AddOrGet<PipedConduitDispenser>();
@@ -156,5 +184,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 		{
 			this.AttachPort(go);
 		}
+
 	}
 }

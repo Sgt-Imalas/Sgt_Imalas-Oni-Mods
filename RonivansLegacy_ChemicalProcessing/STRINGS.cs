@@ -2358,6 +2358,8 @@ namespace RonivansLegacy_ChemicalProcessing
 								public static LocString RANGESETTINGS = "Building Range:";
 								public static LocString RANGESETTINGS_SWEEPER = "Sweeper Range:";
 								public static LocString RANGESETTINGS_PUMP = "Pump Range:";
+								public static LocString RATESETTING_GENERATOR = "Generator Rate:";
+								public static LocString RATESETTING_GENERATOR_TOOLTIP = "This generator building will work at a rate of {PERCENTAGE}.\nIt will generate {WATTAGE} while consuming {FUEL} at a rate of {RATE}.";
 								public class RESETBUTTON
 								{
 									public static LocString TEXT = "Reset To Default";

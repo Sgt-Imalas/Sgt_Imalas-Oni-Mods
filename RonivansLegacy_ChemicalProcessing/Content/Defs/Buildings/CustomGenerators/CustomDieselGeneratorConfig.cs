@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
@@ -16,7 +17,7 @@ using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
-	class CustomDieselGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding
+	class CustomDieselGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding, IHasConfigurableRateMultiplier
 	{
 		public const float SizeMultiplier = 1f / 3f; // percentage of the vanilla gen
 
@@ -29,7 +30,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 		private static readonly PortDisplayOutput pWaterPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(0, 1));
 		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
-		const float conduitInputRate = 10 * SizeMultiplier;
+		public static float RateMultiplier = 1f;
+		public static float conduitInputRate = 10 * SizeMultiplier * RateMultiplier;
+		public void SetMultiplier(float multiplier)
+		{
+			RateMultiplier = multiplier;
+		}
+
+		public Func<BuildingConfigurationEntry, string> GetCurrentRateDescription()
+		{
+			return (entry) =>
+			{
+				string toFormat = STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RATESETTING_GENERATOR_TOOLTIP;
+
+				float currentMultiplier = entry.GetRateMultiplier();
+
+				return toFormat
+				.Replace("{PERCENTAGE}", GameUtil.GetFormattedPercent(currentMultiplier * 100f))
+				.Replace("{WATTAGE}", GameUtil.GetFormattedWattage(entry.GetWattage() * currentMultiplier))
+				.Replace("{FUEL}", global::STRINGS.MISC.TAGS.COMBUSTIBLELIQUID)
+				.Replace("{RATE}", GameUtil.GetFormattedMass(2f * SizeMultiplier * currentMultiplier,GameUtil.TimeSlice.PerSecond))
+				;
+			};
+		}
+		public string GetRateLabel() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RATESETTING_GENERATOR;
+
 		static CustomDieselGeneratorConfig()
 		{
 			//hide coal gen slider
@@ -52,10 +77,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 				construction_mass, construction_materials,
 				2400f, BuildLocationRule.OnFloor, decor, noise);
 
-			buildingDef.GeneratorWattageRating = GetWattage();
+			buildingDef.GeneratorWattageRating = GetWattage() * RateMultiplier;
 			buildingDef.GeneratorBaseCapacity = buildingDef.GeneratorWattageRating;
-			buildingDef.ExhaustKilowattsWhenActive = 4f * SizeMultiplier;
-			buildingDef.SelfHeatKilowattsWhenActive = 16f * SizeMultiplier;
+			buildingDef.ExhaustKilowattsWhenActive = 4f * SizeMultiplier * RateMultiplier;
+			buildingDef.SelfHeatKilowattsWhenActive = 16f * SizeMultiplier * RateMultiplier;
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
@@ -87,7 +112,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			consumer.conduitType = go.GetComponent<Building>().Def.InputConduitType;
 			consumer.consumptionRate = conduitInputRate;
 			consumer.capacityTag = GameTags.CombustibleLiquid;
-			consumer.capacityKG = conduitInputRate * 2;
+			consumer.capacityKG = conduitInputRate * 2 * RateMultiplier;
 			consumer.forceAlwaysSatisfied = true;
 			consumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -105,10 +130,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 
 			generator.formula = new EnergyGenerator.Formula()
 			{
-				inputs = [new(GameTags.CombustibleLiquid, 2f * SizeMultiplier, conduitInputRate * 2)],
+				inputs = [new(GameTags.CombustibleLiquid, 2f * SizeMultiplier * RateMultiplier, conduitInputRate * 2 * RateMultiplier)],
 				outputs = [
-					new(SimHashes.CarbonDioxide, 0.5f * SizeMultiplier, true, new CellOffset(0, 0), 383.15f),
-					new (SimHashes.DirtyWater, 0.75f * SizeMultiplier, true, new CellOffset(0, 0), 313.15f)
+					new(SimHashes.CarbonDioxide, 0.5f * SizeMultiplier* RateMultiplier, true, new CellOffset(0, 0), 383.15f),
+					new (SimHashes.DirtyWater, 0.75f * SizeMultiplier* RateMultiplier, true, new CellOffset(0, 0), 313.15f)
 					]
 			};
 
@@ -128,7 +153,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 
 			PipedOptionalExhaust pWaterExhaust = go.AddComponent<PipedOptionalExhaust>();
 			pWaterExhaust.dispenser = pWaterDispenser;
-			pWaterExhaust.elementTags =	[SimHashes.DirtyWater.CreateTag()];
+			pWaterExhaust.elementTags = [SimHashes.DirtyWater.CreateTag()];
 			pWaterExhaust.capacity = 10f;
 
 			PipedOptionalExhaust co2Exhaust = go.AddComponent<PipedOptionalExhaust>();

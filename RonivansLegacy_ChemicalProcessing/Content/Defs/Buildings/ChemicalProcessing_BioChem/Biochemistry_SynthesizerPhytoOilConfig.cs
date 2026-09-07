@@ -9,7 +9,6 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.BuildingPortUtils;
-using static UtilLibs.UIcmp.FSlider;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.ChemicalProcessing_BioChem
 {
