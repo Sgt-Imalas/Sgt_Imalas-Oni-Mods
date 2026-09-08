@@ -131,13 +131,14 @@ namespace UtilLibs
 				}
 				//SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
 				bool anyValid = false;
+				int count = 0;
 				foreach (var kanim in foundKanims)
 				{
-					SgtLogger.l("adding kanim: " + kanim.Key);
-					if (kanim.Value.IsValid())
+					//SgtLogger.l("adding kanim: " + kanim.Key);
+					if (kanim.Value.IsValid() && ModUtil.AddKAnimMod(kanim.Key, kanim.Value) != null)
 					{
-						if (ModUtil.AddKAnimMod(kanim.Key, kanim.Value) != null)
-							anyValid = true;
+						anyValid = true;
+						count++;
 					}
 					else
 					{

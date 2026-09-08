@@ -24,7 +24,13 @@ Adds new unique boosters, bionic skills and an expanded progression in booster c
 [*] Subdermal Solar Booster: grants the ability to gain joules by standing in light. (can recharge powerbanks that support it if light is strong enough).
 [/list]
 
-Also check out [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3548583609]Dowsing Booster[/url] by Sanchozz!
+
+Also check out the following mods for more bionic additions:[list]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3548583609]Dowsing Booster[/url] by Sanchozz (1 new booster)
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3426316307]Bionic Overclock[/url] by StuffyDoll (new bionic power feature)
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3742784298]Pholith Duplicant[/url] by Pholith (1 new bionic look, 1 new booster)
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3385429972]More Bionics[/url] by Lily (9 new bionic looks)
+[/list]
 
 [h1]Troubleshooting & Bug Reports[/h1]
 Make sure to follow all steps of my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/wiki/Troubleshooter-Guide]Troubleshooter Guide[/url] if you experience issues with the mod.
