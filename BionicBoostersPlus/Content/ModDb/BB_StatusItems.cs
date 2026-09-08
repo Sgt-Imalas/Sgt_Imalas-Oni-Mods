@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UtilLibs;
 using static BionicBoostersPlus.STRINGS.DUPLICANTS.STATUSITEMS;
 using static BionicBoostersPlus.STRINGS.MISC.STATUSITEMS;
 
@@ -40,7 +41,7 @@ namespace BionicBoostersPlus.Content.ModDb
 			{
 				if (obj is BionicUpgrade_DreamerBooster.Instance smi)
 				{
-					string.Format(str, GameUtil.GetFormattedPercent(smi.Progress));
+					return string.Format(str, GameUtil.GetFormattedPercent(smi.Progress));
 				}
 				return str;
 			};
