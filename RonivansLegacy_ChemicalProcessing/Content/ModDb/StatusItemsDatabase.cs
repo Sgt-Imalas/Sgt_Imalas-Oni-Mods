@@ -39,6 +39,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static StatusItem AdvRefinery_NoSupercoolant;
 
+		public static StatusItem Biplastic_PrintingStatus;
+
 		public static void CreateStatusItems()
 		{
 			var bsi = Db.Get().BuildingStatusItems;
@@ -57,7 +59,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			HPA_ProhibitSolid = bsi.CreateStatusItem("HPA_ProhibitSolid", "BUILDING", "status_item_vent_disabled", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.SolidConveyor.ID);
 			HPA_ProhibitLiquid = bsi.CreateStatusItem("HPA_ProhibitLiquid", "BUILDING", "status_item_vent_disabled", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.LiquidConduits.ID);
 
-			AdvRefinery_NoSupercoolant = bsi.CreateStatusItem("AIO_ADVREFINERY_NOSUPERCOOLANT", "BUILDING", "status_item_plant_liquid", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.None.ID);			
+			AdvRefinery_NoSupercoolant = bsi.CreateStatusItem("AIO_ADVREFINERY_NOSUPERCOOLANT", "BUILDING", "status_item_plant_liquid", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.None.ID);
+
+			Biplastic_PrintingStatus = bsi.CreateStatusItem("AIO_PRINTING", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.None.ID);
+			Biplastic_PrintingStatus.resolveStringCallback = BioplasticPrinterSelector.HandleStatusItem();
+			Biplastic_PrintingStatus.resolveTooltipCallback = BioplasticPrinterSelector.HandleStatusItem();
 
 			CG_RotatableSolarPanelWattage = bsi.CreateStatusItem("CG_RotatableSolarPanelWattage", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.Power.ID);
 			CG_RotatableSolarPanelWattage.resolveStringCallback = delegate (string str, object data)

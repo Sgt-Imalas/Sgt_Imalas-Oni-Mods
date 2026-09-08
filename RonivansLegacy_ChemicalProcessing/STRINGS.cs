@@ -1766,6 +1766,11 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = "Thermal Throttling active!";
 					public static LocString TOOLTIP = "The use of a lower-grade coolant has caused this refinery to throttle its refinement speed.\nChanging to Supercoolant will resolve this issue.";
 				}
+				public class AIO_PRINTING
+				{
+					public static LocString NAME = "Printing {ITEM} {PERCENTAGE}";
+					public static LocString TOOLTIP = "Currently configured to print {ITEM}.";
+				}
 			}
 		}
 		public class CREATURES

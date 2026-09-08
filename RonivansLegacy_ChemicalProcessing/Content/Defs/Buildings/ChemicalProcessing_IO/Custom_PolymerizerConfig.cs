@@ -59,7 +59,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			CustomPolymerizer polymerizer = go.AddOrGet<CustomPolymerizer>();
 			polymerizer.OilElementTag = SimHashes.Ethanol.CreateTag();
 			polymerizer.emitMass = 60f;
-			polymerizer.emitTag = GameTagExtensions.Create(SimHashes.Polypropylene);
+			polymerizer.emitTag = SimHashes.Polypropylene.CreateTag();
 			polymerizer.emitOffset = new Vector3(-1.45f, 1f, 0f);
 			//polymerizer.exhaustElement = SimHashes.Steam;
 

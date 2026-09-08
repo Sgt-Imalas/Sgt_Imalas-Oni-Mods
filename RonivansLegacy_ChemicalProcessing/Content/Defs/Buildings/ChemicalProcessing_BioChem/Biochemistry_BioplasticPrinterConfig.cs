@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KSerialization;
 using RonivansLegacy_ChemicalProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Gaskets;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
@@ -21,6 +22,7 @@ namespace Biochemistry.Buildings
 	public class Biochemistry_BioplasticPrinterConfig : IBuildingConfig
 	{
 		public static string ID = "Biochemistry_BioplasticPrinter";
+		public static readonly float EMITMASS = 30f;
 
 		private static readonly PortDisplayInput co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(186, 186, 186, 255));
 
@@ -38,6 +40,7 @@ namespace Biochemistry.Buildings
 			buildingDef.AudioCategory = "HollowMetal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(2, 0);
+			buildingDef.PermittedRotations = PermittedRotations.FlipH;
 			SoundUtils.CopySoundsToAnim("bioplastic_printer_kanim", "plasticrefinery_kanim");
 			return buildingDef;
 		}
@@ -50,8 +53,8 @@ namespace Biochemistry.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			CustomPolymerizer polymerizer = go.AddOrGet<CustomPolymerizer>();
 			polymerizer.OilElementTag = oil;
-			polymerizer.emitMass = 30f;
-			polymerizer.emitTag = GameTagExtensions.Create(ModElements.BioPlastic_Solid);
+			polymerizer.emitMass = EMITMASS;
+			polymerizer.emitTag = ModElements.BioPlastic_Solid.Tag;
 			polymerizer.emitOffset = new Vector3(0f, 1f, 0f);
 
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
@@ -93,7 +96,6 @@ namespace Biochemistry.Buildings
 			mushbar_delivery.capacity = 4f;
 			mushbar_delivery.refillMass = 1f;
 			mushbar_delivery.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
-
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =
 			[
@@ -106,11 +108,36 @@ namespace Biochemistry.Buildings
 			new ElementConverter.OutputElement(0.50f, ModElements.BioPlastic_Solid, 296.15f, false, true, 0f, 0.5f),
 			new ElementConverter.OutputElement(0.40f, SimHashes.DirtyWater, UtilMethods.GetKelvinFromC(10), true, true, 0f, 0.5f)
 			];
+			var selector = go.AddOrGet<BioplasticPrinterSelector>();
 
-			ElementDropper elementDropper = go.AddComponent<ElementDropper>();
-			elementDropper.emitMass = 25f;
-			elementDropper.emitTag = ModElements.BioPlastic_Solid.Tag;
-			elementDropper.emitOffset = new Vector3(0f, 1f, 0f);
+			float timeToCraft = 50 / 0.5f;
+			ManualCodexConversionRegistry.AddConversion(
+				ModElements.BioPlastic_Solid.Tag, 50f / timeToCraft,
+				ID, 0,
+				BioPlasticGasketConfig.ID, 1 / timeToCraft,
+				RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.NAME
+				, inputCustomFormating: (tag, amount, continuous) => GameUtil.GetFormattedMass(amount, GameUtil.TimeSlice.PerCycle)
+				, outputCustomFormating: (tag, amount, continuous) => GameUtil.GetFormattedMass(amount, GameUtil.TimeSlice.PerCycle));
+
+			//RecipeBuilder.Create(ID, timeToCraft)
+			//	.Input(oil, timeToCraft * 0.9f)
+			//	.Input(SimHashes.CarbonDioxide, timeToCraft * 0.9f)
+			//	.Input(MushBarConfig.ID.ToTag(), timeToCraft * MushbarConsumption)
+			//	.Output(BioPlasticGasketConfig.ID, 1)
+			//	.Output(SimHashes.DirtyWater, timeToCraft * 0.40f)
+			//	.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//	.Build();
+
+
+			//ElementDropper bioPlasticDropper = go.AddComponent<ElementDropper>();
+			//bioPlasticDropper.emitMass = 25f;
+			//bioPlasticDropper.emitTag = ModElements.BioPlastic_Solid.Tag;
+			//bioPlasticDropper.emitOffset = new Vector3(0f, 1f, 0f);
+
+			ElementDropper gasketDropper = go.AddComponent<ElementDropper>();
+			gasketDropper.emitMass = 1f;
+			gasketDropper.emitTag = BioPlasticGasketConfig.ID;
+			gasketDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
 			go.AddOrGet<DropAllWorkable>();
 			Prioritizable.AddRef(go);
