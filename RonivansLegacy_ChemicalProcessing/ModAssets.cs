@@ -69,6 +69,10 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///Elements that go into the Soda Fountain, atm Nitrogen and CO2
 			public static Tag SodaFountainGas = TagManager.Create("SodaFountainGas");
+
+			///Generally acidic elements
+			public static Tag AIO_Acid = TagManager.Create("AIO_Acid");
+
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 		public static GameObject MultiIngredientCodexVisualizer;

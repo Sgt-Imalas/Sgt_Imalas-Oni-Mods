@@ -2174,6 +2174,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString AIO_BIOFUEL = FormatAsLink("Renewable Biofuel", nameof(AIO_BIOFUEL));
 				public static LocString AIO_BIOFUEL_DESC = "Combustible liquid fuels made frome regenerative materials.";
+
+				public static LocString AIO_ACID = FormatAsLink("Acid", nameof(AIO_ACID));
+				public static LocString AIO_ACID_DESC = "Acids are highly corrosive substances.";
 			}
 		}
 		public class ITEMS

@@ -1006,6 +1006,7 @@ elements:
     tags:
     - Mixture
     - AIO_SulphuricAcidBuildable #buildable acid material 
+    - AIO_Acid
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME
@@ -1061,6 +1062,7 @@ elements:
     radiationPer1000Mass: 0
     tags:
     - Mixture
+    - AIO_Acid 
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDNITRIC.NAME

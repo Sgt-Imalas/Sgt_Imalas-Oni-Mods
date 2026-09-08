@@ -1,0 +1,32 @@
+id: "AIO_Acid"
+title: STRINGS.MISC.TAGS.AIO_ACID
+category: "ELEMENTTYPES"
+parentId: "ELEMENTTYPES"
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.AIO_ACID
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          spriteName: LIQUIDSULFURIC
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.AIO_ACID_DESC
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: AIO_ACID
+
+contentMadeAndUsed:
+  - tag: AIO_Acid

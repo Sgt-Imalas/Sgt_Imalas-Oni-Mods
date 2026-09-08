@@ -22,7 +22,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 				foreach(var element in ElementLoader.elements)
 				{
-					if (element.HasTag("Antiseptic"))
+					if(element.HasTag(ModAssets.Tags.AIO_Acid))
+						__instance.AddGrowthRule(GermUtils.DieInElement(element.id, 10));
+
+
+					else if (element.HasTag("Antiseptic"))
 					{
 						//SgtLogger.l(__instance.Name + " dies on " + element.name);
 						__instance.AddGrowthRule(GermUtils.DieInElement(element.id));
