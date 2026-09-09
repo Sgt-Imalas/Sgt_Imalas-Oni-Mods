@@ -39,6 +39,10 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 					SnapshotTool.Instance.TryVisualizeLastSnapshot();
 				}
 
+				if (e.TryConsume(Actions.BlueprintsToggleNoteVisibility.GetKAction()))
+				{
+					BlueprintState.ToggleNoteVisibility();
+				}
 			}
 		}
 		[HarmonyPatch(typeof(ToolMenu), "OnPrefabInit")]

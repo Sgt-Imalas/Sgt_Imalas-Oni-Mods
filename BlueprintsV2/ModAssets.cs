@@ -590,6 +590,9 @@ namespace BlueprintsV2
 
 			Actions.BlueprintsToggleHotkeyToolTips = actionManager.CreateAction(ActionKeys.ACTION_TOGGLETOOLTIPS_KEY,
 				STRINGS.UI.ACTIONS.TOGGLETOOLTIPS, new PKeyBinding(KKeyCode.Z));
+
+			Actions.BlueprintsToggleNoteVisibility = actionManager.CreateAction(ActionKeys.ACTION_TOGGLE_NOTEVISIBILITY_KEY,
+				STRINGS.UI.ACTIONS.TOGGLENOTEVIS);
 		}
 
 		public static Sprite GetBlueprintIconSprite(string id)
@@ -767,6 +770,7 @@ namespace BlueprintsV2
 			public static readonly string ACTION_SELECT_NEXT_FOLDER_KEY = "BlueprintsV2.selectnextfolder";
 			public static readonly string ACTION_SELECT_PREV_FOLDER_KEY = "BlueprintsV2.selectprevfolder";
 			public static readonly string ACTION_TOGGLETOOLTIPS_KEY = "BlueprintsV2.toggletoooltips";
+			public static readonly string ACTION_TOGGLE_NOTEVISIBILITY_KEY = "BlueprintsV2.togglenotevisibility";
 		}
 		public static class Actions
 		{
@@ -790,6 +794,7 @@ namespace BlueprintsV2
 
 
 			public static PAction BlueprintsToggleHotkeyToolTips { get; set; }
+			public static PAction BlueprintsToggleNoteVisibility { get; set; }
 
 		}
 		public static bool TryGetFilterLayerId(ObjectLayer objectLayer, out string filterLayerId)

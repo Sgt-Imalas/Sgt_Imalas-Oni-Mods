@@ -154,6 +154,8 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 				return;
 
 			BlueprintNote.ClearExistingNote(cell);
+
+			PopFXManager.Instance.SpawnFX(ModAssets.NoteToolIcon_Sprite, STRINGS.UI.TOOLS.NOTE_TOOL.CREATED, null, Grid.CellToPos(cell), Config.Instance.FXTime);
 			if (NoteToolScreen.Instance.IsTextMode)
 				CreateTextNote(cell);
 			else

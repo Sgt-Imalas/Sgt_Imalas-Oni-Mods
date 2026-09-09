@@ -30,15 +30,45 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 			renderer = GetComponentInChildren<MeshRenderer>();
 		}
 
+		public static void TriggerNoteVisibilityChange(bool on)
+		{
+			OnNoteVisiblityChanged.Invoke(on);
+		}
+		static event Action<bool> OnNoteVisiblityChanged;
+		int refreshHandle = -1, cancelHandle = -1;
+
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
 			if (SeatIndicator)
 				Seat();
 
-			Subscribe((int)GameHashes.RefreshUserMenu, OnRefreshUserMenu);
-			Subscribe((int)GameHashes.Cancel, Cancel);
+			refreshHandle = Subscribe((int)GameHashes.RefreshUserMenu, OnRefreshUserMenu);
+			cancelHandle = Subscribe((int)GameHashes.Cancel, Cancel);
+
+			if (SeatIndicator)
+			{
+				OnNoteVisiblityChanged += ChangeVisibility;
+				ChangeVisibility(BlueprintState.NoteVisibility);
+			}
 		}
+
+		public override void OnCleanUp()
+		{
+			Unsubscribe(cancelHandle);
+			Unsubscribe(refreshHandle);
+			if (SeatIndicator)
+			{
+				OnNoteVisiblityChanged -= ChangeVisibility;
+			}
+			base.OnCleanUp();
+		}
+
+		private void ChangeVisibility(bool visible)
+		{
+			renderer.enabled = (visible);
+		}
+
 		private void OnRefreshUserMenu(object data)
 		{
 			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_cancel", DELETE_NOTE.NAME, new System.Action(this.OnCancel), tooltipText: DELETE_NOTE.TOOLTIP));

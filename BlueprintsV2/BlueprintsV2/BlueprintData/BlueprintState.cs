@@ -48,6 +48,13 @@ namespace BlueprintsV2.BlueprintData
 
 		public static string SelectedBlueprintFolder = string.Empty;
 
+		public static void ToggleNoteVisibility()
+		{
+			NoteVisibility = !NoteVisibility;
+			BlueprintNote.TriggerNoteVisibilityChange(NoteVisibility);
+		}
+		public static bool NoteVisibility { get; set; } = true;
+
 		public static bool InstantBuild => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive && SandboxToolParameterMenu.instance.settings.InstantBuild;
 
 		private static readonly Dictionary<ulong, Blueprint> CurrentVisualizers = new();

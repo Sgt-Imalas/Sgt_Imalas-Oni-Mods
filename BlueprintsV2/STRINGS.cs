@@ -607,6 +607,7 @@ namespace BlueprintsV2
 				public static LocString CHANGE_ANCHOR_TITLE = "Change Blueprint Anchor";
 				public static LocString TOGGLE_FORCE = "Toggle force rebuild";
 				public static LocString TOGGLETOOLTIPS = "Toggle keybind tooltips";
+				public static LocString TOGGLENOTEVIS = "Toggle note visibility";
 
 
 				public static LocString SELECT_NEXT_FOLDER = "Next Folder";
@@ -678,6 +679,8 @@ namespace BlueprintsV2
 					public static LocString NAME = "Create Notes";
 					public static LocString TOOLTIP = "Create Text- and ElementNotes in the world that can be stored in Blueprints.";
 					public static LocString TOOLTIP_TITLE = "NOTE TOOL";
+
+					public static LocString CREATED = "Note created!";
 				}
 				public class SNAPSHOT_TOOL
 				{
