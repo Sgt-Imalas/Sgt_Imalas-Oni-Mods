@@ -30,7 +30,7 @@ msgstr "批量移动"
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOL_NAME_FILTERED
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOL_NAME_FILTERED"
 msgid "FILTERED MASS MOVE TOOL"
-msgstr ""
+msgstr "'批量移动'筛选工具"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION"
@@ -40,7 +40,7 @@ msgstr "移动所有物品"
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION_FILTERED
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION_FILTERED"
 msgid "MOVE ONLY SELECTED ITEMS"
-msgstr "移动所选定的物品"
+msgstr "移动选定的物品"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLNAME
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLNAME"
@@ -51,3 +51,28 @@ msgstr "批量移动（MASS MOVE TOOL)"
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLTIP"
 msgid "Move debris to a location in bulk {0}"
 msgstr "将碎片批量移动到指定位置 {0}"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.NAME
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.NAME"
+msgid "Mass Relocate Here"
+msgstr "批量迁移"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TITLE
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TITLE"
+msgid "Experimental: use Multi-Delivery Targets"
+msgstr "实验性功能：使用多目标递送"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TOOLTIP
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TOOLTIP"
+msgid "Replaces the Relocate targets with a custom modded variant that allows multiple deliveries in parallel.\nTurn off if you experience crashes"
+msgstr "将迁移目标替换为支持并行多次递送的自定义变体。\n如遇崩溃请关闭此选项。"
+
+#. MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TITLE
+msgctxt "MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TITLE"
+msgid "Experimental: use Multi-Delivery Targets"
+msgstr "实验性功能：使用多目标递送"
+
+#. MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TOOLTIP
+msgctxt "MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TOOLTIP"
+msgid "Replaces the Relocate targets with a custom modded variant that allows multiple deliveries in parallel.\nTurn off if you experience crashes"
+msgstr "将迁移目标替换为支持并行多次递送的自定义变体。\n如遇崩溃请关闭此选项。"
