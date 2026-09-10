@@ -110,7 +110,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			go.AddOrGet<LoopingSounds>();
 			ConduitConsumer consumer = go.AddOrGet<ConduitConsumer>();
 			consumer.conduitType = go.GetComponent<Building>().Def.InputConduitType;
-			consumer.consumptionRate = conduitInputRate;
+			consumer.consumptionRate = conduitInputRate * RateMultiplier;
 			consumer.capacityTag = GameTags.CombustibleLiquid;
 			consumer.capacityKG = conduitInputRate * 2 * RateMultiplier;
 			consumer.forceAlwaysSatisfied = true;

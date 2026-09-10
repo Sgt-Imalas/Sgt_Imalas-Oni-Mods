@@ -1610,13 +1610,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class CUSTOMPETROLEUMGENERATOR
 				{
 					public static LocString NAME = FormatAsLink("Custom Combustion Generator", nameof(CUSTOMPETROLEUMGENERATOR));
-					public static LocString DESC = "A small, custom Combustible Liquid generator. This rather versatile generator has piped outputs.";
+					public static LocString DESC = "A small, custom Combustible Liquid generator. This rather versatile generator has optional piped outputs.";
 					public static LocString EFFECT = "Converts " + FormatAsLink("Combustable Fuel", "COMBUSTIBLELIQUID") + " into Power.\nThe waste products are either released into the world or inserted into pipes.";
 				}
 				public class CUSTOMMETHANEGENERATOR
 				{
 					public static LocString NAME = FormatAsLink("Custom Gas Generator", nameof(CUSTOMMETHANEGENERATOR));
-					public static LocString DESC = "A small, custom Combustible Gas generator. This rather versatile generator has piped outputs.";
+					public static LocString DESC = "A small, custom Combustible Gas generator. This rather versatile generator has optional piped outputs.";
 					public static LocString EFFECT = "Converts " + FormatAsLink("Combustible Gas", "COMBUSTIBLEGAS") + " into Power.\nThe waste products are either released into the world or inserted into pipes.";
 				}
 				public class CUSTOMSOLARPANEL
