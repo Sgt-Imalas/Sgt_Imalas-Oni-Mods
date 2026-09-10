@@ -1,6 +1,8 @@
-﻿using System;
+﻿using BionicBoostersPlus.Content.Defs.Buildings;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using UtilLibs;
 
 namespace BionicBoostersPlus.Content.ModDb
 {
@@ -8,6 +10,8 @@ namespace BionicBoostersPlus.Content.ModDb
 	{
 		public static void Init(Db db)
 		{
+			BB_Buildings.Register();
+
 			//BB_Urges.Register(db.Urges);
 			//BB_Amounts.RegisterAmounts(db.Amounts);
 			BB_Effects.Register(db);
