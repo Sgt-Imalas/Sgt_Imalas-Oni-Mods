@@ -1030,6 +1030,9 @@ elements:
     radiationAbsorptionFactor: 0.3
     radiationPer1000Mass: 0
     materialCategory: Unbreathable
+    tags:
+    - Mixture
+    - AIO_Acid
     isDisabled: false
     state: Gas
     localizationID: STRINGS.ELEMENTS.SULFURICGAS.NAME
