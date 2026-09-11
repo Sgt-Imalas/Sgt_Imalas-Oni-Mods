@@ -52,7 +52,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				{
 					///Remove any items that are not the selected option, but are in the options list
 					if (item.TryGetComponent<KPrefabID>(out var kPrefabID)
-						&& Options.Contains(kPrefabID.PrefabTag) && (kPrefabID.PrefabTag != SelectedOption || kPrefabID.HasTag(SelectedOption)))
+						&& Options.Contains(kPrefabID.PrefabTag) && kPrefabID.PrefabTag != SelectedOption && !kPrefabID.HasTag(SelectedOption))
 					{
 						dropItems.Add(item);
 					}
