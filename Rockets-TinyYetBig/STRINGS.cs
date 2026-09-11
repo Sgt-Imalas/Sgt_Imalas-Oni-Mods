@@ -87,7 +87,8 @@ namespace Rockets_TinyYetBig
 				public static LocString KATAIRITE = global::STRINGS.ELEMENTS.KATAIRITE.NAME;
 				public static LocString RTB_ATTACHMENTSLOTSTATIONPARTS = "Orbital Construction Module mounting point";
 				public static LocString RTB_ATTACHMENTSLOTROCKETMODULEUPGRADES = "Module Upgrade Installation Slot";
-				
+
+				public static LocString RTB_BURNABLECARBON = "Burnable Carbon";
 			}
 
 		}

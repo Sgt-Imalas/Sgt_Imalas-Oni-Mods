@@ -1,7 +1,10 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.Buildings;
+using System.Linq;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.ModAPIClasses;
 
 namespace Rockets_TinyYetBig
 {
@@ -81,9 +84,7 @@ namespace Rockets_TinyYetBig
 
 			var generator = go.AddOrGet<RTB_ModuleGenerator>();
 
-
-
-			generator.consumptionElement = SimHashes.Carbon.CreateTag();
+			generator.consumptionElement = ModAssets.Tags.BurnableCarbon;
 			generator.consumptionRate = 0.125f;
 			generator.consumptionMaxStoredMass = storage.capacityKg;
 
@@ -93,6 +94,11 @@ namespace Rockets_TinyYetBig
 			generator.ElementOutputCellOffset = new Vector3(2, 0);
 
 			go.AddOrGet<AutomatableAutoOn>();
+
+			var selection = go.AddOrGet<SolidDeliverySelection>();
+			selection.Options = [.. ElementLoader.elements.Where(ele => ele.HasTag(ModAssets.Tags.BurnableCarbon)).Select(e => e.id.CreateTag())];
+			selection.AnyTag = ModAssets.Tags.BurnableCarbon;
+
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 2);
 		}
 	}

@@ -206,6 +206,8 @@ namespace Rockets_TinyYetBig
 		}
 		public class Tags
 		{
+			public static Tag BurnableCarbon = TagManager.Create("RTB_BurnableCarbon");
+
 			public static Tag AttachmentSlotStationParts = TagManager.Create("RTB_AttachmentSlotStationParts");
 			public static Tag AttachmentSlotRocketModuleUpgrades = TagManager.Create("RTB_AttachmentSlotRocketModuleUpgrades");
 			public static Tag VerticalPortAttachementPoint = TagManager.Create("RTB_verticalPortAttachmentPoint");

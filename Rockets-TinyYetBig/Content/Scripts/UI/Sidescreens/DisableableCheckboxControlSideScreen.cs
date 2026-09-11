@@ -52,7 +52,13 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
 		public override bool IsValidForTarget(GameObject target)
 		{
-			return target.GetComponent<IDisableableCheckboxControl>() != null || target.GetSMI<IDisableableCheckboxControl>() != null;
+			var cmp = target.GetComponent<IDisableableCheckboxControl>();
+			if (cmp != null)
+				return cmp.GetShowCheckbox();
+			var smi = target.GetSMI<IDisableableCheckboxControl>();
+			if (smi != null)
+				return smi.GetShowCheckbox();
+			return false;
 		}
 		public override void OnActivate()
 		{
@@ -100,9 +106,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			this.target.SetCheckboxValue(value);
 			this.toggleCheckMark.enabled = value;
 		}
-		public override int GetSideScreenSortOrder()
-		{
-			return -50;
-		}
+		public override int GetSideScreenSortOrder() => target != null ? target.GetVerticalSortOrder() : 22;
 	}
 }

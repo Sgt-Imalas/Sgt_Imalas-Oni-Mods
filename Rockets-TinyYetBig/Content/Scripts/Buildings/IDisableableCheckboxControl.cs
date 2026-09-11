@@ -12,6 +12,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 		bool GetCheckboxValue();
 		void SetCheckboxValue(bool value);
 		bool GetIsCheckboxInteractable();
+		bool GetShowCheckbox();
+
+		int GetVerticalSortOrder();
 
 	}
 }

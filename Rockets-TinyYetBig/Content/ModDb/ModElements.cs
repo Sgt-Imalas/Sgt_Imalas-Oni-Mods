@@ -52,6 +52,10 @@ namespace Rockets_TinyYetBig.Elements
 			}
 			AddTagToElement(SimHashes.LiquidHydrogen, ModAssets.Tags.RocketFuelTag);
 
+			//for coalgenerator module
+			AddTagToElement(SimHashes.Carbon, ModAssets.Tags.BurnableCarbon);
+			AddTagToElement(SimHashes.RefinedCarbon, ModAssets.Tags.BurnableCarbon);
+
 			foreach (var radShieldElemnt in RadShieldingElements)
 			{
 				AddTagToElement(radShieldElemnt, ModAssets.Tags.RadiationShieldingRocketConstructionMaterial);

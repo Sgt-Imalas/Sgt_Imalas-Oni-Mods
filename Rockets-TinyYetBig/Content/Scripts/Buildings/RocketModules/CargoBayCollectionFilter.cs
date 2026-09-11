@@ -72,5 +72,10 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 
 		public void SetCheckboxValue(bool value) => OnlyCollectFilteredItems = value;
 
+		///TODO: only show after research is unlocked!
+		public bool GetShowCheckbox() => true;
+
+
+		public int GetVerticalSortOrder() => -50;
 	}
 }
