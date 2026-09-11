@@ -139,13 +139,12 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, VerticalAdapterPieceConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, VerticalAdapterBaseConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, LoaderFirepoleAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, ReinforcedLadderConfig.ID, LadderConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterBunkerConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-
 				//InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorBypassAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				//InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderTravelTubeAdapterConfig.ID, "rocketfueling"); ///Too buggy atm
-
 			}
 
 			if (Config.Instance.EnableFuelLoaders)
@@ -256,6 +255,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.TemperatureModulation, ConnectorWallAdapterConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, ConnectorWallAdapterBunkerConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, LoaderLadderAdapterConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.RefinedRenovations, LoaderFirepoleAdapterConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, ReinforcedLadderConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, VerticalAdapterBaseConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, VerticalAdapterPieceConfig.ID);

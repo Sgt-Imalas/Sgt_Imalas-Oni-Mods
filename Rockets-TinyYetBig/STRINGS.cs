@@ -410,6 +410,12 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "Connecting rocket platforms, now with verticality";
 					public static LocString EFFECT = ("Connects adjacent rocket platforms while doubling as a ladder.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
 				}
+				public class RTB_FIREPOLECONNECTIONADAPTER
+				{
+					public static LocString NAME = FormatAsLink("Rocket Port Firepole Adapter", nameof(RTB_FIREPOLECONNECTIONADAPTER));
+					public static LocString DESC = "Connecting rocket platforms, now with sliding";
+					public static LocString EFFECT = ("Connects adjacent rocket platforms while doubling as a firepole.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+				}				
 				public class RTB_HEPFUELLOADER
 				{
 					public static LocString NAME = FormatAsLink("Radbolt Loader", nameof(RTB_HEPFUELLOADER));
