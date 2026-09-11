@@ -294,6 +294,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_KAnimPacker", "_KAnimPacke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_KAnimPackerExe", "KAnimPackerExe\_KAnimPackerExe.csproj", "{4002E25B-3B47-4B66-84FA-556C841812DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingMigrator", "BuildingMigrator\BuildingMigrator.csproj", "{62A51775-4825-44F1-A118-F3E7D8AC1BE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -814,6 +816,10 @@ Global
 		{4002E25B-3B47-4B66-84FA-556C841812DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4002E25B-3B47-4B66-84FA-556C841812DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4002E25B-3B47-4B66-84FA-556C841812DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62A51775-4825-44F1-A118-F3E7D8AC1BE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62A51775-4825-44F1-A118-F3E7D8AC1BE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62A51775-4825-44F1-A118-F3E7D8AC1BE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62A51775-4825-44F1-A118-F3E7D8AC1BE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
