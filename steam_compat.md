@@ -1,4 +1,5 @@
 I do not allow the use of these images on ai-generated mods!
+(feel free to reuse them if your mod is human-made)
 
 Compatible with all versions:
 [img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All.png[/img]
