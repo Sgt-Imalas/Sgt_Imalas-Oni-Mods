@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
@@ -111,5 +112,30 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 				}
 			}
 		}
+
+		public bool CanConstructModule(GameObject launchPad, out string reason)
+		{
+			reason = "invalid";
+			if (!Valid)
+				return false;
+
+			if (!def.BuildingComplete.TryGetComponent<ReorderableBuilding>(out var reorderable))
+				return false;
+
+			bool conditionsValid = true;
+			reason = string.Empty;
+			foreach (var buildCondition in reorderable.buildConditions)
+			{
+				if (buildCondition.IgnoreInSanboxMode() && SandboxEnabled() || buildCondition.EvaluateCondition(launchPad, def, SelectModuleCondition.SelectionContext.AddModuleAbove))
+					continue;
+
+				conditionsValid = false;
+				if (!string.IsNullOrEmpty(reason))
+					reason += "\n";
+				reason += buildCondition.GetStatusTooltip(false, launchPad, def);
+			}
+			return conditionsValid;
+		}
+		bool SandboxEnabled() => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive;
 	}
 }

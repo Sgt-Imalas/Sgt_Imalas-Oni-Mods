@@ -18,6 +18,11 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 		public List<RocketBlueprintModule> RocketModules = [];
 
 		public RocketBlueprint() { }
+		public void RefreshValidity()
+		{
+			foreach(var module in  RocketModules) 
+				module.RefreshValidity();
+		}
 
 		public string GetDescription()
 		{
@@ -28,7 +33,7 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 			for (int i = moduleCount - 1; i >= 0; i--)
 			{
 				var module = RocketModules[i];
-				sb.Append(moduleCount - i + 1);
+				sb.Append(moduleCount - i);
 				sb.Append(": ");
 				sb.Append(module.Name);
 				sb.Append(", ");
@@ -52,6 +57,7 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 			}
 			return sb.ToString();
 		}
+
 		public int GetTotalHeight()
 		{
 			int height = 0;

@@ -174,10 +174,10 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 			}
 		}
 
-		internal void RefreshTooltip()
+		internal void RefreshTooltip(string TT)
 		{
-			if (blueprint == null)
-				return;
+
+			Description?.SetSimpleTooltip(TT);
 		}
 	}
 }

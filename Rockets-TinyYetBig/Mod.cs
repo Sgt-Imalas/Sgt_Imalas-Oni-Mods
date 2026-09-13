@@ -38,7 +38,6 @@ namespace Rockets_TinyYetBig
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumAlloy);
 
 			ModAssets.LoadAssets();
-			RocketBlueprintsDb.InitDirectory();
 
 			SgtLogger.debuglog("Initialized");
 			///mod applies fix to rocketConduitports leaking

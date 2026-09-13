@@ -34,10 +34,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 
 		}
 
-		public RocketPreviewVis Init(BuildingDef building, int pxPerTile )
+		public RocketPreviewVis Init(BuildingDef building, int pxPerTile, string warning)
 		{
+			bool blockedFromPlacing = warning.Any();
 			InitDimensions();
-			_image.color = Color.clear;
+			_image.color =  Color.clear ;
 			kbac = _kanimGO.AddComponent<KBatchedAnimController>();
 			var renderer = _kanimGO.AddComponent<KBatchedAnimCanvasRenderer>();
 			kbac.materialType = KAnimBatchGroup.MaterialType.UI;
@@ -45,7 +46,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 			kbac.sceneLayer = Grid.SceneLayer.FXFront;
 			kbac.AnimFiles = building.AnimFiles;
 			kbac.isMovable = true;
-			kbac.defaultAnim = defaultAnim = building.DefaultAnimState;
+
+			string selectedAnim = blockedFromPlacing ? "place" : "grounded";
+			kbac.defaultAnim = defaultAnim = selectedAnim;
+			if (blockedFromPlacing)
+				kbac.TintColour = Color.red;
 			//kbac.animScale = 0.005f * 0.008f;
 			//SgtLogger.l("StartAnim " + def.name + ": " + defaultAnim);
 			//UpdatePosition(building);
@@ -58,8 +63,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 			_kanimRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pxPerTile);
 			_kanimRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, pxPerTile);
 			_kanimRect.localPosition = new(0, -0.5f * pxPerTile * height);
+			string tt = blockedFromPlacing ? building.Name+"\n"+warning : building.Name;
 
-			UIUtils.AddSimpleTooltipToObject(this.gameObject, building.Name);
+			UIUtils.AddSimpleTooltipToObject(this.gameObject, tt);
 			return this;
 		}
 		internal void InitMissing(RocketBlueprintModule module, int pxPerTile)

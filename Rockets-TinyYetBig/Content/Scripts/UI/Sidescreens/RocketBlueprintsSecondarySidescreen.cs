@@ -1,4 +1,5 @@
-﻿using Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData;
+﻿using Newtonsoft.Json.Bson;
+using Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData;
 using Rockets_TinyYetBig.Content.Scripts.UI.UIComponents;
 using System;
 using System.Collections.Generic;
@@ -35,9 +36,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 		private RocketBlueprint _temporary = null, _selected = null;
 
 		private Sprite _plus, _build;
-
-
 		private LaunchPad _targetPad;
+		private bool _canPlaceLastVisualizedBP =false;
+
 		private void Init()
 		{
 			if (_init)
@@ -64,6 +65,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
 			_textInputField = transform.Find("BlueprintID").gameObject.AddOrGet<FInputField2>();
 			_textInputField.OnValueChanged.AddListener(TextInputChanged);
+			_textInputField.SetTextFromData(string.Empty, true);
 			//_textInputField.OnSelect.AddListener(OnStartedTyping);
 
 			foreach (var bp in RocketBlueprintsDb.GetBlueprints())
@@ -74,15 +76,13 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			Init();
 			base.OnSpawn();
 		}
-		public override void OnShow(bool show)
-		{
-			base.OnShow(show);
-			if (show) { }
-			Init();
-		}
 		internal void OpenedFrom(LaunchPadSideScreen instance)
 		{
 			Init();
+
+			foreach (var entry in _entries)
+				entry.Value.SetSelected(false);
+
 			_textInputField.Text = string.Empty;
 			ClearExistingVisualizers();
 			_temporary = null;
@@ -103,9 +103,41 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			SetVisualizersFromRocket(instance.selectedPad.LandedRocket.CraftInterface);
 		}
 
+		void RefreshConstructability(RocketBlueprint bp)
+		{
+			var uiEntry = AddOrGetBlueprintEntry(bp);
+
+			
+
+			//uiEntry.RefreshTooltip
+		}
+		//bool CanConstructModule(RocketBlueprintModule module, out string reason)
+		//{
+		//	reason = "invalid";
+		//	if (!module.Valid)
+		//		return false;
+
+		//	if (!module.def.BuildingComplete.TryGetComponent<ReorderableBuilding>(out var reorderable))
+		//		return false;
+
+		//	bool conditionsValid = true;
+		//	reason = string.Empty;
+		//	foreach (var buildCondition in reorderable.buildConditions)
+		//	{
+		//		if (buildCondition.EvaluateCondition(_targetPad.gameObject, module.def, SelectModuleCondition.SelectionContext.AddModuleAbove))
+		//			continue;
+
+		//		conditionsValid = false;
+		//		if (!string.IsNullOrEmpty(reason))
+		//			reason += "\n";
+		//		reason += buildCondition.GetStatusTooltip(false, _targetPad.gameObject, module.def);
+		//	}
+		//	return conditionsValid;
+		//}
 
 		void OnButtonClicked()
 		{
+			string rocketName = _textInputField.Text;
 			_textInputField.Text = string.Empty;
 			if (_targetPad == null)
 				return;
@@ -119,15 +151,14 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			}
 			else if (_temporary != null && hasRocket)
 			{
-				SaveTemporaryBlueprint();
+				SaveTemporaryBlueprint(rocketName);
 				DetailsScreen.Instance.ClearSecondarySideScreen();
 			}
 		}
-		private void SaveTemporaryBlueprint()
+		private void SaveTemporaryBlueprint(string bpName)
 		{
-			string name = _textInputField.Text.Trim();
-
-			_temporary.FriendlyName = name;
+			bpName = bpName.Trim();
+			_temporary.FriendlyName = bpName;
 			RocketBlueprintsDb.AddNew(_temporary, true);
 			AddOrGetBlueprintEntry(_temporary);
 		}
@@ -171,7 +202,18 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			if (newText.IsNullOrWhiteSpace() || _targetPad == null)
 				return;
 
+			UpdateEntries(newText);
+
 			SetButtonInfo(_targetPad.HasRocket());
+		}
+		void UpdateEntries(string filterText)
+		{
+			bool hasRocket = _targetPad.HasRocket();
+			if (hasRocket)
+			{
+
+			}
+
 		}
 
 		void SetButtonInfo(bool hasRocket)
@@ -186,7 +228,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			{
 				_buttonImage.sprite = _build;
 				_buttonText.SetText(USEBUTTON.TEXT_USE);
-				_loadOrGenerateButton.SetInteractable(_selected != null);
+				_loadOrGenerateButton.SetInteractable(_selected != null && _canPlaceLastVisualizedBP);
 			}
 		}
 
@@ -226,6 +268,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 		}
 		void SetVisualizers(RocketBlueprint bp)
 		{
+			ClearExistingVisualizers();
 			float totalRocketTileHeight = 0;
 			float maxRocketWidth = 3;//all modules are at least 3 wide
 			for (int i = 0; i < bp.RocketModules.Count; i++)
@@ -248,17 +291,46 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
 			//SgtLogger.l($"Container Dimensions: {containerwidth}x{containerHeight}, rocketDimensions:{maxRocketWidth}x{totalRocketTileHeight}, maxPx_X: {maxPx_X}, maxPx_Y: {maxPx_Y}");
 
+			_canPlaceLastVisualizedBP = true;
+			int simulatedModuleCell = _targetPad.RocketBottomPosition;
 			foreach (var module in bp.RocketModules)
 			{
 				var moduleItem = Util.KInstantiateUI<RocketPreviewVis>(_visPrefab.gameObject, _visContainer);
-				if (module.Valid)
-					moduleItem.Init(module.def, pxPerTile);
+				bool canPlace = TestModuleSpace(simulatedModuleCell, module.def);
+				string reason = string.Empty;
+				if ((!canPlace || !module.CanConstructModule(_targetPad.gameObject, out reason)) && !_targetPad.HasRocket())
+				{
+					if (!canPlace)
+						reason += global::STRINGS.UI.UISIDESCREENS.SELECTMODULESIDESCREEN.CONSTRAINTS.SPACE_AVAILABLE.FAILED;
+					moduleItem.Init(module.def, pxPerTile, reason);
+					_canPlaceLastVisualizedBP = false;
+				}
+				else if (module.Valid)
+					moduleItem.Init(module.def, pxPerTile, string.Empty);
 				else
 					moduleItem.InitMissing(module, pxPerTile);
 				moduleItem.transform.SetAsFirstSibling();
 				moduleItem.gameObject.SetActive(true);
 				_visualizers.Add(moduleItem.gameObject);
+
+				simulatedModuleCell = Grid.OffsetCell(simulatedModuleCell,0, module.height);
 			}
+		}
+
+		/// <summary>
+		/// mirroring logic of PlaceSpaceAvailable.EvaluateCondition
+		/// </summary>
+		/// <param name="buildingCell"></param>
+		/// <param name="moduleDef"></param>
+		/// <returns></returns>
+		bool TestModuleSpace(int buildingCell, BuildingDef moduleDef)
+		{
+			foreach(var placementOffset in moduleDef.PlacementOffsets)
+			{
+				if (!ReorderableBuilding.CheckCellClear(Grid.OffsetCell(buildingCell, placementOffset), _targetPad.gameObject))
+					return false;
+			}
+			return true;
 		}
 
 		RocketBlueprintEntry AddOrGetBlueprintEntry(RocketBlueprint bp)
@@ -269,6 +341,28 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			var moduleItem = Util.KInstantiateUI<RocketBlueprintEntry>(_entryPrefab.gameObject, _entryContainer);
 			moduleItem.blueprint = bp;
 			moduleItem.gameObject.SetActive(true);
+			moduleItem.OnDeleted = (bp =>
+			{
+				var bpEntry = _entries[bp];
+				if (_selected == bp)
+				{
+					ClearExistingVisualizers();
+					_selected = null;
+				}
+				RocketBlueprintsDb.DeleteBlueprint(bp);
+				UnityEngine.Object.Destroy(bpEntry.gameObject);
+				_entries.Remove(bp);
+			});
+			moduleItem.OnSelectBlueprint = (bp =>
+			{
+				foreach (var entry in _entries)
+				{
+					entry.Value.SetSelected(entry.Key == bp);
+				}
+				_selected = bp;
+				SetVisualizers(bp);
+				SetButtonInfo(_targetPad.HasRocket());
+			});
 			_entries.Add(bp, moduleItem);
 			return moduleItem;
 		}

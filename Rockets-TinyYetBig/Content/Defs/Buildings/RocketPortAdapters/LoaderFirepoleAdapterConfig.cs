@@ -83,7 +83,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			var anim = go.AddOrGet<FirePoleAdapter_AnimTileable>();
 			anim.tags = [LoaderFirepoleAdapterConfig.ID, FirePoleConfig.ID];
 			go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
-			go.AddOrGet<RocketPortLadderHider>();
+			//go.AddOrGet<RocketPortLadderHider>();
 		}
 	}
 }

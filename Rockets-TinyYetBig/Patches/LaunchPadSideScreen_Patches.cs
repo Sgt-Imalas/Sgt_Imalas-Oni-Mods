@@ -33,7 +33,7 @@ namespace Rockets_TinyYetBig.Patches
 		}
         static void OnBlueprintsButtonClicked(LaunchPadSideScreen instance)
         {
-			RocketBlueprintsSecondarySidescreen newScreen = (RocketBlueprintsSecondarySidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.RocketBlueprintSecondarySideScreen, "Rocket Blueprints");
+			RocketBlueprintsSecondarySidescreen newScreen = (RocketBlueprintsSecondarySidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.RocketBlueprintSecondarySideScreen, ROCKETBLUEPRINTS_SECONDARYSIDESCREEN.TITLE.TITLETEXT);
 			newScreen.OpenedFrom(instance);
 		}
 	}
