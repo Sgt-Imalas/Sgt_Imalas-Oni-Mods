@@ -17,6 +17,7 @@ namespace UtilLibs
 		public static void OverrideModPath(string newPath) => _modPath = newPath;
 		public static string ModsFolder => KMod.Manager.GetDirectory();
 		public static string ConfigsFolder => Path.Combine(ModsFolder, "config");
+		public static string ModConfigFolder => Path.Combine(ModsFolder, "config", ModID);
 
 		public static void PutToClipboard(string toPut)
 		{

@@ -2,6 +2,7 @@
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
+using Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData;
 using Rockets_TinyYetBig.Patches;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace Rockets_TinyYetBig
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumAlloy);
 
 			ModAssets.LoadAssets();
+			RocketBlueprintsDb.InitDirectory();
 
 			SgtLogger.debuglog("Initialized");
 			///mod applies fix to rocketConduitports leaking

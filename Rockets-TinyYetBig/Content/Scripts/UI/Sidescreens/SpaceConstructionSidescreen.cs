@@ -13,13 +13,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 {
     class SpaceConstructionSidescreen : SideScreenContent
     {
-
         private SpaceConstructionTargetScreen buildTargetScreen;
         public override void OnSpawn()
         {
             base.OnSpawn();
             ConnectReference();
-
         }
 
         protected Clustercraft targetCraft;
@@ -154,7 +152,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
         {
             if (buildTargetScreen == null)
             {
-                buildTargetScreen = (SpaceConstructionTargetScreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.SpaceConstructionTargetSecondarySideScreen, CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT);
+                buildTargetScreen = (SpaceConstructionTargetScreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.ConstructionSelector_SecondarySidescreen, CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT);
                 buildTargetScreen.UpdatePositions(targetCraft.Location);
             }
             else

@@ -965,7 +965,7 @@ namespace Rockets_TinyYetBig
 				public static LocString ASSIGNTOOTHERBUTTONTEXT = "Assign Duplicant to the other Spacecraft";
 
 			}
-			public static class ROCKETGENERATOR
+			public class ROCKETGENERATOR
 			{
 				public static LocString TITLE = "Generator State";
 				public static LocString BUTTONTEXT = "Active while landed";
@@ -987,6 +987,26 @@ namespace Rockets_TinyYetBig
 				}
 
 			}
+			public class ROCKETBLUEPRINTS_SECONDARYSIDESCREEN
+			{
+				public class TITLE
+				{
+					public static LocString TITLETEXT = "Rocket Templates";
+				}
+				public class BLUEPRINTID
+				{
+					public class TEXTAREA
+					{
+						public static LocString PLACEHOLDER = "Enter rocket template name...";
+					}
+				}
+				public class USEBUTTON
+				{
+					public static LocString TEXT = "Create new rocket template";
+					public static LocString TEXT_USE = "Construct selected template";
+				}
+			}
+
 		}
 
 		public class UI_MOD
