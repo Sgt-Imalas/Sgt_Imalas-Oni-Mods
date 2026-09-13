@@ -300,8 +300,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 				string reason = string.Empty;
 				if ((!canPlace || !module.CanConstructModule(_targetPad.gameObject, out reason)) && !_targetPad.HasRocket())
 				{
-					if (!canPlace)
+					if (!canPlace && !reason.Contains(global::STRINGS.UI.UISIDESCREENS.SELECTMODULESIDESCREEN.CONSTRAINTS.SPACE_AVAILABLE.FAILED))
+					{
+						if (reason.Any())
+							reason += "\n";
 						reason += global::STRINGS.UI.UISIDESCREENS.SELECTMODULESIDESCREEN.CONSTRAINTS.SPACE_AVAILABLE.FAILED;
+					}
 					moduleItem.Init(module.def, pxPerTile, reason);
 					_canPlaceLastVisualizedBP = false;
 				}
