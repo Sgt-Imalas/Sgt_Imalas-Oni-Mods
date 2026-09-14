@@ -291,17 +291,7 @@ namespace MassMoveTo.Tools.SweepByType
 				FlexSize = Vector2.right,
 				// Background ensures that scrolling works properly!
 				BackColor = PUITuning.Colors.BackgroundLight
-			}.AddChild(new PTextField("TextFilter")
-			{
-				Text = FilterText,
-				MinWidth = 170,
-				FlexSize = new Vector2(1, 0),
-				TextAlignment = TMPro.TextAlignmentOptions.MidlineLeft,
-
-			}.AddOnRealize((go) =>
-			{
-				go.GetComponent<TMP_InputField>().onValueChanged.AddListener(text => OnFilterTextChanged(text));
-			}))
+			}
 			.AddChild(new PCheckBox("SelectAll")
 			{
 				Text = global::STRINGS.UI.UISIDESCREENS.TREEFILTERABLESIDESCREEN.ALLBUTTON,
@@ -333,6 +323,19 @@ namespace MassMoveTo.Tools.SweepByType
 				img.type = Image.Type.Sliced;
 				img.preserveAspect = true;
 			});
+			// Search bar
+			var filter = new PTextField("TextFilter")
+			{
+				MinWidth = 170,
+				FlexSize = new Vector2(1, 0),
+				PlaceholderText = global::STRINGS.UI.
+				ALLRESOURCESSCREEN.SEARCH,
+				TextAlignment = TextAlignmentOptions.MidlineLeft,
+			}.AddOnRealize((go) => {
+				var field = go.GetComponent<TMP_InputField>();
+				if (field != null)
+					field.onValueChanged.AddListener(OnFilterTextChanged);
+			});
 			// 1px black border on the rest of the dialog for contrast
 			return new PRelativePanel("Border")
 			{
@@ -340,11 +343,13 @@ namespace MassMoveTo.Tools.SweepByType
 				ImageMode = Image.Type.Sliced,
 				DynamicSize = false,
 				BackColor = PUITuning.Colors.BackgroundLight
-			}.AddChild(scrollPane).AddChild(title).SetMargin(scrollPane, OUTER_MARGIN).
+			}.AddChild(scrollPane).AddChild(title).AddChild(filter).SetMargin(scrollPane, OUTER_MARGIN).
 				SetLeftEdge(title, fraction: 0.0f).SetRightEdge(title, fraction: 1.0f).
 				SetLeftEdge(scrollPane, fraction: 0.0f).SetRightEdge(scrollPane, fraction: 1.0f).
+				SetLeftEdge(filter, fraction: 0.0f).SetRightEdge(filter, fraction: 1.0f).
 				SetTopEdge(title, fraction: 1.0f).SetBottomEdge(scrollPane, fraction: 0.0f).
-				SetTopEdge(scrollPane, below: title);
+				SetTopEdge(scrollPane, below: filter).SetTopEdge(filter, below: title).
+				SetMargin(filter, ELEMENT_MARGIN);
 		}
 
 		private void OnCheck(GameObject source, int state)
