@@ -1011,6 +1011,7 @@ namespace Rockets_TinyYetBig
 
 		public class UI_MOD
 		{
+			public static LocString RTB_ROCKETBLOCKEDBY = "Launch path blocked by:";
 			public class CLUSTERMAPROCKETSIDESCREEN
 			{
 
