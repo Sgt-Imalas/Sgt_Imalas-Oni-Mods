@@ -24,9 +24,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static string ID = "Chemical_SoilMixer";
 
 		//--[ Special Settings ]-----------------------------------------------------------------------------
-		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1),null, new Color32(3, 148, 252, 255));
-		private static readonly PortDisplayInput pWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 0),null, new Color32(143, 140, 73, 255));
-		private static readonly PortDisplayInput gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1),null, new Color32(215, 227, 252, 255));
+		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1), null, new Color32(3, 148, 252, 255));
+		private static readonly PortDisplayInput pWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 0), null, new Color32(143, 140, 73, 255));
+		private static readonly PortDisplayInput gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1), null, new Color32(215, 227, 252, 255));
 
 		//--[ Building Definitions ]--------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -104,7 +104,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			soilMixer.keepAdditionalTag = ModElements.Ammonia_Gas.Tag;
 			soilMixer.storeProduced = false;
 			soilMixer.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-			soilMixer.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage	);
+			soilMixer.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			soilMixer.inStorage = buildingStorage;
 			soilMixer.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			soilMixer.outputOffset = new Vector3(-1f, 0.5f);
@@ -136,7 +136,26 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Description(SOILMIXER_4_1, 4, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
-
+			}
+			else
+			{
+				///metallurgy exclusive
+				//---- [ Phosphorite Fertilizer ] ------------------------------------------------------------------------
+				// Ingredient: Phosphorite - 25kg
+				//             Dirt - 25kg
+				//             Sulfur - 25kg
+				//             Polluted Water - 25kg
+				// Result: Fertilizer - 100kg
+				//-----------------------------------------------------------------------------------------------------
+				RecipeBuilder.Create(ID, 80)
+					.Input(SimHashes.Phosphorite, 25)
+					.Input(SimHashes.Dirt, 25)
+					.Input(SimHashes.Sulfur, 25)
+					.Input(SimHashes.DirtyWater, 25)
+					.Output(SimHashes.Fertilizer, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(SOILMIXER_4_1, 4, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.Build();
 			}
 
 			//---- [ Ammonia Fertilizer ] ------------------------------------------------------------------------
@@ -208,7 +227,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 60)
 				.Input(SimHashes.CrushedRock, 40)
 				.Input(SimHashes.ToxicSand, 20)
-				.Input([SimHashes.Carbon, SimHashes.Peat, SimHashes.WoodLog], 20, GameTags.CombustibleSolid)
+				.Input(RefinementRecipeHelper.GetWoods().Append(SimHashes.Carbon).Append(SimHashes.Peat), 20, GameTags.CombustibleSolid)
 				.Input(SimHashes.Water, 20)
 				.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_4_1, 4, 1)
