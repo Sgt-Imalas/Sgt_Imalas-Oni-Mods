@@ -32,7 +32,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 
 		public static void TriggerNoteVisibilityChange(bool on)
 		{
-			OnNoteVisiblityChanged.Invoke(on);
+			OnNoteVisiblityChanged?.Invoke(on);
 		}
 		static event Action<bool> OnNoteVisiblityChanged;
 		int refreshHandle = -1, cancelHandle = -1;

@@ -2,6 +2,7 @@
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
+using Rockets_TinyYetBig.Content.ModDb.ModIntegrations;
 using Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData;
 using Rockets_TinyYetBig.Patches;
 using System.Collections.Generic;
@@ -71,6 +72,9 @@ namespace Rockets_TinyYetBig
 			}
 			else
 				SgtLogger.l("TC-1000's:Hydrocarbon_Rocket_Engines not found");
+
+			BlueprintsV2.InitTypes();
+
 
 			RocketInteriorWeightLimitApi.TryInitialize();
 		}

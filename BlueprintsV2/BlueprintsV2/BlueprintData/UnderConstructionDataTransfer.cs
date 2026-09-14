@@ -111,6 +111,15 @@ namespace BlueprintsV2.BlueprintData
 				buildingConfig.SetBuildingData(data.Key, JObject.Parse(data.Value));
 			}
 		}
+		internal Dictionary<string,JObject> GetDataDeserialized()
+		{
+			var result = new Dictionary<string,JObject>();
+			foreach (var data in GetStoredData())
+			{
+				result[data.Key] = JObject.Parse(data.Value);
+			}
+			return result;
+		}
 		#endregion
 	}
 }

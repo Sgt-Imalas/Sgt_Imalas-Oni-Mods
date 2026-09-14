@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using YamlDotNet.Core.Tokens;
 using static BlueprintsV2.BlueprintData.DataTransferHelpers;
 
 namespace BlueprintsV2.ModAPI
@@ -243,6 +244,25 @@ namespace BlueprintsV2.ModAPI
 				dataCarrier.TransferStoredDataToBlueprintEntry(buildingConfig);
 			}
 		}
+		/// <summary>
+		/// Returns ALL building data that is stored on a gameobject, even if it is under construction
+		/// used by RocketryExpanded!
+		/// </summary>
+		public static Dictionary<string, JObject> GetAllAdditionalBuildingData(GameObject gameObject)
+		{
+			var buildingData = GetAdditionalBuildingData(gameObject);
+			if (gameObject.TryGetComponent<UnderConstructionDataTransfer>(out var dataCarrier))
+			{
+				foreach(var kvp in dataCarrier.GetDataDeserialized())
+				{
+					if (kvp.Value == null||kvp.Key.IsNullOrWhiteSpace())
+						continue;
+
+					buildingData[kvp.Key] = kvp.Value;
+				}
+			}
+			return buildingData;
+		}
 
 		/// <summary>
 		/// Returns any registered building data values in the blueprint building
@@ -270,48 +290,64 @@ namespace BlueprintsV2.ModAPI
 		/// <param name="gameObject"></param>
 		/// <param name="buildingConfig"></param>
 		public static void ApplyAdditionalBuildingData(GameObject gameObject, BuildingConfig buildingConfig, ulong playerId = BlueprintState.PlayerId_DefaultTilePreviews)
+			=> ApplyAdditionalBuildingData(gameObject, buildingConfig.BuildingDef, buildingConfig.AdditionalBuildingData, playerId);
+
+		/// <summary>
+		/// easier reflectable api method
+		/// used by RocketryExpanded!
+		/// </summary>
+		/// <param name="gameObject"></param>
+		/// <param name="configDef"></param>
+		/// <param name="buildingData"></param>
+		public static void ApplyAdditionalBuildingData(GameObject gameObject, BuildingDef configDef, Dictionary<string, JObject> buildingData)
+			=> ApplyAdditionalBuildingData(gameObject, configDef, buildingData, BlueprintState.PlayerId_DefaultTilePreviews);
+
+		public static void ApplyAdditionalBuildingData(GameObject gameObject, BuildingDef configDef, Dictionary<string, JObject> buildingData, ulong playerId = BlueprintState.PlayerId_DefaultTilePreviews)
 		{
-			if (gameObject.IsNullOrDestroyed() || buildingConfig.IsNullOrDestroyed())
+			if (gameObject.IsNullOrDestroyed() || configDef.IsNullOrDestroyed() || buildingData == null)
 				return;
 
 			if (BlueprintState.CurrentStateInfo(playerId).ApplyBlueprintSettings == false)
 				return;
 
-			if (gameObject.TryGetComponent<Building>(out var building) && building.Def != buildingConfig.BuildingDef)
+			if (gameObject.TryGetComponent<Building>(out var building) && building.Def != configDef)
 				return;
 
 			bool isUnderConstruction = (gameObject.TryGetComponent<UnderConstructionDataTransfer>(out var transfer));
 
-			foreach (var kvp in AdditionalBuildingDataEntries)
+			foreach (var dataPair in buildingData)
 			{
-				var DataHandler = kvp.Value;
-				string key = kvp.Key;
+				var key = dataPair.Key;
+				var data = dataPair.Value;
 
-				if (buildingConfig.TryGetDataValue(key, out var data))
+				if (key.IsNullOrWhiteSpace())
+					continue;
+				if (dataPair.Value == null)
 				{
-					if (data == null)
-					{
-						SgtLogger.l("data was null for " + key);
-						return;
-					}
+					SgtLogger.l("data was null for " + key);
+					continue;
+				}
 
-					if (isUnderConstruction)
-					{
-						//storing all data on storage component to reapply it on finished construction (needed for components that dont exist yet on the underConstruction building)
-						transfer.SetDataToApply(key, data);
-					}
+				if (isUnderConstruction)
+				{
+					//storing all data on storage component to reapply it on finished construction (needed for components that dont exist yet on the underConstruction building)
+					transfer.SetDataToApply(key, data);
+				}
 
-					//directly apply data to either finished buildings
-					//or under construction buildings that have some form of data transfer that is between two underConstruction buildings, eg. chain tool order
-					try
-					{
-						DataHandler.ApplyStoredData(gameObject, data);
-					}
-					catch (Exception e)
-					{
-						SgtLogger.error($"Error while trying to apply data for {key}:\n{e.Message}");
-					}
-
+				if (!AdditionalBuildingDataEntries.TryGetValue(key, out var dataHandler))
+				{
+					SgtLogger.warning("no data handler found for data key: " + key);
+					continue;
+				}
+				//directly apply data to either finished buildings
+				//or under construction buildings that have some form of data transfer that is between two underConstruction buildings, eg. chain tool order
+				try
+				{
+					dataHandler.ApplyStoredData(gameObject, data);
+				}
+				catch (Exception e)
+				{
+					SgtLogger.error($"could not apply data for key {key}:\nvalue: {data.ToString()}\nexception: {e.Message}");
 				}
 			}
 		}

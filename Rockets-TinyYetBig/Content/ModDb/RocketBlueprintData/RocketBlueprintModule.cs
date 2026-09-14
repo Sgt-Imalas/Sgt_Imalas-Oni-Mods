@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Rockets_TinyYetBig.Content.ModDb.ModIntegrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,8 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 		[JsonIgnore]
 		public BuildingDef def;
 
+		public Dictionary<string, JObject> AdditionalBuildingData = null;
+
 		public RocketBlueprintModule() { }
 		public RocketBlueprintModule(Building building)
 		{
@@ -29,6 +33,7 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 
 			DetermineMaterials(building);
 			RefreshValidity();
+			AdditionalBuildingData = BlueprintsV2.GetAllAdditionalBuildingData(building.gameObject);
 		}
 		void DetermineMaterials(Building building)
 		{

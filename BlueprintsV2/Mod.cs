@@ -33,7 +33,6 @@ namespace BlueprintsV2
 			base.OnAllModsLoaded(harmony, mods);
 			API_Methods.RegisterExtraData();
 			PlanningTool_Integration.Initialize();
-			PacketRegistryAPI.AutoRegisterAll();
 		}
 	}
 }

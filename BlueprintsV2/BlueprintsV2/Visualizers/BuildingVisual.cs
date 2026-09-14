@@ -489,10 +489,6 @@ namespace BlueprintsV2.Visualizers
 
 		public virtual bool SameBuildingAlreadyFinishedInPlace(int cellParam, out Building building, bool excludeConduits, bool includePlanned)
 		{
-			//Requires validation:
-			////this behavior causes bugs with duplicated placements, disable it
-			//includePlanned = false;
-
 			building = null;
 			var def = buildingConfig.BuildingDef;
 			var existingBuilding = Grid.Objects[cellParam, (int)def.ObjectLayer];

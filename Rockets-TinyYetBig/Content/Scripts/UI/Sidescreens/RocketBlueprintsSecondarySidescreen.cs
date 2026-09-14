@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Bson;
+using Rockets_TinyYetBig.Content.ModDb.ModIntegrations;
 using Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData;
 using Rockets_TinyYetBig.Content.Scripts.UI.UIComponents;
 using System;
@@ -181,6 +182,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
 			GameObject mostBottomRocketModule = _targetPad.AddBaseModule(firstModule.def, [.. firstModule.SelectedElements.Select(e => e.ToTag())]);
 			ApplyModuleSkin(mostBottomRocketModule, firstModule);
+			BlueprintsV2.ApplyAdditionalBuildingData(mostBottomRocketModule,firstModule.def, firstModule.AdditionalBuildingData);
 			ReorderableBuilding moduleToAttach = mostBottomRocketModule.GetComponent<ReorderableBuilding>();
 
 			for (int i = 1; i < selected.RocketModules.Count; i++)
@@ -192,6 +194,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 				moduleToAttach = nextModuleGO.GetComponent<ReorderableBuilding>();
 
 				ApplyModuleSkin(nextModuleGO, nextModule);
+				BlueprintsV2.ApplyAdditionalBuildingData(nextModuleGO, nextModule.def, nextModule.AdditionalBuildingData);
 			}
 		}
 
