@@ -271,6 +271,9 @@ namespace BlueprintsV2.ModAPI
 		/// <param name="buildingConfig"></param>
 		public static void ApplyAdditionalBuildingData(GameObject gameObject, BuildingConfig buildingConfig, ulong playerId = BlueprintState.PlayerId_DefaultTilePreviews)
 		{
+			if (gameObject.IsNullOrDestroyed() || buildingConfig.IsNullOrDestroyed())
+				return;
+
 			if (BlueprintState.CurrentStateInfo(playerId).ApplyBlueprintSettings == false)
 				return;
 

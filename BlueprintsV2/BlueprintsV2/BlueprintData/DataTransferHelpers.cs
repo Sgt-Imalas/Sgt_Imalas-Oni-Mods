@@ -152,7 +152,7 @@ namespace BlueprintsV2.BlueprintData
 						return;
 					var TargetTag = t1.Value<string>();
 					var tagParsed = TagManager.Create(TargetTag);
-					if(tagParsed.IsValid)
+					if (tagParsed.IsValid)
 						smi.SetTargetItem(tagParsed);
 
 					var t2 = jObject.GetValue("UserMaxCapacity");
@@ -248,8 +248,8 @@ namespace BlueprintsV2.BlueprintData
 				{
 					return new JObject()
 					{
-                        { "activeInSpace", component.activeInSpace},
-                        { "activeLocations", JsonConvert.SerializeObject(component.activeLocations.Select(axial => new Tuple<int,int>(axial.Q,axial.R)))},
+						{ "activeInSpace", component.activeInSpace},
+						{ "activeLocations", JsonConvert.SerializeObject(component.activeLocations.Select(axial => new Tuple<int,int>(axial.Q,axial.R)))},
 					};
 				}
 				return null;
@@ -279,9 +279,9 @@ namespace BlueprintsV2.BlueprintData
 					foreach (var entry in activeLocations)
 					{
 						var location = new AxialI(entry.first, entry.second);
-						
-						if(ClusterManager.Instance?.m_grid?.GetAsteroidAtCell(location) != null) //only add valid asteroids
-							targetComponent.SetLocationEnabled(location,true);
+
+						if (ClusterManager.Instance?.m_grid?.GetAsteroidAtCell(location) != null) //only add valid asteroids
+							targetComponent.SetLocationEnabled(location, true);
 					}
 
 				}
@@ -719,7 +719,7 @@ namespace BlueprintsV2.BlueprintData
 			}
 			public static void TryApplyData(GameObject building, JObject jObject)
 			{
-				if (jObject == null)
+				if (jObject == null || building == null)
 					return;
 				if (building.TryGetComponent<Door>(out var targetComponent))
 				{
@@ -1006,7 +1006,7 @@ namespace BlueprintsV2.BlueprintData
 			}
 			public static void TryApplyData(GameObject building, JObject jObject)
 			{
-				if (jObject == null)
+				if (jObject == null || building == null)
 					return;
 				if (building.TryGetComponent<LimitValve>(out var targetComponent))
 				{

@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using FMOD;
 using HarmonyLib;
 using KSerialization;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
+using static AmbienceManager;
 using static BlueprintsV2.STRINGS.BLUEPRINTS_BLUEPRINTNOTE;
 using static Grid.Restriction;
 using static LogicGateVisualizer;
@@ -42,6 +44,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		protected int cell;
 
 		protected HashSet<int> occupiedCells = new();
+		protected HashSet<Tuple<int, ObjectLayer>> portOccupations = new();
 		protected Extents extents;
 		protected static Dictionary<Deconstructable, ReplacementVis> queuedDeconstructablesGlobal = new();
 
@@ -60,7 +63,9 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		Coroutine check = null;
 		bool replacementInProgress = false;
 		bool markedForDeletion = false;
+		bool placementSuccessful = false;
 		HashSet<ObjectLayer> layersToReplace = null;
+		SchedulerHandle scheduledSpawnCheck = default;
 
 		public void Configure(int cell, BuildingConfig building, Orientation orientation, IEnumerable<Tag> elements, int flags, ulong playerId = BlueprintState.PlayerId_DefaultTilePreviews)
 		{
@@ -109,7 +114,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		{
 			base.OnSpawn();
 			InitDefAndAnim();
-			SgtLogger.l("Spawning ID: " + buildingDefId);
+			//SgtLogger.l("Spawning ID: " + buildingDefId);
 			var elementTag = selectedElements.Any() ? selectedElements[0] : SimHashes.COMPOSITION.CreateTag();
 			var element = ElementLoader.GetElement(elementTag);
 			string elementName = element != null ? element.nameUpperCase : global::STRINGS.UI.ELEMENTAL.AGE.UNKNOWN;
@@ -155,11 +160,16 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 			{
 				Visualizers[occupiedCell, (int)def.ObjectLayer] = null;
 			}
+			foreach(var occupiedPort in portOccupations)
+			{
+				Visualizers[occupiedPort.first, (int)occupiedPort.second] = null;
+			}
 
 			if (TryReplacing)
 			{
 				RefreshPendingDeconstructs(false);
 				GameScenePartitioner.Instance.Free(ref this.partitionerEntry);
+				scheduledSpawnCheck.ClearScheduler();
 			}
 		}
 		protected virtual void SeatVis()
@@ -174,11 +184,20 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 				}
 				Visualizers[occupiedCell, (int)def.ObjectLayer] = this;
 			}
+			foreach(var occupiedPort in portOccupations)
+			{
+				var existingVisOnCell = Visualizers[occupiedPort.first, (int)occupiedPort.second];
+				if (existingVisOnCell != null && existingVisOnCell != this)
+				{
+					existingVisOnCell.DestroySelf();
+				}
+				Visualizers[occupiedPort.first, (int)occupiedPort.second] = this;
+			}
 			if (TryReplacing)
 			{
 				RefreshPendingDeconstructs(true);
 				partitionerEntry = GameScenePartitioner.Instance.Add("ReplacementVis.ReCheckPlacement", (object)this.gameObject, new Extents(this.extents.x - 1, this.extents.y - 1, this.extents.width + 2, this.extents.height + 2), GameScenePartitioner.Instance.objectLayers[(int)def.ObjectLayer], OnPreoccupiedCellChanged);
-				GameScheduler.Instance.ScheduleNextFrame("ReplacementVisInitialCheck", OnPreoccupiedCellChanged);
+				scheduledSpawnCheck = GameScheduler.Instance.ScheduleNextFrame("ReplacementVisInitialCheck", OnPreoccupiedCellChanged);
 			}
 		}
 		void RefreshPendingDeconstructs(bool deconstruct)
@@ -190,6 +209,18 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 
 				if (deconstruct)
 					CancelPlannedOccupyingBuildings(cell);
+			}
+			foreach(var port in portOccupations)
+			{
+				int portCell = port.first;
+				ObjectLayer portLayer = port.second;
+				DoDeconstrucThingsAt(portCell, portLayer, deconstruct);
+				if(deconstruct)
+				{
+					var existing = Grid.Objects[portCell, (int)portLayer];
+					if(existing != null && existing.TryGetComponent<Constructable>(out var constructable))
+						constructable.Trigger((int)GameHashes.Cancel);
+				}
 			}
 		}
 
@@ -252,7 +283,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		void FinalizePlacementCheck()
 		{
 			check = null;
-			if (!TryReplacing || replacementInProgress)
+			if (!TryReplacing || replacementInProgress || placementSuccessful)
 				return;
 			if (TryPlacingQueuedBP())
 			{
@@ -264,7 +295,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		}
 		void OnPreoccupiedCellChanged(object data)
 		{
-			if (check != null || replacementInProgress || markedForDeletion)
+			if (check != null || replacementInProgress || markedForDeletion || placementSuccessful)
 				return;
 			check = StartCoroutine(DelayedPlacementCheck());
 		}
@@ -316,6 +347,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 			replacementInProgress = false;
 			if (builtItem == null)
 				return false;
+			placementSuccessful = true;
 
 			ApplyExtraDataToBuilt(builtItem);
 
@@ -339,15 +371,70 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		{
 
 		}
+		bool DefIsBridge(BuildingDef def, out CellOffset input, out CellOffset output)
+		{
+			input = default;
+			output = default;
+
+			if (def.BuildingComplete.TryGetComponent<SimCellOccupier>(out _) || (def.WidthInCells == 1 && def.HeightInCells == 1))
+				return false;
+
+			if (def.BuildingComplete.TryGetComponent<ConduitBridgeBase>(out _))
+			{
+				input = def.UtilityInputOffset;
+				output = def.UtilityOutputOffset;
+				return true;
+			}
+			if (def.BuildingComplete.TryGetComponent<UtilityNetworkLink>(out var networkLink))
+			{
+				input = networkLink.link1;
+				output = networkLink.link2;
+				return true;
+			}
+			return false;
+		}
 
 		void DetermineOccupiedCells()
 		{
 			occupiedCells.Clear();
-			foreach (var offset in def.PlacementOffsets)
+			portOccupations.Clear();
+			if (DefIsBridge(def, out var input, out var output))
 			{
-				var rotated = Rotatable.GetRotatedCellOffset(offset, orientation);
-				occupiedCells.Add(Grid.OffsetCell(cell, rotated));
+				occupiedCells.Add(Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(input, orientation)));
+				occupiedCells.Add(Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(output, orientation)));
 			}
+			else
+			{
+				foreach (var offset in def.PlacementOffsets)
+				{
+					occupiedCells.Add(Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(offset, orientation)));
+				}
+			}
+			if (def.InputConduitType != ConduitType.None)
+			{
+				portOccupations.Add(new(
+					Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(def.UtilityInputOffset, orientation)),
+					Grid.GetObjectLayerForConduitType(def.InputConduitType)));
+			}
+			if (def.OutputConduitType != ConduitType.None)
+			{
+				portOccupations.Add(new
+					(Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(def.UtilityOutputOffset, orientation)), 
+					Grid.GetObjectLayerForConduitType(def.OutputConduitType)));
+			}
+			if (def.RequiresPowerInput)
+			{
+				portOccupations.Add(new(
+					Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(def.PowerInputOffset, orientation)),
+					ObjectLayer.WireConnectors));
+			}
+			if (def.RequiresPowerOutput)
+			{
+				portOccupations.Add(new(
+					Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(def.PowerOutputOffset, orientation)),
+					ObjectLayer.WireConnectors));
+			}
+
 			Grid.CellToXY(cell, out int x, out int y);
 			int val1_1 = x;
 			int val1_2 = y;

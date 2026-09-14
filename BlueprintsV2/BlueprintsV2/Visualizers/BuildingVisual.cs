@@ -489,6 +489,10 @@ namespace BlueprintsV2.Visualizers
 
 		public virtual bool SameBuildingAlreadyFinishedInPlace(int cellParam, out Building building, bool excludeConduits, bool includePlanned)
 		{
+			//Requires validation:
+			////this behavior causes bugs with duplicated placements, disable it
+			//includePlanned = false;
+
 			building = null;
 			var def = buildingConfig.BuildingDef;
 			var existingBuilding = Grid.Objects[cellParam, (int)def.ObjectLayer];
@@ -503,6 +507,13 @@ namespace BlueprintsV2.Visualizers
 				//is same def AND the building cell is aligned with the visualizer cell (aka the building is in the exact same spot as the vis.)
 				if (building.Def == def && Grid.PosToCell(existingBuilding) == cellParam)
 				{
+					bool isDrywall = def.ObjectLayer == ObjectLayer.Backwall && def.WidthInCells == 1 && def.HeightInCells == 1;
+					bool hasSameRotation = (!existingBuilding.TryGetComponent<Rotatable>(out var rota) || rota.Orientation == RotatedOrientation);
+
+					//take rotation in consideration, unless its drywall
+					if (!isDrywall && !hasSameRotation)
+						return false;
+
 					if (excludeConduits)
 						return !building.TryGetComponent<IHaveUtilityNetworkMgr>(out _);
 

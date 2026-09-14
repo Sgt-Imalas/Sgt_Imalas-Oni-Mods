@@ -182,6 +182,7 @@ namespace BlueprintsV2
 					public class APPLYSTOREDSETTINGS
 					{
 						public static LocString LABEL = "Apply stored building settings on place:";
+						public static LocString TOOLTIP = "Settings stored within the blueprint are applied to the newly placed building plans when the blueprint is placed.";
 					}
 					public class PRIORITYOVERRIDE
 					{
