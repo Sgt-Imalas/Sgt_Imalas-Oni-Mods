@@ -243,7 +243,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				//    DrillConeStorages.Add(helperModule.DiamondStorage);
 				//}
 
-				if (clusterModule.TryGetComponent<DrillConeModeHandler>(out var Handler))
+				if (clusterModule.TryGetComponent<ModuleDeliveryModeHandler>(out var Handler))
 				{
 					if (Handler.LoadingAllowed)
 						DrillConeStorages.Add(Handler.DiamondStorage);

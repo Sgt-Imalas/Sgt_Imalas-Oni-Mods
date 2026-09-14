@@ -3,7 +3,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-	public class DrillConeModeHandler : KMonoBehaviour, ICheckboxControl
+	public class ModuleDeliveryModeHandler : KMonoBehaviour, ICheckboxControl
 	{
 		[MyCmpGet] public Storage DiamondStorage;
 		[Serialize] bool IsAutoLoader = false;

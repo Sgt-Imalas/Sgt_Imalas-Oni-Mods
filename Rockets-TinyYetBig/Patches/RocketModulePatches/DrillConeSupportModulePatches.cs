@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
         {
             public static void Postfix(GameObject go)
             {
-                go.AddOrGet<DrillConeModeHandler>();
+                go.AddOrGet<ModuleDeliveryModeHandler>();
                 if (go.TryGetComponent<Storage>(out var diamondStorage))
                 {
                     if (diamondStorage.storageFilters == null)
