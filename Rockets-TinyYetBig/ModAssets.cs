@@ -68,6 +68,23 @@ namespace Rockets_TinyYetBig
 
 			return "Category Tooltip not found!";
 		}
+
+
+		public static void ClearBlockedBy()
+		{
+			LastBlockingBuildings.Clear();
+			LastBlockingCells.Clear();
+		}
+		/// <summary>
+		/// Filled by ConditionFlightPathIsClear check, contains all buildings that block the currently selected rocket
+		/// </summary>
+		public static HashSet<GameObject> LastBlockingBuildings = new();
+		/// <summary>
+		/// Filled by ConditionFlightPathIsClear check, contains all (natural) cells that block the currently selected rocket
+		/// buildings will not populate this hashset, only natural cells (or some building on a non-standard layer)
+		/// </summary>
+		public static HashSet<int> LastBlockingCells = new();
+
 		private static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
 		private static void InitializeCategoryTooltipDictionary()
 		{

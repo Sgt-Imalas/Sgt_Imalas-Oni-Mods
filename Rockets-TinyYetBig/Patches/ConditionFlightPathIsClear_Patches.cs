@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -14,6 +15,8 @@ namespace Rockets_TinyYetBig.Patches
 		{
 			public static void Postfix(ConditionFlightPathIsClear __instance, ProcessCondition.Status status, ref string __result)
 			{
+				ModAssets.ClearBlockedBy();
+
 				if (status == ProcessCondition.Status.Ready)
 					return;
 
@@ -23,14 +26,14 @@ namespace Rockets_TinyYetBig.Patches
 
 				List<Building> modules = [.. __instance.moduleInterface.ClusterModules.Select(m => m.Get().GetComponent<Building>()).OrderByDescending(b => b.Def.WidthInCells)];
 
-				if(!modules.Any()) return;
+				if (!modules.Any()) return;
 
 				int y = (int)modules.First().GetMyWorld().maximumBounds.y;
 
 
 				HashSet<int> obstructingCells = new HashSet<int>();
 
-				for (int i = 0; i< modules.Count; i++)
+				for (int i = 0; i < modules.Count; i++)
 				{
 					var module = modules[i];
 
@@ -51,23 +54,29 @@ namespace Rockets_TinyYetBig.Patches
 							breakAfter = true;
 						}
 					}
-					if(breakAfter)
+					if (breakAfter)
 						break;
 				}
 				string blockedBy = "\n\n" + STRINGS.UI_MOD.RTB_ROCKETBLOCKEDBY;
-				foreach(var cell in obstructingCells)
+				//skip double mentions
+				foreach (var cell in obstructingCells)
 				{
 					var building = Grid.Objects[cell, (int)ObjectLayer.Building];
-					if(building == null) 
+					if (building == null) //gantries have their own layer
 						building = Grid.Objects[cell, (int)ObjectLayer.Gantry];
 
 					if (building != null)
 					{
-						blockedBy += "\n• ";
-						blockedBy += building.GetProperName();
+						if (!ModAssets.LastBlockingBuildings.Contains(building))
+						{
+							ModAssets.LastBlockingBuildings.Add(building);
+							blockedBy += "\n• ";
+							blockedBy += building.GetProperName();
+						}
 					}
 					else
 					{
+						ModAssets.LastBlockingCells.Add(cell);
 						blockedBy += "\n• ";
 						blockedBy += Grid.Element[cell].name;
 					}
