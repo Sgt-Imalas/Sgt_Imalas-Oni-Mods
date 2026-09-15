@@ -5,6 +5,7 @@ using BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packets;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
+using BlueprintsV2.BlueprintsV2.Patches;
 using BlueprintsV2.BlueprintsV2.Visualizers;
 using BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer;
 using BlueprintsV2.ModAPI;
@@ -52,6 +53,7 @@ namespace BlueprintsV2.BlueprintData
 		{
 			NoteVisibility = !NoteVisibility;
 			BlueprintNote.TriggerNoteVisibilityChange(NoteVisibility);
+			TopLeftControlScreen_Patches.Add_Colorable_Button.UpdateToggleState();
 		}
 		public static bool NoteVisibility { get; set; } = true;
 

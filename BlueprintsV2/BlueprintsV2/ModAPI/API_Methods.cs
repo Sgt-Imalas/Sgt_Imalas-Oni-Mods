@@ -324,7 +324,7 @@ namespace BlueprintsV2.ModAPI
 
 				if (key.IsNullOrWhiteSpace())
 					continue;
-				if (dataPair.Value == null)
+				if (data == null)
 				{
 					SgtLogger.l("data was null for " + key);
 					continue;
@@ -349,7 +349,7 @@ namespace BlueprintsV2.ModAPI
 				}
 				catch (Exception e)
 				{
-					SgtLogger.error($"could not apply data for key {key}:\nvalue: {data.ToString()}\nexception: {e.Message}");
+					SgtLogger.error($"could not apply data for key {key}:\nexception: {e.Message}");
 				}
 			}
 		}
@@ -433,10 +433,6 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(UserNameable), DataTransfer_UserNameable.TryGetData, DataTransfer_UserNameable.TryApplyData);
 
 		}
-		public static bool
-			Aki_DecorPackA_API_Integrated = false,
-			Aki_Backwalls_API_Integrated = false
-				;
 		internal static void RegisterExtraData()
 		{
 			RegisterVanillaBuildings();
@@ -507,17 +503,13 @@ namespace BlueprintsV2.ModAPI
 			{
 				SgtLogger.logError("Error while registering custom data transfers:\n" + e.Message);
 			}
-			if (!Aki_DecorPackA_API_Integrated)
-			{
-				RegisterNonSolidTag("DecorPackA_StainedGlass");
-				RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp, -10);
-			}
-			if (!Aki_Backwalls_API_Integrated)
-			{
-				RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall, -10);
-			}
-
+			IntegrateAki();	
 		}
-
+		static void IntegrateAki()
+		{
+			RegisterNonSolidTag("DecorPackA_StainedGlass");
+			RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp, -10);
+			RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall, -10);
+		}
 	}
 }

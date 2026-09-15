@@ -11,67 +11,55 @@ namespace BlueprintsV2.BlueprintData
 		//Akis Backwalls
 		internal static void TryApplyBackwall(GameObject arg1, JObject arg2)
 		{
-			var backwallCmp = arg1.GetComponent("Backwall");
+			if (!arg1.TryGetComponentMod("Backwall", out var backwallCmp))
+				return;
 
-			if (backwallCmp != null)
-			{
-				string colorHex = arg2.GetValue("colorHex").Value<string>();
-				string pattern = arg2.GetValue("pattern").Value<string>();
+			string colorHex = arg2.GetValue("colorHex").Value<string>();
+			string pattern = arg2.GetValue("pattern").Value<string>();
 
-				//GameScheduler.Instance.ScheduleNextFrame("backwall pattern",(_)=>
-				Traverse.Create(backwallCmp).Method("TrySetPattern", new[] { typeof(string) }).GetValue(pattern);
-				//GameScheduler.Instance.ScheduleNextFrame("backwall color",(_)=>
-				Traverse.Create(backwallCmp).Method("SetColor", new[] { typeof(string) }).GetValue(colorHex);
-				Traverse.Create(backwallCmp).Field("copiedColor").SetValue(true);
-				//GameScheduler.Instance.ScheduleNextFrame("backwall" ,(_)=> Traverse.Create(backwallCmp).Method("TrySetPattern", new[] { typeof(string) }).GetValue(arg2));
-
-			}
+			//GameScheduler.Instance.ScheduleNextFrame("backwall pattern",(_)=>
+			Traverse.Create(backwallCmp).Method("TrySetPattern", new[] { typeof(string) }).GetValue(pattern);
+			//GameScheduler.Instance.ScheduleNextFrame("backwall color",(_)=>
+			Traverse.Create(backwallCmp).Method("SetColor", new[] { typeof(string) }).GetValue(colorHex);
+			Traverse.Create(backwallCmp).Field("copiedColor").SetValue(true);
 		}
 
 		internal static JObject TryStoreBackwall(GameObject arg)
 		{
-			JObject data = null;
-			var backwallCmp = arg.GetComponent("Backwall");
-			if (backwallCmp != null)
-			{
-				var settingsStruct = Traverse.Create(backwallCmp).Field("settings").GetValue();
-				var colorHex = Traverse.Create(settingsStruct).Field("colorHex").GetValue() as string;
-				var pattern = Traverse.Create(settingsStruct).Field("pattern").GetValue() as string;
+			if (!arg.TryGetComponentMod("Backwall", out var backwallCmp))
+				return null;
 
-				//SgtLogger.l($"Pattern: {pattern}, colorHex: {colorHex}");
-				data = new JObject()
-				{
-					{"colorHex", colorHex},
-					{"pattern", pattern}
-				};
-			}
+			var settingsStruct = Traverse.Create(backwallCmp).Field("settings").GetValue();
+			var colorHex = Traverse.Create(settingsStruct).Field("colorHex").GetValue() as string;
+			var pattern = Traverse.Create(settingsStruct).Field("pattern").GetValue() as string;
+
+			//SgtLogger.l($"Pattern: {pattern}, colorHex: {colorHex}");
+			var data = new JObject() {
+				{"colorHex", colorHex},
+				{"pattern", pattern}
+			};
+
 			return data;
 		}
 
 		//Akis DecorPackI moodlamp
 		internal static void TryApplyMoodLamp(GameObject arg1, JObject arg2)
 		{
-			var moodLampCmp = arg1.GetComponent("MoodLamp");
+			if (!arg1.TryGetComponentMod("MoodLamp", out var moodLampCmp))
+				return;
+			string currentVariantID = arg2.GetValue("currentVariantID")?.Value<string>();
 
-			if (moodLampCmp != null)
+			if (currentVariantID != null)
+				Traverse.Create(moodLampCmp).Method("SetVariant", [typeof(string)]).GetValue(currentVariantID);
+
+			string colorHex = arg2.GetValue("colorHex")?.Value<string>();
+
+			if (colorHex != null && arg1.TryGetComponentMod("TintableLamp", out var tintableLampCmp))
 			{
-				string currentVariantID = arg2.GetValue("currentVariantID")?.Value<string>();
-
-				if (currentVariantID != null)
-					Traverse.Create(moodLampCmp).Method("SetVariant", new[] { typeof(string) }).GetValue(currentVariantID);
+				var color = Util.ColorFromHex(colorHex);
+				Traverse.Create(tintableLampCmp).Method("SetColor", [typeof(Color)]).GetValue(color);
 			}
-			if (arg2.TryGetValue("colorHex", out var colorHexToken))
-			{
-				var tintableLampCmp = arg1.GetComponent("TintableLamp");
-				if (tintableLampCmp != null)
-				{
 
-					string colorHex = colorHexToken.Value<string>();
-					var color = Util.ColorFromHex(colorHex);
-					Traverse.Create(tintableLampCmp).Method("SetColor", new[] { typeof(Color) }).GetValue(color);
-				}
-
-			}
 		}
 
 		internal static JObject TryStoreMoodLamp(GameObject arg)
@@ -80,13 +68,11 @@ namespace BlueprintsV2.BlueprintData
 			string currentVariantID = null;
 			string colorHex = null;
 
-			var moodLampCmp = arg.GetComponent("MoodLamp");
-			if (moodLampCmp != null)
+			if (arg.TryGetComponentMod("MoodLamp", out var moodLampCmp))
 			{
 				currentVariantID = Traverse.Create(moodLampCmp).Field("currentVariantID").GetValue() as string;
 			}
-			var tintableLampCmp = arg.GetComponent("TintableLamp");
-			if (tintableLampCmp != null)
+			if (arg.TryGetComponentMod("TintableLamp", out var tintableLampCmp))
 			{
 				colorHex = Traverse.Create(tintableLampCmp).Field("colorHex").GetValue() as string;
 			}
@@ -123,7 +109,7 @@ namespace BlueprintsV2.BlueprintData
 				else
 					skinId = "Default";
 			}
-			if (!ValidArtableId(skinId,arg))
+			if (!ValidArtableId(skinId, arg))
 			{
 				return null;
 			}
