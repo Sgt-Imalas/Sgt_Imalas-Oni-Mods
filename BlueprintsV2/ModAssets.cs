@@ -273,8 +273,6 @@ namespace BlueprintsV2
 			public static BlueprintFolder RootFolder;
 			public static List<BlueprintFolder> BlueprintFolders = new();
 
-			//public static HashSet<Blueprint> Blueprints = new();
-
 
 			public static string GetBlueprintDirectory()
 			{
@@ -597,13 +595,17 @@ namespace BlueprintsV2
 
 		public static Sprite GetBlueprintIconSprite(string id)
 		{
+			if (_spriteCache.TryGetValue(id, out var cached))
+				return cached;
 			var sprite = Assets.GetSprite(id);
 			if (sprite == null)
 				sprite = Def.GetUISprite(id).first;
 			if (sprite == null)
 				sprite = Assets.GetSprite("unknown");
+			_spriteCache[id] = sprite;
 			return sprite;
 		}
+		static Dictionary<string, Sprite> _spriteCache = [];
 
 		/// <summary>
 		/// Static Tag == only 1 possible material, not re-selectable
@@ -650,8 +652,14 @@ namespace BlueprintsV2
 			return materialType;
 		}
 
+		private static Dictionary<Tuple<Tag, bool>, List<Tag>> _validMaterialsCache = [];
 		public static List<Tag> GetValidMaterials(Tag materialTypeTags, bool omitDisabledElements = true)
 		{
+			var key = new Tuple<Tag,bool>(materialTypeTags, omitDisabledElements);
+
+			if (_validMaterialsCache.TryGetValue(key, out var cachedValid))
+				return cachedValid;
+
 			List<Tag> validMaterials = new List<Tag>();
 			var actualTags = materialTypeTags.ToString().Split('&');
 			foreach (var actualTag in actualTags)
@@ -682,7 +690,7 @@ namespace BlueprintsV2
 					}
 				}
 			}
-			validMaterials = validMaterials.OrderBy(x => x.Name).ToList();
+			_validMaterialsCache[key] = validMaterials = [.. validMaterials.OrderBy(x => x.Name)];
 			return validMaterials;
 		}
 

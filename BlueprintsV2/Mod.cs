@@ -17,22 +17,20 @@ namespace BlueprintsV2
 		public override void OnLoad(Harmony harmony)
 		{
 			SgtLogger.LogVersion(this, harmony);
+			SgtLogger.l("Loading Mod Assets...");
 			ModAssets.LoadAssets();
 			PUtil.InitLibrary();
 			new POptions().RegisterOptions(this, typeof(Config));
 			base.OnLoad(harmony);
-
 			ModAssets.RegisterActions();
-			SgtLogger.l("Loading Mod Assets...");
-
 			BlueprintFileHandling.AttachFileWatcher();
-
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			API_Methods.RegisterExtraData();
 			PlanningTool_Integration.Initialize();
+			PacketRegistryAPI.AutoRegisterAll();
 		}
 	}
 }

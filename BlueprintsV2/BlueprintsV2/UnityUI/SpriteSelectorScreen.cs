@@ -76,9 +76,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			init = true;
 
 			FilterInput = transform.Find("IconList/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
-			FilterInput.OnValueChanged.AddListener(OnTextFilterChange);
+			FilterInput.AddListener(OnTextFilterChange);
 			//TitleInput.OnValueChanged.AddListener(ApplyBlueprintFilter);
-			FilterInput.Text = string.Empty;
+			FilterInput.ClearInputTextWithoutEvent();
 			Container = transform.Find("IconList/ScrollArea/Content").gameObject;
 			Prefab = Container.transform.Find("Item").gameObject.AddOrGet<IconSelectionEntry>();
 			Prefab.CollectReferences();

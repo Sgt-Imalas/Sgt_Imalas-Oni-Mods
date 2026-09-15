@@ -116,9 +116,9 @@ namespace BlueprintsV2.UnityUI
 			TitleText = transform.Find("Header/Label").gameObject.GetComponent<LocText>();
 
 			NameInput = transform.Find("Body/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
-			NameInput.OnValueChanged.AddListener(OnNameInputChanged);
+			NameInput.AddListener(OnNameInputChanged);
 			NameInput.OnSelect.AddListener(OnStartedTyping);
-			NameInput.Text = string.Empty;
+			NameInput.ClearInputTextWithoutEvent();
 
 			transform.Find("Body/SearchBar/Input/TextArea/Placeholder").gameObject.GetComponent<LocText>().SetText(FILE_NAME_DIALOG.ENTER_TEXT);
 

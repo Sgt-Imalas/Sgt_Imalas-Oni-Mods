@@ -76,12 +76,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			ColorPicker.OnColorChange += SetColor;
 
 			TitleInput = transform.Find("NoteTitleInput/Input").gameObject.AddOrGet<FInputField2>();
-			TitleInput.Text = string.Empty;
-			TitleInput.OnValueChanged.AddListener(SetTitle);
+			TitleInput.AddListener(SetTitle);
+			TitleInput.ClearInputTextWithoutEvent();
 
 			TextInput = transform.Find("NoteTextInput/Input").gameObject.AddOrGet<FInputField2>();
-			TextInput.Text = string.Empty;
-			TextInput.OnValueChanged.AddListener(SetText);
+			TextInput.AddListener(SetText);
+			TextInput.ClearInputTextWithoutEvent();
 
 			ClearTitle = transform.Find("NoteTitleInput/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearTitle.OnClick += () => TitleInput.Text = string.Empty;

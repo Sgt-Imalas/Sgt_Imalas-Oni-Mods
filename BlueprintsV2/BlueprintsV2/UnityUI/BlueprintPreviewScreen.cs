@@ -48,6 +48,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		FButton ConfirmShowOverride;
 		LocText WarningText;
 		Blueprint ScheduledToShow = null;
+		private Blueprint _lastVisualized = null;
 
 		//take priority consuming the scroll
 		public override float GetSortKey()
@@ -189,7 +190,6 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		}
 		void ForceShowScheduledBp()
 		{
-
 			BuildingCountWarning.SetActive(false);
 			if (ScheduledToShow == null)
 				return;
@@ -393,6 +393,14 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		public void LoadBlueprintPreview(Blueprint blueprint)
 		{
 			Init();
+
+			if (_lastVisualized == blueprint)
+			{
+				ResetPreviewFilters();
+				return;
+			}
+
+			_lastVisualized = blueprint;
 			BuildingCountWarning.SetActive(false);
 			ClearExisting();
 			int buildingCount = blueprint.BuildingConfigurations.Count;

@@ -54,6 +54,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 		private bool initialized;
 
 		private bool DataTextUpdate = false;
+		public void ClearInputTextWithoutEvent() => SetTextFromData(string.Empty, true);
 		public void SetTextFromData(string newText, bool forceRefresh = false)
 		{
 			DataTextUpdate = true;
@@ -96,7 +97,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 			}
 		}
 
-		public TMP_InputField.OnChangeEvent OnValueChanged => inputField.onValueChanged;
+		private TMP_InputField.OnChangeEvent OnValueChanged => inputField.onValueChanged;
 		public TMP_InputField.SelectionEvent OnSelect => inputField.onSelect;
 
 		public void AddListener(System.Action<string> onValueChangedEvent)

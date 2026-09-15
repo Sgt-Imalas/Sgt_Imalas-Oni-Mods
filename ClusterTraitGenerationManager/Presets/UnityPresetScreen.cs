@@ -513,8 +513,8 @@ namespace ClusterTraitGenerationManager
 			OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.CustomClusterTemplatesPath) { UseShellExecute = true });
 
 			Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			Searchbar.OnValueChanged.AddListener(ApplyFilter);
-			Searchbar.Text = string.Empty;
+			Searchbar.AddListener(ApplyFilter);
+			Searchbar.ClearInputTextWithoutEvent();
 
 
 			ClearSearchBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();

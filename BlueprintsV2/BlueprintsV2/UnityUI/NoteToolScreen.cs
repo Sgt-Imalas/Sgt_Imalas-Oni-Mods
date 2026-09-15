@@ -102,13 +102,13 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			ElementMode.OnClick += () => SelectMode(false);
 			TitleInput = transform.Find("NoteTitleInput/Input").gameObject.AddOrGet<FInputField2>();
 			//TitleInput.OnValueChanged.AddListener(ApplyBlueprintFilter);
-			TitleInput.Text = string.Empty;
-			TitleInput.OnValueChanged.AddListener( RefreshClearButtons);
+			TitleInput.AddListener( RefreshClearButtons);
+			TitleInput.ClearInputTextWithoutEvent();
 
 			TextInput = transform.Find("NoteTextInput/Input").gameObject.AddOrGet<FInputField2>();
 			//TitleInput.OnValueChanged.AddListener(ApplyBlueprintFilter);
-			TextInput.Text = string.Empty;
-			TextInput.OnValueChanged.AddListener(RefreshClearButtons);
+			TextInput.AddListener(RefreshClearButtons);
+			TextInput.ClearInputTextWithoutEvent();
 
 			ClearTitle = transform.Find("NoteTitleInput/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearTitle.OnClick += () => TitleInput.Text = string.Empty;

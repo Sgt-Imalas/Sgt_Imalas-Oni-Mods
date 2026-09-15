@@ -170,8 +170,8 @@ namespace BlueprintsV2.UnityUI
 
 			//blueprint files
 			BlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
-			BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
-			BlueprintSearchbar.Text = string.Empty;
+			BlueprintSearchbar.AddListener(ApplyBlueprintFilter);
+			BlueprintSearchbar.ClearInputTextWithoutEvent();
 
 			ImportBlueprintButton = transform.Find("FileHierarchy/ImportButton").gameObject.AddOrGet<FButton>();
 			ImportBlueprintButton.OnClick += TryImportBlueprint;
@@ -262,8 +262,8 @@ namespace BlueprintsV2.UnityUI
 
 			///material override selection
 			ReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
-			ReplacementElementSearchbar.OnValueChanged.AddListener(ApplyElementsFilter);
-			ReplacementElementSearchbar.Text = string.Empty;
+			ReplacementElementSearchbar.AddListener(ApplyElementsFilter);
+			ReplacementElementSearchbar.ClearInputTextWithoutEvent();
 
 			ClearReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearReplacementElementSearchbar.OnClick += () => ReplacementElementSearchbar.Text = string.Empty;
@@ -298,7 +298,7 @@ namespace BlueprintsV2.UnityUI
 			//blueprint info building list
 
 			//BuildingListSearchbar = transform.Find("BuildingList/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
-			//BuildingListSearchbar.OnValueChanged.AddListener(ApplyBuildingsFilter);
+			//BuildingListSearchbar.AddListener(ApplyBuildingsFilter);
 			//BuildingListSearchbar.Text = string.Empty;
 
 			//ClearBuildingListSearchbar = transform.Find("BuildingList/SearchBar/DeleteButton").gameObject.AddOrGet<FButton>();
