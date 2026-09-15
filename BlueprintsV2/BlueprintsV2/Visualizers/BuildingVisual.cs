@@ -789,15 +789,10 @@ namespace BlueprintsV2.Visualizers
 		}
 		public virtual void ApplyColorIfChanged(int cellParam)
 		{
-			Color newColor = GetVisualizerColor(cellParam);
-
-			//if (_lastColor.HasValue && newColor == _lastColor.Value)
-			//	return;
-
-			//_lastColor = newColor;
-
 			if (hasKbac)
-				kbac.TintColour = newColor;
+			{
+				kbac.TintColour = GetVisualizerColor(cellParam);
+			}
 		}
 
 		public Color GetVisualizerColor(int cellParam)

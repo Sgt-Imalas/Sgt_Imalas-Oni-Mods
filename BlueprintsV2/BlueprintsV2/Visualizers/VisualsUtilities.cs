@@ -9,13 +9,12 @@ namespace BlueprintsV2.Visualizers
 	{
 		public static void SetTileColor(ulong playerId, int cell, Color newColor, BuildingConfig buildingConfig)
 		{
-			if (!BlueprintState.ColoredCells[playerId].TryGetValue(cell, out var existingColor))
-				existingColor = Color.white;
+			//if (!BlueprintState.ColoredCells[playerId].TryGetValue(cell, out var existingColor))
+			//	existingColor = Color.white;
 
-			BlueprintState.ColoredCells[playerId][cell] = newColor;
 
-			if (existingColor != newColor)
-				CustomTileRenderer.RefreshCell(playerId, cell, buildingConfig.BuildingDef.TileLayer, buildingConfig.BuildingDef.ReplacementLayer);
+			//if (existingColor != newColor)
+			//	CustomTileRenderer.RefreshCell(playerId, cell, buildingConfig.BuildingDef.TileLayer, false);
 		}
 	}
 }

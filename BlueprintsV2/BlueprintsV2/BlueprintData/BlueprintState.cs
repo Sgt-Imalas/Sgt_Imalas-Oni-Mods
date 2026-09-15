@@ -572,6 +572,7 @@ namespace BlueprintsV2.BlueprintData
 			}
 
 			transformData.CheckPermittedRotations();
+			CustomTileRenderer.UpdateTileRendererForPlayer(playerId);
 
 			OnBlueprintVisualized(playerId, blueprint, topLeft);
 			UpdateVisual(playerId, topLeft, true, blueprint);
@@ -627,7 +628,7 @@ namespace BlueprintsV2.BlueprintData
 			{
 				dependentVisual.RefreshColor();
 			});
-
+			CustomTileRenderer.UpdateTileRendererForPlayer(playerId);
 			OnBlueprintMoved(playerId, origin);
 		}
 
@@ -635,7 +636,6 @@ namespace BlueprintsV2.BlueprintData
 		public static void ClearVisuals(ulong playerId = BlueprintState.PlayerId_DefaultTilePreviews)
 		{
 			CleanDirtyVisuals(playerId);
-
 
 			var foundations = FoundationVisuals[playerId];
 			foundations.ForEach(foundationVis => foundationVis.DestroyVisualizer());
@@ -681,13 +681,6 @@ namespace BlueprintsV2.BlueprintData
 
 		public static void CleanDirtyVisuals(ulong playerId)
 		{
-			var coloredCells = ColoredCells[playerId];
-			//foreach (int cell in coloredCells.Keys)
-			//{
-			//	CustomTileRenderer.RefreshCell(playerId, cell, ObjectLayer.FoundationTile);
-			//}
-
-			coloredCells.Clear();
 			CleanableVisuals[playerId].ForEach(cleanableVisual => cleanableVisual.Clean());
 		}
 		#endregion

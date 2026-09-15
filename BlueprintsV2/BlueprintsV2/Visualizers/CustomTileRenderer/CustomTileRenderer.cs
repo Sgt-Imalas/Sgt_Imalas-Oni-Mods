@@ -16,7 +16,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 {
 	internal class CustomTileRenderer : BlockTileRenderer
 	{
-		static int 
+		static int
 			//OnPlayerJoin = -1,
 			OnPlayerLeave = -1, OnPlayerCursorMade = -1;
 		static readonly Dictionary<ulong, CustomTileRenderer> customTileRenderers = [];
@@ -82,7 +82,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 			renderer = World.Instance.gameObject.AddComponent<CustomTileRenderer>();
 			renderer.PlayerId = playerId;
 			customTileRenderers.Add(playerId, renderer);
-			BlueprintState.AddCachesForPlayer(playerId); 
+			BlueprintState.AddCachesForPlayer(playerId);
 			BlueprintState.CachePlayerColor(playerId);
 			TileVisual.OnPlayerAdded(playerId);
 		}
@@ -139,6 +139,64 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 				SgtLogger.l("World.OnLoadLevel");
 			}
 		}
+		public static void UpdateTileRendererForPlayer(ulong playerId)
+		{
+			if (customTileRenderers.ContainsKey(playerId))
+				customTileRenderers[playerId].UpdateTileRenderer();
+
+		}
+
+		private readonly Dictionary<int, BuildingDef> _removedTiles = [];
+		private readonly Dictionary<int, BuildingDef> _addedTiles = [];
+		private readonly HashSet<int> _updatedCells = [];
+
+		private void UpdateTileRenderer()
+		{
+			if (Game.IsQuitting())
+				return;
+			//SgtLogger.l($"Updating {_updatedCells.Count} cells");
+
+			int layer = LayerMask.NameToLayer("Overlay");
+			foreach (var cell in _updatedCells)
+			{
+				if (!Grid.IsValidCell(cell))
+					continue;
+
+				bool tileRemoved = _removedTiles.TryGetValue(cell, out var prev);
+				bool tileAdded = _addedTiles.TryGetValue(cell, out var current);
+				bool sameDef = prev == current;
+				ObjectLayer refreshPrev = ObjectLayer.NumLayers, refreshNow = ObjectLayer.NumLayers;
+
+				if (tileRemoved && (!tileAdded || !sameDef))
+				{
+					RemoveBlock(prev, false, SimHashes.Void, cell);
+					refreshPrev = prev.TileLayer;
+				}
+				if (tileAdded && (!tileRemoved || !sameDef))
+				{
+					AddBlock(layer, current, false, SimHashes.Void, cell, true);
+					refreshNow = current.TileLayer;
+				}
+
+				if (refreshPrev != ObjectLayer.NumLayers)
+					Rebuild(refreshPrev, cell);
+				if (refreshNow != ObjectLayer.NumLayers && refreshNow != refreshPrev)
+					Rebuild(refreshNow, cell);
+			}
+			_updatedCells.Clear();
+			_addedTiles.Clear();
+			_removedTiles.Clear();
+		}
+		private void AddDefInternal(BuildingDef def, int cell)
+		{
+			_updatedCells.Add(cell);
+			_addedTiles[cell] = def;
+		}
+		private void RemoveDefInternal(BuildingDef def, int cell)
+		{
+			_updatedCells.Add(cell);
+			_removedTiles[cell] = def;
+		}
 
 		public static void RefreshCellInternal(ulong playerId, int cell, ObjectLayer tile_layer)
 		{
@@ -151,6 +209,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 			r.Rebuild(tile_layer, cell);
 
 			GameObject gameObject = Grid.Objects[cell, (int)tile_layer];
+			return;
 			if (gameObject != null)
 			{
 				KAnimGraphTileVisualizer componentInChildren = gameObject.GetComponentInChildren<KAnimGraphTileVisualizer>();
@@ -161,11 +220,13 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 			}
 		}
 
-		public static void RefreshCell(ulong playerId, int cell, ObjectLayer tile_layer)
+		public static void RefreshCell(ulong playerId, int cell, ObjectLayer tile_layer, bool includeAdjacent)
 		{
 			if (tile_layer != ObjectLayer.NumLayers)
 			{
 				RefreshCellInternal(playerId, cell, tile_layer);
+				if (!includeAdjacent)
+					return;
 				RefreshCellInternal(playerId, Grid.CellAbove(cell), tile_layer);
 				RefreshCellInternal(playerId, Grid.CellBelow(cell), tile_layer);
 				RefreshCellInternal(playerId, Grid.CellLeft(cell), tile_layer);
@@ -173,30 +234,28 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 			}
 		}
 
-		public static void RefreshCell(ulong playerId, int cell, ObjectLayer tile_layer, ObjectLayer replacement_layer)
+		public static void RefreshCell(ulong playerId, int cell, ObjectLayer tile_layer, ObjectLayer replacement_layer, bool includeAdjacent)
 		{
-			RefreshCell(playerId, cell, tile_layer);
-			RefreshCell(playerId, cell, replacement_layer);
+			RefreshCell(playerId, cell, tile_layer, includeAdjacent);
+			RefreshCell(playerId, cell, replacement_layer, includeAdjacent);
 		}
 
-
-
-		public static void AddTileBlock(ulong playerId, int renderLayer, BuildingDef def, bool isReplacement, SimHashes element, int cell, bool isBlueprint = true)
+		public static void AddTileBlock(ulong playerId, BuildingDef def, int cell)
 		{
 			if (customTileRenderers.TryGetValue(playerId, out var r))
 			{
-				r.AddBlock(renderLayer, def, isReplacement, element, cell, isBlueprint);
+				r.AddDefInternal(def, cell);
 			}
 			else
 			{
 				SgtLogger.warning("Tried adding tile block for " + playerId + ", but there was no valid tile renderer for it!");
 			}
 		}
-		public static void RemoveTileBlock(ulong playerId, BuildingDef def, bool isReplacement, SimHashes element, int cell)
+		public static void RemoveTileBlock(ulong playerId, BuildingDef def, int cell)
 		{
 			if (customTileRenderers.TryGetValue(playerId, out var r))
 			{
-				r.RemoveBlock(def, isReplacement, element, cell);
+				r.RemoveDefInternal(def, cell);
 			}
 			else
 			{
