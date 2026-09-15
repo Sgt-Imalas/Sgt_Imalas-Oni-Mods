@@ -192,7 +192,7 @@ namespace BlueprintsV2.ModAPI
 		public static HashSet<string> GetDataHandlerIDs()
 		{
 			if (RegisteredDataHandlerIDs == null)
-				RegisteredDataHandlerIDs = new HashSet<string>(AdditionalBuildingDataEntries.Keys);
+				RegisteredDataHandlerIDs = [.. AdditionalBuildingDataEntries.Keys];
 			return RegisteredDataHandlerIDs;
 		}
 		private static HashSet<string> RegisteredDataHandlerIDs = null;
@@ -253,9 +253,9 @@ namespace BlueprintsV2.ModAPI
 			var buildingData = GetAdditionalBuildingData(gameObject);
 			if (gameObject.TryGetComponent<UnderConstructionDataTransfer>(out var dataCarrier))
 			{
-				foreach(var kvp in dataCarrier.GetDataDeserialized())
+				foreach (var kvp in dataCarrier.GetDataDeserialized())
 				{
-					if (kvp.Value == null||kvp.Key.IsNullOrWhiteSpace())
+					if (kvp.Value == null || kvp.Key.IsNullOrWhiteSpace())
 						continue;
 
 					buildingData[kvp.Key] = kvp.Value;
@@ -272,6 +272,8 @@ namespace BlueprintsV2.ModAPI
 		public static Dictionary<string, JObject> GetAdditionalBuildingData(GameObject gameObject)
 		{
 			var buildingData = new Dictionary<string, JObject>();
+			if (gameObject == null)
+				return buildingData;
 			foreach (var kvp in AdditionalBuildingDataEntries)
 			{
 				var DataHandler = kvp.Value;
@@ -353,7 +355,10 @@ namespace BlueprintsV2.ModAPI
 		}
 		public static void TryApplyingStoredData(GameObject gameObject, string Key, JObject data)
 		{
-			if (AdditionalBuildingDataEntries.TryGetValue(Key, out var Methods) && data != null)
+			if (gameObject == null || data == null)
+				return;
+
+			if (AdditionalBuildingDataEntries.TryGetValue(Key, out var Methods))
 			{
 				try
 				{
