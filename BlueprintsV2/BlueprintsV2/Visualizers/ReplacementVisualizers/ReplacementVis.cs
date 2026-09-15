@@ -333,6 +333,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 			Vector3 posCbc = Grid.CellToPosCBC(cell, Grid.SceneLayer.Building);
 			GameObject builtItem;
 
+			RefreshPendingDeconstructs(true);
 			if (!BlueprintState.InstantBuild)
 			{
 				var placer = Util.KInstantiate(def.BuildingPreview, Grid.CellToPosCBC(cell, def.SceneLayer));
@@ -437,6 +438,18 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 				portOccupations.Add(new(
 					Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(def.PowerOutputOffset, orientation)),
 					ObjectLayer.WireConnectors));
+			}
+			if(def.UseHighEnergyParticleInputPort)
+			{
+				portOccupations.Add(new(
+					Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(def.HighEnergyParticleInputOffset, orientation)),
+					ObjectLayer.Building));
+			}
+			if (def.UseHighEnergyParticleOutputPort)
+			{
+				portOccupations.Add(new(
+					Grid.OffsetCell(cell, Rotatable.GetRotatedCellOffset(def.HighEnergyParticleOutputOffset, orientation)),
+					ObjectLayer.Building));
 			}
 
 			Grid.CellToXY(cell, out int x, out int y);
