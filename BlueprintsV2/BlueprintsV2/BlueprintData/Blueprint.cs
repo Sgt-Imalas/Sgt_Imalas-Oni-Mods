@@ -150,7 +150,7 @@ namespace BlueprintsV2.BlueprintData
 			ReadJson(JObject.Parse(sourceSerialized.ToString()));
 		}
 
-		void CalculateDimensions()
+		public void CalculateDimensions()
 		{
 			int x_min = 0, x_max = 0, visibleX_min = 0, visibleX_max = 0;
 			int y_min = 0, y_max = 0, visibleY_min = 0, visibleY_max = 0;

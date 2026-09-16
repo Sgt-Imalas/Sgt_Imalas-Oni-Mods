@@ -16,8 +16,6 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 		readonly bool _hasHardpoint = false;
 		public RocketModuleVisual(BuildingConfig buildingConfig, int cell, ulong playerId) : base(buildingConfig, cell, playerId)
 		{
-			if(!AttachmentPoints.ContainsKey(playerId))
-				AttachmentPoints[playerId] = new HashSet<int>();
 
 			if(_def.BuildingComplete.TryGetComponent<BuildingAttachPoint>(out var BuildingAttachment))
 			{
@@ -33,6 +31,12 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 					}
 				}
 			}
+		}
+		protected override void CreateVisualizer()
+		{
+			if (!AttachmentPoints.ContainsKey(_playerId))
+				AttachmentPoints[_playerId] = new HashSet<int>();
+			base.CreateVisualizer();
 		}
 
 		public int DirtyCell { get; private set; } = -1;

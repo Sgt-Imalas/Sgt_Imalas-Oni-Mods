@@ -86,17 +86,12 @@ namespace BlueprintsV2.BlueprintData
 			SgtLogger.l("SetButtonTextOverride");
 		}
 
-		public static bool SelectButtonUnlocked = true;
-
 		public bool SidescreenEnabled() => UnderConstructionDataSettingHelper.HasDataTransferComponents(building);
 
-		public bool SidescreenButtonInteractable() => SelectButtonUnlocked;
+		public bool SidescreenButtonInteractable() => !UnderConstructionDataSettingHelper.Pending;
 
 		public void OnSidescreenButtonPressed()
 		{
-			if (!SelectButtonUnlocked)
-				return;
-			SelectButtonUnlocked = false;
 			UnderConstructionDataSettingHelper.StartEditingUnderConstructionData(this);
 		}
 

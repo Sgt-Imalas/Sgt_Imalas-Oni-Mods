@@ -26,9 +26,10 @@ namespace BlueprintsV2.Tools
 		List<Blueprint> SessionSnapshots = [];
 		int UsedSnapshotIndex = 0;
 		public static int SnapshotCount => Instance != null ? Instance.SessionSnapshots.Count : 0;
-		public static int SnapshotIndex => Instance != null ? Instance.UsedSnapshotIndex: 0;
+		public static int SnapshotIndex => Instance != null ? Instance.UsedSnapshotIndex : 0;
 		public static Blueprint CurrentSnapshot => Instance != null ? Instance.snapshotBlueprint : null;
 
+		Vector3 _gridDragStart = default;
 
 		public SnapshotTool()
 		{
@@ -262,22 +263,24 @@ namespace BlueprintsV2.Tools
 			}
 		}
 
-
 		public override void OnLeftClickDown(Vector3 cursorPos)
 		{
+			_gridDragStart = default;
 			if (snapshotBlueprint == null)
 			{
 				base.OnLeftClickDown(cursorPos);
 			}
-
 			else if (hasFocus)
 			{
+				if (BlueprintState.CurrentStateInfo().SnapToGrid)
+					_gridDragStart = cursorPos;
 				BlueprintState.UseBlueprint(BlueprintState.PlayerId_DefaultTilePreviews, Grid.PosToXY(cursorPos), snapshotBlueprint);
 			}
 		}
 
 		public override void OnLeftClickUp(Vector3 cursorPos)
 		{
+			_gridDragStart = default;
 			if (snapshotBlueprint == null)
 			{
 				base.OnLeftClickUp(cursorPos);
@@ -290,17 +293,47 @@ namespace BlueprintsV2.Tools
 			{
 				base.OnMouseMove(cursorPos);
 			}
-
 			else if (hasFocus)
 			{
-				BlueprintState.UpdateVisual(BlueprintState.PlayerId_DefaultTilePreviews,Grid.PosToXY(cursorPos), false, snapshotBlueprint);
+				BlueprintState.UpdateVisual(BlueprintState.PlayerId_DefaultTilePreviews, Grid.PosToXY(cursorPos), false, snapshotBlueprint);
+				OnMouseMovedGridPlacement(cursorPos);
+			}
+		}
+		public void OnMouseMovedGridPlacement(Vector3 cursorPos)
+		{
+			if (snapshotBlueprint == null|| _gridDragStart == default)
+				return;
+
+			var stateInfo = BlueprintState.CurrentStateInfo();
+
+			if (!stateInfo.SnapToGrid)
+				return;
+			int xStep = stateInfo.GridSnapX;
+			int yStep = stateInfo.GridSnapY;
+
+			if (Grid.PosToCell(_gridDragStart) == Grid.PosToCell(cursorPos))
+				return;
+
+			var downXY = Grid.PosToXY(_gridDragStart);
+
+			Grid.PosToXY(cursorPos, out int X, out int Y);
+			//SgtLogger.l($"Down: {downXY} current: {X},{Y} XAlign:{downXY.X - X} XAlign:{(downXY.X - X) % xStep == 0}, YAlign:{downXY.Y - Y} YAlign:{(downXY.Y - Y) % yStep == 0}, steps: {xStep}x{yStep},");
+			int xDiff = (downXY.X - X + xStep);
+			int yDiff = (downXY.Y - Y + yStep);
+			bool xAligned = (xDiff == 0 || xDiff % xStep == 0);
+			bool yAligned = (yDiff == 0 || yDiff % yStep == 0);
+
+			if (xAligned && yAligned)
+			{
+				BlueprintState.UseBlueprint(BlueprintState.PlayerId_DefaultTilePreviews, new(X, Y), snapshotBlueprint);
+				_gridDragStart = cursorPos;
 			}
 		}
 
 		void SetForceMaterialChange(bool enabled)
 		{
 			BlueprintState.CurrentStateInfo().ForceBuild = enabled;
-			BlueprintState.RefreshBlueprintVisualizers(BlueprintState.PlayerId_DefaultTilePreviews,snapshotBlueprint);
+			BlueprintState.RefreshBlueprintVisualizers(BlueprintState.PlayerId_DefaultTilePreviews, snapshotBlueprint);
 			CurrentBlueprintStateScreen.Instance.SetForceMaterialChange(enabled);
 		}
 		public override void OnKeyDown(KButtonEvent buttonEvent)
@@ -319,7 +352,7 @@ namespace BlueprintsV2.Tools
 				TryVisualizeLastSnapshot();
 			}
 			else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction())
-				||  buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSnapshotAction.GetKAction()) 
+				|| buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSnapshotAction.GetKAction())
 				)
 			{
 				DeleteBlueprint();
@@ -369,7 +402,6 @@ namespace BlueprintsV2.Tools
 		{
 			if ((DetailsScreen.Instance?.isEditing ?? false) || (DetailsScreen.Instance?.HasFocus ?? false))
 				return;
-
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
 				SetForceMaterialChange(false);

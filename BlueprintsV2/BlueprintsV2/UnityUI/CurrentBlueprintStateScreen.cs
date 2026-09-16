@@ -30,12 +30,13 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
 		GameObject ColorPreviewPrefab;
 
-		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings, EnableSnapshotMaterialOverrides, UseToolPriority, ForceOverrideTransformations, ApplySettingsToExistingBuildings;
+		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings, EnableSnapshotMaterialOverrides, UseToolPriority, ForceOverrideTransformations, ApplySettingsToExistingBuildings, EnableGridSnapping;
 		//YesNoInfo CanRotate;
 		FButton RotateL, RotateR, ChangeMaterialOverrides;
 		//YesNoInfo CanFlipH, CanFlipV;
 		FButton FlipH, FlipV;
 		ToolTip CanRotateL_TT, CanRotateR_TT, CanFlipH_TT, CanFlipV_TT;
+		FInputField2 GridSnapX, GridSnapY;
 
 		public static void DestroyInstance() { Instance = null; }
 
@@ -70,17 +71,25 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				CurrentBPName.SetText("-");
 				return;
 			}
+			var stateInfo = BlueprintState.CurrentStateInfo();
+
+			bool isSnapshot = stateInfo.IsPlacingSnapshot;
 
 			CurrentBPName.SetText(bp.FriendlyName);
-			EnableSnapshotMaterialOverrides.gameObject.SetActive(BlueprintState.CurrentStateInfo().IsPlacingSnapshot);
-			ChangeMaterialOverrides.transform.parent.gameObject.SetActive(BlueprintState.CurrentStateInfo().IsPlacingSnapshot);
-			if (BlueprintState.CurrentStateInfo().IsPlacingSnapshot)
+			EnableSnapshotMaterialOverrides.gameObject.SetActive(isSnapshot);
+			ChangeMaterialOverrides.transform.parent.gameObject.SetActive(isSnapshot);
+			bp.CalculateDimensions();
+			//SgtLogger.l("BP dims: " + bp.VisibleDimensions.ToString());
+			stateInfo.GridSnapX = bp.VisibleDimensions.X;
+			stateInfo.GridSnapY = bp.VisibleDimensions.Y;
+
+			if (isSnapshot)
 			{
 				CurrentBPName.SetText("-");
 				FolderInfoGO.SetActive(true);
 				string folderInfo = string.Format(FOLDERINFO.LABEL_SNAPSHOT, SnapshotTool.SnapshotIndex + 1, SnapshotTool.SnapshotCount);
 				FolderInfo.SetText(folderInfo);
-				ChangeMaterialOverrides.SetInteractable(BlueprintState.CurrentStateInfo().MaterialReplacementInSnapshots);
+				ChangeMaterialOverrides.SetInteractable(stateInfo.MaterialReplacementInSnapshots);
 			}
 			else
 			{
@@ -122,6 +131,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			ForceOverrideTransformations.SetOnFromCode(info.ForceOverrideTransformations);
 			ApplySettingsToExistingBuildings.SetOnFromCode(info.ApplySettingsToExistingBuildings);
 
+			EnableGridSnapping.SetOnFromCode(info.SnapToGrid);
+			GridSnapX.SetTextFromData(info.GridSnapX.ToString());
+			GridSnapY.SetTextFromData(info.GridSnapY.ToString());
 		}
 		void RefreshStateChangeBPs()
 		{
@@ -167,42 +179,59 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			SelectNextBP.OnClick += HandleNextBP;
 			UIUtils.AddSimpleTooltipToObject(SelectNextBP.gameObject, string.Format(USE_TOOL.SELECTNEXT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNext.GetKAction()) + "]")));
 
+			var state = BlueprintState.CurrentStateInfo();
 
 			ApplyBPSettings = transform.Find("InfoItemsContainer/ApplyStoredSettings").gameObject.AddOrGet<FToggle>();
 			ApplyBPSettings.SetCheckmark("Checkbox/Checkmark");
-			ApplyBPSettings.SetOnFromCode(BlueprintState.CurrentStateInfo().ApplyBlueprintSettings);
+			ApplyBPSettings.SetOnFromCode(state.ApplyBlueprintSettings);
 			ApplyBPSettings.OnChange += (on) => BlueprintState.CurrentStateInfo().ApplyBlueprintSettings = on;
 			UIUtils.AddSimpleTooltipToObject(ApplyBPSettings.gameObject, APPLYSTOREDSETTINGS.TOOLTIP);
 
 			ForceRebuildMismatchedBuildings = transform.Find("InfoItemsContainer/ForceRebuild").gameObject.AddOrGet<FToggle>();
 			ForceRebuildMismatchedBuildings.SetCheckmark("Checkbox/Checkmark");
-			ForceRebuildMismatchedBuildings.SetOnFromCode(BlueprintState.CurrentStateInfo().ForceBuild);
+			ForceRebuildMismatchedBuildings.SetOnFromCode(state.ForceBuild);
 			ForceRebuildMismatchedBuildings.OnChange += (on) => BlueprintState.CurrentStateInfo().ForceBuild = on;
 			UIUtils.AddSimpleTooltipToObject(ForceRebuildMismatchedBuildings.gameObject, string.Format(FORCEREBUILD.TOOLTIP, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]")));
 
 			EnableSnapshotMaterialOverrides = transform.Find("InfoItemsContainer/MaterialReplacement").gameObject.AddOrGet<FToggle>();
 			EnableSnapshotMaterialOverrides.SetCheckmark("Checkbox/Checkmark");
-			EnableSnapshotMaterialOverrides.SetOnFromCode(BlueprintState.CurrentStateInfo().MaterialReplacementInSnapshots);
+			EnableSnapshotMaterialOverrides.SetOnFromCode(state.MaterialReplacementInSnapshots);
 			EnableSnapshotMaterialOverrides.OnChange += OnSnapshotOverrideChanged;
 			UIUtils.AddSimpleTooltipToObject(EnableSnapshotMaterialOverrides.gameObject, MATERIALREPLACEMENT.TOOLTIP);
 
 			UseToolPriority = transform.Find("InfoItemsContainer/PriorityOverride").gameObject.AddOrGet<FToggle>();
 			UseToolPriority.SetCheckmark("Checkbox/Checkmark");
-			UseToolPriority.SetOnFromCode(BlueprintState.CurrentStateInfo().UseToolPriority);
+			UseToolPriority.SetOnFromCode(state.UseToolPriority);
 			UseToolPriority.OnChange += OnToolPriorityChanged;
 			UIUtils.AddSimpleTooltipToObject(UseToolPriority.gameObject, PRIORITYOVERRIDE.TOOLTIP);
 
 			ForceOverrideTransformations = transform.Find("InfoItemsContainer/ForceTransformationToggle").gameObject.AddOrGet<FToggle>();
 			ForceOverrideTransformations.SetCheckmark("Checkbox/Checkmark");
-			ForceOverrideTransformations.SetOnFromCode(BlueprintState.CurrentStateInfo().ForceOverrideTransformations);
+			ForceOverrideTransformations.SetOnFromCode(state.ForceOverrideTransformations);
 			ForceOverrideTransformations.OnChange += OnForceOverrideTransformationsChanged;
 			UIUtils.AddSimpleTooltipToObject(ForceOverrideTransformations.gameObject, FORCETRANSFORMATIONTOGGLE.TOOLTIP);
 
 			ApplySettingsToExistingBuildings = transform.Find("InfoItemsContainer/ApplySettingsToExisting").gameObject.AddOrGet<FToggle>();
 			ApplySettingsToExistingBuildings.SetCheckmark("Checkbox/Checkmark");
-			ApplySettingsToExistingBuildings.SetOnFromCode(BlueprintState.CurrentStateInfo().ApplySettingsToExistingBuildings);
+			ApplySettingsToExistingBuildings.SetOnFromCode(state.ApplySettingsToExistingBuildings);
 			ApplySettingsToExistingBuildings.OnChange += OnApplySettingsToExistingChanged;
 			UIUtils.AddSimpleTooltipToObject(ApplySettingsToExistingBuildings.gameObject, APPLYSETTINGSTOEXISTING.TOOLTIP);
+
+			EnableGridSnapping = transform.Find("InfoItemsContainer/GridSnap").gameObject.AddOrGet<FToggle>();
+			EnableGridSnapping.SetCheckmark("Checkbox/Checkmark");
+			EnableGridSnapping.SetOnFromCode(state.SnapToGrid);
+			EnableGridSnapping.OnChange += ToggleGridSnap;
+			UIUtils.AddSimpleTooltipToObject(EnableGridSnapping.gameObject, GRIDSNAP.TOOLTIP);
+
+			GridSnapX = EnableGridSnapping.transform.Find("WidthInput").gameObject.AddOrGet<FInputField2>();
+			GridSnapX.AddListener(GridSnapChanged_X);
+			GridSnapX.SetTextFromData(state.GridSnapX.ToString());
+			GridSnapX.ClearPlace();
+
+			GridSnapY = EnableGridSnapping.transform.Find("HeightInput").gameObject.AddOrGet<FInputField2>();
+			GridSnapY.AddListener(GridSnapChanged_Y);
+			GridSnapY.SetTextFromData(state.GridSnapY.ToString());
+			GridSnapY.ClearPlace();
 
 			ChangeMaterialOverrides = transform.Find("InfoItemsContainer/MaterialOverrides/Button").gameObject.AddOrGet<FButton>();
 			ChangeMaterialOverrides.OnClick += ShowMaterialReplacementList;
@@ -237,6 +266,30 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			BuildColorLegend();
 		}
 
+		void GridSnapChanged_X(string value)
+		{
+			if(!int.TryParse(value, out int x))
+			{
+				GridSnapX.SetTextFromData(BlueprintState.CurrentStateInfo().GridSnapX.ToString());
+			}
+			if (x <= 0)
+				x = 1;
+			BlueprintState.CurrentStateInfo().GridSnapX = x;
+		}
+		void GridSnapChanged_Y(string value)
+		{
+			if (!int.TryParse(value, out int y))
+			{
+				GridSnapY.SetTextFromData(BlueprintState.CurrentStateInfo().GridSnapY.ToString());
+			}
+			if (y <= 0)
+				y = 1;
+			BlueprintState.CurrentStateInfo().GridSnapY = y;
+		}
+		void ToggleGridSnap(bool on)
+		{
+			BlueprintState.CurrentStateInfo().SnapToGrid = on;
+		}
 		void OnApplySettingsToExistingChanged(bool on)
 		{
 			BlueprintState.CurrentStateInfo().ApplySettingsToExistingBuildings = on;

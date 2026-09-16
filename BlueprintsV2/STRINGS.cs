@@ -107,6 +107,10 @@ namespace BlueprintsV2
 
 		public class UI
 		{
+			public class NOTEOPTIONS
+			{
+				public static LocString OPACITY_TOOLTIP = "Set note opacity";
+			}
 			public class PRECONFIGURE_UNDERCONSTRUCTION
 			{
 				public static LocString TITLE = "Preconfigure building settings";
@@ -212,6 +216,11 @@ namespace BlueprintsV2
 					{
 						public static LocString LABEL = "Apply settings to existing buildings:";
 						public static LocString TOOLTIP = "Finished buildings overlapping with blueprint visualizers containing settings will receive those settings when the blueprint is placed down.";
+					}
+					public class GRIDSNAP
+					{
+						public static LocString LABEL = "Snap to Grid:";
+						public static LocString TOOLTIP = "Enables drag placing to put down multiple instances of the blueprint in a grid pattern.";
 					}
 					public class ROTATEACTIONS
 					{

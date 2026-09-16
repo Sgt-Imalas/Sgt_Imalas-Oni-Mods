@@ -29,6 +29,10 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
 		static GameObject temporaryTargetBuilding;
 		static UnderConstructionDataTransfer lastSelected;
+		static SchedulerHandle? uiDelayHandle;
+		static int _lastCell = -1;
+		static BuildingDef _lastDef = null;
+		public static bool Pending => uiDelayHandle.HasValue;
 		public static KSelectable TemporarySelectable { get; private set; }
 
 		public static bool HasDataTransferComponents(BuildingUnderConstruction building)
@@ -64,10 +68,14 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 		{
 			lastSelected = origin;
 			var def = origin.building.Def;
+			if (uiDelayHandle.HasValue)
+			{
+				uiDelayHandle.Value.ClearScheduler();
+				uiDelayHandle = null;
+			}
 			if (temporaryTargetBuilding != null)
 			{
-				UnityEngine.Object.Destroy(temporaryTargetBuilding);
-				temporaryTargetBuilding = null;
+				CleanUp();
 			}
 
 			var world = origin.GetMyWorld();
@@ -76,9 +84,14 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 			int cell = Grid.XYToCell(worldOffset.X, worldOffset.Y);
 
 			cell += Mathf.CeilToInt((def.WidthInCells / 2f)); //spawn it close to the origin, but dont let it clip into negative cell indicies
-
-
-			temporaryTargetBuilding = def.Create(Grid.CellToPos(cell), null, [SimHashes.Unobtanium.CreateTag()], null, 100, def.BuildingComplete);
+			_lastCell = -1;
+			_lastDef = null;
+			if (Grid.IsValidCell(cell) && Grid.Element[cell].id == SimHashes.Unobtanium)
+			{
+				_lastCell = cell;
+				_lastDef = def;
+			}
+			temporaryTargetBuilding = def.Create(Grid.CellToPos(cell), null, [SimHashes.Unobtanium.CreateTag()], null, UtilMethods.GetKelvinFromC(20), def.BuildingComplete);
 			temporaryTargetBuilding.GetComponent<DataTransferCleanup>().SetInUse();
 			TemporarySelectable = temporaryTargetBuilding.GetComponent<KSelectable>();
 			//prevent "build outside start biome" achievment from triggering
@@ -90,23 +103,19 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 			//hide deconstruction button
 			if (temporaryTargetBuilding.TryGetComponent<Deconstructable>(out var decon))
 				decon.allowDeconstruction = false;
-
-			bool isPaused = SpeedControlScreen.Instance.IsPaused;
-			if (isPaused)
-				SpeedControlScreen.Instance.Unpause(false);
-
 			//1 frame delay to properly load the extra buttons on the menu screen
-			GameScheduler.Instance.ScheduleNextFrame("pause", (_) =>
+			uiDelayHandle = UIScheduler.Instance.ScheduleNextFrame("frame delay", (_) =>
 			{
+				if (temporaryTargetBuilding == null)
+					return;
 				UnderConstructionDataTransfer.TransferDataTo(temporaryTargetBuilding, origin.GetStoredData());
 				Game.Instance.Trigger((int)GameHashes.SelectObject, temporaryTargetBuilding);
-				if (isPaused)
-					SpeedControlScreen.Instance.Pause(false);
+				uiDelayHandle = null;
 			});
 		}
 		public static void HandleDeselection(DataTransferCleanup data)
 		{
-			if (lastSelected != null)
+			if (lastSelected != null && lastSelected.gameObject != null)
 			{
 				var buildingSettingData = API_Methods.GetAdditionalBuildingData(data.gameObject);
 				foreach (var entries in buildingSettingData)
@@ -120,7 +129,14 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 			if (temporaryTargetBuilding != null)
 				UnityEngine.Object.Destroy(temporaryTargetBuilding);
 			TemporarySelectable = null;
-			UnderConstructionDataTransfer.SelectButtonUnlocked = true;
+			if (_lastCell != -1 && _lastDef != null)
+			{
+				GameScheduler.Instance.ScheduleNextFrame("fill up area", (_) =>
+				_lastDef.RunOnArea(_lastCell, Orientation.Neutral, (occupied) =>
+				{
+					SimMessages.ReplaceElement(occupied, SimHashes.Unobtanium, CellEventLogger.Instance.ObjectSetSimOnSpawn, 20_000);
+				}));
+			}
 		}
 
 

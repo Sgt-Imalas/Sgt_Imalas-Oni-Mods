@@ -20,6 +20,7 @@ namespace BlueprintsV2.Tools
 		public UseBlueprintToolHoverCard HoverCard;
 		public bool ToolActive { get; private set; }
 
+		Vector3 _gridDragStart = default;
 
 		public static void DestroyInstance()
 		{
@@ -126,14 +127,21 @@ namespace BlueprintsV2.Tools
 
 		public override void OnLeftClickDown(Vector3 cursorPos)
 		{
+			_gridDragStart = default;
 			base.OnLeftClickDown(cursorPos);
 
 			if (hasFocus)
 			{
+				if (BlueprintState.CurrentStateInfo().SnapToGrid)
+					_gridDragStart = cursorPos;
 				BlueprintState.UseBlueprint(BlueprintState.PlayerId_DefaultTilePreviews, Grid.PosToXY(cursorPos));
 			}
 		}
-
+		public override void OnLeftClickUp(Vector3 cursor_pos)
+		{
+			base.OnLeftClickUp(cursor_pos);
+			_gridDragStart = default;
+		}
 		public override void OnMouseMove(Vector3 cursorPos)
 		{
 			base.OnMouseMove(cursorPos);
@@ -141,8 +149,44 @@ namespace BlueprintsV2.Tools
 			if (hasFocus)
 			{
 				BlueprintState.UpdateVisual(BlueprintState.PlayerId_DefaultTilePreviews, Grid.PosToXY(cursorPos));
+				OnMouseMovedGridPlacement(cursorPos);
 			}
 		}
+		public void OnMouseMovedGridPlacement(Vector3 cursorPos)
+		{
+			if (ModAssets.SelectedBlueprint == null || _gridDragStart == default)
+				return;
+
+			var stateInfo = BlueprintState.CurrentStateInfo();
+
+			if (!stateInfo.SnapToGrid)
+				return;
+			int xStep = stateInfo.GridSnapX;
+			int yStep = stateInfo.GridSnapY;
+
+			if (xStep == 0 || yStep == 0)
+				return;
+
+			if (Grid.PosToCell(_gridDragStart) == Grid.PosToCell(cursorPos))
+				return;
+
+			var downXY = Grid.PosToXY(_gridDragStart);
+
+			Grid.PosToXY(cursorPos, out int X, out int Y);
+			//SgtLogger.l($"Down: {downXY} current: {X},{Y} XAlign:{downXY.X - X} XAlign:{(downXY.X - X) % xStep == 0}, YAlign:{downXY.Y - Y} YAlign:{(downXY.Y - Y) % yStep == 0}, steps: {xStep}x{yStep},");
+			int xDiff = (downXY.X - X + xStep);
+			int yDiff = (downXY.Y - Y + yStep);
+			bool xAligned = (xDiff == 0 || xDiff % xStep == 0);
+			bool yAligned = (yDiff == 0 || yDiff % yStep == 0);
+
+			if (xAligned && yAligned)
+			{
+				BlueprintState.UseBlueprint(BlueprintState.PlayerId_DefaultTilePreviews, new(X, Y));
+				_gridDragStart = cursorPos;
+			}
+		}
+
+
 		void SetForceMaterialChange(bool enabled)
 		{
 			BlueprintState.CurrentStateInfo().ForceBuild = enabled;
