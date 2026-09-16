@@ -1,22 +1,11 @@
-﻿using BlueprintsV2.BlueprintData;
-using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using BlueprintsV2.BlueprintsV2.UnityUI;
-using BlueprintsV2.Tools;
 using FMOD.Studio;
-using FMODUnity;
 using HarmonyLib;
-using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static STRINGS.ELEMENTS;
-using static STRINGS.RESEARCH.TYPES;
 
 namespace BlueprintsV2.BlueprintsV2.Tools
 {

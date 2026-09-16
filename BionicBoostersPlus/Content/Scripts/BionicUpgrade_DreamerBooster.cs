@@ -1,7 +1,4 @@
 ﻿using BionicBoostersPlus.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace BionicBoostersPlus.Content.Scripts

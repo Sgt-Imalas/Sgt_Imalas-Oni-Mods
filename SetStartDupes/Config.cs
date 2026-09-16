@@ -3,7 +3,6 @@ using Newtonsoft.Json.Serialization;
 using PeterHan.PLib.Options;
 using SetStartDupes.CarePackageEditor.UI;
 using System;
-using System.Collections.Generic;
 
 namespace SetStartDupes
 {

@@ -1,11 +1,8 @@
 ﻿using STRINGS;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using TMPro;
-using static UnityEngine.GraphicsBuffer;
 
 namespace NaturalConstruction.Content.Scripts
 {

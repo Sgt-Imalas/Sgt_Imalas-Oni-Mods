@@ -1,13 +1,8 @@
 ﻿using HarmonyLib;
-using Klei.CustomSettings;
 using KMod;
-using Mono.Cecil.Cil;
-using MonoMod.Utils;
-using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 

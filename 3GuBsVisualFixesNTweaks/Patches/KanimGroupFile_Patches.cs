@@ -1,12 +1,8 @@
 ﻿using HarmonyLib;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
-using static MathUtil;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {

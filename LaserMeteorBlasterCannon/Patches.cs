@@ -1,17 +1,5 @@
-﻿using Database;
-using FMOD;
-using HarmonyLib;
-using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using HarmonyLib;
 using UtilLibs;
-using static LaserMeteorBlasterCannon.ModAssets;
-using static STRINGS.UI.CLUSTERMAP;
-using static UnityEngine.UI.Image;
 
 namespace LaserMeteorBlasterCannon
 {

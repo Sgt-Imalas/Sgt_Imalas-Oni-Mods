@@ -1,29 +1,20 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
-using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
 using BlueprintsV2.BlueprintsV2.UnityUI.Components;
 using BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers;
 using BlueprintsV2.Tools;
-using NodeEditorFramework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.BlueprintsV2.UnityUI.Components.BuildingFilterDropdown;
-using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.PREVIEW;
 using static BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS;
-using static Database.MonumentPartResource;
-using static STRINGS.LORE.BUILDINGS;
-using static STRINGS.MISC.STATUSITEMS;
-using static STRINGS.UI.CLUSTERMAP.ASTEROIDS;
 using static UtilLibs.UIcmp.FMultiSelectDropdown;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI

@@ -1,8 +1,5 @@
 ﻿using HarmonyLib;
 using NaturalConstruction.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NaturalConstruction.Patches
 {

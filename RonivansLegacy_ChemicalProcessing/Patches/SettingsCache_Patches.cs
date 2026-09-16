@@ -2,15 +2,7 @@
 using Klei;
 using ProcGen;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using STRINGS;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs;
-using static STRINGS.WORLD_TRAITS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {

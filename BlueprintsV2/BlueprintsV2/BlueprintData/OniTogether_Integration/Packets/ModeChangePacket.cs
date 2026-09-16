@@ -1,13 +1,8 @@
 ﻿using BlueprintsV2.BlueprintData;
-using HarmonyLib;
 using ONI_Together.Networking.Packets.Architecture;
 using ONI_Together_API;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using UtilLibs;
-using static BlueprintsV2.BlueprintData.BlueprintState;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packets
 {

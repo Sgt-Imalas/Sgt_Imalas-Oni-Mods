@@ -5,7 +5,6 @@ using PeterHan.PLib.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UtilLibs;
 
 namespace BlueprintsV2.Tools

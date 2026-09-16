@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators
+﻿namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators
 {
 	internal interface IModifiesEfficiencyMultiplier
 	{

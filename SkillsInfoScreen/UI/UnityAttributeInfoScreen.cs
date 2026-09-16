@@ -1,25 +1,13 @@
-﻿using Epic.OnlineServices.Platform;
-using Klei.AI;
-using SkillsInfoScreen.UI.UIComponents;
-using System;
-using System.Collections;
+﻿using SkillsInfoScreen.UI.UIComponents;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TemplateClasses;
 using TUNING;
 using UnityEngine;
-using UnityEngine.Device;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
-using static GameTags;
 using static SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN;
-using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
-using static System.Net.WebRequestMethods;
 
 namespace SkillsInfoScreen.UI
 {

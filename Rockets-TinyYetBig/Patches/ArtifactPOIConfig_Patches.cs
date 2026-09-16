@@ -1,13 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static Klei.ClusterLayoutSave;
-using static ResearchTypes;
 
 namespace Rockets_TinyYetBig.Patches
 {

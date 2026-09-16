@@ -1,8 +1,6 @@
 ﻿using BionicBoostersPlus.Content.ModDb;
 using BionicBoostersPlus.Content.Scripts;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using TUNING;
 using UnityEngine;
 

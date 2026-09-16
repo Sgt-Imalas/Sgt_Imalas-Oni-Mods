@@ -1,15 +1,9 @@
-﻿using KMod;
-using PeterHan.PLib.Core;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static STRINGS.DUPLICANTS.CHORES;
-using static STRINGS.UI.SPACEDESTINATIONS.CLUSTERMAPMETEORSHOWERS;
 
 namespace AnimExportTool
 {

@@ -18,7 +18,6 @@
 
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Detours;
-using System.Linq;
 using UnityEngine;
 
 namespace MassMoveTo.Tools.SweepByType

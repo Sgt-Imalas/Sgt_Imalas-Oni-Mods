@@ -1,8 +1,5 @@
 ﻿using AquaticMinnowMinion.Content.ModDb;
 using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AquaticMinnowMinion.Content.Scripts
 {

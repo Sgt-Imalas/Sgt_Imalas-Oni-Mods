@@ -1,17 +1,8 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration;
 using KSerialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TemplateClasses;
 using UnityEngine;
-using UnityEngine.UI;
-using UtilLibs;
 using static BlueprintsV2.STRINGS.BLUEPRINTS_BLUEPRINTNOTE;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities

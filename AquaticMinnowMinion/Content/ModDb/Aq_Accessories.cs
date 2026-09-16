@@ -1,7 +1,5 @@
 ﻿using Database;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using UtilLibs;
 
 namespace AquaticMinnowMinion.Content.ModDb

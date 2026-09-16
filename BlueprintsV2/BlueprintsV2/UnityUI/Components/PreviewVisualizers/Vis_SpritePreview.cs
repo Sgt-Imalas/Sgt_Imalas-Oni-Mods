@@ -1,11 +1,5 @@
-﻿using BlueprintsV2.BlueprintData;
-using Rendering;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UtilLibs;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 {

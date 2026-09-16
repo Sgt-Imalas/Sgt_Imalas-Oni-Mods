@@ -1,12 +1,5 @@
 ﻿using BionicBoostersPlus.Content.ModDb;
-using Database;
 using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using static StateMachine;
-using static STRINGS.INPUT_BINDINGS;
 
 namespace BionicBoostersPlus.Content.Scripts
 {

@@ -2,7 +2,6 @@
 using Database;
 using Klei.AI;
 using Newtonsoft.Json;
-using SetStartDupes.API_IO;
 using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,6 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static HarmonyLib.Code;
 
 namespace SetStartDupes
 {

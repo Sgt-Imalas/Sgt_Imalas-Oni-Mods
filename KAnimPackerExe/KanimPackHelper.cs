@@ -1,6 +1,4 @@
-﻿using ImageMagick;
-using System.ComponentModel.DataAnnotations;
-using System.Data.SqlTypes;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO.Compression;
 

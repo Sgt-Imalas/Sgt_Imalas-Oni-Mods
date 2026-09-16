@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static STRINGS.LORE.BUILDINGS;
 
 namespace ClusterTraitGenerationManager.GeyserExperiments
 {

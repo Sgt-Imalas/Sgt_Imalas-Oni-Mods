@@ -1,8 +1,4 @@
 ﻿using Database;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static STRINGS.DUPLICANTS.CHORES;
 
 namespace AquaticMinnowMinion.Content.ModDb
 {

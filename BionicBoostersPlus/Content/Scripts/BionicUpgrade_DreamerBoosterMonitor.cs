@@ -1,11 +1,7 @@
 ﻿using BionicBoostersPlus.Content.ModDb;
 using Database;
 using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI.Extensions;
 
 namespace BionicBoostersPlus.Content.Scripts
 {

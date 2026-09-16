@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Klei;
 using KMod;
 using OniRetroEdition.BuildingDefModification;
 using OniRetroEdition.SlurpTool;
@@ -10,9 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using TUNING;
-using UnityEngine;
 using UtilLibs;
 using static StatusItem;
 using static STRINGS.BUILDINGS.PREFABS;

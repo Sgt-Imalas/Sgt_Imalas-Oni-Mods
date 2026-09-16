@@ -1,12 +1,7 @@
 ﻿using DuperyFixed;
-using HarmonyLib;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
-using TUNING;
 using UtilLibs;
-using static STRINGS.DUPLICANTS;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Dupery
 {

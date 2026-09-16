@@ -1,7 +1,4 @@
 ﻿using BionicBoostersPlus.Content.Defs.Buildings;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UtilLibs;
 
 namespace BionicBoostersPlus.Content.ModDb

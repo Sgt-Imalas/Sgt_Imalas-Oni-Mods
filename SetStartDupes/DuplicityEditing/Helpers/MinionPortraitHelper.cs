@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
-using static DetailsScreen;
 
 namespace SetStartDupes.DuplicityEditing.Helpers
 {

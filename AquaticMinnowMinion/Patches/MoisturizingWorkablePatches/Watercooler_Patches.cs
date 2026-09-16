@@ -1,9 +1,4 @@
-﻿using AquaticMinnowMinion.Content.ModDb;
-using HarmonyLib;
-using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using HarmonyLib;
 using UnityEngine;
 
 namespace AquaticMinnowMinion.Patches.MoisturizingWorkablePatches

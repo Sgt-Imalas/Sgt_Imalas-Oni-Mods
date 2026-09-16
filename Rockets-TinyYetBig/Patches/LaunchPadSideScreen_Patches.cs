@@ -1,8 +1,5 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UtilLibs;
 using static Rockets_TinyYetBig.STRINGS.UI;
 

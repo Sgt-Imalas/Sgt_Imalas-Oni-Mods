@@ -1,16 +1,11 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using static STRINGS.DUPLICANTS.MODIFIERS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 {

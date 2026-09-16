@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using KMod;
 using PeterHan.PLib.AVC;
-using PeterHan.PLib.Core;
 using System;
 using System.Reflection;
 using System.Threading;

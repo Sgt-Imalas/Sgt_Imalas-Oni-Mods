@@ -1,9 +1,6 @@
-﻿using AquaticMinnowMinion.Content.ModDb;
-using HarmonyLib;
-using System;
+﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using static AquaticMinnowMinion.ModAssets;
 
 namespace AquaticMinnowMinion.Patches

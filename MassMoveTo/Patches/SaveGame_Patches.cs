@@ -1,8 +1,5 @@
 ﻿using HarmonyLib;
 using MassMoveTo.Tools.SweepByType;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MassMoveTo.Patches
 {

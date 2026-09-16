@@ -1,7 +1,6 @@
 ﻿// version 1.0
 
 using HarmonyLib;
-using Steamworks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

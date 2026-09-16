@@ -1,14 +1,8 @@
 ﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static ResearchTypes;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
 
 namespace Mineral_Processing_Mining.Buildings
 {

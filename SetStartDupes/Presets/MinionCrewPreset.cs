@@ -3,10 +3,8 @@ using Newtonsoft.Json;
 using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using UtilLibs;
 
 namespace SetStartDupes

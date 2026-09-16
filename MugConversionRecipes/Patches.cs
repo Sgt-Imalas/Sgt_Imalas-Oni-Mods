@@ -1,15 +1,7 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
+﻿using HarmonyLib;
 using MugConversionRecipes.Content.Defs;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UtilLibs;
-using static MugConversionRecipes.ModAssets;
 
 namespace MugConversionRecipes
 {

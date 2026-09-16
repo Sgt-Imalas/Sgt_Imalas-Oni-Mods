@@ -1,11 +1,7 @@
 ﻿using HarmonyLib;
 using MassMoveTo.Content.Defs.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
-using UtilLibs;
 
 namespace MassMoveTo.Patches
 {

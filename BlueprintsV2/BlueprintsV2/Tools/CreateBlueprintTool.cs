@@ -2,12 +2,8 @@
 using BlueprintsV2.UnityUI;
 using HarmonyLib;
 using PeterHan.PLib.Options;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.BIONICPOWERUSE.LEVELS;
 
 namespace BlueprintsV2.Tools
 {

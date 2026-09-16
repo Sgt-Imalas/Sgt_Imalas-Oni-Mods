@@ -1,12 +1,5 @@
-﻿using AquaticMinnowMinion.Content.ModDb;
-using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HarmonyLib;
 using static AquaticMinnowMinion.ModAssets;
-using static CharacterContainer;
 
 namespace AquaticMinnowMinion.Patches
 {

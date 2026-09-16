@@ -1,17 +1,14 @@
 ﻿using Klei.AI;
-using KMod;
 using Newtonsoft.Json;
 using ObjectCloner;
 using ProcGen;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT;
 using static ProcGen.WorldPlacement;
 
 namespace ClusterTraitGenerationManager.ClusterData

@@ -1,16 +1,10 @@
-﻿using ClipperLib;
-using FMOD;
-using PeterHan.PLib.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using static GameUtil;
-using static STRINGS.CREATURES.STATUSITEMS;
 using static UtilLibs.MarkdownExport.MD_Localization;
 
 namespace UtilLibs.MarkdownExport

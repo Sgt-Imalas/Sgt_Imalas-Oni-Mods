@@ -1,12 +1,9 @@
 ﻿using ClusterTraitGenerationManager.UI.Screens;
-using ClusterTraitGenerationManager.UI.SecondaryDisplayTypes;
 using Klei.CustomSettings;
-using ObjectCloner;
 using ProcGen;
 using ProcGenGame;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -15,7 +12,6 @@ using UtilLibs;
 using static ClusterTraitGenerationManager.STRINGS.UI;
 using static ProcGen.ClusterLayout;
 using static ProcGen.WorldPlacement;
-using static ResearchTypes;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {

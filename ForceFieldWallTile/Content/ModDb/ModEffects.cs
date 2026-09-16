@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs;
-using static STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.FACADES;
-using static STRINGS.CODEX;
+﻿using UtilLibs;
 
 namespace ForceFieldWallTile.Content.ModDb
 {

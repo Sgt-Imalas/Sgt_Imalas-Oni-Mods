@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using static BestFit;
 
 namespace OniRetroEdition.ModPatches
 {

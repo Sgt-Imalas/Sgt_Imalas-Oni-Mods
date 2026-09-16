@@ -1,6 +1,4 @@
-﻿using Database;
-using FMOD;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Klei.AI;
 using SetStartDupes.DuplicityEditing;
 using SetStartDupes.UI.Components;
@@ -9,15 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Security.Principal;
-using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static Database.Personalities;
 using static SetStartDupes.ModAssets;
 using static SetStartDupes.STRINGS.UI;
-using static STRINGS.DUPLICANTS;
 
 namespace SetStartDupes
 {

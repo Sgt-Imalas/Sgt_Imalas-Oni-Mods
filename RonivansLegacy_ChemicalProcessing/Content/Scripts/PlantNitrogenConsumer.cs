@@ -1,13 +1,7 @@
 ﻿using Klei.AI;
 using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {

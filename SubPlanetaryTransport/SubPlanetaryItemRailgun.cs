@@ -1,14 +1,9 @@
-﻿using Klei.AI;
-using KSerialization;
+﻿using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static AnimEventHandler;
-using static ModInfo;
 
 namespace SubPlanetaryTransport
 {

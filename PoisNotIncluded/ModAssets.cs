@@ -1,19 +1,11 @@
-﻿using Klei.AI;
-using PoisNotIncluded.Content.Scripts;
+﻿using PoisNotIncluded.Content.Scripts;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
-using UnityEngine.UI;
 using UtilLibs;
 using static InventoryOrganization;
-using static STRINGS.BUILDING.STATUSITEMS;
 using static STRINGS.BUILDINGS.PREFABS;
-using static STRINGS.UI.DETAILTABS;
 using static UtilLibs.SupplyClosetUtils;
 
 namespace PoisNotIncluded

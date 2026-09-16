@@ -1,9 +1,4 @@
-﻿using BlueprintsV2.BlueprintData;
-using PeterHan.PLib.Options;
-using UnityEngine;
-using UtilLibs;
-
-namespace BlueprintsV2
+﻿namespace BlueprintsV2
 {
 	public class STRINGS
 	{

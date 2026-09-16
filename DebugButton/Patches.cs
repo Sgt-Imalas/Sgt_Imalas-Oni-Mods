@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static DebugButton.STRINGS.UI.TOOLS;
 
 namespace DebugButton
 {

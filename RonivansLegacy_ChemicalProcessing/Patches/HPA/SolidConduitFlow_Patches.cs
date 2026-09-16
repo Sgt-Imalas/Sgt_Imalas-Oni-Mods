@@ -1,17 +1,10 @@
 ﻿using HarmonyLib;
-using rail;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using Steamworks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UtilLibs;
-using static UnityEngine.UI.Image;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {

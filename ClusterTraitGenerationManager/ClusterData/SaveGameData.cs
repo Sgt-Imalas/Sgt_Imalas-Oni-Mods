@@ -1,6 +1,4 @@
-﻿using Database;
-using HarmonyLib;
-using KSerialization;
+﻿using KSerialization;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

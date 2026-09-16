@@ -1,13 +1,6 @@
 ﻿using BioluminescentDupes.Content.Scripts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static KAnim;
-using static ResearchTypes;
-using static STRINGS.DUPLICANTS.ATTRIBUTES;
 
 namespace BioluminescentDupes.Content.Defs
 {

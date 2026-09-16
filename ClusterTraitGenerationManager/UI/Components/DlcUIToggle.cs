@@ -1,14 +1,7 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
-using ClusterTraitGenerationManager.UI.Screens;
 using Klei.CustomSettings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine.UI;
 using UtilLibs.UIcmp;
-using static SandboxSettings;
 
 namespace ClusterTraitGenerationManager.UI.Components
 {

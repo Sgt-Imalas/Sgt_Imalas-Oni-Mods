@@ -1,17 +1,11 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using UtilLibs.UIcmp;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {

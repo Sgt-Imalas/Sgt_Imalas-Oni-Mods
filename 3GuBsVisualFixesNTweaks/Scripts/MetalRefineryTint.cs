@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using UnityEngine;
-using static STRINGS.UI.TOOLS.FILTERLAYERS;
 
 namespace _3GuBsVisualFixesNTweaks.Scripts
 {

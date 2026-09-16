@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UtilLibs;
-using static STRINGS.BUILDINGS.PREFABS;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 {

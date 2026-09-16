@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static ClusterMapRocketAnimator.UtilityStates;
-using UnityEngine;
-using KSerialization;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.EXPANSION1ACTIVE.LEVELS;
-using Klei.AI;
-using static ElementConverter;
+﻿using KSerialization;
 
 namespace ShockWormMob.OreDeposits
 {

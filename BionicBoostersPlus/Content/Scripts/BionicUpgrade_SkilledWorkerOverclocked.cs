@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BionicBoostersPlus.Content.Scripts
+﻿namespace BionicBoostersPlus.Content.Scripts
 {
 	internal class BionicUpgrade_SkilledWorkerOverclocked : BionicUpgrade_SkilledWorker
 	{

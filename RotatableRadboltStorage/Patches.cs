@@ -4,8 +4,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UtilLibs;
-using static LogicGateBase;
-using static STRINGS.LORE.BUILDINGS;
 
 
 namespace RotatableRadboltStorage

@@ -1,7 +1,5 @@
-﻿using ElementUtilNamespace;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Klei.AI;
-using System;
 using System.Collections.Generic;
 
 namespace Cheese.ModElements

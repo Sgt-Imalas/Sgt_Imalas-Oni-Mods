@@ -7,21 +7,11 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Co
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using UtilLibs.UIcmp;
-using static Crop;
-using static ResearchTypes;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
-using static STRINGS.BUILDING.STATUSITEMS;
-using static STRINGS.CODEX;
-using static STRINGS.ITEMS.FOOD;
-using static STRINGS.ITEMS.INGREDIENTS;
-using static STRINGS.UI.TOOLS.FILTERLAYERS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {

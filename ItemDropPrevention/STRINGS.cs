@@ -1,8 +1,4 @@
-﻿using STRINGS;
-using static STRINGS.BUILDINGS.PREFABS;
-using static STRINGS.UI;
-
-namespace ItemDropPrevention
+﻿namespace ItemDropPrevention
 {
 	public class STRINGS
 	{

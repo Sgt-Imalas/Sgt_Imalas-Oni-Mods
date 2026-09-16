@@ -5,14 +5,10 @@ using SetStartDupes.DuplicityEditing.ScreenComponents;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static SetStartDupes.DupeTraitManager;
-using static STRINGS.DUPLICANTS;
-using static STRINGS.UI;
-using static STRINGS.UI.TOOLS;
 
 namespace SetStartDupes.DuplicityEditing
 {

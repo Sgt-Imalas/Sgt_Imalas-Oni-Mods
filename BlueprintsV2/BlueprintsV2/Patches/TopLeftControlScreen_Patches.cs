@@ -1,13 +1,5 @@
-﻿using BlueprintsV2.BlueprintData;
-using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
-using BlueprintsV2.BlueprintsV2.UnityUI;
+﻿using BlueprintsV2.BlueprintsV2.UnityUI;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
-using UtilLibs;
 
 namespace BlueprintsV2.BlueprintsV2.Patches
 {

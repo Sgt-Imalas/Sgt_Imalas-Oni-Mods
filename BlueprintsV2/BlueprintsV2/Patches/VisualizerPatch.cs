@@ -1,5 +1,4 @@
-﻿using BlueprintsV2.BlueprintData;
-using BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer;
+﻿using BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer;
 using HarmonyLib;
 using Rendering;
 using UnityEngine;

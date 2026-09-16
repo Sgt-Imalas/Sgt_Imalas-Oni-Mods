@@ -3,11 +3,9 @@ using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Gaskets;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
-using static ElementConverter;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {

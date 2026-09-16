@@ -1,14 +1,8 @@
 ﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static RonivansLegacy_ChemicalProcessing.Patches.HPA.SolidConduitBridge_Patches;
 using UnityEngine;
 using UtilLibs;
 

@@ -1,15 +1,7 @@
-﻿using AkiTrueTiles_SkinSelectorAddon.UI;
-using Klei.AI;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static UnityEngine.UI.Image;
 
 namespace AkiTrueTiles_SkinSelectorAddon
 {

@@ -1,6 +1,5 @@
 ﻿using KSerialization;
 using UnityEngine;
-using UtilLibs;
 
 namespace AkisDecorPackB.Content.Scripts.BigFossil
 {

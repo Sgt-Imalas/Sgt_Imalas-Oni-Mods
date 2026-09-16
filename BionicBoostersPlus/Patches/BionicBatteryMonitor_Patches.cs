@@ -1,10 +1,6 @@
 ﻿using BionicBoostersPlus.Content.ModDb;
 using HarmonyLib;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using static STRINGS.LORE.BUILDINGS;
 
 namespace BionicBoostersPlus.Patches
 {

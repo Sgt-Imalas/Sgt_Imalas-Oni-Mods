@@ -1,9 +1,4 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS;
 using static UtilLibs.GameStrings;

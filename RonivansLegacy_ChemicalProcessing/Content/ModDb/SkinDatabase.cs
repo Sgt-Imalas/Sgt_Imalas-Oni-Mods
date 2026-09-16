@@ -1,15 +1,9 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static InventoryOrganization;
 using static UtilLibs.SupplyClosetUtils;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.FACADES;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using UnityEngine;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWALL.FACADES;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE;

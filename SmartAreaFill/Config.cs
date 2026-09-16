@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PeterHan.PLib.Options;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SmartAreaFill
 {

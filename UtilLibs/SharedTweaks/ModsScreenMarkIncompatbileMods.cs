@@ -1,20 +1,10 @@
 ﻿using HarmonyLib;
-using KMod;
 using PeterHan.PLib.Core;
-using PeterHan.PLib.UI;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-using UtilLibs.UIcmp;
-using static ModsScreen;
-using static STRINGS.ELEMENTS;
-using static STRINGS.UI.FRONTEND;
-using static STRINGS.UI.RESEARCHSCREEN;
 
 namespace UtilLibs.SharedTweaks
 {

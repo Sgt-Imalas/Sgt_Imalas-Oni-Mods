@@ -1,16 +1,9 @@
 ﻿
 using BlueprintsV2.BlueprintData;
 using BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer;
-using BlueprintsV2.Tools;
-using Database;
-using HarmonyLib;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using TUNING;
 using UnityEngine;
-using UtilLibs;
 using static BlueprintsV2.BlueprintData.BlueprintState;
-using static STRINGS.DUPLICANTS.STATUSITEMS;
 
 namespace BlueprintsV2.Visualizers
 {

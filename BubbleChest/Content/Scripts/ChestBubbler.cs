@@ -1,12 +1,8 @@
 ﻿using BubbleChest.Content.Defs.Buildings;
 using Klei.AI;
 using KSerialization;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using static STRINGS.ELEMENTS;
 
 namespace BubbleChest.Content.Scripts
 {

@@ -1,15 +1,4 @@
-﻿using _3GuBsVisualFixesNTweaks.Scripts;
-using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UtilLibs;
-using static STRINGS.BUILDING.STATUSITEMS;
-using static _3GuBsVisualFixesNTweaks.ModAssets;
+﻿using HarmonyLib;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {

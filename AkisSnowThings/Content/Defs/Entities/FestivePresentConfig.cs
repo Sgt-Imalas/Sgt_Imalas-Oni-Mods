@@ -1,13 +1,5 @@
 ﻿using AkisSnowThings.Content.Scripts.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
 using UnityEngine;
-using static AkisSnowThings.STRINGS.UI;
-using static STRINGS.UI.SPACEARTIFACTS;
 
 namespace AkisSnowThings.Content.Defs.Entities
 {

@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using static AquaticMinnowMinion.ModAssets;
 using static AquaticMinnowMinion.STRINGS.DUPLICANTS.ROLES;
-using static AquaticMinnowMinion.STRINGS.UI.ROLES_SCREEN.PERKS;
 
 namespace AquaticMinnowMinion.Content.ModDb
 {

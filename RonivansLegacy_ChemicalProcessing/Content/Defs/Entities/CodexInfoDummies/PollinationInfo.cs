@@ -1,9 +1,4 @@
-﻿using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using static ResearchTypes;
+﻿using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities
 {

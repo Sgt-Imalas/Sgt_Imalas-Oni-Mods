@@ -1,10 +1,8 @@
-﻿using Database;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Klei;
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
-using SetStartDupes.CarePackageEditor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +10,6 @@ using System.Linq;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static Database.Personalities;
 using static TUNING.DUPLICANTSTATS;
 
 namespace SetStartDupes

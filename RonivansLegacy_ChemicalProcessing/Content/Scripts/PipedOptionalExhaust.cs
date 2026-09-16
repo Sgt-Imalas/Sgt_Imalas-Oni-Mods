@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static STRINGS.UI;
 using UnityEngine;
 using UtilLibs;
-using KSerialization;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {

@@ -1,13 +1,7 @@
 ﻿using AquaticMinnowMinion.Content.ModDb;
 using HarmonyLib;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using UnityEngine.UI;
-using UtilLibs;
 using static AquaticMinnowMinion.ModAssets;
-using static STRINGS.BUILDING.STATUSITEMS;
-using static STRINGS.UI.SANDBOXTOOLS.SETTINGS;
 
 namespace AquaticMinnowMinion.Patches
 {

@@ -1,18 +1,8 @@
-﻿using Database;
-using ForceFieldWallTile.Content.Defs.Buildings;
+﻿using ForceFieldWallTile.Content.Defs.Buildings;
 using ForceFieldWallTile.Content.ModDb;
 using ForceFieldWallTile.Content.Scripts;
 using HarmonyLib;
-using Klei.AI;
-using PeterHan.PLib.Buildings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UtilLibs;
-using static ForceFieldWallTile.ModAssets;
 
 namespace ForceFieldWallTile
 {

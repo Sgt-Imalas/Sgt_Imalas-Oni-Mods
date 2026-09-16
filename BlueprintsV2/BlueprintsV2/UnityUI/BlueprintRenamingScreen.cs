@@ -1,11 +1,6 @@
-﻿using BlueprintsV2.BlueprintData;
-using BlueprintsV2.BlueprintsV2.UnityUI;
-using BlueprintsV2.BlueprintsV2.UnityUI.Components;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;

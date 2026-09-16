@@ -1,11 +1,6 @@
-﻿using Klei.AI;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using static ResearchTypes;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities
 {

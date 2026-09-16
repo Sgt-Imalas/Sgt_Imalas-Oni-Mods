@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-using UnityEngine;
-using static Rendering.BlockTileRenderer;
 
 namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 {

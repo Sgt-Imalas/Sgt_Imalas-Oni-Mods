@@ -10,7 +10,6 @@ using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS;
-using static STRINGS.UI.FRONTEND;
 
 namespace DupePrioPresetManager
 {

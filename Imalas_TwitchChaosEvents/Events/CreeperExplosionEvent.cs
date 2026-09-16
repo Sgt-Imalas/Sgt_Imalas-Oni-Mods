@@ -2,12 +2,7 @@
 using Imalas_TwitchChaosEvents.Elements;
 using ONITwitchLib;
 using ONITwitchLib.Utils;
-using ProcGen.Noise;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Util_TwitchIntegrationLib;
 

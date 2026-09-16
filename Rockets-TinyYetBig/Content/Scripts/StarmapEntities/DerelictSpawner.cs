@@ -2,9 +2,6 @@
 using Rockets_TinyYetBig.Content.Scripts.UI;
 using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.SpaceStations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Rockets_TinyYetBig.Content.Scripts.StarmapEntities
 {

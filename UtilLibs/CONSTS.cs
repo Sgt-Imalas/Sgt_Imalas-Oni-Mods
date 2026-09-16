@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace UtilLibs
+﻿namespace UtilLibs
 {
 	public static class CONSTS
 	{

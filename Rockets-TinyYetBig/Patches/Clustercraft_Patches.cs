@@ -2,19 +2,14 @@
 using Rockets_TinyYetBig.Buildings.Engines;
 using Rockets_TinyYetBig.Content.ModDb;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction;
-using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.SpaceStations;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static Clustercraft;
-using static Operational;
 using static Rockets_TinyYetBig.Docking.DockingSpacecraftHandler;
 
 namespace Rockets_TinyYetBig.Patches

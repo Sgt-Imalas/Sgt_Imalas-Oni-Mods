@@ -1,9 +1,7 @@
 ﻿using GoldHatch.Creatures;
 using HarmonyLib;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using UtilLibs;
 
 namespace GoldHatch

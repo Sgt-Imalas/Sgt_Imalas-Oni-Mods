@@ -3,7 +3,6 @@ using Klei.AI;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
-using static Beached_ModAPI.Beached_API;
 
 namespace SetStartDupes.API_IO
 {

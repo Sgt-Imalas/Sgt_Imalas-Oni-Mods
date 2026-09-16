@@ -1,11 +1,4 @@
-﻿using KSerialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Rockets_TinyYetBig.Content.Scripts.Buildings
+﻿namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 {
 	internal class SkipOperationalEnergyConsumer : EnergyConsumer
 	{

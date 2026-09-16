@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CompressedCritters.Critters.Hatches
+﻿namespace CompressedCritters.Critters.Hatches
 {
-    // Decompiled with JetBrains decompiler
-    // Type: CompressedHatchTuning
-    // Assembly: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    // MVID: 5FAA631D-B74E-46D2-A5CA-F769AB27C29E
-    // Assembly location: X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Assembly-CSharp.dll
+	// Decompiled with JetBrains decompiler
+	// Type: CompressedHatchTuning
+	// Assembly: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+	// MVID: 5FAA631D-B74E-46D2-A5CA-F769AB27C29E
+	// Assembly location: X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Assembly-CSharp.dll
 
-    using System.Collections.Generic;
-    using TUNING;
-    using UnityEngine;
-    using static EggProtectionMonitor.Instance;
+	using System.Collections.Generic;
+	using TUNING;
+	using UnityEngine;
 
-    public static class CompressedHatchTuning
+	public static class CompressedHatchTuning
     {
         public static List<FertilityMonitor.BreedingChance> EGG_CHANCES_BASE = new List<FertilityMonitor.BreedingChance>()
   {

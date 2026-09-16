@@ -1,13 +1,4 @@
-﻿using HarmonyLib;
-using ItemDropPrevention.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs;
-
-namespace ItemDropPrevention.Patches
+﻿namespace ItemDropPrevention.Patches
 {
 	internal class FetchChore_Patches
 	{

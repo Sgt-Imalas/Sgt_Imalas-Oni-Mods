@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static BlueprintsV2.STRINGS.BLUEPRINTS_BLUEPRINTNOTE;
+﻿using static BlueprintsV2.STRINGS.BLUEPRINTS_BLUEPRINTNOTE;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 {

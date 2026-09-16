@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BlueprintsV2.ModAPI
+﻿namespace BlueprintsV2.ModAPI
 {
 	internal class API_Consts
 	{

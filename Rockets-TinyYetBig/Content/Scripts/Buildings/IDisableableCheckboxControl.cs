@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rockets_TinyYetBig.Content.Scripts.Buildings
+﻿namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 {
 	internal interface IDisableableCheckboxControl
 	{

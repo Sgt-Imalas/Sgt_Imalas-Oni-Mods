@@ -1,14 +1,7 @@
 ﻿using AkisSnowThings.Content.Defs.Entities;
-using AkisSnowThings.Content.Scripts.Entities;
 using KSerialization;
-using NodeEditorFramework.Utilities;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.YeetUtils;

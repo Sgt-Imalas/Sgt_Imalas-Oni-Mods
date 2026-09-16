@@ -1,10 +1,4 @@
-﻿using BionicBoostersPlus.Content.Defs.Buildings;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UtilLibs;
-
-namespace BionicBoostersPlus.Content.ModDb
+﻿namespace BionicBoostersPlus.Content.ModDb
 {
 	public class BB_Db
 	{

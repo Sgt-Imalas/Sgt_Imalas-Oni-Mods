@@ -1,12 +1,6 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS;
-using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {

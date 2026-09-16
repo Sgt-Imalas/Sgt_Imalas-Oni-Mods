@@ -2,28 +2,20 @@
 using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration;
 using BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packets;
-using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
-using BlueprintsV2.BlueprintsV2.Patches;
 using BlueprintsV2.BlueprintsV2.Visualizers;
 using BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer;
 using BlueprintsV2.ModAPI;
 using BlueprintsV2.Tools;
 using BlueprintsV2.Visualizers;
-using Epic.OnlineServices.Sessions;
 using ONI_Together_API;
 using ONI_Together_API.Networking;
-using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static STRINGS.BUILDING.STATUSITEMS;
-using static STRINGS.DUPLICANTS.CHORES;
-using static UnityEngine.UI.Image;
 
 namespace BlueprintsV2.BlueprintData
 {

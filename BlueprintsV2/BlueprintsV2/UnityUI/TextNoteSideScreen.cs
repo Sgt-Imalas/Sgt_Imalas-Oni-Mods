@@ -1,15 +1,8 @@
 ﻿using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration;
-using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI;

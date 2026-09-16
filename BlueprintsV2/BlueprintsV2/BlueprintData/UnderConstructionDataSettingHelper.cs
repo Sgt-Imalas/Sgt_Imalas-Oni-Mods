@@ -1,19 +1,12 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.ModAPI;
 using HarmonyLib;
-using rail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.Jobs;
 using UnityEngine;
-using UnityEngine.Device;
 using UtilLibs;
-using static BlueprintsV2.BlueprintData.DataTransferHelpers;
-using static Grid;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData
 {

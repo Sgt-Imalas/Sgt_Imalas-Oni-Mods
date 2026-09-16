@@ -1,15 +1,11 @@
 ﻿using HarmonyLib;
 using Imalas_TwitchChaosEvents.Elements;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static CodexEntryGenerator_Elements;
 using static CodexTemperatureTransitionPanel;
 
 namespace Imalas_TwitchChaosEvents.ModPatches

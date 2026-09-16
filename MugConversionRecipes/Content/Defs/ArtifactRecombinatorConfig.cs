@@ -1,10 +1,6 @@
 ﻿using MugConversionRecipes.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TUNING;
 using UnityEngine;
-using static STRINGS.DUPLICANTS.CHORES;
 
 namespace MugConversionRecipes.Content.Defs
 {

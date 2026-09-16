@@ -1,10 +1,6 @@
 ﻿using BionicBoostersPlus.Content.ModDb;
 using HarmonyLib;
 using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static BionicBoostersPlus.STRINGS.DUPLICANTS.MODIFIERS;
 
 namespace BionicBoostersPlus.Patches
 {

@@ -1,10 +1,4 @@
-﻿using BlueprintsV2.Tools;
-using PeterHan.PLib.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace BlueprintsV2.BlueprintsV2.Tools

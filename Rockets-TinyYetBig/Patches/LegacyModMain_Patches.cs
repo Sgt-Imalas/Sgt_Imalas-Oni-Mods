@@ -1,11 +1,5 @@
 ﻿using HarmonyLib;
-using Klei.AI;
 using Rockets_TinyYetBig.Elements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.Patches.ElementPatches
 {

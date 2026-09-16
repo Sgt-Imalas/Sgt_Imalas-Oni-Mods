@@ -1,8 +1,4 @@
 ﻿using HarmonyLib;
-using Klei;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UtilLibs;
 
 namespace OniRetroEdition.ModPatches

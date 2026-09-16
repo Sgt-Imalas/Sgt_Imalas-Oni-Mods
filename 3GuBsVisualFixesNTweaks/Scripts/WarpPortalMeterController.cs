@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _3GuBsVisualFixesNTweaks.Scripts
+﻿namespace _3GuBsVisualFixesNTweaks.Scripts
 {
     class WarpPortalMeterController:KMonoBehaviour, ISim200ms
     {

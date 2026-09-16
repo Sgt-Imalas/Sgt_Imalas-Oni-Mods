@@ -1,17 +1,6 @@
 ﻿using HarmonyLib;
-using ProcGen;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.Collections;
 using UnityEngine;
 using UtilLibs;
-using static AttackProperties;
-using static ResearchTypes;
-using static STRINGS.UI;
-using static STRINGS.UI.SPACEDESTINATIONS.CLUSTERMAPMETEORSHOWERS;
 
 namespace DemoliorStoryTrait.Patches
 {

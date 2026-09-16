@@ -1,8 +1,6 @@
 ﻿using BionicBoostersPlus.Content.Defs.Buildings;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UtilLibs;
 
 namespace BionicBoostersPlus.Content.ModDb

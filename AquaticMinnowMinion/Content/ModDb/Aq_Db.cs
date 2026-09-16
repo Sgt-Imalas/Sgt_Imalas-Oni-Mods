@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AquaticMinnowMinion.Content.ModDb
+﻿namespace AquaticMinnowMinion.Content.ModDb
 {
 	internal class Aq_Db
 	{

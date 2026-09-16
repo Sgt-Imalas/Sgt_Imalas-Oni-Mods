@@ -1,15 +1,9 @@
 ﻿using HarmonyLib;
 using ExplosiveMaterials.buildings;
-using ExplosiveMaterials.entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
-using UnityEngine;
 using UtilLibs;
 
 namespace ExplosiveMaterials

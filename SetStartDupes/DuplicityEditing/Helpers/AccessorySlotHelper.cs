@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
-using static KAnim.Build;
 
 namespace SetStartDupes.DuplicityEditing.Helpers
 {

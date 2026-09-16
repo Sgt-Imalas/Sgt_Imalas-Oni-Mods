@@ -3,20 +3,15 @@ using HarmonyLib;
 using Klei.CustomSettings;
 using ProcGen;
 using ProcGenGame;
-using rail;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.UI;
-using static STRINGS.UI;
 
 namespace ClusterTraitGenerationManager
 {

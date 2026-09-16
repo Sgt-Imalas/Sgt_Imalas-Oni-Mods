@@ -1,21 +1,13 @@
-﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing;
+﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static LogicGate.LogicGateDescriptions;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
-using static STRINGS.ELEMENTS;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {

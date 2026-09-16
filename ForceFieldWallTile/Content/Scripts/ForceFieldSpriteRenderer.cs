@@ -1,17 +1,7 @@
-﻿using ElementUtilNamespace;
-using ForceFieldWallTile.Content.Scripts.MeshGen;
-using HarmonyLib;
-using PeterHan.PLib.Core;
-using Rendering.World;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
 using static Rendering.BlockTileRenderer;
-using static STRINGS.UI.DETAILTABS;
 
 namespace ForceFieldWallTile.Content.Scripts
 {

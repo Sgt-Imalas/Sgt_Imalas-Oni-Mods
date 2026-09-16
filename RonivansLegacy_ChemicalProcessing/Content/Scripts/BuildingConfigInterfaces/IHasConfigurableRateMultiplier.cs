@@ -1,7 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces
 {

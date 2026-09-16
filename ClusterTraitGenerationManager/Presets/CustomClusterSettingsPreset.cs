@@ -1,7 +1,6 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
-using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +12,6 @@ using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS;
 using static CustomGameSettings;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 
 namespace ClusterTraitGenerationManager
 {

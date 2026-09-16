@@ -1,13 +1,10 @@
 ﻿using Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
-using static UnityEngine.UI.CanvasScaler;
 
 namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 {

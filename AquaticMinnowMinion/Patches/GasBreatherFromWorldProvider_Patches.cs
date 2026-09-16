@@ -1,10 +1,5 @@
-﻿using AquaticMinnowMinion.Content.ModDb;
-using AquaticMinnowMinion.Content.Scripts;
+﻿using AquaticMinnowMinion.Content.Scripts;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UtilLibs;
 using static AquaticMinnowMinion.ModAssets;
 using static GasBreatherFromWorldProvider;
 

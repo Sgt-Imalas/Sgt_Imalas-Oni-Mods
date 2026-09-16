@@ -1,6 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.Tools;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;

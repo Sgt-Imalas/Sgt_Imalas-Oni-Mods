@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-
-namespace DebugButton
+﻿namespace DebugButton
 {
 	internal class DevToolsButtonRefresher : KMonoBehaviour, IRender200ms
 	{

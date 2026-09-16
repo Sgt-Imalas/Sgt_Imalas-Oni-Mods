@@ -3,11 +3,8 @@ using AquaticMinnowMinion.Content.Scripts;
 using Database;
 using Klei.AI;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using TUNING;
 using UnityEngine;
-using UtilLibs;
 using static AquaticMinnowMinion.ModAssets;
 using static AquaticMinnowMinion.STRINGS;
 

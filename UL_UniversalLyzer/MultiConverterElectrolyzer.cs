@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using static UL_UniversalLyzer.ModAssets;
 
 namespace UL_UniversalLyzer

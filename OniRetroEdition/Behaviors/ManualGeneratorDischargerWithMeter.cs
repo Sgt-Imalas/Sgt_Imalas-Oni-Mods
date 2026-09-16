@@ -1,13 +1,5 @@
 ﻿using KSerialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
-using static OniRetroEdition.Behaviors.ManualGeneratorDischargerWithMeter.States;
-using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace OniRetroEdition.Behaviors
 {

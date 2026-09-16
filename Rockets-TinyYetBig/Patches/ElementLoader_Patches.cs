@@ -1,13 +1,8 @@
 ﻿using ElementData;
-using ElementUtilNamespace;
 using HarmonyLib;
 using Rockets_TinyYetBig.Elements;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.Patches.ElementPatches
 {

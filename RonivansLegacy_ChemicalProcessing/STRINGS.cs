@@ -1,23 +1,8 @@
-﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
-using HarmonyLib;
-using PeterHan.PLib.Options;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
-using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
 using UtilLibs;
-using UtilLibs.BuildingPortUtils;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS;
-using static STRINGS.BUILDING.STATUSITEMS;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.UI;
-using static STRINGS.UI.NEWBUILDCATEGORIES;
 
 namespace RonivansLegacy_ChemicalProcessing
 {

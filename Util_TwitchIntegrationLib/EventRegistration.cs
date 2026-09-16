@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using ONITwitchLib;
 using ONITwitchLib.Core;
-using ONITwitchLib.Logger;
 using System;
 using System.Collections;
 using System.Collections.Generic;

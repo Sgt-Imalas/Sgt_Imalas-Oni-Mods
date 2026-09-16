@@ -1,14 +1,8 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static ResearchTypes;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
 using static UtilLibs.GameStrings;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables

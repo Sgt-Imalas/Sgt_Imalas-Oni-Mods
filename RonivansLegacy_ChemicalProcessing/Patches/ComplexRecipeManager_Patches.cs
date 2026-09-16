@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {

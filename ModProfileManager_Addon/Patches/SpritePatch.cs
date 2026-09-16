@@ -1,8 +1,4 @@
-﻿
-using HarmonyLib;
-using UtilLibs;
-
-namespace ModProfileManager_Addon.Patches
+﻿namespace ModProfileManager_Addon.Patches
 {
 	internal class SpritePatch
 	{

@@ -2,23 +2,18 @@
 using Database;
 using HarmonyLib;
 using Klei.AI;
-using Newtonsoft.Json;
 using SetStartDupes.API_IO;
-using SetStartDupes.CarePackageEditor;
 using SetStartDupes.DuplicityEditing.ScreenComponents;
 using STRINGS;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static CharacterContainer;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.STRINGS.UI;
-using static STRINGS.UI.DETAILTABS;
 using static TUNING.DUPLICANTSTATS;
 
 namespace SetStartDupes

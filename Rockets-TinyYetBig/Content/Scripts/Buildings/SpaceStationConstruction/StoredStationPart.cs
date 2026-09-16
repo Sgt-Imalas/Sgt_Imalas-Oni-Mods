@@ -1,9 +1,7 @@
 ﻿using KSerialization;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UtilLibs;
-using static LogicGateBase;
 
 namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 {

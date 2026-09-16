@@ -4,7 +4,6 @@ using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
-using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 {

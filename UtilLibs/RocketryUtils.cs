@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TUNING;
 using static ProcessCondition;
-using static ResearchTypes;
 
 namespace UtilLibs
 {

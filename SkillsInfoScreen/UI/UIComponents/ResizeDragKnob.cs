@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UtilLibs;
-using UtilLibs.UI.FUI;
-using static UnityEngine.GraphicsBuffer;
 
 namespace SkillsInfoScreen.UI.UIComponents
 {

@@ -1,15 +1,5 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
-using Steamworks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
+﻿using HarmonyLib;
 using UnityEngine;
-using UtilLibs;
 
 namespace StoreDreamJournals
 {

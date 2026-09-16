@@ -1,12 +1,5 @@
-﻿using HarmonyLib;
-using Klei.AI;
-using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
 using UnityEngine;
-using static STRINGS.UI.UISIDESCREENS;
 
 namespace Rockets_TinyYetBig.Patches
 {

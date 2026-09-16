@@ -1,21 +1,11 @@
-﻿using HarmonyLib;
-using UnlockConditions;
-using SetStartDupes.DuplicityEditing;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using static SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 using static SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST;
 using UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.ReorderableList;
-using static OldNoteEntriesV5;
 
 namespace SetStartDupes.CarePackageEditor.UI
 {

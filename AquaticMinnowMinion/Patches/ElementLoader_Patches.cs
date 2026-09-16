@@ -1,8 +1,5 @@
 ﻿using AquaticMinnowMinion.Content.ModDb;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AquaticMinnowMinion.Patches
 {

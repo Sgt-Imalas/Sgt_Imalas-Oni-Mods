@@ -1,19 +1,11 @@
-﻿using Database;
-using FMOD.Studio;
-using HarmonyLib;
+﻿using HarmonyLib;
 using ProcGen;
 using ProcGenGame;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
-using UnityEngine;
 using UtilLibs;
-using static STRINGS.UI.SPACEDESTINATIONS.CLUSTERMAPMETEORS;
 
 namespace DemoliorStoryTrait.Patches
 {

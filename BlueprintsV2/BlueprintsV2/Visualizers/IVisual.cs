@@ -1,5 +1,4 @@
-﻿using BlueprintsV2.BlueprintData;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BlueprintsV2.Visualizers
 {

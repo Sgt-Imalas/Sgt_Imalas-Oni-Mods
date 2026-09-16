@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs.UIcmp;
 using UtilLibs;
 using UnityEngine.UI;
 using UtilLibs.UI.FUI;
-using UnityEngine;
 using static ComplexFabricatorRibbonController.STRINGS.UI;
 
 namespace ComplexFabricatorRibbonController.Content.UI.Components

@@ -1,9 +1,6 @@
 ﻿using HarmonyLib;
 using System;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using static EntityTemplates;
-using static FactionManager;
 
 namespace CritterTraitsReborn.Patches
 {

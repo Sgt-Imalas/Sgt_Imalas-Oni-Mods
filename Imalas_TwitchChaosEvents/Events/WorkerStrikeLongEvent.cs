@@ -1,6 +1,5 @@
 ﻿using ONITwitchLib;
 using System;
-using UnityEngine;
 using Util_TwitchIntegrationLib;
 
 namespace Imalas_TwitchChaosEvents.Events

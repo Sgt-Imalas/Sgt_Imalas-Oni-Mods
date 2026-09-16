@@ -1,8 +1,4 @@
-﻿using JetBrains.Annotations;
-using ONITwitchLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ONITwitchLib;
 using TwitchColony.Api;
 using UnityEngine;
 

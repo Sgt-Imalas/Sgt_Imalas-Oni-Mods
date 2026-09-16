@@ -1,8 +1,5 @@
-﻿
-using BlueprintsV2.BlueprintsV2.BlueprintData;
-using BlueprintsV2.ModAPI;
+﻿using BlueprintsV2.ModAPI;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

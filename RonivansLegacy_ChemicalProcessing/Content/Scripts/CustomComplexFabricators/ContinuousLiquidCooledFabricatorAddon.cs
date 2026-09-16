@@ -2,13 +2,9 @@
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.BuildingPortUtils;
-using static STRINGS.UI.NEWBUILDCATEGORIES;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators
 {

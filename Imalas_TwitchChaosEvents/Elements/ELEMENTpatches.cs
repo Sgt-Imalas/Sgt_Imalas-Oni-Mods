@@ -1,8 +1,6 @@
-﻿using ElementUtilNamespace;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Klei.AI;
 using Klei.AI.DiseaseGrowthRules;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

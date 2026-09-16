@@ -1,11 +1,5 @@
-﻿using Database;
-using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TUNING;
+﻿using TUNING;
 using UnityEngine;
-using static AquaticMinnowMinion.STRINGS.DUPLICANTS.ROLES;
 using static TUNING.DUPLICANTSTATS;
 
 namespace AquaticMinnowMinion.Content.ModDb

@@ -1,10 +1,4 @@
 ﻿using BionicBoostersPlus.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UtilLibs;
-using static BionicBoostersPlus.STRINGS.DUPLICANTS.STATUSITEMS;
-using static BionicBoostersPlus.STRINGS.MISC.STATUSITEMS;
 
 namespace BionicBoostersPlus.Content.ModDb
 {

@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using TemplateClasses;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -28,8 +27,6 @@ using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAI
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER;
 using static CustomGameSettings;
-using static Database.MonumentPartResource;
-using static ResearchTypes;
 
 namespace ClusterTraitGenerationManager.UI.Screens
 {

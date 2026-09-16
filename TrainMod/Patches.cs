@@ -1,15 +1,6 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HarmonyLib;
 using TrainMod.Content.Defs.Buildings;
-using UnityEngine;
 using UtilLibs;
-using static TrainMod.ModAssets;
 
 namespace TrainMod
 {

@@ -1,7 +1,5 @@
 ﻿using AquaticMinnowMinion.Content.Scripts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AquaticMinnowMinion.Content.ModDb
 {

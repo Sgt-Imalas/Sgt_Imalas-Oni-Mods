@@ -1,12 +1,5 @@
 ﻿using HarmonyLib;
-using Rockets_TinyYetBig.Content.Defs.Entities;
 using Rockets_TinyYetBig.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {

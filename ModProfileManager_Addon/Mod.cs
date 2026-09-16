@@ -2,7 +2,6 @@
 using Klei;
 using KMod;
 using ModProfileManager_Addon.API;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using UtilLibs;

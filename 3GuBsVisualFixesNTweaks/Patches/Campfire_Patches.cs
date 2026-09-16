@@ -1,11 +1,4 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static STRINGS.BUILDING.STATUSITEMS.BURNER;
-using static STRINGS.UI.NEWBUILDCATEGORIES;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {

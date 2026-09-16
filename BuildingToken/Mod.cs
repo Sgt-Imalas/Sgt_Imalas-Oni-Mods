@@ -1,15 +1,12 @@
 ﻿using HarmonyLib;
 using Klei;
 using KMod;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using TemplateClasses;
 using UtilLibs;
-using static STRINGS.BUILDINGS.PREFABS;
 
 namespace BuildingToken
 {

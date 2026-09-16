@@ -1,6 +1,5 @@
 ﻿
 using BlueprintsV2.BlueprintData;
-using BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer;
 using UnityEngine;
 
 namespace BlueprintsV2.Visualizers

@@ -1,14 +1,5 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using HarmonyLib;
 using UtilLibs;
-using static LitAF.ModAssets;
 
 namespace LitAF
 {

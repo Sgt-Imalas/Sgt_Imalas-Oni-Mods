@@ -1,19 +1,9 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration;
-using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
-using Klei.AI;
 using KSerialization;
-using PeterHan.PLib.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
 using static BlueprintsV2.STRINGS.BLUEPRINTS_BLUEPRINTNOTE;
-using static STRINGS.UI.TOOLS;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 {

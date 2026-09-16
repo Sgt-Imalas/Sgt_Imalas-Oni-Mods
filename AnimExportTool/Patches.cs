@@ -1,26 +1,21 @@
 ﻿using HarmonyLib;
 using Klei;
-using Klei.AI;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 using UtilLibs;
 using static AnimExportTool.Patches.MainMenu_OnPrefabInit.GameSettingExport;
-using static KleiMetrics;
 using static ProcGen.DlcMixingSettings;
-using static STRINGS.UI.SPACEARTIFACTS;
 
 namespace AnimExportTool
 {

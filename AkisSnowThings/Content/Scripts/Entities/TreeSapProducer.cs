@@ -1,11 +1,6 @@
 ﻿using AkisSnowThings.Content.Defs.Plants;
 using AkisSnowThings.Content.Scripts.Elements;
 using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 
 namespace AkisSnowThings.Content.Scripts.Entities

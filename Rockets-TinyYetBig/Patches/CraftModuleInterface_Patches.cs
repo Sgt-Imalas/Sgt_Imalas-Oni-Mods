@@ -1,19 +1,11 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
-using Rockets_TinyYetBig.Buildings.Engines;
-using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
-using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
 using Rockets_TinyYetBig.NonRocketBuildings;
-using Rockets_TinyYetBig.SpaceStations;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches

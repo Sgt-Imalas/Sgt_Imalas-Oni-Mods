@@ -2,15 +2,9 @@
 using Klei.CustomSettings;
 using ProcGen;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine.UI;
-using UtilLibs;
 using UtilLibs.UIcmp;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
-using static SandboxSettings;
 
 namespace ClusterTraitGenerationManager.UI.Components
 {

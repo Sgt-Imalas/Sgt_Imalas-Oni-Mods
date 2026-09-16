@@ -1,11 +1,7 @@
 ﻿using Klei.AI;
 using SatisfyingPowerShards.Components;
 using SatisfyingPowerShards.Defs.Buildings;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace SatisfyingPowerShards.Defs.Critters

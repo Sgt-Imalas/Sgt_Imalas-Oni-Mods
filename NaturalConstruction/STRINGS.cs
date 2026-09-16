@@ -1,11 +1,4 @@
-﻿using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static NaturalConstruction.STRINGS.BUILDINGS.PREFABS;
-using static STRINGS.UI;
+﻿using static STRINGS.UI;
 
 namespace NaturalConstruction
 {

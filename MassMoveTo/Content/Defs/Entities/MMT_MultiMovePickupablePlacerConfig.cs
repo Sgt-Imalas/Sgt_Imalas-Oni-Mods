@@ -1,7 +1,4 @@
 ﻿using MassMoveTo.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace MassMoveTo.Content.Defs.Entities

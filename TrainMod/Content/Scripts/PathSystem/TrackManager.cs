@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TrainMod.Content.Scripts.PathSystem.Dijkstar;
-using TrainMod.Content.Scripts.PathSystem.Segmentation;
 using UtilLibs;
-using static STRINGS.INPUT_BINDINGS;
 
 namespace TrainMod.Content.Scripts.PathSystem
 {

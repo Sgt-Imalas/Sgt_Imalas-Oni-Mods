@@ -1,9 +1,5 @@
-﻿using FMOD;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MassMoveTo.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MassMoveTo.Patches
 {

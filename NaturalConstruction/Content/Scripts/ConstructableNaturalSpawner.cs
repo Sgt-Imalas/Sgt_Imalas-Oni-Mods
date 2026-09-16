@@ -1,13 +1,7 @@
 ﻿using KSerialization;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static Grid.Restriction;
-using static STRINGS.MISC.STATUSITEMS.HEALTHSTATUS;
-using static STRINGS.UI;
 
 namespace NaturalConstruction.Content.Scripts
 {

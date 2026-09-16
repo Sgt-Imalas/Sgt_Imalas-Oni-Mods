@@ -1,14 +1,8 @@
 ﻿using Database;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using UnityEngine;
-using static IceCooledFan.States;
-using static InventoryOrganization;
-using static LogicGate.LogicGateDescriptions;
-using static ResearchTypes;
 
 namespace UtilLibs
 {

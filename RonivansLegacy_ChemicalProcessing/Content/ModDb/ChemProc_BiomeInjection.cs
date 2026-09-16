@@ -1,16 +1,10 @@
 ﻿
 using ProcGen;
-using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
-using static STRINGS.GAMEPLAY_EVENTS;
-using static STRINGS.SUBWORLDS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {

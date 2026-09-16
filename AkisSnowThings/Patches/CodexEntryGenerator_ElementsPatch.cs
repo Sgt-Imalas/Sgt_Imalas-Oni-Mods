@@ -1,16 +1,6 @@
-﻿using AkisSnowThings.Content.Defs.Entities;
-using AkisSnowThings.Content.Defs.Plants;
-using AkisSnowThings.Content.Scripts.Buildings;
+﻿using AkisSnowThings.Content.Defs.Plants;
 using AkisSnowThings.Content.Scripts.Elements;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using TemplateClasses;
-using UtilLibs;
 using static CodexEntryGenerator_Elements;
 
 namespace AkisSnowThings.Patches

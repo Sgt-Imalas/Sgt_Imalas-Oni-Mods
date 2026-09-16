@@ -2,21 +2,13 @@
 using _SgtsModUpdater.Model.LocalMods;
 using _SgtsModUpdater.Model.ModsJsonData;
 using _SgtsModUpdater.Model.Update;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 

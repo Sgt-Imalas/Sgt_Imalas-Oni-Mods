@@ -1,12 +1,4 @@
-﻿using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ShockWormMob
+﻿namespace ShockWormMob
 {
     internal class TestEventSpawner : KMonoBehaviour,ISingleSliderControl, ISidescreenButtonControl
     {

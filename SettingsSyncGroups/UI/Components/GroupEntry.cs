@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs.UIcmp;
 using UtilLibs;
-using SettingsSyncGroups.Scripts;
-using System.Runtime.CompilerServices;
-using UnityEngine;
 
 namespace SettingsSyncGroups.UI.Components
 {

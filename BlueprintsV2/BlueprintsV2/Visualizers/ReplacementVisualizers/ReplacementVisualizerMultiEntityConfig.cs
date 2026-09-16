@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using TemplateClasses;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 {

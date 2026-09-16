@@ -1,10 +1,5 @@
 ﻿using Database;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TUNING;
 using UtilLibs;
-using static STRINGS.DUPLICANTS;
 
 namespace AquaticMinnowMinion.Content.ModDb
 {

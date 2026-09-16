@@ -2,7 +2,6 @@
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 using Dupes_Machinery.Biological_Vats;
 using Dupes_Machinery.Ethanol_Still;
-using HarmonyLib;
 using High_Pressure_Applications.BuildingConfigs;
 using Metallurgy.Buildings;
 using Mineral_Processing;
@@ -24,11 +23,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureAppli
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
 using UtilLibs;
-using static ResearchTypes;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWALL.FACADES;
 using static UtilLibs.GameStrings;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {

@@ -1,17 +1,9 @@
 ﻿using AkisSnowThings.Content.Defs.Entities;
 using AkisSnowThings.Content.Scripts.Entities;
-using HarmonyLib;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static AkisSnowThings.STRINGS;
 using static AkisSnowThings.STRINGS.CREATURES.SPECIES;
-using static CodexScreen;
-using static SetTextStyleSetting;
 
 namespace AkisSnowThings.Content.Defs.Plants
 {

@@ -1,18 +1,11 @@
-﻿using Newtonsoft.Json;
-using ProcGen;
-using System;
+﻿using ProcGen;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
-using static ProcGen.World;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {

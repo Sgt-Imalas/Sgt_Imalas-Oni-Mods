@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using KMod;
-using System;
 
 namespace InvertedItemFilter
 {

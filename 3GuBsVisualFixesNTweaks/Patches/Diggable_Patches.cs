@@ -1,8 +1,5 @@
 ﻿using _3GuBsVisualFixesNTweaks.Defs.Entities.FX;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace _3GuBsVisualFixesNTweaks.Patches

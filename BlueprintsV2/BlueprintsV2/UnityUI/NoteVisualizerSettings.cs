@@ -1,7 +1,4 @@
 ﻿using BlueprintsV2.BlueprintData;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

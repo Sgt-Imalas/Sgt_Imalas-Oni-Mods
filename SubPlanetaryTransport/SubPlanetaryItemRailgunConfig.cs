@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static STRINGS.DUPLICANTS.CHORES;
 
 namespace SubPlanetaryTransport
 {

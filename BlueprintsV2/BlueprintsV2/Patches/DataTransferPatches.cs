@@ -3,7 +3,6 @@ using BlueprintsV2.BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using Klei.AI;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 namespace BlueprintsV2.Patches
 {

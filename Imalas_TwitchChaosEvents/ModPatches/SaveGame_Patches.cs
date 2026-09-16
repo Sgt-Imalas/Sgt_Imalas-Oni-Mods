@@ -2,11 +2,6 @@
 using Imalas_TwitchChaosEvents.Creeper;
 using Imalas_TwitchChaosEvents.Elements;
 using Imalas_TwitchChaosEvents.Fire;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Imalas_TwitchChaosEvents.ModPatches
 {

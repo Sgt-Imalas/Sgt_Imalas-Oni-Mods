@@ -1,7 +1,5 @@
 ﻿using HarmonyLib;
 using KMod;
-using System;
-using System.Collections.Generic;
 
 namespace DigUpFossils
 {

@@ -1,13 +1,8 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Buildings.Utility;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static STRINGS.UI.STARMAP.LAUNCHCHECKLIST;
 
 namespace Rockets_TinyYetBig.Patches
 {

@@ -1,19 +1,13 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
-using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
-using static STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
-using YamlDotNet.Core.Tokens;
 using static BlueprintsV2.BlueprintData.DataTransferHelpers;
 
 namespace BlueprintsV2.ModAPI

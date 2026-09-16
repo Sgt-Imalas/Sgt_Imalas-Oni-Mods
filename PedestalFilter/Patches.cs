@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static STRINGS.BUILDING.STATUSITEMS.ACCESS_CONTROL;
 
 namespace PedestalFilter
 {

@@ -8,10 +8,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static InventoryOrganization;
 using static OverlayModes;
 using static OverlayModes.Logic;
-using static UtilLibs.SupplyClosetUtils;
 
 namespace PaintYourPipes
 {

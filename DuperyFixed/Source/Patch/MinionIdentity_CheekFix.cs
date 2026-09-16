@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using UtilLibs;
-using static STRINGS.DUPLICANTS;
 
 namespace DuperyFixed.Source.Patch
 {

@@ -1,16 +1,9 @@
 ﻿
 using BlueprintsV2.BlueprintData;
-using BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration;
-using BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer;
 using BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers;
 using BlueprintsV2.ModAPI;
-using BlueprintsV2.Tools;
-using ONI_Together_API;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UtilLibs;
 using static BlueprintsV2.BlueprintData.BlueprintState;

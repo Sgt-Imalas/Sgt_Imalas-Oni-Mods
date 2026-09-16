@@ -9,9 +9,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UtilLibs;
-using static KAnim;
-using static ResearchTypes;
-using static STRINGS.DUPLICANTS.ATTRIBUTES;
 
 namespace OniRetroEdition
 {

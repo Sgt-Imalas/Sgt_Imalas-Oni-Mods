@@ -1,9 +1,6 @@
-﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UtilLibs;
 

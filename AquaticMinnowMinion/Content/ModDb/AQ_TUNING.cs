@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TUNING;
+﻿using TUNING;
 using UtilLibs;
 using static AquaticMinnowMinion.ModAssets;
-using static STRINGS.DUPLICANTS.MODIFIERS;
 using static TUNING.DUPLICANTSTATS;
 
 namespace AquaticMinnowMinion.Content.ModDb

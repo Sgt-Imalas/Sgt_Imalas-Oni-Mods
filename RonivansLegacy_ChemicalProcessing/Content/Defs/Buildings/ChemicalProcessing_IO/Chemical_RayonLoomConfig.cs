@@ -1,14 +1,6 @@
-﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
-using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing;
+﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
-using RonivansLegacy_ChemicalProcessing.Patches;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;

@@ -1,11 +1,8 @@
 ﻿using AquaticMinnowMinion.Content.Defs;
 using Klei.AI;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static TUNING.DUPLICANTSTATS;
 
 namespace AquaticMinnowMinion.Content.ModDb
 {

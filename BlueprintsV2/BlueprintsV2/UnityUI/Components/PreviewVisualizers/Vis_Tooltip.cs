@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static STRINGS.BUILDING.STATUSITEMS.ACCESS_CONTROL;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 {

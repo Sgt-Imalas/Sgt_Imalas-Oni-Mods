@@ -1,11 +1,5 @@
 ﻿using Database;
 using HarmonyLib;
-using Klei.CustomSettings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 
 namespace MinnowStoryTrait.Patches

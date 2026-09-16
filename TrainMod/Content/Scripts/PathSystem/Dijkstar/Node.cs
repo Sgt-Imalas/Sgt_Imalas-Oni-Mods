@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using TrainMod.Content.Scripts.PathSystem.Segmentation;
+﻿using System.Collections.Generic;
 
 namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 {

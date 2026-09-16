@@ -1,10 +1,6 @@
-﻿using HarmonyLib;
-using KSerialization;
-using System;
+﻿using KSerialization;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts

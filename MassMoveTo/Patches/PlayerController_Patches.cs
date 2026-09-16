@@ -1,9 +1,7 @@
 ﻿using HarmonyLib;
 using MassMoveTo.Tools;
 using MassMoveTo.Tools.SweepByType;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace MassMoveTo.Patches

@@ -1,8 +1,5 @@
 ﻿using HarmonyLib;
 using SmartAreaFill.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SmartAreaFill.Patches
 {

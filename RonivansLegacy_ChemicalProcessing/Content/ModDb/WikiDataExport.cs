@@ -2,15 +2,11 @@
 using Dupes_Industrial_Overhaul.Chemical_Processing.Space;
 using HarmonyLib;
 using Mineral_Processing_Mining.Buildings;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 using UtilLibs.MarkdownExport;
-using static ResearchTypes;
 using static UtilLibs.SupplyClosetUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb

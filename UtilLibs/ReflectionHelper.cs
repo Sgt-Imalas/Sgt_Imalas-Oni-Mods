@@ -1,8 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using UnityEngine.Profiling;
+using UnityEngine;
 
 namespace UtilLibs
 {
@@ -59,7 +58,33 @@ namespace UtilLibs
 				return false;
 			del = (T)Delegate.CreateDelegate(typeof(T), methodInfo);
 			return del != null;
+		}
 
+		private static readonly Dictionary<string, Type?> _cachedTypes = [];
+		public static bool TryGetComponentMod(this GameObject go, string componentName, out Component component)
+		{
+			component = null;
+			if(!_cachedTypes.TryGetValue(componentName,out var cached))
+			{
+				cached = CacheTypeWithName(componentName);
+			}
+			if (cached == null)
+				return false;
+			return go.TryGetComponent(cached, out component);
+		}
+		private static Type? CacheTypeWithName(string componentName)
+		{
+			Type cmp = typeof(Component);
+			foreach (var possibleType in AccessTools.AllTypes())
+			{
+				if (possibleType.Name == componentName && cmp.IsAssignableFrom(possibleType))
+				{
+					_cachedTypes[componentName] = possibleType;
+					return possibleType;
+				}
+			}
+			_cachedTypes[componentName] = null;
+			return null;
 		}
 	}
 }

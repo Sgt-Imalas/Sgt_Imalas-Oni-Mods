@@ -1,7 +1,4 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
