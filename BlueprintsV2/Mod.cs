@@ -1,4 +1,5 @@
 ﻿
+using BlueprintsV2.BlueprintData;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.ModAPI;
 using HarmonyLib;
@@ -24,6 +25,7 @@ namespace BlueprintsV2
 			base.OnLoad(harmony);
 			ModAssets.RegisterActions();
 			BlueprintFileHandling.AttachFileWatcher();
+			BlueprintState.LoadPrefs();
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

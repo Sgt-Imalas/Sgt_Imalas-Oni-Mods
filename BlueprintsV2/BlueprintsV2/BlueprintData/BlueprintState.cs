@@ -48,13 +48,32 @@ namespace BlueprintsV2.BlueprintData
 		public static bool ExtendedCardTooltips { get; private set; } = true;
 
 		public static string SelectedBlueprintFolder = string.Empty;
+		public static System.Action RefreshToggle = null;
 
+		const string
+			note_vis_key = "BPV2_NoteVisibility",
+			note_opa_key = "BPV2_NoteOpacity"
+			;
+		public static void LoadPrefs()
+		{
+			NoteVisibility = !KPlayerPrefs.HasKey(note_vis_key) || KPlayerPrefs.GetInt(note_vis_key) != 0;
+			NoteOpacity = KPlayerPrefs.HasKey(note_opa_key) ? Mathf.Clamp01(KPlayerPrefs.GetFloat(note_opa_key)) : 1;
+		}
 		public static void ToggleNoteVisibility()
 		{
 			NoteVisibility = !NoteVisibility;
+			KPlayerPrefs.SetInt(note_vis_key, NoteVisibility ? 1 : 0);
 			BlueprintNote.TriggerNoteVisibilityChange(NoteVisibility);
-			TopLeftControlScreen_Patches.Add_Colorable_Button.UpdateToggleState();
+			RefreshToggle?.Invoke();
+			KMonoBehaviour.PlaySound(GlobalAssets.GetSound("HUD_Click"));
 		}
+		public static void SetNoteOpacity(float opacity)
+		{
+			NoteOpacity = Mathf.Clamp01(opacity);
+			KPlayerPrefs.SetFloat(note_opa_key, NoteOpacity);
+			BlueprintNote.TriggerOpacityChange();
+		}
+		public static float NoteOpacity = 1f;
 		public static bool NoteVisibility { get; set; } = true;
 
 		public static bool InstantBuild => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive && SandboxToolParameterMenu.instance.settings.InstantBuild;
@@ -526,7 +545,7 @@ namespace BlueprintsV2.BlueprintData
 							AddVisual(new UtilityVisual(buildingConfig, cell, playerId), buildingConfig.BuildingDef);
 							break;
 						case VisualizerType.ROCKET:
-							AddVisual(new RocketModuleVisual(buildingConfig, cell, playerId),buildingConfig.BuildingDef);
+							AddVisual(new RocketModuleVisual(buildingConfig, cell, playerId), buildingConfig.BuildingDef);
 							break;
 						case VisualizerType.BUILDING:
 						default:
@@ -740,6 +759,8 @@ namespace BlueprintsV2.BlueprintData
 			public bool UseToolPriority = true;
 			public bool ForceOverrideTransformations = false;
 			public bool ApplySettingsToExistingBuildings = true;
+			public bool SnapToGrid = false;
+			public int GridSnapX = 0, GridSnapY = 0;
 			public bool IsPlacingSnapshot { get; set; }
 			public bool ApplyBlueprintSettings = true;
 			public HashSet<string> BlockedPlacementFilterLayers = [];

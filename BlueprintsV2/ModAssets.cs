@@ -70,6 +70,7 @@ namespace BlueprintsV2
 		public static GameObject IconSelectorGO;
 		public static GameObject TileReplaceVisGO;
 		public static GameObject RenamingScreenGO;
+		public static GameObject NoteOptionScreenGO;
 		public static void LoadAssets()
 		{
 			var bundle = AssetUtils.LoadAssetBundle("blueprints_ui", platformSpecific: true);
@@ -78,6 +79,7 @@ namespace BlueprintsV2
 			NoteToolStateScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/NoteToolStateContainer.prefab");
 			IconSelectorGO = bundle.LoadAsset<GameObject>("Assets/UIs/IconSelector.prefab");
 			RenamingScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/BlueprintNameDialogue.prefab");
+			NoteOptionScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/NoteOptions.prefab");
 			//UIUtils.ListAllChildren(Assets.transform);
 			BlueprintInfoStateGO.AddOrGet<CurrentBlueprintStateScreen>();
 			NoteToolStateScreenGO.AddOrGet<NoteToolScreen>();

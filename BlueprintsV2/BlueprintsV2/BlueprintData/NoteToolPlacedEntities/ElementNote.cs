@@ -56,19 +56,16 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 		public override void OnSpawn()
 		{
 			UnityEngine.Object.Destroy(GetComponent<CopyBuildingSettings>());
-
 			if (ElementLoader.FindElementByHash(ElementId) == null)
 			{
 				Destroy(this.gameObject);
 				return;
 			}
-
 			filterable.SelectedTag = ElementId.CreateTag();
 			filterable.onFilterChanged += OnFilterChanged;
 			SetElementTint();
 			base.OnSpawn();
 		}
-
 		private void OnRefreshUserMenu(object data)
 		{
 			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_cancel", DELETE_NOTE.NAME, new System.Action(this.OnCancel), tooltipText: DELETE_NOTE.TOOLTIP));
@@ -147,24 +144,25 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 			switch (element.state & Element.State.Solid)
 			{
 				case Element.State.Gas:
-					renderer?.material = GasMat;
+					renderer?.sprite = ModAssets.Gas_Placer_Sprite;
 					break;
 				case Element.State.Liquid:
-					renderer?.material = LiquidMat;
+					renderer?.sprite = ModAssets.Liquid_Placer_Sprite;
 					break;
 				case Element.State.Solid:
-					renderer?.material = SolidMat;
+					renderer?.sprite = ModAssets.Solid_Placer_Sprite;
 					break;
 				default:
 				case Element.State.Vacuum:
 					vaccuum = true;
-					renderer?.material = VacuumMat;
+					renderer?.sprite = ModAssets.Special_Placer_Sprite;
 					break;
 			}
+			Tint = Color.white;
 			if (!vaccuum)
-				renderer.material.color = element.substance.colour;
+				Tint = element.substance.colour;
+			RefreshTint();
 		}
-
 
 		#region sliders
 		protected ISliderControl[] sliderControls;

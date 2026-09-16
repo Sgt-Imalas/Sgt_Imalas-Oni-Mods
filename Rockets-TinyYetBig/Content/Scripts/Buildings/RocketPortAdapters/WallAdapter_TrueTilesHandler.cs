@@ -178,7 +178,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 
 			testMaterial = new Material(Shader.Find("TextMeshPro/Sprite"))
 			{
-				renderQueue = 3500
+				renderQueue = RenderQueues.Liquid
 			};
 
 			testMaterial.SetInt("_ZWrite", 1);

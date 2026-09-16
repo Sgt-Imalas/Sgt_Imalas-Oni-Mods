@@ -15,9 +15,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 	{
 		public static Dictionary<string, Sprite> SymbolMap = [];
 
-
-
-
 		[Serialize] Color SymbolTint = UIUtils.rgb(23, 120, 189);
 		[Serialize] string Title = "Note Title";
 		[Serialize] string Text = "";
@@ -50,9 +47,10 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 			description?.description = Text;
 			if (!Symbol.IsNullOrWhiteSpace() && SymbolMap.TryGetValue(Symbol, out var sprite))
 			{
-				renderer?.material.mainTexture = sprite.texture;
+				renderer?.sprite = sprite;
 			}
-			renderer?.material?.color = SymbolTint;
+			this.Tint = SymbolTint;
+			RefreshTint();
 
 			base.SetDescription();
 		}

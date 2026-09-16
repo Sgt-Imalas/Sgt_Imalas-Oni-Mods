@@ -43,7 +43,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 				var renderer = prefab.AddOrGet<SpriteRenderer>();
 				var mat = new Material(Shader.Find("TextMeshPro/Sprite"))
 				{
-					renderQueue = 4501
+					renderQueue = RenderQueues.BlockTiles + 1
 				};
 				mat.SetInt("_ZWrite", 1);
 				renderer.material = mat;

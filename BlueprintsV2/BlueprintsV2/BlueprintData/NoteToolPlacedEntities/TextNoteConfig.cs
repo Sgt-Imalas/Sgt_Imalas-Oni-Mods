@@ -14,14 +14,29 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 		static Material slurpPlacerMaterial;
 		public GameObject CreatePrefab()
 		{
-			slurpPlacerMaterial = new Material(Assets.instance.mopPlacerAssets.material);
-			slurpPlacerMaterial.mainTexture = ModAssets.Note_Placer_Sprite.texture;
-			GameObject prefab = this.CreatePrefab(ID, ID, slurpPlacerMaterial);
+			//slurpPlacerMaterial = new Material(Assets.instance.mopPlacerAssets.material);
+			//slurpPlacerMaterial.mainTexture = ModAssets.Note_Placer_Sprite.texture;
+			//GameObject prefab = this.CreatePrefab(ID, ID, slurpPlacerMaterial);
+			//prefab.AddTag(GameTags.NotConversationTopic);
+			//UnityEngine.Object.Destroy(prefab.GetComponent<Prioritizable>());
+			//prefab.AddOrGet<KSelectable>();
+			//prefab.AddOrGet<InfoDescription>();
+			//prefab.AddOrGet<TextNote>();
+			//return prefab;
+
+			GameObject prefab = EntityTemplates.CreateEntity(ID, ID, true);
+			prefab.AddOrGet<SaveLoadRoot>();
+			KBoxCollider2D kBoxCollider2D = prefab.AddOrGet<KBoxCollider2D>();
+			kBoxCollider2D.offset = new Vector2(0f, 0.5f);
+			kBoxCollider2D.size = new Vector2(1f, 1f);
 			prefab.AddTag(GameTags.NotConversationTopic);
-			UnityEngine.Object.Destroy(prefab.GetComponent<Prioritizable>());
 			prefab.AddOrGet<KSelectable>();
 			prefab.AddOrGet<InfoDescription>();
+			prefab.AddOrGet<ElementOnlyFilterable>();
 			prefab.AddOrGet<TextNote>();
+			prefab.AddOrGet<CopyBuildingSettings>();
+
+
 			return prefab;
 		}
 		public string[] GetDlcIds() => null;

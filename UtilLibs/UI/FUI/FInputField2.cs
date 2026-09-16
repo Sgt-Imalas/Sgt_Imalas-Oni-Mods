@@ -70,6 +70,15 @@ namespace UtilLibs.UIcmp //Source: Aki
 			return isEditing;
 		}
 
+		public void ClearPlace()
+		{
+			var locText = inputField?.textViewport?.transform.Find(placeHolderPath)?.gameObject?.AddOrGet<LocText>();
+			if (locText == null)
+				return;
+
+			locText.SetText(string.Empty);
+		}
+
 		public string Text
 		{
 			get => inputField.text;

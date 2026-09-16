@@ -26,7 +26,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe(handle);
+			Game.Instance.Unsubscribe(handle);
 		}
 		void GlobalSelectHandler(object data)
 		{

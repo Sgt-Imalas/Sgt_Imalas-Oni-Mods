@@ -1773,7 +1773,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			AsteroidFilter.Text = string.Empty;
 
-			AsteroidFilter.OnValueChanged.AddListener(SetFilterText);
+			AsteroidFilter.AddListener(SetFilterText);
 
 			ClearAsteroidFilter = transform.Find("ItemSelection/StarItemContent/Input/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearAsteroidFilter.OnClick += () => AsteroidFilter.Text = string.Empty;
