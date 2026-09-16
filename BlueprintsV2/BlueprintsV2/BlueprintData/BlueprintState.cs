@@ -341,8 +341,7 @@ namespace BlueprintsV2.BlueprintData
 							bool hasConstructable = gameObject.TryGetComponent<Constructable>(out var constructable);
 							bool hasDeconstructable = gameObject.TryGetComponent<Deconstructable>(out var deconstructable);
 
-							var haulingPoint = gameObject.GetComponent("DeconstructableHaulingPoint");
-							if (!hasDeconstructable && haulingPoint != null)
+							if (!hasDeconstructable && gameObject.TryGetComponentMod("DeconstructableHaulingPoint", out _))
 							{
 								hasDeconstructable = true;
 							}
@@ -527,6 +526,9 @@ namespace BlueprintsV2.BlueprintData
 						case VisualizerType.UTILITY:
 							AddVisual(new UtilityVisual(buildingConfig, cell, playerId), buildingConfig.BuildingDef);
 							break;
+						case VisualizerType.ROCKET:
+							AddVisual(new RocketModuleVisual(buildingConfig, cell, playerId),buildingConfig.BuildingDef);
+							break;
 						case VisualizerType.BUILDING:
 						default:
 							AddVisual(new BuildingVisual(buildingConfig, cell, playerId), buildingConfig.BuildingDef);
@@ -590,10 +592,9 @@ namespace BlueprintsV2.BlueprintData
 			{
 				DependentVisuals[owner].Add(visual);
 			}
-
-			if (visual is ICleanableVisual)
+			if (visual is ICleanableVisual cv)
 			{
-				CleanableVisuals[owner].Add((ICleanableVisual)visual);
+				CleanableVisuals[owner].Add(cv);
 			}
 		}
 
@@ -660,17 +661,15 @@ namespace BlueprintsV2.BlueprintData
 		{
 			if (visual is not BuildingVisual buildingVisual)
 				return;
-			if (!OccupiedCells[playerId].TryGetValue(buildingVisual.BuildingDef.ObjectLayer, out var cells))
+			if (!OccupiedCells[playerId].TryGetValue(buildingVisual._def.ObjectLayer, out var cells))
 			{
-				SgtLogger.error("Unknown object layer: " + buildingVisual.BuildingDef.ObjectLayer);
+				SgtLogger.error("Unknown object layer: " + buildingVisual._def.ObjectLayer);
 				return;
 			}
-
-
-			if (buildingVisual.BuildingDef.BuildingComplete.TryGetComponent<OccupyArea>(out var area))
+			if (buildingVisual._def.BuildingComplete.TryGetComponent<OccupyArea>(out var area))
 			{
 				foreach (var cellOffset in area.OccupiedCellsOffsets)
-					cells[Grid.OffsetCell(buildingVisual.CurrentCell, cellOffset)] = buildingVisual;
+					cells[Grid.OffsetCell(buildingVisual.CurrentCell, Rotatable.GetRotatedCellOffset(cellOffset, buildingVisual.RotatedOrientation))] = buildingVisual;
 			}
 			else
 			{
@@ -1024,11 +1023,11 @@ namespace BlueprintsV2.BlueprintData
 
 		internal static bool LayerOccupiedAt(IVisual checkingEntity, ObjectLayer layer, int cellParam)
 		{
-			if (BackwallManager.HasBackwall(cellParam))
+			if (layer == ObjectLayer.Backwall && BackwallManager.HasBackwall(cellParam))
 				return true;
 			var objectAtLayer = Grid.Objects[cellParam, (int)layer];
 
-			if (objectAtLayer != null && objectAtLayer != checkingEntity.Visualizer)
+			if (objectAtLayer != null)
 				return true;
 
 			if (!OccupiedCells[PlayerId_DefaultTilePreviews].TryGetValue(layer, out var collection))

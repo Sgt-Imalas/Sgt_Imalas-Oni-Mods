@@ -711,6 +711,10 @@ namespace BlueprintsV2
 					return VisualizerType.TILE;
 				}
 			}
+			else if(def.BuildingComplete.TryGetComponent<RocketModule>(out _))
+			{
+				return VisualizerType.ROCKET;
+			}
 			else
 			{
 				return VisualizerType.BUILDING;
@@ -815,6 +819,7 @@ namespace BlueprintsV2
 				case ObjectLayer.AttachableBuilding:
 				case ObjectLayer.PlasticTile:
 				case ObjectLayer.LadderTile:
+				case ObjectLayer.Gantry:
 					filterLayerId = ToolParameterMenu.FILTERLAYERS.BUILDINGS;
 					return true;
 

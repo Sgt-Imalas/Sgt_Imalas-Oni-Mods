@@ -179,9 +179,8 @@ namespace BlueprintsV2.BlueprintData
 				if (ValidFacadeId(facadeID, building))
 				{
 					buildingFacade.ApplyBuildingFacade(Db.GetBuildingFacades().Get(facadeID));
-					if (building.GetComponent("FacadeRestorer") != null && building.TryGetComponent<KBatchedAnimController>(out var kbac)
-						)
-					{
+					if (building.TryGetComponentMod("FacadeRestorer", out _)
+						&& building.TryGetComponent<KBatchedAnimController>(out var kbac)) {
 						//refresh the anim on akis facade restorer aero pods
 						SgtLogger.l("fixing decor pack aero pod");
 						kbac.Play("off");

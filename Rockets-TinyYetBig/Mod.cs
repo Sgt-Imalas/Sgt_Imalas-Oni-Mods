@@ -73,9 +73,14 @@ namespace Rockets_TinyYetBig
 			else
 				SgtLogger.l("TC-1000's:Hydrocarbon_Rocket_Engines not found");
 
-			BlueprintsV2.InitTypes();
-
-
+			if (mods.Any(mod => mod.IsEnabledForActiveDlc() && mod.staticID == "BlueprintsV2"))
+			{
+				BlueprintsV2.InitTypes();
+			}
+			else
+			{
+				SgtLogger.l("Blueprints Expanded not detected, rocket templates will not transfer data");
+			}
 			RocketInteriorWeightLimitApi.TryInitialize();
 		}
 	}

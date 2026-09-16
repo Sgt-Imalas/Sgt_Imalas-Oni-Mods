@@ -9,6 +9,7 @@ namespace BlueprintsV2
 		BUILDING,
 		UTILITY,
 		TILE,
+		ROCKET,
 
 		INVALID = -1
 	}

@@ -74,8 +74,28 @@ namespace BlueprintsV2.Visualizers
 			BlueprintState.ColoredCells[playerId][cell] = GetVisualizerColor(cell);
 			this.cell = -1;
 			DirtyCell = cell;
-			isTile = buildingConfig.BuildingDef.isKAnimTile && buildingConfig.BuildingDef.BlockTileAtlas;
 			UpdateGrid(cell);
+		}
+		static Dictionary<ulong, Dictionary<BuildingDef, GameObject>> _tileVisualizers = [];
+
+		protected override void CreateVisualizer()
+		{
+			hasKbac = false;
+			kbac = null;
+			if (!_tileVisualizers.TryGetValue(_playerId, out var sharedVis))
+				_tileVisualizers[_playerId] = sharedVis = [];
+
+			if (sharedVis.TryGetValue(_def, out var vis) && !vis.IsNullOrDestroyed())
+			{
+				Visualizer = vis;
+				return;
+			}
+			base.CreateVisualizer();
+			sharedVis[_def] = Visualizer;
+		}
+		public override void DestroyVisualizer()
+		{
+			Visualizer = null;
 		}
 
 		public override void ForceRedraw()
@@ -95,7 +115,7 @@ namespace BlueprintsV2.Visualizers
 		{
 			if (cellParam != cell || forceRedraw)
 			{
-				Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer));
+				//Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, _def.SceneLayer));
 				UpdateGrid(cellParam);
 				ApplyColorIfChanged(cellParam);
 				cell = cellParam;
@@ -111,9 +131,9 @@ namespace BlueprintsV2.Visualizers
 
 			if (DirtyCell != -1 && Grid.IsValidBuildingCell(DirtyCell))
 			{
-				if (ActiveTileVisuals[_playerId].TryGetValue(DirtyCell, out var vis) && vis == this.BuildingDef)
+				if (ActiveTileVisuals[_playerId].TryGetValue(DirtyCell, out var vis) && vis == this._def)
 				{
-					CustomTileRenderer.RemoveTileBlock(_playerId, buildingConfig.BuildingDef, DirtyCell);
+					CustomTileRenderer.RemoveTileBlock(_playerId, _def, DirtyCell);
 					ActiveTileVisuals[_playerId].Remove(DirtyCell);
 				}
 			}
@@ -133,8 +153,8 @@ namespace BlueprintsV2.Visualizers
 					return;
 				}
 				//bool replacing = hasReplacementLayer && CanReplace(cell);
-				CustomTileRenderer.AddTileBlock(_playerId, buildingConfig.BuildingDef, cellParam);
-				ActiveTileVisuals[_playerId][cellParam] = this.BuildingDef;
+				CustomTileRenderer.AddTileBlock(_playerId, _def, cellParam);
+				ActiveTileVisuals[_playerId][cellParam] = this._def;
 				DirtyCell = cellParam;
 				seated = true;	
 			}

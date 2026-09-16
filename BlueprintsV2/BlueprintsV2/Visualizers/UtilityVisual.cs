@@ -24,7 +24,7 @@ namespace BlueprintsV2.Visualizers
 		}
 		void UpdateConnectionVis(bool built = false)
 		{
-			if (hasKbac && _networkMgr != null && buildingConfig.GetConduitFlags(out var flags))
+			if (hasKbac && _networkMgr != null && _buildingConfig.GetConduitFlags(out var flags))
 			{
 				string animation = _networkMgr.GetVisualizerString((UtilityConnections)GetRotatedUtilityConnectionFlags(flags));
 				if(!built)
