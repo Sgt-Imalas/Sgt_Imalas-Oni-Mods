@@ -167,8 +167,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			Details = transform.Find("HorizontalLayout/ItemInfo").gameObject;
 
 			FilterBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			FilterBar.OnValueChanged.AddListener(ApplyBuildingFilter);
-			FilterBar.Text = string.Empty;
+			FilterBar.AddListener(ApplyBuildingFilter);
+			FilterBar.ClearInputTextWithoutEvent();
 
 			ClearFilterButton = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 			ClearFilterButton.OnClick += () => FilterBar.Text = string.Empty;

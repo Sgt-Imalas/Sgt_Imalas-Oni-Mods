@@ -171,7 +171,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_BallCrusherMillConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
 			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO); 
+			
+			BuildingManager.CreateEntry<Chemical_ChlorineCompressorConfig>()
+			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
+			.AddToTech(Technology.Gases.TemperatureModulation)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<Chemical_CarbonDioxideCompressorConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)

@@ -277,6 +277,12 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached.";
 					public static LocString EFFECT = "Compresses " + FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE") + " gas and cool it down to" + FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE") + ". This device is also capable of storing liquid with complete insulation.";
 				}
+				public class CHEMICAL_CHLORINECOMPRESSOR
+				{
+					public static LocString NAME = FormatAsLink("Chlorine Gas Compressor", nameof(CHEMICAL_CHLORINECOMPRESSOR));
+					public static LocString DESC = "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached.";
+					public static LocString EFFECT = "Compresses " + FormatAsLink("Chlorine Gas", "CHLORINEGAS") + " and cool it down to" + FormatAsLink("Liquid Chlorine", "CHLORINE") + ". This device is also capable of storing liquid with complete insulation.";
+				}
 
 				public class CHEMICAL_CO2PUMP
 				{
