@@ -174,9 +174,9 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 				}
 
 				if (refreshPrev != ObjectLayer.NumLayers)
-					Rebuild(refreshPrev, cell);
+					RefreshCellInternal(PlayerId, cell, refreshPrev);
 				if (refreshNow != ObjectLayer.NumLayers && refreshNow != refreshPrev)
-					Rebuild(refreshNow, cell);
+					RefreshCellInternal(PlayerId, cell, refreshNow);
 			}
 			_updatedCells.Clear();
 			_addedTiles.Clear();

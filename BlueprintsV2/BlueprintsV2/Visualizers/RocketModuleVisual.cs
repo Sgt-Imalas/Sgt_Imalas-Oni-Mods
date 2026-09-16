@@ -74,7 +74,10 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 			if (!stringInit)
 			{
 				stringInit = true;
-				_attachmentFailsRocket = [string.Format(global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_ATTACHPOINT, GameTags.Rocket), global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_OCCUPIED];
+				_attachmentFailsRocket = [
+					string.Format(global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_ATTACHPOINT, GameTags.Rocket)
+					//, global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_OCCUPIED
+					];
 			}
 			if(_attachmentFailsRocket.Contains(failReason) && AttachmentPoints[_playerId].Contains(cellParam))
 			{

@@ -79,7 +79,7 @@ namespace BlueprintsV2.BlueprintData
 
 		public static readonly Dictionary<ulong, Dictionary<int, Color>> ColoredCells = new();
 
-		private static BlueprintTransformationInfo NormalPlayer = new BlueprintTransformationInfo();
+		private static readonly BlueprintTransformationInfo NormalPlayer = new BlueprintTransformationInfo();
 		static readonly Dictionary<ulong, Color> PlayerColorsCached = [];
 
 		#region MP_Integration
@@ -314,19 +314,23 @@ namespace BlueprintsV2.BlueprintData
 		#endregion
 
 		#region UseCreate
+
+		static readonly HashSet<GameObject> collectedBuildings = [];
 		public static Blueprint CreateBlueprint(Vector2I topLeft, Vector2I bottomRight, MultiToolParameterMenu filter = null, bool createsSnapshot = false)
 		{
 			Blueprint blueprint = new Blueprint("unnamed", "");
 
+			bool hasFilter = filter != null;
+
 			int blueprintHeight = (topLeft.y - bottomRight.y);
-			bool storeDigCommandForNonSolidCells = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID);
-			bool collectNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.Collect_Notes_ID);
-			bool collectPlanShapes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID);
+			bool storeDigCommandForNonSolidCells = hasFilter && filter.AllowedToFilter(BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID);
+			bool collectNotes = hasFilter && filter.AllowedToFilter(BlueprintCreationFilterKeys.Collect_Notes_ID);
+			bool collectPlanShapes = hasFilter && filter.AllowedToFilter(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID);
 			if (createsSnapshot)
 				SgtLogger.l("Capturing Snapshot with settings: " + $"storeDigCommandForNonSolidCells: {storeDigCommandForNonSolidCells}, collectNotes: {collectNotes}, collectPlanShapes: {collectPlanShapes}");
 			else
 				SgtLogger.l("Capturing Blueprint with settings: " + $"storeDigCommandForNonSolidCells: {storeDigCommandForNonSolidCells}, collectNotes: {collectNotes}, collectPlanShapes: {collectPlanShapes}");
-
+			collectedBuildings.Clear();
 			for (int x = topLeft.x; x <= bottomRight.x; ++x)
 			{
 				for (int y = bottomRight.y; y <= topLeft.y; ++y)
@@ -341,9 +345,7 @@ namespace BlueprintsV2.BlueprintData
 						for (int layer = 0; layer < Grid.ObjectLayers.Length; ++layer)
 						{
 							if (layer == (int)ObjectLayer.DigPlacer)
-							{
 								continue;
-							}
 
 							GameObject gameObject = Grid.Objects[cell, layer];
 							if (gameObject == null)
@@ -351,55 +353,61 @@ namespace BlueprintsV2.BlueprintData
 
 							bool hasConstructable = gameObject.TryGetComponent<Constructable>(out var constructable);
 							bool hasDeconstructable = gameObject.TryGetComponent<Deconstructable>(out var deconstructable);
+							bool isHaulingPoint = false;
 
-							if (!hasDeconstructable && gameObject.TryGetComponentMod("DeconstructableHaulingPoint", out _))
+							if (!hasConstructable && !hasDeconstructable && gameObject.TryGetComponentMod("DeconstructableHaulingPoint", out _))
 							{
+								isHaulingPoint = true;
 								hasDeconstructable = true;
 							}
 
-							if (hasConstructable || hasDeconstructable)
+							if (hasConstructable || hasDeconstructable || isHaulingPoint)
 							{
 								Building building = null;
 
-								if (gameObject.TryGetComponent<BuildingComplete>(out var complete))
-								{
+								if (hasConstructable && constructable.building != null)
+									building = constructable.building;
+								else if (gameObject.TryGetComponent<BuildingComplete>(out var complete))
 									building = complete;
-								}
-								else if (building == null && gameObject.TryGetComponent<BuildingUnderConstruction>(out var underConstruction))
-								{
-									building = underConstruction;
-								}
 								else if (building == null)
-								{
 									gameObject.TryGetComponent(out building);
-								}
+
+								if (building == null)
+									continue;
+
+								var def = building.Def;
 								//SgtLogger.l($"{gameObject != null} && {building != null} && {API_Methods.IsBuildable(building.Def)} && {(filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def))}");
-								if (building != null && API_Methods.AllowedByRules(building.Def) && (filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def)))
+								if (building != null && API_Methods.AllowedByRules(def) && (!hasFilter || filter.BuildingDefAllowedWithCurrentFilters(def)))
 								{
+									emptyCell = false;
+
 									Vector2I centre = Grid.CellToXY(GameUtil.NaturalBuildingCell(building));
+									if (def.BuildingComplete.TryGetComponent<SimCellOccupier>(out var sco) && sco.doReplaceElement)
+										solidTileDefInCell = true;
+
+									if (!collectedBuildings.Add(gameObject))
+										continue;
 
 									BuildingConfig buildingConfig = new()
 									{
 										Offset = new(centre.x - topLeft.x, blueprintHeight - (topLeft.y - centre.y)),
-										BuildingDef = building.Def,
-										Orientation = building.Orientation
+										BuildingDef = def,
+										Orientation = building.Orientation,
+										BuildingDefId = def.PrefabID
 									};
-									buildingConfig.BuildingDefId = building.Def.PrefabID;
 
-									if (building.Def.BuildingComplete.TryGetComponent<SimCellOccupier>(out var sco) && sco.doReplaceElement)
-										solidTileDefInCell = true;
-
-									if (deconstructable != null)
+									if (hasDeconstructable)
 									{
 										buildingConfig.SelectedElements.AddRange(deconstructable.constructionElements);
 									}
-									else if (constructable != null)
+									else if (hasConstructable)
 									{
 										buildingConfig.SelectedElements.AddRange(constructable.selectedElementsTags);
 									}
 									else
 									{
-										SgtLogger.warning("building " + building.Def.Name + " at cell " + cell + " had neither constructable nor deconstructable component");
+										if (!isHaulingPoint)
+											SgtLogger.warning("building " + def.Name + " at cell " + cell + " had neither constructable nor deconstructable component");
 										foreach (var tagCombine in building.Def.MaterialCategory)
 										{
 											var available = MaterialSelectionPanel.Filter(tagCombine);
@@ -407,8 +415,7 @@ namespace BlueprintsV2.BlueprintData
 										}
 									}
 
-									IHaveUtilityNetworkMgr networkMngCmp = building.Def.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>();
-									if (networkMngCmp != null)
+									if (def.BuildingComplete.TryGetComponent<IHaveUtilityNetworkMgr>(out var networkMngCmp))
 									{
 										buildingConfig.SetConduitFlags((int)networkMngCmp.GetNetworkManager()?.GetConnections(cell, false));
 									}
@@ -418,8 +425,6 @@ namespace BlueprintsV2.BlueprintData
 									{
 										blueprint.BuildingConfigurations.Add(buildingConfig);
 									}
-
-									emptyCell = false;
 								}
 							}
 						}
@@ -448,7 +453,6 @@ namespace BlueprintsV2.BlueprintData
 							}
 							else
 								SgtLogger.l("data was invalid for note at cell " + cell + " with title: " + note.name);
-
 						}
 						else if (!solidTileDefInCell && filter.AllowedElementState(Grid.Element[cell].state))
 						{
