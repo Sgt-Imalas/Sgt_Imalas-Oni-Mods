@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.CREATURES.SPECIES;
 
 namespace RoboRockets
 {
@@ -252,7 +253,8 @@ namespace RoboRockets
 #if DEBUG
                         SgtLogger.l("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
 #endif
-						rocketModuleCluster.CraftInterface.m_clustercraft.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
+						rocketModuleCluster.CraftInterface.m_clustercraft.AutoPilotMultiplier = 1;
+						rocketModuleCluster.CraftInterface.m_clustercraft.PilotSkillMultiplier = Config.Instance.NoBrainRockets;
 					}
 
 					SgtLogger.l("World forbidden to look into: " + worldRefID);
