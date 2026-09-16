@@ -61,7 +61,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			_buttonText = transform.Find("UseButton/Text").gameObject.GetComponent<LocText>();
 
 			_textInputField = transform.Find("BlueprintID").gameObject.AddOrGet<FInputField2>();
-			_textInputField.OnValueChanged.AddListener(TextInputChanged);
+			_textInputField.AddListener(TextInputChanged);
 			_textInputField.SetTextFromData(string.Empty, true);
 			//_textInputField.OnSelect.AddListener(OnStartedTyping);
 

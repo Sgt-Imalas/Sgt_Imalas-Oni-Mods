@@ -466,7 +466,7 @@ namespace Rockets_TinyYetBig.Patches
 							RocketBurden.ToString(),
 
 							global::STRINGS.UI.CLUSTERMAP.ROCKETS.SPEED.PILOT_SPEED_MODIFIER,
-							dupe_piloted ? string.Concat("\n    • ", global::STRINGS.UI.CLUSTERMAP.ROCKETS.SPEED.DUPEPILOT_SPEED_TOOLTIP.Replace("{speed_boost}", GameUtil.GetFormattedPercent(clusterCraft.PilotSkillMultiplier - 1f))) : string.Empty,
+							dupe_piloted ? string.Concat("\n    • ", global::STRINGS.UI.CLUSTERMAP.ROCKETS.SPEED.DUPEPILOT_SPEED_TOOLTIP.Replace("{speed_boost}", GameUtil.GetFormattedPercent((clusterCraft.PilotSkillMultiplier - 1f)*100f))) : string.Empty,
 							controlType
 							);
 

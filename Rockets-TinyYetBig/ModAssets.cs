@@ -9,7 +9,7 @@ using static UtilLibs.RocketryUtils;
 
 namespace Rockets_TinyYetBig
 {
-    public class ModAssets
+	public class ModAssets
 	{
 
 		public static readonly Tag Blueprints_SkipPreconfigure = new Tag("Blueprints_SkipPreconfiguration");
@@ -51,7 +51,7 @@ namespace Rockets_TinyYetBig
 			if (!tooltipsInitialized)
 				InitializeCategoryTooltipDictionary();
 
-			if(Tooltips.TryGetValue(category, out var tooltip))
+			if (Tooltips.TryGetValue(category, out var tooltip))
 				return tooltip;
 
 			SgtLogger.warning("RE category tooltip not found for category " + category);
@@ -78,12 +78,12 @@ namespace Rockets_TinyYetBig
 		private static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
 		private static void InitializeCategoryTooltipDictionary()
 		{
-			if(tooltipsInitialized)
+			if (tooltipsInitialized)
 				return;
 
-            tooltipsInitialized = true;
+			tooltipsInitialized = true;
 
-            Tooltips.Add((int)RocketCategory.engines, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES);
+			Tooltips.Add((int)RocketCategory.engines, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES);
 			Tooltips.Add((int)RocketCategory.habitats, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS);
 			Tooltips.Add((int)RocketCategory.nosecones, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES);
 			Tooltips.Add((int)RocketCategory.deployables, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES);
@@ -128,7 +128,7 @@ namespace Rockets_TinyYetBig
 
 		public static float DefaultDrillconeHarvestSpeed = ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE / 3600f;
 
-		
+
 
 		public static float GetMiningPilotSkillMultiplier(Clustercraft clustercraft)
 		{
@@ -140,7 +140,7 @@ namespace Rockets_TinyYetBig
 
 				multiplier = Mathf.Max(0.75f, (flyingSpeedMultiplier * 0.5f + miningSpeedMultiplier * 0.5f));
 				//SgtLogger.l($"Total MiningMultiplier: {multiplier}, flying: {flyingSpeedMultiplier}, mining: {miningSpeedMultiplier}.");
-				multiplier = (multiplier - 1) * 2 + 1;
+				multiplier = Mathf.Clamp((multiplier - 1) * 2 + 1, 0.75f, 2.00f);
 				//SgtLogger.l($"Total MiningMultiplier adjusted: {multiplier}.");
 			}
 			return multiplier;
@@ -197,7 +197,7 @@ namespace Rockets_TinyYetBig
 			public static Tech LargerRocketLivingSpaceTech;
 			public static string SpaceScienceTechID = "RTB_SpaceScienceTech";
 			public static Tech SpaceScienceTech;
-			public static string SpaceStationTechID = "RTB_SpaceStationTech"; 
+			public static string SpaceStationTechID = "RTB_SpaceStationTech";
 			public static Tech SpaceStationTech;
 			public static string SpaceStationTechMediumID = "RTB_MediumSpaceStationTech";
 			public static Tech SpaceStationTechMedium;
