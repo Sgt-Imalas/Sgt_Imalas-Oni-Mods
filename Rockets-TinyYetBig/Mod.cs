@@ -66,21 +66,21 @@ namespace Rockets_TinyYetBig
 				harmony.Patch(AccessTools.Method(typeof(Grid), nameof(Grid.FreeGridSpace)), new HarmonyMethod(AccessTools.Method(typeof(Grid_FreeGridSpace_BugfixPatch), "Prefix")));
 			}
 
-			if (mods.Any(mod => HydroCarbonRockets.Contains(mod.staticID) && mod.IsEnabledForActiveDlc()))
+			//only iterate once
+			foreach (var mod in mods)
 			{
-				ModIntegration_Patches.Hydrocarbon_Rocket_Engines.ExecutePatch(harmony);
-			}
-			else
-				SgtLogger.l("TC-1000's:Hydrocarbon_Rocket_Engines not found");
+				if (!mod.IsEnabledForActiveDlc())
+					continue;
 
-			if (mods.Any(mod => mod.IsEnabledForActiveDlc() && mod.staticID == "BlueprintsV2"))
-			{
-				BlueprintsV2.InitTypes();
-			}
-			else
-			{
-				SgtLogger.l("Blueprints Expanded not detected, rocket templates will not transfer data");
-			}
+				if (HydroCarbonRockets.Contains(mod.staticID))
+				{
+					ModIntegration_Patches.Hydrocarbon_Rocket_Engines.ExecutePatch(harmony);
+				}
+				else if (mod.staticID == "BlueprintsV2")
+				{
+					BlueprintsV2.InitTypes();
+				}
+			}			
 			RocketInteriorWeightLimitApi.TryInitialize();
 		}
 	}

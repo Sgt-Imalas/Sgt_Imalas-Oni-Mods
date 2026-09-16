@@ -123,7 +123,10 @@ namespace Rockets_TinyYetBig.Patches
 					parentType = AccessTools.TypeByName("RocketryCompanion.Patches.HydrocarbonRocketEnginePatches");
 
 				if (parentType == null)
+				{
+					SgtLogger.l("HydrocarbonRocketEngines/RocketryCompanion mod not found");
 					return;
+				}
 
 				var m_TargetType_1 = parentType.GetNestedType("ClusterCraftPatches");
 				var m_TargetType_2 = parentType.GetNestedType("CraftModuleInterfacePatches");
@@ -133,7 +136,7 @@ namespace Rockets_TinyYetBig.Patches
 					m_TargetMethod = AccessTools.Method(m_TargetType_1, "BurnFuelForTravel");
 					if (m_TargetMethod == null)
 					{
-						SgtLogger.warning("HydrocarbonRocketEngines mod target method ClusterCraftPatches not found on type HydrocarbonRocketEngines.HydrocarbonRocketEnginesPatches");
+						SgtLogger.warning("HydrocarbonRocketEngines/RocketryCompanion mod target method ClusterCraftPatches not found on type HydrocarbonRocketEngines.HydrocarbonRocketEnginesPatches");
 						return;
 					}
 					var methodToUnpatch = AccessTools.Method(typeof(Clustercraft), nameof(Clustercraft.BurnFuelForTravel));
@@ -149,7 +152,7 @@ namespace Rockets_TinyYetBig.Patches
 				}
 				else
 				{
-					SgtLogger.l("HydrocarbonRocketEngines mod target type HydrocarbonRocketEngines.HydrocarbonRocketEnginesPatches not found.");
+					SgtLogger.l("HydrocarbonRocketEngines/RocketryCompanion mod target type HydrocarbonRocketEngines.HydrocarbonRocketEnginesPatches not found.");
 				}
 
 				if (m_TargetType_2 != null)
@@ -157,7 +160,7 @@ namespace Rockets_TinyYetBig.Patches
 					m_TargetMethod = AccessTools.Method(m_TargetType_2, "BurnFuelForTravel");
 					if (m_TargetMethod == null)
 					{
-						SgtLogger.warning("HydrocarbonRocketEngines mod target method CraftModuleInterfacePatches not found on type HydrocarbonRocketEngines.HydrocarbonRocketEnginesPatches");
+						SgtLogger.warning("HydrocarbonRocketEngines/RocketryCompanion mod target method CraftModuleInterfacePatches not found on type HydrocarbonRocketEngines.HydrocarbonRocketEnginesPatches");
 						return;
 					}
 					SgtLogger.l("disabling that prefix skip method for fuel remaining");

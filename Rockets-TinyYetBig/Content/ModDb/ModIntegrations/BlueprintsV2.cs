@@ -46,7 +46,7 @@ namespace Rockets_TinyYetBig.Content.ModDb.ModIntegrations
 			var BlueprintsV2_API_Methods = Type.GetType("BlueprintsV2.ModAPI.API_Methods, BlueprintsV2");
 			if (BlueprintsV2_API_Methods == null)
 			{
-				SgtLogger.l("BlueprintsV2 types not found.");
+				SgtLogger.l("Blueprints Expanded types not detected, rocket templates will not transfer any data.");
 				return;
 			}
 			_applyAllFound = ReflectionHelper.TryCreateDelegate("BlueprintsV2.ModAPI.API_Methods, BlueprintsV2", "ApplyAdditionalBuildingData", [typeof(GameObject), typeof(BuildingDef), typeof(Dictionary<string, JObject>)], out BPV2_ApplyAdditionalBuildingData);
