@@ -67,10 +67,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
 			def.powerSaverEnergyUsage = 60f;
-			def.coolingHeatKW = 8f;
+			def.coolingHeatKW = 1f;
 			def.steadyHeatKW = 0.2f;
 			def.simulatedInternalTemperature = 212.15f;
-			def.simulatedThermalConductivity = 8000f;
+			def.simulatedThermalConductivity = 1000f;
 
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;
