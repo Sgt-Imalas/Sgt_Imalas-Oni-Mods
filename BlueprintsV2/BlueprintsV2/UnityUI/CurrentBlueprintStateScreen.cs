@@ -178,12 +178,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			ForceRebuildMismatchedBuildings.SetCheckmark("Checkbox/Checkmark");
 			ForceRebuildMismatchedBuildings.SetOnFromCode(BlueprintState.CurrentStateInfo().ForceBuild);
 			ForceRebuildMismatchedBuildings.OnChange += (on) => BlueprintState.CurrentStateInfo().ForceBuild = on;
-			UIUtils.AddSimpleTooltipToObject(ForceRebuildMismatchedBuildings.gameObject, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]"));
+			UIUtils.AddSimpleTooltipToObject(ForceRebuildMismatchedBuildings.gameObject, string.Format(FORCEREBUILD.TOOLTIP, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]")));
 
 			EnableSnapshotMaterialOverrides = transform.Find("InfoItemsContainer/MaterialReplacement").gameObject.AddOrGet<FToggle>();
 			EnableSnapshotMaterialOverrides.SetCheckmark("Checkbox/Checkmark");
 			EnableSnapshotMaterialOverrides.SetOnFromCode(BlueprintState.CurrentStateInfo().MaterialReplacementInSnapshots);
-			EnableSnapshotMaterialOverrides.OnChange += OnSnapshotOverrideChanged; 
+			EnableSnapshotMaterialOverrides.OnChange += OnSnapshotOverrideChanged;
 			UIUtils.AddSimpleTooltipToObject(EnableSnapshotMaterialOverrides.gameObject, MATERIALREPLACEMENT.TOOLTIP);
 
 			UseToolPriority = transform.Find("InfoItemsContainer/PriorityOverride").gameObject.AddOrGet<FToggle>();
@@ -301,7 +301,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
 		void ShowMaterialReplacementList()
 		{
-			BlueprintSelectionScreen.ShowWindow((_) => SnapshotTool.CurrentSnapshot?.CacheCost(), SnapshotTool.CurrentSnapshot,false);
+			BlueprintSelectionScreen.ShowWindow((_) => SnapshotTool.CurrentSnapshot?.CacheCost(), SnapshotTool.CurrentSnapshot, false);
 		}
 
 		void HandleNextBP()

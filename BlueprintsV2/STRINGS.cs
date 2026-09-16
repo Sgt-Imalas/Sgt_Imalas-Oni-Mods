@@ -193,6 +193,11 @@ namespace BlueprintsV2
 					{
 						//public static LocString LABEL = "Rebuild existing with mismatched material:";
 						public static LocString LABEL = "Force build over existing buildings:";
+						public static LocString TOOLTIP = 
+							"Force place the blueprint in their current locations." +
+							"\nExisting buildings that block the area will be marked for deconstruction," +
+							"\nonce the space is unoccupied, the forceplaced buildings will be placed." +
+							"\nHold {0} to toggle.";
 					}
 					public class FORCETRANSFORMATIONTOGGLE
 					{
