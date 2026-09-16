@@ -770,12 +770,18 @@ namespace BlueprintsV2.Visualizers
 			if (_ignorableFailReasons.Contains(failReason))
 				return true;
 
-			if (failReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_BACK_WALL_REQUIRED
-				&& BlueprintState.LayerOccupiedAt(this, ObjectLayer.Backwall, cellParam)
-				&& !BlueprintState.LayerOccupiedAt(this, _def.ObjectLayer, cellParam))
-				return true;
+			if (failReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_BACK_WALL_REQUIRED)
+			{
+				bool ignorethisFail = true;
+				_def.RunOnArea(cellParam, RotatedOrientation, (occupies =>
+				{
+					if (!BlueprintState.LayerOccupiedAt(this, ObjectLayer.Backwall, occupies)
+						|| BlueprintState.LayerOccupiedAt(this, _def.ObjectLayer, occupies))
+						ignorethisFail = false;
 
-
+				}));
+				return ignorethisFail;
+			}
 			return false;
 		}
 
