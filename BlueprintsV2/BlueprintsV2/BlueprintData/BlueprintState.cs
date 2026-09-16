@@ -484,7 +484,6 @@ namespace BlueprintsV2.BlueprintData
 
 		public static void RefreshBlueprintVisualizers(ulong playerId = PlayerId_DefaultTilePreviews, Blueprint snapshot = null)
 		{
-
 			BlueprintState.UpdateVisual(playerId, CurrentStateInfo(playerId).lastBlueprintPos, true, snapshot);
 		}
 		public static void VisualizeBlueprint(Vector2I topLeft, Blueprint blueprint) => VisualizeBlueprint(PlayerId_DefaultTilePreviews, topLeft, blueprint);

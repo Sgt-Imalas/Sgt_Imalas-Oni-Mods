@@ -74,7 +74,7 @@ namespace BlueprintsV2.Visualizers
 			BlueprintState.ColoredCells[playerId][cell] = GetVisualizerColor(cell);
 			this.cell = -1;
 			DirtyCell = cell;
-			UpdateGrid(cell);
+			UpdateGrid(cell, false);
 		}
 		static Dictionary<ulong, Dictionary<BuildingDef, GameObject>> _tileVisualizers = [];
 
@@ -107,7 +107,7 @@ namespace BlueprintsV2.Visualizers
 		{
 			if (isTile)
 			{
-				BlueprintState.ColoredCells[_playerId][cell] = GetVisualizerColor(cell);
+				BlueprintState.ColoredCells[_playerId][cellParam] = GetVisualizerColor(cellParam);
 			}
 		}
 
@@ -116,8 +116,8 @@ namespace BlueprintsV2.Visualizers
 			if (cellParam != cell || forceRedraw)
 			{
 				//Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, _def.SceneLayer));
-				UpdateGrid(cellParam);
 				ApplyColorIfChanged(cellParam);
+				UpdateGrid(cellParam, forceRedraw);
 				cell = cellParam;
 			}
 		}
@@ -140,7 +140,7 @@ namespace BlueprintsV2.Visualizers
 			DirtyCell = -1;
 			seated = false;
 		}
-		private void UpdateGrid(int cellParam)
+		private void UpdateGrid(int cellParam, bool forceRedraw)
 		{
 			Clean();
 			if (seated)
@@ -154,6 +154,8 @@ namespace BlueprintsV2.Visualizers
 				}
 				//bool replacing = hasReplacementLayer && CanReplace(cell);
 				CustomTileRenderer.AddTileBlock(_playerId, _def, cellParam);
+				if(forceRedraw)
+					CustomTileRenderer.RedrawCell(_playerId, _def, cellParam);
 				ActiveTileVisuals[_playerId][cellParam] = this._def;
 				DirtyCell = cellParam;
 				seated = true;	

@@ -1,6 +1,4 @@
 ﻿using BlueprintsV2.BlueprintData;
-using FMOD;
-using HarmonyLib;
 using KSerialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -9,17 +7,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static AmbienceManager;
-using static BlueprintsV2.STRINGS.BLUEPRINTS_BLUEPRINTNOTE;
-using static Grid.Restriction;
-using static LogicGateVisualizer;
 using static Rendering.BlockTileRenderer;
-using static STRINGS.UI.SANDBOXTOOLS.SETTINGS;
-using static STRINGS.UI.TOOLS;
 
 namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 {

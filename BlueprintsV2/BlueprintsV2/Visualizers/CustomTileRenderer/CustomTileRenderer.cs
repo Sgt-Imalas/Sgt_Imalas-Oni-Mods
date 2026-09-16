@@ -189,15 +189,30 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 		}
 		private void AddDefInternal(BuildingDef def, int cell)
 		{
-			_updatedCells.Add(cell);
-			_addedTiles[cell] = def;
+			if (_removedTiles.TryGetValue(cell, out var removedDef) && removedDef == def)
+			{
+				_updatedCells.Remove(cell);
+				_removedTiles.Remove(cell);
+			}
+			else
+			{
+				_updatedCells.Add(cell);
+				_addedTiles[cell] = def;
+			}
 		}
 		private void RemoveDefInternal(BuildingDef def, int cell)
 		{
-			_updatedCells.Add(cell);
-			_removedTiles[cell] = def;
+			if (_addedTiles.TryGetValue(cell, out var addedDef) && addedDef == def)
+			{
+				//_updatedCells.Remove(cell);
+				_addedTiles.Remove(cell);
+			}
+			else
+			{
+				_updatedCells.Add(cell);
+				_removedTiles[cell] = def;
+			}
 		}
-
 		public static void RefreshCellInternal(ulong playerId, int cell, ObjectLayer tile_layer)
 		{
 			if (Game.IsQuitting() || !Grid.IsValidCell(cell))
@@ -208,8 +223,8 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 				return;
 			r.Rebuild(tile_layer, cell);
 
-			GameObject gameObject = Grid.Objects[cell, (int)tile_layer];
 			return;
+			GameObject gameObject = Grid.Objects[cell, (int)tile_layer];
 			if (gameObject != null)
 			{
 				KAnimGraphTileVisualizer componentInChildren = gameObject.GetComponentInChildren<KAnimGraphTileVisualizer>();
@@ -239,7 +254,17 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.CustomTileRenderer
 			RefreshCell(playerId, cell, tile_layer, includeAdjacent);
 			RefreshCell(playerId, cell, replacement_layer, includeAdjacent);
 		}
-
+		public static void RedrawCell(ulong playerId, BuildingDef def, int cell)
+		{
+			if (customTileRenderers.TryGetValue(playerId, out var r))
+			{
+				r.Rebuild(def.TileLayer, cell);
+			}
+			else
+			{
+				SgtLogger.warning("Tried redrawing block for " + playerId + ", but there was no valid tile renderer for it!");
+			}
+		}
 		public static void AddTileBlock(ulong playerId, BuildingDef def, int cell)
 		{
 			if (customTileRenderers.TryGetValue(playerId, out var r))
