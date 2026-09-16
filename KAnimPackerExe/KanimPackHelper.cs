@@ -8,21 +8,24 @@ namespace _KAnimPackerExe
 {
 	public class KanimPackHelper
 	{
-		public KanimPackHelper(string exePath, string inputDir)
+		public KanimPackHelper(string inputDir, string targetFile)
 		{
-			Executable = exePath;
+			Executable = Path.Combine(AppContext.BaseDirectory, "texconv.exe");
 			InputDirectory = inputDir;
+			SoloTarget = targetFile;
 		}
 		public KanimPackHelper(string inputDir)
 		{
-			Executable = "texconv.exe";
+			Executable = Path.Combine(AppContext.BaseDirectory, "texconv.exe");
 			InputDirectory = inputDir;
 		}
 
 		[Required] public string Executable { get; set; }
 		[Required] public string InputDirectory { get; set; }
+		public string SoloTarget { get; set; } = string.Empty;
 		private int _converted = 0;
 		private DateTime _start;
+		public bool HasSoloTarget => SoloTarget.Length != 0;
 		public bool ConvertToKanims()
 		{
 			_start = DateTime.Now;
@@ -35,10 +38,12 @@ namespace _KAnimPackerExe
 				Log.LogError($"Input directory not found: {InputDirectory}");
 				return false;
 			}
-			string outputDirectory = InputDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + "_packed";
+			//string outputDirectory = InputDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + "_packed";
+			string outputDirectory = InputDirectory.Replace(Path.DirectorySeparatorChar + "anim" + Path.DirectorySeparatorChar, Path.DirectorySeparatorChar + "anim_packed" + Path.DirectorySeparatorChar);
+			Log.LogMessage("OutputDir: " + outputDirectory);
 			try
 			{
-				if (Directory.Exists(outputDirectory))
+				if (Directory.Exists(outputDirectory) && !HasSoloTarget)
 					Directory.Delete(outputDirectory, true);
 
 				Directory.CreateDirectory(outputDirectory);
@@ -55,6 +60,31 @@ namespace _KAnimPackerExe
 				Report();
 			}
 		}
+
+		public static void ConvertSingleFile(string inputPath)
+		{
+			DirectoryInfo parent;
+			if (File.Exists(inputPath))
+				parent = Directory.GetParent(inputPath) ?? new(inputPath);
+			else
+				parent = new(inputPath);
+
+			if (parent == null)
+				return;
+
+			var packer = new KanimPackHelper(parent.FullName, inputPath);
+			if (inputPath.EndsWith(".png"))
+			{
+				Log.LogMessage("Converting as Texture");
+				packer.ConvertSingularTextures();
+			}
+			else
+			{
+				Log.LogMessage("Converting as Kanim");
+				packer.ConvertToKanims();
+			}
+		}
+
 		public bool ConvertSingularTextures()
 		{
 			_start = DateTime.Now;
@@ -71,12 +101,12 @@ namespace _KAnimPackerExe
 				return false;
 			}
 
-			string outputDirectory =
-				InputDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + "_packed";
+			string outputDirectory = InputDirectory.Replace("textures", "textures_packed");
+			//InputDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + "_packed";
 
 			try
 			{
-				if (Directory.Exists(outputDirectory))
+				if (Directory.Exists(outputDirectory) && !HasSoloTarget)
 					Directory.Delete(outputDirectory, true);
 
 				Directory.CreateDirectory(outputDirectory);
@@ -102,7 +132,8 @@ namespace _KAnimPackerExe
 			// Only PNG files are processed.
 			foreach (string png in Directory.GetFiles(inputDirectory, "*.png", SearchOption.TopDirectoryOnly))
 			{
-				ProcessPngFileTEX(png, outputDirectory);
+				if (!HasSoloTarget || SoloTarget == png)
+					ProcessPngFileTEX(png, outputDirectory);
 			}
 
 			// Continue processing subdirectories.
@@ -163,6 +194,9 @@ namespace _KAnimPackerExe
 		{
 			Directory.CreateDirectory(outputDirectory);
 			string[] pngFiles = Directory.GetFiles(inputDirectory, "*.png", SearchOption.TopDirectoryOnly);
+
+			if (HasSoloTarget && !inputDirectory.Contains(SoloTarget))
+				return;
 
 			if (pngFiles.Any())
 			{
@@ -225,7 +259,7 @@ namespace _KAnimPackerExe
 			try
 			{
 				string fileName = Path.GetFileNameWithoutExtension(png);
-				normalized =  PNGConverter.CreateNormalizedTempPng(inputPath);
+				normalized = PNGConverter.CreateNormalizedTempPng(inputPath);
 
 				var psi = new ProcessStartInfo
 				{
