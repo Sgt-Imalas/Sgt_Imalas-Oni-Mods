@@ -7,10 +7,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 	{
 		[Serialize]
 		public bool ComponentInUse = false;
-		public bool SetInUse(bool active = true)
+		public void CleanupAfterUse()
 		{
-			ComponentInUse = active;
-			return ComponentInUse;
+			ComponentInUse = true;
 		}
 		bool destroyed = false;
 		int handle = -1;
@@ -33,9 +32,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 			if (data != null && data is GameObject go && go == gameObject)
 				return;
 
-			UnderConstructionDataSettingHelper.HandleDeselection(this);
-			Destroy(gameObject);
 			destroyed = true;
+			UnderConstructionDataSettingHelper.CollectDataFrom(this);
+			Destroy(gameObject);
 		}
 	}
 }

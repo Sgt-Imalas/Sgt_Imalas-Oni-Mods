@@ -1,5 +1,6 @@
 ﻿
 using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.Visualizers;
 using BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers;
 using BlueprintsV2.ModAPI;
 using System.Collections;
@@ -413,7 +414,6 @@ namespace BlueprintsV2.Visualizers
 		///this has issues with tiles and conduits; dont use.
 		protected virtual bool CanReplaceExistingBuilding(int cell, out GameObject replacementCandidate)
 		{
-
 			replacementCandidate = null;
 			var def = _def;
 			bool replacementLayerOccupied = false;

@@ -127,13 +127,17 @@ namespace BlueprintsV2.BlueprintData
 			{
 				var smi = arg.GetSMI<StorageTile.Instance>();
 
-				if (smi != null && smi.TargetTag != StorageTile.INVALID_TAG)
+				if (smi != null)
 				{
 					return new JObject()
 					{
 						{ "TargetTag", smi.TargetTag.ToString()},
 						{ "UserMaxCapacity", smi.UserMaxCapacity},
 					};
+				}
+				else if (arg.GetDef<StorageTile.Def>() != null)
+				{
+					return new();
 				}
 				return null;
 			}
@@ -1457,6 +1461,10 @@ namespace BlueprintsV2.BlueprintData
 					{
 						{ "particleThreshold", component.particleThreshold},
 					};
+				}
+				else if (arg.GetDef<HEPBattery.Def>() != null)
+				{
+					return new();
 				}
 				return null;
 			}

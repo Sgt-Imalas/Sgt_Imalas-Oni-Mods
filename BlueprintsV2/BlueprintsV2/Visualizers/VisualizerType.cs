@@ -1,4 +1,4 @@
-﻿namespace BlueprintsV2
+﻿namespace BlueprintsV2.BlueprintsV2.Visualizers
 {
 	public enum VisualizerType
 	{

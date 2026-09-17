@@ -4,6 +4,7 @@ using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
 using BlueprintsV2.BlueprintsV2.UnityUI.Components;
 using BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers;
+using BlueprintsV2.BlueprintsV2.Visualizers;
 using BlueprintsV2.Tools;
 using System.Collections.Generic;
 using System.Linq;
