@@ -13,7 +13,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		MultiToggle multiToggle;
 		GameObject sliderContainer;
 		FSlider slider;
-		ToolTip multiToggleTooltip;
+		ToolTip multiToggleTooltip = null, sliderToolTip = null;
 		public void Init(MultiToggle toggle)
 		{
 			if (toggle == null)
@@ -37,8 +37,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			slider = transform.Find("SliderContainer/Slider").gameObject.AddOrGet<FSlider>();
 			slider.SetMinMaxCurrent(0, 1, BlueprintState.NoteOpacity);
 			slider.OnChange += BlueprintState.SetNoteOpacity;
-			UIUtils.AddSimpleTooltipToObject(slider.transform, NOTEOPTIONS.OPACITY_TOOLTIP);
-
+			
 			multiToggle.onClick += BlueprintState.ToggleNoteVisibility;
 
 			multiToggleTooltip = UIUtils.AddSimpleTooltipToObject(multiToggle.gameObject, ButtonTT());
@@ -49,6 +48,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		void SetSliderVisible(bool visible)
 		{
 			sliderContainer?.SetActive(visible);
+			if(visible && sliderToolTip == null)
+				sliderToolTip = UIUtils.AddSimpleTooltipToObject(sliderContainer.transform, NOTEOPTIONS.OPACITY_TOOLTIP, false);
 		}
 		void RefreshState() => RefreshState(false);
 		void RefreshState(bool force)
