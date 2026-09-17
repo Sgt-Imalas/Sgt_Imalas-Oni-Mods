@@ -188,6 +188,7 @@ namespace DupePrioPresetManager
 				Delete,
 				STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.CANCEL
 				, nothing
+					   , lockCamera: true
 		   , parent: this.gameObject
 		   );
 		}

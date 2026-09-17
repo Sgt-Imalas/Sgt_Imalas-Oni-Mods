@@ -147,7 +147,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 				global::STRINGS.UI.OUTFIT_BROWSER_SCREEN.DELETE_WARNING_POPUP.HEADER.Replace("{OutfitName}", blueprint.FriendlyName),
 				global::STRINGS.UI.FRONTEND.LOADSCREEN.CONFIRMDELETE.Replace("{0}", blueprint.FriendlyName),
 				  on_confirm: deleteAction,
-				  on_cancel: () => SetDialogueState(false));
+				  on_cancel: () => SetDialogueState(false), lockCamera: true);
 		}
 
 		void DeleteBlueprint()

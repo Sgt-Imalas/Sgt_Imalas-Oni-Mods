@@ -42,7 +42,8 @@ namespace ClaimNotification
 				CLAIMNOTIFICATION.CONFIRM,
 					   ShowScreen
 					   , global::STRINGS.UI.CREDITSSCREEN.CLOSEBUTTON,
-					   close);
+					   close
+					   , lockCamera: true);
 						HasShownInfo = true;
 					}
 				}
