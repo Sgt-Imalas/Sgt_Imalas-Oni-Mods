@@ -39,17 +39,13 @@ namespace UtilLibs
 		{
 			//return "```" + text + "```";
 			byte[] buffer = Encoding.UTF8.GetBytes(text);
-			var memoryStream = new MemoryStream();
-			using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
+			byte[] compressedData;
+			using (var memoryStream = new MemoryStream())
 			{
-				gZipStream.Write(buffer, 0, buffer.Length);
+				using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))	
+					gZipStream.Write(buffer, 0, buffer.Length);
+				compressedData = memoryStream.ToArray();
 			}
-
-			memoryStream.Position = 0;
-
-			var compressedData = new byte[memoryStream.Length];
-			memoryStream.Read(compressedData, 0, compressedData.Length);
-
 			var gZipBuffer = new byte[compressedData.Length + 4];
 			Buffer.BlockCopy(compressedData, 0, gZipBuffer, 4, compressedData.Length);
 			Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gZipBuffer, 0, 4);
@@ -65,26 +61,16 @@ namespace UtilLibs
 		{
 			try
 			{
-				//return compressedText.Trim('`');
 				byte[] gZipBuffer = Convert.FromBase64String(compressedText);
-				using (var memoryStream = new MemoryStream())
-				{
-					int dataLength = BitConverter.ToInt32(gZipBuffer, 0);
-					memoryStream.Write(gZipBuffer, 4, gZipBuffer.Length - 4);
-
-					var buffer = new byte[dataLength];
-
-					memoryStream.Position = 0;
-					using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-					{
-						gZipStream.Read(buffer, 0, buffer.Length);
-					}
-
-					return Encoding.UTF8.GetString(buffer);
-				}
+				using var compressedStream = new MemoryStream(gZipBuffer, 4, gZipBuffer.Length - 4);
+				using var gZipStream = new GZipStream(compressedStream, CompressionMode.Decompress);
+				using var uncompressedStream = new MemoryStream();
+				gZipStream.CopyTo(uncompressedStream);
+				return Encoding.UTF8.GetString(uncompressedStream.ToArray());
 			}
 			catch (Exception ex)
 			{
+				SgtLogger.error("Decompression Failure: " + ex.Message);
 				return string.Empty;
 			}
 		}
