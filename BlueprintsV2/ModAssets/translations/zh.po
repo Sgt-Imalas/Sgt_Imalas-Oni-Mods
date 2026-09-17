@@ -15,22 +15,27 @@ msgstr ""
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TITLE
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TITLE"
 msgid "Blueprint Tool Overlay Sync"
-msgstr "蓝图工具概览同步"
+msgstr "概览同步"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TOOLTIP"
 msgid "Whether the Blueprint Tool syncs with the current overlay. (configurable in game too)"
 msgstr "蓝图工具与当前概览同步。（游戏内也可调）"
 
+#~ #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL
+#~ msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL"
+#~ msgid "All"
+#~ msgstr "全部"
+
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL"
-msgid "All"
-msgstr "全部"
+msgid "All Defaults"
+msgstr "全选"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_NONE
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_NONE"
 msgid "None"
-msgstr "无"
+msgstr "None"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TITLE
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TITLE"
@@ -81,6 +86,11 @@ msgstr "快照工具概览同步"
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TOOLTIP"
 msgid "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)"
 msgstr "快照工具与当前概览同步。（游戏内也可配置）"
+
+#. BlueprintsV2.STRINGS.UI.NOTEOPTIONS.OPACITY_TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.NOTEOPTIONS.OPACITY_TOOLTIP"
+msgid "Set note opacity"
+msgstr "设置便签透明度"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE"
@@ -146,6 +156,11 @@ msgstr "切换强制重建"
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.TOGGLETOOLTIPS"
 msgid "Toggle keybind tooltips"
 msgstr "切换快捷键提示框"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.TOGGLENOTEVIS
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.TOGGLENOTEVIS"
+msgid "Toggle note visibility"
+msgstr "显示/隐藏便签"
 
 #. BlueprintsV2.STRINGS.UI.ACTIONS.USE_TITLE
 msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.USE_TITLE"
@@ -485,23 +500,23 @@ msgstr "全部"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC"
-msgid "Auto. Sync"
-msgstr "自动同步"
+msgid "Auto. Sync to Overlays"
+msgstr "自动同步至概览"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.NAME
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.NAME"
-msgid "Air Pockets"
-msgstr "空腔(镂空)"
+msgid "Air/Liquid Bubbles"
+msgstr "气液空腔"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.TOOLTIP
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.TOOLTIP"
-msgid "Dig commands on tiles that are not solid"
-msgstr "放置蓝图时自动挖开堵塞区域"
+msgid "Create Dig commands for tiles that are not solid, but otherwise empty of buildings"
+msgstr "为蓝图中的空腔自动挖开土块"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.NONE
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.NONE"
 msgid "None"
-msgstr "无"
+msgstr "None"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY"
@@ -592,14 +607,22 @@ msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FLIP"
 msgid "Flip ({0}:{1}/{2}:{3})"
 msgstr "翻转({0}:{1}/{2}:{3})"
 
+#~ msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD"
+#~ msgid ""
+#~ "Force rebuild existing buildings with blueprint materials if different:\n"
+#~ "{0} (hold {1} to enable)"
+#~ msgstr ""
+#~ "如果蓝图材料不同，强制重建现有建筑：\n"
+#~ "{0}（按住{1}启用）"
+
 #. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD"
 msgid ""
-"Replace buildings with mismatched material:\n"
+"Force build over existing buildings:\n"
 "{0} (hold {1})"
 msgstr ""
-"替换使用不同材料的建筑:\n"
-"{0} (按住{1})"
+"强制覆盖异材建筑：\n"
+"{0}（按住 {1}）"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.NAME
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.NAME"
@@ -651,10 +674,20 @@ msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXT"
 msgid "Next blueprint: {0}"
 msgstr "下一份蓝图选择：{0}"
 
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXTFOLDER
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXTFOLDER"
+msgid "Next folder: {0}"
+msgstr "下一个文件夹：{0}"
+
 #. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV"
 msgid "Previous blueprint: {0}"
 msgstr "上一个蓝图选择：{0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTPREVFOLDER
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTPREVFOLDER"
+msgid "Previous folder: {0}"
+msgstr "上一个文件夹：{0}"
 
 #. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED
 msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED"
@@ -681,6 +714,11 @@ msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.A
 msgid "Apply stored building settings on place:"
 msgstr "使用已储存的建筑设置:"
 
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSTOREDSETTINGS.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSTOREDSETTINGS.TOOLTIP"
+msgid "Settings stored within the blueprint are applied to the newly placed building plans when the blueprint is placed."
+msgstr "蓝图内储的设置会在放置蓝图时应用到新建的建筑计划上。"
+
 #. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FLIPACTIONS.FLIPH.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FLIPACTIONS.FLIPH.LABEL"
 msgid "Flip Horizontal"
@@ -703,8 +741,62 @@ msgstr "当前快照: {0}/{1}"
 
 #. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCEREBUILD.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCEREBUILD.LABEL"
-msgid "Rebuild existing with mismatched material:"
-msgstr "重建已有材料不匹配的建筑:"
+msgid "Force build over existing buildings:"
+msgstr "强制覆盖现有建筑："
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCEREBUILD.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCEREBUILD.TOOLTIP"
+msgid ""
+"Force place the blueprint in their current locations.\n"
+"Existing buildings that block the area will be marked for deconstruction,\n"
+"once the space is unoccupied, the forceplaced buildings will be placed.\n"
+"Hold {0} to toggle."
+msgstr ""
+"强制将蓝图放置在其当前位置。\n"
+"阻挡该区域的现有建筑将被标记为拆除；\n"
+"空间空出后，强制放置的建筑将被建造。\n"
+"按住 {0} 切换。"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCETRANSFORMATIONTOGGLE.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCETRANSFORMATIONTOGGLE.LABEL"
+msgid "Force Transformations:"
+msgstr "强制变换："
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCETRANSFORMATIONTOGGLE.FX_TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCETRANSFORMATIONTOGGLE.FX_TEXT"
+msgid "{0} removed from hand"
+msgstr "{0} 已从手中移除"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCETRANSFORMATIONTOGGLE.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCETRANSFORMATIONTOGGLE.TOOLTIP"
+msgid ""
+"Override checks to allow rotating/flipping of blueprints containing buildings that don't support it.\n"
+"Visualizers of buildings incompatible with the transformation will be removed from your hand\n"
+"when performing a rotation/flipping, until you re-select this blueprint for placement."
+msgstr ""
+"覆盖检查，允许旋转/翻转包含不支持此操作建筑的蓝图。\n"
+"执行旋转/翻转时，不兼容变换的建筑预览将从您手中移除，\n"
+"直到您重新选择此蓝图进行放置。"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSETTINGSTOEXISTING.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSETTINGSTOEXISTING.LABEL"
+msgid "Apply settings to existing buildings:"
+msgstr "应用设置到现有建筑："
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSETTINGSTOEXISTING.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSETTINGSTOEXISTING.TOOLTIP"
+msgid "Finished buildings overlapping with blueprint visualizers containing settings will receive those settings when the blueprint is placed down."
+msgstr "已建成建筑与包含设置的蓝图重叠，会在蓝图放置后接收这些设置。"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.GRIDSNAP.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.GRIDSNAP.LABEL"
+msgid "Snap to Grid:"
+msgstr "蓝图连续放置："
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.GRIDSNAP.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.GRIDSNAP.TOOLTIP"
+msgid "Enables drag placing to put down multiple instances of the blueprint in a grid pattern."
+msgstr "开启后，拖拽放置会按蓝图网格尺寸连续放下多个蓝图，并自动对齐网格。
 
 #. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALOVERRIDES.BUTTON.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALOVERRIDES.BUTTON.LABEL"
@@ -880,7 +972,7 @@ msgstr ""
 #. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.EXTRA_DEFAULTS_CATEGORY
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.EXTRA_DEFAULTS_CATEGORY"
 msgid "Extra Filter Selections"
-msgstr "额外筛选选项"
+msgstr "额外筛选项"
 
 #. BlueprintsV2.STRINGS.BLUEPRINTS_FORCE_REPLACER.PENDING_INFO
 msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_FORCE_REPLACER.PENDING_INFO"
@@ -940,7 +1032,7 @@ msgstr "建筑数量："
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS.DIGCOUNT.DESCRIPTOR.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS.DIGCOUNT.DESCRIPTOR.LABEL"
 msgid "Number of non-solid tiles:"
-msgstr "空腔(镂空)数量："
+msgstr "空腔/挖空区数量："
 
 #. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS.DIMENSION.DESCRIPTOR.LABEL
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS.DIMENSION.DESCRIPTOR.LABEL"
@@ -1156,15 +1248,10 @@ msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.NOTE_TOOL.TOOLTIP_TITLE"
 msgid "NOTE TOOL"
 msgstr "便签工具"
 
-#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL
-msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL"
-msgid "All Defaults"
-msgstr "全部默认"
-
-#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.EXTRA_DEFAULTS_CATEGORY
-msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.EXTRA_DEFAULTS_CATEGORY"
-msgid "Extra Filter Selections"
-msgstr "额外筛选选项"
+#. BlueprintsV2.STRINGS.UI.TOOLS.NOTE_TOOL.CREATED
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.NOTE_TOOL.CREATED"
+msgid "Note created!"
+msgstr "已创建便签！"
 
 #. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.FLIP_BLOCKED
 msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.FLIP_BLOCKED"
@@ -1207,11 +1294,3 @@ msgstr "筛选"
 msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.PREVIEW.FILTERBUTTON.RESETALL"
 msgid "Reset Filters"
 msgstr "重置"
-
-#~ msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD"
-#~ msgid ""
-#~ "Force rebuild existing buildings with blueprint materials if different:\n"
-#~ "{0} (hold {1} to enable)"
-#~ msgstr ""
-#~ "如果蓝图材料不同，强制重建现有建筑：\n"
-#~ "{0}（按住{1}启用）"
