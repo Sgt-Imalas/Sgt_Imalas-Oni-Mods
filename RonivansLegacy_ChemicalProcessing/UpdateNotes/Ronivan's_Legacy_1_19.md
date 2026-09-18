@@ -1,7 +1,7 @@
 Ronivan's Legacy 1.19 - The Great Compression:
 
 New:
-- all animations and texture assets are now compressed, reducing VRAM consumption and mod size
+- all animations and texture assets are now compressed, reducing VRAM consumption and mod size (disksize 123mb->55mb)
 - added Chlorine Compressor building (marked as newly added)
 - bioplastic printer now allows to alternatively print gaskets directly
 - acids now kill germs
