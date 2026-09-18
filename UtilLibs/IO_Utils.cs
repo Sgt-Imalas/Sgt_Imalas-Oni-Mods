@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 namespace UtilLibs
 {
@@ -20,29 +20,12 @@ namespace UtilLibs
 
 		public static void PutToClipboard(string toPut)
 		{
-			var TextEditorType = Type.GetType("UnityEngine.TextEditor, UnityEngine");
-			if (TextEditorType != null)
-			{
-				var editor = Activator.CreateInstance(TextEditorType);
-				var tr = Traverse.Create(editor);
-				tr.Property("text").SetValue(toPut);
-				tr.Method("SelectAll").GetValue();
-				tr.Method("Copy").GetValue();
-			}
+			GUIUtility.systemCopyBuffer = toPut;
 		}
 
 		public static bool TryGetStringFromClipboard(out string clipboardText)
 		{
-			clipboardText = string.Empty;
-			var TextEditorType = Type.GetType("UnityEngine.TextEditor, UnityEngine");
-			if (TextEditorType != null)
-			{
-				var editor = Activator.CreateInstance(TextEditorType);
-				var tr = Traverse.Create(editor);
-				tr.Property("text").SetValue(string.Empty);
-				tr.Method("Paste").GetValue();
-				clipboardText = (string)tr.Property("text").GetValue();
-			}
+			clipboardText = GUIUtility.systemCopyBuffer;
 			return !clipboardText.IsNullOrWhiteSpace();
 		}
 
@@ -50,9 +33,7 @@ namespace UtilLibs
 		{
 			try
 			{
-				if (!filePath.Exists || (forceExtensionTo != string.Empty && filePath.Extension != forceExtensionTo)
-					&& !filePath.Name.StartsWith("._")//macOS hidden files
-					)
+				if (!filePath.Exists || (forceExtensionTo != string.Empty && filePath.Extension != forceExtensionTo) || filePath.MacFile())
 				{
 					SgtLogger.logwarning(filePath.FullName, "File does not exist!");
 					output = default(T);
@@ -127,11 +108,11 @@ namespace UtilLibs
 			WriteToFile(data, path, useCustomConverter ? converterSettings : null);
 		}
 
-		public static bool NotAMacFile(FileInfo fileInfo)
+		public static bool NotAMacFile(this FileInfo fileInfo)
 		{
 			return !MacFile(fileInfo);
 		}
-		public static bool MacFile(FileInfo fileInfo)
+		public static bool MacFile(this FileInfo fileInfo)
 		{
 			return fileInfo.Name.StartsWith("._");
 		}
