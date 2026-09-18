@@ -385,7 +385,7 @@ namespace SetStartDupes
 
 			Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
 			Searchbar.AddListener(ApplyFilter);
-			Searchbar.Text = string.Empty;
+			Searchbar.ClearInputTextWithoutEvent();
 
 
 			ClearSearchBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
