@@ -349,9 +349,9 @@ namespace DupePrioPresetManager
 			OpenPresetFolder = transform.Find("HorizontalLayout/ObjectList/SearchBar/FolderButton").FindOrAddComponent<FButton>();
 			OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.ScheduleTemplatePath) { UseShellExecute = true });
 
-            Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-            Searchbar.AddListener(ApplyFilter);
-            Searchbar.Text = string.Empty;
+			Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
+			Searchbar.AddListener(ApplyFilter);
+			Searchbar.ClearInputTextWithoutEvent();
 
 
 			ClearSearchBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
