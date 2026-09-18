@@ -20,21 +20,21 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				UnityEngine.Object.Destroy(WallVisualizer);
 				WallVisualizer = null;
 			}
-			if (Visualizers.Any())
+			if (Visualizers.Count == 0)
+				return;
+
+			for (int i = Visualizers.Count() - 1; i >= 0; i--)
 			{
-				for (int i = Visualizers.Count() - 1; i >= 0; i--)
+				if (Visualizers[i] != null)
 				{
-					if (Visualizers[i] != null)
-					{
-						UnityEngine.Object.Destroy(Visualizers[i].gameObject);
-					}
+					UnityEngine.Object.Destroy(Visualizers[i].gameObject);
 				}
-				Visualizers.Clear();
 			}
+			Visualizers.Clear();
 		}
 
 		static PlaceWallIndicator CreateWallIndicator(BuildingDef def, Vector3 worldPos, CellOffset offset, Orientation visOrientation)
-		{		
+		{
 			var placerGO = GameUtil.KInstantiate(Assets.GetPrefab(PlacerWallPreviewConfig.ID), worldPos, Grid.SceneLayer.FXFront, gameLayer: LayerMask.NameToLayer("Place"));
 			placerGO.SetActive(true);
 			var placer = placerGO.GetComponent<PlaceWallIndicator>();
@@ -84,7 +84,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				case BuildLocationRule.OnCeiling:
 					foreach (var cellOffset in buildingOffsets)
 					{
-						if (cellOffset.y == def.HeightInCells-1 && !noHorizontalWallPreviews)
+						if (cellOffset.y == def.HeightInCells - 1 && !noHorizontalWallPreviews)
 							CreateWallIndicator(def, worldPos, cellOffset, Orientation.R180);
 					}
 					break;
@@ -119,41 +119,39 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 
 		static void UpdateRotations(Orientation buildingOrientation)
 		{
-			if (Visualizers.Any())
+			if (Visualizers.Count == 0)
+				return;
+			foreach (PlaceWallIndicator vis in Visualizers)
 			{
-				foreach (PlaceWallIndicator vis in Visualizers)
-				{
-					vis.RefreshRotation(buildingOrientation);
-				}
+				vis.RefreshRotation(buildingOrientation);
 			}
 		}
 		static void TintVisualizers(Color c)
 		{
-			if (Visualizers.Any())
+			if (Visualizers.Count == 0)
+				return;
+			foreach (PlaceWallIndicator vis in Visualizers)
 			{
-				foreach (PlaceWallIndicator vis in Visualizers)
-				{
-					vis.UpdateTint(c);
-				}
+				vis.UpdateTint(c);
 			}
 		}
 
 
 		static void MoveVisualizers(Vector3 mousepos, Orientation buildingOrientation)
 		{
-			if (Visualizers.Any())
+			if (Visualizers.Count == 0)
+				return;
+			foreach (PlaceWallIndicator vis in Visualizers)
 			{
-				foreach (PlaceWallIndicator vis in Visualizers)
-				{
-					var rotatedOffset = Rotatable.GetRotatedCellOffset(vis.CellOffset, buildingOrientation);
+				var rotatedOffset = Rotatable.GetRotatedCellOffset(vis.CellOffset, buildingOrientation);
 
-					var posWithOfset = mousepos + new Vector3(rotatedOffset.x, rotatedOffset.y);
-					int cell = Grid.PosToCell(posWithOfset);
-					Vector3 posCbc = Grid.CellToPosCBC(cell, Grid.SceneLayer.FXFront);
-					vis.transform.SetPosition(posCbc);
-					vis.kbac.SetDirty();
-				}
+				var posWithOfset = mousepos + new Vector3(rotatedOffset.x, rotatedOffset.y);
+				int cell = Grid.PosToCell(posWithOfset);
+				Vector3 posCbc = Grid.CellToPosCBC(cell, Grid.SceneLayer.FXFront);
+				vis.transform.SetPosition(posCbc);
+				vis.kbac.SetDirty();
 			}
+
 		}
 
 		[HarmonyPatch(typeof(BuildTool), nameof(BuildTool.SetToolOrientation))]

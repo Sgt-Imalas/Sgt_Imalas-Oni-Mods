@@ -28,7 +28,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 		{
 			public static bool Prefix(ElectrobankDischarger __instance)
 			{
-				return __instance.storage.items.Any() && __instance.TryGetComponent<KBatchedAnimController>(out _) && __instance.TryGetComponent<SymbolOverrideController>(out _);
+				return __instance.storage.items.Count > 0 && __instance.TryGetComponent<KBatchedAnimController>(out _) && __instance.TryGetComponent<SymbolOverrideController>(out _);
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				KBatchedAnimController component = smi.GetComponent<KBatchedAnimController>();
 				SymbolOverrideController component2 = component.GetComponent<SymbolOverrideController>();
 				//component.SetSymbolVisiblity("electrobank_l", is_visible: false);
-				if (smi.Storage.items.Any())
+				if (smi.Storage.items.Count > 0)
 				{
 					KAnim.Build.Symbol source_symbol = smi.Storage.items[0].GetComponent<KBatchedAnimController>().AnimFiles[0].GetData().build.symbols[0];
 					component2.AddSymbolOverride("electrobank_l", source_symbol);

@@ -90,7 +90,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(LiquidCooledRefinery __instance, List<GameObject> __result)
 			{
-				if (!__result.Any() || !__instance.TryGetComponent<MetalRefineryTint>(out var handler))
+				if (__result.Count == 0 || !__instance.TryGetComponent<MetalRefineryTint>(out var handler))
 					return;
 
 				foreach (var obj in __result)

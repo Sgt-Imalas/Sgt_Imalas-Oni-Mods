@@ -51,7 +51,8 @@ namespace _3GuBsVisualFixesNTweaks
 				return;
 			var build = item.GetComponent<KBatchedAnimController>().AnimFiles[0].GetData().build;
 			KAnim.Build.Symbol symbol = build.GetSymbol((KAnimHashedString)build.name);
-			if (symbol == null && build.symbols.Any()) //klei forgot to name symbols properly, defaulting to the first symbol
+			//klei forgot to name some element symbols properly (e.g. cobalt), defaulting to the first symbol if thats the case
+			if (symbol == null && build.symbols.Any()) 
 			{
 				symbol = build.symbols[0];
 			}
