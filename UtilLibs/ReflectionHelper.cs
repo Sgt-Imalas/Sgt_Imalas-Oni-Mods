@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace UtilLibs
@@ -9,7 +11,7 @@ namespace UtilLibs
 	{
 		public static bool TryGetType(string typeName, out Type type)
 		{
-			type = Type.GetType(typeName);
+			type = AccessTools.TypeByName(typeName);
 			if (type == null)
 				Debug.LogWarning($"[ReflectionHelper] Type '{typeName}' not found.");
 			return type != null;
@@ -51,12 +53,75 @@ namespace UtilLibs
 
 			return getter != null;
 		}
-		public static bool TryCreateDelegate<T>(string typeName, string methodName, Type[] parameters, out T del) where T : Delegate
+		public static bool TryGetPropertySetter(string typeName, string propertyName, out System.Reflection.MethodInfo setter)
+		{
+			setter = null;
+			if (!TryGetType(typeName, out Type type))
+				return false;
+			setter = AccessTools.PropertySetter(type, propertyName);
+
+			if (setter == null)
+				Debug.LogWarning($"[ReflectionHelper] setter for '{propertyName}' not found on type {type}");
+
+			return setter != null;
+		}
+		public static bool TryCreateDelegate<T>(string typeName, string methodName, out T del, object instance = null, Type[] generics = null, bool matchParametersLazy = false, bool matchReturnType = true) where T : Delegate
 		{
 			del = null;
-			if (!TryGetMethodInfo(typeName, methodName, parameters, out var methodInfo))
+			if (!TryGetType(typeName, out Type type))
 				return false;
-			del = (T)Delegate.CreateDelegate(typeof(T), methodInfo);
+
+			//infer parameters from the delegate definition; delegate needs to match signature of target!
+			var delegateInvoke = typeof(T).GetMethod("Invoke");
+			Type[] parameters = [.. delegateInvoke.GetParameters().Select(p => p.ParameterType)];
+
+			//optional for exact matching, not sure if I want this.
+			if (matchParametersLazy && parameters.Length == 0)
+				parameters = null;
+
+			MethodInfo methodInfo = AccessTools.Method(type, methodName, parameters, generics);
+			if (methodInfo == null)
+			{
+				string parameterNames = parameters == null 
+					? "*"
+					: string.Join(", ", parameters.Select(t => t.Name));
+				Debug.LogWarning($"[ReflectionHelper] Method '{methodName}' not found on type {type} with the parameters '{parameterNames}'.");
+				return false;
+			}
+
+			if (matchReturnType && methodInfo.ReturnType != delegateInvoke.ReturnType)
+			{
+				Debug.LogWarning($"[ReflectionHelper] Method '{methodName}' had a return type mismatch. Expected {delegateInvoke.ReturnType}, got {methodInfo.ReturnType}.");
+				return false;
+			}
+
+			try
+			{
+				del = (instance == null)
+				? (T)Delegate.CreateDelegate(typeof(T), methodInfo)
+				: (T)Delegate.CreateDelegate(typeof(T), instance, methodInfo);
+				return del != null;
+			}
+			catch (Exception ex) 
+			{
+				Debug.LogWarning($"[ReflectionHelper] Could not create delegate '{typeof(T)}' for method '{typeName}.{methodName}'.");
+				return false;
+			}
+		}
+		public static bool TryCreatePropertyGetterDelegate<T>(string typeName, string propertyName, out T del, object instance = null) where T : Delegate
+		{
+			del = null;
+			if (!TryGetPropertyGetter(typeName, propertyName, out var propertyGetter))
+				return false;
+			del = instance == null ? (T)Delegate.CreateDelegate(typeof(T), propertyGetter) : (T)Delegate.CreateDelegate(typeof(T), instance, propertyGetter);
+			return del != null;
+		}
+		public static bool TryCreatePropertySetterDelegate<T>(string typeName, string propertyName, out T del, object instance = null) where T : Delegate
+		{
+			del = null;
+			if (!TryGetPropertySetter(typeName, propertyName, out var propertySetter))
+				return false;
+			del = instance == null ? (T)Delegate.CreateDelegate(typeof(T), propertySetter) : (T)Delegate.CreateDelegate(typeof(T), instance, propertySetter);
 			return del != null;
 		}
 
@@ -64,7 +129,7 @@ namespace UtilLibs
 		public static bool TryGetComponentMod(this GameObject go, string componentName, out Component component)
 		{
 			component = null;
-			if(!_cachedTypes.TryGetValue(componentName,out var cached))
+			if (!_cachedTypes.TryGetValue(componentName, out var cached))
 			{
 				cached = CacheTypeWithName(componentName);
 			}
