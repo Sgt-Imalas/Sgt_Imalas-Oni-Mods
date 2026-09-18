@@ -17,7 +17,7 @@ namespace UtilLibs
 		{
 			_stringsRootType = root;
 			_registerTemplate = generateTemplate;
-			var m_TargetMethod =  AccessTools.Method(typeof(Localization),nameof(Localization.Initialize));
+			var m_TargetMethod = AccessTools.Method(typeof(Localization), nameof(Localization.Initialize));
 			//var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");		
 			var m_Postfix = AccessTools.Method(typeof(LocalisationUtil), nameof(Mod_Localization_Register));
 			harmony.Patch(m_TargetMethod, postfix: new HarmonyMethod(m_Postfix));
@@ -25,7 +25,7 @@ namespace UtilLibs
 		public static void Mod_Localization_Register()
 		{
 			if (_stringsRootType != null)
-				Translate(_stringsRootType, true);
+				Translate(_stringsRootType, _registerTemplate);
 		}
 
 		public static void Translate(Type root, bool generateTemplate = false)
@@ -64,7 +64,7 @@ namespace UtilLibs
 		}
 
 
-		
+
 		static Dictionary<string, Dictionary<string, string>> LocalizedStrings = null;
 		static Dictionary<string, string> CachedTranslationMods = new()
 		{
