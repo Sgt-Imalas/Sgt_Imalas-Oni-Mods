@@ -257,7 +257,23 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			CanFlipH_TT = UIUtils.AddSimpleTooltipToObject(FlipH.gameObject, string.Empty);
 			CanFlipV_TT = UIUtils.AddSimpleTooltipToObject(FlipV.gameObject, string.Empty);
 
+			var SAveButton = transform.Find("InfoItemsContainer/ExportActions/Save").gameObject.AddOrGet<FButton>();
+			SAveButton.OnClick += SaveSnapshotToBlueprint;
+
+			var exportButton = transform.Find("InfoItemsContainer/ExportActions/Export").gameObject.AddOrGet<FButton>();
+			SAveButton.OnClick += SaveSnapshotToClipboard;
+
 			BuildColorLegend();
+		}
+
+		void SaveSnapshotToBlueprint()
+		{
+			SnapshotTool.CurrentSnapshot?.Write();
+		}
+		void SaveSnapshotToClipboard()
+		{
+			if(SnapshotTool.CurrentSnapshot != null)
+				ModAssets.ExportToClipboard(SnapshotTool.CurrentSnapshot);
 		}
 
 		void GridSnapChanged_X(string value)
