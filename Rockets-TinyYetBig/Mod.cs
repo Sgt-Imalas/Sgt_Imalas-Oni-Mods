@@ -48,6 +48,18 @@ namespace Rockets_TinyYetBig
 			AttachmentPointTagNameFix.Register();
 			TranslationFix.Register();
 		}
+
+
+		[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.GetSpeed))]
+		public class Clustercraft_GetSpeed_Patch
+		{
+			public static void Postfix(Clustercraft __instance, ref float __result)
+			{
+				if (IsDev)
+					__result *= 100;
+			}
+		}
+
 		static HashSet<string> HydroCarbonRockets = [
 			"Noobs:Rocketry_Companion","TC-1000's:Hydrocarbon_Rocket_Engines"
 			];
