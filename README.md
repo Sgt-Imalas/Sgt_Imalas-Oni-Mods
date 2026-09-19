@@ -18,4 +18,4 @@ For direct downloads, there are both [nightly builds](https://github.com/Sgt-Ima
 
 Downloads for older ONI versions can also be found in [releases](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases).
 
-AI-generated PRs will not be accepted.
+Low quality AI-generated PRs will not be accepted.
