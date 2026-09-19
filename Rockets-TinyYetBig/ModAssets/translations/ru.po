@@ -501,7 +501,7 @@ msgstr "Этот модуль позволяет безопасно трансп
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.NAME"
 msgid "<link=\"CRITTERCONTAINMENTMODULECONFIGOLD\">[УСТАРЕЛО] Модуль содержания животных</link>"
-msgstr "<link=\"CRITTERCONTAINMENTMODULECONFIGOLD\">[УСТАРЕЛО] Модуль содержания животных</link>"
+msgstr "<link=\"RTBCRITTERCONTAINMENTMODULE\">[УСТАРЕЛО] Модуль содержания животных</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.DESC"
@@ -522,7 +522,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.NAME"
 msgid "<link=\"CRITTERSTASISMODULECONFIG\">Модуль стазиса для существ</link>"
-msgstr "<link=\"CRITTERSTASISMODULECONFIG\">Модуль стазиса для существ</link>"
+msgstr "<link=\"RTBCRITTERSTASISMODULE\">Модуль стазиса для существ</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.DESC"
@@ -799,12 +799,12 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.NAME"
 msgid "<link=\"COALGENERATORMODULECONFIG\">Модуль угольного генератора</link>"
-msgstr "<link=\"COALGENERATORMODULECONFIG\">Модуль угольного генератора</link>"
+msgstr "<link=\"RTBGENERATORCOALMODULE\">Модуль угольного генератора</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP"
 msgid "Дубликаты будут запрошены для доставки <style=\"Keyword\">{0}</style>, когда объём упадёт ниже <b>{1}</b>."
-msgstr "Дубликаты будут запрошены для доставки <style=\"Keyword\">{0}</style>, когда объём упадёт ниже <b>{1}</b>."
+msgstr "Дубликаты будут запрошены для доставки <style=\"KKeyword\">{0}</style>, когда объём упадёт ниже <b>{1}</b>."
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC"
@@ -833,7 +833,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.NAME"
 msgid "<link=\"HABITATMODULEMEDIUMEXPANDEDCONFIG\">Расширенный модуль для космонавтов</link>"
-msgstr "<link=\"HABITATMODULEMEDIUMEXPANDEDCONFIG\">Расширенный модуль для космонавтов</link>"
+msgstr "<link=\"RTBHABITATMODULEMEDIUMEXPANDED\">Расширенный модуль для космонавтов</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.DESC"
@@ -870,7 +870,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.NAME"
 msgid "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Одноместный головной обтекатель с покрытием</link>"
-msgstr "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Одноместный головной обтекатель с покрытием</link>"
+msgstr "<link=\"RTBHABITATMODULEPLATEDLARGE\">Одноместный головной обтекатель с покрытием</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.DESC"
@@ -903,7 +903,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.NAME"
 msgid "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Одноместный расширенный головной обтекатель</link>"
-msgstr "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Одноместный расширенный головной обтекатель</link>"
+msgstr "<link=\"RTBHABITATMODULESMALLEXPANDED\">Одноместный расширенный головной обтекатель</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.DESC"
@@ -940,7 +940,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.NAME"
 msgid "<link=\"HABITATMODULESTARGAZERCONFIG\">Головной обтекатель \"Звездочёт\"</link>"
-msgstr "<link=\"HABITATMODULESTARGAZERCONFIG\">Головной обтекатель \"Звездочёт\"</link>"
+msgstr "<link=\"RTBHABITATMODULESTARGAZER\">Головной обтекатель «Звездочёт»</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.DESC"
@@ -956,16 +956,18 @@ msgid ""
 "\n"
 "Радболты в хранилище не портятся, пока работают модули солнечных панелей."
 msgstr ""
-"Хранит заряженные радболты, готовые к транспортировке.\n"
+"Хранит радболты в высокоэнергетическом состоянии, готовыми к транспортировке.\n"
 "\n"
-"Требуется <b><style=\"logic_on\">зелёный сигнал</style></b> для извлечения радболтов после заполнения хранилища.\n"
+"Требуется <b><style=\"logic_on\">зелёный сигнал</style></b> для выпуска радболтов из хранилища при достижении заданного порога.\n"
 "\n"
-"Радболты в хранилище не портятся, пока работают модули солнечных панелей."
+"Радболты в хранилище не распадаются, пока модуль получает питание — от встроенных солнечных панелей или через электрические соединения аккумуляторных и космических модулей.\n"
+"\n"
+"Автоматически пополняет <link=\"RYBNOSECONEHEPHARVEST\">лазерный носовой бур</link>."
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.NAME"
 msgid "<link=\"HEPBATTERYMODULECONFIG\">Модуль камеры радболтов</link>"
-msgstr "<link=\"HEPBATTERYMODULECONFIG\">Модуль камеры радболтов</link>"
+msgstr "<link=\"RTBHEPBATTERYMODULE\">Модуль камеры радболтов</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.DESC"
@@ -1181,7 +1183,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.NAME"
 msgid "<link=\"NOSECONESOLARCONFIG\">Солнечный головной обтекатель</link>"
-msgstr "<link=\"NOSECONESOLARCONFIG\">Солнечный головной обтекатель</link>"
+msgstr "<link=\"RTBNOSECONESOLAR\">Солнечный головной обтекатель</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POI_SOLARPANEL.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POI_SOLARPANEL.DESC"
@@ -1545,7 +1547,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.NAME"
 msgid "<link=\"STEAMGENERATORMODULECONFIG\">Модуль парового генератора</link>"
-msgstr "<link=\"STEAMGENERATORMODULECONFIG\">Модуль парового генератора</link>"
+msgstr "<link=\"RTBSTEAMGENERATORMODULE\">Модуль парового генератора</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_TECHUNLOCK.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_TECHUNLOCK.DESC"
@@ -1749,7 +1751,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.NAME"
 msgid "<link=\"NOSECONEHEPHARVESTCONFIG\">Лазерный носовой бур</link>"
-msgstr "<link=\"NOSECONEHEPHARVESTCONFIG\">Лазерный носовой бур</link>"
+msgstr "<link=\"RYBNOSECONEHEPHARVEST\">Лазерный носовой бур</link>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT"
@@ -1797,13 +1799,14 @@ msgid ""
 "<link=\"DEEPSPACERESEARCH\">Исследования глубокого космоса</link> проводятся путем анализа глубинных смыслов загадочных артефактов, найденных в просторах дальнего космоса, а "
 "также путем проведения различных экспериментов в условиях низкой искусственной гравитации космической станции."
 msgstr ""
-"<link=\"DEEPSPACERESEARCH\">Исследования дальнего космоса</link> проводятся путем анализа глубинных смыслов загадочных артефактов, найденных в просторах дальнего космоса, а "
-"также путем проведения различных экспериментов в условиях низкой искусственной гравитации космической станции."
+"<link=\"DEEPSPACERESEARCH\">Исследования дальнего космоса</link> проводятся путём анализа глубинного смысла загадочных артефактов, найденных в бескрайних просторах космоса, а также исследований дальнего космоса в условиях низкой искусственной гравитации космической станции.\n"
+"\n"
+"АЛЬФА-ВЕРСИЯ: очистите артефакты от пыли на станции анализа артефактов, чтобы разблокировать начальные научные данные. ЭТО БУДЕТ ИЗМЕНЕНО В БУДУЩЕМ!"
 
 #. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME"
 msgid "Исследование глубокого космоса"
-msgstr "Исследование дальнего космоса"
+msgstr "<link=\"DEEPSPACERESEARCH\">Исследование дальнего космоса</link>"
 
 #. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC
 msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC"
@@ -1816,13 +1819,13 @@ msgid ""
 "Позволяет накапливать очки <style=\"KKeyword\">исследования дальнего космоса</style>, открывающие более высокие уровни технологий.\n"
 "Могут быть накоплены до завершения исследования путем анализа артефактов."
 msgstr ""
-"Позволяет накапливать очки <style=\"KKeyword\">исследования дальнего космоса</style>, открывающие более высокие уровни технологий.\n"
-"Могут быть накоплены до завершения исследования путем анализа артефактов."
+"Позволяет накапливать очки <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">исследования дальнего космоса</link></style>, открывающие более высокие уровни технологий.\n"
+"Их можно накапливать ещё до завершения исследования, анализируя артефакты."
 
 #. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME
 msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME"
 msgid "<style=\"KKeyword\">Исследования дальнего космоса</style> Возможности"
-msgstr "Возможность <style=\"KKeyword\">Исследования дальнего космоса</style>"
+msgstr "Возможность <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">исследования дальнего космоса</link></style>"
 
 #. Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC"
@@ -1899,7 +1902,7 @@ msgstr "<link=\"RTBDEEPSPACEINSIGHT\">Данные о дальнем космо�
 #. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.RECIPE_DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.RECIPE_DESC"
 msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link> generated from analyzing the depths of space with a Deep Space Analyzer"
-msgstr "Данные о дальнем космосе, полученные в результате анализа глубин космоса с помощью анализатора дальнего космоса."
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">Данные о дальнем космосе</link>, полученные в результате анализа глубин космоса с помощью анализатора дальнего космоса."
 
 #. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.DESC"
@@ -3329,7 +3332,7 @@ msgstr "Останки"
 #. Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS
 msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS"
 msgid "Ракеты"
-msgstr "Ракеты"
+msgstr "Ракеты в космосе"
 
 #. Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.COMPLETE
 #| msgid ""
@@ -3391,3 +3394,144 @@ msgstr "Осмотреть внутри"
 msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP"
 msgid "Просмотр интерьера космической станции"
 msgstr "Просмотр интерьера космической станции"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.DESC"
+msgid "A bit of this, a bit of that.."
+msgstr "Всего понемногу..."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.EFFECT"
+msgid ""
+"Allows Duplicants to keep a supply of all types of materials in the rocket.\n"
+"\n"
+"Does not collect floating space resources.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Ракетная платформа</link>."
+msgstr ""
+"Позволяет дубликантам хранить в ракете запас материалов всех типов.\n"
+"\n"
+"Не собирает парящие в космосе ресурсы.\n"
+"\n"
+"Строится с помощью <link=\"LAUNCHPAD\">ракетной платформы</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.NAME"
+msgid "<link=\"RTBAIOCARGOBAYCLUSTER\">Multi-Functional Storage Module</link>"
+msgstr "<link=\"RTBAIOCARGOBAYCLUSTER\">Многофункциональный модуль хранения</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.DESC"
+msgid "Turns out not collecting it in the first place beats having to dump the unwanted resources later."
+msgstr "Оказывается, лучше вообще не собирать ненужные ресурсы, чем потом их выбрасывать."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.EFFECT"
+msgid ""
+"<b><style=\"KKeyword\">Rocket Module Upgrade</style></b>, must be constructed attached to compatible rocket modules\n"
+"\n"
+"Compatible with regular cargo bay modules.\n"
+"Enables filtering of items collected by <style=\"KKeyword\">Cargo Bays</style> via their storage filters."
+msgstr ""
+"<b><style=\"KKeyword\">Улучшение ракетного модуля</style></b>. Должно быть установлено на совместимый ракетный модуль.\n"
+"\n"
+"Совместимо с обычными грузовыми отсеками.\n"
+"Позволяет фильтровать предметы, собираемые <style=\"KKeyword\">грузовыми отсеками</style>, с помощью их фильтров хранения."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.NAME"
+msgid "<link=\"RTBCARGOBAYFILTER\">Cargo Bay Filter Upgrade</link>"
+msgstr "<link=\"RTBCARGOBAYFILTER\">Улучшение: фильтр грузового отсека</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.DESC"
+msgid "Back in the day, this was used for astronaut transfers.."
+msgstr "Когда-то этот порт использовали для пересадки астронавтов..."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.EFFECT"
+msgid ""
+"Enables Rockets with a docking bridge to connect to the derelict station.\n"
+"Rockets requirWe a docking component to dock.\n"
+"\n"
+"Assigning a duplicant forces it to use the docking bridge."
+msgstr ""
+"Позволяет ракетам со стыковочным мостом соединяться с заброшенной станцией.\n"
+"Для стыковки ракете требуется стыковочный компонент.\n"
+"\n"
+"Назначение дубликанта заставляет его воспользоваться стыковочным мостом."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.NAME"
+msgid "<link=\"RTBDERELICTDOCKINGDOOR\">Derelict Docking Port</link>"
+msgstr "<link=\"RTBDERELICTDOCKINGDOOR\">Стыковочный порт заброшенной станции</link>"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ATTACHMENTSLOTROCKETMODULEUPGRADES
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ATTACHMENTSLOTROCKETMODULEUPGRADES"
+msgid "Module Upgrade Installation Slot"
+msgstr "Слот установки улучшений ракетных модулей"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TITLE"
+msgid "Rocket Module Upgrades"
+msgstr "Улучшения ракетных модулей"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TOOLTIP"
+msgid "Adds a number of upgrades that can be applied to various rocket modules to improve them."
+msgstr "Добавляет ряд улучшений, которые можно устанавливать на различные ракетные модули, расширяя их возможности."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_CARGOBAYFILTERTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_CARGOBAYFILTERTECH.DESC"
+msgid "Lets bring home ONLY THOSE minerals."
+msgstr "Теперь домой попадут ТОЛЬКО НУЖНЫЕ минералы."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_CARGOBAYFILTERTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_CARGOBAYFILTERTECH.NAME"
+msgid "<link=\"RTBCARGOBAYFILTERTECH\">Cargo Bay Collection Filters</link>"
+msgstr "<link=\"RTBCARGOBAYFILTERTECH\">Фильтры сбора грузовых отсеков</link>"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.BUILDMENUTITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.BUILDMENUTITLE"
+msgid "Rocket Module Upgrades"
+msgstr "Улучшения ракетных модулей"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.NAME"
+msgid "Rocket Module Upgrades"
+msgstr "Улучшения ракетных модулей"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.LABEL"
+msgid "Only collect filtered items"
+msgstr "Собирать только выбранные предметы"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP"
+msgid "When enabled, the cargo bay will only collect floating resources selected in its item filter."
+msgstr "Если включено, грузовой отсек будет собирать только парящие в космосе ресурсы, выбранные в его фильтре предметов."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP_NOTCONSTRUCTED
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP_NOTCONSTRUCTED"
+msgid "Cargo bay filter upgrade not installed."
+msgstr "Улучшение «Фильтр грузового отсека» не установлено."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.DUPLICATE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.DUPLICATE"
+msgid "Upgrade is already installed!"
+msgstr "Это улучшение уже установлено!"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INCOMPATIBLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INCOMPATIBLE"
+msgid "Upgrade not compatible with this module!"
+msgstr "Это улучшение несовместимо с данным модулем!"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INVALID
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INVALID"
+msgid "Unknown Upgrade - how did this happen?"
+msgstr "Неизвестное улучшение — как это вообще произошло?"
