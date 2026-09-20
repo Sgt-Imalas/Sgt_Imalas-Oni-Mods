@@ -21,5 +21,5 @@ Downloads for older ONI versions can also be found in [releases](https://github.
 Low quality AI-generated PRs will not be accepted, this includes but is not limited to:
 - Commits authored or co-authored by coding agents
 - large, ai-generated comment blocks in source code (keep comments concise and only use them when needed, code should be self documenting)
-- any form of ai-generated asset generation
+- any form of ai-generated asset creation
 
