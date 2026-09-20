@@ -18,4 +18,8 @@ For direct downloads, there are both [nightly builds](https://github.com/Sgt-Ima
 
 Downloads for older ONI versions can also be found in [releases](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases).
 
-AI-generated PRs will not be accepted.
+Low quality AI-generated PRs will not be accepted, this includes but is not limited to:
+- Commits authored or co-authored by coding agents
+- large, ai-generated comment blocks in source code (keep comments concise and only use them when needed, code should be self documenting)
+- any form of ai-generated asset generation
+
