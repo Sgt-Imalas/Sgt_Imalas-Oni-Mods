@@ -92,6 +92,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			return STORAGEFILTERS.NOT_EDIBLE_SOLIDS.Where(item => item != GameTags.Liquifiable).ToList();
 		}
 
+		public static Grid.SceneLayer AboveDrywallLayer => Grid.SceneLayer.GasFront;
 		internal static void MakeWallHidePipesIfEnabled(BuildingDef result)
 		{
 			if (Config.Instance.Drywall_Hides_Pipes)
