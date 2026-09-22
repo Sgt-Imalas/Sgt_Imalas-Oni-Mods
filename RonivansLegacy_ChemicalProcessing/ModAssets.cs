@@ -67,6 +67,9 @@ namespace RonivansLegacy_ChemicalProcessing
 			///Generally acidic elements
 			public static Tag AIO_Acid = TagManager.Create("AIO_Acid");
 
+			///Elements that are stre
+			public static Tag AIO_SterileAtmosphere = TagManager.Create("AIO_SterileAtmosphere");
+
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 		public static GameObject MultiIngredientCodexVisualizer;

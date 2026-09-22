@@ -25,7 +25,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA
 		}
 		static void TriggerEventScheduler()
 		{
-			if (handle != null || handle.HasValue)
+			if (handle != null && handle.Value.IsValid)
 				return;
 			handle = GameScheduler.Instance.ScheduleNextFrame("ExecuteQueuedEvents", (_) => ExecuteQueuedEventActions());
 		}

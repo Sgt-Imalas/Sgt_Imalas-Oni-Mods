@@ -154,6 +154,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			ManagementMenu.Instance.codexScreen.ChangeArticle(centerItemLink);
 		}
 
+		static bool HasValidLinkTag(string name)
+		{
+			int linkStart = name.IndexOf("<link=");
+			if (linkStart == -1)
+				return true;
+			int linkEnd = name.IndexOf(">");
+			if (linkStart != -1 && linkEnd + 6 < linkStart)
+				SgtLogger.warning("Broken Link formatting detected: " + name);
+			return linkStart != -1 && linkEnd + 6 > linkStart;
+		}
+
 		internal void SetDisplayedIngredients(List<Tuple<Tag, float>> ingredientVariants, Tag start)
 		{
 			Init();
@@ -187,7 +198,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 					tooltip = $"{tooltip}\n    • {string.Format(global::STRINGS.UI.GAMEOBJECTEFFECTS.FOOD_QUALITY, (object)GameUtil.GetFormattedFoodQuality(edible.GetQuality()))}";
 				}
 				Tuple<Sprite, Color> uiSprite = Def.GetUISprite(tag);
-				var link = global::STRINGS.UI.ExtractLinkID(prefab.GetProperName());
+
+				string name = prefab.GetProperName();
+				var link = HasValidLinkTag(name) ? global::STRINGS.UI.ExtractLinkID(prefab.GetProperName()) : string.Empty;
 				itemInfo[tag] = new IngredientVariant(uiSprite.first, uiSprite.second, tooltip, link, amountLabelText);
 
 				var rotatableItem = Util.KInstantiateUI<CodexRecipeMultiElementEntry>(rotatableItemPrefab, rotatableContainer, true);
@@ -196,7 +209,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				var rotatingImage = rotatableItem.GetComponent<Image>();
 				rotatingImage.sprite = uiSprite.first;
 				rotatingImage.color = uiSprite.second;
-				tooltip = tooltip+" ("+amountLabelText+")";
+				tooltip = tooltip + " (" + amountLabelText + ")";
 
 				infoTooltipBuilder.Append(" • ");
 				infoTooltipBuilder.AppendLine(tooltip);

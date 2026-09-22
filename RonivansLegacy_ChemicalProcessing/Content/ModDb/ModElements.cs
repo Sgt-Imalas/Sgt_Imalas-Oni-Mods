@@ -604,6 +604,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			AddTagToElementAndEnable(SimHashes.CarbonDioxide, ModAssets.Tags.SodaFountainGas);
 
+			foreach (var atmosphereModifier in Rottable.AtmosphereModifier)
+			{
+				if (atmosphereModifier.Value != Rottable.RotAtmosphereQuality.Sterilizing)
+					continue;
+				var element = (SimHashes)atmosphereModifier.Key;
+				AddTagToElementAndEnable(element, ModAssets.Tags.AIO_SterileAtmosphere);
+			}
 		}
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
 
@@ -664,8 +671,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//veggyOilLubeEffect.Add(new AttributeModifier(Db.Get().Amounts.BionicInternalBattery.deltaAttribute.Id, stressBonus, global::STRINGS.DUPLICANTS.MODIFIERS.FRESHOIL.NAME));
 				BionicOilMonitor.LUBRICANT_TYPE_EFFECT[VegetableOil_Liquid] = veggyOilLubeEffect;
 			}
-			
-			
+
+
 
 			AddElementOverheatModifier(ConcreteBlock_Solid, 100);
 			AddElementDecorModifier(ConcreteBlock_Solid, -0.15f);
