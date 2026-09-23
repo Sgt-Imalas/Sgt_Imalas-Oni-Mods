@@ -22,7 +22,7 @@ namespace TinyFixes
 				{
 					if (!__instance.StorySettings.ContainsKey(story))
 					{
-						__instance.StorySettings.Remove(story);
+						__instance.currentStoryLevelsBySetting.Remove(story);
 					}
 				}
 				var currentMixingSettings = __instance.CurrentMixingLevelsBySetting.Keys.ToList();
