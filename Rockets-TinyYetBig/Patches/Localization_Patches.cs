@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Elements;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig
@@ -14,12 +15,7 @@ namespace Rockets_TinyYetBig
 			public static void Postfix()
 			{
 				LocalisationUtil.Translate(typeof(STRINGS), true);
-
-				if (Config.Instance.EthanolEngines)
-				{
-					global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTER.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT;
-					global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTERSMALL.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT;
-				}
+				ModElements.RegisterAdditionalStrings();				
 			}
 		}
 	}

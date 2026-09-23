@@ -1248,6 +1248,7 @@ elements:
     - Noncrushable
     - Plumbable
     - Insulator
+    - RTB_CarbonFiberMaterial
     buildMenuSort: 59
     isDisabled: false
     state: Solid

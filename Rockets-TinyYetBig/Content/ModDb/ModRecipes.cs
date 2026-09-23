@@ -31,5 +31,16 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				.Output(EmptyDataCardConfig.TAG, 1)
 				.Build();
 		}
+		public static void AdditionalRecipes_ClothingFabricator()
+		{
+			if (!Config.Instance.SpaceStationsAndTech)
+				return;
+
+			RecipeBuilder.Create(ClothingFabricatorConfig.ID,100)
+				.Input(SimHashes.RefinedCarbon,95)
+				.Input(SimHashes.NaturalSolidResin, 5)
+				.Output(SimHashes.CarbonFibre, 25)
+				.Build();
+		}
 	}
 }

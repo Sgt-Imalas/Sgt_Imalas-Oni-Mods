@@ -291,6 +291,11 @@ namespace Rockets_TinyYetBig
 			/// </summary>
 			public static Tag SpaceHarvestModule = TagManager.Create("RTB_SpaceHarvestModule");
 
+			/// <summary>
+			/// Carbon fibre material, attached to vanilla element and Ronivans carbon composite
+			/// </summary>
+			public static Tag CarbonFibreMaterial = TagManager.Create("RTB_CarbonFiberMaterial");
+
 		}
 
 

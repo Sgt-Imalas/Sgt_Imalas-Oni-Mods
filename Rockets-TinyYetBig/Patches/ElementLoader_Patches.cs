@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig.Patches.ElementPatches
 			/// Register additional substance tags after all elements are loaded
 			/// </summary>
 			[HarmonyPriority(Priority.Low)]
-			public static void Postfix() => ModElements.RegisterAdditionalSubstanceTags();
+			public static void Postfix() => ModElements.PostLoadElements();
 		}
 
 		/// <summary>

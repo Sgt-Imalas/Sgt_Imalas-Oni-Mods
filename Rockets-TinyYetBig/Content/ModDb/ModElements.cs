@@ -40,6 +40,24 @@ namespace Rockets_TinyYetBig.Elements
 			list.AddRange(newElements);
 			//SgtLogger.debuglog("2," + list + ", " + list.Count);
 		}
+		internal static void PostLoadElements()
+		{
+			RegisterAdditionalSubstanceTags();
+			RegisterCarbonFibre();
+		}
+
+		static void RegisterCarbonFibre()
+		{
+			var element = ElementLoader.FindElementByHash(SimHashes.CarbonFibre);
+			if (element == null)
+				return;
+
+			var id = SimHashes.CarbonFibre.ToString().ToLower();
+
+			var material = element.substance.material;
+			SgtElementUtil.SetTexture_Main(material, id);
+			element.substance.anim = Assets.GetAnim(id + "_kanim");
+		}
 
 		internal static void RegisterAdditionalSubstanceTags()
 		{
@@ -67,8 +85,22 @@ namespace Rockets_TinyYetBig.Elements
 			//not entirely required, since those entries come included in the vanilla game, but if there is a custom solid oxidizer, it should be added like this:
 			AddTagsToElement(SimHashes.Fertilizer, [ModAssets.Tags.RocketSolidOxidizerTag, ModAssets.Tags.OxidizerEfficiency_1]);
 			AddTagsToElement(SimHashes.OxyRock, [ModAssets.Tags.RocketSolidOxidizerTag, ModAssets.Tags.OxidizerEfficiency_2]);
+
+			EnableElement(SimHashes.CarbonFibre);
+			AddTagToElement(SimHashes.CarbonFibre, ModAssets.Tags.CarbonFibreMaterial);
 		}
 		static void AddTagToElement(SimHashes element, Tag tag) => AddTagsToElement(element, [tag]);
+
+		static void EnableElement(SimHashes element)
+		{
+			var elem = ElementLoader.GetElement(element.CreateTag());
+			if (elem == null)
+			{
+				Debug.LogError($"Element {element} not found in ElementLoader.");
+				return;
+			}
+			elem.disabled = false;
+		}
 		static void AddTagsToElement(SimHashes element, Tag[] tags)
 		{
 			var elem = ElementLoader.GetElement(element.CreateTag());
@@ -108,6 +140,18 @@ namespace Rockets_TinyYetBig.Elements
 					break;
 				}
 			}
+			
+		}
+
+		internal static void RegisterAdditionalStrings()
+		{
+			if (Config.Instance.EthanolEngines)
+			{
+				global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTER.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT;
+				global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTERSMALL.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT;
+			}
+			Strings.Add("STRINGS.MISC.TAGS.RTB_CARBONFIBERMATERIAL", global::STRINGS.ELEMENTS.CARBONFIBRE.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.RTB_CARBONFIBERMATERIAL_DESC", global::STRINGS.ELEMENTS.CARBONFIBRE.DESC);
 		}
 	}
 }

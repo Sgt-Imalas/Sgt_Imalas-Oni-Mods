@@ -35,6 +35,7 @@ namespace Rockets_TinyYetBig
 			base.OnLoad(harmony);
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShieldingRocketConstructionMaterial);
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumAlloy);
+			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.CarbonFibreMaterial);
 
 			ModAssets.LoadAssets();
 
