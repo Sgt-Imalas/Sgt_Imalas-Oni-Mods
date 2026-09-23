@@ -30,7 +30,7 @@ namespace Rockets_TinyYetBig.Content.ModDb.ModIntegrations
 
 		public static void ApplyAdditionalBuildingData(GameObject go, BuildingDef configDef, Dictionary<string, JObject> buildingData)
 		{
-			if(go == null || configDef == null || buildingData == null ||!buildingData.Any()) return;
+			if (go == null || configDef == null || buildingData == null || !buildingData.Any()) return;
 			InitTypes();
 			if (_applyAllFound)
 				BPV2_ApplyAdditionalBuildingData(go, configDef, buildingData);
@@ -47,11 +47,11 @@ namespace Rockets_TinyYetBig.Content.ModDb.ModIntegrations
 				SgtLogger.l("Blueprints Expanded types not detected, rocket templates will not transfer any data.");
 				return;
 			}
-			_applyAllFound = ReflectionHelper.TryCreateDelegate("BlueprintsV2.ModAPI.API_Methods, BlueprintsV2", "ApplyAdditionalBuildingData", [typeof(GameObject), typeof(BuildingDef), typeof(Dictionary<string, JObject>)], out BPV2_ApplyAdditionalBuildingData);
-			_getAllFound = ReflectionHelper.TryCreateDelegate("BlueprintsV2.ModAPI.API_Methods, BlueprintsV2", "GetAllAdditionalBuildingData", [typeof(GameObject)], out BPV2_GetAllAdditionalBuildingData);
-			
+			_applyAllFound = ReflectionHelper.TryCreateDelegate("BlueprintsV2.ModAPI.API_Methods, BlueprintsV2", "ApplyAdditionalBuildingData", out BPV2_ApplyAdditionalBuildingData);
+			_getAllFound = ReflectionHelper.TryCreateDelegate("BlueprintsV2.ModAPI.API_Methods, BlueprintsV2", "GetAllAdditionalBuildingData", out BPV2_GetAllAdditionalBuildingData);
 
-			SgtLogger.l("BlueprintsV2 integration: " + (_applyAllFound && _getAllFound ? "Success" : "Failed"));
+			SgtLogger.l("BlueprintsV2 integration: " + (_applyAllFound && _getAllFound
+				? "Success" : "Failed"));
 		}
 	}
 }

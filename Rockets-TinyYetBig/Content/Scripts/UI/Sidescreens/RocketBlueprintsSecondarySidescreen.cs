@@ -262,7 +262,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 				modules.Add(moduleBuilding);
 			}
 			modules.Sort((a, b) => a.NaturalBuildingCell() - b.NaturalBuildingCell());
-			_temporary = RocketBlueprint.Generate(modules);
+			_temporary = RocketBlueprint.Generate(modules, rocketInterface);
 			SetVisualizers(_temporary);
 		}
 		void SetVisualizers(RocketBlueprint bp)

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Rockets_TinyYetBig.Content.ModDb.ModIntegrations;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 		public RocketBlueprint() { }
 		public void RefreshValidity()
 		{
-			foreach(var module in  RocketModules) 
+			foreach (var module in RocketModules)
 				module.RefreshValidity();
 		}
 
@@ -44,7 +45,7 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 					sb.Append(Assets.TryGetPrefab(selectedElement)?.GetProperName() ?? selectedElement);
 					if (e < module.SelectedElements.Count - 1)
 					{
-						sb.Append(", "); 
+						sb.Append(", ");
 					}
 				}
 				sb.Append(")");
@@ -63,7 +64,7 @@ namespace Rockets_TinyYetBig.Content.ModDb.RocketBlueprintData
 			return height;
 		}
 
-		public static RocketBlueprint Generate(IEnumerable<Building> modules)
+		public static RocketBlueprint Generate(IEnumerable<Building> modules, CraftModuleInterface moduleInterface)
 		{
 			var bp = new RocketBlueprint();
 			foreach (var module in modules)
