@@ -274,7 +274,7 @@ namespace SetStartDupes
             ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();
 
             Searchbar = transform.Find("SearchBar/Input").FindOrAddComponent<FInputField2>();
-            Searchbar.OnValueChanged.AddListener(ApplyFilter);
+            Searchbar.AddListener(ApplyFilter);
             Searchbar.Text = string.Empty;
 
 

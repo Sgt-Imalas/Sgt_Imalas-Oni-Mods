@@ -183,22 +183,22 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 			UnlockAtCycleNumberInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/UnlockAtCycle/Input").FindOrAddComponent<FInputField2>();
 			UnlockAtCycleNumberInput.Text = "1";
-			UnlockAtCycleNumberInput.OnValueChanged.AddListener(UpdateItemCycleUnlockNumber);
+			UnlockAtCycleNumberInput.AddListener(UpdateItemCycleUnlockNumber);
 			UnlockAtCycleEnabled = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/UnlockAtCycle/Checkbox").gameObject.AddOrGet<FToggle>();
 			UnlockAtCycleEnabled.SetCheckmark("Checkmark");
 			UnlockAtCycleEnabled.OnClick += ToggleItemCycleCondition;
 
 			AmountInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/AmountInput/Input").FindOrAddComponent<FInputField2>();
-			AmountInput.OnValueChanged.AddListener(UpdateItemCount);
+			AmountInput.AddListener(UpdateItemCount);
 			AmountUnitLabel = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/AmountInput/AmountLabel").FindOrAddComponent<LocText>();
 
 			FilterBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			FilterBar.OnValueChanged.AddListener(ApplyCarePackageFilter);
+			FilterBar.AddListener(ApplyCarePackageFilter);
 			FilterBar.Text = string.Empty;
 
 			AddCarePackageInput = transform.Find("HorizontalLayout/ObjectList/CarePackageItemId").FindOrAddComponent<FInputField2>();
 			AddCarePackageInput.Text = string.Empty;
-			AddCarePackageInput.OnValueChanged.AddListener(RefreshAddButton);
+			AddCarePackageInput.AddListener(RefreshAddButton);
 			AddCarePackageConfirm = transform.Find("HorizontalLayout/ObjectList/AddCarePackageBtn").FindOrAddComponent<FButton>();
 			AddCarePackageConfirm.OnClick += () => TryCreateNewOutline();
 

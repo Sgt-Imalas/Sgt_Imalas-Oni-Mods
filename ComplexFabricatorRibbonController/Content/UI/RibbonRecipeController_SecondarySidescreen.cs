@@ -44,7 +44,7 @@ namespace ComplexFabricatorRibbonController.Content.UI
 
 
 			BlueprintSearchbar = transform.Find("SearchBar/Input").FindOrAddComponent<FInputField2>();
-			BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
+			BlueprintSearchbar.AddListener(ApplyBlueprintFilter);
 			BlueprintSearchbar.Text = string.Empty;
 			ClearBlueprintSearchbar = transform.Find("SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 			ClearBlueprintSearchbar.OnClick += () => BlueprintSearchbar.Text = string.Empty;

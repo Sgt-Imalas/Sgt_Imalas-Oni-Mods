@@ -275,7 +275,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 			}
 
 			POIFilterTextInput = transform.Find("Footer/Toolbox/BoxOfPoi/Input").gameObject.AddOrGet<FInputField2>();
-			POIFilterTextInput.OnValueChanged.AddListener(ApplyFilter);
+			POIFilterTextInput.AddListener(ApplyFilter);
 			POIFilterTextInput.Text = string.Empty;
 
 			deleteFilter = transform.Find("Footer/Toolbox/BoxOfPoi/DeleteButton").gameObject.AddOrGet<FButton>();

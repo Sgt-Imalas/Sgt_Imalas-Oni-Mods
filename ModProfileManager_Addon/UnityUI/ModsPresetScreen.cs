@@ -117,7 +117,7 @@ namespace ModProfileManager_Addon.UnityUI
 			//blueprint files
 
 			ModProfileSearchbar = transform.Find("FileHierarchy/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			ModProfileSearchbar.OnValueChanged.AddListener(ApplyPresetsFilter);
+			ModProfileSearchbar.AddListener(ApplyPresetsFilter);
 			ModProfileSearchbar.Text = string.Empty;
 
 			OpenPresetFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
@@ -141,7 +141,7 @@ namespace ModProfileManager_Addon.UnityUI
 
 			ModEntrySearchbar = transform.Find("ModEntryView/SearchBar/Input").FindOrAddComponent<FInputField2>();
 
-			ModEntrySearchbar.OnValueChanged.AddListener(ApplyModsFilter);
+			ModEntrySearchbar.AddListener(ApplyModsFilter);
 
 			ModEntrySearchbar.Text = string.Empty;
 
