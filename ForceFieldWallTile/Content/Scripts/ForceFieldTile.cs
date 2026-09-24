@@ -507,6 +507,9 @@ namespace ForceFieldWallTile.Content.Scripts
 		}
 		private void HandlePressureInCell(int cell, float dt)
 		{
+			if(!Grid.IsValidCell(cell)) 
+				return;
+
 			if (ShieldProjectors.ContainsKey(cell) || Grid.IsSolidCell(cell))
 				return;
 
