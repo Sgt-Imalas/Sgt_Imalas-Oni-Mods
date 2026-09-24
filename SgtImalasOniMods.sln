@@ -298,6 +298,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingMigrator", "Buildin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaldPip", "BaldPip\BaldPip.csproj", "{FA0E030C-2523-4355-81EC-9BAE3AD0820F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlueprintsV2_API", "BlueprintsV2_API", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		API_Endpoints.cs = API_Endpoints.cs
+		BlueprintsExpanded_IntegrationExample.cs = BlueprintsExpanded_IntegrationExample.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -829,6 +835,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {24F61C11-CC87-4DFE-A4CF-659E31DFF121}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {898228DF-1C3B-4527-B10D-83145966681D}
