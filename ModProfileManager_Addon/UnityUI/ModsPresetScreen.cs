@@ -222,7 +222,7 @@ namespace ModProfileManager_Addon.UnityUI
 		{
 			ModAssets.SyncMods(dontDisableActives);
 			var mm = Global.Instance.modManager;
-			mm.events.Add(new Event() { event_type = EventType.RestartRequested });
+			mm.events.Add(new KMod.Event() { event_type = KMod.EventType.RestartRequested });
 
 			mm.RestartDialog((string)STRINGS.UI.PRESET_APPLIED_TITLE, global::STRINGS.UI.FRONTEND.MOD_DIALOGS.MODS_SCREEN_CHANGES.MESSAGE, new System.Action(() => this.Show(false)), true, this.gameObject);
 		}
