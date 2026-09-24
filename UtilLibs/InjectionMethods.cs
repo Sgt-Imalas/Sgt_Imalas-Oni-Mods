@@ -85,7 +85,7 @@ namespace UtilLibs
 					}
 					catch (Exception ex)
 					{
-						// TODO: Log this error
+						SgtLogger.error("Failed to read zip " + entry.Name + ": " + ex.Message);
 						continue;
 					}
 					string kanimName = entry.FullName.Contains("/")
@@ -203,7 +203,7 @@ namespace UtilLibs
 					}
 					catch (Exception ex)
 					{
-						// TODO: Log this error
+						SgtLogger.error("Failed to read zip "+entry.Name+": "+ex.Message);
 						continue;
 					}
 
@@ -780,10 +780,10 @@ namespace UtilLibs
 			}
 		}
 
-		public static void AddItemToTechnologyKanim(object tECH_ID, string spaceStationTechID, string name, string description, string kanim, string[] requiredDLcs)
-		{
-			throw new NotImplementedException();
-		}
+		//public static void AddItemToTechnologyKanim(object tECH_ID, string spaceStationTechID, string name, string description, string kanim, string[] requiredDLcs)
+		//{
+		//	throw new NotImplementedException();
+		//}
 
 		public class RespectYamlIgnoreContractResolver : DefaultContractResolver
 		{

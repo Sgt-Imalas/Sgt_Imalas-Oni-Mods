@@ -53,7 +53,6 @@ namespace UtilLibs.BuildingPortUtils
 			}
 		}
 
-		static int lastCell = -1;
 		public static bool TryGetActivePortDesc(int utilityCell, out string portDesc, out Sprite sprite, out Color color)
 		{
 			portDesc = null;

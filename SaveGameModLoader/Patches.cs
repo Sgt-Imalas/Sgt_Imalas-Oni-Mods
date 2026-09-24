@@ -494,7 +494,7 @@ namespace SaveGameModLoader
 					HashSet<string> changedModIDs = new();
 					foreach (var entry in eventList)
 					{
-						if (entry.event_type == EventType.ExpectedInactive || entry.event_type == EventType.ExpectedActive)
+						if (entry.event_type == KMod.EventType.ExpectedInactive || entry.event_type == KMod.EventType.ExpectedActive)
 						{
 							if (!changedModIDs.Contains(entry.mod.id))
 								changedModIDs.Add(entry.mod.id);
@@ -508,8 +508,8 @@ namespace SaveGameModLoader
 					var newlyDisabled = new StringBuilder();
 
 
-					Event.GetUIStrings(EventType.ExpectedInactive, out var expectedInactive, out _);
-					Event.GetUIStrings(EventType.ExpectedActive, out var expectedActive, out _);
+					KMod.Event.GetUIStrings(KMod.EventType.ExpectedInactive, out var expectedInactive, out _);
+					KMod.Event.GetUIStrings(KMod.EventType.ExpectedActive, out var expectedActive, out _);
 
 					bool hadNewlyEnabled = false, hadNewlyDisabled = false;
 
@@ -523,14 +523,14 @@ namespace SaveGameModLoader
 					int changesOverLimitExAc = 0;
 					int changesOverLimitExIn = 0;
 
-					foreach (Event @event in eventList)
+					foreach (var @event in eventList)
 					{
 						if (!changedModIDs.Contains(@event.mod.id))
 						{
 							continue;
 						}
 
-						if (@event.event_type == EventType.ExpectedInactive)
+						if (@event.event_type == KMod.EventType.ExpectedInactive)
 						{
 							hadNewlyEnabled = true;
 							if (changesOverLimit >= 0)
@@ -543,7 +543,7 @@ namespace SaveGameModLoader
 								changesOverLimitExIn++;
 							}
 						}
-						else if (@event.event_type == EventType.ExpectedActive)
+						else if (@event.event_type == KMod.EventType.ExpectedActive)
 						{
 							hadNewlyDisabled = true;
 							if (changesOverLimit >= 0)
