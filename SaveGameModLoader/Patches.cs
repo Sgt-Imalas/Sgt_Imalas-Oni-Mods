@@ -692,7 +692,6 @@ namespace SaveGameModLoader
 				var workShopButton = __instance.transform.Find("Panel/DetailsView/WorkshopButton");
 				var DetailsView = __instance.transform.Find("Panel/DetailsView").gameObject;
 
-
 				if (__instance.gameObject.name == "SYNCSCREEN")
 					return;
 
