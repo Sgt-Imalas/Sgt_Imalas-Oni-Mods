@@ -345,13 +345,7 @@ namespace BlueprintsV2.Tools
 			else
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSnapshotReuseAction.GetKAction()))
 			{
-				if(ModAssets.ImportFromClipboard(out var bp))
-				{
-					///it is elementary that it only calls the visualize method here, the other two must not be touched
-					Visualize(bp);
-				}
-				else
-					TryVisualizeLastSnapshot();
+				TryVisualizeLastSnapshot();
 			}
 			else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction())
 				|| buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSnapshotAction.GetKAction())
