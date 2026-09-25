@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static ComplexRecipe.RecipeElement;
-using static ComplexRecipe;
+using System.Reflection;
 using UnityEngine;
+using static ComplexRecipe;
+using static ComplexRecipe.RecipeElement;
 
 namespace UtilLibs
 {
@@ -435,6 +436,11 @@ namespace UtilLibs
 			var o = outputs.ToArray();
 
 			string recipeID = facadeID.IsNullOrWhiteSpace() ? ComplexRecipeManager.MakeRecipeID(fabricator, i, o) : ComplexRecipeManager.MakeRecipeID(fabricator, i, o, facadeID);
+
+			if (description.IsNullOrWhiteSpace())
+				this.Description1I1O(global::STRINGS.BUILDINGS.PREFABS.EGGCRACKER.RECIPE_DESCRIPTION);
+
+			Debug.Assert(!description.IsNullOrWhiteSpace(), "["+ Assembly.GetExecutingAssembly().GetName().Name+"] Recipe description of " + recipeID + " was null!");
 
 			var recipe = new ComplexRecipe(recipeID, i, o, hepConsumed, hepProduced)
 			{
