@@ -38,8 +38,8 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 			RecipeBuilder.Create(ClothingFabricatorConfig.ID,100)
 				.Input(SimHashes.RefinedCarbon,95)
-				.Input(SimHashes.NaturalSolidResin, 5)
-				.Output(SimHashes.CarbonFibre, 25)
+				.Input(SimHashes.NaturalResin, 5)
+				.Output(SimHashes.CarbonFibre, 50)
 				.Build();
 		}
 	}
