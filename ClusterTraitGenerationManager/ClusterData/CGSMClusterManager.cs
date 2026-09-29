@@ -188,7 +188,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			CreateCustomClusterFrom(defaultCluster);
 		}
 
-		public static async void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
+		public static void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
 		{
 			if (Screen == null)
 			{

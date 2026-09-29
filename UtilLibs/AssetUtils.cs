@@ -231,6 +231,7 @@ namespace UtilLibs
 				string id = existingSpecID.IsNullOrWhiteSpace() ? $"{topsName}_spec" : existingSpecID;
 				info.atlasSpec = GetCustomAtlas(id, GetBaseAtlasFolder(), info.atlasSpec);
 			}
+			Assets.BlockTileDecorInfos.Add(info);
 		}
 		public static void AddCustomTileAtlas(BuildingDef def, string name, bool shiny = false, string referenceAtlas = "tiles_metal", bool loadPacked = false)
 		{

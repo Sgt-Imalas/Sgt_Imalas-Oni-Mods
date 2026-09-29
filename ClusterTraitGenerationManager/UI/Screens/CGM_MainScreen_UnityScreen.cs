@@ -54,7 +54,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			if (ConfigToSet is MixingSettingConfig msc)
 			{
 				ToggleWorldgenAffectingDlc(true, msc.dlcIdFrom);
-				ResetSOStarmap(true);
 				RefreshMixingTargets();
 			}
 			RefreshCategories();
@@ -63,7 +62,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		{
 			foreach (var sc in CustomGameSettings.Instance.MixingSettings.Values)
 			{
-				if (sc is MixingSettingConfig msc)
+				if (sc is WorldMixingSettingConfig msc)
 					RefreshMixingTarget(msc);
 			}
 			DisableMixingSelectionChange();
@@ -705,6 +704,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			RefreshView();
 			//DoWithDelay(() => , 25);
 			SelectCategory(StarmapItemCategory.Starter);
+			if(DlcManager.IsExpansion1Active())
+				SpacedOutStarmap_CategoryToggle?.ToggleWarning(false);
 		}
 
 		public override void OnShow(bool show)
@@ -1571,7 +1572,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			if (DlcManager.IsExpansion1Active())
 			{
 				if (reset)
+				{
 					CustomCluster.SO_Starmap = null;
+					SpacedOutStarmap_CategoryToggle?.ToggleWarning(true);
+				}
 				RebuildSoStarmap();
 				SpacedOutStarmap.RebuildGrid();
 				UpdateStartButton();
@@ -1717,6 +1721,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			///
 			SgtLogger.l("Hooking up Categories");
 			PlanetoidCategoryPrefab = transform.Find("Categories/Content/Item").gameObject;
+			PlanetoidCategoryPrefab.gameObject.SetActive(false);
 			categoryListContent = transform.Find("Categories/Content").gameObject;
 			categoryHeaderLabel = transform.Find("Categories/Header/Label").GetComponent<LocText>();
 
@@ -1815,7 +1820,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 						SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)min, (int)max));
 						if (CurrentStarmapItem.IsPOI)
 							RefreshPOIGroupHeader(CurrentStarmapItem.id);
-						if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+						if (DlcManager.IsExpansion1Active()) 
+							ResetSOStarmap(true);
 					}
 				}
 				);
@@ -1884,7 +1890,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					return;
 
 				MaxClassicOuterPlanets = newValue;
-				if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+				if (DlcManager.IsExpansion1Active()) 
+					ResetSOStarmap(true);
 			};
 			if (RandomOuterPlanetsStarmapItem != null)
 				NumberOfRandomClassics.SetMinMaxCurrent(0, RandomOuterPlanetsStarmapItem.InstancesToSpawn, RandomOuterPlanetsStarmapItem.InstancesToSpawn);
@@ -1905,7 +1912,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 							return;
 
 						current.SetBuffer(newBuffer);
-						if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+						if (DlcManager.IsExpansion1Active()) 
+							ResetSOStarmap(true);
 					}
 				}
 			};
@@ -2505,7 +2513,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 						POIGroup_AllowDuplicates.SetOn(CurrentStarmapItem.placementPOI.canSpawnDuplicates);
 						AddSOSinglePOI_UI(CurrentStarmapItem.id, id);
 
-						if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+						if (DlcManager.IsExpansion1Active()) 
+							ResetSOStarmap(true);
 					});
 				}
 			};
@@ -2744,7 +2753,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			;
 			AddCategoryItem(DlcManager.IsExpansion1Active() ? StarmapItemCategory.POI : StarmapItemCategory.VanillaStarmap);
 			if (DlcManager.IsExpansion1Active())
+			{
 				SpacedOutStarmap_CategoryToggle = AddCategoryItem(StarmapItemCategory.SpacedOutStarmap);
+				SpacedOutStarmap_CategoryToggle.InitWarning(STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.TOOLTIP_STARMAPRESETINFO);
+			}
 
 
 			var StoryTraitsBtn = StoryTraitButton.AddOrGet<CategoryItem>();
@@ -3147,7 +3159,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					if (CurrentStarmapItem.IsPOI)
 						RefreshPOIGroupHeader(CurrentStarmapItem.id);
 					RefreshDetails();
-					if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+					if (DlcManager.IsExpansion1Active()) 
+						ResetSOStarmap(true);
 				}
 			}
 

@@ -14,6 +14,11 @@
 				public static LocString NAME = "Enable Challenge Asteroids";
 				public static LocString TOOLTIP = "Generate more challenging start asteroids like superconductive and regolith moonlet";
 			}
+			public class CGM_MASSSCALE
+			{
+				public static LocString NAME = "Tile Mass Scaling";
+				public static LocString TOOLTIP = "Scales up tile mass on shrunken down asteroids to compensate for the reduced tile count";
+			}
 		}
 		public class WORLD_TRAITS
 		{
@@ -48,6 +53,7 @@
 			{
 				public class CATEGORIES
 				{
+					public static LocString TOOLTIP_STARMAPRESETINFO = "Something in the cluster composition was changed,\nthe starmap has been regenerated.\nAny changes you have made were lost.";
 					public class HEADER
 					{
 						public static LocString LABEL = "Starmap Item Categories";

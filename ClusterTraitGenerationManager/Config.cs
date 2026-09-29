@@ -18,6 +18,10 @@ namespace ClusterTraitGenerationManager
 		[JsonProperty]
 		public bool IncludeChallengeStarts { get; set; } = false;
 
+		[Option("STRINGS.MODCONFIG.CGM_MASSSCALE.NAME", "STRINGS.MODCONFIG.CGM_MASSSCALE.TOOLTIP")]
+		[JsonProperty]
+		public bool MassScaleSmolAsteroidTiles { get; set; } = true;
+
 		public Config()
 		{
 		}

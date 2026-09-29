@@ -642,7 +642,7 @@ namespace ClusterTraitGenerationManager
 		{
 			private static void Postfix(ProcGen.MutatedWorldData __instance)
 			{
-				if (!CGSMClusterManager.LoadCustomCluster)
+				if (!CGSMClusterManager.LoadCustomCluster || Config.Instance.MassScaleSmolAsteroidTiles == false)
 					return;
 
 
@@ -652,7 +652,7 @@ namespace ClusterTraitGenerationManager
 				)
 				{
 					float densityMultiplier = 1f / item.CurrentSizeMultiplier;
-					SgtLogger.l("element mass multiplier: " + densityMultiplier);
+					SgtLogger.l($"element mass multiplier on {__instance.world.name}: " + densityMultiplier);
 
 					foreach (KeyValuePair<string, ElementBandConfiguration> bandConfiguration in __instance.biomes.BiomeBackgroundElementBandConfigurations)
 					{
@@ -670,8 +670,8 @@ namespace ClusterTraitGenerationManager
 							}
 							else if (element != null && element.IsLiquid)
 							{
-								// give the player at most 2x liquids otherwise they really break out of the pockets they spawn in
-								modifier.massMultiplier = (float)Math.Min(2f, densityMultiplier);
+								// give the player at most 1.25x liquids otherwise they really break out of the pockets they spawn in
+								modifier.massMultiplier = (float)Math.Min(1.25f, densityMultiplier);
 							}
 							else
 							{
