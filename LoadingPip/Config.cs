@@ -24,6 +24,7 @@ namespace LoadingPip
 			Chaos = 3,
 		}
 
+		public static bool IsDefault => Instance.LoadingIdPrefabId == "Squirrel" && Instance.RandomizationOption == RandomIconOption.None;
 
 		[Option("STRINGS.MODOPTIONS.LOADINGICON.NAME", "STRINGS.MODOPTIONS.LOADINGICON.TOOLTIP")]
 		[JsonProperty]

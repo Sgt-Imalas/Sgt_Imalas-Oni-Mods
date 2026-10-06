@@ -3,6 +3,7 @@ using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System.Collections.Generic;
+using System.Linq;
 using UtilLibs;
 
 namespace LoadingPip
@@ -20,6 +21,9 @@ namespace LoadingPip
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
+			ModAssets.PipLicksButt = mods.Any(mod => mod.IsEnabledForActiveDlc() && mod.staticID == "PipLicksButt");
+			if (ModAssets.PipLicksButt)
+				SgtLogger.l("Pips will be licking their butts");
 		}
 	}
 }
