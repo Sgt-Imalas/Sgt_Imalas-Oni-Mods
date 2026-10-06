@@ -1,0 +1,7 @@
+name: STRINGS.SUBWORLDS.JUNGLE.NAME
+description: STRINGS.SUBWORLDS.JUNGLE.DESC
+icon: biomeIconJungle
+mixingTags: 
+- Warm
+subworld:
+  name: subworlds/Jungle/CGM_JungleMix

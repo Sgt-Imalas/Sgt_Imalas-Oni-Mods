@@ -1,0 +1,7 @@
+name: STRINGS.SUBWORLDS.OIL.NAME
+description: STRINGS.SUBWORLDS.OIL.DESC
+icon: biomeIconOil
+mixingTags: 
+- Cold
+subworld:
+  name: subworlds/Oil/CGM_OilMix

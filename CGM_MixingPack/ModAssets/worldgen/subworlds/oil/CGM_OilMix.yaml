@@ -1,0 +1,37 @@
+biomeNoise: noise/OilPockets
+temperatureRange: Hot
+minChildCount: 8
+density:
+  min: 10
+  max: 15
+avoidRadius: 10.0
+sampleBehaviour: PoissonDisk
+biomes:
+  - name: biomes/Oil/OilPockets
+    weight: 1
+    tags:
+      # - OilEater
+      - OilFloater
+      - CactusPlant
+      - CactusPlantSeed
+      - EvilFlower
+      - EvilFlowerSeed
+features:
+  - type: features/oilpockets/CavityPond
+  - type: features/oilpockets/DiamondClump
+tags:
+  - IgnoreCaveOverride
+  - Mixing
+subworldTemplateRules:
+  - names:
+      - poi/oil/small_oilpockets_geyser_a
+      - poi/oil/small_oilpockets_geyser_b
+      - poi/oil/small_oilpockets_geyser_c
+      - poi/oil/small_oilpockets_geyser_d
+      - poi/oil/small_oilpockets_geyser_e
+      - poi/oil/small_oilpockets_geyser_f
+      - poi/oil/small_oilpockets_geyser_g
+      - poi/oil/small_oilpockets_geyser_h
+    listRule: TrySome
+    someCount: 2
+zoneType: OilField

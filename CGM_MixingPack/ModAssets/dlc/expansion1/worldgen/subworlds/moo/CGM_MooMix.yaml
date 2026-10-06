@@ -1,0 +1,25 @@
+biomeNoise: expansion1::noise/subworldMooInner
+temperatureRange: Cold
+density:
+  min: 10
+  max: 10
+singleChildCount: true
+avoidRadius: 10.0
+doAvoidPoints: false
+dontRelaxChildren: true
+# borderOverride: mooWorld
+sampleBehaviour: PoissonDisk
+# borderOverride: softRock
+# centralFeature:
+features:
+  - type: expansion1::features/moo/MooCaveLarge
+biomes:
+  - name: expansion1::biomes/Moo/Basic
+    weight: 1
+    tags:
+      - GasGrass
+tags:
+  - GasGrass
+  - IgnoreCaveOverride
+  - Mixing
+zoneType: Moo

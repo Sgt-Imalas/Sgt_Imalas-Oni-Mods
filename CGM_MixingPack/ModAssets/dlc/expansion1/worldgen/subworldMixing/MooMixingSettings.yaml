@@ -1,0 +1,8 @@
+name: STRINGS.SUBWORLDS.MOO.NAME
+description: STRINGS.SUBWORLDS.MOO.DESC
+icon: biomeIconMoo
+mixingTags: 
+- Cold
+- Subsurface
+subworld:
+  name: expansion1::subworlds/moo/CGM_MooMix

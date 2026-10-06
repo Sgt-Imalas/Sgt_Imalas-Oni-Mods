@@ -304,6 +304,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlueprintsV2_API", "Bluepri
 		BlueprintsV2_API\BlueprintsExpanded_IntegrationExample.cs = BlueprintsV2_API\BlueprintsExpanded_IntegrationExample.cs
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGM_MixingPack", "CGM_MixingPack\CGM_MixingPack.csproj", "{CAAF9C01-EFAB-4542-BBB8-FE572EF23D0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -832,6 +834,10 @@ Global
 		{FA0E030C-2523-4355-81EC-9BAE3AD0820F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA0E030C-2523-4355-81EC-9BAE3AD0820F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA0E030C-2523-4355-81EC-9BAE3AD0820F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAAF9C01-EFAB-4542-BBB8-FE572EF23D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAAF9C01-EFAB-4542-BBB8-FE572EF23D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAAF9C01-EFAB-4542-BBB8-FE572EF23D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAAF9C01-EFAB-4542-BBB8-FE572EF23D0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
