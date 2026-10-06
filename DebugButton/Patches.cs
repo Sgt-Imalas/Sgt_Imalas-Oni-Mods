@@ -58,6 +58,8 @@ namespace DebugButton
 			static ToolTip DebugSuperSpeedButtonTooltip = null;
 			static MultiToggle DevToolsButton = null;
 			static ToolTip DevToolsButtonTooltip = null;
+			static Image bugImage = null;
+			static Sprite bugOn, bugOff;
 
 			public static void UpdateDebugToggleState()
 			{
@@ -94,10 +96,12 @@ namespace DebugButton
 					if (DebugHandler.enabled)
 					{
 						DebugToggleButton.ChangeState(2);
+						bugImage.sprite = bugOn;
 					}
 					else
 					{
 						DebugToggleButton.ChangeState(1);
+						bugImage.sprite = bugOff;
 					}
 				}
 			}
@@ -237,7 +241,13 @@ namespace DebugButton
 				var debugButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
 				//UIUtils.ListAllChildrenWithComponents(debugButton);
 				debugButton.SetSiblingIndex(__instance.sandboxToggle.transform.GetSiblingIndex() + 1);
-				debugButton.Find("FG").GetComponent<Image>().sprite = Def.GetUISprite(Assets.GetPrefab("LightBug")).first;
+				bugImage =  debugButton.Find("FG").GetComponent<Image>();
+
+
+				bugOn = Def.GetUISprite(Assets.GetPrefab("LightBug")).first;
+				bugOff = Def.GetUISprite(Assets.GetPrefab("LightBugBlack")).first;
+
+				bugImage.sprite = bugOn;
 				debugButton.Find("Label").GetComponent<LocText>().text = STRINGS.UI.TOOLS.DEBUG_TOGGLE.NAME;
 				debugButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
 				debugButton.TryGetComponent<MultiToggle>(out DebugToggleButton);
