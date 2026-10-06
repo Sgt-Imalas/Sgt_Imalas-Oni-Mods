@@ -188,7 +188,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldHatch", "GoldHatch\Gold
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SatisfyingPowerShards", "SatisfyingPowerShards\SatisfyingPowerShards.csproj", "{13F75AF5-AC55-4A3C-B730-3A489FAE226A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElementalWood", "ElementalWood\ElementalWood.csproj", "{0E96E5D1-28E6-40B7-A601-0841278BF130}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElementalCharcoal", "ElementalWood\ElementalCharcoal.csproj", "{0E96E5D1-28E6-40B7-A601-0841278BF130}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BritishWaterBottle", "BritishWaterBottle\BritishWaterBottle.csproj", "{42A479D3-0403-4C67-8D2A-399C46A5B45B}"
 EndProject
