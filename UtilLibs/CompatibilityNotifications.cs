@@ -98,6 +98,8 @@ namespace UtilLibs
 
 		public static void RemoveCrashingIncompatibility(Harmony harmony, IReadOnlyList<KMod.Mod> mods, string faultyId)
 		{
+			if (mods == null)
+				return;
 			faultyId = faultyId.ToLowerInvariant();
 			var faultyMod = mods.FirstOrDefault(mod => mod.staticID.ToLowerInvariant().Contains(faultyId));
 			if (faultyMod != null)
