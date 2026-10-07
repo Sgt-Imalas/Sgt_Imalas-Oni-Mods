@@ -3,13 +3,16 @@ using ClusterTraitGenerationManager.FixedTraitExperiment;
 using ClusterTraitGenerationManager.GeyserExperiments;
 using ClusterTraitGenerationManager.ModIntegrations;
 using Klei;
+using Klei.CustomSettings;
 using ProcGen;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
+using static SandboxSettings;
 
 namespace ClusterTraitGenerationManager
 {
@@ -20,7 +23,7 @@ namespace ClusterTraitGenerationManager
 		public static GameObject CGM_MainMenu;
 		public static GameObject TraitPopup;
 		public static GameObject PresetScreen;
-		public static GameObject CustomGameSettings;
+		public static GameObject CustomGameSettingsScreen;
 		//public static GameObject SO_StarmapScreen;
 		public static string CustomClusterTemplatesPath;
 		public static readonly string TemporalTearId = "TemporalTear", TeapotId = "ArtifactSpacePOI_RussellsTeapot";
@@ -415,7 +418,7 @@ namespace ClusterTraitGenerationManager
 			CustomPlanetSideScreen = Assets.transform.Find("IndividualSettings").gameObject;
 			TraitPopup = Assets.transform.Find("TraitPopup").gameObject;
 			PresetScreen = Assets.transform.Find("PresetWindowCGM").gameObject;
-			CustomGameSettings = Assets.transform.Find("GameSettingsChangerCGM").gameObject;
+			CustomGameSettingsScreen = Assets.transform.Find("GameSettingsChangerCGM").gameObject;
 			//var TMPConverter = new TMPConverter();
 			//TMPConverter.ReplaceAllText(wallSidescreenPrefab);
 			//TMPConverter.ReplaceAllText(settingsDialogPrefab);

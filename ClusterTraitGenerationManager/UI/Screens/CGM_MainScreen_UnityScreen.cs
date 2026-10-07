@@ -162,8 +162,12 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					}
 					else
 					{
-						mixing.transform.SetSiblingIndex(biomeMixingHeader.GetSiblingIndex() + 1);
+						mixing.transform.SetAsLastSibling();
 						mixingTargetGO?.SetActive(false);
+					}
+					if(listSetting is SubworldMixingSettingConfig subworldMixing)
+					{
+						AddOrGetMixingTargetMixing(subworldMixing);
 					}
 				}
 				else
@@ -191,7 +195,39 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				AddOrGetMixingTarget(targetId).AllowSwapping(TargetAllowSwitchTo.second);
 			}
 		}
+		///todo later..
+		//BiomeMixingTarget AddOrGetMixingTargetWorld(StarmapItem item)
+		//{
+		//	if (BiomeMixingWorldEntries.TryGetValue(item, out var value))
+		//	{
+		//		value.gameObject.SetActive(true);
+		//		return value;
+		//	}
 
+		//	value = Util.KInstantiateUI(BiomeMixingTargetSelectionPrefab.gameObject, BiomeMixingTargetSelectionItemContainer).AddOrGet<BiomeMixingTarget>();
+		//	value.gameObject.SetActive(true);
+		//	value.Init(id, );
+		//	MixingTargetSelectables[id] = value;
+		//	return value;
+		//}
+		BiomeMixingTarget AddOrGetMixingTargetMixing(SubworldMixingSettingConfig item)
+		{
+			if (BiomeMixingSourceEntries.TryGetValue(item, out var value))
+			{
+				value.gameObject.SetActive(true);
+				return value;
+			}
+
+			value = Util.KInstantiateUI(BiomeMixingTargetSelectionPrefab.gameObject, BiomeMixingTargetSelectionItemContainer).AddOrGet<BiomeMixingTarget>();
+			value.gameObject.SetActive(true);
+			value.Init((on)=> ToggleBiomeMixingTargetBlacklist(item.worldgenPath, on),  item.label, item.icon, item.dlcIdFrom);
+			BiomeMixingSourceEntries[item] = value;
+			return value;
+		}
+		void ToggleBiomeMixingTargetBlacklist(string id, bool isAllowed)
+		{
+			CustomCluster.SetBiomeRemixBlacklisted(id, CurrentStarmapItem.id, !isAllowed);
+		}
 		MixingTargetSelectable AddOrGetMixingTarget(string id)
 		{
 			if (MixingTargetSelectables.TryGetValue(id, out var value))
@@ -200,13 +236,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				return value;
 			}
 
-			value = Util.KInstantiateUI(MixingTargetSelectionPrefab.gameObject, MixingTargetSelectionItemContainer).AddOrGet<MixingTargetSelectable>();
+			value = Util.KInstantiateUI(WorldMixingTargetSelectionPrefab.gameObject, WorldMixingTargetSelectionItemContainer).AddOrGet<MixingTargetSelectable>();
 			value.gameObject.SetActive(true);
-			value.Init(id, OnMixingTargetSelected);
+			value.Init(id, OnWorldMixingTargetSelected);
 			MixingTargetSelectables[id] = value;
 			return value;
 		}
-		void OnMixingTargetSelected(string newId)
+		void OnWorldMixingTargetSelected(string newId)
 		{
 			CGSMClusterManager.SetMixingWorld(newId, CurrentMixingSettingChangeTarget);
 			DisableMixingSelectionChange();
@@ -225,7 +261,11 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			var settingLabel = cycle.transform.Find("Label").gameObject.AddOrGet<LocText>();
 			cycle.transform.Find("Image").GetComponent<Image>().sprite = ConfigToSet.icon;
-			cycle.transform.Find("DlcBanner").GetComponent<Image>().color = DlcManager.GetDlcBannerColor(ConfigToSet.dlcIdFrom);
+
+			if (ConfigToSet.dlcIdFrom.IsNullOrWhiteSpace())
+				cycle.transform.Find("DlcBanner").gameObject.SetActive(false);
+			else
+				cycle.transform.Find("DlcBanner").GetComponent<Image>().color = DlcManager.GetDlcBannerColor(ConfigToSet.dlcIdFrom);
 
 			settingLabel.text = ConfigToSet.label;
 			UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip, alignCenter: true, onBottom: true);
@@ -618,15 +658,22 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		private FToggle BlacklistAffectsNonGenerics, BlacklistShared;
 
 		//BiomeMixings
-		private GameObject BiomeMixingContainer;
+		// old:
+		//private GameObject BiomeMixingContainer;
+		// new:
+		private Dictionary<StarmapItem, BiomeMixingTarget> BiomeMixingWorldEntries = new();
+		private Dictionary<SubworldMixingSettingConfig, BiomeMixingTarget> BiomeMixingSourceEntries = new();
+		private GameObject BiomeMixingContainerSelectionNewGO;
+		private GameObject BiomeMixingTargetSelectionItemContainer;
+		private BiomeMixingTarget BiomeMixingTargetSelectionPrefab;
 
 		//WorldMixings
 		// old:
 		private GameObject WorldMixingContainer;
 		// new:
 		private GameObject WorldMixingContainerSelectionNewGO;
-		private GameObject MixingTargetSelectionItemContainer;
-		private MixingTargetSelectable MixingTargetSelectionPrefab;
+		private GameObject WorldMixingTargetSelectionItemContainer;
+		private MixingTargetSelectable WorldMixingTargetSelectionPrefab;
 		private string CurrentMixingSettingChangeTarget = null;
 		Dictionary<string, MixingTargetSelectable> MixingTargetSelectables = [];
 
@@ -704,7 +751,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			RefreshView();
 			//DoWithDelay(() => , 25);
 			SelectCategory(StarmapItemCategory.Starter);
-			if(DlcManager.IsExpansion1Active())
+			if (DlcManager.IsExpansion1Active())
 				SpacedOutStarmap_CategoryToggle?.ToggleWarning(false);
 		}
 
@@ -1088,6 +1135,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			//BiomeMixingContainer?.SetActive(planetCategorySelected);
 			//WorldMixingContainer?.SetActive(planetCategorySelected && !HexGridSelection);
 			WorldMixingContainerSelectionNewGO.SetActive(false);
+			bool canMixBiomes = planetCategorySelected && CurrentStarmapItem.HasBiomeMixingSlots();
+			BiomeMixingContainerSelectionNewGO?.SetActive(canMixBiomes);
 
 			///StoryTrait Details Container
 			Details_StoryTraitContainer.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
@@ -1174,6 +1223,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					MeteorSelector.SetActive(!current.IsRandom);
 					PlanetBiomesGO.SetActive(!current.IsRandom);
 					GeyserContainer.SetActive(!current.IsRandom);
+					BiomeMixingContainerSelectionNewGO?.SetActive(canMixBiomes && !current.IsRandom);
 
 					//no radiation in base game
 					AsteroidSky_Radiation.gameObject.SetActive(DlcActive);
@@ -1192,6 +1242,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 						if (current.GetNorthernLightsValue() != null)
 							AsteroidSky_NorthernLights.SetValueById(current.GetNorthernLightsValue());
+
+						if (canMixBiomes)
+							RefreshBiomeRemixInfo();
 					}
 
 					RefreshMeteorLists();
@@ -1820,7 +1873,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 						SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)min, (int)max));
 						if (CurrentStarmapItem.IsPOI)
 							RefreshPOIGroupHeader(CurrentStarmapItem.id);
-						if (DlcManager.IsExpansion1Active()) 
+						if (DlcManager.IsExpansion1Active())
 							ResetSOStarmap(true);
 					}
 				}
@@ -1890,7 +1943,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					return;
 
 				MaxClassicOuterPlanets = newValue;
-				if (DlcManager.IsExpansion1Active()) 
+				if (DlcManager.IsExpansion1Active())
 					ResetSOStarmap(true);
 			};
 			if (RandomOuterPlanetsStarmapItem != null)
@@ -1912,7 +1965,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 							return;
 
 						current.SetBuffer(newBuffer);
-						if (DlcManager.IsExpansion1Active()) 
+						if (DlcManager.IsExpansion1Active())
 							ResetSOStarmap(true);
 					}
 				}
@@ -2241,21 +2294,52 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		private void InitializeBiomeMixingContainer()
 		{
-			BiomeMixingContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixing").gameObject;
-			BiomeMixingContainer?.SetActive(false);
+			//old
+			//BiomeMixingContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixing").gameObject;
+			//BiomeMixingContainer?.SetActive(false);
+			//new
+			BiomeMixingContainerSelectionNewGO = transform.Find("Details/Content/ScrollRectContainer/BiomeMixingTargetSelector").gameObject;
+			BiomeMixingContainerSelectionNewGO.SetActive(false);
+
+			BiomeMixingTargetSelectionItemContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixingTargetSelector/Content/ItemContainer/ScrollArea/Content").gameObject;
+			BiomeMixingTargetSelectionPrefab = BiomeMixingTargetSelectionItemContainer.transform.Find("Item").gameObject.AddOrGet<BiomeMixingTarget>();
+			BiomeMixingTargetSelectionPrefab.gameObject.SetActive(false);
+		}
+
+		private void RefreshBiomeRemixInfo()
+		{
+			var activeMixingSettings = CustomGameSettings.Instance.GetActiveSubworldMixingSettings();
+
+			foreach (var entry in BiomeMixingSourceEntries)
+			{
+				var mixing = entry.Key;
+				var uiEntry = entry.Value;
+				bool mixingEnabled = activeMixingSettings.Contains(mixing);
+				uiEntry.gameObject.SetActive(mixingEnabled);
+				if (!mixingEnabled)
+					continue;
+
+				string currentWorldDlc = CurrentStarmapItem.HasContentDlcRequirement ? CurrentStarmapItem.GetMainDlcID() : string.Empty;
+				bool allowedInGeneral = mixing.dlcIdFrom.IsNullOrWhiteSpace() || currentWorldDlc.IsNullOrWhiteSpace();
+				bool blockedByDlc = !allowedInGeneral && mixing.dlcIdFrom == currentWorldDlc;
+				uiEntry.SetInteractable(allowedInGeneral || blockedByDlc);
+				bool blacklisted = CustomCluster.IsBiomeRemixBlacklisted(mixing.id, CurrentStarmapItem.id);
+				uiEntry.SetChecked(!blacklisted && !blockedByDlc);
+			}
 		}
 
 		private void InitializePlanetMixingContainer()
 		{
+			//old
 			WorldMixingContainer = transform.Find("Details/Content/ScrollRectContainer/WorldMixing").gameObject;
 			WorldMixingContainer?.SetActive(false);
-
+			//new
 			WorldMixingContainerSelectionNewGO = transform.Find("Details/Content/ScrollRectContainer/AsteroidMixingTargetSelector").gameObject;
 			WorldMixingContainerSelectionNewGO.SetActive(false);
 
-			MixingTargetSelectionItemContainer = transform.Find("Details/Content/ScrollRectContainer/AsteroidMixingTargetSelector/Content/ItemContainer/ScrollArea/Content").gameObject;
-			MixingTargetSelectionPrefab = MixingTargetSelectionItemContainer.transform.Find("Item").gameObject.AddOrGet<MixingTargetSelectable>();
-			MixingTargetSelectionPrefab.gameObject.SetActive(false);
+			WorldMixingTargetSelectionItemContainer = transform.Find("Details/Content/ScrollRectContainer/AsteroidMixingTargetSelector/Content/ItemContainer/ScrollArea/Content").gameObject;
+			WorldMixingTargetSelectionPrefab = WorldMixingTargetSelectionItemContainer.transform.Find("Item").gameObject.AddOrGet<MixingTargetSelectable>();
+			WorldMixingTargetSelectionPrefab.gameObject.SetActive(false);
 		}
 
 		private void InitializeGeyserOverrideContainer()
@@ -2513,7 +2597,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 						POIGroup_AllowDuplicates.SetOn(CurrentStarmapItem.placementPOI.canSpawnDuplicates);
 						AddSOSinglePOI_UI(CurrentStarmapItem.id, id);
 
-						if (DlcManager.IsExpansion1Active()) 
+						if (DlcManager.IsExpansion1Active())
 							ResetSOStarmap(true);
 					});
 				}
@@ -2685,7 +2769,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			foreach (var asteroid in CustomCluster.GetAllPlanets())
 			{
-				bool disallowedOnAsteroid = CustomCluster.StoryTraitBlacklisted(data.ID, asteroid.id);
+				bool disallowedOnAsteroid = CustomCluster.IsStoryTraitBlacklisted(data.ID, asteroid.id);
 
 				if (CGMWorldGenUtils.IsImpactorTrait(data.ID))
 				{
@@ -3159,7 +3243,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					if (CurrentStarmapItem.IsPOI)
 						RefreshPOIGroupHeader(CurrentStarmapItem.id);
 					RefreshDetails();
-					if (DlcManager.IsExpansion1Active()) 
+					if (DlcManager.IsExpansion1Active())
 						ResetSOStarmap(true);
 				}
 			}

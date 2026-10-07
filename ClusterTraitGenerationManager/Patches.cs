@@ -133,12 +133,12 @@ namespace ClusterTraitGenerationManager
 
 			//static IEnumerator PrefixInitializer()
 			//{
-				//InitExtraWorlds.InitWorlds();
-				
-				//OverrideWorldSizeOnDataGetting.ResetCustomSizes();
-				//ActiveInitialization = null;
-				//if (GearButton != null)
-				//	GearButton.interactable = true;
+			//InitExtraWorlds.InitWorlds();
+
+			//OverrideWorldSizeOnDataGetting.ResetCustomSizes();
+			//ActiveInitialization = null;
+			//if (GearButton != null)
+			//	GearButton.interactable = true;
 			//}
 
 			public static void Prefix(ColonyDestinationSelectScreen __instance)
@@ -166,7 +166,7 @@ namespace ClusterTraitGenerationManager
 				UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = STRINGS.UI.CGMBUTTON.DESC;
 				GearButton = UIUtils.TryFindComponent<KButton>(copyButton.transform, "");
 				GearButton.onClick += () => CGSMClusterManager.InstantiateClusterSelectionView(__instance);
-				GearButton.interactable = ActiveInitialization == null;	
+				GearButton.interactable = ActiveInitialization == null;
 
 				LoadCustomCluster = false;
 
@@ -420,7 +420,6 @@ namespace ClusterTraitGenerationManager
 				}
 			}
 		}
-
 		/// <summary>
 		/// Prevents the normal cluster menu from closing when the custom cluster menu is open
 		/// </summary>
@@ -1061,7 +1060,7 @@ namespace ClusterTraitGenerationManager
 
 				foreach (var placementData in CustomCluster.SO_Starmap.OverridePlacements)
 				{
-					SgtLogger.l(placementData.Value,"CGM StarmapPlacement");
+					SgtLogger.l(placementData.Value, "CGM StarmapPlacement");
 
 					int pos = worldPlacements.FindIndex(placement => placement.world == placementData.Value || placement.worldMixing.mixingWasApplied && placement.worldMixing.previousWorld == placementData.Value);
 					if (pos != -1)
@@ -1226,21 +1225,6 @@ namespace ClusterTraitGenerationManager
 				}
 			}
 		}
-		//[HarmonyPatch(typeof(WorldgenMixing), nameof(WorldgenMixing.DoWorldMixingInternal))]
-		//public static class Worldmixing_Patch
-		//{
-		//	public static bool Prefix(MutatedClusterLayout mutatedClusterLayout, ref MutatedClusterLayout __result)
-		//	{
-		//		if (CGSMClusterManager.LoadCustomCluster && ApplyCustomGen.IsGenerating)
-		//		{
-		//			__result = mutatedClusterLayout;
-		//			return false;
-		//		}
-
-		//		return true;
-
-		//	}
-		//}
 
 		[HarmonyPatch(typeof(Cluster), nameof(Cluster.InitializeWorlds))]
 		public class Cluster_InitializeWorlds_Patch
@@ -1282,7 +1266,7 @@ namespace ClusterTraitGenerationManager
 
 			private static WorldPlacement InjectedMethod(WorldPlacement placement)
 			{
-				if (!CGSMClusterManager.LoadCustomCluster && ApplyCustomGen.IsGenerating)
+				if (!CGSMClusterManager.LoadCustomCluster || !ApplyCustomGen.IsGenerating)
 					return placement;
 
 
@@ -1295,68 +1279,15 @@ namespace ClusterTraitGenerationManager
 					SgtLogger.l("mixing asteroid found!: " + placement.world);
 					placement.worldMixing.mixingWasApplied = true;
 				}
-				else if(!mixingAsteroid && targetRemixed)
+				else if (!mixingAsteroid && targetRemixed)
 				{
 					placement.UndoWorldMixing();
 					SgtLogger.l("unmixing target asteroid: " + placement.world);
 				}
-				
+
 				return placement;
 			}
 		}
-
-
-		//[HarmonyPatch(typeof(WorldgenMixing), nameof(WorldgenMixing.DoWorldMixingInternal))]
-		//public static class Worldmixing_Patch
-		//{
-		//	public static bool Prefix(MutatedClusterLayout mutatedClusterLayout, int seed)
-		//	{
-		//		return !CGSMClusterManager.LoadCustomCluster;
-
-		//          }
-		//}
-		//[HarmonyPatch(typeof(WorldgenMixing), nameof(WorldgenMixing.FindWorldMixingOption))]
-		//public static class WorldPlacement_IsMixing
-		//{
-		//    public static bool Prefix(WorldPlacement worldPlacement, List<WorldgenMixing.WorldMixingOption> options, ref WorldgenMixing.WorldMixingOption __result)
-		//    {
-		//        options = options.StableSort<WorldgenMixing.WorldMixingOption>().ToList<WorldgenMixing.WorldMixingOption>();
-		//        foreach (WorldgenMixing.WorldMixingOption option in options)
-		//        {
-		//            if (!option.IsExhausted)
-		//            {
-		//                SgtLogger.l("Testing: "+ worldPlacement.world + " for "+ Strings.Get(option.mixingSettings.name));
-		//                bool allowedByTags = true;
-		//                foreach (string requiredTag in worldPlacement.worldMixing.requiredTags)
-		//                {
-		//                    if (!option.cachedWorld.worldTags.Contains(requiredTag))
-		//                    {
-		//                        SgtLogger.l(worldPlacement.world + " is missing required tag: " + requiredTag);
-		//                        allowedByTags = false;
-		//                        break;
-		//                    }
-		//                }
-		//                foreach (string forbiddenTag in worldPlacement.worldMixing.forbiddenTags)
-		//                {
-		//                    if (option.cachedWorld.worldTags.Contains(forbiddenTag))
-		//                    {
-		//                        SgtLogger.l(worldPlacement.world + " has forbidden tag: " + forbiddenTag);
-		//                        allowedByTags = false;
-		//                        break;
-		//                    }
-		//                }
-		//                if (allowedByTags)
-		//                {
-		//                    SgtLogger.l(worldPlacement.world +" fulfilled all purposes");
-		//                    __result = option;
-		//                    return false;
-		//                }
-		//            }
-		//        }
-		//        __result = null;
-		//        return false;
-		//    }
-		//}
 
 		[HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
 		public static class MainMenu_Initialize_Patch
@@ -1374,17 +1305,68 @@ namespace ClusterTraitGenerationManager
 		public static bool StillLoading = true;
 
 
+
+		[HarmonyPatch(typeof(WorldgenMixing), nameof(WorldgenMixing.ApplySubworldMixingToWorld))]
+		public class WorldgenMixing_ApplySubworldMixingToWorld_Patch
+		{
+			static Dictionary<SubworldMixingSettings, string> BiomeMixingIdMap = [];
+
+			static List<WorldgenMixing.MixingOption<SubworldMixingSettings>> MixingListBackup = [];
+			public static string GetBiomeMixingId(SubworldMixingSettings biomeMixing)
+			{
+				if (!BiomeMixingIdMap.TryGetValue(biomeMixing, out var id))
+				{
+					id = SettingsCache.subworldMixingSettings.First(x => x.Value == biomeMixing).Key;
+					BiomeMixingIdMap[biomeMixing] = id;
+				}
+				return id;
+			}
+			public static void Prefix(ProcGen.World world, List<WorldgenMixing.MixingOption<SubworldMixingSettings>> availableSubworldsForMixing)
+			{
+				if (!CGSMClusterManager.LoadCustomCluster || !ApplyCustomGen.IsGenerating)
+					return;
+
+				MixingListBackup.Clear();
+				MixingListBackup.AddRange(availableSubworldsForMixing);
+
+				for (int i = availableSubworldsForMixing.Count - 1; i >= 0; i--)
+				{
+					var mixingOption = availableSubworldsForMixing[i];
+					string mixingId = GetBiomeMixingId(mixingOption.mixingSettings);
+					string asteroidId = world.filePath;
+					//SgtLogger.l("checking biome mixing " + mixingId);
+					if (CustomCluster.IsBiomeRemixBlacklisted(mixingId, asteroidId))
+					{
+						SgtLogger.l("biome mixing " + mixingId + " not allowed to spawn on " + asteroidId + ", removing from generation for this asteroid");
+						availableSubworldsForMixing.RemoveAt(i);
+					}
+					else
+						SgtLogger.l("biome mixing " + mixingId + " is allowed to spawn on " + asteroidId);
+				}
+				//SgtLogger.l("items in MixingListBackup: " + MixingListBackup.Count);
+			}
+			public static void Postfix(List<WorldgenMixing.MixingOption<SubworldMixingSettings>> availableSubworldsForMixing)
+			{
+				if (!CGSMClusterManager.LoadCustomCluster || !ApplyCustomGen.IsGenerating || MixingListBackup.Count == 0)
+					return;
+
+				availableSubworldsForMixing.Clear();
+				availableSubworldsForMixing.AddRange(MixingListBackup);				
+				availableSubworldsForMixing.RemoveAll(mixing => mixing.IsExhausted);
+			}
+		}
+
 		[HarmonyPatch(typeof(WorldGenSettings), nameof(WorldGenSettings.SetStoryTraitCandidates))]
 		public class WorldGenSettings_SetStoryTraitCandidates_Patch
 		{
 			static Dictionary<WorldTrait, string> StoryTraitIdMap = [];
 			public static string GetStoryTraitId(WorldTrait storyTrait)
 			{
-				if(!StoryTraitIdMap.TryGetValue(storyTrait, out var id))
+				if (!StoryTraitIdMap.TryGetValue(storyTrait, out var id))
 				{
 					string worldgenKey = SettingsCache.storyTraits.First(x => x.Value == storyTrait).Key; ;
 					var story = Db.Get().Stories.resources.First(x => x.worldgenStoryTraitKey == worldgenKey);
-					SgtLogger.l("Mapping story trait "+story.Id+" to worldgen trait: "+ worldgenKey);
+					SgtLogger.l("Mapping story trait " + story.Id + " to worldgen trait: " + worldgenKey);
 					id = story.Id;
 					StoryTraitIdMap[storyTrait] = id;
 				}
@@ -1393,18 +1375,18 @@ namespace ClusterTraitGenerationManager
 
 			public static void Prefix(WorldGenSettings __instance, List<WorldTrait> storyTraits)
 			{
-				if (!CGSMClusterManager.LoadCustomCluster && ApplyCustomGen.IsGenerating)
+				if (!CGSMClusterManager.LoadCustomCluster || !ApplyCustomGen.IsGenerating)
 					return;
 
 				HashSet<WorldTrait> ToRemoveFromWorld = [];
-				foreach(var story in storyTraits)
+				foreach (var story in storyTraits)
 				{
 					string storyTraitId = GetStoryTraitId(story);
 					string asteroidId = __instance.world.filePath;
 					SgtLogger.l("checking story " + storyTraitId);
-					if(CustomCluster.StoryTraitBlacklisted(storyTraitId, asteroidId))
+					if (CustomCluster.IsStoryTraitBlacklisted(storyTraitId, asteroidId))
 					{
-						SgtLogger.l("story "+ storyTraitId + " not allowed to spawn on " + asteroidId + ", removing");
+						SgtLogger.l("story " + storyTraitId + " not allowed to spawn on " + asteroidId + ", removing");
 						ToRemoveFromWorld.Add(story);
 					}
 					else

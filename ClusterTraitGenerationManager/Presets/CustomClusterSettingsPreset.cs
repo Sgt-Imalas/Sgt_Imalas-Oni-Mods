@@ -49,6 +49,7 @@ namespace ClusterTraitGenerationManager
 		public List<string> SharedBlacklistedGeysers;
 		public bool SharedBlacklistAffectsNonGenerics;
 		public Dictionary<string, List<string>> StoryTraitAsteroidBlacklists;
+		public Dictionary<string, List<string>> BiomeRemixAsteroidBlacklists;
 
 		void PopulatePresetData(CustomClusterData data)
 		{
@@ -78,9 +79,11 @@ namespace ClusterTraitGenerationManager
 				SO_POI_Overrides = new List<SO_POI_DataEntry>();
 				data.SO_Starmap.OverridePlacements.ToList().ForEach(entry => SO_POI_Overrides.Add(new SO_POI_DataEntry(entry.Key, entry.Value)));
 			}
-			if (data.BlacklistedStoryTraitLocations == null)
-				data.BlacklistedStoryTraitLocations = [];
+			data.BlacklistedStoryTraitLocations ??= [];
 			StoryTraitAsteroidBlacklists = new(data.BlacklistedStoryTraitLocations);
+
+			data.BlacklistedBiomeMixingLocations ??= [];
+			BiomeRemixAsteroidBlacklists = new(data.BlacklistedBiomeMixingLocations);
 		}
 
 		public string ImmuneSystem, CalorieBurn, Morale, Durability, MeteorShowers, Radiation, Stress, Seed, SandboxMode, StressBreaks, CarePackages, FastWorkersMode, SaveToCloud, Teleporters;
@@ -629,9 +632,11 @@ namespace ClusterTraitGenerationManager
 					cluster.SO_Starmap = null;
 				}
 			}
-			if (StoryTraitAsteroidBlacklists == null)
-				StoryTraitAsteroidBlacklists = [];
+			StoryTraitAsteroidBlacklists ??= [];
 			cluster.BlacklistedStoryTraitLocations = new(StoryTraitAsteroidBlacklists);
+
+			BiomeRemixAsteroidBlacklists ??= [];
+			cluster.BlacklistedBiomeMixingLocations = new(BiomeRemixAsteroidBlacklists);
 
 			RerollMixingsWithSeedChange = mixingRerollActive;
 

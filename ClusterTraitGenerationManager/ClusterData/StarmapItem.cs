@@ -57,6 +57,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public SpaceMapPOIPlacement placementPOI;
 
+		public bool HasBiomeMixingSlots()
+		{
+			if(world == null)
+				return false;
+			return world.subworldMixingRules != null && world.subworldMixingRules.Count > 0;
+		}
+
 		public bool IsPOI => category == StarmapItemCategory.POI;
 		public bool IsRandom => id.Contains(RandomKey);
 

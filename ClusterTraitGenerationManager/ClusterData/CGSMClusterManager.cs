@@ -343,7 +343,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			clusterLayout.coordinatePrefix = CustomClusterIDCoordinate;
 			clusterLayout.clusterTags.Add(CustomClusterClusterTag);
 
-			if(SaveGameData.Instance != null)
+			if (SaveGameData.Instance != null)
 			{
 				if (SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster"))
 				{
@@ -679,12 +679,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 				{
 					if (DlcAudioSettings.TryGetValue(reqDlc, out var audioSettings))
 					{
-						SgtLogger.l("found custom audio setting: "+reqDlc);
+						SgtLogger.l("found custom audio setting: " + reqDlc);
 						layout.clusterAudio = audioSettings.ToAudioSetting();
 						break;
 					}
 				}
-				if(CGMWorldGenUtils.HasMinnowOnWorld(starterPlanet.world))
+				if (CGMWorldGenUtils.HasMinnowOnWorld(starterPlanet.world))
 				{
 					layout.startingMinions = ["KAI"];
 					SgtLogger.l("Start world is aquatic");
@@ -1298,6 +1298,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static void ToggleWorldgenAffectingDlc(bool enabled, string dlcId)
 		{
+			if (dlcId.IsNullOrWhiteSpace())
+				return;
 			var settingsInstance = CustomGameSettings.Instance;
 			if (!settingsInstance.MixingSettings.ContainsKey(dlcId))
 			{
@@ -1305,7 +1307,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				return;
 			}
 
-			var dlcSetting = CustomGameSettings.Instance.MixingSettings[dlcId] as ToggleSettingConfig;			
+			var dlcSetting = CustomGameSettings.Instance.MixingSettings[dlcId] as ToggleSettingConfig;
 			var currentLevel = CustomGameSettings.Instance.GetCurrentMixingSettingLevel(dlcId);
 			if ((currentLevel == dlcSetting.on_level && enabled) || (currentLevel == dlcSetting.off_level && !enabled))
 				return;

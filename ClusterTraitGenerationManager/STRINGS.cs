@@ -534,6 +534,30 @@
 									public static LocString TEXT = "Add Trait";
 								}
 							}
+							public class BIOMEMIXINGTARGETSELECTOR
+							{
+								public class DESCRIPTOR
+								{
+									public static LocString LABEL = "Biome Remix allowed:";
+								}
+								public class CONTENT
+								{
+									public class ITEMCONTAINER
+									{
+										public class SCROLLAREA
+										{
+											public class CONTENT
+											{
+												public class NONEENTRY
+												{
+													public static LocString LABEL = "No Biome\nRemix active!";
+												}
+											}
+										}
+									}
+								}
+							}
+
 
 							public class ASTEROIDGEYSERS
 							{

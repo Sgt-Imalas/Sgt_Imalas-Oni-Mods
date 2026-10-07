@@ -142,9 +142,26 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public Dictionary<int, List<string>> VanillaStarmapItems = new Dictionary<int, List<string>>();
 		public Dictionary<string, List<string>> BlacklistedStoryTraitLocations = new Dictionary<string, List<string>>();
+		public Dictionary<string, List<string>> BlacklistedBiomeMixingLocations = new Dictionary<string, List<string>>();
 		public int MaxStarmapDistance;
+		public bool IsBiomeRemixBlacklisted(string remixId, string planetId)
+		{
+			if (!BlacklistedBiomeMixingLocations.TryGetValue(remixId, out var blacklisted))
+				return false;
+			return blacklisted.Contains(planetId);
+		}
+		public void SetBiomeRemixBlacklisted(string remixId, string planetId, bool setblacklisted)
+		{
+			if (!BlacklistedBiomeMixingLocations.TryGetValue(remixId, out var blacklisted))
+				blacklisted = BlacklistedBiomeMixingLocations[remixId] = [];
 
-		public bool StoryTraitBlacklisted(string storyTraitId, string planetId)
+			if (setblacklisted)
+				blacklisted.Add(planetId);
+			else
+				blacklisted.Remove(planetId);
+			SgtLogger.l((setblacklisted ? "adding " : "removing ") + "biome remix blacklist for " + remixId + " on " + planetId);
+		}
+		public bool IsStoryTraitBlacklisted(string storyTraitId, string planetId)
 		{
 			if (!BlacklistedStoryTraitLocations.TryGetValue(storyTraitId, out var blacklisted))
 				return false;
