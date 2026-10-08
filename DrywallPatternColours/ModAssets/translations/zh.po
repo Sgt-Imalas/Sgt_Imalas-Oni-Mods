@@ -1,0 +1,69 @@
+#. A damp wallpaper.
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.BLUE_COBALT.DESC"
+msgid "A damp wallpaper."
+msgstr "潮湿的壁纸。"
+
+#. <link="EXTERIORWALL">Bubbles</link>
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.BLUE_COBALT.NAME"
+msgid "<link=\"EXTERIORWALL\">Bubbles</link>"
+msgstr "<link=\"EXTERIORWALL\">气泡</link>"
+
+#. A slippery wallpaper.
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREEN_KELLY.DESC"
+msgid "A slippery wallpaper."
+msgstr "湿滑的壁纸。"
+
+#. <link="EXTERIORWALL">Algae</link>
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREEN_KELLY.NAME"
+msgid "<link=\"EXTERIORWALL\">Algae</link>"
+msgstr "<link=\"EXTERIORWALL\">藻类</link>"
+
+#. A sleek wallpaper.
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREY_CHARCOAL.DESC"
+msgid "A sleek wallpaper."
+msgstr "光滑的壁纸。"
+
+#. <link="EXTERIORWALL">Cobblestone</link>
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREY_CHARCOAL.NAME"
+msgid "<link=\"EXTERIORWALL\">Cobblestone</link>"
+msgstr "<link=\"EXTERIORWALL\">鹅卵石</link>"
+
+#. An orange wallpaper.
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.ORANGE_SATSUMA.DESC"
+msgid "An orange wallpaper."
+msgstr "橙色墙纸。"
+
+#. <link="EXTERIORWALL">Carrots</link>
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.ORANGE_SATSUMA.NAME"
+msgid "<link=\"EXTERIORWALL\">Carrots</link>"
+msgstr "<link=\"EXTERIORWALL\">胡萝卜</link>"
+
+#. A pink wallpaper.
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.PINK_FLAMINGO.DESC"
+msgid "A pink wallpaper."
+msgstr "粉色壁纸。"
+
+#. <link="EXTERIORWALL">Hearts</link>
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.PINK_FLAMINGO.NAME"
+msgid "<link=\"EXTERIORWALL\">Hearts</link>"
+msgstr "<link=\"EXTERIORWALL\">爱心</link>"
+
+#. A red wallpaper.
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.DESC"
+msgid "A red wallpaper."
+msgstr "红色壁纸。"
+
+#. <link="EXTERIORWALL">Volcano</link>
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.NAME"
+msgid "<link=\"EXTERIORWALL\">Volcano</link>"
+msgstr "<link=\"EXTERIORWALL\">火山</link>"
+
+#. A radiation-free wallpaper.
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.YELLOW_LEMON.DESC"
+msgid "A radiation-free wallpaper."
+msgstr "无辐射的壁纸。"
+
+#. <link="EXTERIORWALL">Yellow Cake</link>
+msgctxt "DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.YELLOW_LEMON.NAME"
+msgid "<link=\"EXTERIORWALL\">Yellow Cake</link>"
+msgstr "<link=\"EXTERIORWALL\">黄色蛋糕</link>"
