@@ -231,3 +231,13 @@ msgstr "日程偏移"
 msgctxt "DupePrioPresetManager.STRINGS.UNNAMEDPRESET"
 msgid "Unnamed Preset"
 msgstr "未命名预设"
+
+#. Generate Preset
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT"
+msgid "Generate Preset"
+msgstr "生成预设"
+
+#. Research Queue Presets
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.TITLERESEARCHQUEUE"
+msgid "Research Queue Presets"
+msgstr "研究队列预设"

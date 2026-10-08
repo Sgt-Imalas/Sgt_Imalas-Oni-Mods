@@ -1,0 +1,129 @@
+#. Lives 25% longer than usual.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERENDURING.DESC"
+msgid "Lives 25% longer than usual."
+msgstr "寿命比通常长25%。"
+
+#. Enduring
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERENDURING.NAME"
+msgid "Enduring"
+msgstr "耐久"
+
+#. Is twice as fast as its peers.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERFAST.DESC"
+msgid "Is twice as fast as its peers."
+msgstr "速度是同类者的两倍。"
+
+#. Fast
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERFAST.NAME"
+msgid "Fast"
+msgstr "快"
+
+#. Fertility is improved by 25%.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERFERTILE.DESC"
+msgid "Fertility is improved by 25%."
+msgstr "肥沃度提升25%。"
+
+#. Fertile
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERFERTILE.NAME"
+msgid "Fertile"
+msgstr "肥沃"
+
+#. Gives off a faint, steady glow.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERGLOWING.DESC"
+msgid "Gives off a faint, steady glow."
+msgstr "发出微弱而稳定的光芒。"
+
+#. Bioluminescent
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERGLOWING.NAME"
+msgid "Bioluminescent"
+msgstr "生物发光"
+
+#. Is 50% larger than average.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERHUGE.DESC"
+msgid "Is 50% larger than average."
+msgstr "比平均值大50%。"
+
+#. Huge
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERHUGE.NAME"
+msgid "Huge"
+msgstr "巨大"
+
+#. Is 25% larger than average.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERLARGE.DESC"
+msgid "Is 25% larger than average."
+msgstr "比平均值大25%。"
+
+#. Large
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERLARGE.NAME"
+msgid "Large"
+msgstr "大型"
+
+#. Makes a lot of noise when it moves.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERNOISY.DESC"
+msgid "Makes a lot of noise when it moves."
+msgstr "移动时会发出很大噪音。"
+
+#. Noisy
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERNOISY.NAME"
+msgid "Noisy"
+msgstr "嘈杂"
+
+#. This critter emits highly dangerous radiation.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERRAD.DESC"
+msgid "This critter emits highly dangerous radiation."
+msgstr "这只小动物会释放高度危险的辐射。"
+
+#. Radioactive
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERRAD.NAME"
+msgid "Radioactive"
+msgstr "放射性"
+
+#. Has a 20% shorter lifespan.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERSHORTLIVED.DESC"
+msgid "Has a 20% shorter lifespan."
+msgstr "寿命缩短20%。"
+
+#. Short-lived
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERSHORTLIVED.NAME"
+msgid "Short-lived"
+msgstr "短命"
+
+#. Moves at half the speed.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERSLOW.DESC"
+msgid "Moves at half the speed."
+msgstr "以一半的速度移动。"
+
+#. Slow
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERSLOW.NAME"
+msgid "Slow"
+msgstr "缓慢"
+
+#. Is 20% smaller than average.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERSMALL.DESC"
+msgid "Is 20% smaller than average."
+msgstr "比平均值小20%。"
+
+#. Small
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERSMALL.NAME"
+msgid "Small"
+msgstr "小型"
+
+#. Gives off a funny smell.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERSTINKY.DESC"
+msgid "Gives off a funny smell."
+msgstr "散发出奇怪的气味。"
+
+#. Stinky
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERSTINKY.NAME"
+msgid "Stinky"
+msgstr "恶臭"
+
+#. Is 40% smaller than average.
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERTINY.DESC"
+msgid "Is 40% smaller than average."
+msgstr "比平均值小40%。"
+
+#. Tiny
+msgctxt "CritterTraitsReborn.STRINGS.CRITTERTRAITS.CRITTERTINY.NAME"
+msgid "Tiny"
+msgstr "微型"
