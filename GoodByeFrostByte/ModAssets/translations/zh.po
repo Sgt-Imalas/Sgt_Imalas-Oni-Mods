@@ -1,0 +1,79 @@
+#. Disable frostbite damage
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDDAMAGE.NAME"
+msgid "Disable frostbite damage"
+msgstr "禁用冻伤伤害"
+
+#. Dupes no longer get any frostbite damage
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDDAMAGE.TOOLTIP"
+msgid "Dupes no longer get any frostbite damage"
+msgstr "复制人不再受到任何冻伤伤害"
+
+#. Disable cold debuffs
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDDEBUFF.NAME"
+msgid "Disable cold debuffs"
+msgstr "禁用寒冷减益"
+
+#. Dupes don't get a athletics and stamina debuff in cold areas  Also includes the feature of "Disable cold sleep interupt"
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDDEBUFF.TOOLTIP"
+msgid "Dupes don't get a athletics and stamina debuff in cold areas\nAlso includes the feature of \"Disable cold sleep interupt\""
+msgstr "复制人在寒冷区域不会获得运动和耐力减益\n还包含“禁用寒冷睡眠中断”功能"
+
+#. Disable cold sleep interrupt
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDSLEEP.NAME"
+msgid "Disable cold sleep interrupt"
+msgstr "禁用寒冷睡眠中断"
+
+#. Dupes no longer wake up from being too cold.  Also included in "Disable cold debuffs"  Use this option if you still want the cold debuff without the waking up part.
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDSLEEP.TOOLTIP"
+msgid "Dupes no longer wake up from being too cold.\nAlso included in \"Disable cold debuffs\"\nUse this option if you still want the cold debuff without the waking up part."
+msgstr "复制人不再因太冷而醒来。\n也包含在“禁用寒冷减益”中\n如果你仍想要寒冷减益但不想被冻醒，请使用此选项。"
+
+#. Disable heat debuffs
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLEHEATDEBUFF.NAME"
+msgid "Disable heat debuffs"
+msgstr "禁用高温减益"
+
+#. Dupes don't get a athletics and stamina debuff in hot areas
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLEHEATDEBUFF.TOOLTIP"
+msgid "Dupes don't get a athletics and stamina debuff in hot areas"
+msgstr "复制人在炎热区域不会获得运动和耐力减益"
+
+#. Frostbite temperature threshold (in °C)
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.FROSTBITETHRESHOLD.NAME"
+msgid "Frostbite temperature threshold (in °C)"
+msgstr "冻伤温度阈值（单位：°C）"
+
+#. Adjust the temperature at which dupes receive frostbite damage
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.FROSTBITETHRESHOLD.TOOLTIP"
+msgid "Adjust the temperature at which dupes receive frostbite damage"
+msgstr "调整复制人受到冻伤伤害的温度"
+
+#. Logarithmic Athletics debuff scaling
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.LOGARITHMICSPEEDDEBUFF.NAME"
+msgid "Logarithmic Athletics debuff scaling"
+msgstr "对数式运动减益缩放"
+
+#. Negative Athletics will now be less severe by switching the speed scaling from a linear to a (approx.) logarithmic curve.  the new formula used for these values is "Total dupe speed = 1/(1 - (StatValue * 10%))"
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.LOGARITHMICSPEEDDEBUFF.TOOLTIP"
+msgid "Negative Athletics will now be less severe by switching the speed scaling from a linear to a (approx.) logarithmic curve.\nthe new formula used for these values is \"Total dupe speed = 1/(1 - (StatValue * 10%))\""
+msgstr "通过将速度缩放从线性改为（近似）对数曲线，负运动属性现在的影响将更小。\n这些数值使用的新公式为“复制人总速度 = 1/(1 - (属性值 * 10%))”"
+
+#. Old critter temperature detection
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.OLDCRITTERTEMPDETECTION.NAME"
+msgid "Old critter temperature detection"
+msgstr "旧版小动物温度检测"
+
+#. Critters will only check their own temperature for any heat or cold related effects
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.OLDCRITTERTEMPDETECTION.TOOLTIP"
+msgid "Critters will only check their own temperature for any heat or cold related effects"
+msgstr "小动物只检查自身温度来判断任何冷热相关效果"
+
+#. Disable critter temperature glum effects
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.OLDCRITTERTEMPHAPPINESS.NAME"
+msgid "Disable critter temperature glum effects"
+msgstr "禁用小动物温度忧郁效果"
+
+#. Critters will no longer receive happiness debuffs from temperatures
+msgctxt "GoodByeFrostByte.STRINGS.MODCONFIG_GOODBYEFROSTBITE.OLDCRITTERTEMPHAPPINESS.TOOLTIP"
+msgid "Critters will no longer receive happiness debuffs from temperatures"
+msgstr "小动物不再因温度获得快乐减益"
