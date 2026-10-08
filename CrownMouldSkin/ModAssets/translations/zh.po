@@ -1,0 +1,74 @@
+#. A new look for the Corner Moulding
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_B.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "边角饰件的新外观"
+
+#. <link="CORNERMOULDING">Bulky Crescent Corner Moulding</link>
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_B.NAME"
+msgid "<link=\"CORNERMOULDING\">Bulky Crescent Corner Moulding</link>"
+msgstr "<link=\"CORNERMOULDING\">厚重月牙形边角饰件</link>"
+
+#. A new look for the Corner Moulding
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_C.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "边角饰件的新外观"
+
+#. <link="CORNERMOULDING">Sprouting Blossom Corner Moulding</link>
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_C.NAME"
+msgid "<link=\"CORNERMOULDING\">Sprouting Blossom Corner Moulding</link>"
+msgstr "<link=\"CORNERMOULDING\">萌发花枝边角饰件</link>"
+
+#. A new look for the Corner Moulding
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_D.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "边角饰件的新外观"
+
+#. <link="CORNERMOULDING">Hand Fan Corner Moulding</link>
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_D.NAME"
+msgid "<link=\"CORNERMOULDING\">Hand Fan Corner Moulding</link>"
+msgstr "<link=\"CORNERMOULDING\">折扇边角饰件</link>"
+
+#. A new look for the Corner Moulding
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_E.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "边角饰件的新外观"
+
+#. <link="CORNERMOULDING">Sleek Angled Corner Moulding</link>
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_E.NAME"
+msgid "<link=\"CORNERMOULDING\">Sleek Angled Corner Moulding</link>"
+msgstr "<link=\"CORNERMOULDING\">简洁斜角边角饰件</link>"
+
+#. A new look for the Corner Moulding
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_F.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "边角饰件的新外观"
+
+#. <link="CORNERMOULDING">Greek Ornament Corner Moulding</link>
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_F.NAME"
+msgid "<link=\"CORNERMOULDING\">Greek Ornament Corner Moulding</link>"
+msgstr "<link=\"CORNERMOULDING\">希腊纹饰边角饰件</link>"
+
+#. A new look for the Corner Moulding
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_G.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "边角饰件的新外观"
+
+#. <link="CORNERMOULDING">Elegant Arc Corner Moulding</link>
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_G.NAME"
+msgid "<link=\"CORNERMOULDING\">Elegant Arc Corner Moulding</link>"
+msgstr "<link=\"CORNERMOULDING\">优雅弧形边角饰件</link>"
+
+#. 边角饰件是天花板角落的纯装饰性增添物。
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.DEFAULT_CORNERMOULDING.DESC"
+msgid "边角饰件是天花板角落的纯装饰性增添物。"
+msgstr "边角饰件是天花板角落的纯装饰性增添物。"
+
+#. <link="CORNERMOULDING">边角饰件</link>
+msgctxt "CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.DEFAULT_CORNERMOULDING.NAME"
+msgid "<link=\"CORNERMOULDING\">边角饰件</link>"
+msgstr "<link=\"CORNERMOULDING\">边角饰件</link>"
+
+#. Mouldings
+msgctxt "CrownMouldSkin.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.BUILDING_CORNER_MOULDING"
+msgid "Mouldings"
+msgstr "线脚"

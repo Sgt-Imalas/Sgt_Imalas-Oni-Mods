@@ -1,0 +1,79 @@
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.RESETPOS.NAME
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.RESETPOS.NAME"
+msgid "Reset Position"
+msgstr "重置位置"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.RESETSIZE.NAME
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.RESETSIZE.NAME"
+msgid "Reset Size"
+msgstr "重置尺寸"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.SHOW_ASTEROIDS.NAME
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.SHOW_ASTEROIDS.NAME"
+msgid "Split by Asteroids"
+msgstr "按小行星分组"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.SHOW_ASTEROIDS.TOOLTIP
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.SHOW_ASTEROIDS.TOOLTIP"
+msgid "Display duplicants under their respective asteroid header.\nDisable to turn off asteroid headers."
+msgstr "在小行星标题下显示对应复制人。\n关闭后不显示小行星标题。"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TEMP_EFFECT_TOGGLE.NAME
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TEMP_EFFECT_TOGGLE.NAME"
+msgid "Display includes temporary Effects"
+msgstr "显示包含临时效果"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TEMP_EFFECT_TOGGLE.TOOLTIP
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TEMP_EFFECT_TOGGLE.TOOLTIP"
+msgid "Display shows the total attribute value, including all temporary effects.\n\nTurn off to only use the skill level and bonus values from traits."
+msgstr "显示属性总值，包含所有临时效果。\n\n关闭后只统计技能等级与特质加成。"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TINT_VALUES.NAME
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TINT_VALUES.NAME"
+msgid "Colorcode Values"
+msgstr "属性值着色"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TINT_VALUES.TOOLTIP
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TINT_VALUES.TOOLTIP"
+msgid "Colorcode the displayed attribute values"
+msgstr "为显示的属性值着色"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TINT_XP.NAME
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TINT_XP.NAME"
+msgid "Colorcode XP Bars"
+msgstr "经验条着色"
+
+#. SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TINT_XP.TOOLTIP
+msgctxt "SkillsInfoScreen.STRINGS.ATTRIBUTESCREEN_DROPDOWN.TINT_XP.TOOLTIP"
+msgid "Colorcode the experience bars"
+msgstr "为经验条着色"
+
+#. SkillsInfoScreen.STRINGS.LEVEL_VERY_SHORT
+msgctxt "SkillsInfoScreen.STRINGS.LEVEL_VERY_SHORT"
+msgid "Lvl:"
+msgstr "等级："
+
+#. SkillsInfoScreen.STRINGS.UI.ATTRIBUTEINFOSCREEN.INFO.FILTER_NAME.TEXT
+msgctxt "SkillsInfoScreen.STRINGS.UI.ATTRIBUTEINFOSCREEN.INFO.FILTER_NAME.TEXT"
+msgid "Name"
+msgstr "姓名"
+
+#. SkillsInfoScreen.STRINGS.UI.ATTRIBUTEINFOSCREEN.INFO.FILTER_XP.TEXT
+msgctxt "SkillsInfoScreen.STRINGS.UI.ATTRIBUTEINFOSCREEN.INFO.FILTER_XP.TEXT"
+msgid "Experience"
+msgstr "经验"
+
+#. SkillsInfoScreen.STRINGS.UI.ATTRIBUTEINFOSCREEN.TOPBAR.FILTERBUTTON.TEXT
+msgctxt "SkillsInfoScreen.STRINGS.UI.ATTRIBUTEINFOSCREEN.TOPBAR.FILTERBUTTON.TEXT"
+msgid "Settings"
+msgstr "设置"
+
+#. SkillsInfoScreen.STRINGS.UI.ATTRIBUTEINFOSCREEN.TOPBAR.LABEL
+msgctxt "SkillsInfoScreen.STRINGS.UI.ATTRIBUTEINFOSCREEN.TOPBAR.LABEL"
+msgid "Attribute Info Screen"
+msgstr "属性信息面板"
+
+#. SkillsInfoScreen.STRINGS.XP_VERY_SHORT
+msgctxt "SkillsInfoScreen.STRINGS.XP_VERY_SHORT"
+msgid "Xp:"
+msgstr "经验："

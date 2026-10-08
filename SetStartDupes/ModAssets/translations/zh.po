@@ -1435,3 +1435,188 @@ msgstr "轻度重启"
 msgctxt "SetStartDupes.STRINGS.UNNAMEDPRESET"
 msgid "(Unnamed Preset)"
 msgstr "(未命名的预设)"
+
+#. <color=#FF0000FF><b>WARNING!  </b></color>This trait can lead to a negative duplicant insulation value, which will lead to a bug with dupes constantly heating up, as well as potential crashes.  This can be counteracted with a warm coat or snazzy suit.  <b>Use at your own risk!</b>
+msgctxt "SetStartDupes.STRINGS.DSS_PREFERSWARMER_WARNING"
+msgid "<color=#FF0000FF><b>WARNING!\n</b></color>This trait can lead to a negative duplicant insulation value, which will lead to a bug with dupes constantly heating up, as well as potential crashes.\nThis can be counteracted with a warm coat or snazzy suit.\n<b>Use at your own risk!</b>"
+msgstr "<color=#FF0000FF><b>警告！\n</b></color>此特质可能导致复制人的隔热值为负，从而引发复制人持续升温的漏洞，还可能导致游戏崩溃。\n可以通过保暖外套或时髦套装来抵消。\n<b>风险自负！</b>"
+
+#. Select a Care Package from a list of currently available ones.
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.SELECTCAREPACKAGE"
+msgid "Select a Care Package from a list of currently available ones."
+msgstr "从当前可用的列表中选择一个补给包。"
+
+#. Toggle this vanilla care package from the care package list.  Disabled care packages won't show up in the selection list and cannot be rolled.
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.TOGGLE_VANILLA_CAREPACKAGE"
+msgid "Toggle this vanilla care package from the care package list.\nDisabled care packages won't show up in the selection list and cannot be rolled."
+msgstr "从补给包列表中开关此原版补给包。\n被禁用的补给包不会出现在选择列表中，也无法被抽取。"
+
+#. Bed Count
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.BEDCOUNT.NAME"
+msgid "Bed Count"
+msgstr "床位数"
+
+#. When the number of duplicants in your colony reaches the number of constructed beds, the printing pod will only print care packages.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.BEDCOUNT.TOOLTIP"
+msgid "When the number of duplicants in your colony reaches the number of constructed beds, the printing pod will only print care packages."
+msgstr "当你的殖民地中的复制人数量达到已建造床数时，打印舱将只打印补给包。"
+
+#. Bed Count (Sharing is Caring)
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.BEDCOUNT_SIC.NAME"
+msgid "Bed Count (Sharing is Caring)"
+msgstr "床位数（分享即关爱）"
+
+#. Use this option when you use the mod "Sharing is Caring".  If the mod is not enabled, this option works like the regular "Bed Count" option.  When the number of duplicants in your colony reaches the number of constructed beds times the number of schedules, the printing pod will only print care packages.  As an example; if you have 3 beds, with 4 schedules, the printing pod will stop offering duplicants once there are 12 (3x4).
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.BEDCOUNT_SIC.TOOLTIP"
+msgid "Use this option when you use the mod \"Sharing is Caring\".\nIf the mod is not enabled, this option works like the regular \"Bed Count\" option.\nWhen the number of duplicants in your colony reaches the number of constructed beds times the number of schedules, the printing pod will only print care packages.\nAs an example; if you have 3 beds, with 4 schedules, the printing pod will stop offering duplicants once there are 12 (3x4)."
+msgstr "当你使用\"Sharing is Caring\"模组时使用此选项。\n若该模组未启用，此选项的作用与普通的\"床位数\"选项相同。\n当你的殖民地中的复制人数量达到已建造床数乘以日程数时，打印舱将只打印补给包。\n例如：如果你有 3 张床、4 个日程，当复制人达到 12 个（3x4）时，打印舱将不再提供复制人。"
+
+#. Duplicant Count
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.DUPECOUNT.NAME"
+msgid "Duplicant Count"
+msgstr "复制人数量"
+
+#. When the number of duplicants in your colony is at or above the configured threshold, the printing pod will only print care packages.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.DUPECOUNT.TOOLTIP"
+msgid "When the number of duplicants in your colony is at or above the configured threshold, the printing pod will only print care packages."
+msgstr "当你的殖民地中的复制人数量达到或超过设定的阈值时，打印舱将只打印补给包。"
+
+#. Disabled
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NONE.NAME"
+msgid "Disabled"
+msgstr "已禁用"
+
+#. The printing pod will print duplicants and care packages as normal.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NONE.TOOLTIP"
+msgid "The printing pod will print duplicants and care packages as normal."
+msgstr "打印舱将照常打印复制人和补给包。"
+
+#. Toggle on Printer
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.PRINTERCHECKBOX.NAME"
+msgid "Toggle on Printer"
+msgstr "在打印舱上切换"
+
+#. When the (new) checkbox in the sidescreen of the printing pod is checked, it will only print care packages.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.PRINTERCHECKBOX.TOOLTIP"
+msgid "When the (new) checkbox in the sidescreen of the printing pod is checked, it will only print care packages."
+msgstr "当打印舱侧屏中的（新）复选框被勾选时，它将只打印补给包。"
+
+#. Extra starting skill points
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.EXTRA_SKILL_POINTS.NAME"
+msgid "Extra starting skill points"
+msgstr "额外初始技能点"
+
+#. Add extra skill points to new duplicant via a selection in the modification window.  Requires printing pod duplicant modification to be active to add extra skillpoints to printing pod duplicants.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.EXTRA_SKILL_POINTS.TOOLTIP"
+msgid "Add extra skill points to new duplicant via a selection in the modification window.\nRequires printing pod duplicant modification to be active to add extra skillpoints to printing pod duplicants."
+msgstr "通过在修改窗口中选择，为新复制人添加额外技能点。\n需要启用打印舱复制人修改，才能为打印舱复制人添加额外技能点。"
+
+#. Minnow Skin
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MINNOWSKIN.NAME"
+msgid "Minnow Skin"
+msgstr "米诺鱼皮肤"
+
+#. Adds Minnow to the pool of selectable skins  once the aquatic initiative has been completed atleast once on any savegame.  Requires Aquatic Planet Pack DLC.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MINNOWSKIN.TOOLTIP"
+msgid "Adds Minnow to the pool of selectable skins\nonce the aquatic initiative has been completed atleast once on any savegame.\nRequires Aquatic Planet Pack DLC."
+msgstr "将米诺鱼加入可选皮肤池\n只要在任意存档中至少完成过一次水生计划。\n需要水生星球包DLC。"
+
+#. Care Package selection menu
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_CAREPACKAGES.NAME"
+msgid "Care Package selection menu"
+msgstr "补给包选择菜单"
+
+#. Enable this option allows replacing printing pod care packages from a list of all at that time unlocked care packages.  Enable Sandbox or Debug to ignore the unlock condition and make ALL packages available to select, regardless of unlock status.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_CAREPACKAGES.TOOLTIP"
+msgid "Enable this option allows replacing printing pod care packages from a list of all at that time unlocked care packages.\nEnable Sandbox or Debug to ignore the unlock condition and make ALL packages available to select, regardless of unlock status."
+msgstr "启用此选项后，可从当时已解锁的全部补给包列表中选择替换打印舱补给包。\n启用沙盒或调试模式可忽略解锁条件，使所有补给包均可选择，无论解锁状态如何。"
+
+#. Skin selection for Printing Pod Duplicants
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PODDUPESKINCHANGE.NAME"
+msgid "Skin selection for Printing Pod Duplicants"
+msgstr "打印舱复制人的皮肤选择"
+
+#. Change the Skin of printing pod duplicants
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PODDUPESKINCHANGE.TOOLTIP"
+msgid "Change the Skin of printing pod duplicants"
+msgstr "更改打印舱复制人的皮肤"
+
+#. Reroll Care Packages
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.NAME"
+msgid "Reroll Care Packages"
+msgstr "重新随机补给包"
+
+#. Enable this option to add the reroll button to printing pod care packages.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.TOOLTIP"
+msgid "Enable this option to add the reroll button to printing pod care packages."
+msgstr "启用此选项以为打印舱补给包添加重新随机按钮。"
+
+#. Limit Reroll Count
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_LIMITCOUNTER.NAME"
+msgid "Limit Reroll Count"
+msgstr "限制重新随机次数"
+
+#. Limit how many times you can reroll in tge printing pod each time the it becomes ready.    Only has an effect if any of the printing pod reroll options are enabled    A value of 0 disables any limiting.    Does not affect direct editing options, play with those disabled if you want to avoid temptation.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_LIMITCOUNTER.TOOLTIP"
+msgid "Limit how many times you can reroll in tge printing pod each time the it becomes ready.\n\nOnly has an effect if any of the printing pod reroll options are enabled\n\nA value of 0 disables any limiting.\n\nDoes not affect direct editing options, play with those disabled if you want to avoid temptation."
+msgstr "限制打印舱每次就绪时你可以重新随机的次数。\n\n仅在启用任一打印舱重新随机选项时生效\n\n值为0时禁用任何限制。\n\n不影响直接编辑选项，若想避免诱惑，请在使用这些选项时保持禁用。"
+
+#. Sorted Care Package Lists
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.NAME"
+msgid "Sorted Care Package Lists"
+msgstr "已排序的补给包列表"
+
+#. Care packages listings are sorted alphabetically.  Affects care package editor and printing pod selection  Care packages in the editor can be sorted manually when this option is turned off.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.TOOLTIP"
+msgid "Care packages listings are sorted alphabetically.\nAffects care package editor and printing pod selection\nCare packages in the editor can be sorted manually when this option is turned off."
+msgstr "补给包列表按字母顺序排序。\n影响补给包编辑器和打印舱选择\n关闭此选项后，编辑器中的补给包可手动排序。"
+
+#. Attribute Leveling Cap
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.XP_LEVEL_CAP_MOD.NAME"
+msgid "Attribute Leveling Cap"
+msgstr "属性升级上限"
+
+#. Changes the maximum level up to which duplicants can gain levels in attributes.  If other mods add a higher target, it will be used instead of the configured value.  Default Vanilla Cap: 20
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.XP_LEVEL_CAP_MOD.TOOLTIP"
+msgid "Changes the maximum level up to which duplicants can gain levels in attributes.\nIf other mods add a higher target, it will be used instead of the configured value.\nDefault Vanilla Cap: 20"
+msgstr "更改复制人属性可提升的最高等级。\n如果其他模组添加了更高的目标，将使用该值而不是配置值。\n原版默认上限：20"
+
+#. XP Multiplier Attributes
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_ATTRIBUTES.NAME"
+msgid "XP Multiplier Attributes"
+msgstr "经验倍率属性"
+
+#. Multiply the XP gains that duplicants individual attributes.
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_ATTRIBUTES.TOOLTIP"
+msgid "Multiply the XP gains that duplicants individual attributes."
+msgstr "乘以复制人各项属性的经验获取倍率。"
+
+#. XP Multiplier Skills
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_SKILLS.NAME"
+msgid "XP Multiplier Skills"
+msgstr "经验倍率技能"
+
+#. Multiply the XP gains of duplicants skill leveling (skill points level)
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_SKILLS.TOOLTIP"
+msgid "Multiply the XP gains of duplicants skill leveling (skill points level)"
+msgstr "乘以复制人技能升级（技能点等级）的经验获取倍率"
+
+#. Clear Everything
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.CLEANSLATEBUTTON.TEXT"
+msgid "Clear Everything"
+msgstr "全部清除"
+
+#. Sets all the attributes to 0 and clears all skills, interests, effects and traits.  Intended for sandbox testing to provide a "clean slate"
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.CLEANSLATEBUTTON.TOOLTIP"
+msgid "Sets all the attributes to 0 and clears all skills, interests, effects and traits.\nIntended for sandbox testing to provide a \"clean slate\""
+msgstr "将所有属性设为 0，并清除所有技能、兴趣、效果和特质。\n用于沙盒测试，以提供“白板”状态"
+
+#. Preset overrides XP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.XPOVERRIDE.LABEL"
+msgid "Preset overrides XP"
+msgstr "预设覆盖经验值"
+
+#. If enabled, applying presets to duplicants also sets their experience points and skill points available
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.XPOVERRIDE.TOOLTIP"
+msgid "If enabled, applying presets to duplicants also sets their experience points and skill points available"
+msgstr "若启用，对复制人应用预设时还会设置其可用经验值和技能点"

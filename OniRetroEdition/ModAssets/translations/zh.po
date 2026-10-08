@@ -1,0 +1,179 @@
+#. An earlier version of the gas pump
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETRO_GASPUMP.DESC"
+msgid "An earlier version of the gas pump"
+msgstr "气泵的早期版本"
+
+#. Takes in gasses and puts them into gas pipes
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETRO_GASPUMP.EFFECT"
+msgid "Takes in gasses and puts them into gas pipes"
+msgstr "吸入气体并将其送入气管"
+
+#. <link="RETROGASPUMP">Gas Intake Pump</link>
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETRO_GASPUMP.NAME"
+msgid "<link=\"RETROGASPUMP\">Gas Intake Pump</link>"
+msgstr "<link=\"RETROGASPUMP\">进气泵</link>"
+
+#. Huge batteries hold even more power and keep systems running longer before recharging.
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_BATTERYLARGE.DESC"
+msgid "Huge batteries hold even more power and keep systems running longer before recharging."
+msgstr "巨型电池可储存更多电力，让系统在需要充电前运行更久。"
+
+#. Stores <link="POWER">Power</link> from generators, then provides that power to buildings.    Slightly loses charge over time.
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_BATTERYLARGE.EFFECT"
+msgid "Stores <link=\"POWER\">Power</link> from generators, then provides that power to buildings.\n\nSlightly loses charge over time."
+msgstr "存储来自发电机的<link=\"POWER\">电力</link>，然后将电力提供给建筑。\n\n随时间会略微损失电量。"
+
+#. <link="RETROONIBATTERYLARGE">Huge Battery</link>
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_BATTERYLARGE.NAME"
+msgid "<link=\"RETROONIBATTERYLARGE\">Huge Battery</link>"
+msgstr "<link=\"RETROONIBATTERYLARGE\">巨型电池</link>"
+
+#. an earlier version of the rock crusher
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_METALRECLAIMER.DESC"
+msgid "an earlier version of the rock crusher"
+msgstr "碎石机的早期版本"
+
+#. Crushes down minerals and ores
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_METALRECLAIMER.EFFECT"
+msgid "Crushes down minerals and ores"
+msgstr "粉碎矿物和矿石"
+
+#. <link="RETROONIMETALRECLAIMER">Metal Reclaimer</link>
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_METALRECLAIMER.NAME"
+msgid "<link=\"RETROONIMETALRECLAIMER\">Metal Reclaimer</link>"
+msgstr "<link=\"RETROONIMETALRECLAIMER\">金属回收机</link>"
+
+#. An earlier version of the metal refinery
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_SMELTER.DESC"
+msgid "An earlier version of the metal refinery"
+msgstr "金属精炼厂的早期版本"
+
+#. Smelts ores into refined metals
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_SMELTER.EFFECT"
+msgid "Smelts ores into refined metals"
+msgstr "将矿石熔炼成精炼金属"
+
+#. <link="RETROONISMELTER">Smelter</link>
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_SMELTER.NAME"
+msgid "<link=\"RETROONISMELTER\">Smelter</link>"
+msgstr "<link=\"RETROONISMELTER\">熔炼炉</link>"
+
+#. The light helps imitate the Duplicants' natural aboveground habitat.  Sort of. Maybe.
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_WALLLAMP.DESC"
+msgid "The light helps imitate the Duplicants' natural aboveground habitat.\nSort of. Maybe."
+msgstr "光照有助于模拟复制人在地表上的自然栖息地。\n大概吧。也许。"
+
+#. Improves <link="DECOR">Decor</link> and reduces <link="STRESS">Stress</link> by providing <link="LIGHT">light</link>.
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_WALLLAMP.EFFECT"
+msgid "Improves <link=\"DECOR\">Decor</link> and reduces <link=\"STRESS\">Stress</link> by providing <link=\"LIGHT\">light</link>."
+msgstr "通过提供<link=\"LIGHT\">光照</link>来提升<link=\"DECOR\">装饰度</link>并降低<link=\"STRESS\">压力</link>。"
+
+#. <link="RETROONIWALLLAMP">Wall Lamp</link>
+msgctxt "OniRetroEdition.STRINGS.BUILDINGS.PREFABS.RETROONI_WALLLAMP.NAME"
+msgid "<link=\"RETROONIWALLLAMP\">Wall Lamp</link>"
+msgstr "<link=\"RETROONIWALLLAMP\">壁灯</link>"
+
+#. Shock Worms
+msgctxt "OniRetroEdition.STRINGS.CREATURES.FAMILY_PLURAL.SHOCKWORMSPECIES"
+msgid "Shock Worms"
+msgstr "电击蠕虫"
+
+#. Shock Worm
+msgctxt "OniRetroEdition.STRINGS.CREATURES.SPECIES.SHOCKWORMSPECIES"
+msgid "Shock Worm"
+msgstr "电击蠕虫"
+
+#. 确保我的复制人能轻松呼吸......一会儿吧。
+msgctxt "OniRetroEdition.STRINGS.EQUIPMENT.PREFABS.OXYGEN_MASK_RETRO.DESC"
+msgid "确保我的复制人能轻松呼吸......一会儿吧。"
+msgstr "确保我的复制人能轻松呼吸......一会儿吧。"
+
+#. Improves <link="DECOR">Decor</link> and reduces <link="STRESS">Stress</link> by providing <link="LIGHT">light</link>.
+msgctxt "OniRetroEdition.STRINGS.EQUIPMENT.PREFABS.OXYGEN_MASK_RETRO.EFFECT"
+msgid "Improves <link=\"DECOR\">Decor</link> and reduces <link=\"STRESS\">Stress</link> by providing <link=\"LIGHT\">light</link>."
+msgstr "通过提供<link=\"LIGHT\">光照</link>来提升<link=\"DECOR\">装饰度</link>并降低<link=\"STRESS\">压力</link>。"
+
+#. <link="OXYGENMASKRETRO">氧气面罩</link>
+msgctxt "OniRetroEdition.STRINGS.EQUIPMENT.PREFABS.OXYGEN_MASK_RETRO.NAME"
+msgid "<link=\"OXYGENMASKRETRO\">氧气面罩</link>"
+msgstr "<link=\"OXYGENMASKRETRO\">氧气面罩</link>"
+
+#. The last remains of a lost friend.
+msgctxt "OniRetroEdition.STRINGS.ITEMS.RETROONI_BONES.DESC"
+msgid "The last remains of a lost friend."
+msgstr "一位逝去挚友的最后遗骸。"
+
+#. Bones
+msgctxt "OniRetroEdition.STRINGS.ITEMS.RETROONI_BONES.NAME"
+msgid "Bones"
+msgstr "骨头"
+
+#. Crushing bones into <link="LIME">石灰</link>
+msgctxt "OniRetroEdition.STRINGS.ITEMS.RETROONI_BONES.RECIPEDESC"
+msgid "Crushing bones into <link=\"LIME\">石灰</link>"
+msgstr "将骨头粉碎成<link=\"LIME\">石灰</link>"
+
+#. Pump Liquids
+msgctxt "OniRetroEdition.STRINGS.MISC.PLACERS.SLURPPLACER.ACTION_NAME"
+msgid "Pump Liquids"
+msgstr "泵送液体"
+
+#. Pump
+msgctxt "OniRetroEdition.STRINGS.MISC.PLACERS.SLURPPLACER.NAME"
+msgid "Pump"
+msgstr "泵"
+
+#. Command duplicants to pump liquid  Requires a duplicant with plumbing skill
+msgctxt "OniRetroEdition.STRINGS.MISC.PLACERS.SLURPPLACER.SLURPBUTTON"
+msgid "Command duplicants to pump liquid\nRequires a duplicant with plumbing skill"
+msgstr "命令复制人泵送液体\n需要一名具有管道技能的复制人"
+
+#. Pumping Tool
+msgctxt "OniRetroEdition.STRINGS.MISC.PLACERS.SLURPPLACER.TOOL_NAME"
+msgid "Pumping Tool"
+msgstr "泵送工具"
+
+#. ONI Retro Skins
+msgctxt "OniRetroEdition.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.BUILDING_ONI_RETRO"
+msgid "ONI Retro Skins"
+msgstr "缺氧复古皮肤"
+
+#. Skill Assignment
+msgctxt "OniRetroEdition.STRINGS.UI.NEWBUILDCATEGORIES.WORKSTATIONS.BUILDMENUTITLE"
+msgid "Skill Assignment"
+msgstr "技能分配"
+
+#. Skill Assignment
+msgctxt "OniRetroEdition.STRINGS.UI.NEWBUILDCATEGORIES.WORKSTATIONS.NAME"
+msgid "Skill Assignment"
+msgstr "技能分配"
+
+#. NOISE
+msgctxt "OniRetroEdition.STRINGS.UI.RETRO_OVERLAY.SOUND.OVERLAYNAME"
+msgid "NOISE"
+msgstr "噪音"
+
+#. Total noise Level: {0} dB
+msgctxt "OniRetroEdition.STRINGS.UI.RETRO_OVERLAY.SOUND.TOOLTIP1"
+msgid "Total noise Level: {0} dB"
+msgstr "总噪音等级：{0} dB"
+
+#. Noise Sources:
+msgctxt "OniRetroEdition.STRINGS.UI.RETRO_OVERLAY.SOUND.TOOLTIP2"
+msgid "Noise Sources:"
+msgstr "噪音来源："
+
+#. Slightly Toxic
+msgctxt "OniRetroEdition.STRINGS.UI.RETRO_OVERLAY.TOXICITY.SLIGHTLYTOXIC"
+msgid "Slightly Toxic"
+msgstr "轻微毒性"
+
+#. Very Toxic
+msgctxt "OniRetroEdition.STRINGS.UI.RETRO_OVERLAY.TOXICITY.VERYYTOXIC"
+msgid "Very Toxic"
+msgstr "剧毒"
+
+#. Build a Skills Board to unlock this menu    The <link="ROLESTATION">技能公示板</link> can be found in the <b>Stations Tab</b> {Hotkey/Plan10} of the Build Menu
+msgctxt "OniRetroEdition.STRINGS.UI.TOOLTIPS.MANAGEMENTMENU_REQUIRES_SKILL_STATION_RETRO"
+msgid "Build a Skills Board to unlock this menu\n\nThe <link=\"ROLESTATION\">技能公示板</link> can be found in the <b>Stations Tab</b> {Hotkey/Plan10} of the Build Menu"
+msgstr "建造技能公示板以解锁此菜单\n\n<link=\"ROLESTATION\">技能公示板</link>可在建造菜单的<b>站点标签页</b> {Hotkey/Plan10} 中找到"

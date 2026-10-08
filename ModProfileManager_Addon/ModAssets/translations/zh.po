@@ -1,0 +1,284 @@
+#. This local mod is currently not installed
+msgctxt "ModProfileManager_Addon.STRINGS.UI.LOCAL_MISSING_TOOLTIP"
+msgid "This local mod is currently not installed"
+msgstr "该本地模组当前未安装"
+
+#. Active
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MOD_FILTER_DROPDOWN.ACTIVE"
+msgid "Active"
+msgstr "活跃"
+
+#. Dev
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MOD_FILTER_DROPDOWN.DEV"
+msgid "Dev"
+msgstr "开发"
+
+#. Inactive
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MOD_FILTER_DROPDOWN.INACTIVE"
+msgid "Inactive"
+msgstr "未激活"
+
+#. Local
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MOD_FILTER_DROPDOWN.LOCAL"
+msgid "Local"
+msgstr "本地"
+
+#. Missing
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MOD_FILTER_DROPDOWN.MISSING"
+msgid "Missing"
+msgstr "缺失"
+
+#. Steam
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MOD_FILTER_DROPDOWN.STEAM"
+msgid "Steam"
+msgstr "蒸汽"
+
+#. click to move it via index
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MODORDER.BUTTONTOOLTIPADDON"
+msgid "click to move it via index"
+msgstr "点击以按索引移动它"
+
+#. Move to end
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MODORDER.PUTTOEND"
+msgid "Move to end"
+msgstr "移到最后"
+
+#. Put this mod at the end of the load order
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MODORDER.PUTTOEND_TOOLTIP"
+msgid "Put this mod at the end of the load order"
+msgstr "将此模组放在加载顺序的末尾"
+
+#. Move to:
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MODORDER.PUTTOINDEX"
+msgid "Move to:"
+msgstr "移动到："
+
+#. Move this mod to the following position in the load order
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MODORDER.PUTTOINDEX_TOOLTIP"
+msgid "Move this mod to the following position in the load order"
+msgstr "将此模组移动到加载顺序中的以下位置"
+
+#. Move to start
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MODORDER.PUTTOSTART"
+msgid "Move to start"
+msgstr "移到开头"
+
+#. Put this mod at the start of the load order
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MODORDER.PUTTOSTART_TOOLTIP"
+msgid "Put this mod at the start of the load order"
+msgstr "将此模组放在加载顺序的开头"
+
+#. Change Mod Index
+msgctxt "ModProfileManager_Addon.STRINGS.UI.MODORDER.WINDOWTITLE"
+msgid "Change Mod Index"
+msgstr "更改模组索引"
+
+#. Modified Mod Options detected:
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PLIB_CONFIG_FOUND"
+msgid "Modified Mod Options detected:"
+msgstr "检测到已修改的模组选项："
+
+#. MOD PRESET APPLIED
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESET_APPLIED_TITLE"
+msgid "MOD PRESET APPLIED"
+msgstr "已应用模组预设"
+
+#. Create New Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.CREATE_POPUP.TITLE"
+msgid "Create New Preset"
+msgstr "创建新预设"
+
+#. Confirm to delete Preset "{0}"?
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.DELETE_POPUP.TEXT"
+msgid "Confirm to delete Preset \"{0}\"?"
+msgstr "确认删除预设“{0}”？"
+
+#. Deleting Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.DELETE_POPUP.TITLE"
+msgid "Deleting Preset"
+msgstr "正在删除预设"
+
+#. The export string has been copied to the clipboard.  You can now share it with others
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.EXPORT_POPUP.TEXT"
+msgid "The export string has been copied to the clipboard.\nYou can now share it with others"
+msgstr "导出字符串已复制到剪贴板。\n现在你可以把它分享给其他人"
+
+#. Exporting Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.EXPORT_POPUP.TITLE"
+msgid "Exporting Preset"
+msgstr "正在导出预设"
+
+#. Import Preset String
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.BUTTONS.IMPORTBUTTON.TEXT"
+msgid "Import Preset String"
+msgstr "导入预设字符串"
+
+#. Import a new preset from a preset string.  You can generate a preset string by clicking the blue button on a preset entry.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.BUTTONS.IMPORTBUTTON.TOOLTIP"
+msgid "Import a new preset from a preset string.\nYou can generate a preset string by clicking the blue button on a preset entry."
+msgstr "从预设字符串导入新预设。\n你可以通过点击预设条目上的蓝色按钮来生成预设字符串。"
+
+#. Create new Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.BUTTONS.SAVEBUTTON.TEXT"
+msgid "Create new Preset"
+msgstr "创建新预设"
+
+#. Creates a new preset from your current mod selection (including mod configurations)
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.BUTTONS.SAVEBUTTON.TOOLTIP"
+msgid "Creates a new preset from your current mod selection (including mod configurations)"
+msgstr "根据你当前的模组选择（包括模组配置）创建新预设"
+
+#. Open Preset folder
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.FOLDERBUTTON.TOOLTIP"
+msgid "Open Preset folder"
+msgstr "打开预设文件夹"
+
+#. Clear search bar
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.SEARCHBAR.CLEARTOOLTIP"
+msgid "Clear search bar"
+msgstr "清空搜索栏"
+
+#. Enter text to filter Presets...
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER"
+msgid "Enter text to filter Presets..."
+msgstr "输入文本以筛选预设……"
+
+#. Open the folder where the Presets are stored.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.SEARCHBAR.OPENFOLDERTOOLTIP"
+msgid "Open the folder where the Presets are stored."
+msgstr "打开存储预设的文件夹。"
+
+#. A preset with the name "{0}" already exists!  Choose how to proceed:
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.DUPLICATE"
+msgid "A preset with the name \"{0}\" already exists!\nChoose how to proceed:"
+msgstr "名为“{0}”的预设已经存在！\n请选择如何继续："
+
+#. Keep both (rename import to {0}_1)
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.DUPLICATE_KEEP"
+msgid "Keep both (rename import to {0}_1)"
+msgstr "两者都保留（将导入项重命名为{0}_1）"
+
+#. Replace existing
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.DUPLICATE_REPLACE"
+msgid "Replace existing"
+msgstr "替换现有"
+
+#. The imported preset had no entries.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.EMPTY"
+msgid "The imported preset had no entries."
+msgstr "导入的预设没有任何条目。"
+
+#. There was an error while importing the preset.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.ERROR"
+msgid "There was an error while importing the preset."
+msgstr "导入预设时发生错误。"
+
+#. Paste Preset string here to import
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.FILLER"
+msgid "Paste Preset string here to import"
+msgstr "在此粘贴预设字符串以导入"
+
+#. Continue without subscribing
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.CONTINUE"
+msgid "Continue without subscribing"
+msgstr "不订阅并继续"
+
+#. Subscribe to missing mods
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.SUBTOALL"
+msgid "Subscribe to missing mods"
+msgstr "订阅缺失的模组"
+
+#. Success!  The Preset "{0}" got successfully imported.   There were however {1} steam mods missing.  Do you want to subscribe to all missing mods?
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.SUCCESS"
+msgid "Success!\nThe Preset \"{0}\" got successfully imported.\n There were however {1} steam mods missing.\nDo you want to subscribe to all missing mods?"
+msgstr "成功！\n预设“{0}”导入成功。\n 但有 {1} 个 Steam 模组缺失。\n是否要订阅所有缺失的模组？"
+
+#. Success!  The Preset "{0}" got successfully imported
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.SUCCESS"
+msgid "Success!\nThe Preset \"{0}\" got successfully imported"
+msgstr "成功！\n预设“{0}”导入成功"
+
+#. Importing Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE"
+msgid "Importing Preset"
+msgstr "正在导入预设"
+
+#. Error while importing Preset!
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE_ERROR"
+msgid "Error while importing Preset!"
+msgstr "导入预设时出错！"
+
+#. Apply without disabling
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.BUTTONS.ACTIVATEALL.TEXT"
+msgid "Apply without disabling"
+msgstr "应用但不禁用"
+
+#. Enable all mods stored in the preset and apply their mod configurations.  Mods that are not present in the preset will be kept enabled.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.BUTTONS.ACTIVATEALL.TOOLTIP"
+msgid "Enable all mods stored in the preset and apply their mod configurations.\nMods that are not present in the preset will be kept enabled."
+msgstr "启用预设中存储的全部模组并应用其模组配置。\n不在预设中的模组将保持启用。"
+
+#. Apply Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.BUTTONS.APPLYPRESET.TEXT"
+msgid "Apply Preset"
+msgstr "应用预设"
+
+#. Load the mods configuration from the currently selected preset, including load order and mod options.  This will disable mods not present in the preset.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.BUTTONS.APPLYPRESET.TOOLTIP"
+msgid "Load the mods configuration from the currently selected preset, including load order and mod options.\nThis will disable mods not present in the preset."
+msgstr "从当前选中的预设加载模组配置，包括加载顺序和模组选项。\n这将禁用不在预设中的模组。"
+
+#. Mod Filters
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.FILTERS.FILTERBUTTON.TEXT"
+msgid "Mod Filters"
+msgstr "模组筛选器"
+
+#. Disable all in Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.FILTERS.TOGGLEALL.DISABLE_ALL_PRESET"
+msgid "Disable all in Preset"
+msgstr "禁用预设中的所有项"
+
+#. Enable all in Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.FILTERS.TOGGLEALL.ENABLE_ALL_PRESET"
+msgid "Enable all in Preset"
+msgstr "启用预设中的全部"
+
+#. This Preset was imported from another mod and cannot be modified.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.PRESETHIERARCHYENTRY.TOOLTIP_CLONE"
+msgid "This Preset was imported from another mod and cannot be modified."
+msgstr "该预设是从其他模组导入的，无法修改。"
+
+#. Delete Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.PRESETHIERARCHYENTRY.TOOLTIP_DELETE"
+msgid "Delete Preset"
+msgstr "删除预设"
+
+#. Export Preset String.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.PRESETHIERARCHYENTRY.TOOLTIP_EXPORT"
+msgid "Export Preset String."
+msgstr "导出预设字符串。"
+
+#. Rename Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.PRESETHIERARCHYENTRY.TOOLTIP_RENAME"
+msgid "Rename Preset"
+msgstr "重命名预设"
+
+#. Select Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.PRESETHIERARCHYENTRY.TOOLTIP_SELECT"
+msgid "Select Preset"
+msgstr "选择预设"
+
+#. Renaming Preset
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.RENAME_POPUP.TITLE"
+msgid "Renaming Preset"
+msgstr "正在重命名预设"
+
+#. Mod Preset Manager
+msgctxt "ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.TOPBAR.LABEL"
+msgid "Mod Preset Manager"
+msgstr "模组预设管理器"
+
+#. This steam mod is currently not installed.  Click here to subscribe to it.
+msgctxt "ModProfileManager_Addon.STRINGS.UI.STEAM_MISSING_TOOLTIP"
+msgid "This steam mod is currently not installed.\nClick here to subscribe to it."
+msgstr "该 Steam 模组当前未安装。\n点击这里订阅它。"
