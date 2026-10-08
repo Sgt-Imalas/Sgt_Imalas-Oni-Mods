@@ -47,7 +47,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;
 			conduitConsumer.ignoreMinMassCheck = true;
-			BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
+			var storage = BuildingTemplates.CreateDefaultStorage(go);
+			storage.showInUI = true;
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			go.AddOrGet<SimpleVent>();
 			var inputs = go.AddOrGet<RequireInputs>();
 			inputs.requireConduitHasMass = false;
