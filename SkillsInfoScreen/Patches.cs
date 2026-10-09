@@ -2,6 +2,7 @@
 using SkillsInfoScreen.UI;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UtilLibs;
 
 namespace SkillsInfoScreen
@@ -127,14 +128,14 @@ namespace SkillsInfoScreen
 
 			}
 		}
-
+		
 		[HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
 		public class Localization_Initialize_Patch
 		{
 			public static void Postfix()
 			{
 				SkillsOverviewName = global::STRINGS.UI.DETAILTABS.STATS.NAME + " " + global::STRINGS.UI.DETAILTABS.NEEDS.OVERVIEW;
-				LocalisationUtil.Translate(typeof(STRINGS));
+				LocalisationUtil.Translate(typeof(STRINGS), true);
 
 				//Strings.Add(SkillOverviewKey, skillsoverview);
 			}

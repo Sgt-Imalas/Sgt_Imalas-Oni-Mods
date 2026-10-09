@@ -31,7 +31,7 @@ namespace UtilLibs.SharedTweaks
 				Debug.LogWarning(e.Message);
 			}
 		}
-		public override Version Version => new Version(1, 0, 0, 2);
+		public override Version Version => new Version(1, 0, 0, 6);
 		static string GetNormalizedLanguageCode() => Localization.GetCurrentLanguageCode().Replace("_klei", string.Empty);
 		static string GetFormattedTitle()
 		{
