@@ -22,8 +22,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>CrittersFallThroughOpenDoors</ModName>
-		<ModDescription></ModDescription>
+		<ModName>Critters fall through open doors</ModName>
+		<ModDescription>that mod name should be pretty self explainatory</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
