@@ -1337,7 +1337,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class HIGHPRESSUREGASCONDUIT
 				{
-					public static LocString NAME = FormatAsLink("High Pressure Gas Conduit", nameof(HIGHPRESSUREGASCONDUIT));
+					public static LocString NAME = FormatAsLink("High Pressure Gas Pipe", nameof(HIGHPRESSUREGASCONDUIT));
 					public static LocString DESC = "A reinforced gas pipe capable of handling high pressure flow.\nComposite nature of the pipe prevents gas contents from significantly changing temperature in transit.";
 					public static LocString EFFECT = string.Concat(
 						[
@@ -1348,9 +1348,21 @@ namespace RonivansLegacy_ChemicalProcessing
 							".\n\nCan be run through wall and floor tile."
 						]);
 				}
+				public class HIGHPRESSUREGASCONDUITRADIANT
+				{
+					public static LocString NAME = FormatAsLink("Radiant High Pressure Gas Pipe", nameof(HIGHPRESSUREGASCONDUITRADIANT));
+					public static LocString DESC = "A reinforced gas pipe capable of handling high pressure flow, optimized for temperature exchange.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Carries a maximum of {CAPACITY} of ",
+							FormatAsLink("Gas", "ELEMENTS_GAS"),
+							$", allowing extreme {FormatAsLink("Temperature", "HEAT")} exchange with the surrounding environment.",
+							".\n\nCan be run through wall and floor tile."
+						]);
+				}
 				public class HIGHPRESSURELIQUIDCONDUITBRIDGE
 				{
-					public static LocString NAME = FormatAsLink("High Pressure Liquid Conduit Bridge", nameof(HIGHPRESSURELIQUIDCONDUITBRIDGE));
+					public static LocString NAME = FormatAsLink("High Pressure Liquid Bridge", nameof(HIGHPRESSURELIQUIDCONDUITBRIDGE));
 					public static LocString DESC = "A reinforced liquid pipe bridge capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from significantly changing temperature in transit.";
 					public static LocString EFFECT = "Runs one High Pressure Liquid Pipe section over another without joining them.\n\nCan be run through wall and floor tile.";
 				}
@@ -1364,6 +1376,18 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Liquid", "ELEMENTS_LIQUID"),
 							" with minimal change in ",
 							FormatAsLink("Temperature", "HEAT"),
+							".\n\nCan be run through wall and floor tile."
+						]);
+				}
+				public class HIGHPRESSURELIQUIDCONDUITRADIANT
+				{
+					public static LocString NAME = FormatAsLink("Radiant High Pressure Liquid Pipe", nameof(HIGHPRESSURELIQUIDCONDUITRADIANT));
+					public static LocString DESC = "A reinforced liquid pipe capable of handling high pressure flow, optimized for temperature exchange.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Carries a maximum of {CAPACITY} of ",
+							FormatAsLink("Liquid", "ELEMENTS_LIQUID"),
+							$", allowing extreme {FormatAsLink("Temperature", "HEAT")} exchange with the surrounding environment.",
 							".\n\nCan be run through wall and floor tile."
 						]);
 				}
@@ -2674,6 +2698,26 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString LOGISTIC_SWEEPER = "No Self Heating: Logistic Sweeper";
 				public static LocString LOGISTIC_LOADER = "No Self Heating: Logistic Loader";
 				public static LocString TOOLTIP = "Makes this building no longer produce any heat.";
+			}
+			public class HPA_HARDENEDALLOY
+			{
+				public static LocString NAME = "Steel substitution in hp building recipes";
+				public static LocString TOOLTIP = "Allows Thermium as an alternative to steel in the construction of High Pressure Buildings.\nAutomatically active with \"Chemical Processing-Industrial Overhaul\"";
+			}
+			public class HPA_RAILINWALLS
+			{
+				public static LocString NAME = "Allow Heavy-Duty Rails in walls";
+				public static LocString TOOLTIP = "Allows placement of heavy-duty rails inside of walls like regular rails.";
+			}
+			public class REFRIGERATION_ATMOSPHEREINPUT
+			{
+				public static LocString NAME = "High-Tech Fridge atmosphere ports";
+				public static LocString TOOLTIP = "Adds a gas port to high tech fridges that allows pumping in sterile gases\nIf you use a germ killing gas like chlorine, it will also kill germs on the food items inside.\nThe pumped in atmosphere gets consumed slowly.";
+			}
+			public class REFRIGERATION_ATMOSPHEREINPUTRATE
+			{
+				public static LocString NAME = "sterile atmosphere consumption rate";
+				public static LocString TOOLTIP = "Rate in g/s at which the sterile atmosphere input gets consumed";
 			}
 		}
 	}

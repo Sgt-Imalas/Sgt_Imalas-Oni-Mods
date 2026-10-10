@@ -67,7 +67,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			///Generally acidic elements
 			public static Tag AIO_Acid = TagManager.Create("AIO_Acid");
 
-			///Elements that are stre
+			///Elements that are sterile atmosphere to be used by the fridges
 			public static Tag AIO_SterileAtmosphere = TagManager.Create("AIO_SterileAtmosphere");
 
 		}
@@ -94,6 +94,12 @@ namespace RonivansLegacy_ChemicalProcessing
 		{
 			return STORAGEFILTERS.NOT_EDIBLE_SOLIDS.Where(item => item != GameTags.Liquifiable).ToList();
 		}
+		public static string GetHPASteelIngredient()
+		{
+			if (Config.Instance.HPA_HardenedAlloy)
+				return GameTags.Steel + "&" + Tags.AIO_HardenedAlloy;
+			return GameTags.Steel.ToString();
+		}
 
 		public static Grid.SceneLayer AboveDrywallLayer => Grid.SceneLayer.GasFront;
 		internal static void MakeWallHidePipesIfEnabled(BuildingDef result)
@@ -119,6 +125,14 @@ namespace RonivansLegacy_ChemicalProcessing
 				var hpaMaxFlow = new ValveBase.AnimRangeInfo(maxFlow, lastAnimIndex.animName);
 				instance.animFlowRanges = instance.animFlowRanges.Append(hpaMaxFlow);
 			}
+		}
+		internal static void AddFridgeAtmospherePort(GameObject go)
+		{
+			if (true)//Config.Instance.AdvFreezerAtmosphereInput
+				return;
+
+			var atmoStorage = go.AddComponent<Storage>();
+			atmoStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 		}
 	}
 }

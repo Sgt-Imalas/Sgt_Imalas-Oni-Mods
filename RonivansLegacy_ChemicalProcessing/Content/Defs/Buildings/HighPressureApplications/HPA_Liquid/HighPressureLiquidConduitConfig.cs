@@ -28,7 +28,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.Overheatable = false;
 			buildingDef.Entombable = false;
 			buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
-			buildingDef.ThermalConductivity = 1.3f;
 			buildingDef.ObjectLayer = ObjectLayer.LiquidConduit;
 			buildingDef.TileLayer = ObjectLayer.LiquidConduitTile;
 			buildingDef.ReplacementLayer = ObjectLayer.ReplacementLiquidConduit;

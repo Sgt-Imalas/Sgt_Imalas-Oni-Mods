@@ -1,0 +1,30 @@
+id: "AIO_SterileAtmosphere"
+title: STRINGS.MISC.TAGS.AIO_STERILEATMOSPHERE
+category: "ELEMENTTYPES"
+parentId: "ELEMENTTYPES"
+contentContainers:
+
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.AIO_STERILEATMOSPHERE
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          spriteName: ChlorineGas
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexElementCategoryList
+          categoryTag: AIO_SterileAtmosphere
+
+contentMadeAndUsed:
+  - tag: AIO_SterileAtmosphere

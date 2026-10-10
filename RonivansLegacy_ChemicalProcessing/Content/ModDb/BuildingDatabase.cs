@@ -63,6 +63,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.DESC = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.DESC;
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.EFFECT = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.EFFECT;
 
+			var gasPipeStringRadiant = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUITRADIANT.EFFECT");
+			gasPipeStringRadiant.String = gasPipeStringRadiant.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.GasCap_HP));
+			var liquidPipeStringRadiant = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUITRADIANT.EFFECT");
+			liquidPipeStringRadiant.String = liquidPipeStringRadiant.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.LiquidCap_HP));
+
 			var gasPipeString = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.EFFECT");
 			gasPipeString.String = gasPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.GasCap_HP));
 			var liquidPipeString = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.EFFECT");

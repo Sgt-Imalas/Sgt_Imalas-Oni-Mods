@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] quantity1 = [400f, 4f];
-			string[] materials1 = [GameTags.Steel.ToString(), GameTags.BuildingGasket.ToString()];
+			string[] materials1 = [ModAssets.GetHPASteelIngredient(), GameTags.BuildingGasket.ToString()];
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "pressure_gas_pump_kanim", 30, 30f, quantity1, materials1, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, noise, 0.2f);
 			def1.RequiresPowerInput = true;

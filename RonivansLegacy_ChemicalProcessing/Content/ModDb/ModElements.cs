@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static ElementGrouping PlasticGroup;
 
-		public static string SteelAndTungstenMaterial => GameTags.Steel + "&" + SimHashes.Tungsten;
+		public static string SteelAndTungstenMaterial => ModAssets.GetHPASteelIngredient() + "&" + SimHashes.Tungsten;
 
 		/// Chemical Processing Industrial overhaul
 		public static readonly Color32 LOWGRADESAND_COLOR = new Color32(59, 46, 12, 255);
@@ -501,6 +501,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void ModifyExistingElements()
 		{
 			PlasticGroup = ElementGrouping.GroupAllWith(GameTags.Plastic);
+			bool ChemProcEnabled = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 
 			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
 			{
@@ -511,7 +512,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///needs to always be active or fullerene page crashes
 			FixCachedStateTransitions();
 
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			if (ChemProcEnabled || Config.Instance.HPA_HardenedAlloy)
+				AddTagToElementAndEnable(SimHashes.TempConductorSolid, ModAssets.Tags.AIO_HardenedAlloy);
+
+			if (ChemProcEnabled)
 			{
 				//=[ SYNGAS ENABLING PATCH ]===============================================
 				AddTagToElementAndEnable(SimHashes.Syngas, GameTags.CombustibleGas);
@@ -559,11 +563,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//=[ MAFIC ROCK PATCH ]==========================================================
 				AddTagToElementAndEnable(SimHashes.MaficRock, GameTags.Crushable);
 
-
 				///add hardened alloy tag to thermium
-				AddTagToElementAndEnable(SimHashes.TempConductorSolid, ModAssets.Tags.AIO_HardenedAlloy);
 			}
-			if (Config.Instance.DupesEngineering_Enabled || Config.Instance.DupesMachinery_Enabled || Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			if (Config.Instance.DupesEngineering_Enabled || Config.Instance.DupesMachinery_Enabled || ChemProcEnabled)
 			{
 				//=[ CRUSHED ROCK PATCH ]====================================================
 				Element crushedRock_material = ElementLoader.FindElementByHash(SimHashes.CrushedRock);
@@ -571,7 +573,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddTagToElementAndEnable(SimHashes.CrushedRock, GameTags.ConsumableOre);
 			}
 			if (DlcManager.IsExpansion1Active() && Config.Instance.NuclearProcessing_Enabled)
-			{//=[ ENABLING RADIUM ]===================================================
+			{
+				//=[ ENABLING RADIUM ]===================================================
 				AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre, true);
 				//=[ ENABLING YellowCake ]===================================================
 				AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial, true);
@@ -604,12 +607,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			AddTagToElementAndEnable(SimHashes.CarbonDioxide, ModAssets.Tags.SodaFountainGas);
 
+			//SgtLogger.l("Amount of elements with an atmosphere modifier: " + Rottable.AtmosphereModifier.Count);
 			foreach (var atmosphereModifier in Rottable.AtmosphereModifier)
 			{
+				//SgtLogger.l("Atmosphere modifier for element " + ((SimHashes)atmosphereModifier.Key).ToString() + " is " + atmosphereModifier.Value.ToString());
 				if (atmosphereModifier.Value != Rottable.RotAtmosphereQuality.Sterilizing)
 					continue;
-				var element = (SimHashes)atmosphereModifier.Key;
-				AddTagToElementAndEnable(element, ModAssets.Tags.AIO_SterileAtmosphere);
+				var elementId = (SimHashes)atmosphereModifier.Key;
+				var element = ElementLoader.FindElementByHash(elementId);
+				if (element == null || !element.IsGas || element.lowTemp > UtilMethods.GetKelvinFromC(95))
+					continue;
+
+				AddTagToElementAndEnable(elementId, ModAssets.Tags.AIO_SterileAtmosphere);
 			}
 		}
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);

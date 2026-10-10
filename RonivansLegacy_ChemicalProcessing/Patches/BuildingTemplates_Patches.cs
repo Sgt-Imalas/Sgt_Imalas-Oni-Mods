@@ -34,6 +34,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				for (int i = 0; i < construction_materials.Length; i++)
 				{
 					string mat = construction_materials[i];
+
+					if (mat.Contains(appendAdditionalTag))
+						continue;
+
 					if (mat == targetMaterialTag || mat.Contains(targetChained))
 					{
 						construction_materials[i] += "&" + appendAdditionalTag;

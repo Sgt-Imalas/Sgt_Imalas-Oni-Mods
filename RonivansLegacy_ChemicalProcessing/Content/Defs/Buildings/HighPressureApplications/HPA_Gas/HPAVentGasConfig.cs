@@ -11,7 +11,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] construction_mass = [200f, 2f];
-			string[] construction_materials = [GameTags.Steel.ToString(), GameTags.BuildingGasket.ToString()];
+			string[] construction_materials = [ModAssets.GetHPASteelIngredient(), GameTags.BuildingGasket.ToString()];
 			EffectorValues none = NOISE_POLLUTION.NONE;
 			EffectorValues tieR1 = BUILDINGS.DECOR.PENALTY.TIER1;
 			EffectorValues noise = none;
