@@ -263,6 +263,7 @@ namespace SetStartDupes
 				NextType.stress,
 				NextType.special,
 				NextType.geneShufflerTrait,
+				NextType.congenital,
 				NextType.posTrait,
 				NextType.bionic_boost,
 				NextType.needTrait,
@@ -285,6 +286,9 @@ namespace SetStartDupes
 
 				}
 			}
+			if(ModAssets.TraitAllowedInCurrentDLC(ModAssets.MINNOW_DLC_LOCKED))
+				CategoryEntries[OpenedFrom.Trait].Add(AddUIContainer(traitsDb.TryGet(ModAssets.MINNOW_DLC_LOCKED.id), NextType.congenital));
+
 			foreach (var item in interests)
 			{
 				if(item.choreGroupID == null) continue;

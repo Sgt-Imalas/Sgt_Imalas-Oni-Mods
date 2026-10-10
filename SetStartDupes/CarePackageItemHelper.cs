@@ -14,6 +14,7 @@ namespace SetStartDupes
 			}
 			return prefab.GetProperName();
 		}
+		
 		public static string GetSpawnableQuantity(string CarePackageID, float CarePackageQuantity)
 		{
 			if (ElementLoader.GetElement(CarePackageID.ToTag()) != null)

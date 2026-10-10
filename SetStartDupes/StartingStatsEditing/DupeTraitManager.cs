@@ -372,28 +372,32 @@ namespace SetStartDupes
 			if (ToEditMinionStats == null)
 				return;
 
-
+			bool applyBalancing = Config.Instance.BalanceAddRemove;
 			InterestBonusHeader.text = STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL + " " + PointPool;
 
 			InterestBonusTooltip = string.Empty;
 
-			InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, Config.Instance.BalanceAddRemove ? AdditionalAttributePoints : "∞");
+			InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, applyBalancing ? AdditionalAttributePoints : "∞");
 
-			if (!Config.Instance.BalanceAddRemove)
+			if (!applyBalancing)
 				InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.CONFIGBALANCINGDISABLED, UIUtils.ColorText("∞", UIUtils.number_green));
 
-
+			bool anyBonus = false;
 			foreach (var trait in ToEditMinionStats.Traits)
 			{
 				var thisOnesInterest = ModAssets.GetTraitStatBonusTooltip(trait, false);
 				if (thisOnesInterest != string.Empty)
 				{
+					anyBonus = true;
 					InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, thisOnesInterest);
 				}
 			}
 
 			if (ExternalModAttributePoints != 0)
 				InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME, UIUtils.ColorNumber(ExternalModAttributePoints));
+			else if(!anyBonus)
+				InterestBonusTooltip += "\n • " + global::STRINGS.DUPLICANTS.CONGENITALTRAITS.NONE.NAME;
+
 
 			interestBonusTooltipCMP.SetSimpleTooltip(InterestBonusTooltip);
 		}
@@ -719,7 +723,7 @@ namespace SetStartDupes
 
 				if (rarity.ToString() != string.Empty)
 				{
-					TraitBalanceTooltip += "\n  " + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, ModAssets.GetTraitRarityString(rarity));
+					TraitBalanceTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, ModAssets.GetTraitRarityString(rarity));
 				}
 			}
 
@@ -734,6 +738,10 @@ namespace SetStartDupes
 
 
 			//TraitBalanceTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP, balanceString,totalRarityBalance, -balanceThreshold,balanceThreshold) + TraitBalanceTooltip; 
+
+			if (TraitBalanceTooltip.IsNullOrWhiteSpace())
+				TraitBalanceTooltip = "\n • " + global::STRINGS.DUPLICANTS.CONGENITALTRAITS.NONE.NAME;
+
 			TraitBalanceTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP_SIMPLE, totalRarityBalance) + TraitBalanceTooltip;
 			TraitBalanceHeader.text = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBALANCEHEADER, totalRarityBalance);
 			TraitBalanceTooltipCMP.SetSimpleTooltip(TraitBalanceTooltip);

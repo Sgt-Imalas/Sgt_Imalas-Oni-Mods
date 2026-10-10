@@ -159,23 +159,6 @@ namespace SetStartDupes
 		}
 		public static void SetToShufflePersonality(Personality personality)
 		{
-			//if (personality != null && personality.Id == "MINNOW")
-			//{
-			//	if (NonFreedivingMinnow == null)
-			//	{
-			//		try
-			//		{
-			//			NonFreedivingMinnow = JsonConvert.DeserializeObject<Personality>(JsonConvert.SerializeObject(personality));
-			//			NonFreedivingMinnow.congenitaltrait = null;
-			//		}
-			//		catch (Exception ex)
-			//		{
-			//			SgtLogger.warning("Could not create freediverless minnow:\n" + ex.Message);
-			//		}
-			//	}
-			//	if (NonFreedivingMinnow != null)
-			//		personality = NonFreedivingMinnow;
-			//}
 			ToShufflePersonality = personality;
 		}
 
@@ -772,6 +755,7 @@ namespace SetStartDupes
 			}
 		};
 
+		public static DUPLICANTSTATS.TraitVal MINNOW_DLC_LOCKED = new DUPLICANTSTATS.TraitVal() { id = "Minnow", requiredDlcIds = DlcManager.DLC5 };
 		private static List<TUNING.DUPLICANTSTATS.TraitVal> _regularJoyReactions = null;
 		private static List<TUNING.DUPLICANTSTATS.TraitVal> _bionicJoyReactions = null;
 		static List<TUNING.DUPLICANTSTATS.TraitVal> RegularJoyReactions
@@ -896,6 +880,7 @@ namespace SetStartDupes
 				}
 				if (standardOrAquaticMinion || initializingUI || Config.Instance.BionicNormalTraits)
 				{
+					returnValues.Add(MINNOW_DLC_LOCKED);
 					returnValues.AddRange(TraitsByType[NextType.posTrait]);
 					returnValues.AddRange(TraitsByType[NextType.needTrait]);
 					returnValues.AddRange(TraitsByType[NextType.negTrait]);

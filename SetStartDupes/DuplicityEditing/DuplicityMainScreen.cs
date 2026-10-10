@@ -682,7 +682,6 @@ namespace SetStartDupes.DuplicityEditing
 
 			if (!TraitEntries.ContainsKey(traitID))
 			{
-
 				var Type = traitFound ? ModAssets.GetTraitListOfTrait(traitID) : NextType.undefined;
 
 				var go = Util.KInstantiateUI(TraitPrefab.gameObject, TraitContainer);
