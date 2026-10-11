@@ -55,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				{Chemical_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher_Chemical() },
 				{Chemical_SelectiveArcFurnaceConfig.ID,InitRandomResults_SelectiveArcFurnace() },
-				//{Metallurgy_PlasmaFurnaceConfig.ID,InitRandomResults_PlasmaFurnace() },
+				{Metallurgy_PlasmaFurnaceConfig.ID,InitRandomResults_PlasmaFurnace() },
 				{Metallurgy_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher_Metallurgy() },
 				{Mining_AugerDrillConfig.ID,InitRandomResults_AugerDrill() },
 			};
@@ -532,7 +532,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 					return new KeyValuePair<SimHashes, Tuple<float, float, float>>(element.id, original.Value);
 				};
-				results.Add(recipe.Key, recipe.Value.CloneWithChange(modifyAction, 5f));
+				results.Add(recipe.Key, recipe.Value.CloneWithChange(modifyAction, Metallurgy_PlasmaFurnaceConfig.RandomRecipeMultiplier));
 			}
 			return results;
 

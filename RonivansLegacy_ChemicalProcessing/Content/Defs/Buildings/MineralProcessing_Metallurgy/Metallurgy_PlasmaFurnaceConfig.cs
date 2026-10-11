@@ -19,6 +19,8 @@ namespace Metallurgy.Buildings
 		//--[ Base Information ]-----------------------------------------------------------------------------------
 		public static string ID = "Metallurgy_PlasmaFurnace";
 
+		public static float RandomRecipeMultiplier = 3;
+
 
 		//--[ Special Settings ]------------------------------------------------------------------------------------
 		private Tag FUEL_TAG = ModAssets.Tags.AIO_CarrierGas;
@@ -367,11 +369,9 @@ namespace Metallurgy.Buildings
 
 
 
-			if (!chemProcActive || true)
+			if (!chemProcActive)
 				return;
 			
-			//skip for now, makes it too strong
-			return;
 			///Arc furncace sand recipes, with molten outputs
 
 			//---- [ Low-Grade Metallic Sand ] --------------------------------------------------------------------------------------------
@@ -380,7 +380,7 @@ namespace Metallurgy.Buildings
 			// Random Results: Copper, Zinc, Silver, Lead
 			// Assured Result: Slag - 20kg, 90kg randoms
 			//------------------------------------------------------------------------------------------------------------------------------
-			float multiplier = 5;
+			float multiplier = RandomRecipeMultiplier;
 
 			RecipeBuilder.Create(ID, recipeTime * 2)
 				.Input(ModElements.LowGradeSand_Solid, 100 * multiplier)
