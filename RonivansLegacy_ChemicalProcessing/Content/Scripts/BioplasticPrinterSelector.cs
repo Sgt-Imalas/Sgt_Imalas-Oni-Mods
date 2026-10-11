@@ -104,7 +104,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public void LoadBioplasticRecipe(Tag target)
 		{
-			selectable.RemoveStatusItem(StatusItemsDatabase.Biplastic_PrintingStatus);
+			selectable.RemoveStatusItem(StatusItemsDatabase.Bioplastic_PrintingStatus);
 			_meterSoc.RemoveSymbolOverride("meter_plastic_chunk");
 
 			if (!BioplasticProducts.TryGetValue(target, out var rates))
@@ -144,7 +144,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 
 			_lastProductName = targetPrefab?.GetProperName() ?? target.name;
-			selectable.AddStatusItem(StatusItemsDatabase.Biplastic_PrintingStatus, this);
+			selectable.AddStatusItem(StatusItemsDatabase.Bioplastic_PrintingStatus, this);
 		}
 
 		public Tag GetSelectedOption() => product;

@@ -33,7 +33,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static StatusItem AdvRefinery_NoSupercoolant;
 
-		public static StatusItem Biplastic_PrintingStatus;
+		public static StatusItem Bioplastic_PrintingStatus;
+
+		public static StatusItem Freezer_SterileAtmosphere;
 
 		public static void CreateStatusItems()
 		{
@@ -55,9 +57,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			AdvRefinery_NoSupercoolant = bsi.CreateStatusItem("AIO_ADVREFINERY_NOSUPERCOOLANT", "BUILDING", "status_item_plant_liquid", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.None.ID);
 
-			Biplastic_PrintingStatus = bsi.CreateStatusItem("AIO_PRINTING", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.None.ID);
-			Biplastic_PrintingStatus.resolveStringCallback = BioplasticPrinterSelector.HandleStatusItem();
-			Biplastic_PrintingStatus.resolveTooltipCallback = BioplasticPrinterSelector.HandleStatusItem();
+			Bioplastic_PrintingStatus = bsi.CreateStatusItem("AIO_PRINTING", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.None.ID);
+			Bioplastic_PrintingStatus.resolveStringCallback = BioplasticPrinterSelector.HandleStatusItem();
+			Bioplastic_PrintingStatus.resolveTooltipCallback = BioplasticPrinterSelector.HandleStatusItem();
+
+			Freezer_SterileAtmosphere = bsi.CreateStatusItem("AIO_FREEZERATMOSPHERE", global::STRINGS.DUPLICANTS.MODIFIERS.ROTATMOSPHERE.STERILE+" ({0})", STRINGS.BUILDING.STATUSITEMS.AIO_FREEZERATMOSPHERE.TOOLTIP, "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.None.ID);
+			Freezer_SterileAtmosphere.resolveStringCallback = FridgeAtmosphereController.HandleStatusItem();
+			Bioplastic_PrintingStatus.resolveTooltipCallback = BioplasticPrinterSelector.HandleStatusItem();
+
 
 			CG_RotatableSolarPanelWattage = bsi.CreateStatusItem("CG_RotatableSolarPanelWattage", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.Power.ID);
 			CG_RotatableSolarPanelWattage.resolveStringCallback = delegate (string str, object data)

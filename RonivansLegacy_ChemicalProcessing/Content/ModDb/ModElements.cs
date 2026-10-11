@@ -175,7 +175,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static HashSet<SimHashes> ChemicalProcessing_IO_ElementIds = [], ChemicalProcessing_BioChem_ElementIds = [];
 		public static HashSet<SimHashes> DisabledModElements = [];
 		public static HashSet<Tag> DisabledModElementTags = [];
-
 		static void HideElement(Element element)
 		{
 			element.disabled = true;
@@ -620,7 +619,64 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				AddTagToElementAndEnable(elementId, ModAssets.Tags.AIO_SterileAtmosphere);
 			}
+
+			foreach (var element in ElementLoader.elements)
+			{
+				if (element.HasTag(ModAssets.Tags.AIO_SterileAtmosphere))
+					SterilizingElements.Add(element.id);
+			}
 		}
+		public static HashSet<SimHashes> SterilizingElements = [];
+
+		static Dictionary<byte, HashSet<SimHashes>> DiseaseKilledByElementsCache = null;
+
+		public static bool DoesDiseaseKillGerm(byte diseaseIdx, SimHashes element)
+		{
+			if (DiseaseKilledByElementsCache == null)
+				InitializeSterileGermKilling();
+			return DiseaseKilledByElementsCache.TryGetValue(diseaseIdx, out var cached) && cached.Contains(element);
+
+		}
+		public static void InitializeSterileGermKilling()
+		{
+			SgtLogger.l("Caching Disease infos");
+			DiseaseKilledByElementsCache = [];
+			var diseases = Db.Get().Diseases;
+			foreach (var disease in diseases.resources)
+			{
+				DiseaseKilledByElementsCache[diseases.GetIndex(disease.id)] = [];
+
+				var rules = disease.exposureRules;
+				if (rules == null)
+					continue;
+				foreach (var elementId in SterilizingElements)
+				{
+					var element = ElementLoader.FindElementByHash(elementId);
+					if (element == null)
+					{
+						SgtLogger.warning("Could not find element " + elementId);
+						continue;
+					}
+
+					foreach (var rule in rules)
+					{
+						if (rule.Test(element))
+						{
+							if (!rule.populationHalfLife.HasValue)
+								continue;
+							var halfLife = rule.populationHalfLife.Value;	
+
+							if(halfLife > 0 && halfLife != float.PositiveInfinity)
+							{
+								SgtLogger.l(disease.Name + " dies on " + element.id);
+								DiseaseKilledByElementsCache[diseases.GetIndex(disease.id)].Add(elementId);
+							}
+						}
+					}					
+				}
+			}
+		}
+
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
 
 		static void AddTagsToElementAndEnable(SimHashes element, Tag[] tags = null, bool setMatCat = false)

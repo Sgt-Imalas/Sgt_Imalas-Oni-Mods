@@ -2,6 +2,7 @@
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Descriptors;
+using Steamworks;
 using STRINGS;
 using System.Collections.Generic;
 using TUNING;
@@ -26,6 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 		public float BaseFridgeMultiplier => GetWattage() / 120f;
 
 		public PortDisplayInput WaterConsumer = new(ConduitType.Liquid, new CellOffset(1, 0));
+		public PortDisplayInput SterileGasConsumer = new(ConduitType.Gas, new CellOffset(0, 2));
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER0;
@@ -123,11 +125,34 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			//waterInput.alwaysConsume = true;
 			waterInput.capacityKG = liquidStorage.capacityKg;
 			waterInput.AssignPort(WaterConsumer);
-			AttachPort(go);
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
 
-			ModIntegrationHelper.AllStorageIntegations(go);
+			if (Config.Instance.DupesRefrigeration_SterileAtmospherePort)
+			{
+				///sterile gas storage
+				float consumptionRate = Config.Instance.DupesRefrigeration_SterileAtmosphereConsumption / 1000f;
 
+				Storage gasStorage = BuildingTemplates.CreateDefaultStorage(go, true);
+				gasStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+				//liquidStorage.showDescriptor = true;
+				gasStorage.capacityKg = consumptionRate * 600 * 2; //2 days of buffer
+				gasStorage.name = "SterilizerGasStorage";
+
+				PortConduitConsumer gasInputPort = go.AddComponent<PortConduitConsumer>();
+				gasInputPort.storage = gasStorage;
+				gasInputPort.conduitType = ConduitType.Gas;
+				gasInputPort.ignoreMinMassCheck = true;
+				gasInputPort.forceAlwaysSatisfied = true;
+				gasInputPort.SkipSetOperational = true;
+				gasInputPort.capacityTag = ModAssets.Tags.AIO_SterileAtmosphere;
+				gasInputPort.capacityKG = gasStorage.capacityKg;
+				gasInputPort.AssignPort(SterileGasConsumer);
+				var atmosphereController = go.AddOrGet<FridgeAtmosphereController>();
+				atmosphereController.FoodStorage = storage;
+				atmosphereController.GasStorage = gasStorage;
+			}
+			AttachPort(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 		}
 		private void AttachPort(GameObject go)
 		{
@@ -135,6 +160,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			controller.Init(go);
 
 			controller.AssignPort(go, WaterConsumer);
+			if (Config.Instance.DupesRefrigeration_SterileAtmospherePort)
+				controller.AssignPort(go, SterileGasConsumer);
 		}
 	}
 }

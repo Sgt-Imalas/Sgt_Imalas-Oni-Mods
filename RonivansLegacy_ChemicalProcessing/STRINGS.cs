@@ -1786,6 +1786,10 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = "Printing {ITEM} {PERCENTAGE}";
 					public static LocString TOOLTIP = "Currently configured to print {ITEM}.";
 				}
+				public class AIO_FREEZERATMOSPHERE
+				{
+					public static LocString TOOLTIP = "Food inside this building is under sterile atmospheric conditions from the gas pumped into it ({0})";
+				}
 			}
 		}
 		public class CREATURES
