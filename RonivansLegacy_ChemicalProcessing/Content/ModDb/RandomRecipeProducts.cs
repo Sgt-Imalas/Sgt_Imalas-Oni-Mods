@@ -746,7 +746,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.IgneousRock, 50, 200, 1f / 2f)
 				.AddProduct(SimHashes.Obsidian, 50, 200)
 				.AddProduct(SimHashes.Sulfur, 50, 200, 1f / 2f)
-				.AddProduct(SimHashes.Basalt, 50, 200, 1f / 2f)
 				.AddProduct(SimHashes.Fossil, 50, 200, 1f / 2f)
 				.AddProductConditional(chemproc, OilShale_Solid, 100, 300, 1)
 				.AddProduct(SimHashes.Galena, 50, 200, 1f / 2f)
@@ -781,7 +780,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.BrineIce, 100, 500, 4f / 10f)
 				.AddProduct(SimHashes.Snow, 100, 500, 4f / 10f)
 				.AddProduct(SimHashes.Regolith, 100, 500, 4f / 10f)
-				.AddProductConditional(dlc2Owned, SimHashes.Cinnabar, 100, 500, 4f / 10f)
 				.AddProductConditional(chemproc, Ammonia_Solid, 100, 500, 4f / 10f) //ammonia snow
 																					//low chance
 				.AddProduct(SimHashes.SolidCrudeOil, 100, 750, 2f / 10f)
@@ -811,6 +809,64 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProductConditional(chemproc, ModElements.ChromiteOre_Solid, 100, 500, 1f / 3f)
 				.Multiplier(2)
 			);
+
+			///Smart Drillbits: Frosty PlanetPack random spawn
+			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC2_StratumTag,
+			new RecipeRandomResult()
+				.MinRequiredProducts(4)
+				//high chance
+				.AddProduct(SimHashes.Ice, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.DirtyIce, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Sand, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.BrineIce, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Snow, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Cinnabar, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Phosphorite, 100, 500, 4f / 10f)
+				//low chance
+				.AddProduct(SimHashes.SolidCarbonDioxide, 100, 500, 1f / 10f)
+				.AddProduct(SimHashes.SolidMercury, 100, 900, 1f / 10f)
+				.AddProduct(SimHashes.Sucrose, 100, 500, 1f / 10f)
+				.Multiplier(3)
+			);
+			///Smart Drillbits: Prehistoric PlanetPack random spawn
+			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC4_StratumTag,
+			new RecipeRandomResult()
+				.MinRequiredProducts(4)
+				.AddProduct(SimHashes.Shale, 100, 500)
+				.AddProduct(SimHashes.NickelOre, 100, 500, 8f / 10f)
+
+				.AddProduct(SimHashes.Fossil, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Granite, 100, 500, 4f / 10f)
+
+				.AddProduct(SimHashes.BleachStone, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Algae, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Dirt, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Phosphorite, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Peat, 100, 500, 4f / 10f)
+
+				.AddProduct(SimHashes.Iridium, 200, 900, 0.025f)
+				.AddProduct(SimHashes.MoltenIridium, 200, 900, 0.025f)
+				.Multiplier(2.75f)
+			);
+			///Smart Drillbits: Aquatic PlanetPack random spawn
+			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC5_StratumTag,
+			new RecipeRandomResult()
+				.MinRequiredProducts(4)
+				.AddProduct(SimHashes.SiltStone, 100, 500)
+				.AddProduct(SimHashes.Basalt, 100, 500, 5f / 10f)
+				.AddProduct(SimHashes.Coquina, 100, 500, 5f / 10f)
+				.AddProduct(SimHashes.Sand, 100, 500, 4f / 10f)
+				.AddProduct(SimHashes.Salt, 100, 500, 3f / 10f)
+
+				.AddProduct(SimHashes.ZincOre, 100, 500, 5f / 10f)
+				.AddProduct(SimHashes.Galena, 100, 500, 4f / 10f)
+
+				.AddProduct(SimHashes.ToxicMud, 100, 500, 3f / 10f)
+				.AddProduct(SimHashes.BleachStone, 100, 500, 3f / 10f)
+				.AddProduct(SimHashes.Corallium, 100, 500, 3f / 10f)
+				.Multiplier(2.5f)
+			);
+
 			return results;
 
 		}
@@ -976,6 +1032,37 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProductConditional(chemproc, Silver_Liquid, 25, 75, 2f / 30f)
 				.AddProductConditional(chemproc, SimHashes.MoltenZinc, 25, 75, 2f / 30f)
 				.Multiplier(2.2f)
+				);
+
+
+			///Smart Drillbits: Frosty PlanetPack random spawn
+			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC2_StratumTag,
+			new OccurenceRandomResult(Mining_AugerDrillConfig.OccurenceRate)
+				.ProductCount(1)
+				.AddProduct(SimHashes.CrushedRock, 25, 100, 3f / 10f)
+				.AddProduct(SimHashes.CrushedIce, 15, 75, 4f / 10f)
+				.AddProduct(SimHashes.Ice, 15, 75, 2f / 10f)
+				.AddProduct(SimHashes.DirtyIce, 15, 75, 2f / 10f)
+				);
+
+			///Smart Drillbits: Prehistoric PlanetPack random spawn
+			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC4_StratumTag,
+			new OccurenceRandomResult(Mining_AugerDrillConfig.OccurenceRate)
+				.ProductCount(1)
+				.AddProduct(SimHashes.CrushedRock, 25, 100, 8f / 10f)
+				.AddProduct(SimHashes.Fossil, 15, 75, 1f / 10f)
+				.AddProduct(SimHashes.Peat, 15, 75, 1f / 10f)
+				);
+			///Smart Drillbits: Aquatic PlanetPack random spawn
+			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC5_StratumTag,
+			new OccurenceRandomResult(Mining_AugerDrillConfig.OccurenceRate)
+				.ProductCount(1)
+				.AddProduct(SimHashes.CrushedRock, 25, 100, 8f / 20f)
+				.AddProduct(SimHashes.Water, 25, 100, 4f / 20f)
+				.AddProduct(SimHashes.DirtyWater, 25, 100, 3f / 20f)
+				.AddProduct(SimHashes.SaltWater, 25, 100, 3f / 20f)
+				.AddProduct(SimHashes.Brine, 25, 100, 2f / 20f)
+				.AddProduct(SimHashes.MurkyBrine, 25, 100, 2f / 20f)
 				);
 
 			return results;

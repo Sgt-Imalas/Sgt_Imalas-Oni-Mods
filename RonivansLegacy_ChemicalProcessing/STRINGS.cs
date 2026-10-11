@@ -2425,6 +2425,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString AQUIFER = "Aquifer";
 				public static LocString OIL_RESERVES = "Oil Reserves";
 				public static LocString CRYOSPHERE = "Cryosphere";
+
+				public static LocString DLC2 = "Frosty Stratum";
+				public static LocString DLC4 = "Prehistoric Stratum";
+				public static LocString DLC5 = "Aquatic Stratum";
 			}
 			public class MINING_AUGUR_DRILL
 			{
