@@ -177,6 +177,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 					FuelTag = engine.fuelTag;
 					hasOxidizer = engine.requireOxidizer;
 				}
+				if(clusterModule.TryGetComponent<EngineFuelFilter>(out var fuelFilter))
+				{
+					FuelTag = fuelFilter.SelectedFuel;
+				}
+
 
 				if (clusterModule.TryGetComponent<FuelTank>(out var fueltank))
 				{

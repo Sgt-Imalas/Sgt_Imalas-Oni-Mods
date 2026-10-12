@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches.BuildingDefPatches
@@ -18,6 +19,7 @@ namespace Rockets_TinyYetBig.Patches.BuildingDefPatches
 				{
 					RocketEngineCluster rocketEngineCluster = go.GetComponent<RocketEngineCluster>();
 					rocketEngineCluster.fuelTag = GameTags.CombustibleLiquid;
+					go.AddOrGet<EngineFuelFilter>();
 				}
 			}
 		}
