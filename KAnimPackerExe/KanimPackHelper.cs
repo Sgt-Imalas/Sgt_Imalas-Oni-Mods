@@ -38,6 +38,8 @@ namespace _KAnimPackerExe
 			}
 			//string outputDirectory = InputDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + "_packed";
 			string outputDirectory = InputDirectory.Replace(Path.DirectorySeparatorChar + "anim" + Path.DirectorySeparatorChar, Path.DirectorySeparatorChar + "anim_packed" + Path.DirectorySeparatorChar);
+			if(HasSoloTarget)
+				outputDirectory = Directory.GetParent(outputDirectory)?.FullName ?? outputDirectory;
 			Log.LogMessage("OutputDir: " + outputDirectory);
 			try
 			{
