@@ -308,6 +308,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGM_MixingPack", "CGM_Mixin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrittersFallThroughOpenDoors", "CrittersFallThroughOpenDoors\CrittersFallThroughOpenDoors.csproj", "{471C291E-C178-487B-8AC1-375D0F8DCDA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickSaveActions", "QuickSaveActions\QuickSaveActions.csproj", "{53850BAA-339F-45B0-A308-1A8A1D6F5AFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KleiPaintings", "KleiPaintings\KleiPaintings.csproj", "{526D25A5-E9CA-4602-88BD-2BAC4E517C74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -844,6 +848,14 @@ Global
 		{471C291E-C178-487B-8AC1-375D0F8DCDA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{471C291E-C178-487B-8AC1-375D0F8DCDA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{471C291E-C178-487B-8AC1-375D0F8DCDA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53850BAA-339F-45B0-A308-1A8A1D6F5AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53850BAA-339F-45B0-A308-1A8A1D6F5AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53850BAA-339F-45B0-A308-1A8A1D6F5AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53850BAA-339F-45B0-A308-1A8A1D6F5AFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{526D25A5-E9CA-4602-88BD-2BAC4E517C74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{526D25A5-E9CA-4602-88BD-2BAC4E517C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{526D25A5-E9CA-4602-88BD-2BAC4E517C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{526D25A5-E9CA-4602-88BD-2BAC4E517C74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
