@@ -8,7 +8,7 @@ This mod adds painting skins based on art that was created during Klei Art Strea
 [hr][/hr]
 [h1]Features[/h1]
 [list][*] 4 new paintings for the regular canvas.
-[*] 15 new paintings for the tall canvas.
+[*] 16 new paintings for the tall canvas.
 [*] all paintings are masterpieces and require a tier 3 artist to paint
 [/list]
 

@@ -35,6 +35,7 @@ namespace KleiPaintings
 				.ArtSkin(modPrefix + "Rhex", RAPTOR.NAME, RAPTOR.DESC, "painting_tall_art_rhex_kanim")
 				.ArtSkin(modPrefix + "Satellite", STRINGS.UI.SPACEDESTINATIONS.DEBRIS.SATELLITE.NAME, STRINGS.UI.SPACEDESTINATIONS.DEBRIS.SATELLITE.DESCRIPTION, "painting_tall_art_satellite_kanim")
 				.ArtSkin(modPrefix + "Seaquine", SEAHORSE.NAME, SEAHORSE.DESC, "painting_tall_art_seaquine_kanim")
+				.ArtSkin(modPrefix + "Dupe_Sena", GetDupeName("Sena"), GetDupeDesc("Sena"), "painting_tall_art_sena_kanim")
 				.ArtSkin(modPrefix + "SomniumSynthesizer", STRINGS.CODEX.STORY_TRAITS.MEGA_BRAIN_TANK.NAME, STRINGS.CODEX.STORY_TRAITS.MEGA_BRAIN_TANK.DESCRIPTION, "painting_tall_art_somniumsynth_kanim")
 				.ArtSkin(modPrefix + "Dupe_Stinky", GetDupeName("Stinky"), GetDupeDesc("Stinky"), "painting_tall_art_stinky_kanim")
 				;
