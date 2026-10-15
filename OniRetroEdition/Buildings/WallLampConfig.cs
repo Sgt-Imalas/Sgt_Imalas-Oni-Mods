@@ -1,5 +1,7 @@
-﻿using TUNING;
+﻿using HarmonyLib;
+using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace OniRetroEdition.Buildings
 {
@@ -60,6 +62,12 @@ namespace OniRetroEdition.Buildings
 			light2D.shape = LightShape.Circle;
 			light2D.drawOverlay = true;
 			go.AddOrGetDef<LightController.Def>();
+
+			var lumaFlies = go.TryAddOrGetModComponent("VFNT_LumaFlies");
+			if (lumaFlies != null)
+			{
+				Traverse.Create(lumaFlies).Field("FlyOffset").SetValue(new Vector3(0, -0.5f));
+			}
 		}
 	}
 }

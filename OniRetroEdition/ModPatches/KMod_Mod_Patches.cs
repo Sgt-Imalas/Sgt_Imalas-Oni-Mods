@@ -16,7 +16,7 @@ namespace OniRetroEdition.ModPatches
 
 				SgtLogger.l("Loading Packed Kanims from Mod Folder");
 
-				bool zippedAnimsLoaded = InjectionMethods.LoadPackedKanims(System.IO.Path.Combine(IO_Utils.ModPath, "anim.zip"));
+				bool zippedAnimsLoaded = InjectionMethods.LoadPackedKanims(System.IO.Path.Combine(IO_Utils.ModPath, "anim.zip")) > 0;
 				__result = __result || zippedAnimsLoaded;
 			}
 		}
