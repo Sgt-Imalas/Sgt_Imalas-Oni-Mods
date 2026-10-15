@@ -81,11 +81,14 @@ namespace UtilLibs.SharedTweaks
 					var directory = mod.label.install_path;
 
 					//should never happen, but original code has sth with zip files so we want to ignore them;
-					if (directory.EndsWith(".zip"))
+					if (directory.EndsWith(".zip")|| !System.IO.Directory.Exists(directory))
 						continue;
 
-					if (!System.IO.Directory.Exists(directory) || !System.IO.Directory.EnumerateFileSystemEntries(directory).Any())
+					if (!System.IO.Directory.EnumerateFileSystemEntries(directory).Any()) 
+					{
+						Debug.LogWarning($"{mod.title} ({mod.label.defaultStaticID}) does not have any files in its directory!");
 						BrokenModInstallations.Add(mod.label.defaultStaticID);
+					}
 				}
 				Debug.Log(BrokenModInstallations.Count + " broken mod installations found.");
 			}

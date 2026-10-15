@@ -35,18 +35,18 @@ namespace UtilLibs
 			}
 		}
 
-		public static int LoadAllPackedKanimsRecursively(string directory)
+		public static int LoadAllPackedKanimsRecursively(string directory, bool root = true)
 		{
 			SgtLogger.l("Loading packed kanims from directory: " + directory);
 			if (!System.IO.Directory.Exists(directory))
 				return 0;
 			var dirInfo = new DirectoryInfo(directory);
+			int count = 0;
 			foreach (var subdir in dirInfo.GetDirectories())
 			{
-				int subDirAnimCount = LoadAllPackedKanimsRecursively(subdir.FullName);
-				//todo: figure what 2do with those
+				int subDirAnimCount = LoadAllPackedKanimsRecursively(subdir.FullName, false);
+				count += subDirAnimCount;
 			}
-			int count = 0;
 			foreach (var file in dirInfo.GetFiles())
 			{
 				if (IO_Utils.MacFile(file))
@@ -57,7 +57,7 @@ namespace UtilLibs
 					count += LoadPackedKanims(file.FullName);
 				}
 			}
-			SgtLogger.l("loaded " + count + " animations from that dir.");
+			SgtLogger.l("loaded " + count + " animations from "+ dirInfo.Name);
 			return count;
 		}
 
@@ -137,7 +137,7 @@ namespace UtilLibs
 						//SgtLogger.l("found dds texture for " + kanimName);
 					}
 				}
-				SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
+				//SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
 				foreach (var kanim in foundKanims)
 				{
 					//SgtLogger.l("trying adding kanim: " + kanim.Key + $", state: hasTex: {kanim.Value.textures != null && kanim.Value.textures.Any()}, hasBuild: {kanim.Value.build != null}, hasAnim: {kanim.Value.anim != null}");
@@ -249,7 +249,7 @@ namespace UtilLibs
 		}
 		public static Texture2D LoadTextureBC7(byte[] bytes)
 		{
-			if(bytes == null || bytes.Length<148) 
+			if (bytes == null || bytes.Length < 148)
 				return null;
 
 			//this header stuff here is tailored for the files created by the converter project, not a general solution!

@@ -27,7 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;
 			buildingDef.Entombable = false;
-			buildingDef.ThermalConductivity = 2;
+			buildingDef.ThermalConductivity = 4;
 			buildingDef.ViewMode = OverlayModes.GasConduits.ID;
 			buildingDef.ObjectLayer = ObjectLayer.GasConduit;
 			buildingDef.TileLayer = ObjectLayer.GasConduitTile;

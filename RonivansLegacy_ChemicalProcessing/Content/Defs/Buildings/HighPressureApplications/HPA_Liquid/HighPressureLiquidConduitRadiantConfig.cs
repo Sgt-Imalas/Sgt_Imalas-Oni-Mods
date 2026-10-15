@@ -42,7 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.DragBuild = true;
 			buildingDef.ReplacementTags = new List<Tag>();
 			buildingDef.ReplacementTags.Add(GameTags.Pipes);
-			buildingDef.ThermalConductivity = 2;
+			buildingDef.ThermalConductivity = 4;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
 			return buildingDef;
 		}

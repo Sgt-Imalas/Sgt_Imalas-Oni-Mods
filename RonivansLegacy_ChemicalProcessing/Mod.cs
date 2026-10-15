@@ -58,6 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			TranslationFix.Register();
 		}
 
+
 		void TryCatchElements(Harmony harmony)
 		{
 			try

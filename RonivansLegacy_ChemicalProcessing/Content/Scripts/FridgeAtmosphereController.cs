@@ -26,7 +26,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		static readonly HashSet<int> SterileAtmosphereFoods = [];
 		string _lastSterileElement;
 		int _operationalHandle = -1;
-		static readonly float TenSecHalflifePerSec = Mathf.Pow(0.5f, 1 / 10f);
+		static readonly float TenSecHalflifePerSec = Mathf.Pow(0.5f, 1 / 10f); // = ~0.933
 
 		public static bool IsSterilizedFreezerFood(GameObject go)
 		{
@@ -113,7 +113,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				{
 					float diseaseCount = primaryElement.DiseaseCount;
 
-					int removeDisease = Mathf.CeilToInt(diseaseCount * (1f - (TenSecHalflifePerSec / dt)));
+					int removeDisease = Mathf.CeilToInt(diseaseCount * (1f - (TenSecHalflifePerSec * dt)));
 					if (diseaseCount == 1)
 						removeDisease = 1;
 
