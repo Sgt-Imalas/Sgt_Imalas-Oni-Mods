@@ -13,12 +13,12 @@ namespace _3GuBsVisualFixesNTweaks.Patches
         [HarmonyPatch(typeof(CeilingLightConfig), nameof(CeilingLightConfig.DoPostConfigureComplete))]
         public class CeilingLightConfig_DoPostConfigureComplete_Patch
         {
-			public static void Postfix(GameObject go) => go.AddOrGet<LumaFlies>().FlyOffset = new Vector3(0,-0.5f);
+			public static void Postfix(GameObject go) => go.AddOrGet<VFNT_LumaFlies>().FlyOffset = new Vector3(0,-0.5f);
 		}
 		[HarmonyPatch(typeof(FloorLampConfig), nameof(FloorLampConfig.DoPostConfigureComplete))]
 		public class FloorLampConfig_DoPostConfigureComplete_Patch
 		{
-			public static void Postfix(GameObject go) => go.AddOrGet<LumaFlies>().FlyOffset = new Vector3(0.1f, 0.5f);
+			public static void Postfix(GameObject go) => go.AddOrGet<VFNT_LumaFlies>().FlyOffset = new Vector3(0.1f, 0.5f);
 		}
 	}
 }
