@@ -35,18 +35,18 @@ namespace UtilLibs
 			}
 		}
 
-		public static bool LoadAllPackedKanimsRecursively(string directory)
+		public static int LoadAllPackedKanimsRecursively(string directory)
 		{
 			SgtLogger.l("Loading packed kanims from directory: " + directory);
 			if (!System.IO.Directory.Exists(directory))
-				return false;
+				return 0;
 			var dirInfo = new DirectoryInfo(directory);
-			bool foundAny = false;
 			foreach (var subdir in dirInfo.GetDirectories())
 			{
-				if (LoadAllPackedKanimsRecursively(subdir.FullName))
-					foundAny = true;
+				int subDirAnimCount = LoadAllPackedKanimsRecursively(subdir.FullName);
+				//todo: figure what 2do with those
 			}
+			int count = 0;
 			foreach (var file in dirInfo.GetFiles())
 			{
 				if (IO_Utils.MacFile(file))
@@ -54,16 +54,18 @@ namespace UtilLibs
 
 				if (file.Extension == ".zip")
 				{
-					if (LoadPackedKanims(file.FullName))
-						foundAny = true;
+					count += LoadPackedKanims(file.FullName);
 				}
 			}
-			return foundAny;
+			SgtLogger.l("loaded " + count + " animations from that dir.");
+			return count;
 		}
 
-		public static bool LoadPackedKanims(string zipFilePath)
+		public static int LoadPackedKanims(string zipFilePath)
 		{
-			if (!File.Exists(zipFilePath)) return false;
+			if (!File.Exists(zipFilePath))
+				return 0;
+			int count = 0;
 			ZipArchive zip = null;
 			try
 			{
@@ -92,8 +94,11 @@ namespace UtilLibs
 						? Directory.GetParent(entry.FullName)?.Name + "_kanim"
 						: Path.GetFileNameWithoutExtension(zipFilePath) + "_kanim";
 
+					//SgtLogger.l("ZipEntry: "+entry.FullName + " maps to kanimName: " + kanimName);
+
 					string fileName = Path.GetFileNameWithoutExtension(entry.FullName).ToLowerInvariant();
 					string extension = Path.GetExtension(entry.FullName).ToLowerInvariant();
+
 
 					if (extension == ".bytes" || extension == ".txt")
 					{
@@ -103,10 +108,12 @@ namespace UtilLibs
 						if (fileName.EndsWith("_anim"))
 						{
 							foundKanims[kanimName].anim = bytes;
+							//SgtLogger.l("found anim bytes for " + kanimName);
 						}
 						else if (fileName.EndsWith("_build"))
 						{
 							foundKanims[kanimName].build = bytes;
+							//SgtLogger.l("found build bytes for " + kanimName);
 						}
 					}
 					else if (extension == ".png")
@@ -117,6 +124,7 @@ namespace UtilLibs
 						Texture2D texture = new Texture2D(2, 2);
 						texture.LoadImage(bytes);
 						foundKanims[kanimName].textures.Add(texture);
+						//SgtLogger.l("found png texture for " + kanimName);
 					}
 					else if (extension == ".dds")
 					{
@@ -126,17 +134,15 @@ namespace UtilLibs
 						var texture = LoadTextureBC7(bytes);
 
 						foundKanims[kanimName].textures.Add(texture);
+						//SgtLogger.l("found dds texture for " + kanimName);
 					}
 				}
-				//SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
-				bool anyValid = false;
-				int count = 0;
+				SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
 				foreach (var kanim in foundKanims)
 				{
-					//SgtLogger.l("adding kanim: " + kanim.Key);
+					//SgtLogger.l("trying adding kanim: " + kanim.Key + $", state: hasTex: {kanim.Value.textures != null && kanim.Value.textures.Any()}, hasBuild: {kanim.Value.build != null}, hasAnim: {kanim.Value.anim != null}");
 					if (kanim.Value.IsValid() && ModUtil.AddKAnimMod(kanim.Key, kanim.Value) != null)
 					{
-						anyValid = true;
 						count++;
 					}
 					else
@@ -144,12 +150,12 @@ namespace UtilLibs
 						SgtLogger.logwarning("Packed kanim " + kanim.Key + " is not valid, skipping");
 					}
 				}
-				return anyValid;
+				return count;
 			}
 			catch (Exception ex)
 			{
 				SgtLogger.logError(zipFilePath + " could not be loaded as a packed kanim. Exception: " + ex.ToString());
-				return false;
+				return count;
 			}
 			finally
 			{
@@ -203,7 +209,7 @@ namespace UtilLibs
 					}
 					catch (Exception ex)
 					{
-						SgtLogger.error("Failed to read zip "+entry.Name+": "+ex.Message);
+						SgtLogger.error("Failed to read zip " + entry.Name + ": " + ex.Message);
 						continue;
 					}
 
@@ -243,6 +249,9 @@ namespace UtilLibs
 		}
 		public static Texture2D LoadTextureBC7(byte[] bytes)
 		{
+			if(bytes == null || bytes.Length<148) 
+				return null;
+
 			//this header stuff here is tailored for the files created by the converter project, not a general solution!
 			int width = BitConverter.ToInt32(bytes, 16);
 			int height = BitConverter.ToInt32(bytes, 12);

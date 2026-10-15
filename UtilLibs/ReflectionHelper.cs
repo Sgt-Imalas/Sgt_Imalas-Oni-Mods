@@ -137,6 +137,31 @@ namespace UtilLibs
 				return false;
 			return go.TryGetComponent(cached, out component);
 		}
+		public static bool TryGetModComponentType(string componentName, out Type component)
+		{
+			component = null;
+			if (!_cachedTypes.TryGetValue(componentName, out var cached))
+			{
+				cached = CacheTypeWithName(componentName);
+			}
+			if (cached == null)
+				return false;
+			component = cached;
+			return true;
+		}
+		public static Component TryAddOrGetModComponent(this GameObject go, string componentName)
+		{
+			if (!_cachedTypes.TryGetValue(componentName, out var cached))
+			{
+				cached = CacheTypeWithName(componentName);
+			}
+			if (cached == null)
+				return null;
+
+			Component existing = go.GetComponent(componentName) ?? go.AddComponent(cached);
+			return existing;
+		}
+
 		private static Type? CacheTypeWithName(string componentName)
 		{
 			Type cmp = typeof(Component);
