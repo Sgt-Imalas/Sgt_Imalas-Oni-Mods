@@ -32,8 +32,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		private static float _gasMult = -1, _liquidMult = -1, _solidMult = -1, _logisticMult = -1;
 		private static float _gasCap_hp = -1, _liquidCap_hp = -1, _solidCap_hp = -1, _solidCap_logistic = -1;
 		private static float _gasCap_reg = -1, _liquidCap_reg = -1, _solidCap_reg = -1;
-		private static Color32 _gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
+		private static Color32
+			_gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
+			_gasFlowRadiantOverlay = _gasFlowOverlay, _gasFlowRadiantTint = new Color32(178, 163, 115, 255),
 			_liquidFlowOverlay = new Color32(92, 144, 121, 0), _liquidFlowTint = new Color32(92, 144, 121, 255),
+			_liquidFlowRadiantOverlay = new Color32(182, 203, 146, 0), _liquidRadiantFlowTint = new Color32(154, 107, 66, 255),
 			_solidOverlayTint = new(166, 175, 230, 0), _logisticOverlayTint = new(152, 193, 150, 0);
 
 		public static float SolidCap_HP => _solidCap_hp;
@@ -42,8 +45,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static float GasCap_HP => _gasCap_hp;
 		public static float LiquidCap_HP => _liquidCap_hp;
-
-
 
 
 		public static HashSet<int>
@@ -387,24 +388,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
-
-
-		public static bool HasHighPressureConduitAt(int cell, ConduitType type, bool showContents, out Color32 tint)
+		public static bool HasTintableHighPressureConduitAt(int cell, ConduitType type, bool showContents, bool isRadiant, out Color32 tint)
 		{
 			if (HasHighPressureConduitAt(cell, type, false))
 			{
-				tint = GetColorForConduitType(type, showContents);
+				tint = GetColorForConduitType(type, showContents, radiant: isRadiant);
 				return true;
 			}
 			tint = Color.white;
 			return false;
 		}
-		public static Color32 GetColorForConduitType(ConduitType conduitType, bool overlay, bool lowCap = false)
+		public static Color32 GetColorForConduitType(ConduitType conduitType, bool overlay, bool lowCap = false, bool radiant = false)
 		{
 			if (conduitType == ConduitType.Gas)
-				return overlay ? _gasFlowOverlay : _gasFlowTint;
+				if (radiant)
+					return overlay ? _gasFlowRadiantOverlay : _gasFlowRadiantTint;
+				else
+					return overlay ? _gasFlowOverlay : _gasFlowTint;
 			else if (conduitType == ConduitType.Liquid)
-				return overlay ? _liquidFlowOverlay : _liquidFlowTint;
+				if (radiant)
+					return overlay ? _liquidFlowRadiantOverlay : _liquidRadiantFlowTint;
+				else
+					return overlay ? _liquidFlowOverlay : _liquidFlowTint;
 			else if (conduitType == ConduitType.Solid)
 				return lowCap ? _logisticOverlayTint : _solidOverlayTint;
 			return Color.white;
@@ -660,7 +665,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				return pickupable;
 			float amountToDump = (mass - targetMass);
 
-			if(Mathf.Approximately(amountToDump, 0) || amountToDump < 0)
+			if (Mathf.Approximately(amountToDump, 0) || amountToDump < 0)
 				return pickupable;
 
 			var droppedExcess = pickupable.Take(amountToDump);

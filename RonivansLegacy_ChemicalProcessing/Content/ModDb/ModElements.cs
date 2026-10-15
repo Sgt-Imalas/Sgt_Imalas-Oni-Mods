@@ -501,6 +501,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			PlasticGroup = ElementGrouping.GroupAllWith(GameTags.Plastic);
 			bool ChemProcEnabled = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+			bool HPA_Enabled = Config.Instance.HighPressureApplications_Enabled;
 
 			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
 			{
@@ -511,7 +512,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///needs to always be active or fullerene page crashes
 			FixCachedStateTransitions();
 
-			if (ChemProcEnabled || Config.Instance.HPA_HardenedAlloy)
+			if (ChemProcEnabled || (Config.Instance.HPA_HardenedAlloy && HPA_Enabled))
 				AddTagToElementAndEnable(SimHashes.TempConductorSolid, ModAssets.Tags.AIO_HardenedAlloy);
 
 			if (ChemProcEnabled)

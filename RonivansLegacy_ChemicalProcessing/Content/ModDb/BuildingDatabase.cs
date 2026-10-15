@@ -763,6 +763,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Gases.HVAC)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 
+			BuildingManager.CreateEntry<HighPressureGasConduitRadiantConfig>()
+				.AddToCategory(PlanMenuCategory.Ventilation, GasConduitRadiantConfig.ID)
+				.AddToTech(Technology.Gases.HVAC)
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+
 			BuildingManager.CreateEntry<HighPressureGasConduitConfig>()
 				.AddToCategory(PlanMenuCategory.Ventilation, GasConduitRadiantConfig.ID)
 				.AddToTech(Technology.Gases.ImprovedVentilation)
@@ -795,8 +801,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Liquids.LiquidTuning)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 
+			BuildingManager.CreateEntry<HighPressureLiquidConduitRadiantConfig>()
+				.AddToCategory(PlanMenuCategory.Plumbing, InsulatedLiquidConduitConfig.ID)
+				.AddToTech(Technology.Liquids.LiquidTuning)
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+
 			BuildingManager.CreateEntry<HighPressureLiquidConduitConfig>()
-				.AddToCategory(PlanMenuCategory.Plumbing, LiquidConduitRadiantConfig.ID)
+				.AddToCategory(PlanMenuCategory.Plumbing, InsulatedLiquidConduitConfig.ID)
 				.AddToTech(Technology.Liquids.ImprovedPlumbing)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 

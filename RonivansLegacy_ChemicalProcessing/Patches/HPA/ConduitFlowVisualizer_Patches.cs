@@ -13,7 +13,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 	class ConduitFlowVisualizer_Patches
 	{
 		/// <summary>
-		/// This patch overrides the colored border of the blobs to the custom overlay colors of the HPA conduits
+		/// This patch overrides the colored border of the color blobs to the custom overlay colors of the HPA conduits
 		/// </summary>
 		[HarmonyPatch(typeof(ConduitFlowVisualizer), nameof(ConduitFlowVisualizer.GetCellTintColour))]
 		public class ConduitFlowVisualizer_GetCellTintColour_Patch
@@ -22,7 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static bool Prefix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
 			{
-				if (HighPressureConduitRegistration.HasHighPressureConduitAt(cell, __instance.flowManager.conduitType, __instance.showContents, out var changedTint))
+				if (HighPressureConduitRegistration.HasTintableHighPressureConduitAt(cell, __instance.flowManager.conduitType, __instance.showContents, __instance.radiantCells.Contains(cell), out var changedTint))
 				{
 					__result = changedTint;
 					return false;
