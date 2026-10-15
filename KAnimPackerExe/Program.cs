@@ -14,12 +14,12 @@ class Program
 					KanimPackHelper.ConvertSingleFile(path);
 				}
 			}
-			Console.ReadLine();
+			//Console.ReadLine();
 		}
 		else
 		{
 			///Ronivans Legacy:
-			RonivanAIO.PackModDirectories();
+			//RonivanAIO.PackModDirectories();
 		}
 	}
 }

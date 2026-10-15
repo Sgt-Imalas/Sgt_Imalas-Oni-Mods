@@ -189,7 +189,6 @@ namespace _KAnimPackerExe
 					Directory.Delete(tempDirectory, true);
 			}
 		}
-
 		private void ProcessDirectoryKANIM(string inputDirectory, string outputDirectory)
 		{
 			Directory.CreateDirectory(outputDirectory);
@@ -227,7 +226,7 @@ namespace _KAnimPackerExe
 				Directory.CreateDirectory(tempDirectory);
 				foreach (string file in Directory.GetFiles(inputDirectory, "*", SearchOption.TopDirectoryOnly))
 				{
-					if (Path.GetExtension(file).ToLowerInvariant() == ".png")
+					if (Path.GetExtension(file).ToLowerInvariant() != ".bytes")
 						continue;
 
 					string destination = Path.Combine(tempDirectory, Path.GetFileName(file));
