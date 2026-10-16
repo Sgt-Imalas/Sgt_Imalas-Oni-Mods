@@ -35,7 +35,7 @@ namespace UtilLibs
 			}
 		}
 
-		public static int LoadAllPackedKanimsRecursively(string directory, bool root = true)
+		public static int LoadAllPackedKanimsRecursively(string directory)
 		{
 			SgtLogger.l("Loading packed kanims from directory: " + directory);
 			if (!System.IO.Directory.Exists(directory))
@@ -44,8 +44,7 @@ namespace UtilLibs
 			int count = 0;
 			foreach (var subdir in dirInfo.GetDirectories())
 			{
-				int subDirAnimCount = LoadAllPackedKanimsRecursively(subdir.FullName, false);
-				count += subDirAnimCount;
+				count += LoadAllPackedKanimsRecursively(subdir.FullName);
 			}
 			foreach (var file in dirInfo.GetFiles())
 			{
