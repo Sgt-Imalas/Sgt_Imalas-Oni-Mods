@@ -1,0 +1,85 @@
+name: feature_staterpillar_2
+info:
+  size:
+    X: 6
+    Y: 5
+  area: 22
+cells:
+- element: Vacuum
+  location_x: 1
+  location_y: -2
+- element: Vacuum
+  location_x: 2
+  location_y: -2
+- element: Vacuum
+  location_x: 3
+  location_y: -2
+- element: Vacuum
+  location_x: 1
+  location_y: -1
+- element: Vacuum
+  location_x: 2
+  location_y: -1
+- element: Vacuum
+  location_x: 3
+  location_y: -1
+- element: Vacuum
+  location_x: -2
+- element: Vacuum
+  location_x: -1
+- element: Vacuum
+- element: Vacuum
+  location_x: 1
+- element: Vacuum
+  location_x: 2
+- element: Vacuum
+  location_x: 3
+- element: Vacuum
+  location_x: -2
+  location_y: 1
+- element: Vacuum
+  location_x: -1
+  location_y: 1
+- element: Vacuum
+  location_y: 1
+- element: Vacuum
+  diseaseName: FoodPoisoning
+  location_x: 1
+  location_y: 1
+- element: Vacuum
+  diseaseName: FoodPoisoning
+  location_x: 2
+  location_y: 1
+- element: Vacuum
+  diseaseName: FoodPoisoning
+  location_x: 3
+  location_y: 1
+- element: Vacuum
+  location_x: -2
+  location_y: 2
+- element: Vacuum
+  location_x: -1
+  location_y: 2
+- element: Vacuum
+  location_y: 2
+- element: Vacuum
+  diseaseName: FoodPoisoning
+  location_x: 1
+  location_y: 2
+buildings: []
+pickupables:
+- id: Staterpillar
+  location_x: -1
+  location_y: 2
+  element: Creature
+  temperature: 293
+  units: 1
+  type: Pickupable
+- id: Staterpillar
+  location_x: 3
+  element: Creature
+  temperature: 293
+  units: 1
+  type: Pickupable
+elementalOres: []
+otherEntities: []

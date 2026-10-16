@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using STRINGS;
+using UnityEngine;
 using UtilLibs;
 
 namespace WeebPacu
@@ -13,13 +14,18 @@ namespace WeebPacu
 		[HarmonyPatch(nameof(BasePacuConfig.CreatePrefab))]
 		public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
 		{
-			public static void Prefix(ref string anim_file)
+			//public static void Prefix(ref string anim_file)
+			//{
+			//	//if (anim_file == "pacu_kanim")
+			//	//	anim_file = "weeb_pacu_kanim";
+			//	//SoundUtils.CopySoundsToAnim("weeb_pacu_kanim", "pacu_kanim");
+			//}
+			public static void Postfix(GameObject __result)
 			{
-				if (anim_file == "pacu_kanim")
-					anim_file = "weeb_pacu_kanim";
-				SoundUtils.CopySoundsToAnim("weeb_pacu_kanim", "pacu_kanim");
+				__result.AddOrGet<WeebPacuSymbolHandler>();
 			}
 		}
+
 		/// <summary>
 		/// Init. auto translation
 		/// </summary>

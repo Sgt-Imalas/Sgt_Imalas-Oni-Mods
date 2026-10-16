@@ -20,7 +20,7 @@ namespace ClusterTraitGenerationManager.UI.SecondaryDisplayTypes
 		private StarmapItem _starmapItem;
 		public string LocationDescription()
 		{
-			return (ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, StarmapItem.DisplayName), StarmapItem.category));
+			return (ModAssets.ModStringHelper.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, StarmapItem.DisplayName), StarmapItem.category));
 		}
 	}
 }

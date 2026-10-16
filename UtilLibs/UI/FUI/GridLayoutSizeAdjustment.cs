@@ -39,7 +39,7 @@ namespace UtilLibs.UI.FUI
 		bool sizeRatioSet = false;
 		IEnumerator GetRatio()
 		{
-			yield return new WaitForEndOfFrame();
+			yield return null;
 			WidthToHeightRatio = referencedLayoutGroup.cellSize.x / referencedLayoutGroup.cellSize.y;
 			sizeRatioSet = true;
 			RequestGridResize();

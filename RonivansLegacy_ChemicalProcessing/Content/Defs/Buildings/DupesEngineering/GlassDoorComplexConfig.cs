@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -15,7 +11,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] material_mass = [100f, 50f];
-			string[] construction_materials = ["RefinedMetal", "Transparent"];
+			string[] construction_materials = [MATERIALS.REFINED_METAL, MATERIALS.ALL_GLASSES];
 
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "glass_door_complex_kanim", 30, 60f, material_mass, construction_materials, 1600f, BuildLocationRule.Tile, TUNING.BUILDINGS.DECOR.BONUS.TIER1, nONE, 1f);

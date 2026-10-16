@@ -1,19 +1,12 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static BetterCritterMorpher.ModAssets;
 using static FertilityMonitor;
-using static STRINGS.CREATURES.MODIFIERS;
-using static EggProtectionMonitor.Instance;
 
 namespace BetterCritterMorpher
 {

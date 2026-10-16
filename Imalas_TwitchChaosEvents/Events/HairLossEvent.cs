@@ -1,9 +1,5 @@
 ﻿using ONITwitchLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Util_TwitchIntegrationLib;
 
 namespace Imalas_TwitchChaosEvents.Events
@@ -23,7 +19,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public Action<object> EventAction => (object data) =>
 		{
-			ToastManager.InstantiateToast(
+			ToastHelper.InstantiateToast(
 				STRINGS.CHAOSEVENTS.HAIRLOSS.TOAST,
 				 STRINGS.CHAOSEVENTS.HAIRLOSS.TOASTTEXT
 				 );

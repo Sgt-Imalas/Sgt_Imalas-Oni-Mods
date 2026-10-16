@@ -19,7 +19,8 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
         {
             public static void Postfix(GameObject go)
             {
-                go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_compressed";
+                if (Config.Instance.CompressInteriors || Config.Instance.CenteredInteriors)
+                    go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_compressed";
                 foreach (var storage in go.GetComponents<Storage>())
                 {
                     storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
@@ -75,9 +76,10 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
         [HarmonyPatch("ConfigureBuildingTemplate")]
         public static class SaveSpace_HabitatSmall_Patch
         {
-            public static void Postfix(GameObject go)
-            {
-                go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_small_compressed";
+			public static void Postfix(GameObject go)
+			{
+				if (Config.Instance.CompressInteriors || Config.Instance.CenteredInteriors)
+					go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_small_compressed";
 
                 foreach (var storage in go.GetComponents<Storage>())
                 {

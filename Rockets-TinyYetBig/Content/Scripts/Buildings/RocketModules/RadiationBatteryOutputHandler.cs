@@ -14,7 +14,11 @@ namespace Rockets_TinyYetBig.Behaviours
 		[MyCmpGet] RocketModuleCluster module;
 
 		[MyCmpReq]
+		private LogicPorts logicPorts;
+		[MyCmpReq]
 		private KSelectable selectable;
+		[MyCmpReq]
+		private Operational operational;
 		[Serialize]
 		private EightDirection _direction;
 		private MeterController directionController;
@@ -24,29 +28,38 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		[MyCmpReq]
 		public HighEnergyParticleStorage hepStorage;
+		[MyCmpReq]
+		public KBatchedAnimController kbac;
 		private MeterController m_meter;
 
 		[MyCmpAdd]
 		public CopyBuildingSettings copyBuildingSettings;
 
-		public bool AllowSpawnParticles => hasLogicWire && isLogicActive;
+		public bool AllowSpawnParticles => hasLogicWire && isLogicActive && ModuleLanded();
 		private bool hasLogicWire;
 		private bool isLogicActive;
 		private float launchTimer = 0;
 		private readonly float minLaunchInterval = 1f;
+
 		public void Sim200ms(float dt)
 		{
-			bool shouldDecay = ShouldDecay();
+			RefreshSkyCoverage();
+			bool shouldDecay = ShouldDecay(dt);
 			if (shouldDecay)
 				DoConsumeParticlesWhileDisabled(dt);
 			else
 				m_skipFirstUpdate = 10;
 
 			UpdateDecayStatusItem(shouldDecay);
+			SpawnRadboltIfReady(dt);
+		}
+
+		void SpawnRadboltIfReady(float dt)
+		{
 			launchTimer += dt;
-			if (launchTimer < (double)minLaunchInterval || !AllowSpawnParticles || (double)hepStorage.Particles < particleThreshold)
+			if (launchTimer < minLaunchInterval || !AllowSpawnParticles || hepStorage.Particles < particleThreshold)
 				return;
-			launchTimer = 0.0f;
+			launchTimer = 0;
 			Fire();
 		}
 
@@ -60,13 +73,13 @@ namespace Rockets_TinyYetBig.Behaviours
 				{
 					if (!(this.statusHandle == Guid.Empty))
 						return;
-					this.statusHandle = this.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.LosingRadbolts);
+					this.statusHandle = selectable.AddStatusItem(Db.Get().BuildingStatusItems.LosingRadbolts);
 				}
 				else
 				{
 					if (!(this.statusHandle != Guid.Empty))
 						return;
-					this.GetComponent<KSelectable>().RemoveStatusItem(this.statusHandle);
+					selectable.RemoveStatusItem(this.statusHandle);
 					this.statusHandle = Guid.Empty;
 				}
 			}
@@ -74,18 +87,28 @@ namespace Rockets_TinyYetBig.Behaviours
 			{
 				if (!(this.statusHandle != Guid.Empty))
 					return;
-				this.GetComponent<KSelectable>().RemoveStatusItem(this.statusHandle);
+				selectable.RemoveStatusItem(this.statusHandle);
 				this.statusHandle = Guid.Empty;
 			}
 		}
 
-		public bool ShouldDecay()
+		void RefreshSkyCoverage()
 		{
-			if (!HasSkyVisibility() && module.CraftInterface.m_clustercraft.Status == Clustercraft.CraftStatus.Grounded)
-			{
-				return true;
-			}
-			return false;
+			//only consume power if no sky visibility
+			bool solarPanelsHaveLight = HasSkyVisibility();
+			kbac.SetSymbolVisiblity("solar_panel_glow", solarPanelsHaveLight);
+			//using the active flag for the power consumer so it can use power leeching as backup
+			operational.SetActive(!solarPanelsHaveLight);
+		}
+
+		public bool ModuleLanded() => module.CraftInterface.m_clustercraft.Status == Clustercraft.CraftStatus.Grounded;
+
+		public bool ShouldDecay(float dt)
+		{
+			if (HasSkyVisibility() || !ModuleLanded())
+				return false;
+
+			return !operational.IsOperational;
 		}
 
 		public bool HasSkyVisibility()
@@ -96,8 +119,10 @@ namespace Rockets_TinyYetBig.Behaviours
 				m_skipFirstUpdate = 10;
 				return true;
 			}
-			bool cellsClear = Grid.ExposedToSunlight[CellCenter - 2] >= 1 && Grid.ExposedToSunlight[CellCenter + 2] >= 1;
-			return cellsClear;
+
+			bool leftSolarPanelClear = Grid.IsValidCell(CellCenter - 2) && Grid.ExposedToSunlight[CellCenter - 2] >= 1;
+			bool rightSolarPanelClear = Grid.IsValidCell(CellCenter + 2) && Grid.ExposedToSunlight[CellCenter + 2] >= 1;
+			return leftSolarPanelClear && rightSolarPanelClear;
 		}
 
 		private int m_skipFirstUpdate = 10;
@@ -116,13 +141,22 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		private void OnLogicValueChanged(object data)
 		{
-			LogicValueChanged logicValueChanged = (LogicValueChanged)data;
-			if (!(logicValueChanged.portID == HEPBattery.FIRE_PORT_ID))
-				return;
-			isLogicActive = logicValueChanged.newValue > 0;
-			hasLogicWire = GetNetwork() != null;
+			RefreshLogicValue();
 		}
-		private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(GetComponent<LogicPorts>().GetPortCell(HEPBattery.FIRE_PORT_ID));
+		void RefreshLogicValue()
+		{
+			if(!ModuleLanded())
+			{
+				hasLogicWire = false;
+				isLogicActive = false;
+				return;
+			}
+			hasLogicWire = GetNetwork() != null;
+			isLogicActive = hasLogicWire ? logicPorts.GetInputValue(HEPBattery.FIRE_PORT_ID) > 0 : false;
+		}
+
+
+		private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(logicPorts.GetPortCell(HEPBattery.FIRE_PORT_ID));
 
 		public int GetCircularHEPOutputCell()
 		{
@@ -141,7 +175,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			offset.x += x;
 			offset.y += y;
 
-			int cell = Grid.OffsetCell(GetComponent<Building>().GetCell(), offset);
+			int cell = Grid.OffsetCell(this.NaturalBuildingCell(), offset);
 			return cell;
 		}
 
@@ -215,9 +249,9 @@ namespace Rockets_TinyYetBig.Behaviours
 			OnStorageChange(null);
 			//this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.ParticleStorageCapacityChanged, OnStorageChangedDelegate);
 			Subscribe((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
-			Subscribe((int)GameHashes.LogicEvent, new Action<object>(OnLogicValueChanged));
-			Subscribe(-905833192, OnCopySettings);
-
+			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			Subscribe((int)GameHashes.CopySettings, OnCopySettings);
+			Subscribe((int)GameHashes.ClustercraftStateChanged, OnLogicValueChanged);
 		}
 
 		public void OnCopySettings(object data)

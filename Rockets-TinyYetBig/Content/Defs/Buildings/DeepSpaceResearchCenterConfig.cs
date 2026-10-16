@@ -1,11 +1,6 @@
 ﻿using Rockets_TinyYetBig.Content.Defs.Entities;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.Research;
 using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
@@ -70,7 +65,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.Research
 			researchCenter.research_point_type_id = ModAssets.DeepSpaceScienceID;
 			researchCenter.inputMaterial = INPUT_MATERIAL;
 			researchCenter.mass_per_point = 1f; 
-			researchCenter.requiredSkillPerk = Db.Get().SkillPerks.AllowInterstellarResearch.Id;
+			researchCenter.requiredSkillPerk = Db.Get().SkillPerks.AllowNuclearResearch.Id;
 			researchCenter.workLayer = Grid.SceneLayer.BuildingFront;
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =

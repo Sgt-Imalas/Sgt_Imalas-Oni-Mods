@@ -1,0 +1,34 @@
+#. This Duplicant is has a faintly glow to it
+msgctxt "BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.DESC"
+msgid "This Duplicant is has a faintly glow to it"
+msgstr "这名复制人身上带着微弱的光芒"
+
+#. Bioluminescent
+msgctxt "BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.NAME"
+msgid "Bioluminescent"
+msgstr "生物发光"
+
+#. Emits low amounts light
+msgctxt "BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.SHORT_DESC"
+msgid "Emits low amounts light"
+msgstr "发出少量光照"
+
+#. Emits low amounts of light
+msgctxt "BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.SHORT_DESC_TOOLTIP"
+msgid "Emits low amounts of light"
+msgstr "发出少量光照"
+
+#. Permanently gives the consumer the Bioluminescent trait
+msgctxt "BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.DESC"
+msgid "Permanently gives the consumer the Bioluminescent trait"
+msgstr "永久赋予食用者生物发光特质"
+
+#. Biolumin Essence
+msgctxt "BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.NAME"
+msgid "Biolumin Essence"
+msgstr "生物荧光精华"
+
+#. A highly experimental medicine that gives the duplicant a permanent faint glow. No side effects were recorded so far!
+msgctxt "BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.RECIPEDESC"
+msgid "A highly experimental medicine that gives the duplicant a permanent faint glow. No side effects were recorded so far!"
+msgstr "一种高度实验性的药物，能让复制人永久发出微弱的光芒。目前为止尚未记录到任何副作用！"

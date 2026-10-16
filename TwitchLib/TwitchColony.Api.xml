@@ -1,0 +1,499 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TwitchColony.Api</name>
+    </assembly>
+    <members>
+        <member name="T:TwitchColony.Api.EventConditions">
+             <summary>
+                 Ready-made conditions for <see cref="M:TwitchColony.Api.TwitchColonyApi.RegisterEvent(System.String,System.String,System.Action{System.Object},System.String,TwitchColony.Api.EventWeight,TwitchColony.Api.EventDanger,System.Func{System.Object,System.Boolean},System.String)"/>. All of them read
+                 the payload Twitch Colony passes at draw time, so none of them touch the game — which is
+                 what keeps this library safe to load when Twitch Colony isn't installed.
+            
+                 Write your own the same way: <c>ctx =&gt; whatever</c>. They're checked every time the
+                 options are drawn, so keep them cheap and don't change anything from inside one.
+             </summary>
+        </member>
+        <member name="M:TwitchColony.Api.EventConditions.FromCycle(System.Int32)">
+            <summary>Only from this colony cycle onwards. Good for events that would end a young colony.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.EventConditions.BeforeCycle(System.Int32)">
+            <summary>Only before this colony cycle.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.EventConditions.All(System.Func{System.Object,System.Boolean}[])">
+            <summary>All of them must say yes. No conditions = always yes.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.EventConditions.Any(System.Func{System.Object,System.Boolean}[])">
+            <summary>Any one of them saying yes is enough. No conditions = always yes.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.EventConditions.Not(System.Func{System.Object,System.Boolean})">
+            <summary>Inverts a condition.</summary>
+        </member>
+        <member name="T:TwitchColony.Api.EventDataInfo">
+             <summary>
+                 A snapshot of a registered event's state, handed back by
+                 <see cref="M:TwitchColony.Api.TwitchColonyApi.TryGetEventData(System.String,TwitchColony.Api.EventDataInfo@)"/>. Everything you need to roll your own weighted
+                 choice over a set of events and then trigger the winner.
+            
+                 This type lives only in the merge-lib — it never crosses into Twitch Colony. The mod hands
+                 the values over as a plain dictionary and this side reads them into the typed shape below,
+                 which is why an add-on's own struct is fine here where it wouldn't be on the boundary.
+             </summary>
+        </member>
+        <member name="P:TwitchColony.Api.EventDataInfo.Id">
+            <summary>The event's stable id.</summary>
+        </member>
+        <member name="P:TwitchColony.Api.EventDataInfo.DisplayName">
+            <summary>What chat sees in the vote options.</summary>
+        </member>
+        <member name="P:TwitchColony.Api.EventDataInfo.GroupId">
+            <summary>The event's group id, or null if it stands on its own.</summary>
+        </member>
+        <member name="P:TwitchColony.Api.EventDataInfo.Weight">
+            <summary>
+                The event's configured draw weight (see <see cref="T:TwitchColony.Api.EventWeight"/>, though a mod may use
+                any value). 0 means it's never offered by a vote. This is the stable weight, not the
+                one temporarily damped by a recent group — what you want for your own weighted roll.
+            </summary>
+        </member>
+        <member name="P:TwitchColony.Api.EventDataInfo.Danger">
+            <summary>How much the event can hurt the colony.</summary>
+        </member>
+        <member name="P:TwitchColony.Api.EventDataInfo.ConditionMet">
+            <summary>
+                Whether the event's condition passes right now. False means it would sit a vote out
+                this moment — the "is it allowed" check you'd run before including it in a roll.
+            </summary>
+        </member>
+        <member name="P:TwitchColony.Api.EventDataInfo.WithinDangerCap">
+            <summary>
+                Whether the event's danger is within the streamer's cap for the current cycle. Note
+                <see cref="M:TwitchColony.Api.TwitchColonyApi.TriggerEvent(System.String)"/> ignores this cap, so respect it yourself if
+                you don't want to fire past what the streamer allowed.
+            </summary>
+        </member>
+        <member name="P:TwitchColony.Api.EventDataInfo.Eligible">
+            <summary>
+                Whether the event would actually be offered in a vote drawn right now: weight above
+                zero, condition met, and within the danger cap. The single flag most callers want.
+            </summary>
+        </member>
+        <member name="T:TwitchColony.Api.TwitchColonyApi">
+             <summary>
+                 Register your own events with Twitch Colony.
+            
+                 ILMerge this library into your mod's DLL (don't ship it loose — two mods shipping
+                 different versions of a loose TwitchColony.Api.dll would fight over which one loads).
+            
+                 Twitch Colony does not have to be installed. Everything here reflects into the main mod
+                 at call time and quietly does nothing if it isn't there, so your mod keeps working on its
+                 own — no hard reference, no TypeLoadException, nothing to catch.
+            
+                 <code>
+                 public override void OnLoad(Harmony harmony) {
+                     base.OnLoad(harmony);
+                     TwitchColonyApi.RegisterEvent(
+                         id: "mymod.confetti",
+                         displayName: "Confetti!",
+                         action: ctx => Confetti.Drop(),
+                         danger: EventDanger.None,
+                         owner: "My Mod");
+                 }
+                 </code>
+             </summary>
+        </member>
+        <member name="F:TwitchColony.Api.TwitchColonyApi.KeepZoom">
+            <summary>Zoom value meaning "don't touch the zoom, the streamer picked it".</summary>
+        </member>
+        <member name="F:TwitchColony.Api.TwitchColonyApi.CloseZoom">
+            <summary>Close enough to see one thing clearly. The default when you point at an object.</summary>
+        </member>
+        <member name="P:TwitchColony.Api.TwitchColonyApi.IsAvailable">
+            <summary>True when Twitch Colony is installed and speaking a version we understand.</summary>
+        </member>
+        <member name="P:TwitchColony.Api.TwitchColonyApi.InstalledApiVersion">
+            <summary>Contract version of the installed Twitch Colony, or 0 if it isn't there.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.RegisterEvent(System.String,System.String,System.Action{System.Object},System.String,TwitchColony.Api.EventWeight,TwitchColony.Api.EventDanger,System.Func{System.Object,System.Boolean},System.String)">
+            <summary>
+                Add an event to Twitch Colony's vote pool. Call it once, from your UserMod2.OnLoad;
+                the event survives colony reloads.
+            </summary>
+            <param name="id">
+                Stable, unique id — prefix it with your mod name ("mymod.confetti"). If it collides
+                with an id already registered, yours is refused.
+            </param>
+            <param name="displayName">What chat sees in the vote options.</param>
+            <param name="action">
+                Runs on the game's main thread when your event wins, so it may touch the game freely.
+                The argument describes what triggered it: read it with <see cref="T:TwitchColony.Api.EventContext"/>
+                (<c>EventContext.GetStrings(ctx, EventContext.Voters)</c> and friends). Never cast it
+                to a type of your own — it's a plain Dictionary&lt;string, object&gt;.
+            </param>
+            <param name="groupId">
+                Optional. Events that feel alike should share a group: when one fires, the whole group
+                is less likely to be offered for the next few votes. Unlike <paramref name="id"/>,
+                group names are a shared namespace: "flood" puts your events in the same bucket as
+                Twitch Colony's floods (often what you want), while "mymod.floods" keeps them damping
+                only each other.
+            </param>
+            <param name="weight">How often it's offered relative to other events.</param>
+            <param name="danger">
+                How much it can hurt the colony. Tag it honestly — streamers filter on this to keep a
+                run from being ruined by something they didn't opt into.
+            </param>
+            <param name="condition">
+                Optional. Checked when the options are drawn; return false to sit this vote out. Keep
+                it cheap and side-effect free. See <see cref="T:TwitchColony.Api.EventConditions"/> for ready-made ones.
+            </param>
+            <param name="owner">Your mod's name. Only used so log lines can name you.</param>
+            <returns>
+                true if Twitch Colony accepted the event; false if it isn't installed, speaks a
+                version we don't know, or rejected the arguments. Never throws.
+            </returns>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.TriggerEvent(System.String)">
+             <summary>
+                 Fire an event right now by id, skipping the vote — for testing your events while you
+                 build them. Bind it to a key, call it from your debug menu, whatever suits.
+            
+                 <code>
+                 if (Input.GetKeyDown(KeyCode.F9)) TwitchColonyApi.TriggerEvent("mymod.confetti");
+                 </code>
+            
+                 It skips the vote, and with it the streamer's danger ceiling and your own condition,
+                 so don't wire it to anything a viewer can reach. Call it on the game's main thread,
+                 with a colony loaded.
+             </summary>
+             <param name="id">Id of a registered event — yours, or one of Twitch Colony's own.</param>
+             <returns>
+                 true if the event ran; false if Twitch Colony isn't installed or has no such id.
+                 Never throws.
+             </returns>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.TryGetEventData(System.String,TwitchColony.Api.EventDataInfo@)">
+             <summary>
+                 Look up a registered event's current state by id, without firing it — its weight and
+                 danger, whether its condition passes right now, and whether it's within the streamer's
+                 danger cap this cycle. For building an event that rolls its own weighted choice over a
+                 set of others and then triggers the winner (a "random weather event", say).
+            
+                 <code>
+                 // Pick one of my weather events, weighted, respecting condition + the streamer's cap:
+                 var pool = new List&lt;(string id, int weight)&gt;();
+                 foreach (var id in myWeatherEventIds)
+                     if (TwitchColonyApi.TryGetEventData(id, out var info) &amp;&amp; info.Eligible)
+                         pool.Add((id, info.Weight));
+                 var winner = WeightedPick(pool);      // your own roll
+                 if (winner != null) TwitchColonyApi.TriggerEvent(winner);
+                 </code>
+            
+                 <see cref="P:TwitchColony.Api.EventDataInfo.Eligible"/> bundles "weight &gt; 0, condition met, within the
+                 danger cap" — the same test a real vote draw applies. Check the individual flags
+                 instead if you want to roll past the cap on purpose (<see cref="M:TwitchColony.Api.TwitchColonyApi.TriggerEvent(System.String)"/> does).
+                 Reads only; safe to call any time, though the danger/condition is a snapshot of now.
+             </summary>
+             <param name="id">Id of a registered event — yours, or one of Twitch Colony's own.</param>
+             <param name="info">The event's state on success; null if there's no such id.</param>
+             <returns>
+                 true if the event exists; false if Twitch Colony isn't installed, is older than v2, or
+                 has no such id. Never throws.
+             </returns>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.ShowBanner(System.String,System.Single)">
+             <summary>
+                 Show a banner across the top of the screen — the same one Twitch Colony announces vote
+                 winners and new subs with. Use it to warn the streamer what just landed on them, or to
+                 deliver the punchline of an event.
+            
+                 <code>
+                 TwitchColonyApi.ShowBanner("&lt;b&gt;Nobody expects the Spanish Inquisition!&lt;/b&gt;", 6f);
+                 </code>
+            
+                 TextMeshPro rich text works (<c>&lt;color=#RRGGBB&gt;</c>, <c>&lt;b&gt;</c>, newlines).
+                 Emoji don't: the game's fonts have none, so anything unrenderable is dropped rather
+                 than drawn as a hollow box. A second banner replaces the first.
+            
+                 Main thread, colony loaded.
+             </summary>
+             <param name="message">Keep it short — it's a banner, not a paragraph.</param>
+             <param name="seconds">How long it stays up. Clamped to 1–30.</param>
+             <returns>true if it was shown; false if Twitch Colony isn't installed. Never throws.</returns>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.ShowBanner(System.String,System.Single,UnityEngine.GameObject,System.Single)">
+             <summary>
+                 A banner the streamer can click to look at whatever it's about — the camera pans to
+                 the object, keeping their zoom. It follows the object, so a moving one still works.
+            
+                 <code>
+                 TwitchColonyApi.ShowBanner("&lt;b&gt;Something is loose in the base!&lt;/b&gt;", 8f, critter);
+                 </code>
+            
+                 Half the value of a warning is "…and it's over there", and the streamer shouldn't have
+                 to go hunting. The banner says "click to look" so they know it's there.
+             </summary>
+             <param name="message">Keep it short — it's a banner, not a paragraph.</param>
+             <param name="seconds">How long it stays up. Clamped to 1–30.</param>
+             <param name="panTo">Where to take them. Nothing pans if it's null or gets destroyed.</param>
+             <param name="orthographicSize">
+                 Zoom to arrive at — smaller is closer, and it's clamped to what the game allows.
+                 Defaults to zooming in on the thing, since panning to a critter the streamer is zoomed
+                 out from just centres a dot. Pass <see cref="F:TwitchColony.Api.TwitchColonyApi.KeepZoom"/> to leave their zoom alone.
+             </param>
+             <returns>true if it was shown; false if Twitch Colony isn't installed. Never throws.</returns>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.ShowBanner(System.String,System.Single,UnityEngine.Vector3,System.Single)">
+            <summary>Same, but for a fixed spot rather than an object — a cell you flooded, say.</summary>
+            <param name="message">Keep it short — it's a banner, not a paragraph.</param>
+            <param name="seconds">How long it stays up. Clamped to 1–30.</param>
+            <param name="panTo">The world position to pan to when clicked.</param>
+            <param name="orthographicSize">
+                Zoom to arrive at. Defaults to <see cref="F:TwitchColony.Api.TwitchColonyApi.KeepZoom"/> — for a place rather than a
+                thing, only you know how much of it the streamer needs to see.
+            </param>
+            <returns>true if it was shown; false if Twitch Colony isn't installed. Never throws.</returns>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.ShowBubble(UnityEngine.GameObject,System.String)">
+             <summary>
+                 Show a speech bubble above something — the same bubble viewers' chat messages appear
+                 in. Works over anything with a transform: a duplicant, a critter, a building.
+            
+                 <code>
+                 TwitchColonyApi.ShowBubble(dupe.gameObject, "well, this is unexpected");
+                 </code>
+            
+                 It follows the streamer's own bubble settings (font, size, lifetime), so it looks like
+                 part of the mod. One bubble per object — showing another replaces it. Emoji are
+                 dropped, as with banners.
+            
+                 Main thread, colony loaded.
+             </summary>
+             <param name="target">What to float it above. Nothing happens if it's null or destroyed.</param>
+             <param name="text">What it says.</param>
+             <returns>true if a bubble appeared; false if Twitch Colony isn't installed. Never throws.</returns>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.UnregisterEvent(System.String)">
+            <summary>Remove an event you registered earlier. Returns true if it was there.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.Resolve">
+            <summary>
+                Find the main mod's bridge once and remember the answer, including "it isn't there".
+                Matching the method by its exact parameter types is the real compatibility check: if a
+                future Twitch Colony changes the signature, we find nothing and no-op rather than
+                throwing a MissingMethodException into the add-on's face.
+            </summary>
+        </member>
+        <member name="M:TwitchColony.Api.TwitchColonyApi.ParametersOf(System.Type)">
+            <summary>The parameter types of a delegate, i.e. the signature to look for.</summary>
+        </member>
+        <member name="T:TwitchColony.Api.RegisterEventDelegate">
+            <summary>
+                The one true shape of the registration call. Both sides derive from this single
+                declaration instead of spelling the signature out twice: the main mod assigns its method
+                to it (so a changed parameter breaks the build, loudly, now) and the merge-lib builds its
+                reflection lookup from it (so it can never ask for a signature that was never offered).
+                Without this, the two would drift apart silently and add-on events would just stop
+                registering with no error anywhere.
+            </summary>
+        </member>
+        <member name="T:TwitchColony.Api.UnregisterEventDelegate">
+            <summary>Same idea for the unregister call.</summary>
+        </member>
+        <member name="T:TwitchColony.Api.TriggerEventDelegate">
+            <summary>And for firing an event on demand, which is how add-on authors test theirs.</summary>
+        </member>
+        <member name="T:TwitchColony.Api.TryGetEventDataDelegate">
+            <summary>
+                Read the current state of a registered event by id — its weight and danger, and whether it
+                could be offered right now (its condition and the streamer's danger cap). The carrier is a
+                Dictionary&lt;string, object&gt; (keys in <see cref="T:TwitchColony.Api.EventData"/>) for the same reason the
+                action payload is: a struct of ours would have two runtime identities across the boundary.
+                The merge-lib unpacks it into a typed EventDataInfo on its own side.
+            </summary>
+        </member>
+        <member name="T:TwitchColony.Api.ShowBannerDelegate">
+            <summary>
+                Banner across the top of the screen. Note the UnityEngine type in the sibling delegate
+                below: Unity's types are safe to pass across, unlike ours. Both mods reference the same
+                UnityEngine.CoreModule out of the game folder, so there is exactly one GameObject type at
+                runtime — the two-identities problem only bites on types we compile ourselves.
+            </summary>
+        </member>
+        <member name="T:TwitchColony.Api.ShowBannerAtTargetDelegate">
+            <summary>
+                Banner that pans the camera to a moving thing when clicked. orthographicSize is the zoom
+                to arrive at; 0 or less keeps whatever zoom the streamer is on.
+            </summary>
+        </member>
+        <member name="T:TwitchColony.Api.ShowBannerAtPositionDelegate">
+            <summary>Banner that pans the camera to a fixed spot when clicked. Same zoom rule.</summary>
+        </member>
+        <member name="T:TwitchColony.Api.ShowBubbleDelegate">
+            <summary>Speech bubble above a game object.</summary>
+        </member>
+        <member name="T:TwitchColony.Api.ApiContract">
+             <summary>
+                 The exact names the merge-lib reflects for, and the version of the contract they follow.
+            
+                 This file is compiled into BOTH TwitchColony.dll and TwitchColony.Api.dll from the same
+                 source (see the Compile Include in each csproj) so the two can never drift apart. It is
+                 shared as source, not as a third DLL: a type compiled into two assemblies has two separate
+                 runtime identities, so nothing from here may ever be passed across the boundary. Only
+                 types both sides already share — string, int, bool, System.Action, System.Func, object —
+                 are allowed in the bridge signature.
+             </summary>
+        </member>
+        <member name="F:TwitchColony.Api.ApiContract.ModAssemblyName">
+            <summary>Assembly to look for. Missing = Twitch Colony isn't installed; the API no-ops.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.ApiContract.BridgeTypeName">
+            <summary>Full name of the static class in the main mod that the merge-lib reflects into.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.ApiContract.Version">
+             <summary>
+                 Bumped only for a breaking change to the bridge signature. The merge-lib refuses to
+                 register (rather than throwing) against a main mod whose version it doesn't know, so
+                 an old add-on can't take the game down with a MissingMethodException.
+            
+                 v2 added <see cref="F:TwitchColony.Api.ApiContract.TryGetEventDataMethodName"/>. It's a pure addition — the register
+                 signature is unchanged, so a v1 add-on still resolves and runs against a v2 mod, and a
+                 v2 add-on falls back gracefully (TryGetEventData just returns false) against a v1 mod,
+                 exactly as TriggerEvent did when it was added. The number is the honest capability
+                 signal for add-ons that want to check <c>InstalledApiVersion &gt;= 2</c>.
+             </summary>
+        </member>
+        <member name="T:TwitchColony.Api.EventContext">
+             <summary>
+                 Reads the object handed to an event's action.
+            
+                 The payload is a plain <c>Dictionary&lt;string, object&gt;</c> — deliberately, not a nice
+                 context class. A class of ours compiled into two assemblies would be two unrelated types
+                 at runtime, so an add-on's cast would throw. A dictionary of BCL types always works, and
+                 new keys can be added later without breaking add-ons built against an older version.
+            
+                 Every getter tolerates a null or unexpected payload and returns the fallback: an event
+                 must never blow up because it was triggered from somewhere that didn't fill a key in.
+             </summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventContext.EventId">
+            <summary>Id of the event being triggered. string.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventContext.Cycle">
+            <summary>Colony cycle when it fired, or -1 if the clock wasn't up yet. int.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventContext.VoteCount">
+            <summary>Votes this option received. int. 0 when it wasn't a vote (see <see cref="F:TwitchColony.Api.EventContext.Source"/>).</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventContext.Voters">
+            <summary>
+                Nicks that voted for this option. string[]. Empty for native Twitch polls — Twitch
+                reports totals, not who voted.
+            </summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventContext.Source">
+            <summary>What set it off: <see cref="F:TwitchColony.Api.EventContext.SourceChatVote"/>, <see cref="F:TwitchColony.Api.EventContext.SourcePoll"/>, or other. string.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventContext.SourceChatVote">
+            <summary>Value of <see cref="F:TwitchColony.Api.EventContext.Source"/> when chat voted by typing the vote command.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventContext.SourcePoll">
+            <summary>Value of <see cref="F:TwitchColony.Api.EventContext.Source"/> when the winner came from a native Twitch poll.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventContext.SourceDirect">
+            <summary>Value of <see cref="F:TwitchColony.Api.EventContext.Source"/> when something fired the event directly, no vote involved.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.EventContext.GetString(System.Object,System.String,System.String)">
+            <summary>Reads a string key, or <paramref name="fallback"/> if it's missing or another type.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.EventContext.GetInt(System.Object,System.String,System.Int32)">
+            <summary>Reads a numeric key, or <paramref name="fallback"/> if it's missing or not a number.</summary>
+        </member>
+        <member name="M:TwitchColony.Api.EventContext.GetStrings(System.Object,System.String)">
+            <summary>Never returns null, so callers can foreach without checking.</summary>
+        </member>
+        <member name="T:TwitchColony.Api.EventDanger">
+             <summary>
+                 How much an event can hurt the colony. Crossing the assembly boundary it travels as a
+                 plain int (see <see cref="T:TwitchColony.Api.ApiContract"/>).
+            
+                 The streamer decides how rough their run gets, so tag honestly: an event tagged
+                 <see cref="F:TwitchColony.Api.EventDanger.None"/> that can kill duplicants will ruin somebody's colony on a setting
+                 they picked precisely to stop that happening.
+             </summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventDanger.None">
+            <summary>Cosmetic or pure upside. Nothing can go wrong: bubbles, cheering, free stuff.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventDanger.Small">
+            <summary>Mildly annoying. Some work is lost or interrupted; nothing breaks.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventDanger.Medium">
+            <summary>Costs real resources or time, and a fragile colony could feel it.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventDanger.High">
+            <summary>Can damage the colony badly if the player doesn't react.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventDanger.Deadly">
+            <summary>Duplicants can die.</summary>
+        </member>
+        <member name="T:TwitchColony.Api.EventData">
+             <summary>
+                 The keys of the dictionary <c>TryGetEventData</c> hands back — the mod fills it, the
+                 merge-lib reads it into a typed <c>EventDataInfo</c>. Declared once here and compiled into
+                 both assemblies (like <see cref="T:TwitchColony.Api.EventContext"/>) so the two can't disagree on a key name.
+            
+                 It travels as a plain <c>Dictionary&lt;string, object&gt;</c> for the usual reason: a type
+                 of ours would be two unrelated types across the boundary, and a new key can be added later
+                 without breaking an add-on built against an older version.
+             </summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventData.Id">
+            <summary>The event's stable id. string.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventData.DisplayName">
+            <summary>What chat sees in the vote options. string.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventData.GroupId">
+            <summary>The event's group id, or null if it stands on its own. string.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventData.Weight">
+            <summary>Its configured draw weight (see EventWeight); 0 = never offered by a vote. int.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventData.Danger">
+            <summary>How much it can hurt the colony (see EventDanger). int.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventData.ConditionMet">
+            <summary>Whether its condition passes right now — false = it'd sit this vote out. bool.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventData.WithinDangerCap">
+            <summary>Whether its danger is within the streamer's current (cycle-scaled) cap. bool.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventData.Eligible">
+            <summary>
+                Whether it would actually be offered in a vote drawn right now: weight above zero, its
+                condition met, and within the danger cap. The one flag most callers want. bool.
+            </summary>
+        </member>
+        <member name="T:TwitchColony.Api.EventWeight">
+            <summary>
+                How often an event should turn up in the vote options, relative to the others. Crossing
+                the assembly boundary it travels as a plain int (see <see cref="T:TwitchColony.Api.ApiContract"/>).
+            </summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventWeight.Never">
+            <summary>Registered, but never offered by the random draw. For events you trigger yourself.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventWeight.Rare">
+            <summary>Offered a quarter as often as <see cref="F:TwitchColony.Api.EventWeight.Common"/>.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventWeight.Uncommon">
+            <summary>Offered half as often as <see cref="F:TwitchColony.Api.EventWeight.Common"/>.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventWeight.Common">
+            <summary>The default, and what every built-in event uses unless it says otherwise.</summary>
+        </member>
+        <member name="F:TwitchColony.Api.EventWeight.VeryCommon">
+            <summary>Offered twice as often as <see cref="F:TwitchColony.Api.EventWeight.Common"/>. Use sparingly.</summary>
+        </member>
+    </members>
+</doc>

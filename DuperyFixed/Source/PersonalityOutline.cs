@@ -1,15 +1,13 @@
-﻿using HarmonyLib;
+﻿using DuperyFixed;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
-using TUNING;
 using UtilLibs;
-using static STRINGS.DUPLICANTS;
 
 namespace Dupery
 {
 	class PersonalityOutline
 	{
+
 		// Properties for toggling stuff
 		[JsonProperty]
 		public bool Printable { get; set; } = true;
@@ -84,6 +82,9 @@ namespace Dupery
 		// Extra not-serlialized properties
 		private string sourceModId;
 		private bool isModified;
+		[JsonIgnore]
+		///used by vanilla dupes
+		string RequiredDlcID { get; set; }
 
 		public PersonalityOutline() { }
 
@@ -186,17 +187,22 @@ namespace Dupery
 			}
 		}
 
+		const string AquaticModModel = "AquaticMinion"; 
+
 		static HashSet<string> ValidModels = new() { "Minion", "BionicMinion" }; //tags arent initialized yet so they are null, update from GameTags.Minions.Models.AllModels when new minion type releases
 		public bool ToPersonality(string nameStringKey, out Personality outPersonality, out string failReason)
 		{
 			failReason = null;
+
+			if(ModAssets.AllowAquaticDupes && !ValidModels.Contains(AquaticModModel))
+				ValidModels.Add(AquaticModModel);
 
 			if (Model == null || !ValidModels.Contains(Model))
 				Model = "Minion";
 			Tag model = Model;
 
 			bool isBionic = Model == "BionicMinion";
-
+			bool isAquatic = model == AquaticModModel;
 
 			if (!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID) && isBionic)
 			{
@@ -204,6 +210,13 @@ namespace Dupery
 				outPersonality = null;
 				return false;
 			}
+			if(!DlcManager.IsContentSubscribed(DlcManager.DLC5_ID) && isAquatic)
+			{
+				failReason = "AquaticMinion model is not available without the Aquatic DLC";
+				outPersonality = null;
+				return false;
+			}
+
 
 
 			nameStringKey = nameStringKey.ToUpper();
@@ -222,9 +235,10 @@ namespace Dupery
 
 			// Other values can't be null but can be randomized
 
-			string gender = Gender;
-			if (!PersonalityGenerator.GENDERS.Contains(gender))
+			string gender = Gender.ToUpperInvariant();
+			if (!PersonalityGenerator.GENDERS.Contains(gender) )
 			{
+				SgtLogger.l("Normalizing invalid Gender: " + gender);
 				gender = PersonalityGenerator.DEFAULT_GENDER;
 			}
 
@@ -313,7 +327,7 @@ namespace Dupery
 				{
 					SgtLogger.l("adding SpeechMonitorKanimOverride: " + genericMouthFlap + " to personality: " + nameStringKey);
 					PersonalityManager.RegisterCustomSpeechMonitorKanim(nameStringKey, genericMouthFlap);
-										
+
 					//InjectionMethods.RegisterCustomInteractAnim(KAnimGroupFile.GetGroupFile(), genericMouthFlap);
 				}
 				else
@@ -340,6 +354,10 @@ namespace Dupery
 			// Customisable accessories
 			int hair = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hair, Hair);
 			int body = ChooseAccessoryNumber(Db.Get().AccessorySlots.Body, Body);
+
+			if (body == 7)
+				body = 5;
+
 			int neck = ChooseAccessoryNumber(Db.Get().AccessorySlots.Neck, Neck, 0);
 			int belt = ChooseAccessoryNumber(Db.Get().AccessorySlots.Belt, Belt, 0);
 			int cuff = ChooseAccessoryNumber(Db.Get().AccessorySlots.Cuff, Cuff, 0);
@@ -353,7 +371,7 @@ namespace Dupery
 
 			//arms are split into arm_lower_[X] and arm_upper_[X] in the anims, so we need to interpolate
 			string armUpper = ArmSkin, armLower = ArmSkin;
-			if(ArmSkin != null && ArmSkin.Length > 1 && ArmSkin.Contains ("arm_"))
+			if (ArmSkin != null && ArmSkin.Length > 1 && ArmSkin.Contains("arm_"))
 			{
 				armLower = ArmSkin.Replace("arm_", "arm_lower_");
 				armUpper = ArmSkin.Replace("arm_", "arm_upper_");
@@ -365,7 +383,7 @@ namespace Dupery
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Eyes.Id, Eyes);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Mouth.Id, Mouth);
 
-			if(Body != null && Body.Length > 1 && Body.Contains("torso"))
+			if (Body != null && Body.Length > 1 && Body.Contains("torso"))
 			{
 				DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
 				string armId = Body.Replace("torso", "arm_sleeve");
@@ -389,6 +407,11 @@ namespace Dupery
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.LegSkin.Id, LegSkin);
 
 			SgtLogger.l("Speechmouth for " + nameStringKey + ": " + SpeechMouth + " parsed: " + speechMouth);
+
+			if (!CharacterContainer.defaultShirtIdxToDefaultOutfitID.ContainsKey(body))
+			{
+				CharacterContainer.defaultShirtIdxToDefaultOutfitID[body] = body.ToString();
+			}
 
 			Personality personality = new Personality(
 				nameStringKey,
@@ -415,8 +438,18 @@ namespace Dupery
 				speechMouth
 			);
 
-			if (isBionic)
+			string nameKey = string.Format("STRINGS.DUPLICANTS.PERSONALITIES.{0}.NAME", nameStringKey.ToUpperInvariant());
+			string descriptionKey = string.Format("STRINGS.DUPLICANTS.PERSONALITIES.{0}.DESC", nameStringKey.ToUpperInvariant());
+			if (!Strings.TryGet(nameKey, out _))
+				Strings.Add(nameKey, name);
+			if(!Strings.TryGet(descriptionKey, out _))
+				Strings.Add(descriptionKey, description);
+
+			if (!RequiredDlcID.IsNullOrWhiteSpace())
+				personality.requiredDlcId = RequiredDlcID;
+			else if (isBionic) 
 				personality.requiredDlcId = DlcManager.DLC3_ID;
+
 			outPersonality = personality;
 			return true;
 		}
@@ -455,6 +488,7 @@ namespace Dupery
 				ArmSkin = personality.arm_skin.ToString(),
 				LegSkin = personality.leg_skin.ToString(),
 				CongenitalTrait = personality.congenitaltrait?.ToString(),
+				RequiredDlcID = personality.requiredDlcId
 			};
 
 			return jsonPersonality;

@@ -1,15 +1,10 @@
 ﻿using OniRetroEdition.Behaviors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
 namespace OniRetroEdition.Buildings
 {
-	internal class BatteryLargeConfig:BaseBatteryConfig
+	internal class BatteryLargeConfig : BaseBatteryConfig
 	{
 		public static string ID = "RetroOni_BatteryLarge";
 		public override BuildingDef CreateBuildingDef()

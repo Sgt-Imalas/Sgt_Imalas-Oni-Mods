@@ -4,8 +4,6 @@
 - sugar tank
 - add fuel component to trailblazer to get back up
 - deployable landing platform - wip
-- vertical adapter?
-- laser drillcone can use HEP storage module as extra storage
 
 - trade route planner
 	- replaces roundtrip?
@@ -18,15 +16,11 @@
 	- trade route visualisation ( anno2070 like , either separate window or on starmap (toggle on starmap with coloured lines(?)))
 
 - AI rocket cargo docking port (AI rocket docking compatibility, 2 or 1 height module (better 2), functions as one docking port for cargo transfer only, no dupe passthrough)
-- interior logic port that translates logic input to additional launch condition.
 - interior logic output thats configurable to all or one of the launch conditions.
 - travel tube adapter
 - PDC-Module
 
 - Habitat module loader/unloader 3x3
-- vertical adapter
-- vertical piece
-- wide variants of solar panel/artifact module?
 - artifact unloader
 
 

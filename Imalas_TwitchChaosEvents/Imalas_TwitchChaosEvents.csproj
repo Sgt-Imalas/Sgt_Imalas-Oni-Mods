@@ -3,15 +3,15 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Imalas_TwitchChaosEvents</PackageId>
-		<Version>1.4.4</Version>
+		<Version>1.4.5</Version>
 		<Authors>Sgt_Imalas</Authors>
-    <Copyright>$(AssemblyCopyright)</Copyright>
+		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>Imalas_TwitchChaosEvents</AssemblyName>
 		<RootNamespace>Imalas_TwitchChaosEvents</RootNamespace>
@@ -34,15 +34,19 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 		<ProjectReference Include="..\Util_TwitchIntegrationLib\Util_TwitchIntegrationLib.csproj" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <Reference Include="ONITwitchLib">
-	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
-	  </Reference>
+		<Reference Include="ONITwitchLib">
+			<HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
+		</Reference>
+		<Reference Include="TwitchColony.Api">
+			<HintPath>..\TwitchLib\TwitchColony.Api.dll</HintPath>
+		</Reference>
 	</ItemGroup>
+
 </Project>

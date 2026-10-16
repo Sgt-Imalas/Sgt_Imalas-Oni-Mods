@@ -1,0 +1,32 @@
+tags:
+  - AllowExceedNodeBorders
+shape: ShortWide
+borders:
+  - 1
+  - 1
+internalMobs:
+  - type: ShockWorm
+    count:
+      min: 0
+      max: 2
+blobSize:
+  min: 5
+  max: 13
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: ChlorineGas
+        weight: 1
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Carbon
+        weight: 2
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Phosphorite
+        weight: 1
+      - element: IronOre
+        weight: 1

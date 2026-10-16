@@ -14,12 +14,16 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 			ID = id;
 			Name = name;
 			Description = description;
+			Generic = genericGeyser;
+			if (!Generic)
+				Description += "\n\n" + STRINGS.UI.INFOTOOLTIPS.NONGENERICGEYSER;
+			else
+				Description += "\n\n" + STRINGS.UI.INFOTOOLTIPS.GENERICGEYSER;
 			var kanim = Assets.GetAnim(anim);
 			if (kanim != null)
 			{
 				Sprite = Def.GetUISpriteFromMultiObjectAnim(kanim);
 			}
-			Generic = genericGeyser;
 		}
 	}
 }

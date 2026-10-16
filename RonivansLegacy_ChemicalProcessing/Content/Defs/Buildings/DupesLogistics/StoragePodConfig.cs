@@ -1,11 +1,6 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -35,7 +30,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
             Prioritizable.AddRef(go);
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
-			go.AddOrGet<Automatable>();
+			//go.AddOrGet<Automatable>();
 			Storage storage = go.AddOrGet<Storage>();
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.capacityKg = GetStorageCapacity();
@@ -53,8 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			go.AddOrGet<UserNameable>();
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 
-			PreciseStorageControl.AddComponent(go);
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

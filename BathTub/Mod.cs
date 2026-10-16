@@ -1,5 +1,8 @@
-﻿using HarmonyLib;
+﻿using BathTub.MP;
+using HarmonyLib;
 using KMod;
+using ONI_Together_API;
+using ONI_Together_API.Networking;
 using System.Collections.Generic;
 using UtilLibs;
 
@@ -18,7 +21,13 @@ namespace BathTub
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			ModAssets.RoomsExpandedActive = ModIntegration.Rooms_Expanded.InitializeIntegration();
+
+			SgtLogger.l("Registering Quack!");
+			PacketRegistryAPI.AutoRegisterAll();
+			PacketRegistryAPI.TryRegister(typeof(MemePacket));
+
+			SgtLogger.l("session test:");
+			SgtLogger.l( SessionInfoAPI.LocalUserID.ToString() );
 		}
 	}
-
 }

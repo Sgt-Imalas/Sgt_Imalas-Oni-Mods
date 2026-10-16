@@ -1,12 +1,6 @@
 ﻿using Database;
 using HarmonyLib;
-using Klei.AI;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UtilLibs;
 using static InventoryOrganization;
 
@@ -48,7 +42,7 @@ namespace LegallyDistinctBlockyChestSkin
 					string animFile,
 					Dictionary<string, string> workables = null)
 				{
-					set.resources.Add(new BuildingFacadeResource(id, name, description, rarity, prefabId, animFile, workables, null, null));
+					set.resources.Add(new BuildingFacadeResource(id, name, description, rarity, prefabId, animFile, workables, null, null, null));
 				}
 			}
 		}

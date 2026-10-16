@@ -1,14 +1,8 @@
 ﻿using Database;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using UnityEngine;
-using static IceCooledFan.States;
-using static InventoryOrganization;
-using static LogicGate.LogicGateDescriptions;
-using static ResearchTypes;
 
 namespace UtilLibs
 {
@@ -19,38 +13,62 @@ namespace UtilLibs
 		public class SkinCollection
 		{
 			public static List<SkinCollection> SkinSets = new();
-			public static Dictionary<string,List<string>> SkinIds = new();
+			public static Dictionary<string, List<string>> SkinIds = new();
 			public class SkinEntry
 			{
 				public string ID, Name, Description, KanimFile;
 				public Dictionary<string, string> Workables;
-				public SkinEntry(string id, string name, string desc, string kanim, Dictionary<string, string> workables = null)
+				public Dictionary<string, string> Data;
+				public SkinEntry(string id, string name, string desc, string kanim, Dictionary<string, string> workables = null, Dictionary<string, string> data = null)
 				{
 					ID = id;
 					Name = name;
 					Description = desc;
 					KanimFile = kanim;
 					Workables = workables;
+					Data = data;
+				}
+			}
+			public class ArtableEntry : SkinEntry
+			{
+				public ArtableStatuses.ArtableStatusType Level;
+				public string AnimNameOverride = null;
+				public bool? Cheer;
+
+				public ArtableEntry(string id, string name, string desc, string kanim, ArtableStatuses.ArtableStatusType statusType, string animNameOverride = null, bool? cheer = null) : base(id, name, desc, kanim, null, null)
+				{
+					Level = statusType;
+
+					Cheer = cheer;
+					AnimNameOverride = animNameOverride;
 				}
 			}
 
+			private bool isArtable;
 			private bool isMainCategory = false;
-			private string subcategoryID, mainCategoryID, buildingId;
+			private string subcategoryID, mainCategoryID, buildingId, defaultArtableAnimName;
 			Sprite newCategoryIcon = null;
 			int sortkey = -1;
 			private List<SkinEntry> skins;
-			public List<SkinEntry> Skins=>skins;
+			public List<SkinEntry> Skins => skins;
+			private List<string> _registered = [];
 
-			public static SkinCollection Create(string buildingID, string _subcategoryId) => new SkinCollection(buildingID, _subcategoryId);
-			public static SkinCollection CategoryInit(string _mainCategory, string _subcategoryID, Sprite icon, int _sortkey) => new SkinCollection("", _subcategoryID).NewCategory(_mainCategory, icon, _sortkey);
-			public SkinCollection(string buildingID, string _subcategoryID)
+			public static SkinCollection Create(string buildingID, string _subcategoryId, bool isArtable = false) => new SkinCollection(buildingID, _subcategoryId, isArtable);
+			public static SkinCollection CategoryInit(string _mainCategory, string _subcategoryID, Sprite icon, int _sortkey, bool isArtable = false) => new SkinCollection("", _subcategoryID, isArtable).NewCategory(_mainCategory, icon, _sortkey);
+			public SkinCollection(string buildingID, string _subcategoryID, bool artable = false)
 			{
 				buildingId = buildingID;
 				subcategoryID = _subcategoryID;
 				skins = [];
 				SkinSets.Add(this);
-				if(buildingId.Any())
+				if (buildingId.Any())
 					SkinIds.Add(buildingId, []);
+			}
+			public SkinCollection MakeArtable(bool isArtable, string collectionDefaultAnim = null)
+			{
+				this.isArtable = isArtable;
+				this.defaultArtableAnimName = collectionDefaultAnim;
+				return this;
 			}
 			public SkinCollection NewCategory(string _mainCategory, Sprite icon, int _sortkey)
 			{
@@ -60,36 +78,97 @@ namespace UtilLibs
 				isMainCategory = true;
 				return this;
 			}
-			public SkinCollection Skin(string Id, string name, string description, string kanimFile, Dictionary<string, string> workables = null)
+			public SkinCollection Skin(string Id, string name, string description, string kanimFile, Dictionary<string, string> workables = null, Dictionary<string, string> data = null)
 			{
-				skins.Add(new SkinEntry(Id, name, description, kanimFile, workables));
+				skins.Add(new SkinEntry(Id, name, description, kanimFile, workables, data));
 				SkinIds[buildingId].Add(Id);
+				return this;
+			}
+			public SkinCollection ArtSkin(string Id, string name, string description, string kanimFile, ArtableStatuses.ArtableStatusType level = ArtableStatuses.ArtableStatusType.LookingGreat, string animOverride = null, bool? cheer = null)
+			{
+				if (cheer == null)
+					cheer = level == ArtableStatuses.ArtableStatusType.LookingGreat;
+
+				skins.Add(new ArtableEntry(Id, name, description, kanimFile, level, animOverride, cheer));
+				SkinIds[buildingId].Add(Id);
+				return this;
+			}
+
+			public SkinCollection AddColoredLightInfo(string colorHex) => AddData(BuildingFacadeCustomData.DATA_KEY_LIGHT_COLOR, colorHex).AddData(BuildingFacadeCustomData.DATA_KEY_LIGHT_OVERLAY_COLOR, colorHex);
+
+			public SkinCollection AddData(string key, string value)
+			{
+				skins.Last()?.Data ??= new Dictionary<string, string>();
+				skins.Last()?.Data.Add(key, value);
 				return this;
 			}
 			public void RegisterCategory()
 			{
 				string[] skinIDs = [.. skins.Select(entry => entry.ID)];
+
 				if (isMainCategory)
 				{
 					AddSubcategory(mainCategoryID, subcategoryID, newCategoryIcon, sortkey, skinIDs);
+					SgtLogger.l("initializing category "+mainCategoryID+" with " + skinIDs.Length + " items and default subcategory: " + subcategoryID);
 				}
 				else
 				{
+					SgtLogger.l("adding "+skinIDs.Length + " items to subcategory " + subcategoryID);
 					AddItemsToSubcategory(subcategoryID, skinIDs);
+					//artables get sth about their ids changed when they are registered
+					if (_registered.Count > 0)
+						AddItemsToSubcategory(subcategoryID, _registered.ToArray());
+
 				}
+
 			}
 			public void RegisterSkins(ResourceSet<BuildingFacadeResource> set)
 			{
 				foreach (var skin in skins)
 				{
-					set.resources.Add(new BuildingFacadeResource(skin.ID, skin.Name, skin.Description, PermitRarity.Universal, buildingId, skin.KanimFile, skin.Workables, null, null));
+					if (!Assets.TryGetAnim(skin.KanimFile, out _))
+					{
+						SgtLogger.error("Skin adding failure; kanim " + skin.KanimFile + " was not found!");
+						continue;
+					}
+					set.resources.Add(new BuildingFacadeResource(skin.ID, skin.Name, skin.Description, PermitRarity.Universal, buildingId, skin.KanimFile, skin.Workables, null, null, skin.Data));
 				}
 			}
-			public static void RegisterAllSkins()
+			public void RegisterArtables(ArtableStages set)
 			{
-				SgtLogger.l("Patching Skin Injection..");
-				var harmony = new Harmony("SgtImalas_SupplyClosetUtils");
+				foreach (var skin in skins)
 				{
+					if (skin is not ArtableEntry artableSkin)
+					{
+						SgtLogger.warning(skin.ID + " is not an artable skin!");
+						continue;
+					}
+					if (!Assets.TryGetAnim(skin.KanimFile, out _))
+					{
+						SgtLogger.error("artable skin adding failure; kanim " + skin.KanimFile + " was not found!");
+						continue;
+					}
+					string defaultAnim = !artableSkin.AnimNameOverride.IsNullOrWhiteSpace() ? artableSkin.AnimNameOverride : defaultArtableAnimName;
+					string skinId = ArtHelper.AddStatueStage(set, buildingId, skin.ID, skin.Name, skin.Description, skin.KanimFile, artableSkin.Level, defaultAnim, artableSkin.Cheer);
+
+					_registered.Add(skinId);
+				}
+			}
+			public static void RegisterSkinInjectionPatch()
+			{
+				var harmony = new Harmony("SgtImalas_SupplyClosetUtils");
+				SgtLogger.l("Patching Skin Injection..");
+				if (SkinSets.Any(skinset => skinset.isArtable))
+				{
+					SgtLogger.l("Artable Skins found, patching Database.ArtableStages");
+					var targetType = AccessTools.TypeByName("Database.ArtableStages");
+					var target = AccessTools.Constructor(targetType, [typeof(ResourceSet)]);
+					var postfix = AccessTools.Method(typeof(SkinCollection), nameof(Artables_Postfix));
+					harmony.Patch(target, postfix: new HarmonyMethod(postfix));
+				}
+				if (SkinSets.Any(skinset => !skinset.isArtable))
+				{
+					SgtLogger.l("Building Skins found, patching Database.BuildingFacades");
 					var targetType = AccessTools.TypeByName("Database.BuildingFacades");
 					var target = AccessTools.Constructor(targetType, [typeof(ResourceSet)]);
 					var postfix = AccessTools.Method(typeof(SkinCollection), nameof(BuildingFacades_Postfix));
@@ -108,8 +187,22 @@ namespace UtilLibs
 				SgtLogger.l("Registering " + SkinSets.Count + " skin collections");
 				foreach (var collection in SkinSets)
 				{
-					SgtLogger.l("Registering skins for " + collection.buildingId);
+					if (collection.isArtable)
+						continue;
+					SgtLogger.l("Registering " + collection.skins.Count + " skins for " + collection.buildingId);
 					collection.RegisterSkins(resource);
+				}
+			}
+			public static void Artables_Postfix(object __instance)
+			{
+				var resource = (ArtableStages)__instance;
+				SgtLogger.l("Registering " + SkinSets.Count + " skin collections");
+				foreach (var collection in SkinSets)
+				{
+					if (!collection.isArtable)
+						continue;
+					SgtLogger.l("Registering " + collection.skins.Count + " artable skins for " + collection.buildingId);
+					collection.RegisterArtables(resource);
 				}
 			}
 			public static void Subcategories_Postfix()
@@ -120,7 +213,7 @@ namespace UtilLibs
 				}
 			}
 		}
-		private static List<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
+		public static List<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
 		{
 			if (!InventoryOrganization.subcategoryIdToPermitIdsMap.ContainsKey(subCategory))
 			{
@@ -151,7 +244,7 @@ namespace UtilLibs
 
 		public static void AddSubcategory(string mainCategory, string subcategoryID, Sprite icon, int sortkey, string[] permitIDs)
 		{
-			var categoryItems = AddOrGetSubCategory(subcategoryID, mainCategory, icon,sortkey);
+			var categoryItems = AddOrGetSubCategory(subcategoryID, mainCategory, icon, sortkey);
 			for (int i = 0; i < permitIDs.Length; i++)
 			{
 				categoryItems.Add(permitIDs[i]);

@@ -1,7 +1,4 @@
-﻿using FMOD.Studio;
-using HarmonyLib;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
 
@@ -60,14 +57,14 @@ namespace SetStartDupes
 			//CurrentContainer.OnNameChanged(Selected.GetName());
 
 			///if changing minionstartingstats
-			if (EditableIdentity != null)
+			if (EditableStartingStats != null)
 			{
 				SgtLogger.l("Editing Starting Stat Dupe");
-				if (EditableIdentity.Name != EditableIdentity.personality.Name)
+				if (EditableStartingStats.Name != EditableStartingStats.personality.Name)
 				{
 					OverrideName = false;
 				}
-				ModAssets.ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
+				ModAssets.ApplySkinFromPersonality(Selected.GetPersonality(), EditableStartingStats);
 			}
 			else
 			{
@@ -135,14 +132,14 @@ namespace SetStartDupes
 
 		public void InitUI(CharacterContainer container, MinionStartingStats identity)
 		{
-			EditableIdentity = identity;
+			EditableStartingStats = identity;
 			CurrentContainer = container;
 			ToggleUICmps();
 		}
 
 		GameObject EditingSkinOnExistingDupeGO = null;
 		public static Personality StartPersonality;
-		MinionStartingStats EditableIdentity;
+		MinionStartingStats EditableStartingStats;
 		CharacterContainer CurrentContainer;
 
 		internal static void ShowSkinScreen(CharacterContainer container, GameObject LiveDupeGO = null)

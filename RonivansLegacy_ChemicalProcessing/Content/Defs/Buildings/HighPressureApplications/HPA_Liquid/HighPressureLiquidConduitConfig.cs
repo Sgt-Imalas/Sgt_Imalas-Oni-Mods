@@ -1,11 +1,6 @@
-﻿using PeterHan.PLib.Options;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
@@ -33,7 +28,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.Overheatable = false;
 			buildingDef.Entombable = false;
 			buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
-			buildingDef.ThermalConductivity = 1.3f;
 			buildingDef.ObjectLayer = ObjectLayer.LiquidConduit;
 			buildingDef.TileLayer = ObjectLayer.LiquidConduitTile;
 			buildingDef.ReplacementLayer = ObjectLayer.ReplacementLiquidConduit;

@@ -1,7 +1,5 @@
 ﻿using _WorldGenStateCapture.WorldStateData.WorldPOIs;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace _WorldGenStateCapture.WorldStateData
 {

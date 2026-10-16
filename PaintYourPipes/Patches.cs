@@ -3,6 +3,7 @@ using Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +38,51 @@ namespace PaintYourPipes
 			}
 		}
 
+
+		[HarmonyPatch(typeof(Assets), nameof(Assets.LoadAnims))]
+		public class Assets_LoadAnims_Patch
+		{
+			static Assets instance;
+			public static void Prefix(Assets __instance)
+			{
+				instance = __instance;
+			}
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+				var m_LoadGroupFile = AccessTools.Method(typeof(KAnimGroupFile), nameof(KAnimGroupFile.LoadGroupResourceFile));
+				var m_LoadAll = AccessTools.Method(typeof(KAnimGroupFile), nameof(KAnimGroupFile.LoadAll));
+
+				foreach (var ci in orig)
+				{
+					if (ci.Calls(m_LoadAll))
+					{
+						yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Assets_LoadAnims_Patch), nameof(InjectedAfterGroupFileLoad)));
+					}
+					yield return ci;
+					if (ci.Calls(m_LoadGroupFile))
+					{
+						yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Assets_LoadAnims_Patch), nameof(InjectedAfterGroupFileLoad)));
+					}
+				}
+			}
+
+			private static void InjectedAfterGroupFileLoad()
+			{
+				ModAssets.MakeGreyscaleVariantsForValidAnims(instance.AnimAssets);
+				if (BundledAssetsLoader.instance.Expansion1Assets != null && BundledAssetsLoader.instance.Expansion1Assets.AnimAssets != null && BundledAssetsLoader.instance.Expansion1Assets.AnimAssets.Any())
+				{
+					ModAssets.MakeGreyscaleVariantsForValidAnims(BundledAssetsLoader.instance.Expansion1Assets.AnimAssets);
+				}
+				foreach (BundledAssets dlcAssets in BundledAssetsLoader.instance.DlcAssetsList)
+				{
+					if(dlcAssets.AnimAssets != null && dlcAssets.AnimAssets.Any())
+						ModAssets.MakeGreyscaleVariantsForValidAnims(dlcAssets.AnimAssets);
+				}
+				ModAssets.MakeGreyscaleVariantsForValidAnims([.. Assets.ModLoadedKAnims]);
+			}
+		}
+
+
 		/// <summary>
 		/// Add Colourable-Component to bridges and pipes
 		/// 
@@ -48,6 +94,7 @@ namespace PaintYourPipes
 			static Tag MaterialColor_ExcludedTag = new Tag("NoPaint");
 			public static void ExecutePatch(Harmony harmony)
 			{
+				var CreateBuildingDef_Postfix = AccessTools.Method(typeof(AddColorComponentToFinishedBuildings), "CreateBuildingDef_Postfix");
 				var DoPostConfigureUnderConstruction_Postfix = AccessTools.Method(typeof(AddColorComponentToFinishedBuildings), "DoPostConfigureUnderConstruction_Postfix");
 				var DoPostConfigureComplete_Postfix = AccessTools.Method(typeof(AddColorComponentToFinishedBuildings), "DoPostConfigureComplete_Postfix");
 				foreach (var m_TargetType in TargetBuildingTypes())
@@ -73,14 +120,28 @@ namespace PaintYourPipes
 						{
 							harmony.Patch(m_TargetMethod_DoPostConfigureUnderConstruction, postfix: new HarmonyMethod(DoPostConfigureUnderConstruction_Postfix));
 						}
+
+						var m_TargetMethod_CreateBuildingDef = AccessTools.DeclaredMethod(m_TargetType, nameof(IBuildingConfig.CreateBuildingDef));
+						if (m_TargetMethod_CreateBuildingDef == null)
+						{
+							SgtLogger.warning("target method CreateBuildingDef not found on " + m_TargetType.Name);
+						}
+						else
+						{
+							harmony.Patch(m_TargetMethod_CreateBuildingDef, postfix: new HarmonyMethod(CreateBuildingDef_Postfix));
+						}
 					}
 
 				}
 			}
+			public static void CreateBuildingDef_Postfix(BuildingDef __result)
+			{
+				ModAssets.AssignGreyScaleSkin(__result);
+			}
 			public static void DoPostConfigureComplete_Postfix(GameObject go)
 			{
 				go.AddOrGet<ColorableConduit>();
-				if(!Config.Instance.OverlayOnly)
+				if (!Config.Instance.OverlayOnly)
 					go.AddOrGet<KPrefabID>().AddTag(MaterialColor_ExcludedTag);
 
 			}
@@ -91,7 +152,7 @@ namespace PaintYourPipes
 					go.AddOrGet<KPrefabID>().AddTag(MaterialColor_ExcludedTag);
 			}
 
-			static List<Type> TargetBuildingTypes()
+			internal static List<Type> TargetBuildingTypes()
 			{
 				var values = new List<Type>
 				{
@@ -113,11 +174,13 @@ namespace PaintYourPipes
 					typeof(WireHighWattageConfig),
 					typeof(WireRefinedConfig),
 					typeof(WireRefinedHighWattageConfig),
+					typeof(WireRubberConfig),
 
 					typeof(WireBridgeConfig),
 					typeof(WireBridgeHighWattageConfig),
 					typeof(WireRefinedBridgeConfig),
 					typeof(WireRefinedBridgeHighWattageConfig),
+					typeof(WireRubberBridgeConfig),
 
 					typeof(LogicWireConfig),
 					typeof(LogicRibbonConfig),
@@ -131,72 +194,47 @@ namespace PaintYourPipes
 					typeof(LogicRibbonWriterConfig),
 				};
 
+				void AddTypeIfExisting(Type type)
+				{
+					if (type != null)
+						values.Add(type);
+				}
+
 				//Insulated Wire Briges:
-				var InsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireBridgeHighWattageConfig");
-				if (InsulatedWireBridgeHighWattageConfig != null)
-					values.Add(InsulatedWireBridgeHighWattageConfig);
-
-				var InsulatedWireRefinedBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireRefinedBridgeHighWattageConfig");
-				if (InsulatedWireRefinedBridgeHighWattageConfig != null)
-					values.Add(InsulatedWireRefinedBridgeHighWattageConfig);
-
-				var LongInsulatedRefinedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedRefinedWireBridgeHighWattageConfig");
-				if (LongInsulatedRefinedWireBridgeHighWattageConfig != null)
-					values.Add(LongInsulatedRefinedWireBridgeHighWattageConfig);
-
-				var LongInsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedWireBridgeHighWattageConfig");
-				if (LongInsulatedWireBridgeHighWattageConfig != null)
-					values.Add(LongInsulatedWireBridgeHighWattageConfig);
+				AddTypeIfExisting(AccessTools.TypeByName("InsulatedWireBridgeHighWattageConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("InsulatedWireRefinedBridgeHighWattageConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("LongInsulatedRefinedWireBridgeHighWattageConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("LongInsulatedWireBridgeHighWattageConfig"));
 
 				//GigawattWire
-				var GigawattWireBridgeConfig = AccessTools.TypeByName("GigawattWireBridgeConfig");
-				if (GigawattWireBridgeConfig != null)
-					values.Add(GigawattWireBridgeConfig);
-
-				var GigawattWireConfig = AccessTools.TypeByName("GigawattWireConfig");
-				if (GigawattWireConfig != null)
-					values.Add(GigawattWireConfig);
-
-				var JacketedWireBridgeConfig = AccessTools.TypeByName("JacketedWireBridgeConfig");
-				if (JacketedWireBridgeConfig != null)
-					values.Add(JacketedWireBridgeConfig);
-
-				var JacketedWireConfig = AccessTools.TypeByName("JacketedWireConfig");
-				if (JacketedWireConfig != null)
-					values.Add(JacketedWireConfig);
-
-				var MegawattWireBridgeConfig = AccessTools.TypeByName("MegawattWireBridgeConfig");
-				if (MegawattWireBridgeConfig != null)
-					values.Add(MegawattWireBridgeConfig);
-
-				var MegawattWireConfig = AccessTools.TypeByName("MegawattWireConfig");
-				if (MegawattWireConfig != null)
-					values.Add(MegawattWireConfig);
+				AddTypeIfExisting(AccessTools.TypeByName("GigawattWireBridgeConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("GigawattWireConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("JacketedWireBridgeConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("JacketedWireConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("MegawattWireBridgeConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("MegawattWireConfig"));
 
 				//HighPressureApplications
-				var HighPressureGasConduitBridgeConfig = AccessTools.TypeByName("HighPressureGasConduitBridgeConfig");
-				if (HighPressureGasConduitBridgeConfig != null)
-					values.Add(HighPressureGasConduitBridgeConfig);
+				//gas
+				AddTypeIfExisting(AccessTools.TypeByName("HighPressureGasConduitBridgeConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("HighPressureGasConduitConfig"));
+				//liquid
+				AddTypeIfExisting(AccessTools.TypeByName("HighPressureLiquidConduitBridgeConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("HighPressureLiquidConduitConfig"));
+				//solid
+				AddTypeIfExisting(AccessTools.TypeByName("HPARailBridgeConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("HPARailBridgeTileConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("HPARailConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("HPARailInsulatedConfig"));
 
-				var HighPressureGasConduitConfig = AccessTools.TypeByName("HighPressureGasConduitConfig");
-				if (HighPressureGasConduitConfig != null)
-					values.Add(HighPressureGasConduitConfig);
+				//DupesLogistics
+				AddTypeIfExisting(AccessTools.TypeByName("LogisticRailConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("LogisticBridgeConfig"));
 
-				var HighPressureLiquidConduitBridgeConfig = AccessTools.TypeByName("HighPressureLiquidConduitBridgeConfig");
-				if (HighPressureLiquidConduitBridgeConfig != null)
-					values.Add(HighPressureLiquidConduitBridgeConfig);
 
-				var HighPressureLiquidConduitConfig = AccessTools.TypeByName("HighPressureLiquidConduitConfig");
-				if (HighPressureLiquidConduitConfig != null)
-					values.Add(HighPressureLiquidConduitConfig);
-			
 				//PlasticUtilities
-				var PlasticGasConduitConfig = AccessTools.TypeByName("PlasticGasConduitConfig");
-				if (PlasticGasConduitConfig != null)
-					values.Add(PlasticGasConduitConfig);
-				var PlasticLiquidConduitConfig = AccessTools.TypeByName("PlasticLiquidConduitConfig");
-				if (PlasticLiquidConduitConfig != null)
-					values.Add(PlasticLiquidConduitConfig);
+				AddTypeIfExisting(AccessTools.TypeByName("PlasticGasConduitConfig"));
+				AddTypeIfExisting(AccessTools.TypeByName("PlasticLiquidConduitConfig"));
 
 				return values;
 			}
@@ -205,8 +243,14 @@ namespace PaintYourPipes
 		[HarmonyPatch(typeof(CopyBuildingSettings), nameof(CopyBuildingSettings.ApplyCopy))]
 		public static class ApplyCopy_Color
 		{
-			public static void Postfix(ref bool __result, int targetCell, GameObject sourceGameObject)
+			public static void Postfix(ref bool __result, KPrefabID other_id, GameObject sourceGameObject)
 			{
+				if (other_id == null)
+					return;
+				int targetCell = other_id.NaturalBuildingCell();
+				if (!Grid.IsValidBuildingCell(targetCell))
+					return;
+
 				if (sourceGameObject.TryGetComponent<ColorableConduit>(out var sourcebuilding))
 				{
 					if (ColorableConduit.TryGetColorable(targetCell, sourcebuilding, out ColorableConduit targetConduit))
@@ -294,7 +338,7 @@ namespace PaintYourPipes
 					if (ActiveOverlay != ObjectLayer.LiquidConduit)
 					{
 						if (!Config.Instance.OverlayOnly)
-							__result = __result.Multiply(colorOverrider.TintColor);
+							__result = colorOverrider.GreyScaleActive ? colorOverrider.TintColor :  __result.Multiply(colorOverrider.TintColor);
 					}
 					else if (ColorableConduit.ShowOverlayTint)
 						__result = colorOverrider.TintColor;

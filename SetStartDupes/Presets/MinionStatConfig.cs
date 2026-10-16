@@ -11,7 +11,6 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static HarmonyLib.Code;
 
 namespace SetStartDupes
 {
@@ -25,6 +24,7 @@ namespace SetStartDupes
 		public List<KeyValuePair<string, int>> StartingLevels = new List<KeyValuePair<string, int>>();
 		public List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
 		public float StarterXP = 0;
+		public int ExtraLevels = 0;
 		public float Age = 0;
 		public string PersonalityID;
 		public string DLCID = "";
@@ -146,9 +146,9 @@ namespace SetStartDupes
 			stats.AttributeLevels = StartingLevels.ToDictionary(e => e.Key, e => e.Value);
 			stats.AptitudeBySkillGroup = skillAptitudes.ToDictionary(kvp => (HashedString)kvp.Key, kvp => kvp.Value);
 
-			if(overrideName)
+			if (overrideName)
 				stats.MinionName = this.ConfigName;
-			if(overrideXP)
+			if (overrideXP)
 				stats.SetExperience(StarterXP);
 		}
 
@@ -297,6 +297,9 @@ namespace SetStartDupes
 			if (ModAssets.Beached_LifegoalsActive)
 				config.Traits.Add(Beached_API.GetCurrentLifeGoal(startingStats).Id);
 
+			if (ModAssets.TryGetExtraLevels(startingStats, out var levels))
+				config.ExtraLevels = levels;
+
 			return config;
 		}
 
@@ -426,6 +429,8 @@ namespace SetStartDupes
 			{
 				ModAssets.DupeTraitManagers[referencedStats].RecalculateAll();
 			}
+			if(ExtraLevels > 0)
+				ModAssets.SetExtraLevels(referencedStats, ExtraLevels);
 		}
 
 		public static MinionStatConfig ReadFromFile(FileInfo filePath)

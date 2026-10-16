@@ -1,8 +1,6 @@
-﻿using ElementUtilNamespace;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Klei.AI;
 using Klei.AI.DiseaseGrowthRules;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,42 +13,14 @@ namespace Imalas_TwitchChaosEvents.Elements
 	public class ELEMENTpatches
 	{
 
-
-
-		/// <summary>
-		/// akis beached 
-		/// </summary>
-		[HarmonyPatch(typeof(ElementLoader))]
-		[HarmonyPatch(nameof(ElementLoader.Load))]
+		[HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.Load))]
 		public class ElementLoader_Load_Patch
 		{
 			public static void Prefix(Dictionary<string, SubstanceTable> substanceTablesByDlc)
 			{
-				// Add my new elements
 				var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
+				SgtLogger.l("Registering Substances");
 				ModElements.RegisterSubstances(list);
-
-				//SgtLogger.l("ElementList length after that method; " + substanceTablesByDlc[DlcManager.VANILLA_ID].GetList().Count);
-				//SgtLogger.l("ElementList SO length; " + substanceTablesByDlc[DlcManager.EXPANSION1_ID].GetList().Count);
-			}
-		}
-
-		/// <summary>
-		/// Required for Simhashes conversion to string to include the modded elements
-		/// </summary>
-		// Credit: Heinermann (Blood mod)
-		public static class EnumPatch
-		{
-			[HarmonyPatch(typeof(Enum), "ToString", new Type[] { })]
-			public class SimHashes_ToString_Patch
-			{
-				public static bool Prefix(ref Enum __instance, ref string __result) => SgtElementUtil.SimHashToString_EnumPatch(__instance, ref __result);
-			}
-
-			[HarmonyPatch(typeof(Enum), nameof(Enum.Parse), new Type[] { typeof(Type), typeof(string), typeof(bool) })]
-			private class SimHashes_Parse_Patch
-			{
-				private static bool Prefix(Type enumType, string value, ref object __result) => SgtElementUtil.SimhashParse_EnumPatch(enumType, value, ref __result);
 			}
 		}
 

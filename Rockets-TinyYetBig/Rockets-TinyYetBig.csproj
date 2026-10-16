@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Rocketry_Expanded</PackageId>
-		<Version>2.11.1</Version>
+		<Version>2.13.5</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<LangVersion>preview</LangVersion>
 		<AssemblyName>Rocketry Expanded</AssemblyName>
@@ -29,11 +29,7 @@
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<SteamId>2837919908</SteamId>
 		<APIVersion>2</APIVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
-	<ItemGroup>
-	  <None Remove="TODO\SpaceStations\SpaceStation.cs~RF14458d6.TMP" />
-	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
@@ -47,8 +43,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="ONITwitchLib">
-	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
+	  <Reference Include="ONITwitchLib"><HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
 	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ModAssets\anim\assets\rocket_storage_liquid_small\" />
 	</ItemGroup>
 </Project>

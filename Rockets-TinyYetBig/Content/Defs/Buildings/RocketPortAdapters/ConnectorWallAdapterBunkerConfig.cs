@@ -1,5 +1,6 @@
 ﻿using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
@@ -83,6 +84,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 
 			prefabId.AddTag(GameTags.FloorTiles);
 			prefabId.AddTag(GameTags.Bunker);
+
+			BuildingUtil.RenderAboveLiquids(go);
 		}
 	}
 }

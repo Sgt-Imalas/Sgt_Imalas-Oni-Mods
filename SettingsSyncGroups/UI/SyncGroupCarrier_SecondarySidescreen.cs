@@ -1,9 +1,6 @@
 ﻿using SettingsSyncGroups.UI.Components;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs.UIcmp;
 using UtilLibs;
@@ -69,6 +66,8 @@ namespace SettingsSyncGroups.UI
 		}
 		internal void SetOpenedFrom(SyncGroupCarrier targetComponent)
 		{
+			if (targetComponent == null)
+				return;
 			Target = targetComponent; 
 			SetEmptyRow();
 			CurrentTagEntries = Target.GetCurrentlyExistingGroups();

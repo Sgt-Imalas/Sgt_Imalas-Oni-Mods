@@ -1,10 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -18,8 +13,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = [200f, 100f];
-			string[] construction_materials = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
+			float[] construction_mass = [200f, 2f];
+			string[] construction_materials = [ModAssets.GetHPASteelIngredient(), GameTags.BuildingGasket.ToString()];
 			EffectorValues tieR0 = TUNING.BUILDINGS.DECOR.PENALTY.TIER0;
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER1;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_filter_liquid_kanim", 30, 10f, construction_mass, construction_materials, 1600f, BuildLocationRule.Anywhere, tieR0, noise);

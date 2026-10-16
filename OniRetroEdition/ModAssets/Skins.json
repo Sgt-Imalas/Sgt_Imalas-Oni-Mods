@@ -1,0 +1,2117 @@
+{
+  "newSkins": [
+    {
+      "BuildingId": "Headquarters",
+      "SkinId": "Headquarters1",
+      "SkinName": "Retro Printing Pod 1",
+      "SkinDescription": "Printing Pod from Alpha version",
+      "Anim": "hqbase_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "Headquarters",
+      "SkinId": "Headquarters2",
+      "SkinName": "Retro Printing Pod 2",
+      "SkinDescription": "Printing Pod from Outbreak version",
+      "Anim": "hqbase_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "Headquarters",
+      "SkinId": "Headquarters3",
+      "SkinName": "Retro Retro LED Printing Pod",
+      "SkinDescription": "Retro LED Printing Pod with early spiral sprite found in the beta of the Bionic Booster Pack DLC",
+      "Anim": "hqbase_cyberpunk_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Headquarters",
+      "SkinId": "Headquarters4",
+      "SkinName": "Retro Forgotten Printing Pod",
+      "SkinDescription": "Forgotten Printing Pod with some unused sprites",
+      "Anim": "hqbase_dino_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ExobaseHeadquarters",
+      "SkinId": "ExobaseHeadquartersRetro1",
+      "SkinName": "Porta-Pod",
+      "SkinDescription": "Finished early Mini-Pod design",
+      "Anim": "porta_pod_y_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "ExobaseHeadquarters",
+      "SkinId": "ExobaseHeadquartersRetro2",
+      "SkinName": "Porta-Pod",
+      "SkinDescription": "Early Mini-Pod from Spaced Out DLC early acces",
+      "Anim": "porta_pod_y_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "CornerMoulding",
+      "SkinId": "CornerMouldingB",
+      "SkinName": "Corner Moulding B",
+      "SkinDescription": " Finished alternative Corner Moulding B ",
+      "Anim": "corner_tile_b_kanim"
+    }
+,
+    {
+      "BuildingId": "CornerMoulding",
+      "SkinId": "CornerMouldingC",
+      "SkinName": "Corner Moulding C",
+      "SkinDescription": " Finished alternative Corner Moulding C ",
+      "Anim": "corner_tile_c_kanim"
+    }
+,
+    {
+      "BuildingId": "CornerMoulding",
+      "SkinId": "CornerMouldingD",
+      "SkinName": "Corner Moulding D",
+      "SkinDescription": " Finished alternative Corner Moulding D ",
+      "Anim": "corner_tile_d_kanim"
+    }
+,
+    {
+      "BuildingId": "CornerMoulding",
+      "SkinId": "CornerMouldingE",
+      "SkinName": "Corner Moulding E",
+      "SkinDescription": " Finished alternative Corner Moulding E ",
+      "Anim": "corner_tile_e_kanim"
+    }
+,
+    {
+      "BuildingId": "CornerMoulding",
+      "SkinId": "CornerMouldingF",
+      "SkinName": "Corner Moulding F",
+      "SkinDescription": " Finished alternative Corner Moulding F ",
+      "Anim": "corner_tile_f_kanim"
+    }
+,
+    {
+      "BuildingId": "CornerMoulding",
+      "SkinId": "CornerMouldingG",
+      "SkinName": "Corner Moulding G",
+      "SkinDescription": " Finished alternative Corner Moulding G ",
+      "Anim": "corner_tile_g_kanim"
+    }
+,
+    {
+      "BuildingId": "NuclearReactor",
+      "SkinId": "NuclearReactorRetro",
+      "SkinName": "Retro Research Reactor",
+      "SkinDescription": "!!!TO DO!!! fix kanim",
+      "Anim": "generatornuclear_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "IceMachine",
+      "SkinId": "IceMachineRetro",
+      "SkinName": "Retro Ice Maker",
+      "SkinDescription": "!!!TO DO!!! remake kanim",
+      "Anim": "freezerator_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "AstronautTrainingCenter",
+      "SkinId": "AstronautTrainingCenterRetro",
+      "SkinName": "Retro Space Cadet Centrifuge",
+      "SkinDescription": "Finished early design of the Space Cadet Centrifuge from the early Space Industry Update",
+      "Anim": "centrifuge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "CarouselCentrifuge",
+      "SkinId": "CarouselCentrifugeRetro",
+      "SkinName": "Retro CarouselCentrifuge",
+      "SkinDescription": "Retro Space Cadet Centrifuge as Carousel",
+      "Anim": "centrifuge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LaunchPad",
+      "SkinId": "LaunchPadRetro2",
+      "SkinName": "Retro Rocket Platform",
+      "SkinDescription": "Rocket Platform from Spaced Out DLC early acces",
+      "Anim": "rocket_launchpad_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "MedicalCot",
+      "SkinId": "MedicalCotRetro0",
+      "SkinName": "Retro Medical Cot",
+      "SkinDescription": "Medical Cot before Outbreak Update",
+      "Anim": "medical_cot_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "HandSanitizer",
+      "SkinId": "HandSanitizerRetro1",
+      "SkinName": "Retro Hand Sanitizer",
+      "SkinDescription": "2 tiles wide Hand Sanitizer with no arrows from the Alpha ",
+      "Anim": "handsanitizer_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "HandSanitizer",
+      "SkinId": "HandSanitizerRetro2",
+      "SkinName": "Retro Hand Sanitizer",
+      "SkinDescription": "2 tiles wide Hand Sanitizer from the Outbreak Update",
+      "Anim": "handsanitizer_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "AdvancedDoctorStation",
+      "SkinId": "AdvancedDoctorStationRetro",
+      "SkinName": "Retro Disease Clinic",
+      "SkinDescription": "Disease Clinic Before it was Updated in the Launch Update",
+      "Anim": "bed_medical_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Ladder",
+      "SkinId": "LadderRetro",
+      "SkinName": "Retro Ladder",
+      "SkinDescription": "Recreation of Ladder seen on 2016 screenshots",
+      "Anim": "ladder_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LadderFast",
+      "SkinId": "LadderFastRetro",
+      "SkinName": "Retro Plastic Ladder",
+      "SkinDescription": "Plastic Ladder design from preview version of the Oil Update",
+      "Anim": "ladder_plastic_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LadderFast",
+      "SkinId": "LadderFastPoi",
+      "SkinName": "Gravitas ladder",
+      "SkinDescription": "Just a bonus",
+      "Anim": "ladder_poi_kanim"
+    }
+,
+    {
+      "BuildingId": "FirePole",
+      "SkinId": "FirePoleRetro",
+      "SkinName": "Retro Fire Pole",
+      "SkinDescription": "early Fire Pole from the testing version of the Automation update",
+      "Anim": "firepole_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidReservoir",
+      "SkinId": "LiquidReservoirRetro1",
+      "SkinName": "Retro Liquid Reservoir",
+      "SkinDescription": "Recreated Liquid Reservoir design seen on pre alpha screenshots before it was even added",
+      "Anim": "liquidreservoir_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidReservoir",
+      "SkinId": "LiquidReservoirRetro2",
+      "SkinName": "Retro Liquid Reservoir",
+      "SkinDescription": "Recreated Liquid Reservoir design with no valve based on place and ui sprite",
+      "Anim": "liquidreservoir_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidReservoir",
+      "SkinId": "LiquidReservoirRetro3",
+      "SkinName": "Retro Liquid Reservoir",
+      "SkinDescription": "Original Liquid Reservoir before it was added in Rocketry Update",
+      "Anim": "liquidreservoir_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidReservoir",
+      "SkinId": "LiquidReservoirRetro4",
+      "SkinName": "Retro Liquid Reservoir",
+      "SkinDescription": "New Liquid Reservoir design introduced in Rocketry Update",
+      "Anim": "liquidreservoir_retro4_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidReservoir",
+      "SkinId": "LiquidReservoirRetro5",
+      "SkinName": "Retro Liquid Reservoir",
+      "SkinDescription": "Liquid Reservoir with different meter color",
+      "Anim": "liquidreservoir_retro5_kanim"
+    }
+,
+    {
+      "BuildingId": "PressureSwitchLiquid",
+      "SkinId": "PressureSwitchLiquidRetro",
+      "SkinName": "Retro Hydro Switch",
+      "SkinDescription": "Hydro Switch as Retro Hydro Sensor",
+      "Anim": "switchliquidpressure_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicPressureSensorLiquid",
+      "SkinId": "LogicPressureSensorLiquidRetro",
+      "SkinName": "Retro Hydro Sensor",
+      "SkinDescription": "Hydro Sensor before it was updated in !!!TO DO!!!",
+      "Anim": "switchliquidpressure_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicPressureSensorGas",
+      "SkinId": "LogicPressureSensorGasRetro",
+      "SkinName": "Retro Atmo Sensor",
+      "SkinDescription": "Atmo Sensor before it was updated in !!!TO DO!!!",
+      "Anim": "switchgaspressure_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicTemperatureSensor",
+      "SkinId": "LogicTemperatureSensorRetro",
+      "SkinName": "Retro Thermo Sensor",
+      "SkinDescription": "Thermo Sensor before it was updated in !!!TO DO!!!",
+      "Anim": "switchthermal_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicCritterCountSensor",
+      "SkinId": "LogicCritterCountSensorRetro",
+      "SkinName": "Retro Critter Sensor",
+      "SkinDescription": "Critter Sensor before it was updated in !!!TO DO!!!",
+      "Anim": "critter_sensor_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicSwitch",
+      "SkinId": "LogicSwitchRetro",
+      "SkinName": "Retro Signal Switch",
+      "SkinDescription": "Signal Switch before it was updated in !!!TO DO!!!",
+      "Anim": "switchdupecontrolledpower_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicPowerRelay",
+      "SkinId": "LogicPowerRelayRetro",
+      "SkinName": "Retro Power Shutoff",
+      "SkinDescription": "Finished early design of the Power Shutoff with yellow light from the early testing versions of the Automation Update",
+      "Anim": "switchpowershutoff_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateAND",
+      "SkinId": "LogicGateANDRetro1",
+      "SkinName": "Retro AND Gate",
+      "SkinDescription": "First AND Gate design with only green dots introduced in Automation Update",
+      "Anim": "logic_and_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateAND",
+      "SkinId": "LogicGateANDRetro2",
+      "SkinName": "Retro AND Gate",
+      "SkinDescription": "Second AND Gate design with now red and green dots introduced in Launch Update",
+      "Anim": "logic_and_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateAND",
+      "SkinId": "LogicGateANDRetro3",
+      "SkinName": "Retro AND Gate",
+      "SkinDescription": "Recreation of design seen on the ui sprite (the one you looking at) of the AND Gate from the early testing versions of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_and_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateAND",
+      "SkinId": "LogicGateANDRetro4",
+      "SkinName": "Retro AND Gate",
+      "SkinDescription": "Third AND Gate new experimental temp design from the early testing versions of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_and_retro4_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateOR",
+      "SkinId": "LogicGateORRetro1",
+      "SkinName": "Retro OR Gate",
+      "SkinDescription": "First OR Gate design with only green dots introduced in Automation Update",
+      "Anim": "logic_or_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateOR",
+      "SkinId": "LogicGateORRetro2",
+      "SkinName": "Retro OR Gate",
+      "SkinDescription": "Second OR Gate design with now red and green dots introduced in Launch Update",
+      "Anim": "logic_or_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateNOT",
+      "SkinId": "LogicGateNOTRetro1",
+      "SkinName": "Retro NOT Gate",
+      "SkinDescription": "First NOT Gate design with only green dots introduced in Automation Update",
+      "Anim": "logic_not_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateNOT",
+      "SkinId": "LogicGateNOTRetro2",
+      "SkinName": "Retro NOT Gate",
+      "SkinDescription": "Second NOT Gate design with now red and green dots introduced in Launch Update",
+      "Anim": "logic_not_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateNOT",
+      "SkinId": "LogicGateNOTRetro3",
+      "SkinName": "Retro NOT Gate",
+      "SkinDescription": "Third NOT Gate new experimental temp design from early testing versions of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_not_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateXOR",
+      "SkinId": "LogicGateXORRetro1",
+      "SkinName": "Retro XOR Gate",
+      "SkinDescription": "First XOR design with only green dots introduced in Automation Update",
+      "Anim": "logic_xor_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateXOR",
+      "SkinId": "LogicGateXORRetro2",
+      "SkinName": "Retro XOR Gate",
+      "SkinDescription": "Second XOR design with now red and green dots introduced in Launch Update",
+      "Anim": "logic_xor_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateXOR",
+      "SkinId": "LogicGateXORRetro3",
+      "SkinName": "Retro XOR Gate",
+      "SkinDescription": "Third XOR new experimental temp design from early testing versions of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_xor_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicCounter",
+      "SkinId": "LogicCounterRetro1",
+      "SkinName": "Retro Signal Counter",
+      "SkinDescription": "First Signal Counter 2 tiles heigh from preview version of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_counter_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicCounter",
+      "SkinId": "LogicCounterRetro2",
+      "SkinName": "Retro Signal Counter",
+      "SkinDescription": "Second Signal Counter from preview version of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_counter_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateFILTER",
+      "SkinId": "LogicGateFILTERRetro",
+      "SkinName": "Retro FILTER Gate",
+      "SkinDescription": "FILTER Gate with only green dots introduced in Automation Update",
+      "Anim": "logic_filter_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateBUFFER",
+      "SkinId": "LogicGateBUFFERRetro",
+      "SkinName": "Retro BUFFER Gate",
+      "SkinDescription": "BUFFER Gate with only green dots introduced in Automation Update",
+      "Anim": "logic_buffer_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateDemultiplexer",
+      "SkinId": "LogicGateDemultiplexerRetro",
+      "SkinName": "Retro Signal Distributor",
+      "SkinDescription": "Finished Signal Distributor temp design from the preview version of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_demultiplexer_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicGateMultiplexer",
+      "SkinId": "LogicGateMultiplexerRetro",
+      "SkinName": "Retro Signal Selector",
+      "SkinDescription": "Finished Signal Selector temp design from the preview version of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_multiplexer_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicMemory",
+      "SkinId": "LogicMemoryRetro",
+      "SkinName": "Retro Memory Toggle",
+      "SkinDescription": "Memory Toggle with only green dots introduced in Ranching Update Mark II",
+      "Anim": "logic_memory_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicRibbonBridge",
+      "SkinId": "LogicRibbonBridgeRetro",
+      "SkinName": "Retro Automation Ribbon Bridge",
+      "SkinDescription": "Finished Automation Ribbon Bridge temp design from preview version of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_ribbon_bridge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicRibbonReader",
+      "SkinId": "LogicRibbonReaderRetro",
+      "SkinName": "Retro Ribbon Reader",
+      "SkinDescription": "Ribbon Reader design from preview version of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_ribbon_reader_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicRibbonWriter",
+      "SkinId": "LogicRibbonWriterRetro",
+      "SkinName": "Retro Ribbon Writer",
+      "SkinDescription": "Ribbon Writer design from preview version of the Banhi's Automation Innovation Pack update",
+      "Anim": "logic_ribbon_writer_retro_kanim"
+    }
+
+,
+    {
+      "BuildingId": "LogicElementSensorGas",
+      "SkinId": "LogicElementSensorGasRetro",
+      "SkinName": "Retro Gas Element Sensor",
+      "SkinDescription": "First Gas Element Sensor introduced in Ranching Upgrade Mark II (it required power back then)",
+      "Anim": "world_element_sensor_retro_kanim"
+    }
+
+,
+    {
+      "BuildingId": "LogicDuplicantSensor",
+      "SkinId": "LogicDuplicantSensorRetro",
+      "SkinName": "Retro Duplicant Motion Sensor",
+      "SkinDescription": "finished Duplicant Motion Sensor temp design from the preview version of the Launch Update",
+      "Anim": "presence_sensor_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicDiseaseSensor",
+      "SkinId": "LogicDiseaseSensorRetro1",
+      "SkinName": "Retro Germ Sensor",
+      "SkinDescription": "Finished Germ Sensor temp design from the preview version of the Occupational Update",
+      "Anim": "diseasesensor_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicDiseaseSensor",
+      "SkinId": "LogicDiseaseSensorRetro2",
+      "SkinName": "Retro Germ Sensor",
+      "SkinDescription": "Old Germ Sensor with yellow led",
+      "Anim": "diseasesensor_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "GasConduitElementSensor",
+      "SkinId": "GasConduitElementSensorRetro",
+      "SkinName": "Retro Gas Pipe Element Sensor",
+      "SkinDescription": "Early Gas Pipe Element Sensor",
+      "Anim": "gas_element_sensor_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasConduitDiseaseSensor",
+      "SkinId": "GasConduitDiseaseSensorRetro",
+      "SkinName": "Retro Gas Pipe Germ Sensor",
+      "SkinDescription": "Early Gas Pipe Germ Sensor",
+      "Anim": "gas_germs_sensor_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasConduitTemperatureSensor",
+      "SkinId": "GasConduitTemperatureSensorRetro",
+      "SkinName": "Retro Gas Pipe Thermo Sensor",
+      "SkinDescription": "Early Gas Pipe Thermo Sensor",
+      "Anim": "gas_temperature_sensor_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidConduitElementSensor",
+      "SkinId": "LiquidConduitElementSensorRetro",
+      "SkinName": "Retro Liquid Pipe Element Sensor",
+      "SkinDescription": "Early Liquid Pipe Element Sensor",
+      "Anim": "liquid_element_sensor_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidConduitDiseaseSensor",
+      "SkinId": "LiquidConduitDiseaseSensorRetro",
+      "SkinName": "Retro Liquid Pipe Germ Sensor",
+      "SkinDescription": "Early Liquid Pipe Germ Sensor",
+      "Anim": "liquid_germs_sensor_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidConduitTemperatureSensor",
+      "SkinId": "LiquidConduitTemperatureSensorRetro",
+      "SkinName": "Retro Liquid Pipe Thermo Sensor",
+      "SkinDescription": "Early Liquid Pipe Thermo Sensor",
+      "Anim": "liquid_temperature_sensor_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ExteriorWall",
+      "SkinId": "ExteriorWallRetro1",
+      "SkinName": "Retro Drywall",
+      "SkinDescription": "First Drywall before it was even added",
+      "Anim": "walls_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ExteriorWall",
+      "SkinId": "ExteriorWallGravitas1",
+      "SkinName": "Graviras Drywall",
+      "SkinDescription": "Just a bonus",
+      "Anim": "gravitas_walls_kanim"
+    }
+,
+    {
+      "BuildingId": "ExteriorWall",
+      "SkinId": "ExteriorWallGravitas2",
+      "SkinName": "Graviras Drywall purple",
+      "SkinDescription": "Just a bonus",
+      "Anim": "walls_gravitas_purple_kanim"
+    }
+,
+    {
+      "BuildingId": "ExteriorWall",
+      "SkinId": "ExteriorWallGravitas3",
+      "SkinName": "Graviras Drywall purple-white",
+      "SkinDescription": "Just a bonus",
+      "Anim": "walls_diagonal_gravitas_purple_white_kanim"
+    }
+,
+    {
+      "BuildingId": "ExteriorWall",
+      "SkinId": "ExteriorWallGravitas4",
+      "SkinName": "Graviras Drywall blue",
+      "SkinDescription": "Recreated blue color seen on Graviras Drywall blue-white place sprite. Just a bonus",
+      "Anim": "walls_gravitas_blue_kanim"
+    }
+,
+    {
+      "BuildingId": "ExteriorWall",
+      "SkinId": "ExteriorWallGravitas5",
+      "SkinName": "Graviras Drywall blue-white",
+      "SkinDescription": "Recreated blue color seen on place sprite. Just a bonus",
+      "Anim": "walls_diagonal_gravitas_blue_white_kanim"
+    }
+,
+    {
+      "BuildingId": "Wallpaper",
+      "SkinId": "WallpaperRetro1",
+      "SkinName": "Retro Wallpaper",
+      "SkinDescription": "Wallpaper with first Drywall before it was even added",
+      "Anim": "walls_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Wallpaper",
+      "SkinId": "WallpaperGravitas1",
+      "SkinName": "Graviras Wallpaper",
+      "SkinDescription": "Just a bonus",
+      "Anim": "gravitas_walls_kanim"
+    }
+,
+    {
+      "BuildingId": "Wallpaper",
+      "SkinId": "WallpaperGravitas2",
+      "SkinName": "Graviras Wallpaper purple",
+      "SkinDescription": "Just a bonus",
+      "Anim": "walls_gravitas_purple_kanim"
+    }
+,
+    {
+      "BuildingId": "Wallpaper",
+      "SkinId": "WallpaperGravitas3",
+      "SkinName": "Graviras Wallpaper purple-white",
+      "SkinDescription": "Just a bonus",
+      "Anim": "walls_diagonal_gravitas_purple_white_kanim"
+    }
+,
+    {
+      "BuildingId": "Wallpaper",
+      "SkinId": "WallpaperGravitas4",
+      "SkinName": "Graviras Wallpaper blue",
+      "SkinDescription": "Recreated blue color seen on Graviras Drywall blue-white place sprite. Just a bonus",
+      "Anim": "walls_gravitas_blue_kanim"
+    }
+,
+    {
+      "BuildingId": "Wallpaper",
+      "SkinId": "WallpaperGravitas5",
+      "SkinName": "Graviras Wallpaper blue-white",
+      "SkinDescription": "Recreated blue color seen on place sprite. Just a bonus",
+      "Anim": "walls_diagonal_gravitas_blue_white_kanim"
+    }
+,
+    {
+      "BuildingId": "ItemPedestal",
+      "SkinId": "ItemPedestalGravitas1",
+      "SkinName": "Gravitas Pedestal",
+      "SkinDescription": "Just a bonus",
+      "Anim": "gravitas_pedestal_nice_kanim"
+    }
+,
+    {
+      "BuildingId": "ItemPedestal",
+      "SkinId": "ItemPedestalGravitasRetro1",
+      "SkinName": "Retro Gravitas Pedestal",
+      "SkinDescription": "Just a bonus",
+      "Anim": "gravitas_pedestal_nice_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "MicrobeMusher",
+      "SkinId": "MicrobeMusherRetro1",
+      "SkinName": "Retro Microbe Musher",
+      "SkinDescription": "Microbe Musher from Alpha",
+      "Anim": "microbemusher_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "MicrobeMusher",
+      "SkinId": "MicrobeMusherRetro2",
+      "SkinName": "Retro Microbe Musher",
+      "SkinDescription": "Microbe Musher from Thermal Update",
+      "Anim": "microbemusher_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "MicrobeMusher",
+      "SkinId": "MicrobeMusherRetro3",
+      "SkinName": "Retro Microbe Musher",
+      "SkinDescription": "Microbe Musher with Unused wheel sprite",
+      "Anim": "microbemusher_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "MineralDeoxidizer",
+      "SkinId": "MineralDeoxidizerRetro",
+      "SkinName": "Retro Algae Deoxidizer",
+      "SkinDescription": "Oxygen Diffuser before Quality of Life Update Mk1",
+      "Anim": "mineraldeoxidizer_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "SublimationStation",
+      "SkinId": "SublimationStationRetro",
+      "SkinName": "Retro Sublimation Station",
+      "SkinDescription": "finished Sublimation Station temp original design found in game files",
+      "Anim": "sublimation_station_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "PowerControlStation",
+      "SkinId": "PowerControlStationRetro1",
+      "SkinName": "Retro Power Control Station",
+      "SkinDescription": "Old Power Control Station with different logo !TODO!",
+      "Anim": "electricianworkdesk_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "PowerControlStation",
+      "SkinId": "PowerControlStationRetro2",
+      "SkinName": "Laser Burner",
+      "SkinDescription": "Unimplemented Laser Burner building. Just a bonus",
+      "Anim": "laserburner_kanim"
+    }
+,
+    {
+      "BuildingId": "MissileFabricator",
+      "SkinId": "MissileFabricatorRetro",
+      "SkinName": "Retro Blastshot Maker",
+      "SkinDescription": "slightly different Blastshot Maker design from preview version of the Whatta Blast! Update",
+      "Anim": "missile_fabricator_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "MissileLauncher",
+      "SkinId": "MissileLauncherRetro",
+      "SkinName": "Retro Meteor Blaster",
+      "SkinDescription": "slightly different Meteor Blaster with the blue shiny led from preview version of the Whatta Blast! Update",
+      "Anim": "missile_launcher_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "OilRefinery",
+      "SkinId": "OilRefineryRetro",
+      "SkinName": "Retro Oil Refinery",
+      "SkinDescription": "slightly different Oil Refinery with the Petroleum instead of Oil in the measuring cup from preview version of the Oil Update",
+      "Anim": "oilrefinery_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ParkSign",
+      "SkinId": "ParkSignRetro1",
+      "SkinName": "Retro Park Sign",
+      "SkinDescription": "bigger Park Sign from preview version of the Launch Update",
+      "Anim": "parksign_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "ParkSign",
+      "SkinId": "ParkSignRetro2",
+      "SkinName": "Retro Park Sign",
+      "SkinDescription": "slightly different Park Sign from preview version of the Launch Update",
+      "Anim": "parksign_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "ParkSign",
+      "SkinId": "ParkSignRetro3",
+      "SkinName": "Retro Park Sign",
+      "SkinDescription": "Park Sign with not broken anims",
+      "Anim": "parksign_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "PixelPack",
+      "SkinId": "PixelPackRetro",
+      "SkinName": "Retro Pixel Pack",
+      "SkinDescription": "Pixel Pack design from preview version of the Banhi's Automation Innovation Pack update",
+      "Anim": "pixel_pack_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "PlanterBox",
+      "SkinId": "PlanterBoxRetro",
+      "SkinName": "Retro Planter Box",
+      "SkinDescription": "Planter Box before Agricultural update",
+      "Anim": "planterbox_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "PlanterBox",
+      "SkinId": "PlanterBoxRetro1",
+      "SkinName": "Retro Planter Box",
+      "SkinDescription": "Unused Planter Box kanim found in Thermal update",
+      "Anim": "planterbox_widetest_kanim"
+    }
+,
+    {
+      "BuildingId": "FlowerVase",
+      "SkinId": "FlowerVaseRetro",
+      "SkinName": "Retro Flower Pot",
+      "SkinDescription": "Flower Pot before Agricultural update",
+      "Anim": "flowervase_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "FlowerVaseWall",
+      "SkinId": "FlowerVaseWallRetro",
+      "SkinName": "Retro Wall Pot",
+      "SkinDescription": "Unused Wall Pot sprite found in the kanim of original Wall Pot",
+      "Anim": "flowervase_wall_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Refrigerator",
+      "SkinId": "RefrigeratorRetro",
+      "SkinName": "Retro Refrigerator",
+      "SkinDescription": "Refrigerator before the Occupational Update",
+      "Anim": "fridge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "MethaneGenerator",
+      "SkinId": "MethaneGeneratorRetro",
+      "SkinName": "Retro Natural Gas Generator",
+      "SkinDescription": "Natural Gas Generator design from the Agricultural Update",
+      "Anim": "generatormethane_retro_kanim"
+
+    }
+,
+    {
+      "BuildingId": "Generator",
+      "SkinId": "GeneratorRetro1",
+      "SkinName": "Retro Coal Generator",
+      "SkinDescription": "Coal Generator with recreated longer exhaust pipe seen on ui sprite",
+      "Anim": "generatorphos_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "Generator",
+      "SkinId": "GeneratorRetro2",
+      "SkinName": "Retro Coal Generator",
+      "SkinDescription": "Coal Generator without smoke before the Quality of Life Update Mk1",
+      "Anim": "generatorphos_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "GlassForge",
+      "SkinId": "GlassForgeRetro",
+      "SkinName": "Retro Glass Forge",
+      "SkinDescription": "Glass Forge pre final design from preview version of the Cosmic Update",
+      "Anim": "glassrefinery_retro_kanim",
+      "WorkableAnimOverrides": {
+        "ComplexFabricatorWorkable": "anim_interacts_metalrefinery_retro_kanim"
+      }
+    }
+,
+    {
+      "BuildingId": "WaterCooler",
+      "SkinId": "WaterCoolerRetro",
+      "SkinName": "Retro Water Cooler",
+      "SkinDescription": "finished early Water Cooler design with a trashcan",
+      "Anim": "watercooler_retro_kanim",
+      "WorkableAnimOverrides": {
+        "SocialGatheringPointWorkable": "anim_interacts_watercooler_retro_kanim"
+      }
+    }
+,
+    {
+      "BuildingId": "NuclearResearchCenter",
+      "SkinId": "NuclearResearchCenterRetro1",
+      "SkinName": "Atomic Collider",
+      "SkinDescription": "Atomic Collider before rebranding into Materials Study Terminal",
+      "Anim": "research_center_nuclear_kanim",
+      "WorkableAnimOverrides": {
+        "NuclearResearchCenterWorkable": "anim_interacts_research_nuclear_kanim"
+      }
+    }
+,
+    {
+      "BuildingId": "NuclearResearchCenter",
+      "SkinId": "NuclearResearchCenterRetro2",
+      "SkinName": "Retro Materials Study Terminal",
+      "SkinDescription": "Finished early Materials Study Terminal",
+      "Anim": "material_research_centre_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "EggIncubator",
+      "SkinId": "EggIncubatorRetro1",
+      "SkinName": "Retro Incubator",
+      "SkinDescription": "unfinished old Incubator design from pre alpha",
+      "Anim": "eggincubator_kanim"
+    }
+,
+    {
+      "BuildingId": "EggIncubator",
+      "SkinId": "EggIncubatorRetro2",
+      "SkinName": "Retro Incubator",
+      "SkinDescription": "Incubator design from preview version of the Ranching Update Mark I",
+      "Anim": "incubator_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "FarmStation",
+      "SkinId": "FarmStationRetro",
+      "SkinName": "Retro Farm Station",
+      "SkinDescription": "Farm Station with fixed meter and no bubbles before the early access of the DLC Spaced Out",
+      "Anim": "planttender_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Polymerizer",
+      "SkinId": "PolymerizerRetro",
+      "SkinName": "Retro Polymer Press",
+      "SkinDescription": "Polymer Press before it was even added",
+      "Anim": "plasticrefinery_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidVent",
+      "SkinId": "LiquidVentRetro1",
+      "SkinName": "Retro Liquid Vent",
+      "SkinDescription": "Liquid Vent from alpha with different liquid splashes",
+      "Anim": "ventliquid_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidVent",
+      "SkinId": "LiquidVentRetro2",
+      "SkinName": "Retro Liquid Vent",
+      "SkinDescription": "old always white liquid leak",
+      "Anim": "ventliquid_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "PowerTransformer",
+      "SkinId": "PowerTransformerRetro1",
+      "SkinName": "Power Transformer",
+      "SkinDescription": "!!!TO DO!!!",
+      "Anim": "transformer_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "PowerTransformer",
+      "SkinId": "PowerTransformerRetro2",
+      "SkinName": "Power Transformer",
+      "SkinDescription": "Unused sprite!!!TO DO!!!",
+      "Anim": "transformer_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "PowerTransformer",
+      "SkinId": "PowerTransformerRetro3",
+      "SkinName": "Power Transformer",
+      "SkinDescription": "Unused sprite!!!TO DO!!!",
+      "Anim": "transformer_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "PowerTransformerSmall",
+      "SkinId": "PowerTransformerSmallRetro1",
+      "SkinName": "Small Power Transformer",
+      "SkinDescription": "!!!TO DO!!!",
+      "Anim": "transformer_small_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "PowerTransformerSmall",
+      "SkinId": "PowerTransformerSmallRetro2",
+      "SkinName": "Small Power Transformer",
+      "SkinDescription": "Unused sprite!!!TO DO!!!",
+      "Anim": "transformer_small_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "Wire",
+      "SkinId": "WireRetro",
+      "SkinName": "Retro Wire",
+      "SkinDescription": "Wire before Automation update",
+      "Anim": "utilities_electric_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "WireBridge",
+      "SkinId": "WireBridgeRetro",
+      "SkinName": "Retro Wire Bridge",
+      "SkinDescription": "Wire Bridge before Automation update",
+      "Anim": "utilityelectricbridge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "HotTub",
+      "SkinId": "HotTubRetro",
+      "SkinName": "Retro Hot Tub",
+      "SkinDescription": "Finished early temp design of a Hot Tub",
+      "Anim": "hottub_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidConduitBridge",
+      "SkinId": "LiquidConduitBridgeRetro",
+      "SkinName": "Retro Liquid Bridge",
+      "SkinDescription": "Liquid Bridge from Alpha",
+      "Anim": "utilityliquidbridge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasConduitBridge",
+      "SkinId": "GasConduitBridgeRetro",
+      "SkinName": "Retro Gas Bridge",
+      "SkinDescription": "Gas Bridge from Alpha",
+      "Anim": "utilitygasbridge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "TravelTubeWallBridge",
+      "SkinId": "TravelTubeWallBridgeRetro",
+      "SkinName": "Retro Transit Tube Crossing",
+      "SkinDescription": "Transit Tube Crossing design in preview version of Tubular Update",
+      "Anim": "tube_tile_bridge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "TravelTube",
+      "SkinId": "TravelTubeRetro1",
+      "SkinName": "Recreated retro Transit Tube",
+      "SkinDescription": "Recreated Transit Tube design with original caps from preview version of Tubular Update",
+      "Anim": "travel_tube_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "TravelTube",
+      "SkinId": "TravelTubeRetro2",
+      "SkinName": "Retro Transit Tube",
+      "SkinDescription": "The same Transit Tube design but with smoothed inner corners from release version of Tubular Update",
+      "Anim": "travel_tube_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "ThermalBlock",
+      "SkinId": "ThermalBlockRetro1",
+      "SkinName": "Firts retro Tempshift Plate",
+      "SkinDescription": "finished tempshift Plate temp original design from the preview version of the Automation Update",
+      "Anim": "thermalblock_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "ThermalBlock",
+      "SkinId": "ThermalBlockRetro2",
+      "SkinName": "Second retro Tempshift Plate",
+      "SkinDescription": "Tempshift Plate design from preview version of the Automation Update",
+      "Anim": "thermalblock_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "ThermalBlock",
+      "SkinId": "ThermalBlockRetro3",
+      "SkinName": "Third retro Tempshift Plate",
+      "SkinDescription": "Tempshift Plate design from release version of the Automation Update",
+      "Anim": "thermalblock_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "SuitFabricator",
+      "SkinId": "SuitFabricatorRetro1",
+      "SkinName": "Retro Exosuit Forge",
+      "SkinDescription": "Early Exosuit Forge from Alpha with early Atmo Suit",
+      "Anim": "suitfabricator1_kanim"
+    }
+,
+    {
+      "BuildingId": "SuitFabricator",
+      "SkinId": "SuitFabricatorRetro2",
+      "SkinName": "Retro Exosuit Forge",
+      "SkinDescription": "Early Exosuit Forge from preview version of the Oil Update",
+      "Anim": "suitfabricator2_kanim"
+    }
+,
+    {
+      "BuildingId": "SuitFabricator",
+      "SkinId": "SuitFabricatorRetro3",
+      "SkinName": "Suit Recharger",
+      "SkinDescription": "Suit Recharger was an unimplemented building which art got recycled into modern Exosuit Forge",
+      "Anim": "suitrecharger_old_kanim"
+    }
+,
+    {
+      "BuildingId": "SteamTurbine",
+      "SkinId": "SteamTurbineRetro",
+      "SkinName": "Retro Steam Turbine",
+      "SkinDescription": "finished Steam Turbine temp original design from preview version of The Occupational Update",
+      "Anim": "steamturbine_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "SteamTurbine2",
+      "SkinId": "SteamTurbine2Retro",
+      "SkinName": "Retro Steam Turbine",
+      "SkinDescription": "finished Steam Turbine temp original design from preview version of The Quality of Life Mk III",
+      "Anim": "steamturbine2_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "BatterySmart",
+      "SkinId": "BatterySmartRetro",
+      "SkinName": "Retro Smart Battery",
+      "SkinDescription": "Smart Battery design from preview version of The Occupational Update",
+      "Anim": "smartbattery_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Shower",
+      "SkinId": "ShowerRetro",
+      "SkinName": "Retro Shower",
+      "SkinDescription": "Shower design with taller doors from the Alpha version",
+      "Anim": "shower_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "CreatureDeliveryPoint",
+      "SkinId": "CreatureDeliveryPointRetro1",
+      "SkinName": "Retro Creature Relocator 1",
+      "SkinDescription": "finished Critter Drop-Off temp original design from the preview version of the Oil Update",
+      "Anim": "relocator_dropoff_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "CreatureDeliveryPoint",
+      "SkinId": "CreatureDeliveryPointRetro2",
+      "SkinName": "Retro Creature Relocator 2",
+      "SkinDescription": "Critter Drop-Off design from the Oil Update",
+      "Anim": "relocator_dropoff_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "CritterDropOff",
+      "SkinId": "CritterDropOffRetro",
+      "SkinName": "Retro Critter Drop-Off",
+      "SkinDescription": " Critter Drop-Off design from the prewiev version of the Prehistoric Planet Pack DLC",
+      "Anim": "relocator_dropoff_02_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "CreatureTrap",
+      "SkinId": "CreatureTrapRetro",
+      "SkinName": "Retro Critter Trap",
+      "SkinDescription": "Critter Trap with different early anims",
+      "Anim": "creaturetrap_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Chlorinator",
+      "SkinId": "ChlorinatorRetro1",
+      "SkinName": "Retro Chlorinator 1",
+      "SkinDescription": "First Chlorinator design from preview version of the Song Of The Moo Update",
+      "Anim": "chlorinator_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "Chlorinator",
+      "SkinId": "ChlorinatorRetro2",
+      "SkinName": "Retro Chlorinator 2",
+      "SkinDescription": "Second pre final Chlorinator design from preview version of the Song Of The Moo Update",
+      "Anim": "chlorinator_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "DecontaminationShower",
+      "SkinId": "DecontaminationShowerRetro",
+      "SkinName": "Retro Decontamination Shower",
+      "SkinDescription": "Decontamination Shower from the early access of the DLC Spaced Out",
+      "Anim": "decontamination_shower_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "EggCracker",
+      "SkinId": "EggCrackerRetro1",
+      "SkinName": "Retro Egg Cracker 1",
+      "SkinDescription": "Finished First Egg Cracker temp original design from the preview version of the Cosmic Update",
+      "Anim": "egg_cracker_retro1_kanim",
+      "WorkableAnimOverrides": {
+        "ComplexFabricatorWorkable": "anim_interacts_egg_cracker_retro1_kanim"
+      }
+    }
+,
+    {
+      "BuildingId": "EggCracker",
+      "SkinId": "EggCrackerRetro2",
+      "SkinName": "Retro Egg Cracker 2",
+      "SkinDescription": "Finished Second pre final Egg Cracker temp original design from the preview version of the Cosmic Update",
+      "Anim": "egg_cracker_retro2_kanim",
+      "WorkableAnimOverrides": {
+        "ComplexFabricatorWorkable": "anim_interacts_egg_cracker_retro2_kanim"
+      }
+    }
+,
+    {
+      "BuildingId": "Checkpoint",
+      "SkinId": "CheckpointRetro",
+      "SkinName": "Retro Duplicant Checkpoint",
+      "SkinDescription": "Duplicant Checkpoint with early screen symbols from preview version of the !!!TO DO!!!",
+      "Anim": "checkpoint_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "SuitLocker",
+      "SkinId": "SuitLockerRetro0",
+      "SkinName": "Retro Atmo Suit Dock",
+      "SkinDescription": "Finished Second pre final Atmo Suit Dock temp original design from the preview version of the Oil Update",
+      "Anim": "changingarea_retro_0_kanim"
+    }
+,
+    {
+      "BuildingId": "SuitLocker",
+      "SkinId": "SuitLockerRetro",
+      "SkinName": "Retro Atmo Suit Dock",
+      "SkinDescription": "Atmo Suit Dock design from the preview version of the Oil Update",
+      "Anim": "changingarea_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "SuitMarker",
+      "SkinId": "SuitMarkerRetro2",
+      "SkinName": "Retro Atmo Suit Checkpoint 2",
+      "SkinDescription": "Atmo Suit Checkpoint design from the preview version of the Oil Update",
+      "Anim": "changingarea_arrow_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "SuitMarker",
+      "SkinId": "SuitMarkerRetro1",
+      "SkinName": "Retro Atmo Suit Checkpoint 1",
+      "SkinDescription": "Atmo Suit Checkpoint design from the preview version of the Oil Update",
+      "Anim": "changingarea_arrow_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "JetSuitLocker",
+      "SkinId": "JetSuitLockerRetro",
+      "SkinName": "Retro Jet Suit Dock",
+      "SkinDescription": "!!!TO DO!!!",
+      "Anim": "changingarea_jetsuit_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "JetSuitMarker",
+      "SkinId": "JetSuitMarkerRetro",
+      "SkinName": "Retro Jet Suit Checkpoint",
+      "SkinDescription": "!!!TO DO!!!",
+      "Anim": "changingarea_jetsuit_arrow_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LeadSuitLocker",
+      "SkinId": "LeadSuitLockerRetro",
+      "SkinName": "Retro Lead Suit Dock",
+      "SkinDescription": "Old Lead Suit Dock from Spaced Out early acces",
+      "Anim": "changingarea_radiation_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LeadSuitMarker",
+      "SkinId": "LeadSuitMarkerRetro",
+      "SkinName": "Retro Lead Suit Checkpoint",
+      "SkinDescription": "Old Lead Suit Checkpoint from Spaced Out early acces",
+      "Anim": "changingarea_radiation_arrow_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "RetroOni_MetalReclaimer",
+      "SkinId": "RetroOni_MetalReclaimerRetro2",
+      "SkinName": "Rock Refinery",
+      "SkinDescription": "Rock Crusher from pre Alpha",
+      "Anim": "rockrefinery_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "RetroOni_MetalReclaimer",
+      "SkinId": "RetroOni_MetalReclaimerRetro3",
+      "SkinName": "Rock Granulator",
+      "SkinDescription": "Finished Rock Crusher temp design from the testing version of the Automation Update",
+      "Anim": "rockrefinery_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "RetroOni_MetalReclaimer",
+      "SkinId": "RetroOni_MetalReclaimerRetro4",
+      "SkinName": "Amalgamator",
+      "SkinDescription": "Rock Crusher from the testing version of the Automation Update with fake meter",
+      "Anim": "rockrefinery_retro4_kanim"
+    }
+,
+    {
+      "BuildingId": "HighEnergyParticleRedirector",
+      "SkinId": "HighEnergyParticleRedirectorRetro",
+      "SkinName": "Retro Radbolt Reflector",
+      "SkinDescription": "Old Radbolt Reflector from Spaced Out early acces",
+      "Anim": "orb_transporter_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "HighEnergyParticleSpawner",
+      "SkinId": "HighEnergyParticleSpawnerRetro2",
+      "SkinName": "Retro Radbolt Generator",
+      "SkinDescription": "Old Radbolt Generator with added meter from Spaced Out early acces",
+      "Anim": "radiation_collector_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "HighEnergyParticleSpawner",
+      "SkinId": "HighEnergyParticleSpawnerRetro1",
+      "SkinName": "Retro Radbolt Generator",
+      "SkinDescription": "Old Original Radbolt Generator without meter from Spaced Out early acces",
+      "Anim": "radiation_collector_retro0_kanim"
+    }
+,
+    {
+      "BuildingId": "SunLamp",
+      "SkinId": "SunLampRetro",
+      "SkinName": "Retro Sun Lamp",
+      "SkinDescription": "Finished Sun Lamp temp original design from the preview version of the Recreation Pack Update",
+      "Anim": "sun_lamp_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LEDLight",
+      "SkinId": "LEDLightRetro",
+      "SkinName": "Wall lamp",
+      "SkinDescription": "Unimplemented Wall Lamp",
+      "Anim": "walllamp_kanim"
+    }
+,
+    {
+      "BuildingId": "CeilingLight",
+      "SkinId": "CeilingLightRetro",
+      "SkinName": "Pretty Ceiling Light",
+      "SkinDescription": "unused Pretty Ceiling Light",
+      "Anim": "ceilinglight_pretty_kanim"
+    }
+,
+    {
+      "BuildingId": "CeilingLight",
+      "SkinId": "CeilingLightRetro2",
+      "SkinName": "Gravitas Light Fixture",
+      "SkinDescription": "Working Gravitas Light Fixture. Just a bonus",
+      "Anim": "setpiece_light_working_kanim"
+    }
+,
+    {
+      "BuildingId": "CeilingLight",
+      "SkinId": "CeilingLightRetro3",
+      "SkinName": "Gravitas LED Light",
+      "SkinDescription": "Working Gravitas LED Light. Just a bonus",
+      "Anim": "gravitas_lab_light_working_kanim"
+    }
+,
+    {
+      "BuildingId": "RationBox",
+      "SkinId": "RationBoxRetro1",
+      "SkinName": "Green Ration Box",
+      "SkinDescription": "Unused Green Ration Box",
+      "CopySoundFromBase": "false",
+      "Anim": "set_locker_kanim"
+    }
+,
+    {
+      "BuildingId": "RationBox",
+      "SkinId": "RationBoxRetro2",
+      "SkinName": "Crate",
+      "SkinDescription": "Unused Crate",
+      "CopySoundFromBase": "false",
+      "Anim": "cratebox_kanim"
+    }
+,
+    {
+      "BuildingId": "AquaticFarm",
+      "SkinId": "AquaticFarmRetro",
+      "SkinName": "Retro Aquatic Farm",
+      "SkinDescription": "Original Aquatic Farm",
+      "Anim": "farmtile_kanim"
+    }
+,
+    {
+      "BuildingId": "FloorLamp",
+      "SkinId": "FloorLampRetro1",
+      "SkinName": "Lava Lamp",
+      "SkinDescription": "Unimplemented Lava Lamp",
+      "CopySoundFromBase": "false",
+      "Anim": "lava_lamp_kanim"
+    }
+,
+    {
+      "BuildingId": "FloorLamp",
+      "SkinId": "FloorLampRetro2",
+      "SkinName": "Salt Lamp",
+      "SkinDescription": "Unimplemented Salt Lamp",
+      "CopySoundFromBase": "false",
+      "Anim": "saltlamp_kanim"
+    }
+,
+    {
+      "BuildingId": "SuitRecharger",
+      "SkinId": "SuitRechargerRetro",
+      "SkinName": "Retro Suit Recharger",
+      "SkinDescription": "Old Suit Recharger",
+      "Anim": "suitrecharger_old_kanim"
+    }
+,
+    {
+      "BuildingId": "ArcadeMachine",
+      "SkinId": "ArcadeMachineRetro1",
+      "SkinName": "Retro Arcade Cabinet",
+      "SkinDescription": "!!TO DO!!",
+      "Anim": "arcade_cabinet_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "ArcadeMachine",
+      "SkinId": "ArcadeMachineRetro2",
+      "SkinName": "Retro Arcade Cabinet",
+      "SkinDescription": "Arcade Cabinet with spaceship having shadow",
+      "Anim": "arcade_cabinet_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "SolidTransferArm",
+      "SkinId": "SolidTransferArmRetro",
+      "SkinName": "Retro Auto-Sweeper",
+      "SkinDescription": "2 tiles wide Auto-Sweeper",
+      "Anim": "conveyor_transferarm_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "SupermaterialRefinery",
+      "SkinId": "SupermaterialRefineryRetro",
+      "SkinName": "Retro Molecular Forge",
+      "SkinDescription": "finished Critter Molecular Forge temp original design from the preview version of the Space Industry Update",
+      "Anim": "supermaterial_refinery_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Compost",
+      "SkinId": "CompostRetro1",
+      "SkinName": "Retro Compost 1",
+      "SkinDescription": "Recreated old Compost with meter and with old composting animations",
+      "Anim": "compost_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "Compost",
+      "SkinId": "CompostRetro2",
+      "SkinName": "Retro Compost 2",
+      "SkinDescription": "Recreated old Compost with meter",
+      "Anim": "compost_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "FoodRehydrator",
+      "SkinId": "FoodRehydratorRetro1",
+      "SkinName": "Retro Rehydrator 1",
+      "SkinDescription": "!!!TODO!!! older Rehydrator original temp design from testing version of the Packed Snacks Update",
+      "Anim": "rehydrator_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "FoodRehydrator",
+      "SkinId": "FoodRehydratorRetro2",
+      "SkinName": "Retro Rehydrator 2",
+      "SkinDescription": "Finished old Rehydrator design from testing version of the Packed Snacks Update",
+      "Anim": "rehydrator_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "FoodDehydrator",
+      "SkinId": "FoodDehydratorRetro",
+      "SkinName": "Retro Dehydrator",
+      "SkinDescription": "Old Dehydrator with slightly different animations from testing version of the Packed Snacks Update",
+      "Anim": "dehydrator_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Grave",
+      "SkinId": "GraveRetro",
+      "SkinName": "Retro Tasteful Memorial",
+      "SkinDescription": "Tasteful Memorial before the February 2024 QOL Update",
+      "Anim": "gravestone_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro",
+      "SkinName": "Retro Gas Reservoir",
+      "SkinDescription": "Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro1",
+      "SkinName": "Retro Golden Gas Reservoir",
+      "SkinDescription": "Golden Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_lightgold_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro2",
+      "SkinName": "Retro Greenpea Gas Reservoir",
+      "SkinDescription": "Greenpea Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_peagreen_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro3",
+      "SkinName": "Retro Bluemoon Gas Reservoir",
+      "SkinDescription": "Bluemoon Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_lightcobalt_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro4",
+      "SkinName": "Retro Mod Dot Gas Reservoir",
+      "SkinDescription": "Mod Dot Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_polka_darkpurpleresin_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro5",
+      "SkinName": "Retro Party Dot Gas Reservoir",
+      "SkinDescription": "Party Dot Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_polka_darknavynookgreen_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro6",
+      "SkinName": "Retro Weepy Blue Gas Reservoir",
+      "SkinDescription": "Weepy Blue Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_blue_babytears_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro7",
+      "SkinName": "Retro Ick Yellow Gas Reservoir",
+      "SkinDescription": "Ick Yellow Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_yellow_tartar_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro8",
+      "SkinName": "Retro Mush Green Gas Reservoir",
+      "SkinDescription": "Mush Green Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_green_mush_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro9",
+      "SkinName": "Retro Puce Pink Gas Reservoir",
+      "SkinDescription": "Puce Pink Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_red_rose_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GasReservoir",
+      "SkinId": "GasReservoirRetro10",
+      "SkinName": "Retro Faint Purple Gas Reservoir",
+      "SkinDescription": "Faint Purple Gas Reservoir before the February 2024 QOL Update",
+      "Anim": "gasstorage_purple_brainfat_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "StorageTile",
+      "SkinId": "StorageTileRetro1",
+      "SkinName": "Retro Storage Tile 1",
+      "SkinDescription": "Storage Tile from testing version of the February 2024 QOL Update",
+      "Anim": "storagetile_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "StorageTile",
+      "SkinId": "StorageTileRetro2",
+      "SkinName": "Retro Storage Tile 2",
+      "SkinDescription": "Storage Tile from testing version of the February 2024 QOL Update",
+      "Anim": "storagetile_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "GasLogicValve",
+      "SkinId": "GasLogicValveRetro",
+      "SkinName": "Retro Gas Shutoff",
+      "SkinDescription": "Gas Shutoff from testing version of the Automation Update",
+      "Anim": "valvegas_logic_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LiquidLogicValve",
+      "SkinId": "LiquidLogicValveRetro",
+      "SkinName": "Retro Liquid Shutoff",
+      "SkinDescription": "Liquid Shutoff from testing version of the Automation Update",
+      "Anim": "valveliquid_logic_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicTimeOfDaySensor",
+      "SkinId": "LogicTimeOfDaySensorRetro1",
+      "SkinName": "Retro Cycle Sensor",
+      "SkinDescription": "Cycle Sensor from testing version of the Automation Update",
+      "Anim": "switchtimeofday_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicTimeOfDaySensor",
+      "SkinId": "LogicTimeOfDaySensorRetro2",
+      "SkinName": "Retro Cycle Sensor",
+      "SkinDescription": "Cycle Sensor !!!TODO!!!",
+      "Anim": "switchtimeofday_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "Gantry",
+      "SkinId": "GantryRetro",
+      "SkinName": "Retro Gantry",
+      "SkinDescription": "Gantry with recreated old color seen on one of Klei streams",
+      "Anim": "gantry_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "OxygenMaskStation",
+      "SkinId": "OxygenMaskStationRetro1",
+      "SkinName": "Retro Oxygen Mask Station",
+      "SkinDescription": "First oldest Oxygen Mask Station from early acces of the first DLC Spaced Out",
+      "Anim": "oxygen_mask_station_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "OxygenMaskStation",
+      "SkinId": "OxygenMaskStationRetro2",
+      "SkinName": "Retro Oxygen Mask Station",
+      "SkinDescription": "Second Oxygen Mask Station from early acces of the first DLC Spaced Out",
+      "Anim": "oxygen_mask_station_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "OxygenMaskStation",
+      "SkinId": "OxygenMaskStationRetro4",
+      "SkinName": "Retro Oxygen Mask Station",
+      "SkinDescription": "Fourth almost finished Oxygen Mask Station with slightly different animations from early acces of the first DLC Spaced Out",
+      "Anim": "oxygen_mask_station_retro4_kanim"
+    }
+,
+    {
+      "BuildingId": "GourmetCookingStation",
+      "SkinId": "GourmetCookingStationRetro1",
+      "SkinName": "Retro Gas Range",
+      "SkinDescription": "Recreated Gas Range with 2 leds seen on place sprite",
+      "Anim": "cookstation_gourmet_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "GourmetCookingStation",
+      "SkinId": "GourmetCookingStationRetro2",
+      "SkinName": "Retro Gas Range Cottage",
+      "SkinDescription": "Gas Range Cottage with unhidden sprite",
+      "Anim": "cookstation_gourmet_cottage_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Campfire",
+      "SkinId": "CampfireBurner",
+      "SkinName": "Burner",
+      "SkinDescription": "Wood Heater as unused Burner",
+      "Anim": "burner_kanim"
+    }
+,
+    {
+      "BuildingId": "ResetSkillsStation",
+      "SkinId": "ResetSkillsStationRetro",
+      "SkinName": "Retro Skill Scrubber",
+      "SkinDescription": "Finished Skill Scrubber original temp design with a bottle from preview version of The Quality of Life Mk III Update",
+      "Anim": "respeccer_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "FishTrap",
+      "SkinId": "FishTrapRetro",
+      "SkinName": "Retro Fish Trap",
+      "SkinDescription": "Finished Fish Trap original temp design with a hook from preview version of The Ranch Mk I Update",
+      "Anim": "fishtrap_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "FishFeeder",
+      "SkinId": "FishFeederRetro",
+      "SkinName": "Retro Fish Feeder",
+      "SkinDescription": "Fish Feeder original temp design with a different spoon and balls from preview version of The Ranch Mk II Update",
+      "Anim": "fishfeeder_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "FishDeliveryPoint",
+      "SkinId": "FishDeliveryPointRetro",
+      "SkinName": "Retro Fish Release",
+      "SkinDescription": "Fish Release original temp design from preview version of The Ranch Mk II Update",
+      "Anim": "fishrelocator_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Door",
+      "SkinId": "DoorRetro",
+      "SkinName": "Retro Pneumatic Door",
+      "SkinDescription": "Early Pneumatic Door from Alpha",
+      "Anim": "door_internal_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ManualPressureDoor",
+      "SkinId": "ManualPressureDoorRetro",
+      "SkinName": "Retro Manual Airlock",
+      "SkinDescription": "Recreted early Manual Airlock design with slightly different colors from its UI sprite",
+      "Anim": "door_manual_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "PressureDoor",
+      "SkinId": "PressureDoorRetro1",
+      "SkinName": "Retro Mechanized Airlock",
+      "SkinDescription": "Recreted early Mechanized Airlock seen on pre-alpha screenshots",
+      "Anim": "door_external_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "PressureDoor",
+      "SkinId": "PressureDoorRetro2",
+      "SkinName": "Retro Mechanized Airlock",
+      "SkinDescription": "Early Mechanized Airlock from alpha before it was redesigned in Thermal Update",
+      "Anim": "door_external_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "SludgePress",
+      "SkinId": "SludgePressRetro",
+      "SkinName": "Retro Sludge Press",
+      "SkinDescription": "Recreated Sludge Press with early bowl colors seen on its UI sprite and with recreated meter",
+      "Anim": "sludge_press_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "bed",
+      "SkinId": "bedjorgeRetro",
+      "SkinName": "Retro DIY Cot",
+      "SkinDescription": "Old DIY Cot with animated lights from the the testing version of FP DLC",
+      "Anim": "bed_jorge_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LadderBed",
+      "SkinId": "LadderBedRetro",
+      "SkinName": "Retro Ladder Bed",
+      "SkinDescription": "Finished early temp design of Ladder Bed",
+      "Anim": "ladder_bed_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "BottleEmptierConduitLiquid",
+      "SkinId": "BottleDrainerRetro1",
+      "SkinName": "Retro Bottle Drainer",
+      "SkinDescription": "Unused early design of Bottle Drainer found in the Frosty Planet Pack DLC",
+      "CopySoundFromBase": "false",
+      "Anim": "bottle_empty_pipe_kanim"
+    }
+,
+    {
+      "BuildingId": "BottleEmptierConduitLiquid",
+      "SkinId": "BottleDrainerRetro2",
+      "SkinName": "Retro Bottle Drainer",
+      "SkinDescription": "design of Bottle Drainer with unused leg sprite",
+      "Anim": "bottle_emptier_liquid_conduit_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "BottleEmptierConduitLiquid",
+      "SkinId": "BottleDrainerRetro3",
+      "SkinName": "Retro Bottle Drainer",
+      "SkinDescription": "design of Bottle Drainer with unused leg and cup sprites",
+      "Anim": "bottle_emptier_liquid_conduit_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "BottleEmptierConduitGas",
+      "SkinId": "CanisterDrainerRetro",
+      "SkinName": "Retro Canister Drainer",
+      "SkinDescription": "restored design of Canister Drainer based on unused sprites found in uts kanim",
+      "Anim": "bottle_emptier_gas_conduit_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "DataMiner",
+      "SkinId": "DataMinerRetro1",
+      "SkinName": "Retro Data Miner",
+      "SkinDescription": "Data Miner with early animations and restored early design found in the beta of the Bionic Booster Pack DLC",
+      "Anim": "data_miner_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "DataMiner",
+      "SkinId": "DataMinerRetro2",
+      "SkinName": "Retro Data Miner",
+      "SkinDescription": "Data Miner with early animations found in the beta of the Bionic Booster Pack DLC",
+      "Anim": "data_miner_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "SmallElectrobankDischarger",
+      "SkinId": "SmallElectrobankDischargerRetro",
+      "SkinName": "Wall Socket",
+      "SkinDescription": "Compact Discharger early design found in the kanim",
+      "Anim": "electrobank_discharger_small_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LargeElectrobankDischarger",
+      "SkinId": "LargeElectrobankDischargerRetro",
+      "SkinName": "Socket Station",
+      "SkinDescription": "Large Discharger early design found in the kanim",
+      "Anim": "electrobank_discharger_large_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ElectrobankCharger",
+      "SkinId": "ElectrobankChargerRetro",
+      "SkinName": "Retro Power Bank Charger",
+      "SkinDescription": "Power Bank Charger early design found in the kanim",
+      "Anim": "electrobank_charger_small_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "DiamondPress",
+      "SkinId": "DiamondPressRetro2",
+      "SkinName": "Retro Diamond Press",
+      "SkinDescription": "Diamond Press early design found in the beta of the Spaced Out DLC",
+      "Anim": "diamond_press_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "DiamondPress",
+      "SkinId": "DiamondPressRetro3",
+      "SkinName": "Retro Diamond Press",
+      "SkinDescription": "Diamond Press early design with early radbolt port found in the beta of the Spaced Out DLC",
+      "Anim": "diamond_press_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "HEPEngine",
+      "SkinId": "HEPEngineRetro1",
+      "SkinName": "Retro Radbolt Engine",
+      "SkinDescription": "!!!TODO!!! Radbolt Engine early design found in the beta of the Spaced Out DLC",
+      "Anim": "rocket_hep_engine_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "HEPEngine",
+      "SkinId": "HEPEngineRetro2",
+      "SkinName": "Retro Radbolt Engine",
+      "SkinDescription": "Radbolt Engine early design found in the beta of the Spaced Out DLC",
+      "Anim": "rocket_hep_engine_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "HEPEngine",
+      "SkinId": "HEPEngineRetro3",
+      "SkinName": "Retro Radbolt Engine",
+      "SkinDescription": "Radbolt Engine early design found in the beta of the Spaced Out DLC",
+      "Anim": "rocket_hep_engine_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "HEPEngine",
+      "SkinId": "HEPEngineRetro3",
+      "SkinName": "Retro Radbolt Engine",
+      "SkinDescription": "Radbolt Engine early design found in the beta of the Spaced Out DLC",
+      "Anim": "rocket_hep_engine_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "BiodieselEngine",
+      "SkinId": "BiodieselEngineRetro",
+      "SkinName": "Retro Biodiesel Engine",
+      "SkinDescription": "Early Biodiesel Engine with unused sprite",
+      "Anim": "rocket_biodiesel_engine_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "BiodieselEngineCluster",
+      "SkinId": "BiodieselEngineClusterRetro",
+      "SkinName": "Retro Biodiesel Engine",
+      "SkinDescription": "Early Biodiesel Engine with unused sprite",
+      "Anim": "rocket_biodiesel_engine_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ArtifactCargoBay",
+      "SkinId": "ArtifactCargoBayRetro",
+      "SkinName": "Retro Artifact Transport Module",
+      "SkinDescription": "Finished early Artifact Transport Module design",
+      "Anim": "artifact_transport_module_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "OrbitalCargoModule",
+      "SkinId": "OrbitalCargoModuleRetro",
+      "SkinName": "Retro Orbital Cargo Module",
+      "SkinDescription": "Finished early Orbital Cargo Module design",
+      "Anim": "rocket_orbital_deploy_cargo_module_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "HabitatModuleSmall",
+      "SkinId": "HabitatModuleSmallRetro1",
+      "SkinName": "Retro Solo Spacefarer Nosecone",
+      "SkinDescription": "Early Solo Spacefarer Nosecone",
+      "Anim": "rocket_habitat_small_module_kanim"
+    }
+,
+    {
+      "BuildingId": "HabitatModuleSmall",
+      "SkinId": "HabitatModuleSmallRetro2",
+      "SkinName": "Retro Solo Spacefarer Nosecone",
+      "SkinDescription": "Early Solo Spacefarer Nosecone with 2 railings",
+      "Anim": "rocket_nosecone_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "RailGun",
+      "SkinId": "RailGunRetro2",
+      "SkinName": "Retro Interplanetary Launcher",
+      "SkinDescription": "!!!TODO!!! Interplanetary Launcher early design found in the beta of the Spaced Out DLC",
+      "Anim": "rail_gun_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "RailGun",
+      "SkinId": "RailGunRetro3",
+      "SkinName": "Retro Interplanetary Launcher",
+      "SkinDescription": "Interplanetary Launcher early design with an early radbolt port found in the beta of the Spaced Out DLC",
+      "Anim": "rail_gun_retro3_kanim"
+    }
+,
+    {
+      "BuildingId": "GunkEmptier",
+      "SkinId": "GunkEmptierRetro",
+      "SkinName": "Retro Gunk Extractor",
+      "SkinDescription": "Gunk Extractor recreated early design based on its place and ui sprites",
+      "Anim": "gunkdump_station_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "OilChanger",
+      "SkinId": "OilChangerRetro",
+      "SkinName": "Retro Lubrication Station",
+      "SkinDescription": "Lubrication Station recreated early design based on its old design found in the game files",
+      "Anim": "oilchange_station_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "OilChanger",
+      "SkinId": "OilChangerRetro2",
+      "SkinName": "Retro Lubrication Station",
+      "SkinDescription": "early Lubrication Stationdesign with slightly different animations",
+      "Anim": "oilchange_station_retro2_kanim"
+    }
+,
+    {
+      "BuildingId": "Outhouse",
+      "SkinId": "OuthouseRetro",
+      "SkinName": "Retro Outhouse",
+      "SkinDescription": "Outhouse with restored old meter",
+      "Anim": "outhouse_retro1_kanim"
+    }
+,
+    {
+      "BuildingId": "ManualGenerator",
+      "SkinId": "ManualGeneratorRetro",
+      "SkinName": "Retro Manual Generator",
+      "SkinDescription": "Manual Generator with restored meter",
+      "Anim": "generatormanual_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ManualGenerator",
+      "SkinId": "ManualGeneratorRetro_a",
+      "SkinName": "Retro Sleek Manual Generator",
+      "SkinDescription": "Sleek Manual Generator with restored meter",
+      "Anim": "generatormanual_a_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ManualGenerator",
+      "SkinId": "ManualGeneratorRetro_b",
+      "SkinName": "Retro Clunky Manual Generator",
+      "SkinDescription": "Clunky Manual Generator with restored meter",
+      "Anim": "generatormanual_b_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "HEPBridgeTile",
+      "SkinId": "HEPBridgeTileRetro",
+      "SkinName": "Retro Radbolt Joint Plate",
+      "SkinDescription": "Old Radbolt Joint Plate",
+      "Anim": "radbolt_joint_plate_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "MultiMinionDiningTable",
+      "SkinId": "MultiMinionDiningTableRetro",
+      "SkinName": "Retro Communal Table",
+      "SkinDescription": "Recreated old Communal Table based on unused psrites found in its kanim",
+      "Anim": "multi_dupe_table_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "FabricatedWoodMaker",
+      "SkinId": "FabricatorSeedSplicer",
+      "SkinName": "Seed Splicer",
+      "SkinDescription": "!!!TO DO!!! Unimplemented Seed Splicer building. Just a bonus",
+      "Anim": "fabricator_seed_splicer_kanim"
+    }
+,
+    {
+      "BuildingId": "AdvancedCraftingTable",
+      "SkinId": "AdvancedCraftingTableRetro1",
+      "SkinName": "Retro Soldering Station",
+      "SkinDescription": "Soldering Station recreated early design based on its old design seen in the DLC trailer",
+      "Anim": "advanced_crafting_table_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "Smoker",
+      "SkinId": "SmokerRetro",
+      "SkinName": "Retro Smoker",
+      "SkinDescription": "slightly bigger smoker before it got shrinked",
+      "Anim": "smoker_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicInterasteroidReceiver",
+      "SkinId": "LogicInterasteroidReceiverRetro",
+      "SkinName": "Retro Automation Receiver",
+      "SkinDescription": "Early Automation Receiver",
+      "Anim": "inter_asteroid_automation_signal_receiver_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "LogicInterasteroidSender",
+      "SkinId": "LogicInterasteroidSenderRetro",
+      "SkinName": "Retro Automation Broadcaster",
+      "SkinDescription": "Early Automation Broadcaster",
+      "Anim": "inter_asteroid_automation_signal_sender_retro_kanim"
+    }
+,
+    {
+      "BuildingId": "ArtifactAnalysisStation",
+      "SkinId": "ArtifactAnalysisStationRetro",
+      "SkinName": "Retro Artifact Analysis Station",
+      "SkinDescription": "Finished early temp design of an Artifact Analysis Station",
+      "Anim": "artifact_analysis_retro_kanim",
+      "WorkableAnimOverrides": {
+        "ComplexFabricatorWorkable": "anim_interacts_research_nuclear_kanim"
+      }
+    }
+,
+    {
+      "BuildingId": "IceKettle",
+      "SkinId": "IceKettleRetro",
+      "SkinName": "Retro Ice Smelter",
+      "SkinDescription": "Recreated Ice Smelter with 5 segments meter seen on Frosty Planet Pack DLC trailer and building's ui and place sprite",
+      "Anim": "icemelter_kettle_retro_kanim"
+    }
+,
+      {
+      "BuildingId": "AdvancedCraftingTable",
+      "SkinId": "AdvancedCraftingTableRetro2",
+      "SkinName": "Omniprinter",
+      "SkinDescription": "Unimplemented Omniprinter building. Just a bonus",
+      "Anim": "fabricator_generic_kanim",
+      "CopySoundFromBase": "false",
+      "WorkableOffsetOverride": {
+        "x": 0,
+        "y": 0
+      },
+     "WorkableAnimOverrides": { 
+        "ComplexFabricatorWorkable": "anim_interacts_fabricator_generic_kanim"
+	}
+      }
+,
+      {
+      "BuildingId": "LiquidPumpingStation",
+      "SkinId": "WaterSieve",
+      "SkinName": "Water Sieve",
+      "SkinDescription": "Finished unimplemented Water Sieve building. Just a bonus",
+      "Anim": "water_sieve_kanim",
+      "WorkableOffsetOverride": {
+        "x": 1,
+        "y": 0
+      },
+     "WorkableAnimOverrides": { 
+        "LiquidPumpingStation": "anim_interacts_sludge_press_kanim"
+      }
+    }
+  ]
+}
+

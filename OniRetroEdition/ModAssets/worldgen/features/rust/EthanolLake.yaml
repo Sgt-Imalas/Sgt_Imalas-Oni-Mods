@@ -1,0 +1,35 @@
+tags:
+  - AllowExceedNodeBorders
+shape: Square
+borders:
+  - 1
+blobSize:
+  min: 4
+  max: 5
+internalMobs:
+  - type: ShockWorm
+    count:
+      min: 0
+      max: 1
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Ethanol
+        weight: 2
+      - element: CarbonDioxide
+        weight: 1
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: MaficRock
+        weight: 1
+      - element: Rust
+        weight: 5
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: MaficRock
+        weight: 5
+      - element: Rust
+        weight: 5

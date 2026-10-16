@@ -1,11 +1,6 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -37,13 +32,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_transferarm_kanim", 10, 10f, [400,100], [GameTags.Steel.ToString(), GameTags.Plastic.ToString()], 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, NOISE_POLLUTION.NOISY.TIER0, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_transferarm_kanim", 10, 10f, [400,2], [ModAssets.GetHPASteelIngredient(), GameTags.BuildingGasket.ToString()], 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, NOISE_POLLUTION.NOISY.TIER0, 0.2f);
 			buildingDef.Floodable = false;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = Wattage;
 			buildingDef.ExhaustKilowattsWhenActive = 0f;
-			buildingDef.SelfHeatKilowattsWhenActive = 0f;
+			buildingDef.SelfHeatKilowattsWhenActive = 5f;
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
@@ -74,6 +69,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			var capacity = go.AddOrGet<VariableCapacityForTransferArm>();
 			capacity.TargetCarryCapacity = StorageCapacity;
 			capacity.TargetTurnRate = TurnRatePerSecond;
+			capacity.WorkingSpeedMultiplier = 2f;
 			var arm = go.AddOrGet<SolidTransferArm>();
 			arm.pickupRange = GetTileRange();
 			AddVisualizer(go, false);

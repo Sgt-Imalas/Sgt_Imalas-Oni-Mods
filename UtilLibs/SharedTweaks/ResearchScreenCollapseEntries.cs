@@ -4,8 +4,6 @@ using PeterHan.PLib.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -170,7 +168,7 @@ namespace UtilLibs.SharedTweaks
 			infoText.enableAutoSizing = false;
 			infoText.fontSize = 32;
 			infoText.alignment = TextAlignmentOptions.Center;
-			infoText.enableWordWrapping = false;
+			infoText.textWrappingMode = TextWrappingModes.NoWrap;
 			infoText.overflowMode = TextOverflowModes.Overflow;
 
 			CollapsedIndicators[entry] = freeIcon;

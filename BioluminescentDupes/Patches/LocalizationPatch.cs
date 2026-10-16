@@ -1,14 +1,9 @@
 ﻿using BioluminescentDupes.Content.Scripts;
 using HarmonyLib;
 using Klei.AI;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UtilLibs;
-using static BioluminescentDupes.STRINGS.DUPLICANTS;
 
 namespace BioluminescentDupes.Patches
 {
@@ -23,8 +18,12 @@ namespace BioluminescentDupes.Patches
 				RegisterTrait();
 			}
 
+			/// <summary>
+			/// this has to be registered after localization has run, otherwise the translations of Traits break.
+			/// </summary>
 			static void RegisterTrait()
 			{
+				
 				TUNING.TRAITS.TRAIT_CREATORS.Add(TraitUtil.CreateComponentTrait<BD_Bioluminescence>(BD_Bioluminescence.ID, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.NAME, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.DESC, true));
 				if (!DUPLICANTSTATS.GOODTRAITS.Contains(BD_Bioluminescence.GetTrait()))
 				{

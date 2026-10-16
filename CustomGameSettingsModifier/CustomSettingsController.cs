@@ -89,7 +89,7 @@ namespace CustomGameSettingsModifier
 
                 if (CustomGameSettingsCycleConfigs.TryGetValue(id, out var settingsCycle))
                 {
-                    settingsCycle.Value = settingValue;
+                    settingsCycle.SetValueById(settingValue);
                 }
                 else if (CustomGameSettingsToggleConfigs.TryGetValue(id, out var settingsToggle))
                 {
@@ -162,9 +162,9 @@ namespace CustomGameSettingsModifier
             {
                 cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
             }
-            cycle.OnChange += () =>
+            cycle.OnChange += (val) =>
             {
-                SetCustomGameSettings(ConfigToSet, cycle.Value);
+                SetCustomGameSettings(ConfigToSet, val.id);
             };
             return cycle;
         }

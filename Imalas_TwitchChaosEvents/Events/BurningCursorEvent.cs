@@ -22,7 +22,7 @@ namespace Imalas_TwitchChaosEvents.Events
 		public Action<object> EventAction => (object data) =>
 		{
 
-			ToastManager.InstantiateToast(
+			ToastHelper.InstantiateToast(
 			STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOAST,
 			 STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOASTTEXT
 			 );

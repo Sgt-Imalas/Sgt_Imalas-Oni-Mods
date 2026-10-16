@@ -1,12 +1,6 @@
-﻿using KSerialization;
-using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
-using System;
+﻿using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Content.Scripts
 {
@@ -28,7 +22,7 @@ namespace Rockets_TinyYetBig.Content.Scripts
 			{
 				if (_modules.TryGetValue(this, out var module))
 				{
-					RocketLogicLaunchCondition.RemoveModuleCondition(module, conditionType, this);
+					module.RemoveModuleCondition(conditionType, this);
 					_modules.Remove(this);
 					return Status.Ready;
 				}

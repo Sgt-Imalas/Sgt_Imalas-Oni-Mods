@@ -12,7 +12,7 @@ namespace BathTub.Duck.Floating
 		[MyCmpGet] KBatchedAnimController kbac;
 
 
-		public float extendOffsetY = 0f;
+		public float extendOffsetY = 0.33f;
 		public void Sim4000ms(float dt)
 		{
 			if (Helpers.ShouldFloat(transform, out _))

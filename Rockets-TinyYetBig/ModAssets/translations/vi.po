@@ -1,0 +1,2707 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFO"
+msgid " • {CRITTERNAME}, {AGE} Cycles old"
+msgstr " • {CRITTERNAME}, {AGE} Chu Kỳ tuổi"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFOAGELESS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFOAGELESS"
+msgid " • {CRITTERNAME}"
+msgstr " • {CRITTERNAME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTON"
+msgid "Drop all Critters"
+msgstr "Thả hết Sinh Vật"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTONTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTONTOOLTIP"
+msgid "Drop it like its hot"
+msgstr "Thả nó xuống như đang \"hot\""
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.HASCRITTERS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.HASCRITTERS"
+msgid "Module currently holds these Critters:"
+msgstr "Khoang này hiện đang chứa các Sinh Vật sau:"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NAME"
+msgid "Critter Count: {0}/{1}"
+msgstr "Số Lượng Sinh Vật: {0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NOCRITTERS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NOCRITTERS"
+msgid "No Critters stored."
+msgstr "Không có Sinh Vật nào được lưu trữ."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.TOOLTIP"
+msgid "{CritterContentStatus}"
+msgstr "{CritterContentStatus}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.UNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.UNITS"
+msgid " Critters"
+msgstr " Sinh Vật"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.DOCKEDINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.DOCKEDINFO"
+msgid "\n • {0}"
+msgstr "\n • {0}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.MULTIPLES
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.MULTIPLES"
+msgid "multiple crafts"
+msgstr "nhiều tàu"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.NAME"
+msgid "Docked to {SINGLEDOCKED}."
+msgstr "Đã kết nối với {SINGLEDOCKED}."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.TOOLTIP"
+msgid "Currently docked to: {DOCKINGLIST}"
+msgstr "Hiện đang kết nối với: {DOCKINGLIST}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.FOODINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.FOODINFO"
+msgid "\n • {0}: {1}KCal"
+msgstr "\n • {0}: {1}KCal"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.NAME"
+msgid "Total Food: {REMAININGMASS}KCal"
+msgstr "Tổng Thực Phẩm: {REMAININGMASS}KCal"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.TOOLTIP"
+msgid "The connected Fridge Modules still contain {REMAININGMASS} KCal of Food.{FOODLIST}"
+msgstr "Các Khoang Đông Lạnh đang kết nối vẫn còn chứa {REMAININGMASS} KCal Thực Phẩm.{FOODLIST}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.NAME"
+msgid "Mining Boost: {RATEPERCENTAGE}"
+msgstr "Tăng Tốc Khai Thác: {RATEPERCENTAGE}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.PILOTSKILL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.PILOTSKILL"
+msgid " • Pilot skills: {BOOSTPERCENTAGE}% (affected by piloting and digging skill)"
+msgstr " • Kỹ năng Phi công: {BOOSTPERCENTAGE}% (bị ảnh hưởng bởi kỹ năng lái và đào)"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULE"
+msgid " • Drillcone Maintainance Modules: {BOOSTPERCENTAGE}% (x{COUNT} Modules)"
+msgstr " • Khoang Bảo Dưỡng Mũi Khoan: {BOOSTPERCENTAGE}% (x{COUNT} Khoang)"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULESINGULAR
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULESINGULAR"
+msgid " • Drillcone Maintainance Module: {BOOSTPERCENTAGE}% (x1 Module)"
+msgstr " • Khoang Bảo Dưỡng Mũi Khoan: {BOOSTPERCENTAGE}% (x1 Khoang)"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIP"
+msgid "{TOOLTIP}"
+msgstr "{TOOLTIP}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIPINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIPINFO"
+msgid "This mining operation is boosted by {RATEPERCENTAGE},\ncurrently mining {YIELDMASS} and consuming {DRILLMATERIALMASS} {DRILLMATERIAL} per second.\nBoosting Factors:\n"
+msgstr "Hoạt động khai thác này được tăng tốc {RATEPERCENTAGE},\nhiện đang khai thác {YIELDMASS} và tiêu thụ {DRILLMATERIALMASS} {DRILLMATERIAL} mỗi giây.\nCác Yếu Tố Tăng Tốc:\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "Sản Xuất Điện: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.TOOLTIP"
+msgid "Module generator will generate <style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style> once fueled\n\nRight now, it's not doing much of anything"
+msgstr "Máy phát của Khoang sẽ sản xuất <style=\"produced\">{MaxWattage}</style> <style=\"KKeyword\">Điện</style> khi được nạp nhiên liệu\n\nHiện tại nó không làm được gì nhiều"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "Sản Xuất Điện: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.TOOLTIP"
+msgid "Module generator is producing<style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style>\n\nIt will continue generating power as long as are enough resources left"
+msgstr "Máy phát của Khoang đang sản xuất <style=\"produced\">{MaxWattage}</style> <style=\"KKeyword\">Điện</style>\n\nNó sẽ tiếp tục sản xuất điện chừng nào còn đủ tài nguyên"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.NAME"
+msgid "Generator Fuel Capacity: {CurrentFuelStorage}/{MaxFuelStorage}"
+msgstr "Dung Lượng Nhiên Liệu Máy Phát: {CurrentFuelStorage}/{MaxFuelStorage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.TOOLTIP"
+msgid "This {GeneratorType} has {CurrentFuelStorage} out of {MaxFuelStorage} available."
+msgstr "{GeneratorType} này còn {CurrentFuelStorage} trên tổng {MaxFuelStorage} khả dụng."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "Sản Xuất Điện: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.TOOLTIP"
+msgid "Module generator will generate <style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style> once traveling through space and fueled\n\nRight now, it's not doing much of anything"
+msgstr "Máy phát của Khoang sẽ sản xuất <style=\"produced\">{MaxWattage}</style> <style=\"KKeyword\">Điện</style> khi di chuyển qua không gian và được nạp nhiên liệu\n\nHiện tại nó không làm được gì nhiều"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "Sản Xuất Điện: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.TOOLTIP"
+msgid "Module generator is producing<style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style>\n\nWhile traveling through space, it will continue generating power as long as are enough resources left"
+msgstr "Máy phát của Khoang đang sản xuất <style=\"produced\">{MaxWattage}</style> <style=\"KKeyword\">Điện</style>\n\nTrong lúc di chuyển qua không gian, nó sẽ tiếp tục sản xuất điện chừng nào còn đủ tài nguyên"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_PENDINGSTATIONPARTDECONSTRUCTION.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_PENDINGSTATIONPARTDECONSTRUCTION.NAME"
+msgid "Part Deconstruction Errand"
+msgstr "Công Việc Tháo Dỡ Bộ Phận"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_PENDINGSTATIONPARTDECONSTRUCTION.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_PENDINGSTATIONPARTDECONSTRUCTION.TOOLTIP"
+msgid "Stored station part will be deconstructed once a Duplicant is available"
+msgstr "Bộ phận tên lửa đã lưu trữ sẽ được tháo dỡ khi có Đệ rảnh"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.NAME"
+msgid "Battery Module Charge: {CurrentCharge}/{MaxCharge}"
+msgstr "Điện Tích Khoang Pin: {CurrentCharge}/{MaxCharge}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.TOOLTIP"
+msgid "This Rocket has {CurrentCharge}/{MaxCharge} stored in battery modules."
+msgstr "Tên Lửa này có {CurrentCharge}/{MaxCharge} điện được lưu trữ trong các khoang pin."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.NAME"
+msgid "Active while landed"
+msgstr "Hoạt động ngay cả khi đã hạ cánh"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.TOOLTIP"
+msgid "This generator will run even while landed"
+msgstr "Máy phát này sẽ hoạt động ngay cả khi đã hạ cánh"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING"
+msgid "Constructing: {TIME} left"
+msgstr "Đang Xây: còn {TIME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING"
+msgid "Demolishing: {TIME} left"
+msgstr "Đang Phá: còn {TIME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.IDLE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.IDLE"
+msgid "Nominal"
+msgstr "Bình Thường"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NAME"
+msgid "Module Status: {STATUS}"
+msgstr "Trạng Thái Khoang: {STATUS}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED"
+msgid "No active process"
+msgstr "Không có tiến trình đang hoạt động"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING"
+msgid "Time until current operation is completed: {TIME}"
+msgstr "Thời gian còn lại để hoàn thành tiến trình hiện tại: {TIME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TOOLTIP"
+msgid "{TOOLTIP}"
+msgstr "{TOOLTIP}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.GENERATORLIMIT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.GENERATORLIMIT"
+msgid "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr "\n\n Nếu có ít nhất một pin được kết nối, máy phát sẽ ngừng sản xuất khi pin đã sạc trên 95%."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.DESC"
+msgid "Một mặt phẳng mà từ đó tên lửa có thể được phóng và chúng có thể hạ cánh."
+msgstr "Một mặt phẳng mà từ đó tên lửa có thể được phóng và chúng có thể hạ cánh."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.EFFECT"
+msgid "Công trình thiết yếu để xây dựng các bộ phận khác của tên lửa.\n\nCho phép phóng hoặc hạ cánh Tên lửa trên hành tinh đặt bệ.\n\n<link=\"MODULARLAUNCHPADPORTSOLID\">Các Cổng nạp tên lửa</link> cần được xây sát bên cạnh bệ phóng sẽ tự động liên kết với bệ.\n\nComes with shifted logic ports and extra ribbon ports for more control over the rocket."
+msgstr "Công trình thiết yếu để xây dựng các bộ phận khác của tên lửa.\n\nCho phép phóng hoặc hạ cánh Tên lửa trên hành tinh đặt bệ.\n\n<link=\"MODULARLAUNCHPADPORTSOLID\">Các Cổng nạp tên lửa</link> cần được xây sát bên cạnh bệ phóng sẽ tự động liên kết với bệ.\n\nĐi kèm cổng logic được dịch chuyển và thêm cổng ruy băng để kiểm soát tên lửa tốt hơn."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_ACTIVE"
+msgid "Each bit sends a <b><style=\"logic_on\">Green Signal</style></b> when its respective check list category is fulfilled.\n\n Bit 1 tracks the category \"Flight Route\"\n Bit 2 tracks the category \"Rocket Construction\"\n Bit 3 tracks the category \"Cargo Manifest\"\n Bit 4 tracks the category \"Crew Manifest\"\n"
+msgstr "Mỗi bit gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> khi hạng mục danh sách kiểm tra tương ứng đã hoàn thành.\n\n Bit 1 theo dõi hạng mục \"Lộ Trình Bay\"\n Bit 2 theo dõi hạng mục \"Xây Dựng Tên Lửa\"\n Bit 3 theo dõi hạng mục \"Bảng Kê Hàng Hóa\"\n Bit 4 theo dõi hạng mục \"Bảng Kê Phi Hành Đoàn\"\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> to the respective Bit."
+msgstr "Ngược lại, gửi <b><style=\"logic_off\">Tín Hiệu Đỏ</style></b> đến Bit tương ứng."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE_RIBBON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE_RIBBON"
+msgid "<b><style=\"logic_on\">Green Signal on the first Bit</style></b>: Launch rocket\n<b><style=\"logic_on\">Bit 2</style></b> allows to override the \"Fueled\" Warning under Cargo Manifest that otherwise prevent automated launches. This allows rockets to fly one-way-trips to another launchpad\n<b><style=\"logic_on\">Bit 3</style></b> allows to override all Cargo Warnings (that aren't Fuel) under Cargo Manifest that otherwise prevent automated launches.\n<b><style=\"logic_on\">Bit 4</style></b> makes the Overrides of Bit 2 and 3 affect the logic output of the launch pad. "
+msgstr "<b><style=\"logic_on\">Tín Hiệu Xanh ở Bit đầu tiên</style></b>: Phóng tên lửa\n<b><style=\"logic_on\">Bit 2</style></b> cho phép ghi đè cảnh báo \"Đã Nạp Nhiên Liệu\" trong Bảng Kê Hàng Hóa vốn ngăn phóng tự động. Điều này cho phép tên lửa bay một chiều đến bệ phóng khác\n<b><style=\"logic_on\">Bit 3</style></b> cho phép ghi đè tất cả Cảnh Báo Hàng Hóa (trừ Nhiên Liệu) trong Bảng Kê Hàng Hóa vốn ngăn phóng tự động.\n<b><style=\"logic_on\">Bit 4</style></b> khiến các ghi đè của Bit 2 và 3 ảnh hưởng đến tín hiệu đầu ra của bệ phóng. "
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE_RIBBON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE_RIBBON"
+msgid "<b><style=\"logic_off\">Red Signal on the first Bit</style></b>: Cancel launch"
+msgstr "<b><style=\"logic_off\">Tín Hiệu Đỏ ở Bit đầu tiên</style></b>: Hủy phóng"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.NAME"
+msgid "<link=\"RTBBUNKERLAUNCHPAD\">Advanced Rocket Platform</link>"
+msgstr "<link=\"RTBBUNKERLAUNCHPAD\">Bệ Phóng Tên Lửa Nâng Cao</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "Kết nối với tên lửa khác chưa bao giờ dễ đến vậy."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.EFFECT"
+msgid "Enables docking with other rockets and space stations\n\nBoth docking participants require a docking component to dock.\n\nDuplicants cannot use this docking connection.\n\nAdd it to an AI controlled rocket to allow it to dock.\n\nMultiple Modules allow multiple docking connections"
+msgstr "Cho phép kết nối với các tên lửa và trạm không gian khác\n\nCả hai bên tham gia kết nối đều cần có bộ phận kết nối.\n\nĐệ không thể sử dụng kết nối này.\n\nThêm vào tên lửa điều khiển bởi AI để nó có thể kết nối.\n\nNhiều Khoang cho phép nhiều kết nối cùng lúc"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.NAME"
+msgid "<link=\"RTBAIMODULEDOCKINGPORT\">Docking Module</link>"
+msgstr "<link=\"RTBAIMODULEDOCKINGPORT\">Khoang Kết Nối</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.DESC"
+msgid "A bit of this, a bit of that.."
+msgstr "Một chút cái này, một chút cái kia.."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.EFFECT"
+msgid "Allows Duplicants to keep a supply of all types of materials in the rocket.\n\nDoes not collect floating space resources.\n\nMust be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+msgstr "Cho phép Đệ giữ một lượng dự trữ mọi loại vật liệu trong tên lửa.\n\nKhông thu thập tài nguyên trôi nổi trong không gian.\n\nPhải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIOCARGOBAYCLUSTER.NAME"
+msgid "<link=\"RTBAIOCARGOBAYCLUSTER\">Multi-Functional Storage Module</link>"
+msgstr "<link=\"RTBAIOCARGOBAYCLUSTER\">Khoang Lưu Trữ Đa Chức Năng</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.DESC"
+msgid "Một mặt phẳng mà từ đó tên lửa có thể được phóng và chúng có thể hạ cánh.\n\nFortified to withstand comets."
+msgstr "Một mặt phẳng mà từ đó tên lửa có thể được phóng và chúng có thể hạ cánh.\n\nĐược gia cố để chống chịu sao chổi."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.EFFECT"
+msgid "Công trình thiết yếu để xây dựng các bộ phận khác của tên lửa.\n\nCho phép phóng hoặc hạ cánh Tên lửa trên hành tinh đặt bệ.\n\n<link=\"MODULARLAUNCHPADPORTSOLID\">Các Cổng nạp tên lửa</link> cần được xây sát bên cạnh bệ phóng sẽ tự động liên kết với bệ.\n\nBlocks comets and is immune to comet damage."
+msgstr "Công trình thiết yếu để xây dựng các bộ phận khác của tên lửa.\n\nCho phép phóng hoặc hạ cánh Tên lửa trên hành tinh đặt bệ.\n\n<link=\"MODULARLAUNCHPADPORTSOLID\">Các Cổng nạp tên lửa</link> cần được xây sát bên cạnh bệ phóng sẽ tự động liên kết với bệ.\n\nChặn sao chổi và miễn nhiễm với sát thương từ sao chổi."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.NAME"
+msgid "<link=\"RTBBUNKERLAUNCHPAD\">Fortified Rocket Platform</link>"
+msgstr "<link=\"RTBBUNKERLAUNCHPAD\">Bệ Phóng Tên Lửa Kiên Cố</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large cargo bay!"
+msgstr "Chứa được còn nhiều hơn cả khoang hàng hóa cỡ lớn!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.EFFECT"
+msgid "Allows Duplicants to store most of the <link=\"ELEMENTSSOLID\">Solid Materials</link> found during space missions.\n\nStored resources become available to the colony upon the rocket's return. \n\nMust be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+msgstr "Cho phép Đệ lưu trữ hầu hết <link=\"ELEMENTSSOLID\">Vật Liệu Rắn</link> thu thập được trong các nhiệm vụ không gian.\n\nTài nguyên lưu trữ sẽ có sẵn cho căn cứ khi tên lửa trở về. \n\nPhải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBCARGOBAYCLUSTERLARGE\">Colossal Cargo Bay</link>"
+msgstr "<link=\"RTBCARGOBAYCLUSTERLARGE\">Khoang Hàng Hóa Khổng Lồ</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.DESC"
+msgid "Turns out not collecting it in the first place beats having to dump the unwanted resources later."
+msgstr "Hóa ra không thu thập ngay từ đầu còn tốt hơn là phải đổ bỏ tài nguyên không mong muốn sau này."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.EFFECT"
+msgid "<b><style=\"KKeyword\">Rocket Module Upgrade</style></b>, must be constructed attached to compatible rocket modules\n\nCompatible with regular cargo bay modules.\nEnables filtering of items collected by <style=\"KKeyword\">Cargo Bays</style> via their storage filters."
+msgstr "<b><style=\"KKeyword\">Nâng Cấp Khoang Tên Lửa</style></b>, phải được xây gắn liền với các khoang tên lửa tương thích\n\nTương thích với các khoang hàng hóa thông thường.\nCho phép lọc vật phẩm được thu thập bởi <style=\"KKeyword\">Khoang Hàng Hóa</style> thông qua bộ lọc lưu trữ."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYFILTER.NAME"
+msgid "<link=\"RTBCARGOBAYFILTER\">Cargo Bay Filter Upgrade</link>"
+msgstr "<link=\"RTBCARGOBAYFILTER\">Nâng Cấp Bộ Lọc Khoang Hàng Hóa</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.DESC"
+msgid "Storing additional fuel increases the distance a rocket can travel before returning."
+msgstr "Lưu trữ thêm nhiên liệu giúp tăng khoảng cách tên lửa có thể di chuyển trước khi quay về."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.EFFECT"
+msgid "Stores pressurized <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> for <link=\"CO2ENGINE\">Carbon Dioxide Engines</link>"
+msgstr "Lưu trữ <link=\"CARBONDIOXIDE\">Khí CO2</link> nén cho <link=\"CO2ENGINE\">Động Cơ Khí CO2</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.NAME"
+msgid "<link=\"RTBCO2FUELTANK\">Carbon Dioxide Fuel Tank</link>"
+msgstr "<link=\"RTBCO2FUELTANK\">Bình Nhiên Liệu Khí CO2</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.DESC"
+msgid "Ascending to new levels"
+msgstr "Vươn lên tầm cao mới"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.EFFECT"
+msgid "Allows horizontal rocket ports to bypass transit tubes and tiles.\n\nAutomatically links when built to the side of a <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link>"
+msgstr "Cho phép các cổng tên lửa ngang bỏ qua ống vận chuyển và ô gạch.\n\nTự động liên kết khi được xây cạnh <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> hoặc <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link> khác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.NAME"
+msgid "<link=\"RTBCONNECTORBYPASSADAPTER\">Rocket Port Bypass Adapter</link>"
+msgstr "<link=\"RTBCONNECTORBYPASSADAPTER\">Bộ Chuyển Vòng Cổng Tên Lửa</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.DESC"
+msgid "These critters will go where no critter has gone before."
+msgstr "Những sinh vật này sẽ đến nơi chưa sinh vật nào từng đến."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.EFFECT"
+msgid "This module allows the safe transport of critters to their new home. "
+msgstr "Khoang này cho phép vận chuyển an toàn sinh vật đến nhà mới của chúng. "
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.NAME"
+msgid "<link=\"RTBCRITTERCONTAINMENTMODULE\">[DEPRECATED] Critter Containment Module</link>"
+msgstr "<link=\"RTBCRITTERCONTAINMENTMODULE\">[NGỪNG SỬ DỤNG] Khoang Chứa Sinh Vật</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.DESC"
+msgid "These critters will go where no critter has gone before."
+msgstr "Những sinh vật này sẽ đến nơi chưa sinh vật nào từng đến."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.EFFECT"
+msgid "This module allows the safe transport of critters to their new home.\n\nStored Critters wont age."
+msgstr "Khoang này cho phép vận chuyển an toàn sinh vật đến nhà mới của chúng.\n\nSinh Vật lưu trữ sẽ không già đi."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.NAME"
+msgid "<link=\"RTBCRITTERSTASISMODULE\">Critter Stasis Module</link>"
+msgstr "<link=\"RTBCRITTERSTASISMODULE\">Khoang Đình Trệ Sinh Vật</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.DESC"
+msgid "Quantum computers unlock new breakthroughs from the analysis of deep space anomalies.\n\nRequires active cooling to function optimally"
+msgstr "Máy tính lượng tử mở khóa những đột phá mới từ việc phân tích các dị thường không gian sâu.\n\nCần làm mát chủ động để hoạt động tối ưu"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.EFFECT"
+msgid "Conducts <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> to unlock new technologies.\n\nConsumes <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link>.\n\nAssigned Duplicants must possess the <link=\"SPACERESEARCH\">Phân tích viên</link> skill."
+msgstr "Tiến hành <link=\"DEEPSPACERESEARCH\">Nghiên Cứu Không Gian Sâu</link> để mở khóa công nghệ mới.\n\nTiêu thụ <link=\"RTBDEEPSPACEINSIGHT\">Tri Thức Không Gian Sâu</link>.\n\nĐệ được chỉ định phải có kỹ năng <link=\"SPACERESEARCH\">Phân tích viên</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.NAME"
+msgid "<link=\"RTBDEEPSPACERESEARCHCENTER\">[WIP] Quantum Computer</link>"
+msgstr "<link=\"RTBDEEPSPACERESEARCHCENTER\">[ĐANG PHÁT TRIỂN] Máy Tính Lượng Tử</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.DESC"
+msgid "Deep space analysis stations scan and collect data on deep space anomalies"
+msgstr "Trạm phân tích không gian sâu quét và thu thập dữ liệu về các dị thường không gian sâu"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.EFFECT"
+msgid "Allows <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> to be accumulated.\n\nRequires a <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link> to function."
+msgstr "Cho phép tích lũy <link=\"DEEPSPACERESEARCH\">Nghiên Cứu Không Gian Sâu</link>.\n\nCần <link=\"RTBDEEPSPACEINSIGHT\">Tri Thức Không Gian Sâu</link> để hoạt động."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.NAME"
+msgid "<link=\"RTBDEEPSPACERESEARCHTELESCOPE\">[WIP] Deep Space Analysis Station</link>"
+msgstr "<link=\"RTBDEEPSPACERESEARCHTELESCOPE\">[ĐANG PHÁT TRIỂN] Trạm Phân Tích Không Gian Sâu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTANTENNA.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTANTENNA.DESC"
+msgid "The transmission speed on this thing must have been great."
+msgstr "Tốc độ truyền tín hiệu của thứ này hẳn phải rất tuyệt vời."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTANTENNA.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTANTENNA.EFFECT"
+msgid "A broken down antenna that was once used to transmit data"
+msgstr "Một ăng-ten hỏng từng được dùng để truyền dữ liệu"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTANTENNA.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTANTENNA.NAME"
+msgid "<link=\"RTBDERELICTANTENNA\">Derelict Antenna</link>"
+msgstr "<link=\"RTBDERELICTANTENNA\">Ăng-ten Bỏ Hoang</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.DESC"
+msgid "Back in the day, this was used for astronaut transfers.."
+msgstr "Ngày xưa, thứ này từng dùng để chuyển phi hành gia.."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.EFFECT"
+msgid "Enables Rockets with a docking bridge to connect to the derelict station.\nRockets requirWe a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge."
+msgstr "Cho phép Tên Lửa có cầu kết nối kết nối với trạm bỏ hoang.\nTên Lửa cần bộ phận kết nối để kết nối.\n\nChỉ định Đệ sẽ buộc nó sử dụng cầu kết nối."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTDOCKINGDOOR.NAME"
+msgid "<link=\"RTBDERELICTDOCKINGDOOR\">Derelict Docking Port</link>"
+msgstr "<link=\"RTBDERELICTDOCKINGDOOR\">Cổng Kết Nối Bỏ Hoang</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTEXTERIORWALL.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTEXTERIORWALL.DESC"
+msgid "Wall panelling that creaks with age"
+msgstr "Tấm vách kêu cọt kẹt vì tuổi tác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTEXTERIORWALL.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTEXTERIORWALL.EFFECT"
+msgid "Prevents <link=\"ELEMENTSGAS\">Gas</link> and <link=\"ELEMENTSLIQUID\">Liquid</link> loss in space."
+msgstr "Ngăn thất thoát <link=\"ELEMENTSGAS\">Khí</link> và <link=\"ELEMENTSLIQUID\">Chất Lỏng</link> ra ngoài không gian."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTEXTERIORWALL.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTEXTERIORWALL.NAME"
+msgid "<link=\"RTBDERELICTEXTERIORWALL\">Derelict Wall</link>"
+msgstr "<link=\"RTBDERELICTEXTERIORWALL\">Vách Bỏ Hoang</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTWALLTILE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTWALLTILE.DESC"
+msgid "Keeps the space out."
+msgstr "Ngăn không gian bên ngoài xâm nhập."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTWALLTILE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTWALLTILE.EFFECT"
+msgid "The walls of a space derelict."
+msgstr "Những bức tường của một nơi bỏ hoang trong không gian."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTWALLTILE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DERELICTWALLTILE.NAME"
+msgid "<link=\"RTBDERELICTWALLTILE\">Derelict Wall Tile</link>"
+msgstr "<link=\"RTBDERELICTWALLTILE\">Ô Gạch Vách Bỏ Hoang</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "Kết nối với tên lửa khác chưa bao giờ dễ đến vậy."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.EFFECT"
+msgid "Enables docking with other rockets and space stations\n\nBoth docking participants require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge."
+msgstr "Cho phép kết nối với các tên lửa và trạm không gian khác\n\nCả hai bên tham gia kết nối đều cần có bộ phận kết nối.\n\nChỉ định Đệ sẽ buộc nó sử dụng cầu kết nối."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.NAME"
+msgid "<link=\"RTBDOCKINGTUBEDOOR\">Docking Bridge</link>"
+msgstr "<link=\"RTBDOCKINGTUBEDOOR\">Cầu Kết Nối</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.DESC"
+msgid "Bringing home those minerals - for Rock and Stone!"
+msgstr "Mang khoáng sản về nhà - vì Rock and Stone!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.EFFECT"
+msgid "Acts as a support module for a normal Drillcone.\n\nProvides additional 1500kg of diamond capacity for the drillcone.\n\nGives a 20% mining speed boost to the drillcone.\n\nCan be toggled between manual loading and automated loading via cargo loader."
+msgstr "Đóng vai trò khoang hỗ trợ cho Mũi Khoan thường.\n\nCung cấp thêm 1500kg dung lượng kim cương cho mũi khoan.\n\nTăng 20% tốc độ khai thác cho mũi khoan.\n\nCó thể chuyển đổi giữa nạp thủ công và nạp tự động qua bộ nạp hàng hóa."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.NAME"
+msgid "<link=\"RTBDRILLCONEDIAMONDSTORAGE\">Drillcone Service Module</link>"
+msgstr "<link=\"RTBDRILLCONEDIAMONDSTORAGE\">Khoang Bảo Dưỡng Mũi Khoan</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.DESC"
+msgid "Space food for days"
+msgstr "Thực phẩm không gian dài ngày"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.EFFECT"
+msgid "Keeps food preserved, prevent spoilage.\nCan only be filled with a cargo loader.\nContents can be accessed during the flight via wall loader"
+msgstr "Giữ thực phẩm không hỏng, ngăn ôi thiu.\nChỉ có thể nạp đầy qua bộ nạp hàng hóa.\nCó thể lấy nội dung trong lúc bay qua bộ nạp trên tường"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.NAME"
+msgid "<link=\"RTBFRIDGECARGOBAY\">Freezer Module</link>"
+msgstr "<link=\"RTBFRIDGECARGOBAY\">Khoang Đông Lạnh</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.DESC"
+msgid "Food spoilage can be slowed by ambient conditions as well as by refrigerators."
+msgstr "Thực phẩm ôi thiu có thể được làm chậm lại nhờ điều kiện môi trường xung quanh cũng như tủ lạnh."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.EFFECT"
+msgid "Has to be attached to the rocket wall.\n\nStores a small amount of <link=\"FOOD\">Food</link> at an ideal <link=\"HEAT\">Temperature</link> to prevent spoilage.\n\nWill pull food from a connected <link=\"RTBFRIDGECARGOBAY\">Freezer Module</link> when low on food."
+msgstr "Phải được gắn vào tường tên lửa.\n\nLưu trữ một lượng nhỏ <link=\"FOOD\">Thực Phẩm</link> ở <link=\"HEAT\">Nhiệt Độ</link> lý tưởng để ngăn ôi thiu.\n\nSẽ lấy thực phẩm từ <link=\"RTBFRIDGECARGOBAY\">Khoang Đông Lạnh</link> đã kết nối khi thiếu thực phẩm."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT"
+msgid "Full/Not Full"
+msgstr "Đầy/Chưa Đầy"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when full"
+msgstr "Gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> khi đầy"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE_PULL"
+msgid "<b><style=\"logic_on\">Green Signal</style></b>: Building will pull more food from the Freezer Module when below 1kg of food."
+msgstr "<b><style=\"logic_on\">Tín Hiệu Xanh</style></b>: Công trình sẽ lấy thêm thực phẩm từ Khoang Đông Lạnh khi dưới 1kg thực phẩm."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "Ngược lại, gửi <b><style=\"logic_off\">Tín Hiệu Đỏ</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE_PULL"
+msgid "<b><style=\"logic_off\">Red Signal</style></b>: Building wont pull any more food even when below 1kg."
+msgstr "<b><style=\"logic_off\">Tín Hiệu Đỏ</style></b>: Công trình sẽ không lấy thêm thực phẩm ngay cả khi dưới 1kg."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_PULL"
+msgid "Pull food from Freezer Module"
+msgstr "Lấy thực phẩm từ Khoang Đông Lạnh"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.NAME"
+msgid "<link=\"RTBFRIDGEMODULEACCESSHATCH\">Freezer Access Hatch</link>"
+msgstr "<link=\"RTBFRIDGEMODULEACCESSHATCH\">Cửa Tiếp Cận Khoang Đông Lạnh</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large gas cargo canister!"
+msgstr "Chứa được còn nhiều hơn cả bình khí hàng hóa cỡ lớn!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.EFFECT"
+msgid "Allows Duplicants to store most of the <link=\"ELEMENTSGAS\">Gas</link> resources found during space missions.\n\nStored resources become available to the colony upon the rocket's return.\n\nMust be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+msgstr "Cho phép Đệ lưu trữ hầu hết tài nguyên <link=\"ELEMENTSGAS\">Khí</link> thu thập được trong các nhiệm vụ không gian.\n\nTài nguyên lưu trữ sẽ có sẵn cho căn cứ khi tên lửa trở về.\n\nPhải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBGASCARGOBAYCLUSTERLARGE\">Colossal Gas Cargo Canister</link>"
+msgstr "<link=\"RTBGASCARGOBAYCLUSTERLARGE\">Bình Chứa Khí Khổng Lồ</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.DESC"
+msgid "Converts <link=\"CARBON\">Coal</link> into electrical <link=\"POWER\">Power</link>."
+msgstr "Chuyển hóa <link=\"CARBON\">Than</link> thành <link=\"POWER\">Điện</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.EFFECT"
+msgid "Burning coal produces more energy than manual power, who could have thought this also works in space.\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr "Đốt than tạo ra nhiều năng lượng hơn quay tay, ai mà nghĩ được điều này cũng hoạt động trong không gian.\n\n Nếu có ít nhất một pin được kết nối, máy phát sẽ ngừng sản xuất khi pin đã sạc trên 95%."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.NAME"
+msgid "<link=\"RTBGENERATORCOALMODULE\">Coal Generator Module</link>"
+msgstr "<link=\"RTBGENERATORCOALMODULE\">Khoang Máy Phát Điện Than</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP"
+msgid "Duplicants will be requested to deliver <style=\"KKeyword\">{0}</style> when the amount stored falls below <b>{1}</b>"
+msgstr "Đệ sẽ được yêu cầu vận chuyển <style=\"KKeyword\">{0}</style> khi lượng lưu trữ giảm xuống dưới <b>{1}</b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC"
+msgid "Giúp đệ du hành vũ trụ an toàn hơn... Chắc vậy."
+msgstr "Giúp đệ du hành vũ trụ an toàn hơn... Chắc vậy."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.EFFECT"
+msgid "Có chức năng giống như phòng lái.\n\nCó thể chở 10 thằng đệ.\n\nMột tên lửa chỉ được xây một khoang lái.\n\nPhải được xây trên <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+msgstr "Có chức năng giống như phòng lái.\n\nCó thể chở 10 đứa đệ.\n\nMột tên lửa chỉ được xây một khoang lái.\n\nPhải được xây trên <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.NAME"
+msgid "<link=\"RTBHABITATMODULEMEDIUMEXPANDED\">Extended Spacefarer Module</link>"
+msgstr "<link=\"RTBHABITATMODULEMEDIUMEXPANDED\">Khoang Phi Hành Gia Mở Rộng</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.DESC"
+msgid "Chở được một đệ, có tầm nhìn ngắm được toàn bộ các khoang phía dưới."
+msgstr "Chở được một đứa đệ, có tầm nhìn ngắm được toàn bộ các khoang phía dưới."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.EFFECT"
+msgid "Là mũi tên lửa và cũng là khoang lái.\n\nChỉ chở được một thằng đệ.\n\nMột tên lửa chỉ được xây một khoang lái.\n\nPhải xây <link=\"LAUNCHPAD\">bệ phóng tên lửa</link> trước.\n\nPhải xây ở đỉnh tên lửa.\n\nInterior is fully shielded from radiation."
+msgstr "Là mũi tên lửa và cũng là khoang lái.\n\nChỉ chở được một đứa đệ.\n\nMột tên lửa chỉ được xây một khoang lái.\n\nPhải xây <link=\"LAUNCHPAD\">bệ phóng tên lửa</link> trước.\n\nPhải xây ở đỉnh tên lửa.\n\nBên trong được che chắn hoàn toàn khỏi phóng xạ."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.NAME"
+msgid "<link=\"RTBHABITATMODULEPLATEDLARGE\">Plated Spacefarer Nosecone</link>"
+msgstr "<link=\"RTBHABITATMODULEPLATEDLARGE\">Mũi Tên Lửa Phi Hành Gia Bọc Giáp</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.DESC"
+msgid "Chở được một đệ, có tầm nhìn ngắm được toàn bộ các khoang phía dưới."
+msgstr "Chở được một đứa đệ, có tầm nhìn ngắm được toàn bộ các khoang phía dưới."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.EFFECT"
+msgid "Là mũi tên lửa và cũng là khoang lái.\n\nChỉ chở được một thằng đệ.\n\nMột tên lửa chỉ được xây một khoang lái.\n\nPhải xây <link=\"LAUNCHPAD\">bệ phóng tên lửa</link> trước.\n\nPhải xây ở đỉnh tên lửa."
+msgstr "Là mũi tên lửa và cũng là khoang lái.\n\nChỉ chở được một đứa đệ.\n\nMột tên lửa chỉ được xây một khoang lái.\n\nPhải xây <link=\"LAUNCHPAD\">bệ phóng tên lửa</link> trước.\n\nPhải xây ở đỉnh tên lửa."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.NAME"
+msgid "<link=\"RTBHABITATMODULESMALLEXPANDED\">Extended Solo Spacefarer Nosecone</link>"
+msgstr "<link=\"RTBHABITATMODULESMALLEXPANDED\">Mũi Tên Lửa Phi Hành Gia Đơn Mở Rộng</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.DESC"
+msgid "The stars have never felt this close before like in this Command Module."
+msgstr "Những vì sao chưa bao giờ gần đến vậy như trong Khoang Điều Khiển này."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.EFFECT"
+msgid "Closes during starts and landings to protect the glass\n\nFunctions as a Command Module and a Nosecone.\n\nOne Command Module may be installed per rocket.\n\nMust be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>. \n\nMust be built at the top of a rocket.\n\nGreat for looking at the stars or a nice sunbathing during the flight."
+msgstr "Đóng lại khi cất/hạ cánh để bảo vệ kính\n\nHoạt động như Khoang Điều Khiển và Mũi Tên Lửa.\n\nMỗi tên lửa chỉ được lắp một Khoang Điều Khiển.\n\nPhải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>. \n\nPhải xây ở đỉnh tên lửa.\n\nTuyệt vời để ngắm sao hoặc tắm nắng trong chuyến bay."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.NAME"
+msgid "<link=\"RTBHABITATMODULESTARGAZER\">Stargazer Nosecone</link>"
+msgstr "<link=\"RTBHABITATMODULESTARGAZER\">Mũi Tên Lửa Ngắm Sao</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.DESC"
+msgid "Particles packed up and ready to visit the stars."
+msgstr "Các hạt được đóng gói sẵn sàng viếng thăm những vì sao."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.EFFECT"
+msgid "Stores Radbolts in a high-energy state, ready for transport.\n\nRequires a <b><style=\"logic_on\">Green Signal</style></b> to release radbolts from storage when the Radbolt threshold is reached.\n\nRadbolts in storage won't decay as long as the module is powered, this can either happen via its built in solar panels or power connectors on battery- and spacefarer modules\n\nAutomatically refills a <link=\"RYBNOSECONEHEPHARVEST\">Laser Drillcone</link>"
+msgstr "Lưu trữ Radbolt ở trạng thái năng lượng cao, sẵn sàng vận chuyển.\n\nCần <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> để giải phóng radbolt khỏi kho lưu trữ khi đạt ngưỡng Radbolt.\n\nRadbolt trong kho sẽ không phân rã chừng nào khoang còn được cấp điện, có thể qua tấm pin mặt trời tích hợp hoặc cổng điện trên các khoang pin và khoang phi hành gia\n\nTự động nạp lại cho <link=\"RYBNOSECONEHEPHARVEST\">Mũi Khoan Laser</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.NAME"
+msgid "<link=\"RTBHEPBATTERYMODULE\">Radbolt Chamber Module</link>"
+msgstr "<link=\"RTBHEPBATTERYMODULE\">Khoang Buồng Radbolt</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.DESC"
+msgid "\"Shoving everything in there\" - now with higly energized particles."
+msgstr "\"Nhét hết vào trong đó\" - giờ có thêm hạt năng lượng cao."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.EFFECT"
+msgid "Fills all sorts of Radbolt Storages.\nAllows fueling a Radbolt Engine and the Laser Drillcone\n\nAutomatically links when built to the side of a <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link>"
+msgstr "Nạp mọi loại Kho Radbolt.\nCho phép nạp nhiên liệu Động Cơ Radbolt và Mũi Khoan Laser\n\nTự động liên kết khi được xây cạnh <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> hoặc <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link> khác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.NAME"
+msgid "<link=\"RTBHEPFUELLOADER\">Radbolt Loader</link>"
+msgstr "<link=\"RTBHEPFUELLOADER\">Bộ Nạp Radbolt</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.DESC"
+msgid "Rockets can be used to send Duplicants into space and retrieve rare resources."
+msgstr "Tên lửa có thể được dùng để đưa Đệ vào không gian và thu thập tài nguyên hiếm."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.EFFECT"
+msgid "Uses large amounts of <link=\"POWER\">Power</link> to ionize <link=\"WATER\">Water</link>, ejecting the ionized particles outwards to propel rockets for long-range space exploration.\n\nPower is drawn from battery modules.\n\nEngine must be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>"
+msgstr "Sử dụng lượng lớn <link=\"POWER\">Điện</link> để ion hóa <link=\"WATER\">Nước</link>, đẩy các hạt ion hóa ra ngoài để đẩy tên lửa cho các chuyến thám hiểm không gian tầm xa.\n\nĐiện được lấy từ các khoang pin.\n\nĐộng cơ phải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.NAME"
+msgid "<link=\"RTBIONENGINECLUSTER\">Ion Engine</link>"
+msgstr "<link=\"RTBIONENGINECLUSTER\">Động Cơ Ion</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.DESC"
+msgid "Connecting rocket platforms, now with verticality"
+msgstr "Kết nối các bệ phóng tên lửa, giờ có thêm chiều dọc"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.EFFECT"
+msgid "Connects adjacent rocket platforms while doubling as a ladder.\n\nAutomatically links when built to the side of a <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link>"
+msgstr "Kết nối các bệ phóng tên lửa liền kề trong khi đóng vai trò như một chiếc thang.\n\nTự động liên kết khi được xây cạnh <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> hoặc <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link> khác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTER\">Rocket Port Ladder Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTER\">Bộ Chuyển Cổng Tên Lửa Tích Hợp Thang</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.DESC"
+msgid "Perfect for a first landing"
+msgstr "Hoàn hảo cho lần hạ cánh đầu tiên"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.NAME"
+msgid "<link=\"RTBLANDERROCKETPLATFORM\">Deployable Rocket Platform</link>"
+msgstr "<link=\"RTBLANDERROCKETPLATFORM\">Bệ Phóng Tên Lửa Có Thể Triển Khai</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large cargo tank!"
+msgstr "Chứa được còn nhiều hơn cả bình hàng hóa cỡ lớn!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.EFFECT"
+msgid "Allows Duplicants to store most of the <link=\"ELEMENTSLIQUID\">Liquid</link> resources found during space missions.\n\nStored resources become available to the colony upon the rocket's return.\n\nMust be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+msgstr "Cho phép Đệ lưu trữ hầu hết tài nguyên <link=\"ELEMENTSLIQUID\">Chất Lỏng</link> thu thập được trong các nhiệm vụ không gian.\n\nTài nguyên lưu trữ sẽ có sẵn cho căn cứ khi tên lửa trở về.\n\nPhải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBLIQUIDCARGOBAYCLUSTERLARGE\">Colossal Liquid Cargo Tank</link>"
+msgstr "<link=\"RTBLIQUIDCARGOBAYCLUSTERLARGE\">Bình Chứa Chất Lỏng Khổng Lồ</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.DESC"
+msgid "Liquid chlorine improves the thrust-to-mass ratio of rocket fuels."
+msgstr "Clo lỏng cải thiện tỷ lệ lực đẩy trên khối lượng của nhiên liệu tên lửa."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.EFFECT"
+msgid "Stores <link=\"CHLORINE\">Liquid Chlorine</link> for burning rocket fuels. \n\nMust be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>.\n\nThe oxidizer efficiency of liquid chlorine sits between those of oxylite and liquid oxygen (3)."
+msgstr "Lưu trữ <link=\"CHLORINE\">Clo Lỏng</link> để đốt nhiên liệu tên lửa. \n\nPhải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>.\n\nHiệu suất oxy hóa của clo lỏng nằm giữa oxylite và oxy lỏng (3)."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.NAME"
+msgid "<link=\"RTBLIQUIDCHLORINEOXIDIZERTANK\">Liquid Chlorine Oxidizer Tank</link>"
+msgstr "<link=\"RTBLIQUIDCHLORINEOXIDIZERTANK\">Bình Oxy Hóa Clo Lỏng</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.DESC"
+msgid "Lưu trữ thêm nhiên liệu để có thể tăng khoảng cách mà tên lửa có thể di chuyển đến trước khi tên lửa trở về."
+msgstr "Lưu trữ thêm nhiên liệu để có thể tăng khoảng cách mà tên lửa có thể di chuyển đến trước khi tên lửa trở về."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.EFFECT"
+msgid "Chứa nhiên liệu dạng <link=\"ELEMENTSLIQUID\">lỏng</link> cho động cơ.\n\nLoại nhiên liệu được lưu trữ sẽ phụ thuộc vào loại động cơ đã xây. \n\nPhải xây <link=\"LAUNCHPAD\">bệ phóng tên lửa</link> trước."
+msgstr "Chứa nhiên liệu dạng <link=\"ELEMENTSLIQUID\">lỏng</link> cho động cơ.\n\nLoại nhiên liệu được lưu trữ sẽ phụ thuộc vào loại động cơ đã xây. \n\nPhải xây <link=\"LAUNCHPAD\">bệ phóng tên lửa</link> trước."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.NAME"
+msgid "<link=\"RTBLIQUIDFUELTANKCLUSTERSMALL\">Small Liquid Fuel Tank</link>"
+msgstr "<link=\"RTBLIQUIDFUELTANKCLUSTERSMALL\">Bình Nhiên Liệu Lỏng Nhỏ</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.DESC"
+msgid "Rockets can be used to send Duplicants into space and retrieve rare resources."
+msgstr "Tên lửa có thể được dùng để đưa Đệ vào không gian và thu thập tài nguyên hiếm."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.EFFECT"
+msgid "Burns <link=\"METHANE\">Natural Gas</link> to propel rockets for mid-range space exploration.\n\nEngine must be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>"
+msgstr "Đốt <link=\"METHANE\">Khí Tự Nhiên</link> để đẩy tên lửa cho các chuyến thám hiểm không gian tầm trung.\n\nĐộng cơ phải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.NAME"
+msgid "<link=\"RTBNATGASENGINECLUSTER\">Natural Gas Engine</link>"
+msgstr "<link=\"RTBNATGASENGINECLUSTER\">Động Cơ Khí Tự Nhiên</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.DESC"
+msgid "Mọi tên lửa đều cần một nosecone để bay."
+msgstr "Mọi tên lửa đều cần một nosecone để bay."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.EFFECT"
+msgid "Bảo vệ tên lửa trong quá trình cất cánh và hạ cánh, cho phép du hành vũ trụ.\n\nPhải được xây dựng thông qua <link=\"LAUNCHPAD\">Bệ Phóng Tên Lửa</link>, và được lắp đặt ở phần trên cùng của tên lửa.\n\nConverts <link=\"LIGHT\">Sunlight</link> into electrical <link=\"POWER\">Power</link> for use on rockets.\n\nMust be exposed to space."
+msgstr "Bảo vệ tên lửa trong quá trình cất cánh và hạ cánh, cho phép du hành vũ trụ.\n\nPhải được xây dựng thông qua <link=\"LAUNCHPAD\">Bệ Phóng Tên Lửa</link>, và được lắp đặt ở phần trên cùng của tên lửa.\n\nChuyển hóa <link=\"LIGHT\">Ánh Sáng Mặt Trời</link> thành <link=\"POWER\">Điện</link> để sử dụng trên tên lửa.\n\nPhải được tiếp xúc với không gian."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.NAME"
+msgid "<link=\"RTBNOSECONESOLAR\">Solar Nosecone</link>"
+msgstr "<link=\"RTBNOSECONESOLAR\">Mũi Tên Lửa Năng Lượng Mặt Trời</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POI_SOLARPANEL.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POI_SOLARPANEL.DESC"
+msgid "It has stopped working"
+msgstr "Nó đã ngừng hoạt động"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POI_SOLARPANEL.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POI_SOLARPANEL.EFFECT"
+msgid "The the dysfunctional remains of a solar panel."
+msgstr "Phần còn lại hỏng hóc của một tấm pin mặt trời."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POI_SOLARPANEL.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POI_SOLARPANEL.NAME"
+msgid "<link=\"RTBPOISOLARPANEL\">Derelict Solar Panel</link>"
+msgstr "<link=\"RTBPOISOLARPANEL\">Tấm Pin Mặt Trời Bỏ Hoang</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.DESC"
+msgid "How much stuff is out there?"
+msgstr "Ngoài kia còn bao nhiêu thứ nữa?"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.EFFECT"
+msgid "After pointing the building at a space poi, the building will output logic signals based on the poi artifact existing and the mass remaining in the poi."
+msgstr "Sau khi trỏ công trình vào một POI không gian, công trình sẽ xuất tín hiệu logic dựa trên việc POI có cổ vật và khối lượng còn lại trong POI."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT"
+msgid "POI has Artifact"
+msgstr "POI Có Cổ Vật"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the targeted POI has an artifact"
+msgstr "Gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> khi POI được nhắm tới có cổ vật"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "Ngược lại, gửi <b><style=\"logic_off\">Tín Hiệu Đỏ</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY"
+msgid "POI mass above set threshold."
+msgstr "Khối Lượng POI trên ngưỡng đã đặt."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the targeted POI has more than the configured mass remaining"
+msgstr "Gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> khi POI được nhắm tới còn lại khối lượng nhiều hơn mức đã cấu hình"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "Ngược lại, gửi <b><style=\"logic_off\">Tín Hiệu Đỏ</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.ALL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.ALL"
+msgid "Mode: All Resources"
+msgstr "Chế Độ: Tất Cả Tài Nguyên"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.ALL_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.ALL_TOOLTIP"
+msgid "Include both freely collectable resources and those that require drilling."
+msgstr "Bao gồm cả tài nguyên thu thập tự do lẫn tài nguyên cần khai thác."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.FLOATING_ONLY
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.FLOATING_ONLY"
+msgid "Mode: Collectable Resources only"
+msgstr "Chế Độ: Chỉ Tài Nguyên Có Thể Thu Thập"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.FLOATING_ONLY_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.FLOATING_ONLY_TOOLTIP"
+msgid "Only include collectable resources that do not require a drillcone."
+msgstr "Chỉ bao gồm tài nguyên có thể thu thập không cần mũi khoan."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.HARVESTABLE_ONLY
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.HARVESTABLE_ONLY"
+msgid "Mode: Drillable Resources only"
+msgstr "Chế Độ: Chỉ Tài Nguyên Có Thể Khai Thác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.HARVESTABLE_ONLY_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.HARVESTABLE_ONLY_TOOLTIP"
+msgid "Only include resources of the POI that require drilling"
+msgstr "Chỉ bao gồm tài nguyên của POI cần khai thác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.NAME"
+msgid "<link=\"RTBPOICAPACITYSENSOR\">Starmap POI Capacity Sensor</link>"
+msgstr "<link=\"RTBPOICAPACITYSENSOR\">Cảm Biến Dung Lượng POI Bản Đồ Sao</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS"
+msgid "Remaining Mass in POI"
+msgstr "Khối Lượng Còn Lại trong POI"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE"
+msgid "Will send a <b><style=\"logic_on\">Green Signal</style></b> if the <style=\"KKeyword\">remaining Mass in the POI</style> is above <b>{0}</b>"
+msgstr "Sẽ gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> nếu <style=\"KKeyword\">khối lượng còn lại trong POI</style> trên <b>{0}</b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW"
+msgid "Will send a <b><style=\"logic_on\">Green Signal</style></b> if the <style=\"KKeyword\">remaining Mass in the POI</style> is below <b>{0}</b>"
+msgstr "Sẽ gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> nếu <style=\"KKeyword\">khối lượng còn lại trong POI</style> dưới <b>{0}</b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE"
+msgid "Remaining Mass"
+msgstr "Khối Lượng Còn Lại"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_PROPLADDER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_PROPLADDER.DESC"
+msgid "A functional ladder, made a long time ago"
+msgstr "Một chiếc thang còn hoạt động, được làm từ rất lâu trước đây"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_PROPLADDER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_PROPLADDER.EFFECT"
+msgid "Increases Duplicant climbing speed."
+msgstr "Tăng tốc độ leo trèo của Đệ."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_PROPLADDER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_PROPLADDER.NAME"
+msgid "<link=\"RTBPROPLADDER\">Derelict Ladder</link>"
+msgstr "<link=\"RTBPROPLADDER\">Thang Bỏ Hoang</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.DESC"
+msgid "Sturdy and quick to climb!"
+msgstr "Chắc chắn và leo nhanh!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.EFFECT"
+msgid "Increases duplicant climbing speed. Immune to meteors"
+msgstr "Tăng tốc độ leo trèo của Đệ. Miễn nhiễm với thiên thạch"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.NAME"
+msgid "<link=\"RTBREINFORCEDLADDER\">Reinforced Ladder</link>"
+msgstr "<link=\"RTBREINFORCEDLADDER\">Thang Gia Cố</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.DESC"
+msgid "Always forget to bring your stuff - now you don't!"
+msgstr "Luôn quên mang đồ - giờ thì không nữa!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.EFFECT"
+msgid "Allows to set custom rocket launch conditions via automation signal"
+msgstr "Cho phép đặt điều kiện phóng tên lửa tùy chỉnh qua tín hiệu tự động hóa"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT"
+msgid "Fulfill custom launch condition"
+msgstr "Hoàn thành điều kiện phóng tùy chỉnh"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT_ACTIVE"
+msgid "<b><style=\"logic_on\">Green Signal</style></b>: Custom rocket launch condition will be marked as completed"
+msgstr "<b><style=\"logic_on\">Tín Hiệu Xanh</style></b>: Điều kiện phóng tên lửa tùy chỉnh sẽ được đánh dấu là đã hoàn thành"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT_INACTIVE"
+msgid "<b><style=\"logic_off\">Red Signal</style></b>: Custom rocket launch condition will be marked as missing, preventing automatic rocket launches."
+msgstr "<b><style=\"logic_off\">Tín Hiệu Đỏ</style></b>: Điều kiện phóng tên lửa tùy chỉnh sẽ được đánh dấu là còn thiếu, ngăn việc phóng tự động."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.NAME"
+msgid "<link=\"RTBROCKETLOGICLAUNCHCONDITIONSETTER\">Launch Condition Sender</link>"
+msgstr "<link=\"RTBROCKETLOGICLAUNCHCONDITIONSETTER\">Bộ Gửi Điều Kiện Phóng</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.STATUSITEM_TOOLTIP_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.STATUSITEM_TOOLTIP_ACTIVE"
+msgid "The custom condition \"{0}\" is completed"
+msgstr "Điều kiện tùy chỉnh \"{0}\" đã hoàn thành"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.STATUSITEM_TOOLTIP_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.STATUSITEM_TOOLTIP_INACTIVE"
+msgid "The custom condition \"{0}\" is incomplete!"
+msgstr "Điều kiện tùy chỉnh \"{0}\" chưa hoàn thành!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETPLATFORMTAG.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETPLATFORMTAG.NAME"
+msgid "Rocket Platform"
+msgstr "Bệ Phóng Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.DESC"
+msgid "Through exploitation of the natural decay of enriched Uranium, this elegantly simple power generator can provide consistent, stable power for hundreds of cycles."
+msgstr "Nhờ khai thác sự phân rã tự nhiên của Uranium làm giàu, máy phát điện đơn giản mà tinh tế này có thể cung cấp điện ổn định, liên tục trong hàng trăm chu kỳ."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.EFFECT"
+msgid "After adding 50 kg of enriched Uranium, this module will constantly produce 120 W of energy until all of the uranium is depleted.\n\nIt will take 50 Cycles for the uranium to decay."
+msgstr "Sau khi thêm 50 kg Uranium làm giàu, khoang này sẽ liên tục sản xuất 120 W năng lượng cho đến khi hết uranium.\n\nSẽ mất 50 Chu Kỳ để uranium phân rã."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.NAME"
+msgid "<link=\"RTBRTGGENERATORMODULE\">Radioisotope Thermoelectric Generator</link>"
+msgstr "<link=\"RTBRTGGENERATORMODULE\">Máy Phát Nhiệt Điện Đồng Vị Phóng Xạ</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.DESC"
+msgid "Sạc module pin trước khi cất cánh giúp cung cấp năng lượng cho các Công Trình dễ dàng hơn trong suốt chuyến bay."
+msgstr "Sạc module pin trước khi cất cánh giúp cung cấp năng lượng cho các Công Trình dễ dàng hơn trong suốt chuyến bay."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.EFFECT"
+msgid "Tích trữ <link=\"POWER\">điện</link> từ động cơ tên lửa hoặc từ <link=\"LAUNCHPAD\">bệ phóng</link>.\n\nĐiện được tích trữ có thể dùng trong khoang hành khách thông qua <link=\"ROCKETINTERIORPOWERPLUG\">ổ cắm điện</link>.\n\nHao phí dần theo thời gian.\n\nPhải xây dựng trên Bệ phóng tên lửa trước."
+msgstr "Tích trữ <link=\"POWER\">điện</link> từ động cơ tên lửa hoặc từ <link=\"LAUNCHPAD\">bệ phóng</link>.\n\nĐiện được tích trữ có thể dùng trong khoang hành khách thông qua <link=\"ROCKETINTERIORPOWERPLUG\">ổ cắm điện</link>.\n\nHao phí dần theo thời gian.\n\nPhải xây dựng trên Bệ phóng tên lửa trước."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.NAME"
+msgid "<link=\"RTBSMOLBATTERYMODULE\">Small Battery Module</link>"
+msgstr "<link=\"RTBSMOLBATTERYMODULE\">Khoang Pin Nhỏ</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.DESC"
+msgid "Thu thập năng lượng mặt trời trước khi cất cánh và trong chuyến bay.\nThat small module looked so off on wide rockets!"
+msgstr "Thu thập năng lượng mặt trời trước khi cất cánh và trong chuyến bay.\nCái khoang nhỏ đó trông thật lạc lõng trên các tên lửa rộng!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.EFFECT"
+msgid "Chuyển hóa <link=\"LIGHT\">Ánh sáng mặt trời</link> thành<link=\"POWER\">Điện năng</link> cung cấp cho tên lửa.\n\nCần xây đựng <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> trước.\n\nPhải được tiếp xúc với không gian."
+msgstr "Chuyển hóa <link=\"LIGHT\">Ánh sáng mặt trời</link> thành <link=\"POWER\">Điện năng</link> cung cấp cho tên lửa.\n\nCần xây dựng <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> trước.\n\nPhải được tiếp xúc với không gian."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.NAME"
+msgid "<link=\"RTBSOLARPANELMODULEWIDE\">Wide Khoang pin mặt trời</link>"
+msgstr "<link=\"RTBSOLARPANELMODULEWIDE\">Khoang Pin Mặt Trời Rộng</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "Kết nối với tên lửa khác chưa bao giờ dễ đến vậy."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.EFFECT"
+msgid "Enables docking with rockets to dock\n\nAllows loading and unloading docked rockets\n\nRockets require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge."
+msgstr "Cho phép kết nối với tên lửa để cập bến\n\nCho phép nạp và dỡ hàng tên lửa đã kết nối\n\nTên lửa cần bộ phận kết nối để kết nối.\n\nChỉ định Đệ sẽ buộc nó sử dụng cầu kết nối."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.NAME"
+msgid "<link=\"RTBSPACESTATIONDOCKINGDOOR\">[WIP] Orbital Docking Port</link>"
+msgstr "<link=\"RTBSPACESTATIONDOCKINGDOOR\">[ĐANG PHÁT TRIỂN] Cổng Kết Nối Quỹ Đạo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "Kết nối với tên lửa khác chưa bao giờ dễ đến vậy."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.EFFECT"
+msgid "Enables docking with rockets to dock\n\nAllows loading and unloading docked rockets\n\nRockets require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge."
+msgstr "Cho phép kết nối với tên lửa để cập bến\n\nCho phép nạp và dỡ hàng tên lửa đã kết nối\n\nTên lửa cần bộ phận kết nối để kết nối.\n\nChỉ định Đệ sẽ buộc nó sử dụng cầu kết nối."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.NAME"
+msgid "<link=\"RTBSPACESTATIONDOCKINGDOORINDESTRUCTIBLE\">[WIP] Core Orbital Docking Port</link>"
+msgstr "<link=\"RTBSPACESTATIONDOCKINGDOORINDESTRUCTIBLE\">[ĐANG PHÁT TRIỂN] Cổng Kết Nối Quỹ Đạo Lõi</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.DESC"
+msgid "TODO"
+msgstr "TODO"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.EFFECT"
+msgid "Allows construction in deep space."
+msgstr "Cho phép xây dựng trong không gian sâu."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.NAME"
+msgid "<link=\"RTBSPACESTATIONMODULEBUILDER\">[WIP] Orbital Construction Module</link>"
+msgstr "<link=\"RTBSPACESTATIONMODULEBUILDER\">[ĐANG PHÁT TRIỂN] Khoang Xây Dựng Quỹ Đạo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.DESC"
+msgid "Useful for converting hot steam into usable power."
+msgstr "Hữu ích để chuyển hóa hơi nước nóng thành điện năng."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.EFFECT"
+msgid "Draws in <link=\"STEAM\">Steam</link> from gas storage modules and uses it to generate electrical <link=\"POWER\">Power</link>.\n\n If there are liquid storage modules with appropriate filters set, outputs hot <link=\"WATER\">Water</link> to them.\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr "Hút <link=\"STEAM\">Hơi Nước</link> từ các khoang lưu trữ khí và dùng nó để tạo ra <link=\"POWER\">Điện</link>.\n\n Nếu có khoang lưu trữ chất lỏng với bộ lọc phù hợp, sẽ xuất <link=\"WATER\">Nước</link> nóng vào đó.\n\n Nếu có ít nhất một pin được kết nối, máy phát sẽ ngừng sản xuất khi pin đã sạc trên 95%."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.NAME"
+msgid "<link=\"RTBSTEAMGENERATORMODULE\">Steam Generator Module</link>"
+msgstr "<link=\"RTBSTEAMGENERATORMODULE\">Khoang Máy Phát Điện Hơi Nước</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_TECHUNLOCK.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_TECHUNLOCK.DESC"
+msgid "An ancient computer terminal, it still runs on Windows 42\n\n\nThis computer terminal is somehow still able to function.\n\nIt contains valuable insights on the mysteries of the cosmos\n\nInteract to unlock new Technologies."
+msgstr "Một máy tính cổ đại, vẫn còn chạy Windows 42\n\n\nChiếc máy tính này bằng cách nào đó vẫn còn hoạt động được.\n\nNó chứa những hiểu biết quý giá về bí ẩn vũ trụ\n\nTương tác để mở khóa Công Nghệ mới."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_TECHUNLOCK.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_TECHUNLOCK.NAME"
+msgid "<link=\"RTBTECHUNLOCK\">Abandoned Station Computer</link>"
+msgstr "<link=\"RTBTECHUNLOCK\">Máy Tính Trạm Bỏ Hoang</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.DESC"
+msgid "Fueling Rockets has never been easier!"
+msgstr "Nạp nhiên liệu tên lửa chưa bao giờ dễ đến vậy!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.EFFECT"
+msgid "Refuels connected rockets with the appropriate fuel.\n\nAutomatically links when built to the side of a <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link>"
+msgstr "Nạp lại nhiên liệu phù hợp cho tên lửa đã kết nối.\n\nTự động liên kết khi được xây cạnh <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> hoặc <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link> khác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER"
+msgid "Currently Loading/Unloading"
+msgstr "Đang Nạp/Dỡ Hàng"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when building is currently loading or unloading a rocket"
+msgstr "Gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> khi công trình đang nạp hoặc dỡ hàng tên lửa"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "Ngược lại, gửi <b><style=\"logic_off\">Tín Hiệu Đỏ</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.NAME"
+msgid "<link=\"RTBUNIVERSALFUELLOADER\">Rocket Fuel Loader</link>"
+msgstr "<link=\"RTBUNIVERSALFUELLOADER\">Bộ Nạp Nhiên Liệu Tên Lửa</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.DESC"
+msgid "Fueling Rockets has never been easier!"
+msgstr "Nạp nhiên liệu tên lửa chưa bao giờ dễ đến vậy!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.EFFECT"
+msgid "Refuels connected rockets with the appropriate oxidizer\n\nAutomatically links when built to the side of a <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link>"
+msgstr "Nạp lại chất oxy hóa phù hợp cho tên lửa đã kết nối\n\nTự động liên kết khi được xây cạnh <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> hoặc <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link> khác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.NAME"
+msgid "<link=\"RTBUNIVERSALOXIDIZERLOADER\">Rocket Oxidizer Loader</link>"
+msgstr "<link=\"RTBUNIVERSALOXIDIZERLOADER\">Bộ Nạp Chất Oxy Hóa Tên Lửa</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.DESC"
+msgid "Ascending to new levels"
+msgstr "Vươn lên tầm cao mới"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.EFFECT"
+msgid "A Crosspiece rocket port adapter for vertical expansion.\n\nLinks up with other vertical adapter pieces above and below it.\n\nAutomatically links when built to the side of a <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link>"
+msgstr "Một mảnh chuyển đổi cổng tên lửa hình chữ thập để mở rộng theo chiều dọc.\n\nLiên kết với các mảnh chuyển đổi dọc khác ở trên và dưới nó.\n\nTự động liên kết khi được xây cạnh <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> hoặc <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link> khác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.NAME"
+msgid "<link=\"RTBVERTICALADAPTERBASE\">Vertical Rocket Port Adapter</link>"
+msgstr "<link=\"RTBVERTICALADAPTERBASE\">Bộ Chuyển Cổng Tên Lửa Dọc</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.DESC"
+msgid "Gantry Not Included"
+msgstr "Không Kèm Giàn Đỡ"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.EFFECT"
+msgid "A rocket port adapter piece for vertical expansion.\n\nLinks up with other vertical adapter pieces above and below it."
+msgstr "Một mảnh chuyển đổi cổng tên lửa để mở rộng theo chiều dọc.\n\nLiên kết với các mảnh chuyển đổi dọc khác ở trên và dưới nó."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.NAME"
+msgid "<link=\"RTBVERTICALADAPTERPIECE\">Vertical Rocket Port Piece</link>"
+msgstr "<link=\"RTBVERTICALADAPTERPIECE\">Mảnh Cổng Tên Lửa Dọc</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.DESC"
+msgid "Insulated for convenience."
+msgstr "Cách nhiệt cho tiện lợi."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.EFFECT"
+msgid "An insulated wall adapter to seal off rocket start areas.\n\nAutomatically links when built to the side of a <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link>"
+msgstr "Một tấm chuyển tường cách nhiệt để bịt kín khu vực khởi động tên lửa.\n\nTự động liên kết khi được xây cạnh <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> hoặc <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link> khác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTER\">Insulated Rocket Port Wall Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTER\">Tấm Chuyển Tường Cổng Tên Lửa Cách Nhiệt</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.DESC"
+msgid "Bunkered down for convenience."
+msgstr "Kiên cố hóa cho tiện lợi."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.EFFECT"
+msgid "A bunker wall adapter to seal off rocket start areas.\n\nAutomatically links when built to the side of a <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link>"
+msgstr "Một tấm chuyển tường boong-ke để bịt kín khu vực khởi động tên lửa.\n\nTự động liên kết khi được xây cạnh <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link> hoặc <link=\"MODULARLAUNCHPADPORTSOLID\">Cổng Tên Lửa</link> khác"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTERBUNKER\">Bunkered Rocket Port Wall Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTERBUNKER\">Tấm Chuyển Tường Cổng Tên Lửa Boong-ke</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.DESC"
+msgid "Harvests resources from the universe with the power of radbolts and lasers"
+msgstr "Thu thập tài nguyên từ vũ trụ bằng sức mạnh của radbolt và laser"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.EFFECT"
+msgid "Giúp tên lửa thu lượm được các tài nguyên dạng <link=\"ELEMENTSGAS\">Khí</link>, <link=\"ELEMENTSLIQUID\">Lỏng</link> và <link=\"ELEMENTSSOLID\">Rắn</link> từ các vùng tài nguyên nằm rải rác trong vũ trụ.\n\nĐộng cơ phải được xây trên <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>.\n\nPhải được xây ở đỉnh tên lửa có khoang hàng hóa quỹ đạo để chứa các loại <link=\"ELEMENTSGAS\">Chất Khí</link>, <link=\"ELEMENTSLIQUID\">Chất Lỏng</link> hoặc <link=\"ELEMENTSSOLID\">Chất Rắn</link> tương ứng."
+msgstr "Giúp tên lửa thu lượm được các tài nguyên dạng <link=\"ELEMENTSGAS\">Khí</link>, <link=\"ELEMENTSLIQUID\">Lỏng</link> và <link=\"ELEMENTSSOLID\">Rắn</link> từ các vùng tài nguyên nằm rải rác trong vũ trụ.\n\nĐộng cơ phải được xây trên <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>.\n\nPhải được xây ở đỉnh tên lửa có khoang hàng hóa quỹ đạo để chứa các loại <link=\"ELEMENTSGAS\">Chất Khí</link>, <link=\"ELEMENTSLIQUID\">Chất Lỏng</link> hoặc <link=\"ELEMENTSSOLID\">Chất Rắn</link> tương ứng."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.NAME"
+msgid "<link=\"RYBNOSECONEHEPHARVEST\">Laser Drillcone</link>"
+msgstr "<link=\"RYBNOSECONEHEPHARVEST\">Mũi Khoan Laser</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT"
+msgid "Empty/Not Empty"
+msgstr "Trống/Không Trống"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when completely empty"
+msgstr "Gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> khi hoàn toàn trống"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "Ngược lại, gửi <b><style=\"logic_off\">Tín Hiệu Đỏ</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT"
+msgid "Full/Not Full"
+msgstr "Đầy/Chưa Đầy"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when completely full"
+msgstr "Gửi <b><style=\"logic_on\">Tín Hiệu Xanh</style></b> khi hoàn toàn đầy"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "Ngược lại, gửi <b><style=\"logic_off\">Tín Hiệu Đỏ</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.DESCRIPTION"
+msgid "tba"
+msgstr "tba"
+
+#. Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.NAME"
+msgid "Crashed Starship"
+msgstr "Tàu Vũ Trụ Bị Rơi"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.DESC"
+msgid "<link=\"DEEPSPACERESEARCH\">Deep Space Research</link> is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting deep space analysis research in the low artifical gravity of a space station.\n\nALPHA INFO: Un-dust artifacts at the artifact analysis station to unlock the initial science, THIS WILL BE CHANGED IN THE FUTURE!)"
+msgstr "<link=\"DEEPSPACERESEARCH\">Nghiên Cứu Không Gian Sâu</link> được tiến hành bằng cách phân tích ý nghĩa sâu xa đằng sau các cổ vật bí ẩn tìm thấy trong không gian sâu bao la và bằng cách tiến hành nghiên cứu phân tích không gian sâu trong trọng lực nhân tạo thấp của trạm không gian.\n\nTHÔNG TIN ALPHA: Phủi bụi cổ vật tại trạm phân tích cổ vật để mở khóa khoa học ban đầu, ĐIỀU NÀY SẼ ĐƯỢC THAY ĐỔI TRONG TƯƠNG LAI!)"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME"
+msgid "<link=\"DEEPSPACERESEARCH\">Deep Space Research</link>"
+msgstr "<link=\"DEEPSPACERESEARCH\">Nghiên Cứu Không Gian Sâu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC"
+msgid "Unlocks new breakthroughs in space construction"
+msgstr "Mở khóa đột phá mới trong xây dựng không gian"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKDESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKDESC"
+msgid "Allows <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Deep Space Research</link></style> points to be accumulated, unlocking higher technology tiers.\nCan be accumulated before research completion via artifact analysis."
+msgstr "Cho phép tích lũy điểm <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Nghiên Cứu Không Gian Sâu</link></style>, mở khóa các bậc công nghệ cao hơn.\nCó thể tích lũy trước khi hoàn thành nghiên cứu qua phân tích cổ vật."
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME"
+msgid "<style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Deep Space Research</link></style> Capability"
+msgstr "Khả Năng <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Nghiên Cứu Không Gian Sâu</link></style>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC"
+msgid "A force field, protecting the station against micro meteors."
+msgstr "Một trường lực, bảo vệ trạm khỏi vi thiên thạch."
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.NAME"
+msgid "<link=\"SPACESTATIONFORCEFIELD\">Station Force Field</link>"
+msgstr "<link=\"SPACESTATIONFORCEFIELD\">Trường Lực Trạm</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.DESC"
+msgid "An insanely durable and heat resistant alloy.\nRequired in the construction of large space structures.\nVery sparkly"
+msgstr "Một hợp kim cực kỳ bền và chịu nhiệt.\nCần thiết trong xây dựng các cấu trúc không gian lớn.\nRất lấp lánh"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.NAME"
+msgid "<link=\"UNOBTANIUMALLOY\">Neutronium Alloy</link>"
+msgstr "<link=\"UNOBTANIUMALLOY\">Hợp Kim Neutronium</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.RECIPE_DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.RECIPE_DESCRIPTION"
+msgid "Neutronium Alloy is a <link=\"ELEMENTSSOLID\">Solid Material</link> used in the construction of large space structures."
+msgstr "Hợp Kim Neutronium là <link=\"ELEMENTSSOLID\">Vật Liệu Rắn</link> dùng trong xây dựng các cấu trúc không gian lớn."
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.DESC"
+msgid "Harvested from artifact research, this dust might have some useful properties.\nCan be forged into <link=\"UNOBTANIUMALLOY\">Neutronium Alloy</link> at the <link=\"SUPERMATERIALREFINERY\">Molecular Forge</link>"
+msgstr "Thu hoạch từ nghiên cứu cổ vật, loại bụi này có thể có một số đặc tính hữu ích.\nCó thể luyện thành <link=\"UNOBTANIUMALLOY\">Hợp Kim Neutronium</link> tại <link=\"SUPERMATERIALREFINERY\">Lò Rèn Phân Tử</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.NAME"
+msgid "<link=\"UNOBTANIUMDUST\">Neutronium Dust</link>"
+msgstr "<link=\"UNOBTANIUMDUST\">Bụi Neutronium</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ENTITIES.DERELICTSTATION.DESCPREFIX
+msgctxt "Rockets_TinyYetBig.STRINGS.ENTITIES.DERELICTSTATION.DESCPREFIX"
+msgid "The derelict remains of an old station, bearing some long lost secrets.\n\n"
+msgstr "Tàn tích bỏ hoang của một trạm cũ, mang theo những bí mật đã thất lạc từ lâu.\n\n"
+
+#. Rockets_TinyYetBig.STRINGS.ENTITIES.DERELICTSTATION.NAMEPRREFIX
+msgctxt "Rockets_TinyYetBig.STRINGS.ENTITIES.DERELICTSTATION.NAMEPRREFIX"
+msgid "Derelict: "
+msgstr "Bỏ Hoang: "
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.DESC"
+msgid "Deep space research data that can be processed into <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> points."
+msgstr "Dữ liệu nghiên cứu không gian sâu có thể được xử lý thành điểm <link=\"DEEPSPACERESEARCH\">Nghiên Cứu Không Gian Sâu</link>."
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link>"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">Tri Thức Không Gian Sâu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME_PLURAL
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME_PLURAL"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link>"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">Tri Thức Không Gian Sâu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.RECIPE_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.RECIPE_DESC"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link> generated from analyzing the depths of space with a Deep Space Analyzer"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">Tri Thức Không Gian Sâu</link> tạo ra từ việc phân tích độ sâu không gian bằng Máy Phân Tích Không Gian Sâu"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.DESC"
+msgid "Empty data card that is required to capture <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link> at the Deep Space Analyzer"
+msgstr "Thẻ dữ liệu trống cần thiết để thu <link=\"RTBDEEPSPACEINSIGHT\">Tri Thức Không Gian Sâu</link> tại Máy Phân Tích Không Gian Sâu"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME"
+msgid "<link=\"RTBEMPTYDATACARD\">Empty Data Card</link>"
+msgstr "<link=\"RTBEMPTYDATACARD\">Thẻ Dữ Liệu Trống</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME_PLURAL
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME_PLURAL"
+msgid "<link=\"RTBEMPTYDATACARD\">Empty Data Cards</link>"
+msgstr "<link=\"RTBEMPTYDATACARD\">Thẻ Dữ Liệu Trống</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.RECIPE_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.RECIPE_DESC"
+msgid "Empty Data Cards, ready to store insights about the depths of space"
+msgstr "Thẻ Dữ Liệu Trống, sẵn sàng lưu trữ tri thức về độ sâu không gian"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.KATAIRITE
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.KATAIRITE"
+msgid "<link=\"KATAIRITE\">Thạch anh nguội</link>"
+msgstr "<link=\"KATAIRITE\">Thạch anh nguội</link>"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ATTACHMENTSLOTROCKETMODULEUPGRADES
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ATTACHMENTSLOTROCKETMODULEUPGRADES"
+msgid "Module Upgrade Installation Slot"
+msgstr "Khe Lắp Nâng Cấp Khoang"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ATTACHMENTSLOTSTATIONPARTS
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ATTACHMENTSLOTSTATIONPARTS"
+msgid "Orbital Construction Module mounting point"
+msgstr "Điểm gắn Khoang Xây Dựng Quỹ Đạo"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_DOCKINGTUBEATTACHMENTSLOT
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_DOCKINGTUBEATTACHMENTSLOT"
+msgid "Spacefarer Docking Tube Attachment Port"
+msgstr "Cổng Gắn Ống Kết Nối Phi Hành Gia"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL"
+msgid "Neutronium Alloy"
+msgstr "Hợp Kim Neutronium"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL_DESC"
+msgid "Neutronium Alloy is an insanely durable <link=\"ELEMENTSSOLID\">Solid Material</link> used in the construction of large space structures."
+msgstr "Hợp Kim Neutronium là <link=\"ELEMENTSSOLID\">Vật Liệu Rắn</link> cực kỳ bền dùng trong xây dựng các cấu trúc không gian lớn."
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERCORROSIVEREQUIREMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERCORROSIVEREQUIREMENT"
+msgid "Corrosive Liquid Oxidizer"
+msgstr "Chất Oxy Hóa Lỏng Ăn Mòn"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_1
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_1"
+msgid "Oxidizer Efficiency 1"
+msgstr "Hiệu Suất Oxy Hóa 1"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_2
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_2"
+msgid "Oxidizer Efficiency 2"
+msgstr "Hiệu Suất Oxy Hóa 2"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_3
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_3"
+msgid "Oxidizer Efficiency 3"
+msgstr "Hiệu Suất Oxy Hóa 3"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_4
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_4"
+msgid "Oxidizer Efficiency 4"
+msgstr "Hiệu Suất Oxy Hóa 4"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_5
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_5"
+msgid "Oxidizer Efficiency 5"
+msgstr "Hiệu Suất Oxy Hóa 5"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_6
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_6"
+msgid "Oxidizer Efficiency 6"
+msgstr "Hiệu Suất Oxy Hóa 6"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERLOXTANK
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERLOXTANK"
+msgid "Supercooled Liquid Oxidizer"
+msgstr "Chất Oxy Hóa Lỏng Siêu Lạnh"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL"
+msgid "Radiation Shielding"
+msgstr "Chắn Phóng Xạ"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL_DESC"
+msgid "Materials that posses great radiation shielding properties"
+msgstr "Vật liệu sở hữu đặc tính chắn phóng xạ tuyệt vời"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ROCKETFUELMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ROCKETFUELMATERIAL"
+msgid "Rocket Fuel"
+msgstr "Nhiên Liệu Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT"
+msgid "Burns any <link=\"COMBUSTIBLELIQUID\">Combustible Liquid</link> to propel rockets for mid-range space exploration.\n\nPetroleum Engines have generous height restrictions, ideal for hauling many modules.\n\nEngine must be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>. \n\nOnce the engine has been built, more rocket modules can be added."
+msgstr "Đốt bất kỳ <link=\"COMBUSTIBLELIQUID\">Chất Lỏng Dễ Cháy</link> nào để đẩy tên lửa cho các chuyến thám hiểm không gian tầm trung.\n\nĐộng Cơ Dầu Hỏa có giới hạn chiều cao rộng rãi, lý tưởng để chở nhiều khoang.\n\nĐộng cơ phải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>. \n\nSau khi động cơ được xây, có thể thêm nhiều khoang tên lửa hơn."
+
+#. Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT"
+msgid "Burns any <link=\"COMBUSTIBLELIQUID\">Combustible Liquid</link> to propel rockets for mid-range space exploration.\n\nSmall Petroleum Engines possess the same speed as a <link=\"KEROSENEENGINE\">Petroleum Engines</link> but have smaller height restrictions.\n\nEngine must be built via <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>. \n\nOnce the engine has been built, more rocket modules can be added."
+msgstr "Đốt bất kỳ <link=\"COMBUSTIBLELIQUID\">Chất Lỏng Dễ Cháy</link> nào để đẩy tên lửa cho các chuyến thám hiểm không gian tầm trung.\n\nĐộng Cơ Dầu Hỏa Nhỏ có tốc độ tương đương <link=\"KEROSENEENGINE\">Động Cơ Dầu Hỏa</link> nhưng giới hạn chiều cao nhỏ hơn.\n\nĐộng cơ phải được xây thông qua <link=\"LAUNCHPAD\">Bệ phóng tên lửa</link>. \n\nSau khi động cơ được xây, có thể thêm nhiều khoang tên lửa hơn."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TITLE"
+msgid "Buff Large Oxidizer Module"
+msgstr "Tăng Cường Khoang Oxy Hóa Lớn"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TOOLTIP"
+msgid "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg."
+msgstr "Tăng dung lượng lưu trữ của Khoang Oxy Hóa lớn từ 900kg lên 1350kg."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TITLE"
+msgid "Cargobay logic ports"
+msgstr "Cổng logic khoang hàng hóa"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TOOLTIP"
+msgid "Cargobays get two logic output ports, one for \"is full\" and one for \"is empty\""
+msgstr "Khoang hàng hóa có hai cổng xuất logic, một cho \"đã đầy\" và một cho \"đã trống\""
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.COLLOSSALCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.COLLOSSALCARGOBAYUNITS"
+msgid "Collossal Cargo Bay Units"
+msgstr "Đơn Vị Khoang Hàng Hóa Khổng Lồ"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.GASCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.GASCARGOBAYKGPERUNIT"
+msgid "Gas Cargobay KG/Unit"
+msgstr "Khoang Hàng Hóa Khí KG/Đơn Vị"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.LIQUIDCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.LIQUIDCARGOBAYKGPERUNIT"
+msgid "Liquid Cargobay KG/Unit"
+msgstr "Khoang Hàng Hóa Lỏng KG/Đơn Vị"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.MEDIUMCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.MEDIUMCARGOBAYUNITS"
+msgid "Large Cargo Bay Units"
+msgstr "Đơn Vị Khoang Hàng Hóa Lớn"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SMALLCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SMALLCARGOBAYUNITS"
+msgid "Small Cargo Bay Units"
+msgstr "Đơn Vị Khoang Hàng Hóa Nhỏ"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SOLIDCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SOLIDCARGOBAYKGPERUNIT"
+msgid "Solid Cargobay KG/Unit"
+msgstr "Khoang Hàng Hóa Rắn KG/Đơn Vị"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP"
+msgid "Amount of Cargo Units in this Cargo Bay Size"
+msgstr "Số Lượng Đơn Vị Hàng Hóa trong Kích Thước Khoang Hàng Hóa này"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION"
+msgid "Only has an effect if the option \"Rebalanced Cargo Bays\" is enabled.\nCargo bay capacity is calculated by \"Unit-KG * Cargobay-Unit-Count\"\nUnit-Count per size:\n- Small: 9 Units\n- Large: 28 Units\n- Colossal: 64 Units.\n\nAdjust the Unit-KG for this cargo bay type below."
+msgstr "Chỉ có tác dụng nếu tùy chọn \"Cân Bằng Lại Khoang Hàng Hóa\" được bật.\nDung lượng khoang hàng hóa được tính bằng \"Đơn Vị-KG * Số Đơn Vị Khoang Hàng Hóa\"\nSố Đơn Vị theo kích thước:\n- Nhỏ: 9 Đơn Vị\n- Lớn: 28 Đơn Vị\n- Khổng Lồ: 64 Đơn Vị.\n\nĐiều chỉnh Đơn Vị-KG cho loại khoang hàng hóa này bên dưới."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS"
+msgid "Rocketry Vanilla+"
+msgstr "Rocketry Vanilla+"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING"
+msgid "Mining & Shipping"
+msgstr "Khai Thác & Vận Chuyển"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS"
+msgid "Fuel & Logistics"
+msgstr "Nhiên Liệu & Hậu Cần"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY"
+msgid "Power & Utility"
+msgstr "Điện & Tiện Ích"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION"
+msgid "Space Expansion"
+msgstr "Mở Rộng Không Gian"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.F_EASTEREGGS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.F_EASTEREGGS"
+msgid "Easter Eggs"
+msgstr "Trứng Phục Sinh"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TITLE"
+msgid "Compress Interiors & Remove Rocket Limit"
+msgstr "Nén Nội Thất & Bỏ Giới Hạn Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TOOLTIP"
+msgid "Removes the rocket limit of 16 and trims excessive space outside of the rocket walls in spacefarer interiors\nRequired for space stations."
+msgstr "Loại bỏ giới hạn 16 khoang của tên lửa và cắt bớt không gian thừa bên ngoài tường tên lửa trong nội thất khoang phi hành gia\nCần thiết cho trạm không gian."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TITLE"
+msgid "Critter Containment Module Capacity"
+msgstr "Dung Lượng Khoang Chứa Sinh Vật"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TOOLTIP"
+msgid "Amount of critters the module can hold at once"
+msgstr "Số lượng sinh vật khoang có thể chứa cùng lúc"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TITLE"
+msgid "Service Module Drilling Speed Buff"
+msgstr "Tăng Tốc Độ Khoan của Khoang Bảo Dưỡng"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TOOLTIP"
+msgid "Determines the drilling speed boost the drillcone service module provides to diamond fueled drillcones in percent"
+msgstr "Xác định mức tăng tốc độ khoan mà khoang bảo dưỡng mũi khoan cung cấp cho mũi khoan chạy kim cương, tính theo phần trăm"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TITLE"
+msgid "Service Module Diamond Capacity"
+msgstr "Dung Lượng Kim Cương của Khoang Bảo Dưỡng"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP"
+msgid "Determines the diamond capacity of the drillcone service module in KG"
+msgstr "Xác định dung lượng kim cương của khoang bảo dưỡng mũi khoan, tính theo KG"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TITLE"
+msgid "Improved World Selector"
+msgstr "Bộ Chọn Thế Giới Cải Tiến"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TOOLTIP"
+msgid "Makes world selector planets collapsible and improves internal performance.\nRequired for space stations."
+msgstr "Làm cho các hành tinh trong bộ chọn thế giới có thể thu gọn và cải thiện hiệu năng nội bộ.\nCần thiết cho trạm không gian."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBOOSTERS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBOOSTERS.TITLE"
+msgid "Enable Booster Modules"
+msgstr "Bật Khoang Gia Tốc"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBUNKERPLATFORM.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBUNKERPLATFORM.TITLE"
+msgid "Enable Fortified & Advanced Rocket Platform"
+msgstr "Bật Bệ Phóng Tên Lửa Kiên Cố & Nâng Cao"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLECRITTERSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLECRITTERSTORAGE.TITLE"
+msgid "Enable Critter Containment Module"
+msgstr "Bật Khoang Chứa Sinh Vật"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEDRILLSUPPORT.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEDRILLSUPPORT.TITLE"
+msgid "Enable Drillcone Service Module"
+msgstr "Bật Khoang Bảo Dưỡng Mũi Khoan"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEARLYGAMEFUELTANKS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEARLYGAMEFUELTANKS.TITLE"
+msgid "Enable early game Fuel Tanks"
+msgstr "Bật Bình Nhiên Liệu Đầu Game"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEELECTRICENGINE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEELECTRICENGINE.TITLE"
+msgid "Enable Ion Engine"
+msgstr "Bật Động Cơ Ion"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEXTENDEDHABS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEXTENDEDHABS.TITLE"
+msgid "Enable extra Spacefarer Modules"
+msgstr "Bật thêm Khoang Phi Hành Gia"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFRIDGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFRIDGE.TITLE"
+msgid "Enable Fridge Module"
+msgstr "Bật Khoang Đông Lạnh"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFUELLOADERS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFUELLOADERS.TITLE"
+msgid "Enable Fuel Loaders"
+msgstr "Bật Bộ Nạp Nhiên Liệu"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE"
+msgid "Enable Generator Modules"
+msgstr "Bật Khoang Máy Phát"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELARGECARGOBAYS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELARGECARGOBAYS.TITLE"
+msgid "Enable Large Cargo Modules"
+msgstr "Bật Khoang Hàng Hóa Lớn"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELASERDRILL.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELASERDRILL.TITLE"
+msgid "Enable Laser Drillcone"
+msgstr "Bật Mũi Khoan Laser"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLENATGASENGINE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLENATGASENGINE.TITLE"
+msgid "Enable Natural Gas Engine"
+msgstr "Bật Động Cơ Khí Tự Nhiên"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEPOISENSOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEPOISENSOR.TITLE"
+msgid "Enable POI Capacity Sensor"
+msgstr "Bật Cảm Biến Dung Lượng POI"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLERADBOLTSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLERADBOLTSTORAGE.TITLE"
+msgid "Enable Radbolt Storage Module"
+msgstr "Bật Khoang Lưu Trữ Radbolt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TITLE"
+msgid "Loader Logic Output"
+msgstr "Đầu Ra Logic Bộ Nạp"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TOOLTIP"
+msgid "Add a logic output to rocket loader buildings that outputs whether or not the loader is currently active."
+msgstr "Thêm cổng xuất logic vào các công trình nạp tên lửa để xuất tín hiệu cho biết bộ nạp có đang hoạt động hay không."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESMOLBATTERY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESMOLBATTERY.TITLE"
+msgid "Enable Small Battery Module"
+msgstr "Bật Khoang Pin Nhỏ"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESOLARNOSECONE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESOLARNOSECONE.TITLE"
+msgid "Enable Solar Nosecone"
+msgstr "Bật Mũi Tên Lửa Năng Lượng Mặt Trời"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEWALLADAPTER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEWALLADAPTER.TITLE"
+msgid "Enable Rocket Port Adapters"
+msgstr "Bật Bộ Chuyển Cổng Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TITLE"
+msgid "Burn Combustible Liquids as fuel"
+msgstr "Đốt Chất Lỏng Dễ Cháy làm nhiên liệu"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TOOLTIP"
+msgid "Allows Petroleum Engines to also burn other combustible liquids as fuel."
+msgstr "Cho phép Động Cơ Dầu Hỏa đốt thêm các chất lỏng dễ cháy khác làm nhiên liệu."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TITLE"
+msgid "Habitat Interior Port Improvements"
+msgstr "Cải Tiến Cổng Nội Thất Khu Sinh Hoạt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TOOLTIP"
+msgid "Rocket Connectors count as Rocket Wall for buildings that can only be attached to it.\nRocket Ports block the same amount of radiation as rocket wall"
+msgstr "Bộ Kết Nối Tên Lửa được tính là Tường Tên Lửa cho các công trình chỉ có thể gắn vào đó.\nCổng Tên Lửa chặn lượng phóng xạ bằng tường tên lửa"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TITLE"
+msgid "Spacefarer Habitat Radiation"
+msgstr "Phóng Xạ Khu Sinh Hoạt Phi Hành Gia"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TOOLTIP"
+msgid "Rocket interior radiation is defined by the radiation outside when landed."
+msgstr "Phóng xạ nội thất tên lửa được xác định bởi phóng xạ bên ngoài khi đã hạ cánh."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TITLE"
+msgid "Spacefarer Power Connector"
+msgstr "Cổng Điện Phi Hành Gia"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TOOLTIP"
+msgid "Add a power connector to the habitat modules."
+msgstr "Thêm cổng điện vào các khoang sinh hoạt."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TITLE"
+msgid "Infinite POI Mining Capacity"
+msgstr "Dung Lượng Khai Thác POI Vô Hạn"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TOOLTIP"
+msgid "Capacity of mineable POIs becomes infinite. Does not affect artifacts."
+msgstr "Dung lượng của POI có thể khai thác trở thành vô hạn. Không ảnh hưởng đến cổ vật."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TITLE"
+msgid "Insulated Cargo Bays"
+msgstr "Khoang Hàng Hóa Cách Nhiệt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TOOLTIP"
+msgid "Contents of Cargo Bay modules are insulated from their surroundings"
+msgstr "Nội dung của các khoang hàng hóa được cách nhiệt khỏi môi trường xung quanh"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TITLE"
+msgid "Radioisotope Decay time"
+msgstr "Thời Gian Phân Rã Đồng Vị Phóng Xạ"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TOOLTIP"
+msgid "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed."
+msgstr "Thời gian tính theo chu kỳ để toàn bộ uranium làm giàu trong RTG phân rã thành uranium đã cạn kiệt. RTG cần nạp lại nếu toàn bộ uranium làm giàu đã phân rã."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TITLE"
+msgid "Laser Drillcone Capacity"
+msgstr "Dung Lượng Mũi Khoan Laser"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP"
+msgid "The total amount of radbolts the Laser Drillcone can hold\nThe Laser Drillcone mines 4kg of material per radbolt"
+msgstr "Tổng lượng radbolt mà Mũi Khoan Laser có thể chứa\nMũi Khoan Laser khai thác 4kg vật liệu mỗi radbolt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TITLE"
+msgid "Laser Drillcone Speed"
+msgstr "Tốc Độ Mũi Khoan Laser"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TOOLTIP"
+msgid "Mining speed in Kg/s for the Laser Drillcone. (For reference; the vanilla drillcone mines at 7.5kg/s)."
+msgstr "Tốc độ khai thác tính bằng Kg/s cho Mũi Khoan Laser. (Để tham khảo; mũi khoan gốc khai thác ở 7.5kg/s)."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TITLE"
+msgid "Natural Gas Engine Range"
+msgstr "Tầm Hoạt Động Động Cơ Khí Tự Nhiên"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TOOLTIP"
+msgid "Set the max range of a natural gas engine."
+msgstr "Đặt tầm hoạt động tối đa của động cơ khí tự nhiên."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TITLE"
+msgid "Neutronium Alloy"
+msgstr "Hợp Kim Neutronium"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TOOLTIP"
+msgid "Gather Neutronium Dust by analyzing artifacts and refine it into Neutronium Alloy.\nNeutronium Alloys are required in the construction of large space structures"
+msgstr "Thu thập Bụi Neutronium bằng cách phân tích cổ vật và luyện thành Hợp Kim Neutronium.\nHợp Kim Neutronium cần thiết trong xây dựng các cấu trúc không gian lớn"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TITLE"
+msgid "Pilot Skill affects Mining Speed"
+msgstr "Kỹ Năng Phi Công ảnh hưởng đến Tốc Độ Khai Thác"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TOOLTIP"
+msgid "The pilots' piloting and digging skills affect the drilling speed of the drillcone.\nApplies to all drillcone types"
+msgstr "Kỹ năng lái và đào của phi công ảnh hưởng đến tốc độ khai thác của mũi khoan.\nÁp dụng cho mọi loại mũi khoan"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TITLE"
+msgid "Radbolt Storage Module Capacity"
+msgstr "Dung Lượng Khoang Lưu Trữ Radbolt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TOOLTIP"
+msgid "Set the total radbolt capacity of the Radbolt Chamber Module."
+msgstr "Đặt tổng dung lượng radbolt của Khoang Buồng Radbolt."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TITLE"
+msgid "Rebalanced Cargobay Capacity"
+msgstr "Cân Bằng Lại Dung Lượng Khoang Hàng Hóa"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TOOLTIP"
+msgid "Cargo Bays have increased and rebalanced Cargo Capacity"
+msgstr "Khoang Hàng Hóa có Dung Lượng Hàng Hóa tăng và được cân bằng lại"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TITLE"
+msgid "Refill Service Module via Conveyor"
+msgstr "Nạp Lại Khoang Bảo Dưỡng qua Băng Chuyền"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TOOLTIP"
+msgid "Refill the service module with diamonds during the flight via interior conveyor wall port."
+msgstr "Nạp lại khoang bảo dưỡng bằng kim cương trong lúc bay qua cổng tường băng chuyền nội thất."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TITLE"
+msgid "Enable Rocket Docking"
+msgstr "Bật Kết Nối Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TOOLTIP"
+msgid "Dock rockets in space to transfer dupes and contents of the interiors"
+msgstr "Kết nối tên lửa trong không gian để chuyển đệ và nội dung nội thất"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TITLE"
+msgid "Rocket Module Upgrades"
+msgstr "Nâng Cấp Khoang Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TOOLTIP"
+msgid "Adds a number of upgrades that can be applied to various rocket modules to improve them."
+msgstr "Thêm một số nâng cấp có thể áp dụng cho nhiều khoang tên lửa khác nhau để cải thiện chúng."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TITLE"
+msgid "Cartographic Module Scan Range"
+msgstr "Tầm Quét Khoang Bản Đồ"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TOOLTIP"
+msgid "Cartographic Modules will scan hexes in this radius."
+msgstr "Khoang Bản Đồ sẽ quét các ô lục giác trong bán kính này."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TITLE"
+msgid "Cartographic Module Scan Speed"
+msgstr "Tốc Độ Quét Khoang Bản Đồ"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TOOLTIP"
+msgid "Time it takes for the module to reveal one hex in cycles."
+msgstr "Thời gian tính theo chu kỳ để khoang tiết lộ một ô lục giác."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TITLE"
+msgid "Slim Rockets"
+msgstr "Tên Lửa Thon Gọn"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TOOLTIP"
+msgid "Rocket Modules that are wider than 5 tiles (Steam, Hydrogen, Petrol Engine) are reduced to 5 width."
+msgstr "Các Khoang Tên Lửa rộng hơn 5 ô (Hơi Nước, Hydro, Động Cơ Xăng) được giảm xuống còn 5 chiều rộng."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TITLE"
+msgid "[ALPHA] Space Stations & Deep Space Science"
+msgstr "[ALPHA] Trạm Không Gian & Khoa Học Không Gian Sâu"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TOOLTIP"
+msgid "Unlocks space stations. This feature is work in progress, unfinished and might contain bugs.\nRequires Neutronium Alloy, Compressed Interiors, advanced world selector to activate"
+msgstr "Mở khóa trạm không gian. Tính năng này đang trong quá trình phát triển, chưa hoàn thiện và có thể chứa lỗi.\nCần Hợp Kim Neutronium, Nội Thất Nén, bộ chọn thế giới nâng cao để kích hoạt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TITLE"
+msgid "Dune Spice"
+msgstr "Gia Vị Xứ Dune"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TOOLTIP"
+msgid "When consuming Rocketeer Spice, Dupes will gain the spice eyes from Dune."
+msgstr "Khi tiêu thụ Gia Vị Rocketeer, Đệ sẽ có đôi mắt gia vị từ Dune."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI"
+msgid "Toggle to enable/disable these modules in the building menu"
+msgstr "Chuyển đổi để bật/tắt các khoang này trong menu xây dựng"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE"
+msgid "Toggle to enable/disable this module in the building menu"
+msgstr "Chuyển đổi để bật/tắt khoang này trong menu xây dựng"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TITLE"
+msgid "Vertical Port Adapter Ladder"
+msgstr "Thang Chuyển Cổng Dọc"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TOOLTIP"
+msgid "The vertical port adapter allows duplicants to climb it"
+msgstr "Bộ chuyển cổng dọc cho phép Đệ leo lên nó"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_CARGOBAYFILTERTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_CARGOBAYFILTERTECH.DESC"
+msgid "Lets bring home ONLY THOSE minerals."
+msgstr "Mang về CHỈ NHỮNG khoáng sản đó."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_CARGOBAYFILTERTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_CARGOBAYFILTERTECH.NAME"
+msgid "<link=\"RTBCARGOBAYFILTERTECH\">Cargo Bay Collection Filters</link>"
+msgstr "<link=\"RTBCARGOBAYFILTERTECH\">Bộ Lọc Thu Thập Khoang Hàng Hóa</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.DESC"
+msgid "Dock with other spacecrafts"
+msgstr "Kết nối với tàu vũ trụ khác"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.NAME"
+msgid "<link=\"RTBDOCKINGTECH\">Celestial Connection</link>"
+msgstr "<link=\"RTBDOCKINGTECH\">Kết Nối Thiên Thể</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.DESC"
+msgid "Automatically refuel your rockets with these Loaders.\nCan be placed inside a space station."
+msgstr "Tự động nạp lại nhiên liệu cho tên lửa bằng các Bộ Nạp này.\nCó thể đặt bên trong trạm không gian."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.NAME"
+msgid "<link=\"RTBFUELLOADERSTECH\">Fuel Loaders</link>"
+msgstr "<link=\"RTBFUELLOADERSTECH\">Bộ Nạp Nhiên Liệu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.DESC"
+msgid "Lets bring home ALL those minerals."
+msgstr "Mang về TẤT CẢ khoáng sản đó."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.NAME"
+msgid "<link=\"RTBLARGESPACESTATIONTECH\">Thinking Larger</link>"
+msgstr "<link=\"RTBLARGESPACESTATIONTECH\">Nghĩ Lớn Hơn</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.DESC"
+msgid "All the living space a dupe could ask for, now in your rocket."
+msgstr "Toàn bộ không gian sống mà một Đệ có thể mong muốn, giờ có trong tên lửa của bạn."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.NAME"
+msgid "<link=\"RTBLARGERROCKETLIVINGSPACETECH\">Luxurious Liv'in Space</link>"
+msgstr "<link=\"RTBLARGERROCKETLIVINGSPACETECH\">Không Gian Sống Sang Trọng</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.DESC"
+msgid "Conquering the depths of space"
+msgstr "Chinh phục độ sâu của không gian"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.NAME"
+msgid "<link=\"RTBLARGESPACESTATIONTECH\">Deep Space Expansion</link>"
+msgstr "<link=\"RTBLARGESPACESTATIONTECH\">Mở Rộng Không Gian Sâu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.DESC"
+msgid "Extending the perspective"
+msgstr "Mở rộng tầm nhìn"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.NAME"
+msgid "<link=\"RTBMEDIUMSPACESTATIONTECH\">Deep Space Colonization</link>"
+msgstr "<link=\"RTBMEDIUMSPACESTATIONTECH\">Định Cư Không Gian Sâu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESCIENCETECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESCIENCETECH.DESC"
+msgid "We have to go deeper!\nVery much WIP filler tech"
+msgstr "Chúng ta phải đào sâu hơn nữa!\nĐây là công nghệ WIP còn nhiều thiếu sót"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESCIENCETECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESCIENCETECH.NAME"
+msgid "<link=\"RTBSPACESCIENCETECH\">Deep Space Research</link>"
+msgstr "<link=\"RTBSPACESCIENCETECH\">Nghiên Cứu Không Gian Sâu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.DESC"
+msgid "Mysterious Artifacts have shown new perspectives on living in the vast emptyness"
+msgstr "Những Cổ Vật Bí Ẩn đã hé lộ góc nhìn mới về việc sinh sống trong khoảng không bao la"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.NAME"
+msgid "<link=\"RTBSPACESTATIONTECH\">Deep Space Exploration</link>"
+msgstr "<link=\"RTBSPACESTATIONTECH\">Khám Phá Không Gian Sâu</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.ARTIFACT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.ARTIFACT"
+msgid "\n• 1 artifact storage"
+msgstr "\n• 1 kho lưu trữ cổ vật"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGO"
+msgid "\n• {0} Critters storage"
+msgstr "\n• {0} kho lưu trữ Sinh Vật"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE"
+msgid "\n• 1 Critter storage"
+msgstr "\n• 1 kho lưu trữ Sinh Vật"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELELEMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELELEMENT"
+msgid "\n• {0} of {1} fuel storage"
+msgstr "\n• {0} trên {1} kho lưu trữ nhiên liệu"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELGAS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELGAS"
+msgid "\n• {0} of gas fuel storage"
+msgstr "\n• {0} kho lưu trữ nhiên liệu khí"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELLIQUID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELLIQUID"
+msgid "\n• {0} of liquid fuel storage"
+msgstr "\n• {0} kho lưu trữ nhiên liệu lỏng"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELSOLID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELSOLID"
+msgid "\n• {0} of solid fuel storage"
+msgstr "\n• {0} kho lưu trữ nhiên liệu rắn"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.GASDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.GASDCARGO"
+msgid "\n• {0} of gas storage"
+msgstr "\n• {0} kho lưu trữ khí"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.LIQUIDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.LIQUIDCARGO"
+msgid "\n• {0} of liquid storage"
+msgstr "\n• {0} kho lưu trữ chất lỏng"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERELEMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERELEMENT"
+msgid "\n• {0} of {1} oxidizer storage"
+msgstr "\n• {0} trên {1} kho lưu trữ chất oxy hóa"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERGAS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERGAS"
+msgid "\n• {0} of gas oxidizer storage"
+msgstr "\n• {0} kho lưu trữ chất oxy hóa khí"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERLIQUID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERLIQUID"
+msgid "\n• {0} of liquid oxidizer storage"
+msgstr "\n• {0} kho lưu trữ chất oxy hóa lỏng"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERSOLID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERSOLID"
+msgid "\n• {0} of solid oxidizer storage"
+msgstr "\n• {0} kho lưu trữ chất oxy hóa rắn"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERTAG
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERTAG"
+msgid "\n• {0} of {1} storage"
+msgstr "\n• {0} trên {1} kho lưu trữ"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.POWER"
+msgid "\n• {0} power storage"
+msgstr "\n• {0} kho lưu trữ điện"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.RADBOLTS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.RADBOLTS"
+msgid "\n• {0} radbolt storage"
+msgstr "\n• {0} kho lưu trữ radbolt"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.SOLIDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.SOLIDCARGO"
+msgid "\n• {0} of solid storage"
+msgstr "\n• {0} kho lưu trữ chất rắn"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.TITLE"
+msgid "<b>Module Storage:</b>"
+msgstr "<b>Lưu Trữ Khoang:</b>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.CARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.CARGO"
+msgid "Cargo & Storage"
+msgstr "Hàng Hóa & Lưu Trữ"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.DEPLOYABLES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.DEPLOYABLES"
+msgid "Deployables"
+msgstr "Có Thể Triển Khai"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.ENGINES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.ENGINES"
+msgid "Rocket Engines"
+msgstr "Động Cơ Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.FUEL
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.FUEL"
+msgid "Fuel & Oxidizer Tanks"
+msgstr "Bình Nhiên Liệu & Chất Oxy Hóa"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.HABITATS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.HABITATS"
+msgid "Command Modules"
+msgstr "Khoang Điều Khiển"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.NOSECONES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.NOSECONES"
+msgid "Nosecones"
+msgstr "Mũi Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.POWER"
+msgid "Power Storage & Production"
+msgstr "Lưu Trữ & Sản Xuất Điện"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.PRODUCTION"
+msgid "Production"
+msgstr "Sản Xuất"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UNCATEGORIZED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UNCATEGORIZED"
+msgid "Uncategorized"
+msgstr "Chưa Phân Loại"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UTILITY"
+msgid "Utility"
+msgstr "Tiện Ích"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO"
+msgid "All those resources, but where to put them?\nStore them within these modules."
+msgstr "Tất cả tài nguyên đó, nhưng để chúng ở đâu?\nCất chúng trong các khoang này."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES"
+msgid "Colonizing new worlds needs some perimeter establishment.\nThese modules help with deployment."
+msgstr "Định cư thế giới mới cần thiết lập vành đai.\nCác khoang này giúp việc triển khai."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES"
+msgid "Every rocket has to fly somehow.\nA rocket engine provides the necessary thrust.\nA Rocket needs atleast one of these!"
+msgstr "Mỗi tên lửa đều phải bay bằng cách nào đó.\nĐộng cơ tên lửa cung cấp lực đẩy cần thiết.\nMột Tên Lửa cần ít nhất một trong số này!"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL"
+msgid "A rocket without fuel or oxidizer won't fly far.\nThese modules help you with that."
+msgstr "Tên lửa không nhiên liệu hoặc chất oxy hóa sẽ không bay được xa.\nCác khoang này giúp bạn điều đó."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS"
+msgid "Strapped to the side, a pilot wouldn't survive long.\nBuild them a nice home to live in a Spacefarer .\nA Rocket needs atleast one of these!"
+msgstr "Buộc chặt bên hông, một phi công sẽ không sống sót lâu.\nHãy xây cho họ một ngôi nhà tử tế để sống trong Khoang Phi Hành Gia.\nMột Tên Lửa cần ít nhất một trong số này!"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES"
+msgid "When not using a habitat nosecone,\nthe rocket needs one of these\nto keep it's tip nicely shaped."
+msgstr "Khi không dùng mũi tên lửa khoang lái,\ntên lửa cần một trong số này\nđể giữ đầu tên lửa gọn gàng."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER"
+msgid "Without power the lights inside of the rocket won't turn on\nThese modules help you store electricity, some even generate it."
+msgstr "Không có điện, đèn bên trong tên lửa sẽ không sáng\nCác khoang này giúp bạn lưu trữ điện, một số còn tạo ra điện."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION"
+msgid "Just bring the production with you!\nThese modules can produce something."
+msgstr "Chỉ cần mang theo sản xuất!\nCác khoang này có thể sản xuất thứ gì đó."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.REQUIRED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.REQUIRED"
+msgid "\nA Rocket needs atleast one of these!"
+msgstr "\nMột Tên Lửa cần ít nhất một trong số này!"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED"
+msgid "What do these do?\n(not properly categorized, contact the author of that mod)"
+msgstr "Những thứ này làm gì?\n(chưa được phân loại đúng, liên hệ tác giả mod đó)"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY"
+msgid "These modules add some nice utility functions to your rocket."
+msgstr "Các khoang này thêm một số chức năng tiện ích hay ho cho tên lửa của bạn."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.POWER_PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.POWER_PRODUCTION"
+msgid "\n• {0} power production"
+msgstr "\n• {0} sản xuất điện"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.TITLE"
+msgid "<b>Module Boni:</b>"
+msgstr "<b>Điểm Thưởng Khoang:</b>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.SEARCHBARFILLER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.SEARCHBARFILLER"
+msgid "Search all modules..."
+msgstr "Tìm kiếm tất cả khoang..."
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.EFFECT"
+msgid "- Efficiency bonus"
+msgstr "- Thưởng hiệu suất"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.NAME"
+msgid "Orbital Research Lab"
+msgstr "Phòng Nghiên Cứu Quỹ Đạo"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.CONFLICT_DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.CONFLICT_DESCRIPTION"
+msgid "Four <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">science buildings</link>"
+msgstr "Bốn <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">công trình khoa học</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.DESCRIPTION"
+msgid "Requires four or more science buildings"
+msgstr "Cần bốn công trình khoa học trở lên"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.NAME"
+msgid "Four <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">science buildings</link>"
+msgstr "Bốn <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">công trình khoa học</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.TOOLTIP"
+msgid "Science buildings built in an Orbital Research Lab function more efficiently\n\nAn Orbital Research Lab enables Deep Space Analyzer use"
+msgstr "Công trình khoa học xây trong Phòng Nghiên Cứu Quỹ Đạo hoạt động hiệu quả hơn\n\nPhòng Nghiên Cứu Quỹ Đạo cho phép sử dụng Máy Phân Tích Không Gian Sâu"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE"
+msgid "Extra green signal at"
+msgstr "Tín hiệu xanh thêm tại"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.PROJECTSCONTAINER.SCROLLRECTCONTAINER.PARTCONTAINERPREFAB.ROW1.CONSTRUCTBTN.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.PROJECTSCONTAINER.SCROLLRECTCONTAINER.PARTCONTAINERPREFAB.ROW1.CONSTRUCTBTN.LABEL"
+msgid "Start Project"
+msgstr "Bắt Đầu Dự Án"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT"
+msgid "Available Construction Projects"
+msgstr "Dự Án Xây Dựng Khả Dụng"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT"
+msgid "Available Docking Ports: {0} / {1}"
+msgstr "Cổng Kết Nối Khả Dụng: {0} / {1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.DOCKINGTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.DOCKINGTOOLTIP"
+msgid "Dock to this craft."
+msgstr "Kết nối với tàu này."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW1.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW1.TITLETEXT"
+msgid "{SpacecraftName}"
+msgstr "{SpacecraftName}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.TRANSFERBUTTON.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.TRANSFERBUTTON.LABEL"
+msgid "Transfer Duplicants between Crafts"
+msgstr "Chuyển Đệ giữa các Tàu"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.LABEL"
+msgid "View docked Interior"
+msgstr "Xem Nội Thất đã kết nối"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIP"
+msgid "View the interior this docking tube is currently connected to."
+msgstr "Xem nội thất mà ống kết nối này hiện đang kết nối tới."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIPNOINTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIPNOINTERIOR"
+msgid "No interior found"
+msgstr "Không tìm thấy nội thất"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.UNDOCKINGTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.UNDOCKINGTOOLTIP"
+msgid "Undock from this craft."
+msgstr "Ngắt kết nối khỏi tàu này."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.TITLE.TITLETEXT"
+msgid "Docking Management"
+msgstr "Quản Lý Kết Nối"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.ASSIGNTOOTHERBUTTONTEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.ASSIGNTOOTHERBUTTONTEXT"
+msgid "Assign Duplicant to the other Spacecraft"
+msgstr "Chỉ Định Đệ cho Tàu Vũ Trụ khác"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADERDOCKED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADERDOCKED.TITLETEXT"
+msgid "Duplicants assigned the docked Spacecraft:"
+msgstr "Đệ được chỉ định cho Tàu Vũ Trụ đã kết nối:"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADEROWN.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADEROWN.TITLETEXT"
+msgid "Duplicants assigned to this Spacecraft:"
+msgstr "Đệ được chỉ định cho Tàu Vũ Trụ này:"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO"
+msgid "Duplicants assigned to \"{0}\""
+msgstr "Đệ được chỉ định cho \"{0}\""
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT"
+msgid "No Duplicants are currently assigned to this spacecraft."
+msgstr "Hiện không có Đệ nào được chỉ định cho tàu vũ trụ này."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TARGETDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TARGETDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT"
+msgid "No Duplicants are currently assigned to this spacecraft."
+msgstr "Hiện không có Đệ nào được chỉ định cho tàu vũ trụ này."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TITLE.TITLETEXT"
+msgid "Crew Management"
+msgstr "Quản Lý Phi Hành Đoàn"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.LABEL"
+msgid "Load via Cargo Loader"
+msgstr "Nạp qua Bộ Nạp Hàng Hóa"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.TOOLTIP"
+msgid "toggle between automatic and manual loading"
+msgstr "chuyển đổi giữa nạp tự động và thủ công"
+
+#. Rockets_TinyYetBig.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS"
+msgid "Rocket Modules"
+msgstr "Khoang Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.BUILDMENUTITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.BUILDMENUTITLE"
+msgid "Rocket Fueling"
+msgstr "Nạp Nhiên Liệu Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.NAME"
+msgid "Rocket Fueling"
+msgstr "Nạp Nhiên Liệu Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.BUILDMENUTITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.BUILDMENUTITLE"
+msgid "Rocket Module Upgrades"
+msgstr "Nâng Cấp Khoang Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.NAME"
+msgid "Rocket Module Upgrades"
+msgstr "Nâng Cấp Khoang Tên Lửa"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.RTB_MODULEUPGRADES.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_INTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_INTERIOR"
+msgid "Space station interior only"
+msgstr "Chỉ nội thất trạm không gian"
+
+#. Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_NOT_INTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_NOT_INTERIOR"
+msgid "Cannot build inside space station"
+msgstr "Không thể xây bên trong trạm không gian"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT"
+msgid "Active while landed"
+msgstr "Hoạt động ngay cả khi đã hạ cánh"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TITLE"
+msgid "Generator State"
+msgstr "Trạng Thái Máy Phát"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TOOLTIP"
+msgid "Toggle the Generator producing power while landed."
+msgstr "Chuyển đổi Máy Phát sản xuất điện khi đã hạ cánh."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.LABEL"
+msgid "Only collect filtered items"
+msgstr "Chỉ thu thập vật phẩm đã lọc"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP"
+msgid "When enabled, the cargo bay will only collect floating resources selected in its item filter."
+msgstr "Khi bật, khoang hàng hóa chỉ thu thập tài nguyên trôi nổi được chọn trong bộ lọc vật phẩm."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP_NOTCONSTRUCTED
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP_NOTCONSTRUCTED"
+msgid "Cargo bay filter upgrade not installed."
+msgstr "Chưa lắp nâng cấp bộ lọc khoang hàng hóa."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_DERELICTDISCOVERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_DERELICTDISCOVERED.NAME"
+msgid "Derelict Station Discovered!"
+msgstr "Phát Hiện Trạm Bỏ Hoang!"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_DERELICTDISCOVERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_DERELICTDISCOVERED.TOOLTIP"
+msgid "Amazing!\n\nMy Duplicants have discovered an abandoned derelict floating in space.\n\nI should send a space mission to investigate it."
+msgstr "Tuyệt vời!\n\nĐệ của tôi đã phát hiện một trạm bỏ hoang trôi nổi trong không gian.\n\nTôi nên gửi một nhiệm vụ không gian để điều tra nó."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_DISMANTLESTATIONPART.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_DISMANTLESTATIONPART.LABEL"
+msgid "Deconstruct stored part"
+msgstr "Tháo dỡ bộ phận đã lưu trữ"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_DISMANTLESTATIONPART.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_DISMANTLESTATIONPART.TOOLTIP"
+msgid "Dismantle the currently stored space station part back into its construction materials."
+msgstr "Tháo rời bộ phận trạm không gian đang lưu trữ trở lại thành vật liệu xây dựng."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_RESEACH_UNLOCK.TEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_RESEACH_UNLOCK.TEXT"
+msgid "Eureka! We've decrypted the abandoned station computer's salvageable data.\n\nWe now have the ability to construct habitat stations in the vast emptyness of space!\n\nNew Research has become available."
+msgstr "Tuyệt vời! Chúng ta đã giải mã dữ liệu có thể khôi phục từ máy tính trạm bỏ hoang.\n\nGiờ chúng ta có khả năng xây dựng trạm sinh hoạt trong khoảng không bao la của vũ trụ!\n\nNghiên cứu mới đã khả dụng."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.DUPLICATE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.DUPLICATE"
+msgid "Upgrade is already installed!"
+msgstr "Nâng cấp đã được lắp!"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INCOMPATIBLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INCOMPATIBLE"
+msgid "Upgrade not compatible with this module!"
+msgstr "Nâng cấp không tương thích với khoang này!"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INVALID
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INVALID"
+msgid "Unknown Upgrade - how did this happen?"
+msgstr "Nâng Cấp Không Xác Định - sao chuyện này lại xảy ra?"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELCONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELCONSTRUCTION"
+msgid "Cancel Construction"
+msgstr "Hủy Xây Dựng"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELDECONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELDECONSTRUCTION"
+msgid "Cancel Deconstruction"
+msgstr "Hủy Tháo Dỡ"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.PARTCOUNT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.PARTCOUNT"
+msgid "{0}/{1}"
+msgstr "{0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.TITLETEXT"
+msgid "Total Progress:"
+msgstr "Tổng Tiến Độ:"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABEL"
+msgid "Create new construction project"
+msgstr "Tạo dự án xây dựng mới"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABELCANCEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABELCANCEL"
+msgid "Cancel current construction project"
+msgstr "Hủy dự án xây dựng hiện tại"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.TITLETEXT"
+msgid "No space construction project here."
+msgstr "Không có dự án xây dựng không gian nào ở đây."
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTCONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTCONSTRUCTION"
+msgid "Start Construction"
+msgstr "Bắt Đầu Xây Dựng"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTDECONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTDECONSTRUCTION"
+msgid "Start Deconstruction"
+msgstr "Bắt Đầu Tháo Dỡ"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TIMEREMAINING
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TIMEREMAINING"
+msgid "{0} seconds remaining"
+msgstr "còn {0} giây"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TITLE.TITLETEXT"
+msgid "Space Construction"
+msgstr "Xây Dựng Không Gian"
+
+#. Rockets_TinyYetBig.STRINGS.UI.TOOLTIP_ADDON_RTB
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.TOOLTIP_ADDON_RTB"
+msgid "<color=#a0a0a0><b>Rocketry Expanded</b></color> Content"
+msgstr "<color=#a0a0a0><b>Rocketry Expanded</b></color> Nội Dung"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME"
+msgid "Battery Module Charge: {0}/{1}"
+msgstr "Điện Tích Khoang Pin: {0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULECOUNT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULECOUNT"
+msgid "Number of Modules: "
+msgstr "Số Lượng Khoang: "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULEORDER
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULEORDER"
+msgid "Rocket Modules:\n"
+msgstr "Khoang Tên Lửa:\n"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME"
+msgid "Height: {0}/{1}, max. Width: {2} "
+msgstr "Chiều Cao: {0}/{1}, Chiều Rộng tối đa: {2} "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_MAX_SUPPORTED
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_MAX_SUPPORTED"
+msgid "Maximum supported rocket height: "
+msgstr "Chiều cao tên lửa tối đa hỗ trợ: "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_RAW
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_RAW"
+msgid "Height: "
+msgstr "Chiều Cao: "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.TOOLTIP"
+msgid "The {0} can support a total rocket height {1}\nThe maximum width of the rocket is {2} tiles."
+msgstr "{0} có thể hỗ trợ tổng chiều cao tên lửa {1}\nChiều rộng tối đa của tên lửa là {2} ô."
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.NAME"
+msgid "Power Generation: {0}/{1}"
+msgstr "Sản Xuất Điện: {0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP"
+msgid "\n({0}/{1} fuel remaining)"
+msgstr "\n(còn {0}/{1} nhiên liệu)"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP2
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP2"
+msgid "\n(Check cargo bays for fuel type: {0})"
+msgstr "\n(Kiểm tra khoang hàng hóa cho loại nhiên liệu: {0})"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.DERELICS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.DERELICS"
+msgid "Derelics"
+msgstr "Bỏ Hoang"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS"
+msgid "Rockets in space"
+msgstr "Tên lửa trong không gian"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.COMPLETE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.COMPLETE"
+msgid ""
+msgstr ""
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.FAILED
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.FAILED"
+msgid "    • There already is a module of this type on this rocket"
+msgstr "    • Đã có một khoang loại này trên tên lửa rồi"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTON
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTON"
+msgid "Flush Generator Fuel"
+msgstr "Xả Nhiên Liệu Máy Phát"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTONINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTONINFO"
+msgid "Empties the generators storage to allow a refill."
+msgstr "Làm rỗng kho lưu trữ của máy phát để cho phép nạp lại."
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.DESC"
+msgid "This construction site will produce a {0} once all these parts are assembled:"
+msgstr "Công trình xây dựng này sẽ tạo ra {0} khi tất cả các bộ phận này được lắp ráp xong:"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.TITLE"
+msgid "Space Construction Site"
+msgstr "Công Trình Xây Dựng Không Gian"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE"
+msgid "Space Station"
+msgstr "Trạm Không Gian"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE_DERELICT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE_DERELICT"
+msgid "Derelict Station"
+msgstr "Trạm Bỏ Hoang"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_DERELICT_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_DERELICT_TOOLTIP"
+msgid "View Oversee Derelict Interior"
+msgstr "Xem Giám Sát Nội Thất Bỏ Hoang"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DERELICT_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DERELICT_DESC"
+msgid "Oversee Derelict Interior"
+msgstr "Giám Sát Nội Thất Bỏ Hoang"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DESC"
+msgid "Oversee Station Interior"
+msgstr "Giám Sát Nội Thất Trạm"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP"
+msgid "View Space Station Interior"
+msgstr "Xem Nội Thất Trạm Không Gian"

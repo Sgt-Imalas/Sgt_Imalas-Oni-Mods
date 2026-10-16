@@ -1,13 +1,7 @@
-﻿using HarmonyLib;
-using KSerialization;
+﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -205,6 +199,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.DescriptionFunc(RandomRecipeProducts.GetChemicalBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
+			///siltstone is similar to sandstone
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.SiltStone, 300f)
+				.Input(SimHashes.Water, 100f)
+				.Input(ModElements.SulphuricAcid_Liquid, 50f)
+				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.DescriptionFunc(RandomRecipeProducts.GetChemicalBallCrusherRandomResultsString)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.Build();
 
 			//---- [ Sedimentary Rock Milling ] -----------------------------------------------------------------------------
 			// Ingredient: Sedimentary Rock - 300kg
@@ -258,6 +261,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.IgneousRock, 300f)
+				.Input(SimHashes.Water, 100f)
+				.Input(ModElements.NitricAcid_Liquid, 50f)
+				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.DescriptionFunc(RandomRecipeProducts.GetChemicalBallCrusherRandomResultsString)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.Build();
+			///basalt is a type of igneous rock
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Basalt, 300f)
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.NitricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -357,7 +369,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigurePreview(def, go);
 			this.AttachPort(go);
-			go.AddOrGet<PortPreviewVisualizer>().DisableInOverlay = OverlayModes.LiquidConduits.ID;
+			go.AddOrGet<PortPreviewVisualizer>();
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

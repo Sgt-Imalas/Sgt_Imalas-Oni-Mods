@@ -20,7 +20,7 @@ namespace Imalas_TwitchChaosEvents.Events
 		public Action<object> EventAction => (object data) =>
 		{
 			ModAssets.RainbowLiquids = true;
-			ToastManager.InstantiateToast(
+			ToastHelper.InstantiateToast(
 				STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.TOAST,
 				 STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.TOASTTEXT
 				 );

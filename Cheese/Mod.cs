@@ -10,10 +10,11 @@ namespace Cheese
 		public override void OnLoad(Harmony harmony)
 		{
 			HarmonyInstance = harmony;
-			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
 
+			base.OnLoad(harmony);
 			ModAssets.LoadAll();
+			ElementUtilNamespace.SgtElementUtil.ExecuteElementEnumPatches(harmony);
 		}
 	}
 }

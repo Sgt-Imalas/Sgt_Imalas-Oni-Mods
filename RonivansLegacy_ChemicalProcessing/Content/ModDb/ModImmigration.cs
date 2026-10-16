@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -35,11 +31,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddPackage(ModElements.Aurichalcite_Solid.Tag.ToString(), 2000, () => DiscoveredCondition(ModElements.Aurichalcite_Solid.CreateTag()) && CycleCondition(12));
 				AddPackage(ModElements.Argentite_Solid.Tag.ToString(), 2000, () => DiscoveredCondition(ModElements.Argentite_Solid.CreateTag()) && CycleCondition(12));
 				AddPackage(SimHashes.Electrum.CreateTag().ToString(), 2000, () => DiscoveredCondition(SimHashes.Electrum.CreateTag()) && CycleCondition(24));
-				AddPackage(ModElements.Galena_Solid.Tag.ToString(), 2000, () => DiscoveredCondition(ModElements.Galena_Solid.CreateTag()) && CycleCondition(24));
+				AddPackage(SimHashes.Galena.CreateTag().ToString(), 2000, () => DiscoveredCondition(SimHashes.Galena.CreateTag()) && CycleCondition(24));
 
 				AddPackage(ModElements.MeteorOre_Solid.Tag.ToString(), 400, () => DiscoveredCondition(ModElements.MeteorOre_Solid.CreateTag()) && CycleCondition(48));
 
-				AddPackage(ModElements.Zinc_Solid.Tag.ToString(), 400, () => DiscoveredCondition(ModElements.Zinc_Solid.CreateTag()) && CycleCondition(48));
+				//AddPackage(ModElements.Zinc_Solid.Tag.ToString(), 400, () => DiscoveredCondition(ModElements.Zinc_Solid.CreateTag()) && CycleCondition(48));
 				AddPackage(ModElements.Silver_Solid.Tag.ToString(), 400, () => DiscoveredCondition(ModElements.Silver_Solid.CreateTag()) && CycleCondition(48));
 
 				AddPackage(ModElements.Brass_Solid.Tag.ToString(), 100, () => DiscoveredCondition(ModElements.Brass_Solid.CreateTag()) && CycleCondition(48));

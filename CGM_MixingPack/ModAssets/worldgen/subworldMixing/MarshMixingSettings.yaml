@@ -1,0 +1,7 @@
+name: STRINGS.SUBWORLDS.MARSH.NAME
+description: STRINGS.SUBWORLDS.MARSH.DESC
+icon: biomeIconMarsh
+mixingTags: 
+- Warm
+subworld:
+  name: subworlds/Marsh/CGM_MarshMix

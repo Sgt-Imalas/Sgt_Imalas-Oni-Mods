@@ -42,6 +42,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				InternalImage = transform.Find("ButtonContainerImage").gameObject.GetComponent<Image>();
 				ownId = starmapItemId;
 				Label = transform.Find("Label").gameObject.GetComponent<LocText>();
+				InitLabelMat();
 
 				SetStarmapItem(ownId);
 				Label.gameObject.SetActive(false);
@@ -49,6 +50,20 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				SetNameAlwaysActive(parent.AlwaysShowNames);
 				tParent = transform.parent;
 				dragParent = _parent.transform.parent.parent.parent.parent;
+			}
+			static Material UnderlinedGraystroke = null;
+			void InitLabelMat()
+			{
+				if(UnderlinedGraystroke == null)
+				{
+					UnderlinedGraystroke = new(Label.fontMaterial);
+					// Enable underlay
+					UnderlinedGraystroke.EnableKeyword("UNDERLAY_ON");
+					UnderlinedGraystroke.SetColor("_UnderlayColor", new Color(0, 0, 0, 1));
+					UnderlinedGraystroke.SetFloat("_UnderlayDilate", 1f);
+					UnderlinedGraystroke.SetFloat("_UnderlaySoftness", 1f);
+				}
+				Label.fontMaterial = UnderlinedGraystroke;
 			}
 
 
@@ -61,7 +76,8 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 					{
 						//SgtLogger.l("isPlanetoid");
 						var data = CGSMClusterManager.PlanetoidDict[ID];
-						SetContainerSprite(data.planetSprite);
+						SetContainerSprite(data.IsMixed ? data.planetMixingSprite : data.planetSprite);
+						transform.Find("OrbitRing")?.gameObject.SetActive(true);
 						Label.SetText(data.DisplayName);
 					}
 					else if (ModAssets.SO_POIs.ContainsKey(ID))
@@ -151,6 +167,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 			{
 				if (!nameAlwaysActive)
 					Label.gameObject.SetActive(true);
+				transform.SetAsLastSibling();
 			}
 
 			internal void SetNameAlwaysActive(bool value)

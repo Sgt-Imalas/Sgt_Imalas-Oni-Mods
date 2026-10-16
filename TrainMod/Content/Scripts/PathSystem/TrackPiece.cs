@@ -2,11 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using YamlDotNet.Core;
 
 namespace TrainMod.Content.Scripts.PathSystem
 {
@@ -100,7 +97,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 		bool isSelected = false;
 		private void OnSelectionChanged(object data)
 		{
-			var enabled = (bool)data;
+			bool enabled = ((Boxed<bool>)data).value;
 			isSelected = enabled;
 			if (enabled)
 				MakeRenderers();

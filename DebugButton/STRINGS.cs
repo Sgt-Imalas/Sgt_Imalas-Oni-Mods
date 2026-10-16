@@ -22,6 +22,11 @@
 					public static LocString NAME = "DEBUG MODE";
 					public static LocString TOOLTIP_TOGGLE = "Toggle <b>Debug mode</b>";
 				}
+				public class DEV_TOOLS
+				{
+					public static LocString NAME = "DEV TOOLS";
+					public static LocString TOOLTIP_TOGGLE = "Toggle Dev Tools";
+				}
 			}
 		}
 	}

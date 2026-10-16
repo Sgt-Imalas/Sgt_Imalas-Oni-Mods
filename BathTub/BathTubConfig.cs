@@ -28,7 +28,6 @@ namespace BathTub
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "bathtub_kanim", 30, 10f, construction_mass, construction_materials, 1600f, BuildLocationRule.OnFloor, tieR1, noise);
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
 
-
 			buildingDef.Overheatable = false;
 			//buildingDef.EnergyConsumptionWhenActive = 240f;
 			//buildingDef.SelfHeatKilowattsWhenActive = 2f;

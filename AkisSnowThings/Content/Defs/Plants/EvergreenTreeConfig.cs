@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using static AkisSnowThings.STRINGS.CREATURES.SPECIES;
-using UtilLibs;
-using static AkisSnowThings.STRINGS;
-using AkisSnowThings.Content.Defs.Entities;
+﻿using AkisSnowThings.Content.Defs.Entities;
 using AkisSnowThings.Content.Scripts.Entities;
+using System.Collections.Generic;
+using UnityEngine;
+using UtilLibs;
+using static AkisSnowThings.STRINGS.CREATURES.SPECIES;
 
 namespace AkisSnowThings.Content.Defs.Plants
 {
@@ -16,7 +11,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 	{
 		public const string ID = "SnowSculptures_EverGreenTree";
 		public const string SEED_ID = "SnowSculptures_PineCone";
-		public const float WATER_PER_SECOND = 30f / 600;
+		public const float WATER_PER_SECOND = 35f / 600;
 		public const float GROWTH_TIME = 24f * 600f;
 		public const int HARVEST_MASS = 4000;
 		public const float SAP_PER_SECOND = 10f / 600f;
@@ -46,7 +41,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 				UtilMethods.GetKelvinFromC(90),
 				crop_id: TreeRemainsConfig.ID,
 				should_grow_old: false,
-				
+
 				max_radiation: TUNING.PLANTS.RADIATION_THRESHOLDS.TIER_2,
 				baseTraitId: ID + "Original",
 				baseTraitName: SNOWSCULPTURES_EVERGREEN_TREE.NAME);
@@ -71,13 +66,13 @@ namespace AkisSnowThings.Content.Defs.Plants
 			prefab.AddOrGet<StandardCropPlant>();
 
 			var seed = EntityTemplates.CreateAndRegisterSeedForPlant(
-				prefab,null,
+				prefab, null,
 				SeedProducer.ProductionType.Harvest,
 				SEED_ID,
 				SEEDS.SNOWSCULPTURES_EVERGREEN_TREE.NAME,
 				SEEDS.SNOWSCULPTURES_EVERGREEN_TREE.DESC,
 				Assets.GetAnim("pine_cone_kanim"),
-				additionalTags: new List<Tag> { GameTags.CropSeed },
+				additionalTags: new List<Tag> { GameTags.Seed, GameTags.CropSeed },
 				sortOrder: 2,
 				domesticatedDescription: SNOWSCULPTURES_EVERGREEN_TREE.DOMESTICATEDDESC,
 				width: 0.35f,
@@ -109,7 +104,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 			conduitDispenser.conduitType = ConduitType.Liquid;
 			conduitDispenser.alwaysDispense = true;
 			//conduitDispenser.SetOnState(true);
-			conduitDispenser.storage =	sapStorage;
+			conduitDispenser.storage = sapStorage;
 			return prefab;
 		}
 
@@ -117,7 +112,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 
 		public void OnPrefabInit(GameObject inst)
 		{
-			inst.GetComponent<KBatchedAnimController>().randomiseLoopedOffset = true;	
+			inst.GetComponent<KBatchedAnimController>().randomiseLoopedOffset = true;
 		}
 
 		public void OnSpawn(GameObject inst)

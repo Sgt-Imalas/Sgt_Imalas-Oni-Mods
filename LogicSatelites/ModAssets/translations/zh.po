@@ -31,7 +31,7 @@ msgstr "卫星组件"
 #. LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.DESC
 msgctxt "LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.DESC"
 msgid "This Satellite monitors the space around its location and amplifies interplanetary logic signals.\n\n\nThis Satellite will gradually reveal the space around it up to a radius of 3.\n\nIt will also amplify a logic signal by redirecting it up to 5 Tiles further"
-msgstr "卫星监测周围的星图，并放大自动化信号。\n\n\n卫星会逐渐揭示半径3格的星图。\n\n可以将自动化型号放大于5格半径。"
+msgstr "卫星监测周围的星图，并放大自动化信号。\n\n\n卫星会逐渐揭示半径3格的星图。\n\n可以将自动化信号放大于5格半径。"
 
 #. LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.TITLE
 msgctxt "LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.TITLE"

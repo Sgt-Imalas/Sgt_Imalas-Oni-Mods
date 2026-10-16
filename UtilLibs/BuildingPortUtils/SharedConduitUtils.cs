@@ -1,20 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PeterHan.PLib.Core;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace UtilLibs.BuildingPortUtils
 {
-	internal class SharedConduitUtils
+	public static class SharedConduitUtils
 	{
+
+
+		/// <summary>
+		/// ModIntegration:
+		/// if your mod modifies the base capacity of conduits,
+		/// please put these modified values into PRegistry under the respective key,
+		/// that way this mod can adjust its conduit patches for high capacity piping:
+		/// 
+		/// example:
+		/// PRegistry.PutData("ConduitCapacity_Gas", yourGasCapacity);
+		/// </summary>
+		public static readonly string
+			PRegistryCache_ConduitCapacity_Solid = "ConduitCapacity_Solid",
+			PRegistryCache_ConduitCapacity_Liquid = "ConduitCapacity_Liquid",
+			PRegistryCache_ConduitCapacity_Gas = "ConduitCapacity_Gas";
+
+		/// <summary>
+		/// Integration with CustomizeBuildings custom pipe & rail capacities
+		/// </summary>
+		public static float GetDefaultConduitCapacity(ConduitType type)
+		{
+			float capacity = 0;
+			switch (type)
+			{
+				case ConduitType.Gas:
+					capacity = ConduitFlow.MAX_GAS_MASS;
+					float gas = PRegistry.GetData<float>(PRegistryCache_ConduitCapacity_Gas);
+					if (gas != default)
+						capacity = gas;
+					break;
+				case ConduitType.Liquid:
+					capacity = ConduitFlow.MAX_LIQUID_MASS;
+					float liquid = PRegistry.GetData<float>(PRegistryCache_ConduitCapacity_Liquid);
+					if (liquid != default)
+						capacity = liquid;
+					break;
+				case ConduitType.Solid:
+					capacity = SolidConduitFlow.MAX_SOLID_MASS;
+					float solid = PRegistry.GetData<float>(PRegistryCache_ConduitCapacity_Solid); if (solid != default)
+						capacity = solid;
+					break;
+			}
+			return capacity;
+		}
+
+
 		static StringBuilder sb = new StringBuilder();
 		public static string GetFilteredPortTooltip(ConduitType type, bool isInput, Tag[] filterTags = null, SimHashes[] elementFilterTags = null, bool invertedFilter = false)
 		{
 			if (elementFilterTags == null)
 				elementFilterTags = [];
-			if(filterTags == null)
+			if (filterTags == null)
 				filterTags = [];
 
 			sb.Clear();

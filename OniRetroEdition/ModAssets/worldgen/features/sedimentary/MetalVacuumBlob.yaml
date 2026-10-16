@@ -1,0 +1,32 @@
+tags:
+  - AllowExceedNodeBorders
+shape: ShortWide
+borders:
+  - 1
+  - 2
+blobSize:
+  min: 7.1
+  max: 12.5
+  internalMobs:
+  - type: ShockWorm
+    count:
+      min: 0
+      max: 1
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Vacuum
+        weight: 1
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Cuprite
+        weight: 1      
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Cuprite
+        weight: 1     
+      - element: Carbon
+        weight: 1

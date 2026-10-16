@@ -1,4 +1,6 @@
-﻿using PeterHan.PLib.Actions;
+﻿using MassMoveTo.Content.Defs.Entities;
+using MassMoveTo.Content.Scripts;
+using PeterHan.PLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,7 @@ namespace MassMoveTo
 		internal static void MarkForMove(Movable movable, PrioritySetting priority)
 		{
 			cachedPriority = priority;
-			if (!cachedMovables.Contains(movable) && !movable.IsMarkedForMove)
+			if (!cachedMovables.Contains(movable) && !movable.IsMarkedForMove && !movable.HasTag(GameTags.MarkedForMove))
 			{
 				cachedMovables.Add(movable);
 				movable.gameObject.AddTag(GameTags.MarkedForMove);
@@ -52,7 +54,7 @@ namespace MassMoveTo
 			else
 			{
 				Vector3 position = Grid.CellToPosCBC(cell, MoveToLocationTool.Instance.visualizerLayer);
-				GameObject obj = Util.KInstantiate(Assets.GetPrefab(MovePickupablePlacerConfig.ID), position);
+				GameObject obj = Util.KInstantiate(Assets.GetPrefab(Config.UseMultiDelivery ? MMT_MultiMovePickupablePlacerConfig.ID : MovePickupablePlacerConfig.ID), position);
 				targetStorage = obj.GetComponent<Storage>();
 				obj.SetActive(value: true);
 			}
@@ -95,7 +97,7 @@ namespace MassMoveTo
 
 		internal static void MoveAllItems()
 		{
-			if (cachedMovables.Count > 0 && TargetCellCount > 0)
+			if (cachedMovables.Any() && TargetCellCount > 0)
 			{
 				var targetCells = cachedTargetCells.ToList();
 				var movableChunks = Partition<Movable>(cachedMovables.ToList(), TargetCellCount);
@@ -116,12 +118,40 @@ namespace MassMoveTo
 			{
 				if (movable != null
 					&& movable.gameObject != null
-					&& !movable.IsMarkedForMove)
+					&& !movable.IsMarkedForMove
+					&& Grid.PosToCell(movable) != targetCell)
 				{
-					movable.storageProxy = proxy;
-					movable.MoveToLocation(targetCell);
+					//if (Config.UseMultiDelivery)
+					//{
+					//	MoveToLocation(movable, proxy);
+					//}
+					//else
+					//{
+						movable.storageProxy = proxy;
+						movable.MoveToLocation(targetCell);
+					//}
 				}
 			}
+		}
+		public static void MoveToLocation(Movable movable, Ref<Storage> proxy)
+		{
+			movable.storageProxy = proxy;
+			MultiFetch_MarkForMove(movable);
+			movable.gameObject.Trigger((int)GameHashes.MarkForMove, movable.gameObject);
+		}
+
+		public static void MultiFetch_MarkForMove(Movable movable)
+		{
+			movable.Trigger((int)GameHashes.Cancel);
+			movable.isMarkedForMove = true;
+			movable.OnReachableChanged(null);
+			movable.storageReachableChangedHandle = movable.StorageProxy.Subscribe((int)GameHashes.ReachableChanged, Movable.OnReachableChangedDispatcher, movable);
+			movable.reachableChangedHandle = movable.Subscribe((int)GameHashes.ReachableChanged, Movable.OnReachableChangedDispatcher, movable);
+			movable.StorageProxy.GetComponent<MultiFetch_CancellableMove>().SetMovable(movable);
+			movable.gameObject.AddTag(GameTags.MarkedForMove);
+			movable.cancelHandle = movable.Subscribe((int)GameHashes.Cancel, Movable.CleanupMoveDispatcher, movable);
+			movable.tagsChangedHandle = movable.Subscribe((int)GameHashes.TagsChanged, Movable.OnTagsChangedDispatcher, movable);
+			movable.UpdateStatusItem();
 		}
 
 

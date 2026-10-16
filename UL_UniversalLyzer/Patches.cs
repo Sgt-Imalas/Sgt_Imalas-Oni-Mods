@@ -179,7 +179,11 @@ namespace UL_UniversalLyzer
 		//}
 		public static void ModIntegration_PipedEverything()
 		{
+			//state check for store materials bool
 			PipedEverything_PipedEverythingState_Type = Type.GetType("PipedEverything.PipedEverythingState, PipedEverything", false, false);
+
+			//registration is now handled by pRegistry hook in mod.onload.
+			return;
 
 			SgtLogger.Assert(nameof(PipedEverything_PipedEverythingState_Type), PipedEverything_PipedEverythingState_Type);
 

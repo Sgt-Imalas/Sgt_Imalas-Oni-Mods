@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+
+#. LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.DESC
+msgctxt "LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.DESC"
+msgid "Stores and delivers Satellites to orbit."
+msgstr "Lưu trữ và đưa Vệ Tinh lên quỹ đạo."
+
+#. LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.EFFECT
+msgctxt "LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.EFFECT"
+msgid "The Satellite Carrier Module is used to deploy and retrieve satellites on the star map\n\nA satellite can be constructed from satellite parts, made at the <link=\"CRAFTINGTABLE\">Crafting Station</link>"
+msgstr "Khoang Vận Chuyển Vệ Tinh dùng để triển khai và thu hồi vệ tinh trên bản đồ sao\n\nVệ tinh có thể được chế tạo từ các bộ phận vệ tinh, tạo tại <link=\"CRAFTINGTABLE\">Trạm Chế Tạo</link>"
+
+#. LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.NAME
+msgctxt "LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.NAME"
+msgid "Satellite Carrier Module"
+msgstr "Khoang Vận Chuyển Vệ Tinh"
+
+#. LogicSatellites.STRINGS.ITEMS.LS_CLUSTERSATELLITEPART.DESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.LS_CLUSTERSATELLITEPART.DESC"
+msgid "These parts are used to build a satellite in the <link=\"LSSATELLITECARRIERMODULE\">Satellite Carrier Module</link>."
+msgstr "Các bộ phận này dùng để chế tạo vệ tinh tại <link=\"LSSATELLITECARRIERMODULE\">Khoang Vận Chuyển Vệ Tinh</link>."
+
+#. LogicSatellites.STRINGS.ITEMS.LS_CLUSTERSATELLITEPART.TITLE
+msgctxt "LogicSatellites.STRINGS.ITEMS.LS_CLUSTERSATELLITEPART.TITLE"
+msgid "Satellite Parts"
+msgstr "Bộ Phận Vệ Tinh"
+
+#. LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.DESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.DESC"
+msgid "This Satellite monitors the space around its location and amplifies interplanetary logic signals.\n\n\nThis Satellite will gradually reveal the space around it up to a radius of 3.\n\nIt will also amplify a logic signal by redirecting it up to 5 Tiles further"
+msgstr "Vệ Tinh này theo dõi không gian xung quanh vị trí của nó và khuếch đại tín hiệu logic liên hành tinh.\n\n\nVệ Tinh này sẽ dần tiết lộ khoảng không gian xung quanh nó trong bán kính 3.\n\nNó cũng sẽ khuếch đại tín hiệu logic bằng cách chuyển tiếp xa hơn tới 5 Ô"
+
+#. LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.TITLE
+msgctxt "LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.TITLE"
+msgid "Satellite"
+msgstr "Vệ Tinh"
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.DESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.DESC"
+msgid "Deploy this satellite on the star map to create a logic relay "
+msgstr "Triển khai vệ tinh này lên bản đồ sao để tạo một trạm chuyển tiếp logic "
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.EXPLORATION
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.EXPLORATION"
+msgid "Exploration "
+msgstr "Thám Hiểm "
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.EXPLORATIONDESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.EXPLORATIONDESC"
+msgid "and slowly reveal the surrounding hexes"
+msgstr "và dần tiết lộ các ô lục giác xung quanh"
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.SOLAR
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.SOLAR"
+msgid "Solar Lens "
+msgstr "Thấu Kính Mặt Trời "
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.SOLARDESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.SOLARDESC"
+msgid "and concentrate light towards the planet below."
+msgstr "và tập trung ánh sáng xuống hành tinh bên dưới."
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.TITLE
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.TITLE"
+msgid "Satellite"
+msgstr "Vệ Tinh"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_FALSE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_FALSE"
+msgid "Retrieve Satellite"
+msgstr "Thu Hồi Vệ Tinh"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_TRUE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_TRUE"
+msgid "Deploy Satellite"
+msgstr "Triển Khai Vệ Tinh"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_CHANGEMODE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_CHANGEMODE"
+msgid "Change the operation the module should perform"
+msgstr "Đổi thao tác mà khoang này nên thực hiện"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_DEPLOY
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_DEPLOY"
+msgid "Deploys a satellite at the current space hex."
+msgstr "Triển khai một vệ tinh tại ô không gian hiện tại."
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_RETRIEVE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_RETRIEVE"
+msgid "Retrieves a satellite from the current space hex"
+msgstr "Thu hồi một vệ tinh từ ô không gian hiện tại"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.CURRENTSATELLITETYPE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.CURRENTSATELLITETYPE"
+msgid "Current Satellite Configuration:\n{0}"
+msgstr "Cấu Hình Vệ Tinh Hiện Tại:\n{0}"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.SCRAPSATELLITETOOLTIP
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.SCRAPSATELLITETOOLTIP"
+msgid "Scrap the satellite to retrieve the parts"
+msgstr "Tháo vệ tinh để thu hồi các bộ phận"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE"
+msgid "Satellite Carrier"
+msgstr "Bộ Vận Chuyển Vệ Tinh"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE"
+msgid "No Satellite in storage"
+msgstr "Không có Vệ Tinh nào trong kho"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE"
+msgid "{0} stored."
+msgstr "Đã lưu trữ {0}."

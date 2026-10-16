@@ -1,0 +1,29 @@
+#. Drywall can be used in conjunction with tiles to build airtight rooms on the surface.
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.DESC"
+msgid "Drywall can be used in conjunction with tiles to build airtight rooms on the surface."
+msgstr "干墙可与砖块一起用于在地表建造气密房间。"
+
+#. Prevents <link="ELEMENTSGAS">Gas</link> and <link="ELEMENTSLIQUID">Liquid</link> loss in space.    Builds an insulating backwall behind buildings.
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.EFFECT"
+msgid "Prevents <link=\"ELEMENTSGAS\">Gas</link> and <link=\"ELEMENTSLIQUID\">Liquid</link> loss in space.\n\nBuilds an insulating backwall behind buildings."
+msgstr "防止<link=\"ELEMENTSGAS\">气体</link>和<link=\"ELEMENTSLIQUID\">液体</link>在太空中流失。\n\n在建筑后方建造隔热背墙。"
+
+#. <link="UGEXTERIORGLASSWALL">Window Wall</link>
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.NAME"
+msgid "<link=\"UGEXTERIORGLASSWALL\">Window Wall</link>"
+msgstr "<link=\"UGEXTERIORGLASSWALL\">窗户墙</link>"
+
+#. "Transparent Aluminum"
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.DESC"
+msgid "\"Transparent Aluminum\""
+msgstr "\"透明铝\""
+
+#. Used to build the walls and floors of rooms.    Allows <link="LIGHT">Light</link> and <link="DECOR">Decor</link> to pass through.    Can withstand extreme pressures and impacts.
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.EFFECT"
+msgid "Used to build the walls and floors of rooms.\n\nAllows <link=\"LIGHT\">Light</link> and <link=\"DECOR\">Decor</link> to pass through.\n\nCan withstand extreme pressures and impacts."
+msgstr "用于建造房间的墙壁和地板。\n\n允许<link=\"LIGHT\">光照</link>和<link=\"DECOR\">装饰度</link>穿过。\n\n能够承受极端的压力和冲击。"
+
+#. <link="UGREINFORCEDGLASS">Reinforced Window Tile</link>
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.NAME"
+msgid "<link=\"UGREINFORCEDGLASS\">Reinforced Window Tile</link>"
+msgstr "<link=\"UGREINFORCEDGLASS\">强化窗户砖</link>"

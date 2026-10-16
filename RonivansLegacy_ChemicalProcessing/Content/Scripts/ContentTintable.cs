@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -18,23 +13,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField] public bool TintGeneratorMeter = false;
 		[SerializeField] public bool TintPolymerizer = false;
 		[SerializeField] public string[] TintableSymbols = new string[] { "tint", "tint_column" };
-
+		int handle = -1;
 		private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.UpdateTint());
 		//private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.ClearTint());
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
 			//Subscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			handle = Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
 			if (kbacFG == null)
 			{
-				if (kbac.layering?.foregroundController is KBatchedAnimController kbac2)
+				if (kbac.layering.layerControllers?.TryGetValue(KAnim.SymbolFlags.FG, out var kba) ?? false)
 				{
-					kbacFG = kbac2;
+					this.kbacFG = (KBatchedAnimController)kba;
 				}
 			}
 			if (TintGeneratorMeter && TryGetComponent<EnergyGenerator>(out var generator) && generator.hasMeter)
@@ -52,13 +47,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
+			Unsubscribe(handle);
 			//Unsubscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
 
 		public void UpdateTint()
 		{
-			bool tinted =false;
+			bool tinted = false;
 			foreach (var element in ContentStorage.GetItems())
 			{
 				if (!element.TryGetComponent<PrimaryElement>(out var liquidPrimaryElement) || liquidPrimaryElement.Mass <= 0)

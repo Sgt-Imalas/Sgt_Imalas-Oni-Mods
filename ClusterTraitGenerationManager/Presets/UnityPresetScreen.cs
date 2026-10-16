@@ -100,7 +100,7 @@ namespace ClusterTraitGenerationManager
 			{
 				this.Show(false);
 			}
-			if (e.TryConsume(Action.DebugToggleClusterFX))
+			if (e.TryConsume(Action.Find))
 			{
 				Searchbar.ExternalStartEditing();
 			}
@@ -124,7 +124,7 @@ namespace ClusterTraitGenerationManager
 
 		public static List<CustomClusterSettingsPreset> LoadPresets()
 		{
-			List<CustomClusterSettingsPreset> minionStatConfigs = new List<CustomClusterSettingsPreset>();
+			List<CustomClusterSettingsPreset> clusterPresets = new List<CustomClusterSettingsPreset>();
 			var files = new DirectoryInfo(ModAssets.CustomClusterTemplatesPath).GetFiles();
 
 			for (int i = 0; i < files.Count(); i++)
@@ -135,18 +135,18 @@ namespace ClusterTraitGenerationManager
 					var preset = CustomClusterSettingsPreset.ReadFromFile(File);
 					if (preset != null)
 					{
-						minionStatConfigs.Add(preset);
+						clusterPresets.Add(preset);
 					}
 				}
 				catch (Exception e)
 				{
-					Debug.LogWarning(File.Name);
+					Debug.LogWarning("Error while reading preset from file: "+File.Name);
 					Debug.LogWarning(e.ToString());
 					//SgtLogger.logError("Couln't load cgm preset from: " + File.Name + ",\nError: " + e.ToString());
 				}
 			}
-			minionStatConfigs = minionStatConfigs.OrderBy(entry => entry.ConfigName).ToList();
-			return minionStatConfigs;
+			clusterPresets = clusterPresets.OrderBy(entry => entry.ConfigName).ToList();
+			return clusterPresets;
 		}
 
 		private bool AddUiElementForPreset(CustomClusterSettingsPreset config)
@@ -237,24 +237,50 @@ namespace ClusterTraitGenerationManager
 			{
 				kvp.Value.text = kvp.Key.label + ": " + settingsInstance.GetCurrentQualitySetting(kvp.Key).id;
 			}
-			GameSettingsTexts[CustomGameSettingConfigs.WorldgenSeed].text = CustomGameSettingConfigs.WorldgenSeed.label + ": " + CustomGameSettingConfigs.WorldgenSeed.GetLevel(CurrentlySelected.Seed).label;
-			GameSettingsTexts[CustomGameSettingConfigs.ImmuneSystem].text = CustomGameSettingConfigs.ImmuneSystem.label + ": " + CustomGameSettingConfigs.ImmuneSystem.GetLevel(CurrentlySelected.ImmuneSystem).label;
-			GameSettingsTexts[CustomGameSettingConfigs.CalorieBurn].text = CustomGameSettingConfigs.CalorieBurn.label + ": " + CustomGameSettingConfigs.CalorieBurn.GetLevel(CurrentlySelected.CalorieBurn).label;
-			GameSettingsTexts[CustomGameSettingConfigs.Morale].text = CustomGameSettingConfigs.Morale.label + ": " + CustomGameSettingConfigs.Morale.GetLevel(CurrentlySelected.Morale).label;
-			GameSettingsTexts[CustomGameSettingConfigs.Durability].text = CustomGameSettingConfigs.Durability.label + ": " + CustomGameSettingConfigs.Durability.GetLevel(CurrentlySelected.Durability).label;
-			GameSettingsTexts[CustomGameSettingConfigs.MeteorShowers].text = CustomGameSettingConfigs.MeteorShowers.label + ": " + CustomGameSettingConfigs.MeteorShowers.GetLevel(CurrentlySelected.MeteorShowers).label;
-			if (DlcManager.IsExpansion1Active())
-				GameSettingsTexts[CustomGameSettingConfigs.Radiation].text = CustomGameSettingConfigs.Radiation.label + ": " + CustomGameSettingConfigs.Radiation.GetLevel(CurrentlySelected.Radiation).label;
-			GameSettingsTexts[CustomGameSettingConfigs.Stress].text = CustomGameSettingConfigs.Stress.label + ": " + CustomGameSettingConfigs.Stress.GetLevel(CurrentlySelected.Stress).label;
-			GameSettingsTexts[CustomGameSettingConfigs.StressBreaks].text = CustomGameSettingConfigs.StressBreaks.label + ": " + CustomGameSettingConfigs.StressBreaks.GetLevel(CurrentlySelected.StressBreaks).label;
-			GameSettingsTexts[CustomGameSettingConfigs.SandboxMode].text = CustomGameSettingConfigs.SandboxMode.label + ": " + CustomGameSettingConfigs.SandboxMode.GetLevel(CurrentlySelected.SandboxMode).label;
-			GameSettingsTexts[CustomGameSettingConfigs.CarePackages].text = CustomGameSettingConfigs.CarePackages.label + ": " + CustomGameSettingConfigs.CarePackages.GetLevel(CurrentlySelected.CarePackages).label;
-			GameSettingsTexts[CustomGameSettingConfigs.FastWorkersMode].text = CustomGameSettingConfigs.FastWorkersMode.label + ": " + CustomGameSettingConfigs.FastWorkersMode.GetLevel(CurrentlySelected.FastWorkersMode).label;
-			GameSettingsTexts[CustomGameSettingConfigs.SaveToCloud].text = CustomGameSettingConfigs.SaveToCloud.label + ": " + CustomGameSettingConfigs.SaveToCloud.GetLevel(CurrentlySelected.SaveToCloud).label;
-			if (DlcManager.IsExpansion1Active())
-				GameSettingsTexts[CustomGameSettingConfigs.Teleporters].text = CustomGameSettingConfigs.Teleporters.label + ": " + CustomGameSettingConfigs.Teleporters.GetLevel(CurrentlySelected.Teleporters).label;
 
-			TitleHolder.text = CurrentlySelected.ConfigName;
+			//old presets 
+			if (CurrentlySelected.DifficultySettings == null || !CurrentlySelected.DifficultySettings.Any())
+			{
+				SgtLogger.l("loading old hardcoded customsettingslevel");
+				GameSettingsTexts[CustomGameSettingConfigs.WorldgenSeed].text = CustomGameSettingConfigs.WorldgenSeed.label + ": " + CustomGameSettingConfigs.WorldgenSeed.GetLevel(CurrentlySelected.Seed).label;
+				GameSettingsTexts[CustomGameSettingConfigs.ImmuneSystem].text = CustomGameSettingConfigs.ImmuneSystem.label + ": " + CustomGameSettingConfigs.ImmuneSystem.GetLevel(CurrentlySelected.ImmuneSystem).label;
+				GameSettingsTexts[CustomGameSettingConfigs.CalorieBurn].text = CustomGameSettingConfigs.CalorieBurn.label + ": " + CustomGameSettingConfigs.CalorieBurn.GetLevel(CurrentlySelected.CalorieBurn).label;
+				GameSettingsTexts[CustomGameSettingConfigs.Morale].text = CustomGameSettingConfigs.Morale.label + ": " + CustomGameSettingConfigs.Morale.GetLevel(CurrentlySelected.Morale).label;
+				GameSettingsTexts[CustomGameSettingConfigs.Durability].text = CustomGameSettingConfigs.Durability.label + ": " + CustomGameSettingConfigs.Durability.GetLevel(CurrentlySelected.Durability).label;
+				GameSettingsTexts[CustomGameSettingConfigs.MeteorShowers].text = CustomGameSettingConfigs.MeteorShowers.label + ": " + CustomGameSettingConfigs.MeteorShowers.GetLevel(CurrentlySelected.MeteorShowers).label;
+				if (DlcManager.IsExpansion1Active())
+					GameSettingsTexts[CustomGameSettingConfigs.Radiation].text = CustomGameSettingConfigs.Radiation.label + ": " + CustomGameSettingConfigs.Radiation.GetLevel(CurrentlySelected.Radiation).label;
+				GameSettingsTexts[CustomGameSettingConfigs.Stress].text = CustomGameSettingConfigs.Stress.label + ": " + CustomGameSettingConfigs.Stress.GetLevel(CurrentlySelected.Stress).label;
+				GameSettingsTexts[CustomGameSettingConfigs.StressBreaks].text = CustomGameSettingConfigs.StressBreaks.label + ": " + CustomGameSettingConfigs.StressBreaks.GetLevel(CurrentlySelected.StressBreaks).label;
+				GameSettingsTexts[CustomGameSettingConfigs.SandboxMode].text = CustomGameSettingConfigs.SandboxMode.label + ": " + CustomGameSettingConfigs.SandboxMode.GetLevel(CurrentlySelected.SandboxMode).label;
+				GameSettingsTexts[CustomGameSettingConfigs.CarePackages].text = CustomGameSettingConfigs.CarePackages.label + ": " + CustomGameSettingConfigs.CarePackages.GetLevel(CurrentlySelected.CarePackages).label;
+				GameSettingsTexts[CustomGameSettingConfigs.FastWorkersMode].text = CustomGameSettingConfigs.FastWorkersMode.label + ": " + CustomGameSettingConfigs.FastWorkersMode.GetLevel(CurrentlySelected.FastWorkersMode).label;
+				GameSettingsTexts[CustomGameSettingConfigs.SaveToCloud].text = CustomGameSettingConfigs.SaveToCloud.label + ": " + CustomGameSettingConfigs.SaveToCloud.GetLevel(CurrentlySelected.SaveToCloud).label;
+				if (DlcManager.IsExpansion1Active())
+					GameSettingsTexts[CustomGameSettingConfigs.Teleporters].text = CustomGameSettingConfigs.Teleporters.label + ": " + CustomGameSettingConfigs.Teleporters.GetLevel(CurrentlySelected.Teleporters).label;
+			}
+			else
+			{
+				foreach(var settingInfo in CurrentlySelected.DifficultySettings)
+				{
+					if(!CustomGameSettings.Instance.QualitySettings.TryGetValue(settingInfo.Key, out var setting))
+					{
+						SgtLogger.warning("Could not find customGameSetting: "+settingInfo.Key);
+						continue;
+					}
+
+
+					if(GameSettingsTexts.TryGetValue(setting, out var label))
+					{
+						SgtLogger.l("setting dynamic customSettingUILevel: " + settingInfo.Key);
+						label.text = setting.label + ": "+CustomGameSettings.Instance.GetSettingLevelLabel(settingInfo.Key, settingInfo.Value);
+					}
+
+				}
+			}
+
+
+				TitleHolder.text = CurrentlySelected.ConfigName;
 			GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
 
 			foreach (var item in StarmapItemContainers)
@@ -487,8 +513,8 @@ namespace ClusterTraitGenerationManager
 			OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.CustomClusterTemplatesPath) { UseShellExecute = true });
 
 			Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			Searchbar.OnValueChanged.AddListener(ApplyFilter);
-			Searchbar.Text = string.Empty;
+			Searchbar.AddListener(ApplyFilter);
+			Searchbar.ClearInputTextWithoutEvent();
 
 
 			ClearSearchBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();

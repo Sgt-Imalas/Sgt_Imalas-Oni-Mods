@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace AkisSnowThings.Content.Scripts.Buildings
@@ -53,6 +49,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 					break;
 				}
 			}
+			pooledList.Recycle();
 		}
 
 		public void Seal(GlassCase glassCase)

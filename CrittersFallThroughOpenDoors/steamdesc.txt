@@ -1,0 +1,37 @@
+[h1]Critters fall through open doors[/h1]
+
+Those pesky critters have hovered above opened doors for too long!
+This mod stops them from doing that any longer.
+
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All.png[/img]
+[h1]Current latest Version: 1.0[/h1]
+
+[hr][/hr]
+
+
+[h1]Features[/h1][list]
+[*] Critters now start falling if the door they were sitting on got opened
+[*] Double door stacking no longer required!
+[*] Critters can no longer walk onto opened doors either
+[*] Also stops wall climbing critters from clinging to open door ceilings
+[/list]
+
+[hr][/hr]
+
+[h1]Bug Reports & Local Download[/h1]
+
+[h3]Mod is marked as "incompatible" / the game is stuck in an "update loop"?[/h3]
+This means that the game failed to install the mod. This is usually caused by Ony Mod Manager breaking the download or OneDrive breaking the games' ability to install mods.
+Follow [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3522703974]this guide[/url] to fix the OneDrive issue and replace Ony Mod Manager with Mod Updater if not done already.
+
+You can find also direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for fixing issues[/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+

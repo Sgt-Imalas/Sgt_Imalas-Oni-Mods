@@ -11,6 +11,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 		public System.Action OnEntryClicked;
 		FButton CardButton;
 		Image CurrentItemImage;
+		string _itemName;
 
 		public override void OnPrefabInit()
 		{
@@ -27,9 +28,18 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 		}
 		public void SetItemName(string itemName)
 		{
+			_itemName = itemName;
 			CategoryName.SetText(CategoryText);
 			ItemName?.SetText(itemName);
 		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			if(!_itemName.IsNullOrWhiteSpace())
+				ItemName?.SetText(_itemName);
+			CategoryName.SetText(CategoryText);
+		}
+
 		public void SetItemIcon(Sprite icon)
 		{
 			CurrentItemImage.sprite = icon;

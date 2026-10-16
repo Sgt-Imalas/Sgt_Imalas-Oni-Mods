@@ -1,0 +1,173 @@
+﻿using KSerialization;
+using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
+using TUNING;
+using UnityEngine;
+using UtilLibs;
+
+namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
+{
+	internal class SpaceStationAttachablePartStorage : Workable, ISidescreenButtonControl
+	{
+		[Serialize] StoredStationPart? StoredPart = null;
+		 CellOffset dropOffset = new(0, 1);
+		[MyCmpReq] RocketAttachableSocket buildingAttachPoint;
+		[MyCmpGet] KSelectable selectable;
+		[MyCmpGet] KBatchedAnimController kbac;
+		[Serialize] private bool isMarkedForPartDeconstruction;
+
+
+		public Chore chore;
+
+		public override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			this.workerStatusItem = Db.Get().DuplicantStatusItems.Deconstructing;
+			this.attributeConverter = Db.Get().AttributeConverters.ConstructionSpeed;
+			this.attributeExperienceMultiplier = DUPLICANTSTATS.ATTRIBUTE_LEVELING.MOST_DAY_EXPERIENCE;
+			this.minimumAttributeMultiplier = 0.75f;
+			this.skillExperienceSkillGroup = Db.Get().SkillGroups.Building.Id;
+			this.skillExperienceMultiplier = SKILLS.MOST_DAY_EXPERIENCE;
+			this.multitoolContext = (HashedString)"demolish";
+			this.multitoolHitEffectTag = (Tag)EffectConfigs.DemolishSplashId;
+			this.workingPstComplete = (HashedString[])null;
+			this.workingPstFailed = (HashedString[])null;
+			this.faceTargetWhenWorking = true;
+		}
+		public override Vector3 GetTargetPoint()
+		{
+			return  base.GetTargetPoint() + new Vector3(dropOffset.x,dropOffset.y);
+		}
+		public override void OnSpawn()
+		{
+			this.SetOffsetTable(OffsetGroups.InvertedWideTable);
+
+			base.OnSpawn();
+			dropOffset = buildingAttachPoint.AttachmentOffset;
+			RefreshAttachmentSlot();
+
+			if (isMarkedForPartDeconstruction)
+				QueuePartDeconstruct();
+		}
+
+		public StoredStationPart? TakeStoredPart()
+		{
+			StoredStationPart? part = StoredPart;
+			if (part.HasValue)
+			{
+				StoredPart = null;
+			}
+			RefreshAttachmentSlot();
+			return part;
+		}
+		void RefreshAttachmentSlot()
+		{
+			bool hasPart = StoredPart != null;
+			///prevent other parts from being constructed while the part storage is not empty;
+			buildingAttachPoint.SetAllowsAttachment(!hasPart);
+			if (hasPart)
+			{
+				SetWorkTime(StoredPart.Value.DeconstructionTime);
+			}
+			else
+			{
+			}
+			kbac.SetSymbolVisiblity("storedPart", hasPart);
+
+		}
+
+		public void StoreNewPart(StoredStationPart part)
+		{
+			if(StoredPart != null)
+			{
+				SgtLogger.error("Tried storing a part in " + name + ", but it already held " + StoredPart.Value + "!");
+				return;
+			}
+			StoredPart = part;
+			RefreshAttachmentSlot();
+		}
+
+		public void DismantleStoredPart()
+		{
+			if (!StoredPart.HasValue)
+				return;
+
+			var part = TakeStoredPart().Value; 
+			var pos = Grid.CellToPosCCC(Grid.OffsetCell(this.NaturalBuildingCell(), dropOffset), Grid.SceneLayer.Ore);
+
+			for (int i = 0; i < part.SerializedMaterials.Length; i++)
+			{
+				Tag mat = part.SerializedMaterials[i];
+				float amount = part.SerializedAmounts[i];
+				ModAssets.SpawnItem(mat, amount, pos);
+			}
+		}
+
+		public override void OnStartWork(WorkerBase worker)
+		{
+			this.progressBar.barColor = ProgressBarsConfig.Instance.GetBarColor("DeconstructBar");
+			selectable.RemoveStatusItem(ModStatusItems.RTB_PendingStationPartDeconstruction);
+		}
+		public override void OnCompleteWork(WorkerBase worker)
+		{
+			base.OnCompleteWork(worker);
+			DismantleStoredPart();
+		}
+
+		public void QueuePartDeconstruct()
+		{
+			if (DebugHandler.InstantBuildMode)
+			{
+				this.OnCompleteWork(null);
+			}
+			else
+			{
+				if (this.chore == null)
+				{
+					Prioritizable.AddRef(this.gameObject);
+					this.requiredSkillPerk = Db.Get().SkillPerks.CanDemolish.Id;
+					this.chore = (Chore)new WorkChore<SpaceStationAttachablePartStorage>(Db.Get().ChoreTypes.Demolish, this, only_when_operational: false, override_anims: Assets.GetAnim((HashedString)"anim_interacts_clothingfactory_kanim"), is_preemptable: true, ignore_building_assignment: true);
+					selectable.AddStatusItem(ModStatusItems.RTB_PendingStationPartDeconstruction, this);
+					this.isMarkedForPartDeconstruction = true;
+					this.Trigger((int)GameHashes.WorkChoreDisabled, "Demolish");
+				}
+				this.UpdateStatusItem((object)null);
+			}
+		}
+
+		public void CancelPartDeconstruct()
+		{
+			if (this.chore != null)
+			{
+				this.chore.Cancel("Cancelled demolition");
+				this.chore = (Chore)null;
+				selectable.RemoveStatusItem(ModStatusItems.RTB_PendingStationPartDeconstruction);
+				this.ShowProgressBar(false);
+				this.isMarkedForPartDeconstruction = false;
+				Prioritizable.RemoveRef(this.gameObject);
+			}
+			this.UpdateStatusItem((object)null);
+		}
+
+		public string SidescreenButtonText => STRINGS.UI.RTB_DISMANTLESTATIONPART.LABEL;
+
+		public string SidescreenButtonTooltip => STRINGS.UI.RTB_DISMANTLESTATIONPART.TOOLTIP;
+		public void SetButtonTextOverride(ButtonMenuTextOverride textOverride) { }
+
+		public bool SidescreenEnabled() => true;
+
+		public bool SidescreenButtonInteractable() => StoredPart != null && StoredPart.Value.CanDeconstructPart;
+
+		public void OnSidescreenButtonPressed()
+		{
+			if (this.chore == null)
+				this.QueuePartDeconstruct();
+			else
+				this.CancelPartDeconstruct();
+		}
+
+		public int HorizontalGroupID() => 0;
+
+		public int ButtonSideScreenSortOrder() => 25;
+	}
+}

@@ -1,0 +1,7 @@
+name: STRINGS.SUBWORLDS.RADIOACTIVE.NAME
+description: STRINGS.SUBWORLDS.RADIOACTIVE.DESC
+icon: biomeIconRadioactive
+mixingTags: 
+- Cold
+subworld:
+  name: expansion1::subworlds/radioactive/CGM_RadioactiveMix

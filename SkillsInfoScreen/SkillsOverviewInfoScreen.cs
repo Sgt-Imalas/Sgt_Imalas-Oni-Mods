@@ -1,16 +1,10 @@
 ﻿using Database;
-using Epic.OnlineServices.Lobby;
-using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static KSerialization.DebugLog;
 
 namespace SkillsInfoScreen
 {
@@ -71,7 +65,7 @@ namespace SkillsInfoScreen
 			var skills = Db.Get().Skills.resources;
 			SkillGroups groupsDb = Db.Get().SkillGroups;
 			skills.RemoveAll(skill => skill.deprecated);
-			skills = skills.OrderBy(skill => STRINGS.UI.StripLinkFormatting(groupsDb.TryGet(skill.skillGroup).Name)).ToList();
+			skills = skills.OrderBy(skill => global::STRINGS.UI.StripLinkFormatting(groupsDb.TryGet(skill.skillGroup).Name)).ToList();
 
 			string lastGroup = null;
 
@@ -297,7 +291,7 @@ namespace SkillsInfoScreen
 			if (minion != null)
 				componentInChildren.text = (this.GetWidgetColumn(widget_go) as LabelTableColumn).get_value_action(minion, widget_go);
 			else
-				componentInChildren.text = widgetRow.isDefault ? "" : STRINGS.UI.VITALSSCREEN.QUALITYOFLIFE_EXPECTATIONS.ToString();
+				componentInChildren.text = widgetRow.isDefault ? "" : global::STRINGS.UI.VITALSSCREEN.QUALITYOFLIFE_EXPECTATIONS.ToString();
 		}
 
 		private string get_value_qualityoflife_label(IAssignableIdentity minion, GameObject widget_go)
@@ -307,7 +301,7 @@ namespace SkillsInfoScreen
 			if (widgetRow.rowType == TableRow.RowType.Minion)
 				qualityoflifeLabel = Db.Get().Attributes.QualityOfLife.Lookup((Component)(minion as MinionIdentity)).GetFormattedValue();
 			else if (widgetRow.rowType == TableRow.RowType.StoredMinon)
-				qualityoflifeLabel = (string)STRINGS.UI.TABLESCREENS.NA;
+				qualityoflifeLabel = (string)global::STRINGS.UI.TABLESCREENS.NA;
 			return qualityoflifeLabel;
 		}
 
@@ -350,7 +344,7 @@ namespace SkillsInfoScreen
 			switch (this.GetWidgetRow(widget_go).rowType)
 			{
 				case TableRow.RowType.Header:
-					tooltip.AddMultiStringTooltip((string)STRINGS.UI.TABLESCREENS.COLUMN_SORT_BY_EXPECTATIONS, (TextStyleSetting)null);
+					tooltip.AddMultiStringTooltip((string)global::STRINGS.UI.TABLESCREENS.COLUMN_SORT_BY_EXPECTATIONS, (TextStyleSetting)null);
 					break;
 			}
 		}
@@ -363,7 +357,7 @@ namespace SkillsInfoScreen
 				case TableRow.RowType.Minion:
 					if (minion == null)
 						break;
-					tooltip.AddMultiStringTooltip(string.Format(STRINGS.UI.TABLESCREENS.GOTO_DUPLICANT_BUTTON, minion.GetProperName()), (TextStyleSetting)null);
+					tooltip.AddMultiStringTooltip(string.Format(global::STRINGS.UI.TABLESCREENS.GOTO_DUPLICANT_BUTTON, minion.GetProperName()), (TextStyleSetting)null);
 					break;
 			}
 		}
@@ -411,7 +405,7 @@ namespace SkillsInfoScreen
 			else
 			{
 				LocText.text = widgetRow.isDefault ? "" : skill.Name;
-				//LocText.enableWordWrapping = false;
+				//LocText.textWrappingMode = TextWrappingModes.NoWrap;
 			}
 			return;
 			//TableRow widgetRow = this.GetWidgetRow(widget_go);
@@ -499,7 +493,7 @@ namespace SkillsInfoScreen
 			//	//else
 			//	//{
 			//	//	LocText.text = widgetRow.isDefault ? "" : skill.Name;
-			//	//	LocText.enableWordWrapping = false;
+			//	//	LocText.textWrappingMode = TextWrappingModes.NoWrap;
 			//	//}
 			//}
 		}
@@ -593,7 +587,7 @@ namespace SkillsInfoScreen
 			sortByTooltip += ": ";
 			sortByTooltip += skill.Name;
 			sortByTooltip += " ";
-			sortByTooltip += STRINGS.DUPLICANTS.NEEDS.QUALITYOFLIFE.EXPECTATION_MOD_NAME;
+			sortByTooltip += global::STRINGS.DUPLICANTS.NEEDS.QUALITYOFLIFE.EXPECTATION_MOD_NAME;
 
 			switch (this.GetWidgetRow(widget_go).rowType)
 			{
@@ -608,7 +602,7 @@ namespace SkillsInfoScreen
 			StoredMinionIdentity storedMinionIdentity = minion as StoredMinionIdentity;
 			if (!((UnityEngine.Object)storedMinionIdentity != (UnityEngine.Object)null))
 				return;
-			tooltip.AddMultiStringTooltip(string.Format((string)STRINGS.UI.TABLESCREENS.INFORMATION_NOT_AVAILABLE_TOOLTIP, storedMinionIdentity.GetStorageReason(), storedMinionIdentity.GetProperName()), (TextStyleSetting)null);
+			tooltip.AddMultiStringTooltip(string.Format((string)global::STRINGS.UI.TABLESCREENS.INFORMATION_NOT_AVAILABLE_TOOLTIP, storedMinionIdentity.GetStorageReason(), storedMinionIdentity.GetProperName()), (TextStyleSetting)null);
 		}
 	}
 }

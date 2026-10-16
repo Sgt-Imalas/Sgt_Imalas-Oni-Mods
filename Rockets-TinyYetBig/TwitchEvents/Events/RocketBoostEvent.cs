@@ -35,7 +35,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 					{
 						craft.controlStationBuffTimeRemaining = (float)new System.Random().Next(600, 1200);
 
-						ToastManager.InstantiateToast(EventName, string.Format(EventDescription, craft.Name));
+						ToastHelper.InstantiateToast(EventName, string.Format(EventDescription, craft.Name));
 						break;
 					}
 			};

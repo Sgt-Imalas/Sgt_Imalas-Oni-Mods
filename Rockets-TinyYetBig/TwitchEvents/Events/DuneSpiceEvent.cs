@@ -63,7 +63,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 						}
 						SgtLogger.debuglog(pilot.name + " got the spice eyes");
 					}
-					ToastManager.InstantiateToast(EventName, EventDescription);
+					ToastHelper.InstantiateToast(EventName, EventDescription);
 				}
 			};
 

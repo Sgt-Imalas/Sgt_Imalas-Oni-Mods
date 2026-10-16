@@ -1,0 +1,68 @@
+﻿using Rockets_TinyYetBig.Docking;
+using UnityEngine.UI;
+using UtilLibs.UIcmp;
+
+namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
+{
+	internal class DockingHandlerEntry : KMonoBehaviour
+	{
+		public DockingSpacecraftHandler Target;
+
+		LocText Name;
+		Image Icon;
+		public FButton Dock, Undock, Transfer, ViewOther;
+		public System.Action DockClicked, UndockClicked, TransferClicked, ViewOtherClicked;
+
+		bool init = false;
+		public override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			Init();
+		}
+		public void Init()
+		{
+			if (init)
+				return;
+			init = true;
+
+
+			Name = transform.Find("Row1/TitleText").gameObject.GetComponent<LocText>();
+			Icon = transform.Find("Row1/SpaceCraftIcon/Image").GetComponent<Image>();//.sprite = referencedManager.GetDockingIcon();
+			Icon.type = Image.Type.Simple;
+			Icon.preserveAspect = true;
+
+
+			Dock = transform.Find("Row1/Dock").gameObject.AddComponent<FButton>();
+			Undock = transform.Find("Row1/Undock").gameObject.AddComponent<FButton>();
+			Transfer = transform.Find("Row2/TransferButton").gameObject.AddComponent<FButton>();
+			ViewOther = transform.Find("Row2/ViewDockedButton").gameObject.AddComponent<FButton>();
+		}
+
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			Init();
+			if (Target != null)
+			{
+				Name.SetText(Target.GetProperName());
+				Icon.sprite = Target.GetDockingIcon();
+				Dock.OnClick += DockClicked;
+				Undock.OnClick += UndockClicked;
+				Transfer.OnClick += TransferClicked;
+				ViewOther.OnClick += ViewOtherClicked;
+			}
+		}
+		public void SetIsDockable(bool canDock,bool canUndock)
+		{
+			Init();
+			Dock.SetInteractable(canDock);
+			Undock.SetInteractable(canUndock);
+		}
+		public void SetHasInterior(bool hasInterior)
+		{
+			Init();
+			ViewOther.SetInteractable(hasInterior);
+			Transfer.SetInteractable(hasInterior);
+		}
+	}
+}

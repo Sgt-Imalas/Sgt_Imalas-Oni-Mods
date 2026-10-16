@@ -1,4 +1,5 @@
-﻿using TUNING;
+﻿using RoboRockets.Scripts;
+using TUNING;
 using UnityEngine;
 namespace RoboRockets
 {
@@ -76,7 +77,13 @@ namespace RoboRockets
 			ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
 			ownable.canBePublic = false;
 			go.AddOrGet<BuildingCellVisualizer>();
-			go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
+
+			if (go.TryGetComponent<ReorderableBuilding>(out var rb))
+			{
+				rb.buildConditions.Add(new LimitOneCommandModule());
+				rb.buildConditions.Add(new LimitOneAiCommandModule());
+				rb.buildConditions.Add(new LimitOneRoboPilotModule());
+			}
 		}
 
 

@@ -9,7 +9,7 @@ namespace Radiator_Mod
 		[HarmonyPatch("Initialize")]
 		public class Db_Initialize_Patch
 		{
-			public static void Postfix()
+			public static void Postfix(Db __instance)
 			{
 				//add buildings to technology tree
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorBaseConfig.ID);
@@ -18,6 +18,8 @@ namespace Radiator_Mod
 				{
 					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorRocketWallBuildableConfig.ID);
 				}
+
+				ModStatusItems.Register(__instance.BuildingStatusItems);
 				//Debug.Log("Initialized");
 			}
 		}
@@ -47,14 +49,14 @@ namespace Radiator_Mod
 
 				//StatusItemInit.
 
-				InjectionMethods.AddStatusItem(RadiatorBase.InSpaceRadiating, RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME,
-					STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP);
+				//InjectionMethods.AddStatusItem(RadiatorBase.InSpaceRadiating, RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME,
+				//	STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP);
 
-				InjectionMethods.AddStatusItem(RadiatorBase.NotInSpace, RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME,
-					STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP);
+				//InjectionMethods.AddStatusItem(RadiatorBase.NotInSpace, RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME,
+				//	STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP);
 
-				InjectionMethods.AddStatusItem(RadiatorBase.BunkerDown, RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME,
-					STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP);
+				//InjectionMethods.AddStatusItem(RadiatorBase.BunkerDown, RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME,
+				//	STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP);
 			}
 		}
 	}

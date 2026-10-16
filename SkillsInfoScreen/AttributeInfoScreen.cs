@@ -1,11 +1,7 @@
-﻿using Database;
-using Epic.OnlineServices.Lobby;
-using Klei.AI;
-using System;
+﻿using Klei.AI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TMPro;
 using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
@@ -69,7 +65,7 @@ namespace SkillsInfoScreen
 			var attributeDb = Db.Get().Attributes;
 			MaxSkillLevels = [];
 
-			var stats = DUPLICANTSTATS.ALL_ATTRIBUTES.OrderBy(id => STRINGS.UI.StripLinkFormatting(attributeDb.TryGet(id)?.Name ?? "unknown"));
+			var stats = DUPLICANTSTATS.ALL_ATTRIBUTES.OrderBy(id => global::STRINGS.UI.StripLinkFormatting(attributeDb.TryGet(id)?.Name ?? "unknown"));
 
 			foreach (var attributeId in stats)
 			{
@@ -139,7 +135,7 @@ namespace SkillsInfoScreen
 				case TableRow.RowType.Minion:
 					if (minion == null)
 						break;
-					tooltip.AddMultiStringTooltip(string.Format(STRINGS.UI.TABLESCREENS.GOTO_DUPLICANT_BUTTON, minion.GetProperName()), (TextStyleSetting)null);
+					tooltip.AddMultiStringTooltip(string.Format(global::STRINGS.UI.TABLESCREENS.GOTO_DUPLICANT_BUTTON, minion.GetProperName()), (TextStyleSetting)null);
 					break;
 			}
 		}
@@ -159,12 +155,12 @@ namespace SkillsInfoScreen
 				LocText.fontSize = 32f;
 				LocText.alignment = TMPro.TextAlignmentOptions.Center;
 				LocText.text = (this.GetWidgetColumn(widget_go) as LabelTableColumn).get_value_action(minion, widget_go);
-				LocText.enableWordWrapping = false;
+				LocText.textWrappingMode = TextWrappingModes.NoWrap;
 			}
 			else
 			{
 				LocText.text = widgetRow.isDefault ? "" : attribute.Name;
-				LocText.enableWordWrapping = false;
+				LocText.textWrappingMode = TextWrappingModes.NoWrap;
 				OptionsButton.transform.SetAsLastSibling();
 			}
 		}
@@ -396,8 +392,8 @@ namespace SkillsInfoScreen
 			OptionsPanel.transform.Find("Reset").gameObject.SetActive(false);
 
 
-			UIUtils.TryChangeText(OptionsPanel.transform, "Advanced Mode/Text", MOD_STRINGS.SKILLINFO_TEMP_EFFECT_TOGGLE);
-			UIUtils.AddSimpleTooltipToObject(OptionsPanel, MOD_STRINGS.SKILLINFO_TEMP_EFFECT_TOGGLE_TOOLTIP);
+			UIUtils.TryChangeText(OptionsPanel.transform, "Advanced Mode/Text", STRINGS.ATTRIBUTESCREEN_DROPDOWN.TEMP_EFFECT_TOGGLE.NAME);
+			UIUtils.AddSimpleTooltipToObject(OptionsPanel, STRINGS.ATTRIBUTESCREEN_DROPDOWN.TEMP_EFFECT_TOGGLE.TOOLTIP);
 			EffectToggle = OptionsPanel.transform.Find("Advanced Mode/Checkbox").gameObject.AddOrGet<FToggle>();
 			EffectToggle.SetCheckmark("Checkbox");
 			EffectToggle.SetOnFromCode(IncludeTempEffects);

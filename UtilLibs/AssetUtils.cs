@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,7 +35,7 @@ namespace UtilLibs
 
 			HashedString key = new HashedString(sprite.name);
 
-			if(Assets.Sprites != null)
+			if (Assets.Sprites != null)
 				Assets.Sprites[key] = sprite;
 
 			return sprite;
@@ -42,19 +43,49 @@ namespace UtilLibs
 
 		//use in prefix
 		public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false, TextureWrapMode mode = TextureWrapMode.Repeat)
+		=> AddSpriteToAssets(instance, Path.Combine(UtilMethods.ModPath, "assets"), spriteid, overrideExisting, mode);
+
+		public static List<Sprite> AddAllSpritesInAssetsSubDir(Assets instance, string directory, bool overrideExisting = false)
+			=> AddAllSpritesInFolderToAssets(instance, Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "assets", directory), overrideExisting);
+
+		public static List<Sprite> AddAllSpritesInFolderToAssets(Assets instance, string directory, bool overrideExisting = false)
 		{
-			var path = Path.Combine(UtilMethods.ModPath, "assets");
-			var texture = LoadTexture(spriteid, path);
+			if (!Directory.Exists(directory))
+			{
+				SgtLogger.l(directory + " does not exist!");
+				return [];
+			}
+			var items = new List<Sprite>();
+			foreach (var file in System.IO.Directory.GetFiles(directory))
+			{
+				var fileInfo = new FileInfo(file);
+				if (fileInfo.Exists && fileInfo.Extension == ".png" && IO_Utils.NotAMacFile(fileInfo))
+				{
+					try
+					{
+						items.Add(AddSpriteToAssets(fileInfo, instance, overrideExisting));
+					}
+					catch { }
+				}
+			}
+			SgtLogger.l("Loaded " + items.Count + " sprites from folder " + directory);
+			return items;
+		}
+
+
+		public static Sprite AddSpriteToAssets(Assets instance, string directoryPath, string spriteId, bool overrideExisting = false, TextureWrapMode mode = TextureWrapMode.Repeat)
+		{
+			var texture = LoadTexture(spriteId, directoryPath);
 			texture.wrapMode = mode;
 			var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
-			sprite.name = spriteid;
-			if (!overrideExisting && instance.SpriteAssets.Any(spritef => spritef != null && spritef.name == spriteid))
+			sprite.name = spriteId;
+			if (!overrideExisting && instance.SpriteAssets.Any(spritef => spritef != null && spritef.name == spriteId))
 			{
-				SgtLogger.l("Sprite " + spriteid + " was already existent in the sprite assets");
+				SgtLogger.l("Sprite " + spriteId + " was already existent in the sprite assets");
 				return null;
 			}
 			if (overrideExisting)
-				instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteid);
+				instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
 
 			instance.SpriteAssets.Add(sprite);
 			return sprite;
@@ -64,7 +95,7 @@ namespace UtilLibs
 			string spriteId = Path.GetFileNameWithoutExtension(file.Name);
 			var texture = AssetUtils.LoadTexture(file.FullName);
 
-			if (instance.TextureAssets?.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId)??false)
+			if (instance.TextureAssets?.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId) ?? false)
 			{
 				SgtLogger.l("removed existing TextureAsset: " + spriteId);
 				instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
@@ -107,7 +138,7 @@ namespace UtilLibs
 			}
 			instance.SpriteAssets?.Add(sprite);
 
-			if (Assets.Sprites?.ContainsKey(spriteId)??false)
+			if (Assets.Sprites?.ContainsKey(spriteId) ?? false)
 			{
 				SgtLogger.l("removed existing Sprite" + spriteId);
 				Assets.Sprites.Remove(spriteId);
@@ -131,7 +162,7 @@ namespace UtilLibs
 				directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "assets");
 			}
 
-			string path = Path.Combine(directory, name + ".png");
+			string path = Path.Combine(directory, name.Contains(".png") ? name : name + ".png");
 
 			return LoadTexture(path);
 		}
@@ -166,6 +197,10 @@ namespace UtilLibs
 		}
 
 		public static string baseAtlasFolder = Path.Combine("assets", "customatlastiles");
+		public static string packedAtlasFolder = Path.Combine("assets", "textures_packed", "customatlastiles");
+		public static bool UsePackedAtlasTextures = false;
+
+		public static string GetBaseAtlasFolder() => UsePackedAtlasTextures ? packedAtlasFolder : baseAtlasFolder;
 		public static void AddCustomTileTops(BuildingDef def, string name, bool shiny = false, string decorInfo = "tiles_glass_tops_decor_info", string existingPlaceID = null, string existingSpecID = null)
 		{
 			var info = UnityEngine.Object.Instantiate(global::Assets.GetBlockTileDecorInfo(decorInfo));
@@ -174,7 +209,7 @@ namespace UtilLibs
 			// base
 			if (info is object)
 			{
-				info.atlas = GetCustomAtlas(topsName, baseAtlasFolder, info.atlas);
+				info.atlas = GetCustomAtlas(topsName, GetBaseAtlasFolder(), info.atlas);
 				def.DecorBlockTileInfo = info;
 			}
 
@@ -182,7 +217,7 @@ namespace UtilLibs
 			if (existingPlaceID.IsNullOrWhiteSpace())
 			{
 				var placeInfo = UnityEngine.Object.Instantiate(global::Assets.GetBlockTileDecorInfo(decorInfo));
-				placeInfo.atlas = GetCustomAtlas(topsName+"_place", baseAtlasFolder, placeInfo.atlas);
+				placeInfo.atlas = GetCustomAtlas(topsName + "_place", GetBaseAtlasFolder(), placeInfo.atlas);
 				def.DecorPlaceBlockTileInfo = placeInfo;
 			}
 			else
@@ -194,25 +229,26 @@ namespace UtilLibs
 			if (shiny)
 			{
 				string id = existingSpecID.IsNullOrWhiteSpace() ? $"{topsName}_spec" : existingSpecID;
-				info.atlasSpec = GetCustomAtlas(id, baseAtlasFolder, info.atlasSpec);
+				info.atlasSpec = GetCustomAtlas(id, GetBaseAtlasFolder(), info.atlasSpec);
 			}
+			Assets.BlockTileDecorInfos.Add(info);
 		}
-		public static void AddCustomTileAtlas(BuildingDef def, string name, bool shiny = false, string referenceAtlas = "tiles_metal")
+		public static void AddCustomTileAtlas(BuildingDef def, string name, bool shiny = false, string referenceAtlas = "tiles_metal", bool loadPacked = false)
 		{
 			TextureAtlas reference = global::Assets.GetTextureAtlas(referenceAtlas);
 
 			string atlasName = name.Contains("tiles") ? name : $"{name}_tiles";
 
 			// base
-			def.BlockTileAtlas = GetCustomAtlas(atlasName, baseAtlasFolder, reference);
+			def.BlockTileAtlas = GetCustomAtlas(atlasName, GetBaseAtlasFolder(), reference);
 
 			// place
-			def.BlockTilePlaceAtlas = GetCustomAtlas($"{atlasName}_place", baseAtlasFolder, reference);
+			def.BlockTilePlaceAtlas = GetCustomAtlas($"{atlasName}_place", GetBaseAtlasFolder(), reference);
 
 			// specular
 			if (shiny)
 			{
-				def.BlockTileShineAtlas = GetCustomAtlas($"{atlasName}_spec", baseAtlasFolder, reference);
+				def.BlockTileShineAtlas = GetCustomAtlas($"{atlasName}_spec", GetBaseAtlasFolder(), reference);
 			}
 		}
 		public static TextureAtlas GetCustomAtlas(string fileName, string folder, TextureAtlas tileAtlas)
@@ -224,10 +260,11 @@ namespace UtilLibs
 				path = Path.Combine(path, folder);
 			}
 
-			var tex = LoadTexture(fileName, path);
+			var tex = UsePackedAtlasTextures ? InjectionMethods.LoadTextureBC7(Path.Combine(path, fileName + ".zip")) : LoadTexture(fileName, path);
 
 			if (tex == null)
 			{
+				SgtLogger.error("could not load custom tile atlas texture: " + fileName + " in folder: " + path);
 				return null;
 			}
 

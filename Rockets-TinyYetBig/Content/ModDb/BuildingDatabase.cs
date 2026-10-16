@@ -9,28 +9,27 @@ using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static UtilLibs.RocketryUtils;
 using UtilLibs;
-using Rockets_TinyYetBig.Content.Defs.Buildings.RocketPortAdapters;
 using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
 using Rockets_TinyYetBig.Content.Defs.Buildings;
+using Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings;
+using Rockets_TinyYetBig.Content.Defs.Buildings.StationParts;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
 	internal class BuildingDatabase
 	{
-
+		const string
+			Category_FuelLoaders = "rocketfueling",
+			Category_ModuleUpgrades = "rtb_moduleupgrades"
+			;
 		public static void AddBuildingsToPlanscreen()
 		{
 			//Assign categories to each vanilla module
 			CategorizeVanillaModules();
 
-			if(Mod.Instance.mod.IsDev)
+			if (Mod.Instance.mod.IsDev)
 				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, StationPOISolarPanelConfig.ID, "power");
 
 
@@ -65,6 +64,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			{
 				AddRocketModuleToBuildList(FridgeModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, ArtifactCargoBayConfig.ID, true);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, FridgeModuleAccessHatchConfig.ID, RefrigeratorConfig.ID);
+				//AddRocketModuleToBuildList(AIOCargoBayModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo,}, ArtifactCargoBayConfig.ID, true);
 			}
 
 
@@ -118,6 +118,12 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
 				AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, new RocketCategory[] { RocketCategory.deployables, RocketCategory.utility }, OrbitalCargoModuleConfig.ID);
+
+				if (Config.Derelicts)
+				{
+					string stationPartsCategory = "RTB_StationParts";
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, GravitonCoreConfig.ID, subcategoryID: stationPartsCategory);
+				}
 			}
 
 			if (Config.Instance.EnableWallAdapter)
@@ -125,20 +131,23 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, VerticalAdapterPieceConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, VerticalAdapterBaseConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, LoaderFirepoleAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, ReinforcedLadderConfig.ID, LadderConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterBunkerConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				
 				//InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorBypassAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				//InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderTravelTubeAdapterConfig.ID, "rocketfueling"); ///Too buggy atm
-
 			}
 
 			if (Config.Instance.EnableFuelLoaders)
 			{
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalFuelLoaderConfig.ID, "rocketfueling");
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, "rocketfueling");
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, "rocketfueling");
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalFuelLoaderConfig.ID, Category_FuelLoaders);
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, Category_FuelLoaders);
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, Category_FuelLoaders);
+			}
+			if (Config.Instance.RocketModuleUpgrades)
+			{
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ModuleUpgradeDatabase.CargoBayFilter.ID, Category_ModuleUpgrades);
 			}
 			if (Config.Instance.EnableEarlyGameFuelTanks)
 			{
@@ -238,6 +247,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.TemperatureModulation, ConnectorWallAdapterConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, ConnectorWallAdapterBunkerConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, LoaderLadderAdapterConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.RefinedRenovations, LoaderFirepoleAdapterConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, ReinforcedLadderConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, VerticalAdapterBaseConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, VerticalAdapterPieceConfig.ID);

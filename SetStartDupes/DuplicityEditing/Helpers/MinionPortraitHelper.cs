@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
-using static DetailsScreen;
 
 namespace SetStartDupes.DuplicityEditing.Helpers
 {
@@ -33,7 +32,7 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 					}
 					// ERROR!
 					else
-						Debug.Log("[DSS] Error creating search prefab!  The searchbar will not function!");
+						Debug.Log("[DSS] Error creating crewPortraitPrefab!");
 
 				}
 				return crewPortraitPrefab;

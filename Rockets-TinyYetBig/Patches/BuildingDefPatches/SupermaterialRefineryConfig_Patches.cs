@@ -1,12 +1,4 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static ComplexRecipe;
-using UtilLibs;
-using Rockets_TinyYetBig.Elements;
 using Rockets_TinyYetBig.Content.ModDb;
 
 namespace Rockets_TinyYetBig.Patches.ElementPatches

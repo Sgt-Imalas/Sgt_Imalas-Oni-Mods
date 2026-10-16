@@ -1,17 +1,11 @@
-﻿using Database;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Klei;
-using Klei.AI;
-using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static LoadingPip.ModAssets;
 
 namespace LoadingPip
 {
@@ -23,6 +17,62 @@ namespace LoadingPip
 		{
 			//replace loading dupe face with custom icon
 			public static void Postfix()
+			{
+				if (Config.IsDefault && ModAssets.PipLicksButt)
+				{
+					LickPipButt();
+				}
+				else
+					SetIcon();
+
+			}
+			static void LickPipButt()
+			{
+				var instance = LoadingOverlay.instance;
+				var image = instance.transform.Find("Image").GetComponent<Image>();
+				var rect = image.rectTransform();
+				rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200);
+				rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
+				rect.position -= new Vector3(0,90);
+
+				var gameObject = image.gameObject;
+				//image.SetAlpha(0);
+
+				gameObject.SetActive(false);
+				var kbac = gameObject.AddComponent<KBatchedAnimController>();
+				var renderer = gameObject.AddComponent<KBatchedAnimCanvasRenderer>();
+				kbac.materialType = KAnimBatchGroup.MaterialType.UI;
+				kbac.setScaleFromAnim = false;
+				kbac.sceneLayer = Grid.SceneLayer.SceneMAX;
+				kbac.AnimFiles = [Assets.GetAnim("squirrel_build_kanim"), Assets.GetAnim("plb_pip_licks_butt_kanim")];
+				kbac.isMovable = true;
+				kbac.defaultAnim = "lick_butt_loop";
+				gameObject.SetActive(true);
+				if (!kbac.HasAnimation("lick_butt_loop"))
+				{
+					SgtLogger.error("Squirrel kbac has no lick_butt_loop animation!");
+				}
+				kbac.Play("lick_butt_loop");
+				Global.Instance.StartCoroutine(FakePlaying());
+				IEnumerator FakePlaying()
+				{
+					int maxFrameCount = kbac.GetCurrentAnim().numFrames;
+					int frameToPlay = 0;
+					while (!gameObject.IsNullOrDestroyed())
+					{
+						frameToPlay++;
+						if (frameToPlay >= maxFrameCount)
+						{
+							frameToPlay = 0;
+						}
+						kbac.SetPositionPercent((float)frameToPlay / (float)maxFrameCount);
+						yield return new WaitForSecondsRealtime(0.033f);
+					}
+				}
+			}
+
+
+			static void SetIcon()
 			{
 				var instance = LoadingOverlay.instance;
 				var image = instance.transform.Find("Image").GetComponent<Image>();
@@ -47,7 +97,7 @@ namespace LoadingPip
 				LocalisationUtil.Translate(typeof(STRINGS), true);
 			}
 		}
-		
+
 		public static string primal_aspid_sprite_id = "aspid";
 
 		[HarmonyPatch(typeof(Assets), "OnPrefabInit")]
@@ -62,10 +112,11 @@ namespace LoadingPip
 					foreach (var file in System.IO.Directory.GetFiles(dreamIconDicrectory))
 					{
 						var fileInfo = new FileInfo(file);
-						if (fileInfo.Exists && fileInfo.Extension == ".png")
+						if (fileInfo.Exists && fileInfo.Extension == ".png" && IO_Utils.NotAMacFile(fileInfo))
 						{
 							SgtLogger.l("loading custom load screen icon: " + fileInfo.Name);
-							AssetUtils.AddSpriteToAssets(fileInfo, __instance);
+							var sprite = AssetUtils.AddSpriteToAssets(fileInfo, __instance);
+							ModAssets.CustomLoadedIcons.Add(sprite.name);
 						}
 					}
 				}

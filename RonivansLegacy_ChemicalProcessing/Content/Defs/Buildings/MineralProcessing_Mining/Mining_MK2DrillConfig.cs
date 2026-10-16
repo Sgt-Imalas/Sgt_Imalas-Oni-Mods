@@ -1,12 +1,6 @@
-﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.MINING_AUGUR_DRILL;
@@ -63,8 +57,9 @@ namespace Mineral_Processing_Mining.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 
-			//KPrefabID component = go.GetComponent<KPrefabID>();
+			KPrefabID component = go.GetComponent<KPrefabID>();
 			//component.AddTag(GameTags.UniquePerWorld);
+			component.AddTag(GameTags.NotRocketInteriorBuilding);
 
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
@@ -118,13 +113,16 @@ namespace Mineral_Processing_Mining.Buildings
 			worldElementDropper.DropLiquids = true;
 			worldElementDropper.TargetStorage = drillRig.outStorage;
 			worldElementDropper.SpawnOffset = new CellOffset(4, 1);
+			worldElementDropper.Skip = [this.fuelTag];
 			
 
 			var guidanceDeviceHandler = go.AddOrGet<GuidanceDeviceWearHandler>();
 			guidanceDeviceHandler.SourceStorage = drillRig.outStorage;
 			guidanceDeviceHandler.TargetStorage = drillRig.inStorage;
 
-			go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
+			///only add hpa rail requirement if hpa is enabled!
+			if(Config.Instance.HighPressureApplications_Enabled)
+				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 			Prioritizable.AddRef(go);
 			this.ConfigureRecipes();
 
@@ -384,6 +382,41 @@ namespace Mineral_Processing_Mining.Buildings
 			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.MantleTag)))
 			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.MantleTag)
 			.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, Mining_Drillbits_GuidanceDevice_ItemConfig.MantleTag, MINING_DRILLBITS_TUNGSTEN_ITEM.NAME, true, false, true))
+			.Build();
+
+
+			///FrostyPlanetPack resources
+			RecipeBuilder.Create(ID, 120)
+			.Input(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC2_StratumTag, 1, doNotConsume: true)
+			.Input(Mining_Drillbits_Steel_ItemConfig.TAG, 1)
+			.Output(SimHashes.CrushedRock.CreateTag(), 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
+			.SortOrder(count++)
+			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC2_StratumTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC2_StratumTag)
+			.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, Mining_Drillbits_GuidanceDevice_ItemConfig.DLC2_StratumTag, MINING_DRILLBITS_STEEL_ITEM.NAME, true, false, false))
+			.Build();
+			///AquaticPlanetPack resources
+			RecipeBuilder.Create(ID, 120)
+			.Input(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC5_StratumTag, 1, doNotConsume: true)
+			.Input(Mining_Drillbits_Basic_ItemConfig.TAG, 1)
+			.Output(SimHashes.CrushedRock.CreateTag(), 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
+			.SortOrder(count++)
+			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC5_StratumTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC5_StratumTag)
+			.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, Mining_Drillbits_GuidanceDevice_ItemConfig.DLC5_StratumTag, MINING_DRILLBITS_BASIC_ITEM.NAME, true, true, false))
+			.Build();
+			///PrehistoricPlanetPack resources
+			RecipeBuilder.Create(ID, 120)
+			.Input(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC4_StratumTag, 1, doNotConsume: true)
+			.Input(Mining_Drillbits_Tungsten_ItemConfig.TAG, 1)
+			.Output(SimHashes.CrushedRock.CreateTag(), 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
+			.SortOrder(count++)
+			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC4_StratumTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.DLC4_StratumTag)
+			.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, Mining_Drillbits_GuidanceDevice_ItemConfig.DLC4_StratumTag, MINING_DRILLBITS_TUNGSTEN_ITEM.NAME, true, true, true))
 			.Build();
 		}
 

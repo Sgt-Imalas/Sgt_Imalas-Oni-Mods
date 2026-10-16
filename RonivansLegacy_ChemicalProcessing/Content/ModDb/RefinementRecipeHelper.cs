@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -24,19 +21,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			return [SimHashes.Carbon, SimHashes.Peat, SimHashes.RefinedCarbon];
 		}
 
-		public static HashSet<SimHashes> GetSpecialOres()
-		{
-			//those elements have special conversion rates, for all others its the same
-			return [SimHashes.Electrum, SimHashes.FoolsGold, ModElements.Galena_Solid];
-		}
 		public static IEnumerable<Element> GetCrushables(HashSet<SimHashes> exclude = null) =>
 			ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.Crushable) && e.id != SimHashes.SuperInsulator && (exclude == null || !exclude.Contains(e.id)));
 
-		public static IEnumerable<Element> GetNormalOres()
+		public static IEnumerable<Element> GetAllOres()
 		{
 			var normalOres = ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Metal));
-			var specials = GetSpecialOres();
-			normalOres.RemoveAll(e => specials.Contains(e.id) || e.HasTag(GameTags.Noncrushable) || e.HasTag(ModAssets.Tags.RandomSand));
+			normalOres.RemoveAll(e => e.HasTag(GameTags.Noncrushable) || e.HasTag(ModAssets.Tags.RandomSand));
 			normalOres.RemoveAll(e => e.highTempTransition?.lowTempTransition == e);
 			return normalOres;
 		}
@@ -63,13 +54,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static IEnumerable<Tag> GetSteelLikes()
 		{
-			return [
-				SimHashes.Steel.CreateTag(),
-				ModElements.StainlessSteel_Solid.Tag,
-				ModElements.Permendur_Solid.Tag,
-				ModElements.Invar_Solid.Tag,
-				ModElements.Brass_Solid.Tag
-				];
+			return ElementLoader.elements.FindAll(e => e.IsSolid
+			&& (e.HasTag(ModAssets.Tags.AIO_HardenedAlloy)||e.id == SimHashes.Steel)
+			&& e.id != SimHashes.TempConductorSolid
+			).Select(e => e.tag);
 		}
 	}
 }

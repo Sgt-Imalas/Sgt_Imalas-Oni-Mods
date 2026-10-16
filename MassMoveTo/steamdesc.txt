@@ -2,9 +2,9 @@
 
 This mod adds a new tool that allows you to select multiple items for a single "move to" command.
 
-[img]https://i.imgur.com/oNBUpGe.png[/img] [img]https://i.imgur.com/Cd1HwbV.png[/img] [img]https://i.imgur.com/pa6jsyD.png[/img]
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All.png[/img]
 
-[h1]Current latest Version: 1.0.0/h1]
+[h1]Current latest Version: 2.1.4[/h1]
 
 [hr][/hr]
 
@@ -12,8 +12,8 @@ This mod adds a new tool that allows you to select multiple items for a single "
 [list][*] Allows you to select an area, then a point to move all items in the area to
 [*] Item types have a filtered selection so you can move only specific items
 [*] default hotkey: shift+k (can be adjusted in the game settings)
-[*] mod uses vanilla methods for creating move-to chores, thus it can be safely removed
-[*] Vanila Limitation: a single "move to" can only be served by one duplicant at the time, so split up large mass moves if you want to speed them up.
+[*] relocate targets are modified to allow multiple dupes delivering to it and fixing the bug that the first item defines the skill required for all further items (allowing critter relocation without ranching). This can be turned off in the config and will also disable itself when the chain tool mod is detected (due to being incompatible with it).
+[*] target areas can be drawn over multiple tiles so more deliveries can happen in parallel
 [/list]
 
 [hr][/hr]
@@ -31,4 +31,4 @@ Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Ima
 
 [hr][/hr]
 
-Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+Do you like the mods I made? If you want, you can support me on [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.

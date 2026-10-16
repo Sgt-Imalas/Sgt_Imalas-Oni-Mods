@@ -2701,11 +2701,3 @@ buildings:
   location_y: -12
   element: Steel
   temperature: 293.149994
-elementalOres:
-- id: Steel
-  location_x: -1
-  location_y: -14
-  element: Steel
-  temperature: 305.798981
-  units: 400
-  type: Ore

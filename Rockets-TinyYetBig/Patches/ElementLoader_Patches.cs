@@ -1,12 +1,8 @@
-﻿using ElementUtilNamespace;
+﻿using ElementData;
 using HarmonyLib;
 using Rockets_TinyYetBig.Elements;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.Patches.ElementPatches
 {
@@ -24,7 +20,7 @@ namespace Rockets_TinyYetBig.Patches.ElementPatches
 			/// Register additional substance tags after all elements are loaded
 			/// </summary>
 			[HarmonyPriority(Priority.Low)]
-			public static void Postfix() => ModElements.RegisterAdditionalSubstanceTags();
+			public static void Postfix() => ModElements.PostLoadElements();
 		}
 
 		/// <summary>
@@ -33,7 +29,7 @@ namespace Rockets_TinyYetBig.Patches.ElementPatches
 		[HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.CollectElementsFromYAML))]
 		public class MakeNeutroniumFullyRadBlocking_Patch
 		{
-			public static void Postfix(ref List<ElementLoader.ElementEntry> __result)
+			public static void Postfix(ref List<ElementEntry> __result)
 			{
 				ModElements.ModifyExistingElements(__result);
 			}

@@ -1,23 +1,14 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.Scripts.Buildings;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
-	public class RTB_ModuleGenerator : Generator, ISidescreenButtonControl
+	public class RTB_ModuleGenerator : Generator, IDisableableCheckboxControl
 	{
-
-		/// <summary>
-		/// IDEAS:
-		/// Rocket Engine thats not limited to the bottom
-		/// Advanced Starting Platform with Ribbons
-		/// Bunkered Starting Platform
-		/// Steam Generator; Coal Generator ; Status msg for generators
-		/// 
-		/// Swimming pool Chlordispenser disinfectant
-		/// </summary>
 
 		[MyCmpGet]
 		private Storage storage;
@@ -58,9 +49,10 @@ namespace Rockets_TinyYetBig.Behaviours
 		public float outputProductionRate = -1f;
 		public float outputProductionTemperature = 293.15f;
 
-		public string SidescreenButtonText => STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT;
+		public string CheckboxTitleKey => "STRINGS.UI.ROCKETGENERATOR.TITLE";
+		public string CheckboxLabel => STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT;
 
-		public string SidescreenButtonTooltip => STRINGS.UI.ROCKETGENERATOR.TOOLTIP;
+		public string CheckboxTooltip => STRINGS.UI.ROCKETGENERATOR.TOOLTIP;
 
 		public override void OnPrefabInit()
 		{
@@ -427,15 +419,15 @@ namespace Rockets_TinyYetBig.Behaviours
 		//    produceWhileLanded = !produceWhileLanded;
 		//}
 
-		public int ButtonSideScreenSortOrder() => 20;
+		//public int ButtonSideScreenSortOrder() => 20;
 
-		public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
-		{
-		}
+		//public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
+		//{
+		//}
 
-		public bool SidescreenEnabled() => (clustercraft.status == Clustercraft.CraftStatus.Grounded) && !AlwaysActive;
+		//public bool SidescreenEnabled() => (clustercraft.status == Clustercraft.CraftStatus.Grounded) && !AlwaysActive;
 
-		public bool SidescreenButtonInteractable() => !AlwaysActive;
+		//public bool SidescreenButtonInteractable() => !AlwaysActive;
 
 		public void UpdateLandedStatusItem()
 		{
@@ -446,12 +438,20 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		}
 
-		public void OnSidescreenButtonPressed()
-		{
-			produceWhileLanded = !produceWhileLanded;
-			UpdateLandedStatusItem();
-		}
-		public int HorizontalGroupID() => -1;
+		//public void OnSidescreenButtonPressed()
+		//{
+		//	produceWhileLanded = !produceWhileLanded;
+		//	UpdateLandedStatusItem();
+		//}
+		//public int HorizontalGroupID() => -1;
 
+
+		public bool GetCheckboxValue() => produceWhileLanded;
+
+		public void SetCheckboxValue(bool value) => produceWhileLanded = value;
+
+		public bool GetIsCheckboxInteractable() => !AlwaysActive;
+		public bool GetShowCheckbox() => !AlwaysActive;
+		public int GetVerticalSortOrder() => 20;
 	}
 }

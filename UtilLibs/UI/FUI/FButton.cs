@@ -6,6 +6,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 {
 	public class FButton : KMonoBehaviour, IEventSystemHandler, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 	{
+		public bool PlayClickSound = true;
 		public event System.Action OnClick;
 		public event System.Action OnRightClick;
 
@@ -41,8 +42,8 @@ namespace UtilLibs.UIcmp //Source: Aki
 			{
 				image = button.image;
 			}
-
-			material = image.material;
+			if (image != null)
+				material = image.material;
 			interactable = true;
 		}
 		public override void OnSpawn()
@@ -163,6 +164,9 @@ namespace UtilLibs.UIcmp //Source: Aki
 			if (KInputManager.isFocused)
 			{
 				KInputManager.SetUserActive();
+
+				if (!PlayClickSound)
+					return;
 
 				if ((OnClick != null && (eventData.button == PointerEventData.InputButton.Left || allowRightClick))
 					|| (OnRightClick != null && eventData.button == PointerEventData.InputButton.Right)

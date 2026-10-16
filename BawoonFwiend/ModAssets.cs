@@ -155,6 +155,11 @@ namespace BawoonFwiend
 
 			KAnimFileData data = animFile.GetData();
 			int frame2 = default(KAnim.Anim.FrameElement).frame;
+			if(symbol.frameLookup == null || symbol.frameLookup.Count() == 0)
+			{
+				SgtLogger.warning("Symbol frame lookup is null or empty for symbol: " + symbol);
+				return Assets.GetSprite("unknown");
+			}
 			KAnim.Build.SymbolFrameInstance symbolFrame = symbol.GetFrame(frame2);
 			if (symbolFrame.Equals(default))
 			{

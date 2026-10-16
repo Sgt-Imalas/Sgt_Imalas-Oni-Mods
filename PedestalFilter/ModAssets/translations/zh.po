@@ -1,0 +1,19 @@
+#. Autofilter for Artifacts
+msgctxt "PedestalFilter.STRINGS.PEDESTALFILTER_CONFIG.FILTERARTIFACTS"
+msgid "Autofilter for Artifacts"
+msgstr "文物自动筛选"
+
+#. Have the filter for artifacts only enabled by default (it still can be toggled)
+msgctxt "PedestalFilter.STRINGS.PEDESTALFILTER_CONFIG.FILTERARTIFACTS_TOOLTIP"
+msgid "Have the filter for artifacts only enabled by default (it still can be toggled)"
+msgstr "默认仅启用文物筛选（仍可切换）"
+
+#. Only show artifacts
+msgctxt "PedestalFilter.STRINGS.PEDESTALSEARCHBAR.FILTER_ARTIFACTS"
+msgid "Only show artifacts"
+msgstr "仅显示工艺品"
+
+#. Filter items...
+msgctxt "PedestalFilter.STRINGS.PEDESTALSEARCHBAR.FILTER_FILLERTEXT"
+msgid "Filter items..."
+msgstr "筛选物品……"

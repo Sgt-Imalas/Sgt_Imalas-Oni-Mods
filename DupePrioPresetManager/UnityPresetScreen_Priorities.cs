@@ -96,7 +96,7 @@ namespace DupePrioPresetManager
 			{
 				this.Show(false);
 			}
-			if (e.TryConsume(Action.DebugToggleClusterFX))
+			if (e.TryConsume(Action.Find))
 			{
 				Searchbar.ExternalStartEditing();
 			}
@@ -179,6 +179,7 @@ namespace DupePrioPresetManager
 					Presets.Remove(config);
 					config.DeleteFile();
 				}
+				RebuildInformationPanel();
 			};
 			System.Action nothing = () =>
 			{ };
@@ -191,6 +192,7 @@ namespace DupePrioPresetManager
 		   STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.CANCEL
 		   , nothing
 		   , parent: this.gameObject
+					   , lockCamera: true
 		   );
 		}
 
@@ -289,8 +291,8 @@ namespace DupePrioPresetManager
 
 
 			Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			Searchbar.OnValueChanged.AddListener(ApplyFilter);
-			Searchbar.Text = string.Empty;
+			Searchbar.AddListener(ApplyFilter);
+			Searchbar.ClearInputTextWithoutEvent();
 
 
 			ClearSearchBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
@@ -307,14 +309,13 @@ namespace DupePrioPresetManager
 			CloseButton.OnClick += () => this.Show(false);
 			GeneratePresetButton.OnClick += () =>
 			{
-				bool added = AddUiElementForPreset(CurrentlySelected);
-				if (added)
+				if (!Presets.ContainsKey(CurrentlySelected))
 				{
-					CurrentlySelected.WriteToFile();
 					CurrentlySelected.OpenPopUpToChangeName(
 							() =>
-								{
-									if (this.CurrentlyActive && Presets[CurrentlySelected] != null)
+							{
+								AddUiElementForPreset(CurrentlySelected);
+								if (this.CurrentlyActive && Presets[CurrentlySelected] != null)
 									{
 										UIUtils.TryChangeText(Presets[CurrentlySelected].transform, "Label", CurrentlySelected.ConfigName);
 										RebuildInformationPanel();

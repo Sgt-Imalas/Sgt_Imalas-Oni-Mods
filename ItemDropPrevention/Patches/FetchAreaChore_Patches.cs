@@ -1,11 +1,4 @@
 ﻿using HarmonyLib;
-using ItemDropPrevention.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace ItemDropPrevention.Patches
 {
@@ -14,18 +7,34 @@ namespace ItemDropPrevention.Patches
 
         [HarmonyPatch(typeof(FetchAreaChore.StatesInstance), nameof(FetchAreaChore.StatesInstance.SetupDeliverables))]
         public class FetchAreaChore_StatesInstance_SetupDeliverables_Patch
-		{
+        {
             public static void Postfix(FetchAreaChore.StatesInstance __instance)
             {
-                var fetcher = __instance.sm.fetcher.Get(__instance);
-				if (fetcher == null)
-                    return;
+                for(int i = __instance.deliverables.Count - 1; i >= 0; i--)
+                {
+                    var deliverable = __instance.deliverables[i];
+					if (deliverable != null && deliverable.KPrefabID.HasTag(ModAssets.BlockedFromDoingStuff))
+                    {
+                        __instance.deliverables.RemoveAt(i);
+                    }
+				}
+			}
+        }
 
-                if (!DroppablesHolder.TryGet(fetcher, out var droppablesHolder))
-                    return;
-
-                __instance.fetchables.RemoveAll(item => !item.IsNullOrDestroyed() && droppablesHolder.IsItemMarkedForDrop(item.gameObject));
-            }
+        [HarmonyPatch(typeof(FetchAreaChore.StatesInstance), nameof(FetchAreaChore.StatesInstance.ReservePickupables))]
+        public class FetchAreaChore_StatesInstance_ReservePickupables_Patch
+        {
+            public static void Prefix(FetchAreaChore.StatesInstance __instance)
+            {
+				for (int i = __instance.fetchables.Count - 1; i >= 0; i--)
+				{
+					var fetchable = __instance.fetchables[i];
+					if (fetchable != null && fetchable.KPrefabID.HasTag(ModAssets.BlockedFromDoingStuff))
+					{
+						__instance.fetchables.RemoveAt(i);
+					}
+				}
+			}
         }
 	}
 }

@@ -13,7 +13,10 @@ jobs:
     if: contains(github.event.head_commit.message, 'buildall')
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4  
+      with:
+        token: ${{ secrets.SUBMODULE_TOKEN }}
+        submodules: true
     
     - uses: actions/setup-dotnet@v4
       env:
@@ -39,6 +42,9 @@ jobs:
             Install-Module powershell-yaml -Force
             # start creation of release desc. file
             echo "Automated build of all mods, based on the latest release ready code state" >> Desc.md
+            echo "<details>" >> Desc.md
+            echo "<summary>List of all mods in this release</summary>" >> Desc.md
+            echo "`n" >> Desc.md
             echo "| Folder | Mod Name | Mod Description |" >> Desc.md
             echo "|-|-|-|" >> Desc.md
             
@@ -77,7 +83,10 @@ jobs:
             #create zip file
             Compress-Archive `
             -Path $folderpath/* `
-            -DestinationPath $destination\$modId}   
+            -DestinationPath $destination\$modId}  
+            
+            echo "`n" >> Desc.md
+            echo "</details>" >> Desc.md
                         
             #finalize version info json file
             echo "]}" >> ./BuildsZipped/_ReleaseVersionInfoData.json

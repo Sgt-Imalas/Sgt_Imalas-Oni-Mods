@@ -1,0 +1,46 @@
+﻿using AquaticMinnowMinion.Content.ModDb;
+using HarmonyLib;
+using System.Collections.Generic;
+using static AquaticMinnowMinion.ModAssets;
+
+namespace AquaticMinnowMinion.Patches
+{
+	internal class OxygenBreather_Patches
+	{
+
+		[HarmonyPatch(typeof(OxygenBreather), nameof(OxygenBreather.BreathableGasConsumed), [typeof(SimHashes), typeof(float), typeof(float), typeof(byte), typeof(int)])]
+		public class OxygenBreather_BreathableGasConsumed_Patch
+		{
+			static Dictionary<SimHashes, bool> IsItchyLiquid = [];
+			public static void Postfix(OxygenBreather __instance, SimHashes elementConsumed, float massConsumed)
+			{
+				if (!IsItchyLiquid.TryGetValue(elementConsumed, out var itchyLiquid))
+				{
+					var element = ElementLoader.FindElementByHash(elementConsumed);
+					itchyLiquid = IsItchyLiquid[elementConsumed] = element.HasTag(Tags.PollutedLiquid);
+				}
+				if (itchyLiquid && !__instance.prefabID.HasTag(GameTags.Dead) && __instance.O2Accumulator != HandleVector<int>.Handle.InvalidHandle)
+				{
+					//__instance.BoxingTrigger((int)GameHashes.PoorAirQuality, massConsumed);
+					__instance.BoxingTrigger((int)ModAssets.AqHashes.PoorBreathableLiquidQuality, massConsumed);
+				}
+			}
+		}
+
+
+		[HarmonyPatch(typeof(OxygenBreather), nameof(OxygenBreather.OnSpawn))]
+		public class OxygenBreather_OnSpawn_Patch
+		{
+			public static void Postfix(OxygenBreather __instance)
+			{
+				if (__instance.gameObject.PrefabID() != Tags.AquaticMinion)
+					return;
+				__instance.selectable.RemoveStatusItem(Db.Get().DuplicantStatusItems.BreathingO2, true);
+				__instance.selectable.RemoveStatusItem(Db.Get().DuplicantStatusItems.EmittingCO2, true);
+				//remove co2 too for ordering
+				__instance.o2StatusItem = __instance.selectable.AddStatusItem(Aq_StatusItems.BreathingInAquatic, __instance);
+				__instance.cO2StatusItem = __instance.selectable.AddStatusItem(Db.Get().DuplicantStatusItems.EmittingCO2, __instance);
+			}
+		}
+	}
+}

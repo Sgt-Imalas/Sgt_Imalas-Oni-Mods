@@ -1,11 +1,7 @@
 ﻿using HarmonyLib;
-using Klei;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
@@ -46,6 +42,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					}
 				}
 
+				AssetUtils.AddAllSpritesInAssetsSubDir(__instance, "sprites");
 			}
 		}
 	}

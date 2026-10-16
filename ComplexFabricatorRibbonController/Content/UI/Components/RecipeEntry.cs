@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs.UIcmp;
 using UtilLibs;
 using UnityEngine.UI;
 using UtilLibs.UI.FUI;
-using UnityEngine;
 using static ComplexFabricatorRibbonController.STRINGS.UI;
 
 namespace ComplexFabricatorRibbonController.Content.UI.Components
@@ -55,11 +49,11 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 
 			if (isSelected)
 			{
-				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.CURRENTRECIPE);
+				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + LISTSELECTION_SECONDARYSIDESCREEN.USETOOLTIPS.CURRENTRECIPE);
 			}
 			else if (inUse)
 			{
-				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + string.Format(sameMachine ? RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSE : RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSEOTHER, ++inUseBit));
+				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + string.Format(sameMachine ? LISTSELECTION_SECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSE : LISTSELECTION_SECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSEOTHER, ++inUseBit));
 			}			
 			else
 			{

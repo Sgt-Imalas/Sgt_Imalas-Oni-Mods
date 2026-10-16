@@ -2,11 +2,7 @@
 using Rockets_TinyYetBig.Buildings.Nosecones;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.SpaceStations;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
@@ -28,6 +24,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 				{
 					if (mng.clustercraft.status != Clustercraft.CraftStatus.InFlight)
 					{
+						SgtLogger.l(__instance.name + " not in flight anymore, undocking");
 						mng.UndockAll();
 						return true;
 					}
@@ -55,6 +52,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 			/// <summary>
 			/// Adds Laser Nosecone to harvestCheck
 			/// </summary>
+			
 			public static void Postfix(RocketClusterDestinationSelector __instance, ref bool __result)
 			{
 				if (!__result)
@@ -66,10 +64,11 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 						{
 							if (statesInstance.CheckIfCanDrill())
 							{
+								//SgtLogger.l(__instance.name + " can harvest with laser drillcone");
 								__result = true;
+								return;
 							}
 						}
-						SgtLogger.l(__instance.name + " can harvest with laser drillcone?:" + __result);
 					}
 				}
 			}
@@ -83,47 +82,6 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 						laserNosecones.Add(smi);
 				}
 				return laserNosecones;
-			}
-		}
-
-		[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.WaitForPOIHarvest))]
-		public static class RocketClusterDestinationSelector_WaitForPOIHarvest_Patch
-		{
-			/// <summary>
-			/// Sub all hep storage change handlers on start mining
-			/// </summary>
-			public static void Postfix(RocketClusterDestinationSelector __instance)
-			{
-				foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)__instance.GetComponent<Clustercraft>().ModuleInterface.ClusterModules)
-				{
-					if ((bool)clusterModule.Get().GetComponent<HighEnergyParticleStorage>())
-					{
-						__instance.Subscribe(clusterModule.Get().gameObject, (int)GameHashes.OnParticleStorageChanged, __instance.OnStorageChange);
-					}
-				}
-			}
-		}
-
-		[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.OnStorageChange))]
-		public static class RocketClusterDestinationSelector_OnStorageChange_Patch
-		{
-			/// <summary>
-			/// Unsub all hep storage change handlers on returntrip
-			/// </summary>
-			public static void Postfix(RocketClusterDestinationSelector __instance)
-			{
-				if (__instance.CanRocketDrill())
-					return;
-
-				foreach (Ref<RocketModuleCluster> clusterModule in __instance.GetComponent<Clustercraft>().ModuleInterface.ClusterModules)
-				{
-
-					if (clusterModule.Get().GetComponent<HighEnergyParticleStorage>())
-					{
-						//SgtLogger.debuglog("HEP FOUND; UNSUBSCRIBING");
-						__instance.Unsubscribe(clusterModule.Get().gameObject, (int)GameHashes.OnParticleStorageChanged, __instance.OnStorageChange);
-					}
-				}
 			}
 		}
 		#endregion

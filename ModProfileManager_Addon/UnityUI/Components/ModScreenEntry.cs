@@ -11,12 +11,12 @@ namespace ModProfileManager_Addon.UnityUI.Components
 		FToggle ModEnabled;
 		public KMod.Mod TargetMod;
 		public KMod.Label? MissingLabel = null;
-		LocText ModName;
+		LocText ModName, ModTypeLabel;
 
 		GameObject PlibConfigHighlight;
 		ToolTip plibTooltip;
 
-		public string Name = string.Empty;
+		public string Name = string.Empty, ModTypeText = string.Empty;
 
 
 		public override void OnPrefabInit()
@@ -54,15 +54,15 @@ namespace ModProfileManager_Addon.UnityUI.Components
 				bt.hoverColor = UIUtils.Lighten(buttonColor, 20);
 
 				ModName?.SetText(Name);
-				var label = transform.Find("ModType/Label").gameObject.GetComponent<LocText>();
+				ModTypeLabel = transform.Find("ModType/Label").gameObject.GetComponent<LocText>();
 				if (TargetMod.IsLocal)
 				{
 					TypeGO.gameObject.GetComponent<Image>().color = buttonColor;
-					label.SetText(devMod ? STRINGS.UI.MOD_FILTER_DROPDOWN.DEV : STRINGS.UI.MOD_FILTER_DROPDOWN.LOCAL);
+					ModTypeText = (devMod ? STRINGS.UI.MOD_FILTER_DROPDOWN.DEV : STRINGS.UI.MOD_FILTER_DROPDOWN.LOCAL);
 				}
 				else
 				{
-					label.SetText(global::STRINGS.UI.PLATFORMS.STEAM);
+					ModTypeText = (global::STRINGS.UI.PLATFORMS.STEAM);
 				}
 				ModEnabled.OnClick += (active) =>
 				{
@@ -88,9 +88,9 @@ namespace ModProfileManager_Addon.UnityUI.Components
 				ModName?.SetText(Name);
 				TypeGO.GetComponent<Image>().color = buttonColor;
 
-				var label = transform.Find("ModType/Label").gameObject.GetComponent<LocText>();
-				label.SetText(STRINGS.UI.MOD_FILTER_DROPDOWN.MISSING);
-				UIUtils.AddSimpleTooltipToObject(label.gameObject, isMissingSteam ? STRINGS.UI.STEAM_MISSING_TOOLTIP : STRINGS.UI.LOCAL_MISSING_TOOLTIP);
+				ModTypeLabel = transform.Find("ModType/Label").gameObject.GetComponent<LocText>();
+				ModTypeText = (STRINGS.UI.MOD_FILTER_DROPDOWN.MISSING);
+				UIUtils.AddSimpleTooltipToObject(ModTypeLabel.gameObject, isMissingSteam ? STRINGS.UI.STEAM_MISSING_TOOLTIP : STRINGS.UI.LOCAL_MISSING_TOOLTIP);
 
 				if (isMissingSteam)
 				{
@@ -119,6 +119,9 @@ namespace ModProfileManager_Addon.UnityUI.Components
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+
+			ModName?.SetText(Name);
+			ModTypeLabel?.SetText(ModTypeText);
 		}
 	}
 }

@@ -1,4 +1,7 @@
 ﻿using BathTub.Duck;
+using BathTub.MP;
+using ONI_Together_API;
+using ONI_Together_API.Networking;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
@@ -7,6 +10,7 @@ namespace BathTub
 {
 	internal class ModAssets
 	{
+		public static ModHashes StartedMoisturizingTask = new("Aq_" + nameof(StartedMoisturizingTask));
 		public static bool RoomsExpandedActive = false;
 
 		public static GameObject FoamFX;
@@ -22,7 +26,7 @@ namespace BathTub
 			//    && movingGo.TryGetComponent<ParticleSystemRenderer>(out var psr_moving))
 			//{
 			//    UtilMethods.ListAllPropertyValues(psr_moving);
-			//    UtilMethods.ListAllFieldValues(psr_moving);
+			//   UtilMethods.ListAllFieldValues(psr_moving);
 			//}
 			//if (stationaryGo != null 
 			//    && stationaryGo.TryGetComponent<ParticleSystem>(out var ps_stationary)
@@ -39,11 +43,21 @@ namespace BathTub
 			string sound = Sounds.Quacks.GetRandom();
 			SoundUtils.PlaySound(sound, SoundUtils.GetSFXVolume(), false, duckNoises.gameObject);
 		}
+		internal static void PlaySoundFromMP(string sound, float volumeMult = 1f)
+		{
+			Debug.Log("MultiplayerQuack");
+			SoundUtils.PlaySound(sound, SoundUtils.GetSFXVolume()* volumeMult, true);
+		}
 		internal static void PlayRandomSqueak(DuckNoises duckNoises)
 		{
 			Debug.Log("Squeak");
 			string sound = Sounds.Squeaks.GetRandom();
 			SoundUtils.PlaySound(sound, SoundUtils.GetSFXVolume() * 0.65f, true);
+			if (MP_Mod_Info.MultiplayerModPresent && SessionInfoAPI.InSession)
+			{
+				var packet = new SoundPacket(sound, SessionInfoAPI.LocalUserID,0.65f);
+				PacketSenderAPI.SendToAllOtherPeers(packet);
+			}
 		}
 		public static class Sounds
 		{

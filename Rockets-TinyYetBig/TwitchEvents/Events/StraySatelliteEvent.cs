@@ -35,7 +35,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 				GameObject gameObject = Util.KInstantiate(Assets.GetPrefab(cometId), position, Quaternion.identity);
 				gameObject.SetActive(true);
 
-				ToastManager.InstantiateToastWithPosTarget(EventName, string.Format(EventDescription, world.GetProperName()), position);
+				ToastHelper.InstantiateToastWithPosTarget(EventName, string.Format(EventDescription, world.GetProperName()), position);
 			};
 
 		public string EventGroupID => null;

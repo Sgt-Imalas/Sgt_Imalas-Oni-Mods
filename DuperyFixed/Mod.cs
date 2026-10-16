@@ -3,6 +3,7 @@ using HarmonyLib;
 using KMod;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using UtilLibs;
 
@@ -20,6 +21,8 @@ namespace DuperyFixed
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
+			ModAssets.AllowAquaticDupes = mods.Any(mod => mod.IsEnabledForActiveDlc() && mod.staticID == "AquaticMinnowMinion");
+			SgtLogger.l("AquaticMinion allowed? "+ModAssets.AllowAquaticDupes);
 			DuperyPatches.Mods = mods;
 			DuperyPatches.ModStaticID = this.mod.staticID;
 			CompatibilityNotifications.FixBrokenTimeout(harmony);

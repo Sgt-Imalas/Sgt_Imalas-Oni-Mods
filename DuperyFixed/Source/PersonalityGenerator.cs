@@ -10,7 +10,7 @@ namespace Dupery
 		public static string DEFAULT_STRESS_TRAIT = "Aggressive";
 		public static string DEFAULT_JOY_TRAIT = "BalloonArtist";
 		public static string DEFAULT_STICKER_TYPE = "sticker";
-		public static HashSet<string> GENDERS = ["Female", "NB", "Male" ];
+		public static HashSet<string> GENDERS = ["FEMALE", "NB", "MALE" ];
 
 		public static string RollGender()
 		{

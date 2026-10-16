@@ -1,7 +1,5 @@
 ﻿using HarmonyLib;
 using KMod;
-using ExplosiveMaterials.entities;
-using System;
 using UtilLibs;
 
 namespace ExplosiveMaterials

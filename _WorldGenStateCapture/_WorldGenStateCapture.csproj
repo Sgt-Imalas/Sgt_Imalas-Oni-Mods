@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>_WorldGenStateCapture</AssemblyName>
 		<RootNamespace>_WorldGenStateCapture</RootNamespace>
@@ -41,6 +41,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="PLib" Version="4.17.1" />
+	  <PackageReference Include="PLib" Version="*" />
 	</ItemGroup>
 </Project>

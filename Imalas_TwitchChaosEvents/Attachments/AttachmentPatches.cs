@@ -1,6 +1,4 @@
 ﻿using HarmonyLib;
-using Imalas_TwitchChaosEvents.Creeper;
-using Imalas_TwitchChaosEvents.Fire;
 using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.Attachments

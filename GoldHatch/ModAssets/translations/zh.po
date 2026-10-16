@@ -1,0 +1,24 @@
+#. A doofy little Gold Hatchling.    It matures into an adult Hatch morph, the <link="HATCHGOLD">Gold Hatch</link>, which loves nibbling on various metals.
+msgctxt "GoldHatch.STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.BABY.DESC"
+msgid "A doofy little Gold Hatchling.\n\nIt matures into an adult Hatch morph, the <link=\"HATCHGOLD\">Gold Hatch</link>, which loves nibbling on various metals."
+msgstr "一只呆头呆脑的小金哈奇。\n\n它成年后会变成<link=\"HATCHGOLD\">金哈奇</link>，喜欢啃食各种金属。"
+
+#. <link="HATCHGOLD">Gold Hatchling</link>
+msgctxt "GoldHatch.STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.BABY.NAME"
+msgid "<link=\"HATCHGOLD\">Gold Hatchling</link>"
+msgstr "<link=\"HATCHGOLD\">黄金哈奇幼体</link>"
+
+#. Gold Hatches excrete solid <link="GOLD">Gold</link> as waste and enjoy burrowing into the ground.
+msgctxt "GoldHatch.STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC"
+msgid "Gold Hatches excrete solid <link=\"GOLD\">Gold</link> as waste and enjoy burrowing into the ground."
+msgstr "金色哈奇会排泄固体<link=\"GOLD\">金</link>作为废物，并且喜欢钻入地下。"
+
+#. <link="HATCHGOLD">Gold Hatchling Egg</link>
+msgctxt "GoldHatch.STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.EGG_NAME"
+msgid "<link=\"HATCHGOLD\">Gold Hatchling Egg</link>"
+msgstr "<link=\"HATCHGOLD\">黄金哈奇蛋</link>"
+
+#. <link="HATCHGOLD">Gold Hatch</link>
+msgctxt "GoldHatch.STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.NAME"
+msgid "<link=\"HATCHGOLD\">Gold Hatch</link>"
+msgstr "<link=\"HATCHGOLD\">黄金哈奇</link>"

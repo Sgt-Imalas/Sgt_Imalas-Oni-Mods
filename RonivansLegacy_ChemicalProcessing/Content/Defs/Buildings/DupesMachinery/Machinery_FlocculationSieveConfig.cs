@@ -1,13 +1,7 @@
-﻿using HarmonyLib;
-using KSerialization;
+﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -38,8 +32,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] ingredient_mass = [200f, 100f];
-			string[] ingredient_types = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
+			float[] ingredient_mass = [200f, 2f];
+			string[] ingredient_types = [GameTags.Steel.ToString(), GameTags.BuildingGasket.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER2;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "flocculation_tank_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
@@ -55,6 +49,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 0);
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
+			buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
 			SoundUtils.CopySoundsToAnim("flocculation_tank_kanim", "waterpurifier_kanim");
 			return buildingDef;
 		}

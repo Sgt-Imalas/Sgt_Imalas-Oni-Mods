@@ -46,7 +46,8 @@ namespace BathTub.Duck
 
 		void OnSelect(object data)
 		{
-			if (!(bool)data) //on deselect
+			bool selected = ((Boxed<bool>)data).value;
+			if (!selected) //on deselect
 				return;
 			ModAssets.PlayRandomSqueak(this);
 		}

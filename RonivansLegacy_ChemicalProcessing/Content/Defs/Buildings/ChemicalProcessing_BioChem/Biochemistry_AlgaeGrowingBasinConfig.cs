@@ -1,12 +1,6 @@
-﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing;
+﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -77,8 +71,8 @@ namespace Biochemistry.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(ModElements.VegetableOil_Liquid.Tag, 0.06f),
-				new ElementConverter.ConsumedElement(SimHashes.Dirt.CreateTag(), 0.44f) 
+				new ElementConverter.ConsumedElement(ModElements.VegetableOil_Liquid.Tag, 0.05f),
+				new ElementConverter.ConsumedElement(SimHashes.Dirt.CreateTag(), 0.45f) 
 				];
 			converter.outputElements = [
 				new ElementConverter.OutputElement(0.5f, SimHashes.Algae, 296.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];

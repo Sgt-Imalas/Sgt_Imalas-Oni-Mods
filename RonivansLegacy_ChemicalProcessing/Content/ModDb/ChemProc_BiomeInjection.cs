@@ -1,16 +1,10 @@
 ﻿
 using ProcGen;
-using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
-using static STRINGS.GAMEPLAY_EVENTS;
-using static STRINGS.SUBWORLDS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -148,22 +142,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BiomeElementInjections.Create("Oil")
 				.SubBiome("OilPockets")
 					.Element(ModElements.OilShale_Solid, 1f)
-					.Element(ModElements.Galena_Solid, 1f)
+					.Element(SimHashes.Galena, 1f)
 				.SubBiome("OilField")
 					.Element(ModElements.OilShale_Solid, 1.5f)
-					.Element(ModElements.Galena_Solid, 1f)
+					.Element(SimHashes.Galena, 1f)
 				.SubBiome("OilPocketsFrozen")
 					.Element(ModElements.OilShale_Solid, 1.5f)
-					.Element(ModElements.Galena_Solid, 1)
+					.Element(SimHashes.Galena, 1)
 				.SubBiome("OilPocketsSandy")
 					.Element(ModElements.OilShale_Solid, 1.5f)
-					.Element(ModElements.Galena_Solid, 1f)
+					.Element(SimHashes.Galena, 1f)
 				.SubBiome("OilPatch")
 					.Element(ModElements.OilShale_Solid, 1.5f)
-					.Element(ModElements.Galena_Solid, 1f)
+					.Element(SimHashes.Galena, 1f)
 				.SubBiome("OilPatch")
 					.Element(ModElements.OilShale_Solid, 1.5f)
-					.Element(ModElements.Galena_Solid, 1f)
+					.Element(SimHashes.Galena, 1f)
 					;
 
 
@@ -218,7 +212,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///Geodes Trait feature:
 			FeatureElementInjections.Create("features/traits/Geode")
 				.TargetGroup("RoomCenterElements")
-					.Element(ModElements.Zinc_Solid, 50)
+					//.Element(ModElements.Zinc_Solid, 50)
 					.Element(ModElements.Silver_Solid, 50)
 					.Element(ModElements.Ammonia_Solid, 20)
 					.Element(ModElements.Borax_Solid, 20)
@@ -354,20 +348,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			///---[OIL BIOME]---
 			FeatureElementInjections.Create("features/oilpockets/Cavity")
-				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320).Element(ModElements.Galena_Solid,1)
+				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320).Element(SimHashes.Galena,1)
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(356);
 
 			FeatureElementInjections.Create("features/oilpockets/CavityOilFloatersTall")
-				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(224).Element(ModElements.Galena_Solid, 1)
+				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(224).Element(SimHashes.Galena, 1)
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(412);
 
 			FeatureElementInjections.Create("features/oilpockets/CavityPond")
-				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320).Element(ModElements.Galena_Solid, 1)
+				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320).Element(SimHashes.Galena, 1)
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(292);
 
 			FeatureElementInjections.Create("features/oilpockets/CavityPondFrozen")
 				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(412)
-				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(340).Element(ModElements.Galena_Solid, 1);
+				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(340).Element(SimHashes.Galena, 1);
 
 			FeatureElementInjections.Create("features/oilpockets/DiamondClump")
 				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(212)
@@ -680,6 +674,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		static ChemProc_BiomeInjection()
 		{
 			//ElementToBiomeInjection();
+			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled || !Config.Instance.WorldgenElementInjection)
+				return;
 			ElementToFeatureInjection();
 			FeatureToSubworldInjection();
 		}

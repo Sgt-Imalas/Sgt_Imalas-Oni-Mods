@@ -1,9 +1,4 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -17,11 +12,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = [400f, 200f];
+			float[] construction_mass = [400f, 4];
 			string[] construction_materials =
 			[
 				"RefinedMetal",
-				"Plastic"
+				MATERIALS.GASKET
 			];
 			EffectorValues tieR5 = NOISE_POLLUTION.NOISY.TIER5;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 6, "hep_centrifuge_kanim", 100, 90f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tieR5);

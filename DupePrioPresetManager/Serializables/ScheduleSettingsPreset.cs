@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using UnityEngine;
 using UtilLibs;
 
 namespace DupePrioPresetManager
@@ -97,8 +96,6 @@ namespace DupePrioPresetManager
 
 			string scheduleName = nameOverride.Length > 0 ? nameOverride : schedule.name;
 			var blockIDs = schedule.blocks.Select(block => block.GroupId).ToList();
-
-
 			var config = new ScheduleSettingsPreset(
 				FileNameWithHash(scheduleName),
 				scheduleName,

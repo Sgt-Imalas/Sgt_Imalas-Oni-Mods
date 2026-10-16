@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 
 namespace PoisNotIncluded.Content.Scripts
@@ -122,7 +119,7 @@ namespace PoisNotIncluded.Content.Scripts
 			else if (material == SimHashes.Polypropylene.CreateTag())
 				material = GameTags.Plastic;
 			else if (material == SimHashes.Glass.CreateTag() || material == SimHashes.Diamond.CreateTag())
-				material = GameTags.Transparent;
+				material = TUNING.MATERIALS.ALL_GLASSES;
 
 			entity.TryGetComponent<KBatchedAnimController>(out var kbac);
 

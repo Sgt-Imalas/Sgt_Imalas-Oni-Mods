@@ -1,22 +1,8 @@
-﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
-using HarmonyLib;
-using PeterHan.PLib.Options;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
-using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UtilLibs.BuildingPortUtils;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
+using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS;
-using static STRINGS.BUILDING.STATUSITEMS;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.UI;
-using static STRINGS.UI.NEWBUILDCATEGORIES;
 
 namespace RonivansLegacy_ChemicalProcessing
 {
@@ -83,6 +69,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Renewable Combustion Fuels", nameof(BIOCHEMISTRY_RENEWABLEFUEL));
 					public static LocString DESC = "A new generation of renewable fuels that can be produced from organic matter.";
+				}
+				public class METALLURGY_PLASMABASEDREFINEMENTTECH
+				{
+					public static LocString NAME = FormatAsLink("High Energy Plasma Refinement", nameof(METALLURGY_PLASMABASEDREFINEMENTTECH));
+					public static LocString DESC = "Unlocks new high energy plasma based based refinement processes.";
 				}
 			}
 		}
@@ -183,11 +174,11 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A mechanical device built to extract oil from raw materials. The raw materials are squeezed under high pressure through a caged barrel-like cavity.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Extract ",
+							"Extracts ",
 							FormatAsLink("Vegetable Oil", "LIQUIDVEGEOIL"),
 							" from raw food ingredients. The amount of oil, and the solid waste in the form of ",
 							FormatAsLink("Compressed Biomass", "SOLIDBIOMASS"),
-							" depend of the ingredient choosen.\nCan be diluted with water to produce ",global::STRINGS.ELEMENTS.PHYTOOIL.NAME
+							" depend of the ingredient choosen.\nIt can also be configured to do ",FormatAsLink("Plant Pulverizer", "MILKPRESS")," Recipes.\n",FormatAsLink("Vegetable Oil", "LIQUIDVEGEOIL"),"Can be diluted with water to produce ",global::STRINGS.ELEMENTS.PHYTOOIL.NAME
 						]);
 				}
 				public class BIOCHEMISTRY_BIODIESELREFINERY
@@ -239,9 +230,9 @@ namespace RonivansLegacy_ChemicalProcessing
 					FormatAsLink("Metal Ore", "RAWMETAL"),
 					".\n\nSignificantly ",
 					FormatAsLink("Heats", "HEAT"),
-					" and exclusively uses ",
+					" and strongly prefers ",
 					FormatAsLink("Super Coolant", "SUPERCOOLANT"),
-					" piped into it.\n\nDuplicants will not fabricate items unless recipes are queued."
+					" piped into it.\n\nUsing other coolants will cause the refinery to operate at reduced speeds.\n\nDuplicants will not fabricate items unless recipes are queued."
 					);
 				}
 				public class CHEMICAL_AMMONIABREAKER
@@ -270,6 +261,12 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Carbon Dioxide Compressor", nameof(CHEMICAL_CARBONDIOXIDECOMPRESSOR));
 					public static LocString DESC = "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached.";
 					public static LocString EFFECT = "Compresses " + FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE") + " gas and cool it down to" + FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE") + ". This device is also capable of storing liquid with complete insulation.";
+				}
+				public class CHEMICAL_CHLORINECOMPRESSOR
+				{
+					public static LocString NAME = FormatAsLink("Chlorine Gas Compressor", nameof(CHEMICAL_CHLORINECOMPRESSOR));
+					public static LocString DESC = "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached.";
+					public static LocString EFFECT = "Compresses " + FormatAsLink("Chlorine Gas", "CHLORINEGAS") + " and cool it down to" + FormatAsLink("Liquid Chlorine", "CHLORINE") + ". This device is also capable of storing liquid with complete insulation.";
 				}
 
 				public class CHEMICAL_CO2PUMP
@@ -407,7 +404,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Electric Steam Boiler", nameof(CHEMICAL_ELECTRICBOILER));
 					public static LocString DESC = "A small sized eletric boiler.";
-					public static LocString EFFECT = string.Concat("Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 106 °C. This particular boiler uses electricity.");
+					public static LocString EFFECT = string.Concat("Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 120°C. This particular boiler uses electricity.");
 				}
 				public class CHEMICAL_ENDOTHERMICUNIT
 				{
@@ -464,13 +461,14 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial petrochemical plant responsible for rearranging hydrocarbon molecules of Naphtha in to Petroleum.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"This second stage refinement plant is capable of further refining ",FormatAsLink("Naphtha", "NAPHTHA"), ":\n "+
+							"This second stage refinement plant is capable of further refining ",FormatAsLink("Naphtha", "NAPHTHA"), ":\n"+
 							"- 45% ",FormatAsLink("Petroleum", "PETROLEUM"), "\n" +
 							"- 10% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
 							"- 45% ",FormatAsLink("Bitumen", "BITUMEN"),".\n\n" +
 
 							"The process requires ", FormatAsLink("Hydrogen", "HYDROGEN")," to buffer the reaction." +
-							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+							"\nIMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."+
+							"\nCan be constructed above refinery buildings with vertical structure beams"
 						]);
 				}
 				public class CHEMICAL_PROPANEREFORMER
@@ -479,13 +477,14 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial petrochemical plant responsible for oxidative steam reforming process of Propane to Hydrogen.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Reforming process of ",FormatAsLink("Propane", "PROPANE"), " in to:\n "+
+							"Reforming process of ",FormatAsLink("Propane", "PROPANE"), " in to:\n"+
 							"- 60% ",FormatAsLink("Hydrogen", "HYDROGEN"), "\n" +
 							"- 30% ",FormatAsLink("Polluted Water", "DIRTYWATER"), " waste\n" +
 							"- 10% ",FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE")," waste\n" +
 
 							"The process require ",FormatAsLink("Steam", "STEAM")," for the operation.\n\n" +
-							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."+
+							"\nCan be constructed above refinery buildings with vertical structure beams"
 						]);
 				}
 				public class CHEMICAL_RAWGASREFINERY
@@ -510,9 +509,9 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial process plant responsible for refining the impure raw natural gas extracted from wells.";
 					public static LocString EFFECT = "The refinery has three stages:\n\n" +
 						"First Stage: Raw Natural Gas is first refined to: " +
-						"\n- 50% " + FormatAsLink("Natural Gas", "PETROLEUM") +
-						"\n- 40% " + FormatAsLink("Propane", "PROPANE") +
-						"\n- 10% " + FormatAsLink("Sour Gas", "SOURGAS") +
+						"\n- 33% " + FormatAsLink("Natural Gas", "METHANE") +
+						"\n- 27% " + FormatAsLink("Propane", "PROPANE") +
+						"\n- 40% " + FormatAsLink("Sour Gas", "SOURGAS") +
 						"\nSecond Stage: " + FormatAsLink("Propane", "PROPANE") + " is mixed with " + FormatAsLink("Hydrogen", "Hydrogen") + " resulting in a complete conversion to " + FormatAsLink("Methane", "METHANE") +
 						"\nThird Stage reacts the remaining " + FormatAsLink("Sour Gas", "SOURGAS") + " with Nitric Acid, producing Ammonia Gas.";
 
@@ -547,10 +546,10 @@ namespace RonivansLegacy_ChemicalProcessing
 							"Heat from the capacitor is dispersed by heating the passing coolant until it is near its boiling point.\n\n",
 							"If the maximum heat capacity is exceeded, it will be rendered nonfunctional until all heat is dispersed again."
 						]);
-					public static string REFINEMENT_HEAT_EXHAUST = "Refinement exhaust heat";
-					public static string REFINEMENT_SELF_HEAT = "Refinement heat";
-					public static string REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of " + FormatAsPositiveRate("{0}") + " in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
-					public static string REFINEMENT_HEAT_TOOLTIP = FormatAsPositiveRate("{0}") + " of " + PRE_KEYWORD + "Heat" + PST_KEYWORD + " will be produced to cool off the fabricated item\n\nThis heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\nCoolant near its boiling point will be prevented from boiling, but have reduced heat dispersion.";
+					public static LocString REFINEMENT_HEAT_EXHAUST = "Refinement exhaust heat";
+					public static LocString REFINEMENT_SELF_HEAT = "Refinement heat";
+					public static LocString REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of " + FormatAsPositiveRate("{0}") + " in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
+					public static LocString REFINEMENT_HEAT_TOOLTIP = FormatAsPositiveRate("{0}") + " of " + PRE_KEYWORD + "Heat" + PST_KEYWORD + " will be produced to cool off the fabricated item\n\nThis heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\nCoolant near its boiling point will be prevented from boiling, but have reduced heat dispersion.";
 				}
 				public class CHEMICAL_SOILMIXER
 				{
@@ -732,7 +731,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("CNC Machining Station", nameof(MINING_CNCMACHINE));
 					public static LocString DESC = "An advanced CNC (Computer Numerical Control) Machining production station. Capable of managing different tools using specific directives by graphical computer-aided design software.";
-					public static LocString EFFECT = "Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be operated.";
+					public static LocString EFFECT = "Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be built.";
 				}
 				public class MINING_AUGERDRILL
 				{
@@ -769,7 +768,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						"Treat ",
 						FormatAsLink("Polluted Water", "DIRTYWATER"), " or " +FormatAsLink("Toxic Slurry", "TOXICSLURRY"),
 						" using special filter and chemicals. " +
-						"Sieve process also completely removes", FormatAsLink("Germs", "DISEASE"),"."
+						"Sieve process also completely removes ", FormatAsLink("Germs", "DISEASE"),"."
 					]);
 				}
 				public class SLIMEVAT
@@ -885,7 +884,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Alert LED", nameof(LOGICALERTLIGHT));
 					public static LocString DESC = "A white colored alert light.";
-					public static LocString EFFECT = "A led light that servers as alert. Produces no significant luminosity.";
+					public static LocString EFFECT = "A led light that serves as an alert. Produces no significant luminosity.";
 					public class FACADES
 					{
 						public class LOGICALERTLIGHTRED
@@ -985,7 +984,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class STRUCTURETILE
 				{
-					public static LocString NAME = FormatAsLink("Structure Tile", nameof(REINFORCEDCONCRETETILE));
+					public static LocString NAME = FormatAsLink("Structure Tile", nameof(STRUCTURETILE));
 					public static LocString DESC = "A solid structural tile wrought from refined metal. Use to build the walls and floors of rooms.";
 					public static LocString EFFECT = "This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid.\nHigh wattage wires and heavy duty rails are not obstructed.";
 				}
@@ -1023,7 +1022,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Insulation Composite Tile", nameof(INSULATIONCOMPOSITIONTILE));
 					public static LocString DESC = "Used to build the walls and floors of rooms. Reduces heat transfer between walls, retaining ambient heat in an area.";
-					public static LocString EFFECT = "A solid tile assembled in a range of materials and radiative pattern that reduce the heat transfer.";
+					public static LocString EFFECT = "A solid tile assembled in a range of materials and radiative pattern that reduce the heat transfer.\nIt has the same insulating properties as the regular insulated tile, but offers a small run speed bonus to duplicants.";
 				}
 				public class WOODENCEILING
 				{
@@ -1211,7 +1210,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Logistic Solid Bridge", nameof(LOGISTICBRIDGE));
 					public static LocString DESC = "Separating rail systems helps ensure materials go to the intended destinations.";
-					public static LocString EFFECT = "Runs one " + FormatAsLink("Conveyor Rail", "SOLIDCONDUIT") + " section over another without joining them.\n\nCan be run through wall and floor tile.";
+					public static LocString EFFECT = "Runs one " + FormatAsLink("Logistic Rail", "LOGISTICRAIL") + " section over another without joining them.\n\nCan be run through wall and floor tile.";
 				}
 				public class LOGISTICFILTER
 				{
@@ -1338,7 +1337,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class HIGHPRESSUREGASCONDUIT
 				{
-					public static LocString NAME = FormatAsLink("High Pressure Gas Conduit", nameof(HIGHPRESSUREGASCONDUIT));
+					public static LocString NAME = FormatAsLink("High Pressure Gas Pipe", nameof(HIGHPRESSUREGASCONDUIT));
 					public static LocString DESC = "A reinforced gas pipe capable of handling high pressure flow.\nComposite nature of the pipe prevents gas contents from significantly changing temperature in transit.";
 					public static LocString EFFECT = string.Concat(
 						[
@@ -1349,9 +1348,21 @@ namespace RonivansLegacy_ChemicalProcessing
 							".\n\nCan be run through wall and floor tile."
 						]);
 				}
+				public class HIGHPRESSUREGASCONDUITRADIANT
+				{
+					public static LocString NAME = FormatAsLink("Radiant High Pressure Gas Pipe", nameof(HIGHPRESSUREGASCONDUITRADIANT));
+					public static LocString DESC = "A reinforced gas pipe capable of handling high pressure flow, optimized for temperature exchange.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Carries a maximum of {CAPACITY} of ",
+							FormatAsLink("Gas", "ELEMENTS_GAS"),
+							$", allowing extreme {FormatAsLink("Temperature", "HEAT")} exchange with the surrounding environment.",
+							".\n\nCan be run through wall and floor tile."
+						]);
+				}
 				public class HIGHPRESSURELIQUIDCONDUITBRIDGE
 				{
-					public static LocString NAME = FormatAsLink("High Pressure Liquid Conduit Bridge", nameof(HIGHPRESSURELIQUIDCONDUITBRIDGE));
+					public static LocString NAME = FormatAsLink("High Pressure Liquid Bridge", nameof(HIGHPRESSURELIQUIDCONDUITBRIDGE));
 					public static LocString DESC = "A reinforced liquid pipe bridge capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from significantly changing temperature in transit.";
 					public static LocString EFFECT = "Runs one High Pressure Liquid Pipe section over another without joining them.\n\nCan be run through wall and floor tile.";
 				}
@@ -1368,10 +1379,22 @@ namespace RonivansLegacy_ChemicalProcessing
 							".\n\nCan be run through wall and floor tile."
 						]);
 				}
+				public class HIGHPRESSURELIQUIDCONDUITRADIANT
+				{
+					public static LocString NAME = FormatAsLink("Radiant High Pressure Liquid Pipe", nameof(HIGHPRESSURELIQUIDCONDUITRADIANT));
+					public static LocString DESC = "A reinforced liquid pipe capable of handling high pressure flow, optimized for temperature exchange.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Carries a maximum of {CAPACITY} of ",
+							FormatAsLink("Liquid", "ELEMENTS_LIQUID"),
+							$", allowing extreme {FormatAsLink("Temperature", "HEAT")} exchange with the surrounding environment.",
+							".\n\nCan be run through wall and floor tile."
+						]);
+				}
 				public class PRESSUREGASPUMP
 				{
 					public static LocString NAME = FormatAsLink("High Pressure Gas Pump", nameof(PRESSUREGASPUMP));
-					public static LocString DESC = "An advanced pump that perform mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of moving large amounts of gases, although this is only archived through the " + FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID) + ".";
+					public static LocString DESC = "An advanced pump that performs mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of moving large amounts of gases, although this is only archived through the " + FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID) + ".";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Draws in ",
@@ -1386,7 +1409,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class PRESSURELIQUIDPUMP
 				{
 					public static LocString NAME = FormatAsLink("High Pressure Liquid Pump", nameof(PRESSURELIQUIDPUMP));
-					public static LocString DESC = "An advanced pump that perform mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of moving large amounts of liquids, although this is only archived through the " + FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID) + ".";
+					public static LocString DESC = "An advanced pump that performs mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of moving large amounts of liquids, although this is only archived through the " + FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID) + ".";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Draws in ",
@@ -1602,13 +1625,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class CUSTOMPETROLEUMGENERATOR
 				{
 					public static LocString NAME = FormatAsLink("Custom Combustion Generator", nameof(CUSTOMPETROLEUMGENERATOR));
-					public static LocString DESC = "A small, custom Combustible Liquid generator. This rather versatile generator has piped outputs.";
+					public static LocString DESC = "A small, custom Combustible Liquid generator. This rather versatile generator has optional piped outputs.";
 					public static LocString EFFECT = "Converts " + FormatAsLink("Combustable Fuel", "COMBUSTIBLELIQUID") + " into Power.\nThe waste products are either released into the world or inserted into pipes.";
 				}
 				public class CUSTOMMETHANEGENERATOR
 				{
 					public static LocString NAME = FormatAsLink("Custom Gas Generator", nameof(CUSTOMMETHANEGENERATOR));
-					public static LocString DESC = "A small, custom Combustible Gas generator. This rather versatile generator has piped outputs.";
+					public static LocString DESC = "A small, custom Combustible Gas generator. This rather versatile generator has optional piped outputs.";
 					public static LocString EFFECT = "Converts " + FormatAsLink("Combustible Gas", "COMBUSTIBLEGAS") + " into Power.\nThe waste products are either released into the world or inserted into pipes.";
 				}
 				public class CUSTOMSOLARPANEL
@@ -1646,6 +1669,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = "Maximum Item Weight: {0}";
 					public static LocString TOOLTIP = "This conveyor rail can transport items up to {0}.";
+				}
+				public class PREFERRED_COOLANT
+				{
+					public static LocString NAME = "High Performance Coolant Requirement";
+					public static LocString TOOLTIP = "This refinery requires a high performance coolant like {0} to function properly.\nUsing lesser coolants will result in suboptimal cooling performances, resulting in a reduction in refinement speed.";
 				}
 			}
 			public class STATUSITEMS
@@ -1706,7 +1734,17 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class ALGAEGROWER_LIGHTEFFICIENCY
 				{
 					public static LocString NAME = "Growth Efficiency: {0}";
-					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.\nRequires at minimum {1}.";
+					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.\nRequires at minimum {1} averaged over all light receiving tiles to operate at full speed.";
+				}
+				public class ALGAEGROWER_BONUSLIGHT
+				{
+					public static LocString NAME = "Thriving Growth (+{0})";
+					public static LocString TOOLTIP = "With this much light, the algae in this building are truly thriving.\nThe building currently produces an additional {0} more algae.";
+				}
+				public class CONVERTER_IDLE
+				{
+					public static LocString NAME = "Idle";
+					public static LocString TOOLTIP = "This building is not producing anything right now.";
 				}
 				public class CONVERTER_STORAGEFULL
 				{
@@ -1738,10 +1776,35 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = "Thermal capacitor level: {0}";
 					public static LocString TOOLTIP = "This buildings internal heat capacitor stores heat energy to transfer it to the piped in coolant.\nCapillary structures will prevent coolant from boiling at the cost of reduced heat transfer.\nIf the capacitor fills up completely, the building will be rendered inoperational until its fully cooled down again.";
 				}
+				public class AIO_ADVREFINERY_NOSUPERCOOLANT
+				{
+					public static LocString NAME = "Thermal Throttling active!";
+					public static LocString TOOLTIP = "The use of a lower-grade coolant has caused this refinery to throttle its refinement speed.\nChanging to Supercoolant will resolve this issue.";
+				}
+				public class AIO_PRINTING
+				{
+					public static LocString NAME = "Printing {ITEM} {PERCENTAGE}";
+					public static LocString TOOLTIP = "Currently configured to print {ITEM}.";
+				}
+				public class AIO_FREEZERATMOSPHERE
+				{
+					public static LocString TOOLTIP = "Food inside this building is under sterile atmospheric conditions from the gas pumped into it ({0})";
+				}
 			}
 		}
 		public class CREATURES
 		{
+			public class MODIFIERS
+			{
+				public class AIO_NITROGENIZED
+				{
+					public static LocString NAME = "Atmospheric Fertilization";
+					public static LocString TOOLTIP = $"Consumption of atmospheric {FormatAsLink("Nitrogen", "NITROGENGAS")} boosts the growth of this {PRE_KEYWORD}Plant{PST_KEYWORD}.\n\nConsuming Nitrogen: {{0}}";
+
+					public static LocString CODEX_FORMAT = "{0}% Growth Speed Boost";
+				}
+			}
+
 			public class SPECIES
 			{
 				public class GEYSER
@@ -1792,21 +1855,23 @@ namespace RonivansLegacy_ChemicalProcessing
 		public class ELEMENTS
 		{
 			//===== [ Zinc ] ================================
+			//gone vanilla now
+			//kept for compatibility due to different id
 			public class SOLIDZINC
 			{
-				public static LocString NAME = FormatAsLink("Zinc", nameof(SOLIDZINC));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal, slightly brittle metal.";
+				public static LocString NAME = FormatAsLink("Zinc (Legacy)", nameof(SOLIDZINC));
+				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal, slightly brittle metal.\nThis modded version of the element has now been superceded by the vanilla version";
 			}
-			public class MOLTENZINC
-			{
-				public static LocString NAME = FormatAsLink("Molten Zinc", nameof(MOLTENZINC));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its molten state.";
-			}
-			public class ZINCGAS
-			{
-				public static LocString NAME = FormatAsLink("Zinc Gas", nameof(ZINCGAS));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its gaseous state.";
-			}
+			//public class MOLTENZINC
+			//{
+			//	public static LocString NAME = FormatAsLink("Molten Zinc", nameof(MOLTENZINC));
+			//	public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its molten state.";
+			//}
+			//public class ZINCGAS
+			//{
+			//	public static LocString NAME = FormatAsLink("Zinc Gas", nameof(ZINCGAS));
+			//	public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its gaseous state.";
+			//}
 			//===== [ Silver ] ==============================
 			public class SOLIDSILVER
 			{
@@ -1853,7 +1918,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class NITROGENGAS
 			{
 				public static LocString NAME = FormatAsLink("Nitrogen", nameof(NITROGENGAS));
-				public static LocString DESC = "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table.";
+				public static LocString DESC = "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table.\nSome plants benefit from growing in a nitrogenized atmosphere.";
 			}
 			//===== [ Toxic Waste ] ==========================
 			public class TOXICCLAY
@@ -1994,7 +2059,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class SOURWATER
 			{
 				public static LocString NAME = FormatAsLink("Sour Water", nameof(SOURWATER));
-				public static LocString DESC = "An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S>) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to hydrogen sulfide sources, but it is more common as a wastewater from industrial processes.";
+				public static LocString DESC = "An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to hydrogen sulfide sources, but it is more common as a wastewater from industrial processes.";
 			}
 			//===== [ Metallic Sands ] =======================
 			public class LOWGRADESAND
@@ -2036,13 +2101,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class AURICHALCITEORE
 			{
-				public static LocString NAME = FormatAsLink("Zinc Ore", nameof(AURICHALCITEORE));
-				public static LocString DESC = "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, and the main source of refined " + FormatAsLink("Zinc", "SOLIDZINC") + " metal.";
-			}
-			public class GALENA
-			{
-				public static LocString NAME = FormatAsLink("Galena", nameof(GALENA));
-				public static LocString DESC = "Galena is the natural mineral form of lead(II) sulfide (PbS).It is the most important ore of " + FormatAsLink("Lead", "LEAD") + " and an important source of " + FormatAsLink("Silver", "SOLIDSILVER") + ".";
+				public static LocString NAME = FormatAsLink("Aurichalcite", nameof(AURICHALCITEORE));
+				public static LocString DESC = "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, mainly composed of " + FormatAsLink("Zinc", "ZINC") + " and " + FormatAsLink("Copper", "COPPER")+".";
 			}
 			public class CHLOROSCHIST
 			{
@@ -2100,8 +2160,15 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class MISC
 		{
+			public class CODEXINFO
+			{
+				public static LocString COMBINED_RECIPE_TOOLTIP = "This recipe ingredient requirement can be satisfied by any of the following items:";
+			}
 			public class TAGS
 			{
+				public static LocString SODAFOUNTAINGAS = FormatAsLink("Soda Gas", nameof(SODAFOUNTAINGAS));
+				public static LocString SODAFOUNTAINGAS_DESC = "Gasses that can be used by the " + FormatAsLink("Soda Fountain", "SODAFOUNTAIN") + " to create a sparkling soda.";
+
 				public static LocString CHEMICALPROCESSING_RANDOMSAND = FormatAsLink("Metallic Sand", nameof(CHEMICALPROCESSING_RANDOMSAND));
 				public static LocString CHEMICALPROCESSING_RANDOMSAND_DESC = "Sandy materials composed of a various number of metallic grains";
 
@@ -2126,6 +2193,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString AIO_BIOFUEL = FormatAsLink("Renewable Biofuel", nameof(AIO_BIOFUEL));
 				public static LocString AIO_BIOFUEL_DESC = "Combustible liquid fuels made frome regenerative materials.";
+
+				public static LocString AIO_ACID = FormatAsLink("Acid", nameof(AIO_ACID));
+				public static LocString AIO_ACID_DESC = "Acids are highly corrosive substances.";
 			}
 		}
 		public class ITEMS
@@ -2193,12 +2263,26 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString RECIPE_DESC = "Instruct the computer to produce a Guidance Device.";
 					public static LocString RECIPE_DESC_PROGRAM = "Instruct the computer to load the target program for the {0} into the Guidance Device";
 				}
+				public class AIO_BIOPLASTICGASKET
+				{
+					public static LocString NAME = FormatAsLink("Bioplastic Gasket", "AIO_BIOPLASTICGASKET");
+					public static LocString DESC = "A flexible " + FormatAsLink("Bioplastic", "BIOPLASTIC") + " seal, made at the " + FormatAsLink("Crafting Station", "CRAFTINGTABLE") + ".\n\nPrevents unwanted " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " leakage.";
+				}
+				public class AIO_FIBERGLASSGASKET
+				{
+					public static LocString NAME = FormatAsLink("Fiberglass Gasket", "AIO_FIBERGLASSGASKET");
+					public static LocString DESC = "A robust " + FormatAsLink("Fiberglass", "SOLIDFIBERGLASS") + " seal, made at the " + FormatAsLink("Crafting Station", "CRAFTINGTABLE") + ".\n\nPrevents unwanted " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " leakage.";
+				}
+				public class AIO_HARDPOLYPROPYLENEGASKET
+				{
+					public static LocString NAME = FormatAsLink("Plastium Gasket", "AIO_HARDPOLYPROPYLENEGASKET");
+					public static LocString DESC = "A robust " + FormatAsLink("Plastium", "HARDPOLYPROPYLENE") + " seal, made at the " + FormatAsLink("Crafting Station", "CRAFTINGTABLE") + ".\n\nPrevents unwanted " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " leakage.";
+				}
 			}
 		}
 		public class UI
 		{
-
-
+			public static LocString TOOLTIP_ADDON_RONIVANAIO = UIUtils.ColorText(UIUtils.EmboldenText("Industrial Revolution"), "ff9d8d") + " Content"; //rusty red color
 			public class AIO_THRESHOLD_VALVE_SIDESCREEN
 			{
 				public static LocString TITLE = "Package Mass Threshold";
@@ -2216,6 +2300,12 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString LOGIC_PORT = "Machine Active";
 					public static LocString LOGIC_PORT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the machine is actively producing something.");
+					public static LocString LOGIC_PORT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+				}
+				public class ENERGYSAVER_ACTIVE
+				{
+					public static LocString LOGIC_PORT = "Energy Saver";
+					public static LocString LOGIC_PORT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when all contents have been cooled down to the target temperature and the building has gone into energy saver mode.");
 					public static LocString LOGIC_PORT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
 				}
 			}
@@ -2289,11 +2379,18 @@ namespace RonivansLegacy_ChemicalProcessing
 							{
 								public static LocString ENABLEBUILDING = "Enable Building:";
 								public static LocString CAPACITYSETTINGS = "Storage Capacity:";
+								public static LocString CAPACITYSETTINGS_TOOLTIP = "The upper limit of the storage is capped at {0} due to the game's maximum mass of items.\nUse the mod config option \"Maximum liquid/gas element stack size\" to increase that limit if you want to have a larger storage.";
 								public static LocString WATTAGESETTINGS = "Power Consumption:";
 								public static LocString WATTAGESETTINGS_GENERATOR = "Power Generation:";
 								public static LocString RANGESETTINGS = "Building Range:";
 								public static LocString RANGESETTINGS_SWEEPER = "Sweeper Range:";
 								public static LocString RANGESETTINGS_PUMP = "Pump Range:";
+								public static LocString RATESETTING_GENERATOR = "Generator Rate:";
+								public static LocString RATESETTING_GENERATOR_TOOLTIP = "This generator building will work at a rate of {PERCENTAGE}.\nIt will generate {WATTAGE} while consuming {FUEL} at a rate of {RATE}.";
+								public class RESETBUTTON
+								{
+									public static LocString TEXT = "Reset To Default";
+								}
 							}
 						}
 
@@ -2328,6 +2425,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString AQUIFER = "Aquifer";
 				public static LocString OIL_RESERVES = "Oil Reserves";
 				public static LocString CRYOSPHERE = "Cryosphere";
+
+				public static LocString DLC2 = "Frosty Stratum";
+				public static LocString DLC4 = "Prehistoric Stratum";
+				public static LocString DLC5 = "Aquatic Stratum";
 			}
 			public class MINING_AUGUR_DRILL
 			{
@@ -2476,6 +2577,16 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = "Reenable old multi-stage refineries";
 				public static LocString TOOLTIP = "Reenables the two old Multi-Stage refineries in chemical processing";
 			}
+			public class DRYWALL_HIDES_PIPES
+			{
+				public static LocString NAME = "All Walls hide pipes";
+				public static LocString TOOLTIP = "Like with the mod \"Drywall hides Pipes\", all backwall buildings are rendered in front of pipes and wires.";
+			}
+			public class OVERRIDE_PRIMARYELEMENT_MAXSTACK
+			{
+				public static LocString NAME = "Maximum liquid/gas element stack size";
+				public static LocString TOOLTIP = "Overrides the game's internal maximum stack size value of element chunks\nThis is required if you want to set reservoir capacity above 100T, as the game will otherwise cut off any mass above that limit.\nIf any other mod sets a higher value, that higher value will be used instead.\n\nRequires confirming the config with \"Ok\" to affect the building editor capacity limit in the same game session.";
+			}
 			public class GEYSERS
 			{
 				public static LocString NAME = "Mod Geysers spawn from worldgen";
@@ -2547,6 +2658,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = "Anaerobic Digester Natgas Multiplier";
 				public static LocString TOOLTIP = "Multiply the natural gas output amounts of the anaerobic digester by this value.";
 			}
+			public class BIOCHEM_OILMULTIPLIER
+			{
+				public static LocString NAME = "Expeller Press Oil Multiplier";
+				public static LocString TOOLTIP = "Multiply the vegetable oil output amounts of the expeller press by this value.";
+			}
 			public class CUSTOMRES_MOVETOCONDUITCATEGORY
 			{
 				public static LocString NAME = "Move all Reservoirs to their piping category";
@@ -2571,8 +2687,45 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class CHEMPROC_ARCFUDGE
 			{
-				public static LocString NAME = "Arc furnace  Thermal Fudge";
+				public static LocString NAME = "Arc Furnace Thermal Fudge";
 				public static LocString TOOLTIP = "The selective arc furnace only puts a percentage of its recipes heat into its internal heat capacitor.\nThe default value for the mod is 90%";
+			}
+			public class CHEMPROC_ARC_CAPACITOR
+			{
+				public static LocString NAME = "Arc Furnace Thermal Capacitor Size";
+				public static LocString TOOLTIP = "The total heat capacity of the arc-furnace's internal thermal capacitor";
+				public static LocString FORMAT = "0" + global::STRINGS.UI.UNITSUFFIXES.ELECTRICAL.MEGAJOULE;
+			}
+			public class HPA_TEMPIMMUNE_PUMPS
+			{
+				public static LocString NAME = "Overheat Immune High-Pressure-Pumps";
+				public static LocString TOOLTIP = "Makes high pressure pumps immune to overheating.\n(Restores old behavior for existing save compatibility)";
+			}
+			public class LOGISTICS_NOSELFHEATING
+			{
+				public static LocString LOGISTIC_SWEEPER = "No Self Heating: Logistic Sweeper";
+				public static LocString LOGISTIC_LOADER = "No Self Heating: Logistic Loader";
+				public static LocString TOOLTIP = "Makes this building no longer produce any heat.";
+			}
+			public class HPA_HARDENEDALLOY
+			{
+				public static LocString NAME = "Steel substitution in hp building recipes";
+				public static LocString TOOLTIP = "Allows Thermium as an alternative to steel in the construction of High Pressure Buildings.\nAutomatically active with \"Chemical Processing-Industrial Overhaul\"";
+			}
+			public class HPA_RAILINWALLS
+			{
+				public static LocString NAME = "Allow Heavy-Duty Rails in walls";
+				public static LocString TOOLTIP = "Allows placement of heavy-duty rails inside of walls like regular rails.";
+			}
+			public class REFRIGERATION_ATMOSPHEREINPUT
+			{
+				public static LocString NAME = "High-Tech Fridge atmosphere ports";
+				public static LocString TOOLTIP = "Adds a gas port to high tech fridges that allows pumping in sterile gases\nIf you use a germ killing gas like chlorine, it will also kill germs on the food items inside.\nThe pumped in atmosphere gets consumed slowly.";
+			}
+			public class REFRIGERATION_ATMOSPHEREINPUTRATE
+			{
+				public static LocString NAME = "sterile atmosphere consumption rate";
+				public static LocString TOOLTIP = "Rate in g/s at which the sterile atmosphere input gets consumed";
 			}
 		}
 	}

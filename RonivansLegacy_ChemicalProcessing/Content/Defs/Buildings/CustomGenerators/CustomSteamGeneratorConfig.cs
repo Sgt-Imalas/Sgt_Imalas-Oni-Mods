@@ -1,36 +1,52 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
-using STRINGS;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
-    class CustomSteamGeneratorConfig : IBuildingConfig
+    class CustomSteamGeneratorConfig : IBuildingConfig, IHasConfigurableRateMultiplier
 	{
 		
 		public const float SizeMultiplier = 1f / 3f; // 1/3 of the area
 
 		public static string ID = "CustomSteamGenerator";
 
-		const float conduitInputRate = 1;
+		public static float RateMultiplier = 1f;
+		public void SetMultiplier(float multiplier)
+		{
+			RateMultiplier = multiplier;
+		}
+		public Func<BuildingConfigurationEntry, string> GetCurrentRateDescription()
+		{
+			return (entry) =>
+			{
+				string toFormat = RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RATESETTING_GENERATOR_TOOLTIP;
+
+				float baseTurbineWattage = CustomizeBuildings.GetTurbineBaseValue();
+				float currentMultiplier = entry.GetRateMultiplier();
+
+				return toFormat
+				.Replace("{PERCENTAGE}", GameUtil.GetFormattedPercent(currentMultiplier * 100f))
+				.Replace("{WATTAGE}", GameUtil.GetFormattedWattage(baseTurbineWattage * SizeMultiplier * currentMultiplier))
+				.Replace("{FUEL}",global::STRINGS.ELEMENTS.STEAM.NAME)
+				.Replace("{RATE}", GameUtil.GetFormattedMass(2f * SizeMultiplier * currentMultiplier))
+				;
+			};
+		}
+		public string GetRateLabel() => RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RATESETTING_GENERATOR;
 
 		public override BuildingDef CreateBuildingDef()
 		{
 			//hide coal gen slider
 			GeneratorList.AddGeneratorToIgnore(ID);
 
-			float[] construction_mass = [250, 50];
-			string[] construction_materials = [GameTags.RefinedMetal.ToString(), GameTags.Plastic.ToString()];
+			float[] construction_mass = [250, 1];
+			string[] construction_materials = [GameTags.RefinedMetal.ToString(), GameTags.BuildingGasket.ToString()];
 
 			EffectorValues decor = TUNING.BUILDINGS.DECOR.NONE;
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER5;
@@ -42,10 +58,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 				construction_mass, construction_materials,
 				1600f, BuildLocationRule.OnFloor, decor, noise);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityOutputOffset = new CellOffset(0, 4);
+			buildingDef.UtilityOutputOffset = new CellOffset(0, 3);
 			float baseTurbineWattage = CustomizeBuildings.GetTurbineBaseValue();
-			buildingDef.GeneratorWattageRating = baseTurbineWattage * SizeMultiplier;
-			buildingDef.GeneratorBaseCapacity = baseTurbineWattage * SizeMultiplier;
+			buildingDef.GeneratorWattageRating = baseTurbineWattage * SizeMultiplier * RateMultiplier;
+			buildingDef.GeneratorBaseCapacity = baseTurbineWattage * SizeMultiplier * RateMultiplier;
 			buildingDef.Entombable = true;
 			buildingDef.IsFoundation = false;
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
@@ -54,10 +70,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			buildingDef.RequiresPowerOutput = true;
 			buildingDef.PowerOutputOffset = new CellOffset(0, 0);
 			buildingDef.OverheatTemperature = 1273.15f;
-			buildingDef.SelfHeatKilowattsWhenActive = 4f * SizeMultiplier;
+			buildingDef.SelfHeatKilowattsWhenActive = 4f * SizeMultiplier * RateMultiplier;
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
-			buildingDef.AddSearchTerms((string)SEARCH_TERMS.POWER);
-			buildingDef.AddSearchTerms((string)SEARCH_TERMS.STEAM);
+			buildingDef.AddSearchTerms(global::STRINGS.SEARCH_TERMS.STEAM);
+			buildingDef.AddSearchTerms(global::STRINGS.SEARCH_TERMS.STEAM);
 
 			SoundUtils.CopySoundsToAnim("custom_steam_generator_kanim", "steamturbine2_kanim");
 			return buildingDef;
@@ -70,7 +86,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			storage1.showInUI = false;
 			storage1.storageFilters = STORAGEFILTERS.LIQUIDS;
 			storage1.SetDefaultStoredItemModifiers(SteamTurbineConfig2.StoredItemModifiers);
-			storage1.capacityKg = 10f * SizeMultiplier;
+			storage1.capacityKg = 10f * SizeMultiplier * RateMultiplier;
 
 			Storage storage2 = go.AddComponent<Storage>();
 			storage2.showDescriptor = false;
@@ -81,14 +97,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			SteamTurbine steamTurbine = go.AddOrGet<SteamTurbine>();
 			steamTurbine.srcElem = SimHashes.Steam;
 			steamTurbine.destElem = SimHashes.Water;
-			steamTurbine.pumpKGRate = 2f * SizeMultiplier;
-			steamTurbine.maxSelfHeat = 64f * SizeMultiplier;
+			steamTurbine.pumpKGRate = 2f * SizeMultiplier * RateMultiplier;
+			steamTurbine.maxSelfHeat = 64f * SizeMultiplier * RateMultiplier;
 			steamTurbine.wasteHeatToTurbinePercent = 0.1f;
 
 			if(CustomizeBuildings.TryGetOtherTurbineValues(
 				out var pumpRate, out var heatTransferPercent, out var minActiveTemp, out var idealTemp, out var outputTemp, out var overheatTemp))
 			{
-				steamTurbine.pumpKGRate = pumpRate * SizeMultiplier;
+				steamTurbine.pumpKGRate = pumpRate * SizeMultiplier * RateMultiplier;
 				steamTurbine.wasteHeatToTurbinePercent = heatTransferPercent;
 				steamTurbine.minActiveTemperature = minActiveTemp;
 				steamTurbine.idealSourceElementTemperature = idealTemp;

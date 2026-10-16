@@ -1,16 +1,11 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using UnityEngine;
 using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 {
 	/// <summary>
-	/// Integration with the mod HysteresisStorage
+	/// Integration with the mod PreciseStorageControl
 	/// </summary>
 	public static class PreciseStorageControl
 	{
@@ -29,7 +24,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			if (typesInitialized) return;
 			typesInitialized = true;
 			PreciselyFilteredStorageControllerType = Type.GetType("PreciselyControlled.PreciselyFilteredStorageController, PreciseControlStorage");
-			SgtLogger.l("PreciselyControlled integration: " + (PreciselyFilteredStorageControllerType != null ? "Success" : "Failed"));
+			SgtLogger.l("PreciselyControlled integration: " + (PreciselyFilteredStorageControllerType != null ? "Active" : "Inactive"));
 		}
 	}
 }

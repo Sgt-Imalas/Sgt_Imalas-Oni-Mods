@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UtilLibs;
+﻿using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -32,6 +26,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				else if(t == GameTags.Filter)
 				{
 					__result.first = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim("filter_media_kanim"));
+					__result.second = Color.white;
+				}
+				else if (t == GameTags.AnyWater)
+				{
+					__result.first = Assets.GetSprite("AIO_AnyWater");
+					__result.second = Color.white;
+				}
+
+				var ui_name = "ui_" + t;
+				if(__result.first.name == "unknown" && Assets.Sprites.TryGetValue(ui_name, out var sprite))
+				{
+					__result.first = sprite;
 					__result.second = Color.white;
 				}
 			}

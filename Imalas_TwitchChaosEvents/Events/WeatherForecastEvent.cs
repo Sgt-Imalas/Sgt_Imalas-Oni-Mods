@@ -46,15 +46,33 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public Action<object> EventAction => (obj) =>
 		{
-			WeightedList<EventInfo> weatherEvents = new ();
+			PickRandomWeatherEvent();
+		};
+
+		class WeatherEventTrigger
+		{
+			public WeatherEventTrigger(string id, string friendly, System.Action<object> trigger)
+			{
+				Id = id;
+				FriendlyName = friendly;
+				TriggerEventAction = trigger;
+			}
+			public string Id;
+			public string FriendlyName;
+			public System.Action<object> TriggerEventAction;
+		}
+
+		void PickRandomWeatherEvent()
+		{
+			WeightedList<WeatherEventTrigger> weatherEvents = new();
 			foreach (var e in WeatherEvents)
 			{
-				if (EventRegistration.TryGetEvent(e, out var eventInfo))
+				if (ConditionHelper.AsquaredTwitchIntegration_Active() && EventRegistration.TryGetEvent_Asquared(e, out var eventInfo))
 				{
 					bool eventAllowed = eventInfo.CheckCondition(null);
 					int weight = (int)EventWeight.WEIGHT_RARE;
 					var group = eventInfo.Group;
-					if(group != null)
+					if (group != null)
 					{
 						SgtLogger.l(eventInfo.FriendlyName + " group found");
 						var weights = group.GetWeights();
@@ -64,14 +82,22 @@ namespace Imalas_TwitchChaosEvents.Events
 							var key = weights.Keys.FirstOrDefault(e => e.Id == eventInfo.Id);
 							if (key != null)
 								weights.TryGetValue(key, out weight);
-						} 
+						}
 					}
 
 					if (eventAllowed)
 					{
-						weatherEvents.Add(eventInfo, weight);
+						weatherEvents.Add(new WeatherEventTrigger(eventInfo.Id, eventInfo.FriendlyName, (data) => eventInfo.Trigger(data)), weight);
 					}
-					SgtLogger.l("potential weather event: " + eventInfo.FriendlyName + ", can it execute: " + eventAllowed+", event weight: "+weight);
+					SgtLogger.l("potential weather event: " + eventInfo.FriendlyName + ", can it execute: " + eventAllowed + ", event weight: " + weight);
+				}
+				if (ConditionHelper.TwitchColony_Active() && EventRegistration.TryGetEvent_TwitchColony(e, out var eventInfo2))
+				{
+					SgtLogger.l("potential weather event: " + eventInfo2.DisplayName + " (" + eventInfo2.Id + ")" + ", event weight: " + eventInfo2.Weight + ", eligible: " + eventInfo2.Eligible);
+					if (eventInfo2.Eligible)
+					{
+						weatherEvents.Add(new(eventInfo2.Id, eventInfo2.DisplayName, (data) => TwitchColony.Api.TwitchColonyApi.TriggerEvent(eventInfo2.Id)), eventInfo2.Weight);
+					}
 				}
 			}
 			if (!weatherEvents.Any())
@@ -80,26 +106,19 @@ namespace Imalas_TwitchChaosEvents.Events
 				return;
 			}
 
-			EventInfo EventToTrigger = weatherEvents.Next();
-			SgtLogger.l("found weather event: " + EventToTrigger.FriendlyName);
+			var EventToTrigger = weatherEvents.Next();
+			SgtLogger.l("found weather event: " + EventToTrigger.FriendlyName+ " ("+EventToTrigger.Id+")");
+			ToastHelper.InstantiateToast(STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOAST, string.Format(STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOASTTEXT, EventToTrigger.FriendlyName));
+			GameScheduler.Instance.Schedule("start weather", 20f, EventToTrigger.TriggerEventAction);
+		}
 
-			ToastManager.InstantiateToast(STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOAST, string.Format(STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOASTTEXT, EventToTrigger.FriendlyName));
-			GameScheduler.Instance.Schedule("start weather", 20f, (_) => EventToTrigger.Trigger(null));
-		};
+
 
 		public Func<object, bool> Condition => (s) =>
 		{
-			List<EventInfo> weatherEvents = new List<EventInfo>();
-			foreach (var e in WeatherEvents)
-			{
-				if (EventRegistration.TryGetEvent(e, out var eventInfo) && eventInfo.CheckCondition(null))
-				{
-					weatherEvents.Add(eventInfo);
-				}
-			}
-			return weatherEvents.Count > 0;
+			return ConditionHelper.FindAnyEligibleEvent(WeatherEvents);
 		};
 
-		public Danger EventDanger => Danger.Medium;
+		public Danger EventDanger => Danger.None;
 	}
 }

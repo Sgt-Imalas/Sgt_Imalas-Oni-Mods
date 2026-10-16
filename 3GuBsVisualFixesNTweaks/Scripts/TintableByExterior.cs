@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
@@ -14,6 +11,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		[MyCmpReq] KBatchedAnimController kbac;
 
 		int[] monitorCells;
+		HashSet<string> ExistingTintSymbols = [];
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -24,15 +22,34 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			{
 				for (int y = 0; y < extends.height; y++)
 				{
-					SgtLogger.l("Cell" + Grid.XYToCell(x, y) + ", x:" + x + ",y:" + y);
+					//SgtLogger.l("Cell" + Grid.XYToCell(x, y) + ", x:" + x + ",y:" + y);
 					cells.Add(Grid.XYToCell(extends.x+x, extends.y+y));
 				}
 			}
 
 			monitorCells = cells.ToArray();
+			AssignTintables();
 			UpdateTint();
 		}
 
+		void AssignTintables()
+		{
+			ExistingTintSymbols.Clear();
+
+			bool HasSymbol(KBatchedAnimController kbac, string symbol_name)
+			{
+				KAnim.Build.Symbol symbol = KAnimBatchManager.Instance().GetBatchGroupData(kbac.GetBatchGroupID()).GetSymbol(symbol_name);
+				return symbol != null;
+			}
+
+			foreach (var symbol in ModAssets.PossibleTintSymbols)
+			{
+				if (HasSymbol(kbac, symbol))
+				{
+					ExistingTintSymbols.Add(symbol);
+				}
+			}
+		}
 		public void Sim1000ms(float dt)
 		{
 			UpdateTint();
@@ -52,12 +69,19 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 				var element = Grid.Element[inputCell];
 				if (element.IsLiquid)
 				{
-					kbac.SetSymbolTint("tint", ModAssets.GetElementColor(element.id));
+					Tint(ModAssets.GetElementColor(element.id));
 					return;
 				}
 			}
 
-			kbac.SetSymbolTint("tint", Color.clear);
+			Tint(Color.clear);
+		}
+		void Tint(Color color)
+		{
+			foreach (var symbol in ExistingTintSymbols)
+			{
+				kbac.SetSymbolTint(symbol, color);
+			}
 		}
 	}
 }

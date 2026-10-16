@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
+﻿namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	class FilteredSolidConduitConsumer : KMonoBehaviour
 	{
@@ -20,10 +13,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		private Building building;
 		[MyCmpReq]
 		private Storage storage;
+		private IUserControlledCapacity capacityController;
 
 
 		public override void OnSpawn()
 		{
+			capacityController = GetComponent<IUserControlledCapacity>();
 			base.OnSpawn();
 
 			_inputCell = building.GetUtilityInputCell();
@@ -34,6 +29,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			SolidConduit.GetFlowManager().RemoveConduitUpdater(ConduitUpdate);
 			base.OnCleanUp();
+		}
+
+		public float GetRemainingCapacity()
+		{
+			if (capacityController == null)
+				return storage.RemainingCapacity();
+
+			return capacityController.UserMaxCapacity - capacityController.AmountStored;
 		}
 
 		private void ConduitUpdate(float dt)
@@ -52,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			foreach (var acceptedTag in acceptedTags)
 			{
-				float capacity = storage.RemainingCapacity();
+				float capacity = GetRemainingCapacity();
 				if (pickupable.HasTag(acceptedTag) && pickupable.TotalAmount <= capacity)
 				{
 					var toStore = pickupable.Take(capacity);

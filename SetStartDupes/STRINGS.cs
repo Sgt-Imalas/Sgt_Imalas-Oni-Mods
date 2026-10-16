@@ -1,10 +1,13 @@
-﻿using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS;
+﻿using UnityEngine;
+using UtilLibs;
+using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS;
 
 namespace SetStartDupes
 {
 	public class STRINGS
 	{
 		public static LocString BIONIC_STRESS_HARDWIRED = "Bionic duplicants have a hardwired stress reaction since they are mostly incompatible with normal stress reactions";
+		public static LocString DSS_PREFERSWARMER_WARNING = UIUtils.ColorText(UIUtils.EmboldenText("WARNING!\n"), Color.red)+"This trait can lead to a negative duplicant insulation value, which will lead to a bug with dupes constantly heating up, as well as potential crashes.\nThis can be counteracted with a warm coat or snazzy suit.\n"+UIUtils.EmboldenText("Use at your own risk!");
 
 		public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
 		public static LocString MISSINGTRAIT = "Missing Trait!";
@@ -276,7 +279,7 @@ namespace SetStartDupes
 				{
 					public static LocString A_GAMESTART = "Options for Game Start";
 					public static LocString B_PRINTINGPOD = "Options for Printing Pod";
-					public static LocString C_EXTRAS = "Options for Traits and Interests";
+					public static LocString C_EXTRAS = "Options for Traits and Interests Selection";
 					public static LocString D_SKINSETTINGS = "Skin Options";
 					public static LocString E_UTIL = "Extra Settings";
 				}
@@ -316,10 +319,14 @@ namespace SetStartDupes
 				}
 				public class REROLLDURINGGAME_CAREPACKAGES
 				{
-					public static LocString NAME = "Reroll or select Care Packages";
+					public static LocString NAME = "Reroll Care Packages";
 					public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod care packages.";
 				}
-
+				public class REROLLDURINGGAME_LIMITCOUNTER
+				{
+					public static LocString NAME = "Limit Reroll Count";
+					public static LocString TOOLTIP = "Limit how many times you can reroll in tge printing pod each time the it becomes ready.\n\nOnly has an effect if any of the printing pod reroll options are enabled\n\nA value of 0 disables any limiting.\n\nDoes not affect direct editing options, play with those disabled if you want to avoid temptation.";
+				}
 				public class PRINTINGPODRECHARGETIME
 				{
 					public static LocString NAME = "Printing pod cooldown time";
@@ -422,8 +429,6 @@ namespace SetStartDupes
 					public static LocString NAME = "Override printing pod care package count";
 					public static LocString TOOLTIP = "Override the number of care packages offered in the printing pod.\nA value of 0 or lower disables this feature.\nDisabling care packages in the difficulty settings disables this feature.\nNo effect if care packages only mode is active.";
 				}
-
-
 				public class CAREPACKAGESONLYPACKAGECAP
 				{
 					public static LocString NAME = "Number of care packages for care packages only";
@@ -438,6 +443,11 @@ namespace SetStartDupes
 				{
 					public static LocString NAME = "Skins for active Duplicants";
 					public static LocString TOOLTIP = "Change the Skin of already existing duplicants";
+				}
+				public class PODDUPESKINCHANGE
+				{
+					public static LocString NAME = "Skin selection for Printing Pod Duplicants";
+					public static LocString TOOLTIP = "Change the Skin of printing pod duplicants";
 				}
 				public class SKINSDOREACTS
 				{
@@ -467,7 +477,7 @@ namespace SetStartDupes
 				public class NORMALTRAITSONBIONICS
 				{
 					public static LocString NAME = "Allow normal traits on Bionic Duplicants";
-					public static LocString TOOLTIP = "When active, allows adding regular traits to bionic duplicants.";
+					public static LocString TOOLTIP = "When active, allows adding regular traits to bionic duplicants.\nWarning: adding certain traits to bionics can cause crashes (e.g. small bladder due to the pee-amount missing for bionics).";
 				}
 				public class NOJOYREACTION
 				{
@@ -481,15 +491,39 @@ namespace SetStartDupes
 				}
 				public class REROLLCRYOPODANDJORGE
 				{
-					public static LocString NAME = "Hermit/Cryopod Modification";
-					public static LocString TOOLTIP = "Allows modifying of the Hermit and Cryopod Duplicants.\n\"Ancient Knowledge\"-Trait no longer takes the slot of a positive trait during generation of these duplicants.";
+					public static LocString NAME = "Hermit/Minnow/Cryopod Modification";
+					public static LocString TOOLTIP = "Allows modifying of the Hermit, Minnow and Cryopod Duplicants.\n\"Ancient Knowledge\"-Trait takes the slot of a positive trait during generation of these duplicants.";
 				}
 				public class HERMITSKIN
 				{
 					public static LocString NAME = "Hermit Skin";
 					public static LocString TOOLTIP = "Adds the Hermit to the pool of selectable skins\nonce the story trait has been completed atleast once on any savegame.";
 				}
-
+				public class MINNOWSKIN
+				{
+					public static LocString NAME = "Minnow Skin";
+					public static LocString TOOLTIP = "Adds Minnow to the pool of selectable skins\nonce the aquatic initiative has been completed atleast once on any savegame.\nRequires Aquatic Planet Pack DLC.";
+				}
+				public class XP_LEVEL_CAP_MOD
+				{
+					public static LocString NAME = "Attribute Leveling Cap";
+					public static LocString TOOLTIP = "Changes the maximum level up to which duplicants can gain levels in attributes.\nIf other mods add a higher target, it will be used instead of the configured value.\nDefault Vanilla Cap: 20";
+				}
+				public class XP_LEVELING_MULTIPLIER_SKILLS
+				{
+					public static LocString NAME = "XP Multiplier Skills";
+					public static LocString TOOLTIP = "Multiply the XP gains of duplicants skill leveling (skill points level)";
+				}
+				public class XP_LEVELING_MULTIPLIER_ATTRIBUTES
+				{
+					public static LocString NAME = "XP Multiplier Attributes";
+					public static LocString TOOLTIP = "Multiply the XP gains that duplicants individual attributes.";
+				}
+				public class EXTRA_SKILL_POINTS
+				{
+					public static LocString NAME = "Extra starting skill points";
+					public static LocString TOOLTIP = "Add extra skill points to new duplicant via a selection in the modification window.\nRequires printing pod duplicant modification to be active to add extra skillpoints to printing pod duplicants.";
+				}
 			}
 			public class DUPESKILLSPOPUP
 			{
@@ -670,6 +704,7 @@ namespace SetStartDupes
 			public class BUTTONS
 			{
 				public static LocString REROLLCAREPACKAGE = "Reroll for a different Care Package";
+				public static LocString SELECTCAREPACKAGE = "Select a Care Package from a list of currently available ones.";
 				public static LocString CYCLENEXT = "Cycle to next";
 				public static LocString CYCLEPREV = "Cycle to previous";
 				public static LocString REMOVEFROMSTATS = "Remove";

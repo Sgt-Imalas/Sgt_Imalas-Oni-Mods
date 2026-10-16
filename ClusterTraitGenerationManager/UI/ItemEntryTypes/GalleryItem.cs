@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UI.FUI;
+using UtilLibs.UIcmp;
 
 namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 {
@@ -17,6 +18,7 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 		bool _wasMixed = false;
 		ToolTip desc;
 		public Image DLC_Banner;
+		public FToggle Checkbox;
 
 		public void Initialize(StarmapItem planet)
 		{
@@ -34,22 +36,14 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 			PlanetName = transform.Find("Label").GetComponent<LocText>();
 			DisabledOverlay = transform.Find("DisabledOverlay").gameObject;
 
+			Checkbox = transform.Find("Checkbox").gameObject.AddOrGet<FToggle>();
+			Checkbox.SetCheckmark("Checkmark");
 
 			ActiveToggle = this.gameObject.AddOrGet<FToggleButton>();
 			itemIconImage.sprite = planet.planetSprite;
 
 			UnityEngine.Rect rect = itemIconImage.sprite.rect;
-			if (rect.width > rect.height)
-			{
-				var size = (rect.height / rect.width) * 80f;
-				itemIconImage.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, (5 + (80 - size) / 2), size);
-			}
-			else
-			{
-				var size = (rect.width / rect.height) * 80f;
-				itemIconImage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
-			}
-
+			
 			if (ModAssets.GetBannerColor(planet, out var color))
 				DLC_Banner.color = color;
 			else
@@ -67,10 +61,13 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 			float number = planet.InstancesToSpawn;
 			bool planetActive = inCluster;//CGSMClusterManager.CustomCluster.HasStarmapItem(planet.Id)
 
+			Checkbox.SetOnFromCode(inCluster);
 			ActiveToggle.SetIsSelected(currentlySelected);
 			DisabledOverlay.SetActive(!planetActive);
-			ItemNumber.gameObject.SetActive(planetActive);
-			if (planetActive)
+			bool showPlanetNumber = planetActive && !Mathf.Approximately(number, 1);
+
+			ItemNumber.gameObject.SetActive(showPlanetNumber);
+			if (showPlanetNumber)
 				ItemNumber.text = global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWNED_AMOUNT_ICON.Replace("{OwnedCount}", number.ToString("0.0"));
 
 			_wasMixed = isMixed;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
+﻿using TUNING;
 using static TUNING.DUPLICANTSTATS;
 
 namespace Planticants.Content.ModDb
@@ -11,7 +6,7 @@ namespace Planticants.Content.ModDb
     class PLANT_TUNING
     {
         public static float CO2_TANK_CAPACITY = 100;
-        public static float WATER_TANK_CAPACITY = 100;
+        public static float WATER_TANK_CAPACITY = 180;
 
         public static DUPLICANTSTATS PLANTMINIONSTATS = new DUPLICANTSTATS
 		{

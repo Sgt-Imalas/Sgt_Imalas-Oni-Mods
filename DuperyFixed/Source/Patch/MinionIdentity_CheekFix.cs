@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using UtilLibs;
-using static STRINGS.DUPLICANTS;
 
 namespace DuperyFixed.Source.Patch
 {
@@ -20,14 +19,7 @@ namespace DuperyFixed.Source.Patch
 			{				
 				public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> orig)
 				{
-					var m_RemapSymbolName = AccessTools.Method(
-						typeof(MinionIdentity_OnSpawn_Patch),
-						"RemapAnimFileName",
-						new[]
-						{
-						typeof(string),
-						typeof(MinionIdentity)
-						});
+					var m_RemapSymbolName = AccessTools.Method(typeof(MinionIdentity_OnSpawn_Patch),nameof(RemapAnimFileName));
 
 					var codes = orig.ToList();
 					var index = codes.FindIndex(c => c.opcode == OpCodes.Ldstr && c.operand is string str && str == "head_swap_kanim");
@@ -43,7 +35,7 @@ namespace DuperyFixed.Source.Patch
 					// string on stack
 					new CodeInstruction(OpCodes.Ldarg_0),
 					new CodeInstruction(OpCodes.Call, m_RemapSymbolName)
-				});
+					});
 
 					return codes;
 				}
@@ -70,7 +62,6 @@ namespace DuperyFixed.Source.Patch
 						}
 
 						string cheek_symbol_name = HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth).symbol.hash).Replace("mouth", "cheek");
-
 						var symbol = customAnim.GetData().build.GetSymbol(cheek_symbol_name);
 
 						SgtLogger.l("custom head_swap anim on "+ identity.name+" for cheeks: "+ cheek_symbol_name+ " in anim: " + anim);

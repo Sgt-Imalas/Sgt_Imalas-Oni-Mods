@@ -17,7 +17,7 @@ namespace ClusterTraitGenerationManager.UI.SecondaryDisplayTypes
 		public string LocationDescription()
 		{
 			return
-				ModAssets.Strings.ApplyCategoryTypeToString(string.Format(VANILLAPOI_RESOURCES.SELECTEDDISTANCE,
+				ModAssets.ModStringHelper.ApplyCategoryTypeToString(string.Format(VANILLAPOI_RESOURCES.SELECTEDDISTANCE,
 			Db.Get().SpaceDestinationTypes.TryGet(ID).Name,
 			(Band + 1) * 10000,
 			global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER.Replace(" ", ""))

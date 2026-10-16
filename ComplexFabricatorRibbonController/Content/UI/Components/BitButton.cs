@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -61,13 +57,13 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			{
 				SelectedRecipe.sprite = Assets.GetSprite("unknown");
 				SelectedRecipe.color = Color.white;
-				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n\n" + global::STRINGS.UI.UISIDESCREENS.FILTERSIDESCREEN.NO_SELECTION);
+				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.LISTSELECTION_SECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n\n" + global::STRINGS.UI.UISIDESCREENS.FILTERSIDESCREEN.NO_SELECTION);
 			}
 			else
 			{
 				SelectedRecipe.sprite = recipe.GetUIIcon();
 				SelectedRecipe.color = recipe.GetUIColor();
-				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n\n" + ModAssets.GetRecipeText(recipe, true));
+				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.LISTSELECTION_SECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n\n" + ModAssets.GetRecipeText(recipe, true));
 			}
 			On.gameObject.SetActive(logicOn);
 			Off.gameObject.SetActive(!logicOn);

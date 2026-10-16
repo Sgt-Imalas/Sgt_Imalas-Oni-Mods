@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace ConveyorTiles
 {
@@ -44,7 +45,7 @@ namespace ConveyorTiles
 			buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
 			buildingDef.ForegroundLayer = Grid.SceneLayer.TileFront;
 
-            buildingDef.ConstructionOffsetFilter = BuildingDef.ConstructionOffsetFilter_OneDown;
+			buildingDef.ConstructionOffsetFilter = BuildingDef.ConstructionOffsetFilter_OneDown;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.DefaultAnimState = "off";
@@ -92,6 +93,8 @@ namespace ConveyorTiles
 			go.AddComponent<ZoneTile>();
 			// go.AddOrGet<PortAttachment>();
 			//mdh.targetCellOffset = new CellOffset(0, 1);
+
+			BuildingUtil.RenderAboveLiquids(go);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

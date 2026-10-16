@@ -4,8 +4,6 @@ using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
@@ -20,7 +18,7 @@ namespace UtilLibs.SharedTweaks
 		{
 			new SkillsWidgetBetterConnectionLines().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 0);
+		public override Version Version => new Version(1, 0, 0, 2);
 		public override void Initialize(Harmony plibInstance)
 		{
 			try
@@ -103,10 +101,10 @@ namespace UtilLibs.SharedTweaks
 			//else if (!sourceAbove.Any()) 
 			//	sourceBelow.Reverse();
 			for (int i = 0; i < sourceBelow.Count; i++)
-				{
+			{
 				if (debug) SgtLogger.l(__instance.skillID + " below: " + sourceBelow[i].first);
-					CreateSkillConnection(__instance, currentSkill, sourceBelow[i], sourceBelow.Count, -connectionOffsetY - i, sourceBelow.Count > 1, -connectionOffsetX - i);
-				}
+				CreateSkillConnection(__instance, currentSkill, sourceBelow[i], sourceBelow.Count, -connectionOffsetY - i, sourceBelow.Count > 1, -connectionOffsetX - i);
+			}
 			for (int i = 0; i < sourceAbove.Count; i++)
 			{
 				if (debug) SgtLogger.l(__instance.skillID + " above: " + sourceAbove[i].first);
@@ -195,8 +193,10 @@ namespace UtilLibs.SharedTweaks
 
 				int rowX = skill.tier;
 
-				//SgtLogger.l(skill.Id + ", " + rowX + "," + columnY + "(" + x + "," + y + ")");
+				if (debug) SgtLogger.l(skill.Id + ", " + rowX + "," + columnY + "(" + x + "," + y + ")");
 				var data = new Vector2I(rowX, columnY);
+				while (reverseLookupTable.ContainsKey(data))
+					data = new(rowX, columnY + 1);
 				lookupTable.Add(skill.Id, data);
 				reverseLookupTable.Add(data, skill.Id);
 			}
@@ -252,7 +252,7 @@ namespace UtilLibs.SharedTweaks
 			return true;
 		}
 
-		static void CreateSkillConnection(SkillWidget __instance, Skill currentSkill, Tuple<string, Vector2> requisite, float totalConnections = 1, float connectionPointNr = 0, bool invertXStepSrc = false, float xOffset=0)
+		static void CreateSkillConnection(SkillWidget __instance, Skill currentSkill, Tuple<string, Vector2> requisite, float totalConnections = 1, float connectionPointNr = 0, bool invertXStepSrc = false, float xOffset = 0)
 		{
 			gradient = 0;
 			RefreshSkillScreenMatrix(__instance);

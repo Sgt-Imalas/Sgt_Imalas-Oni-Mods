@@ -120,7 +120,7 @@ namespace SaveGameModLoader
 			}
 			catch (Exception e)
 			{
-				SgtLogger.logError("Could not write file, Exception: " + e);
+				SgtLogger.logError("Could not write modlist file, Exception: " + e);
 			}
 		}
 

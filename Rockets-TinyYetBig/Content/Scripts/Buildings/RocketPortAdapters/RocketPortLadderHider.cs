@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Rockets_TinyYetBig.NonRocketBuildings
+﻿namespace Rockets_TinyYetBig.NonRocketBuildings
 {
 	internal class RocketPortLadderHider : KMonoBehaviour
 	{
@@ -19,9 +13,9 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			base.OnSpawn();
 			UpdateLeftConnectorSymbol();
 		}
-		public void UpdateLeftConnectorSymbol()
+		public void UpdateLeftConnectorSymbol(bool cleanUp = false)
 		{
-			var fgcontroller = kbac.layering?.foregroundController;
+
 			bool setLeftConnectorVisible = true;
 
 			var tileLeft = Grid.CellLeft(this.buildingComplete.GetCell());
@@ -37,13 +31,16 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			{
 				ladder.UpdateLeftConnectorSymbol();
 			}
-			fgcontroller?.SetSymbolVisiblity("connector_left", setLeftConnectorVisible);
+			if (cleanUp)
+				return;
+			if (kbac?.layering?.layerControllers?.TryGetValue(KAnim.SymbolFlags.FG, out var fgControllerBase) ?? false)
+				(fgControllerBase as KBatchedAnimController)?.SetSymbolVisiblity("connector_left", setLeftConnectorVisible);
 
 		}
 		public override void OnCleanUp()
 		{
+			UpdateLeftConnectorSymbol(true);
 			base.OnCleanUp();
-			UpdateLeftConnectorSymbol();
 		}
 	}
 }

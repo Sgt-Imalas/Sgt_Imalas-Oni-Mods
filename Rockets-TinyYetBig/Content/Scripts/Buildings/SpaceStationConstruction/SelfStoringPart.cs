@@ -1,0 +1,23 @@
+﻿using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
+using UtilLibs;
+
+namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
+{
+	internal class SelfStoringPart : AttachableBuildingUpgrade
+	{
+		public override void OnConstructionFinished()
+		{
+			if (attachableBuilding == null)
+				return;
+
+
+			var stationBuilder = RocketAttachableSocket.Get(attachableBuilding);
+			if (stationBuilder == null || stationBuilder.gameObject == null || !stationBuilder.TryGetComponent<SpaceStationAttachablePartStorage>(out var partStorage))
+			{
+				SgtLogger.error("no SpaceStationAttachablePartStorage on attached " + stationBuilder.name);
+				return;
+			}
+			partStorage.StoreNewPart(StoredStationPart.Create(gameObject));
+		}
+	}
+}

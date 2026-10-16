@@ -1,14 +1,9 @@
-﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RonivansLegacy_ChemicalProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 
 
 namespace Biochemistry.Buildings
@@ -17,6 +12,7 @@ namespace Biochemistry.Buildings
 	public class Biochemistry_ExpellerPressConfig : IBuildingConfig
 	{
 		public static string ID = "Biochemistry_ExpellerPress";
+		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-1, 1), null, new Color32(3, 148, 252, 255));
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -35,6 +31,12 @@ namespace Biochemistry.Buildings
 			SoundUtils.CopySoundsToAnim("oil_presser_kanim", "fertilizer_maker_kanim");
 			return buildingDef;
 		}
+		private void AttachPort(GameObject go)
+		{
+			PortDisplayController controller = go.AddComponent<PortDisplayController>();
+			controller.Init(go);
+			controller.AssignPort(go, waterInputPort);
+		}
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
@@ -42,24 +44,12 @@ namespace Biochemistry.Buildings
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 
-			Storage liquidStorage = go.AddOrGet<Storage>();
-			liquidStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
-			liquidStorage.showCapacityStatusItem = false;
-			liquidStorage.showCapacityAsMainStatus = false;
-			liquidStorage.showDescriptor = false;
-
-			Storage vegStorage = go.AddOrGet<Storage>();
-			vegStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
-			vegStorage.showCapacityStatusItem = false;
-			vegStorage.showCapacityAsMainStatus = false;
-			vegStorage.showDescriptor = false;
 
 			//----------------------------- Fabricator Section
 			ComplexFabricator oilPress = go.AddOrGet<ComplexFabricator>();
 			oilPress.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
-			Workable workable = go.AddOrGet<ComplexFabricatorWorkable>();
 			oilPress.duplicantOperated = false;
 			oilPress.heatedTemperature = 298.15f;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, oilPress);
@@ -68,15 +58,28 @@ namespace Biochemistry.Buildings
 			oilPress.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			oilPress.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			oilPress.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
-			oilPress.inStorage = liquidStorage;
-			oilPress.outStorage = vegStorage;
 			oilPress.outputOffset = new Vector3(1f, 0.5f);
 			//-----------------------------
 
+			PortConduitConsumer waterInput = go.AddComponent<PortConduitConsumer>();
+			waterInput.conduitType = ConduitType.Liquid;
+			waterInput.consumptionRate = 10f;
+			waterInput.capacityKG = 200f;
+			waterInput.storage = oilPress.inStorage;
+			waterInput.capacityTag = SimHashes.Water.CreateTag();
+			waterInput.forceAlwaysSatisfied = true;
+			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			waterInput.SkipSetOperational = true;
+			waterInput.AssignPort(waterInputPort);
+
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
 			dispenser.conduitType = ConduitType.Liquid;
-			dispenser.storage = vegStorage;
-			dispenser.elementFilter = [ModElements.VegetableOil_Liquid];
+			dispenser.storage = oilPress.outStorage;
+			//dispenser.elementFilter = [ModElements.VegetableOil_Liquid, SimHashes.NaturalResin, SimHashes.PhytoOil, SimHashes.Milk, SimHashes.Latex];
+
+			var dropper = go.AddOrGet<WorldElementDropper>();
+			dropper.DropSolids = true;
+			dropper.TargetStorage = oilPress.outStorage;
 
 			this.ConfigureRecipes();
 			Prioritizable.AddRef(go);
@@ -84,16 +87,19 @@ namespace Biochemistry.Buildings
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
-		}
-
-		public override void DoPostConfigureUnderConstruction(GameObject go)
-		{
+			this.AttachPort(go);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			this.AttachPort(go);
 			go.AddOrGet<LogicOperationalController>();
-			go.AddOrGetDef<PoweredActiveController.Def>();
+			go.AddOrGetDef<PoweredActiveController.Def>() ;
+		}
+		public override void DoPostConfigureUnderConstruction(GameObject go)
+		{
+			base.DoPostConfigureUnderConstruction(go);
+			this.AttachPort(go);
 		}
 
 		//===[ EXPELLER PRESS RECIPES ]===============================================================================
@@ -101,5 +107,5 @@ namespace Biochemistry.Buildings
 		{
 			///Recipes are moved to ModDb.AdditionalRecipes to be generated dynamically			
 		}
-	}	
+	}
 }

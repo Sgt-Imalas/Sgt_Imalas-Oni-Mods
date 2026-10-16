@@ -8,6 +8,7 @@ using Klei.AI;
 using Klei.CustomSettings;
 using ProcGen;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -38,6 +39,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		GameObject MixingSettingsButton;
 
 		Dictionary<string, FCycle> MixingCycleConfigs = new();
+		Dictionary<string, MixingTargetChangeButton> MixingTargetButtons = new();
+
 		private void SetMixingSetting(SettingConfig ConfigToSet, object valueId)
 		{
 			string valueToSet = valueId.ToString();
@@ -48,9 +51,26 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			}
 			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());			
 			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
-			if(ConfigToSet is MixingSettingConfig msc)
+			if (ConfigToSet is MixingSettingConfig msc)
+			{
 				ToggleWorldgenAffectingDlc(true, msc.dlcIdFrom);
+				RefreshMixingTargets();
+			}
 			RefreshCategories();
+		}
+		void RefreshMixingTargets()
+		{
+			foreach (var sc in CustomGameSettings.Instance.MixingSettings.Values)
+			{
+				if (sc is WorldMixingSettingConfig msc)
+					RefreshMixingTarget(msc);
+			}
+			DisableMixingSelectionChange();
+		}
+		void RefreshMixingTarget(MixingSettingConfig msc)
+		{
+			if (MixingTargetButtons.TryGetValue(msc.worldgenPath, out var mtb))
+				mtb.Refresh();
 		}
 
 		void SetMixingSettingsToggleActive(bool active)
@@ -84,12 +104,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				string settingValue = instance.GetCurrentMixingSettingLevel(setting).id;
 				if (MixingCycleConfigs.TryGetValue(id, out var settingsCycle))
 				{
-					settingsCycle.Value = settingValue;
+					settingsCycle.SetValueById(settingValue);
 				}
 				else
 				{
 					SgtLogger.warning("uninitialized setting found: " + id);
 				}
+				RefreshMixingTarget(setting);
 			}
 		}
 		public void InitializeMixingSettings()
@@ -108,7 +129,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			headerPrefab.SetActive(false);
 
 			var asteroidMixingHeader = Util.KInstantiateUI(headerPrefab, MixingSettingsContainer, true).transform;
-			UIUtils.TryChangeText( asteroidMixingHeader,"Label",global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_WORLDMIXING_HEADER);
+			UIUtils.TryChangeText(asteroidMixingHeader, "Label", global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_WORLDMIXING_HEADER);
 
 			var biomeMixingHeader = Util.KInstantiateUI(headerPrefab, MixingSettingsContainer, true).transform;
 			UIUtils.TryChangeText(biomeMixingHeader, "Label", global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_SUBWORLDMIXING_HEADER);
@@ -122,15 +143,32 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				if (!DlcManager.IsAllContentSubscribed(mixingSetting.Value.required_content))
 					continue;
 
+
 				if (mixingSetting.Value is MixingSettingConfig listSetting)
 				{
 					var mixing = AddListMixingSettingsContainer(CyclePrefab, MixingSettingsContainer, listSetting);
-					mixing.SetDescriptionFormatter(desc=> desc.Replace("\n\n", "\n"));
+					mixing.SetDescriptionFormatter(desc => desc.Replace("\n\n", "\n"));
 					MixingCycleConfigs[settingID] = mixing;
-					if(listSetting is WorldMixingSettingConfig)
+					var mixingTargetGO = mixing.transform.Find("MixingTarget")?.gameObject;
+					if (listSetting is WorldMixingSettingConfig && SettingsCache.worldMixingSettings.TryGetValue(listSetting.worldgenPath, out var worldMixingSettings))
+					{
 						mixing.transform.SetSiblingIndex(asteroidMixingHeader.GetSiblingIndex() + 1);
+						mixingTargetGO.SetActive(true);
+						var mtb = mixingTargetGO.AddOrGet<MixingTargetChangeButton>();
+						mtb.TargetWorldMixing = worldMixingSettings;
+						mtb.MixingID = listSetting.id;
+						mtb.OnMixingSelected = StartMixingAsteroidChange;
+						MixingTargetButtons[listSetting.worldgenPath] = mtb;
+					}
 					else
-						mixing.transform.SetSiblingIndex(biomeMixingHeader.GetSiblingIndex() + 1);
+					{
+						mixing.transform.SetAsLastSibling();
+						mixingTargetGO?.SetActive(false);
+					}
+					if(listSetting is SubworldMixingSettingConfig subworldMixing)
+					{
+						AddOrGetMixingTargetMixing(subworldMixing);
+					}
 				}
 				else
 				{
@@ -138,6 +176,84 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				}
 			}
 		}
+		void StartMixingAsteroidChange(string mixingAsteroidId)
+		{
+			CurrentMixingSettingChangeTarget = mixingAsteroidId;
+			WorldMixingContainerSelectionNewGO.SetActive(true);
+			RefreshActiveMixingTargets();
+		}
+
+		void RefreshActiveMixingTargets()
+		{
+			foreach (var target in MixingTargetSelectables.Values)
+				target.gameObject.SetActive(false);
+
+			foreach (var TargetAllowSwitchTo in CGSMClusterManager.GetValidMixingAsteroids(CurrentMixingSettingChangeTarget))
+			{
+				var targetId = TargetAllowSwitchTo.first.id;
+
+				AddOrGetMixingTarget(targetId).AllowSwapping(TargetAllowSwitchTo.second);
+			}
+		}
+		///todo later..
+		//BiomeMixingTarget AddOrGetMixingTargetWorld(StarmapItem item)
+		//{
+		//	if (BiomeMixingWorldEntries.TryGetValue(item, out var value))
+		//	{
+		//		value.gameObject.SetActive(true);
+		//		return value;
+		//	}
+
+		//	value = Util.KInstantiateUI(BiomeMixingTargetSelectionPrefab.gameObject, BiomeMixingTargetSelectionItemContainer).AddOrGet<BiomeMixingTarget>();
+		//	value.gameObject.SetActive(true);
+		//	value.Init(id, );
+		//	MixingTargetSelectables[id] = value;
+		//	return value;
+		//}
+		BiomeMixingTarget AddOrGetMixingTargetMixing(SubworldMixingSettingConfig item)
+		{
+			if (BiomeMixingSourceEntries.TryGetValue(item, out var value))
+			{
+				value.gameObject.SetActive(true);
+				return value;
+			}
+
+			value = Util.KInstantiateUI(BiomeMixingTargetSelectionPrefab.gameObject, BiomeMixingTargetSelectionItemContainer).AddOrGet<BiomeMixingTarget>();
+			value.gameObject.SetActive(true);
+			value.Init((on)=> ToggleBiomeMixingTargetBlacklist(item.worldgenPath, on),  item.label, item.icon, item.dlcIdFrom);
+			BiomeMixingSourceEntries[item] = value;
+			return value;
+		}
+		void ToggleBiomeMixingTargetBlacklist(string id, bool isAllowed)
+		{
+			CustomCluster.SetBiomeRemixBlacklisted(id, CurrentStarmapItem.id, !isAllowed);
+		}
+		MixingTargetSelectable AddOrGetMixingTarget(string id)
+		{
+			if (MixingTargetSelectables.TryGetValue(id, out var value))
+			{
+				value.gameObject.SetActive(true);
+				return value;
+			}
+
+			value = Util.KInstantiateUI(WorldMixingTargetSelectionPrefab.gameObject, WorldMixingTargetSelectionItemContainer).AddOrGet<MixingTargetSelectable>();
+			value.gameObject.SetActive(true);
+			value.Init(id, OnWorldMixingTargetSelected);
+			MixingTargetSelectables[id] = value;
+			return value;
+		}
+		void OnWorldMixingTargetSelected(string newId)
+		{
+			CGSMClusterManager.SetMixingWorld(newId, CurrentMixingSettingChangeTarget);
+			DisableMixingSelectionChange();
+			RefreshMixingTargets();
+		}
+		void DisableMixingSelectionChange()
+		{
+			WorldMixingContainerSelectionNewGO.SetActive(false);
+			CurrentMixingSettingChangeTarget = null;
+		}
+
 
 		public FCycle AddListMixingSettingsContainer(GameObject prefab, GameObject parent, MixingSettingConfig ConfigToSet)
 		{
@@ -145,7 +261,11 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			var settingLabel = cycle.transform.Find("Label").gameObject.AddOrGet<LocText>();
 			cycle.transform.Find("Image").GetComponent<Image>().sprite = ConfigToSet.icon;
-			cycle.transform.Find("DlcBanner").GetComponent<Image>().color = DlcManager.GetDlcBannerColor(ConfigToSet.dlcIdFrom);
+
+			if (ConfigToSet.dlcIdFrom.IsNullOrWhiteSpace())
+				cycle.transform.Find("DlcBanner").gameObject.SetActive(false);
+			else
+				cycle.transform.Find("DlcBanner").GetComponent<Image>().color = DlcManager.GetDlcBannerColor(ConfigToSet.dlcIdFrom);
 
 			settingLabel.text = ConfigToSet.label;
 			UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip, alignCenter: true, onBottom: true);
@@ -153,7 +273,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				cycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
 				cycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
 				cycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>()
-					,cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>()
+					, cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>()
 				);
 
 			cycle.Options = new List<FCycle.Option>();
@@ -161,9 +281,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			{
 				cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
 			}
-			cycle.OnChange += () =>
-			{				
-				SetMixingSetting(ConfigToSet, cycle.Value);
+			cycle.OnChange += (val) =>
+			{
+				SetMixingSetting(ConfigToSet, val.id);
 			};
 			return cycle;
 		}
@@ -207,7 +327,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 				if (CustomGameSettingsCycleConfigs.TryGetValue(id, out var settingsCycle))
 				{
-					settingsCycle.Value = settingValue;
+					settingsCycle.SetValueById(settingValue);
 				}
 				else if (CustomGameSettingsToggleConfigs.TryGetValue(id, out var settingsToggle))
 				{
@@ -295,9 +415,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			{
 				cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
 			}
-			cycle.OnChange += () =>
+			cycle.OnChange += (val) =>
 			{
-				SetCustomGameSettings(ConfigToSet, cycle.Value);
+				SetCustomGameSettings(ConfigToSet, val.id);
 			};
 			return cycle;
 		}
@@ -354,6 +474,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		///Gallery
 		GameObject PlanetoidEntryPrefab;
 		private GameObject galleryGridContainer;
+		private GridLayoutGroup galleryGrid;
 
 		GameObject StoryTraitEntryPrefab;
 		private GameObject StoryTraitGridContainer;
@@ -436,11 +557,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
 
 
+		Dictionary<string, StoryTraitAsteroidBlacklistToggle> ActiveStoryTraitBlacklistToggles = [];
 
 		private GameObject Details_StoryTraitContainer;
 		private Image StoryTraitImage;
 		private LocText StoryTraitDesc;
 		public FToggle StoryTraitToggle;
+		public GameObject StoryTraitBlacklistContainer, StoryTraitBlacklistEntryPrefab;
 
 
 		private FSlider ClusterSize;
@@ -535,10 +658,25 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		private FToggle BlacklistAffectsNonGenerics, BlacklistShared;
 
 		//BiomeMixings
-		private GameObject BiomeMixingContainer;
+		// old:
+		//private GameObject BiomeMixingContainer;
+		// new:
+		private Dictionary<StarmapItem, BiomeMixingTarget> BiomeMixingWorldEntries = new();
+		private Dictionary<SubworldMixingSettingConfig, BiomeMixingTarget> BiomeMixingSourceEntries = new();
+		private GameObject BiomeMixingContainerSelectionNewGO;
+		private GameObject BiomeMixingTargetSelectionItemContainer;
+		private BiomeMixingTarget BiomeMixingTargetSelectionPrefab;
 
 		//WorldMixings
+		// old:
 		private GameObject WorldMixingContainer;
+		// new:
+		private GameObject WorldMixingContainerSelectionNewGO;
+		private GameObject WorldMixingTargetSelectionItemContainer;
+		private MixingTargetSelectable WorldMixingTargetSelectionPrefab;
+		private string CurrentMixingSettingChangeTarget = null;
+		Dictionary<string, MixingTargetSelectable> MixingTargetSelectables = [];
+
 
 
 		static bool isDLC2Active => CustomGameSettings.Instance.GetCurrentMixingSettingLevel(CustomMixingSettingsConfigs.DLC2Mixing).id == (CustomMixingSettingsConfigs.DLC2Mixing as ToggleSettingConfig).on_level.id;
@@ -551,7 +689,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			canBackoutWithRightClick = true;
 			ConsumeMouseScroll = true;
 
-			OnResize();
+			OnResized();
 		}
 		public void DoAndRefreshView(System.Action action)
 		{
@@ -601,7 +739,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		public void OnActivateWindow()
 		{
-			OnResize();
+			OnResized();
 
 			if (!init)
 			{
@@ -613,6 +751,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			RefreshView();
 			//DoWithDelay(() => , 25);
 			SelectCategory(StarmapItemCategory.Starter);
+			if (DlcManager.IsExpansion1Active())
+				SpacedOutStarmap_CategoryToggle?.ToggleWarning(false);
 		}
 
 		public override void OnShow(bool show)
@@ -623,9 +763,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			SetHasFocus(show);
 
 			if (!show)
-				ScreenResize.Instance.OnResize -= OnResize;
+				ScreenResize.Instance.OnResize -= OnResized;
 			else
-				ScreenResize.Instance.OnResize += OnResize;
+				ScreenResize.Instance.OnResize += OnResized;
 
 			base.OnShow(show);
 			if (!show)
@@ -638,7 +778,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			await Task.Delay(ms);
 			task.Invoke();
 		}
-		public void OnResize()
+		public void OnResized()
 		{
 			var rectMain = this.rectTransform();
 			rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / rectMain.lossyScale.x));
@@ -926,7 +1066,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		}
 		void UpdateSO_POIGroup()
 		{
-			selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, CurrentStarmapItem.DisplayName), SelectedCategory));
+			selectionHeaderLabel.SetText(ModAssets.ModStringHelper.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, CurrentStarmapItem.DisplayName), SelectedCategory));
 			POIGroup_AllowDuplicates.SetOnFromCode(CurrentStarmapItem.placementPOI.canSpawnDuplicates);
 			POIGroup_AvoidClumping.SetOnFromCode(CurrentStarmapItem.placementPOI.avoidClumping);
 			POIGroup_Guarantee.SetOnFromCode(CurrentStarmapItem.placementPOI.guarantee);
@@ -994,6 +1134,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			///TODO: reenable when mixing is fixed
 			//BiomeMixingContainer?.SetActive(planetCategorySelected);
 			//WorldMixingContainer?.SetActive(planetCategorySelected && !HexGridSelection);
+			WorldMixingContainerSelectionNewGO.SetActive(false);
+			bool canMixBiomes = planetCategorySelected && CurrentStarmapItem.HasBiomeMixingSlots();
+			BiomeMixingContainerSelectionNewGO?.SetActive(canMixBiomes);
 
 			///StoryTrait Details Container
 			Details_StoryTraitContainer.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
@@ -1046,7 +1189,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				{
 					selectionHeaderLabel.SetText(CurrentlySelectedItemData.LocationDescription());
 
-					StarmapItemEnabledText.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STARMAPITEMENABLED.LABEL, SelectedCategory));
+					StarmapItemEnabledText.SetText(ModAssets.ModStringHelper.ApplyCategoryTypeToString(STARMAPITEMENABLED.LABEL, SelectedCategory));
 					StarmapItemEnabled.SetOn(IsPartOfCluster);
 
 					PlanetSizeWidth.SetInteractable(IsPartOfCluster && planetCategorySelected);
@@ -1080,6 +1223,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					MeteorSelector.SetActive(!current.IsRandom);
 					PlanetBiomesGO.SetActive(!current.IsRandom);
 					GeyserContainer.SetActive(!current.IsRandom);
+					BiomeMixingContainerSelectionNewGO?.SetActive(canMixBiomes && !current.IsRandom);
 
 					//no radiation in base game
 					AsteroidSky_Radiation.gameObject.SetActive(DlcActive);
@@ -1087,17 +1231,20 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					if (!current.IsRandom)
 					{
 						UpdateSizeLabels(current);
-						PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
-						PlanetRazioCycle.Value = current.CurrentRatioPreset.ToString();
+						PlanetSizeCycle.SetValueById(current.CurrentSizePreset.ToString());
+						PlanetRazioCycle.SetValueById(current.CurrentRatioPreset.ToString());
 
 						if (current.GetSunlightValue() != null)
-							AsteroidSky_Light.Value = current.GetSunlightValue();
+							AsteroidSky_Light.SetValueById(current.GetSunlightValue());
 
 						if (DlcActive && current.GetRadiationValue() != null)
-							AsteroidSky_Radiation.Value = current.GetRadiationValue();
+							AsteroidSky_Radiation.SetValueById(current.GetRadiationValue());
 
 						if (current.GetNorthernLightsValue() != null)
-							AsteroidSky_NorthernLights.Value = current.GetNorthernLightsValue();
+							AsteroidSky_NorthernLights.SetValueById(current.GetNorthernLightsValue());
+
+						if (canMixBiomes)
+							RefreshBiomeRemixInfo();
 					}
 
 					RefreshMeteorLists();
@@ -1220,7 +1367,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			StoryTraitGridContent.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
 			ClusterItemsContent.SetActive(IsPlanetCategory(SelectedCategory));
 
-			galleryHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL, SelectedCategory));
+			galleryHeaderLabel.SetText(ModAssets.ModStringHelper.ApplyCategoryTypeToString(STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL, SelectedCategory));
 			if (IsPlanetCategory(SelectedCategory))
 			{
 				var activePlanets = GetActivePlanetsStarmapitems();
@@ -1259,6 +1406,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			else if (SelectedCategory == StarmapItemCategory.StoryTraits)
 			{
 				galleryHeaderLabel.SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.STORY_TRAITS_HEADER);
+				RefreshStoryTraitsUI();
 			}
 			else if (SelectedCategory == StarmapItemCategory.VanillaStarmap || SelectedCategory == StarmapItemCategory.SpacedOutStarmap)
 			{
@@ -1451,7 +1599,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		public void RebuildSoStarmap()
 		{
-			SgtLogger.l("rebuilding poi groups");
+			SgtLogger.l("rebuilding SO Starmap groups");
 			bool currentlyActive = StarmapItemContent.activeSelf;
 			StarmapItemContent.SetActive(true);
 
@@ -1477,7 +1625,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			if (DlcManager.IsExpansion1Active())
 			{
 				if (reset)
+				{
 					CustomCluster.SO_Starmap = null;
+					SpacedOutStarmap_CategoryToggle?.ToggleWarning(true);
+				}
 				RebuildSoStarmap();
 				SpacedOutStarmap.RebuildGrid();
 				UpdateStartButton();
@@ -1623,6 +1774,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			///
 			SgtLogger.l("Hooking up Categories");
 			PlanetoidCategoryPrefab = transform.Find("Categories/Content/Item").gameObject;
+			PlanetoidCategoryPrefab.gameObject.SetActive(false);
 			categoryListContent = transform.Find("Categories/Content").gameObject;
 			categoryHeaderLabel = transform.Find("Categories/Header/Label").GetComponent<LocText>();
 
@@ -1655,6 +1807,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			MixingSettingsContainer = transform.Find("ItemSelection/MixingSettingsSettingsContent/MixingSettingsSettingsContainer").gameObject;
 			CustomGameSettingsContainer = transform.Find("ItemSelection/CustomGameSettingsContent/CustomGameSettingsContainer").gameObject;
 			galleryGridContainer = transform.Find("ItemSelection/StarItemContent/StarItemContainer").gameObject;
+			galleryGrid = galleryGridContainer.GetComponent<GridLayoutGroup>();
 			PlanetoidEntryPrefab = transform.Find("ItemSelection/StarItemContent/StarItemContainer/Item").gameObject;
 			PlanetoidEntryPrefab?.SetActive(false);
 			galleryHeaderLabel = transform.Find("ItemSelection/Header/Label").GetComponent<LocText>();
@@ -1675,7 +1828,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			AsteroidFilter.Text = string.Empty;
 
-			AsteroidFilter.OnValueChanged.AddListener(SetFilterText);
+			AsteroidFilter.AddListener(SetFilterText);
 
 			ClearAsteroidFilter = transform.Find("ItemSelection/StarItemContent/Input/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearAsteroidFilter.OnClick += () => AsteroidFilter.Text = string.Empty;
@@ -1720,7 +1873,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 						SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)min, (int)max));
 						if (CurrentStarmapItem.IsPOI)
 							RefreshPOIGroupHeader(CurrentStarmapItem.id);
-						if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+						if (DlcManager.IsExpansion1Active())
+							ResetSOStarmap(true);
 					}
 				}
 				);
@@ -1789,7 +1943,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					return;
 
 				MaxClassicOuterPlanets = newValue;
-				if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+				if (DlcManager.IsExpansion1Active())
+					ResetSOStarmap(true);
 			};
 			if (RandomOuterPlanetsStarmapItem != null)
 				NumberOfRandomClassics.SetMinMaxCurrent(0, RandomOuterPlanetsStarmapItem.InstancesToSpawn, RandomOuterPlanetsStarmapItem.InstancesToSpawn);
@@ -1810,7 +1965,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 							return;
 
 						current.SetBuffer(newBuffer);
-						if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+						if (DlcManager.IsExpansion1Active())
+							ResetSOStarmap(true);
 					}
 				}
 			};
@@ -1849,13 +2005,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				lightOptions.Add(new(lightSetting.Key, lightSetting.Value.ToString()));
 			}
 			AsteroidSky_Light.Options = lightOptions;
-			AsteroidSky_Light.OnChange += () =>
+			AsteroidSky_Light.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null)
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						current.SetSunlightValue(AsteroidSky_Light.Value);
+						current.SetSunlightValue(optionVal.id);
 					}
 				}
 			};
@@ -1872,13 +2028,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				radOptions.Add(new(radSetting.Key, radSetting.Value.ToString()));
 			}
 			AsteroidSky_Radiation.Options = radOptions;
-			AsteroidSky_Radiation.OnChange += () =>
+			AsteroidSky_Radiation.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null && DlcManager.IsExpansion1Active())
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						current.SetRadiationValue(AsteroidSky_Radiation.Value);
+						current.SetRadiationValue(optionVal.id);
 					}
 				}
 			};
@@ -1896,13 +2052,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				northernLightOptions.Add(new(setting.Key, setting.Value.ToString()));
 			}
 			AsteroidSky_NorthernLights.Options = northernLightOptions;
-			AsteroidSky_NorthernLights.OnChange += () =>
+			AsteroidSky_NorthernLights.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null)
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						current.SetNorthernLightsValue(AsteroidSky_NorthernLights.Value);
+						current.SetNorthernLightsValue(optionVal.id);
 					}
 				}
 			};
@@ -1941,13 +2097,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				new FCycle.Option(WorldSizePresets.Enormous.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE5, ASTEROIDSIZE.SIZESELECTOR.SIZE5TOOLTIP),
 			};
 
-			PlanetSizeCycle.OnChange += () =>
+			PlanetSizeCycle.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null)
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						WorldSizePresets setTo = Enum.TryParse<WorldSizePresets>(PlanetSizeCycle.Value, out var result) ? result : WorldSizePresets.Normal;
+						WorldSizePresets setTo = Enum.TryParse<WorldSizePresets>(optionVal.id, out var result) ? result : WorldSizePresets.Normal;
 						current.SetPlanetSizeToPreset(setTo);
 						UpdateSizeLabels(current);
 					}
@@ -1971,15 +2127,15 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				new FCycle.Option(WorldRatioPresets.Taller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2TOOLTIP),
 				new FCycle.Option(WorldRatioPresets.LotTaller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3TOOLTIP),
 			};
-			PlanetRazioCycle.Value = WorldRatioPresets.Normal.ToString();
+			PlanetRazioCycle.SetValueById(WorldRatioPresets.Normal.ToString());
 
-			PlanetRazioCycle.OnChange += () =>
+			PlanetRazioCycle.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null)
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(PlanetRazioCycle.Value, out var result) ? result : WorldRatioPresets.Normal;
+						WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(optionVal.id, out var result) ? result : WorldRatioPresets.Normal;
 						current.SetPlanetRatioToPreset(setTo);
 						UpdateSizeLabels(current);
 						//AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
@@ -1996,7 +2152,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			ActiveBiomesContainer = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes/Content/TraitContainer/ScrollArea/Content").gameObject;
 			BiomePrefab = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes/Content/TraitContainer/ScrollArea/Content/Item").gameObject;
-			BiomePrefab.SetActive(false);	
+			BiomePrefab.SetActive(false);
 			AddSeasonButton = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Seasons/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
 			UIUtils.AddSimpleTooltipToObject(AddSeasonButton.transform, METEORSEASONCYCLE.DESCRIPTOR.TOOLTIP);
 			AddSeasonButton.OnClick += () =>
@@ -2138,15 +2294,52 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		private void InitializeBiomeMixingContainer()
 		{
-			BiomeMixingContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixing").gameObject;
-			BiomeMixingContainer?.SetActive(false);
+			//old
+			//BiomeMixingContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixing").gameObject;
+			//BiomeMixingContainer?.SetActive(false);
+			//new
+			BiomeMixingContainerSelectionNewGO = transform.Find("Details/Content/ScrollRectContainer/BiomeMixingTargetSelector").gameObject;
+			BiomeMixingContainerSelectionNewGO.SetActive(false);
+
+			BiomeMixingTargetSelectionItemContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixingTargetSelector/Content/ItemContainer/ScrollArea/Content").gameObject;
+			BiomeMixingTargetSelectionPrefab = BiomeMixingTargetSelectionItemContainer.transform.Find("Item").gameObject.AddOrGet<BiomeMixingTarget>();
+			BiomeMixingTargetSelectionPrefab.gameObject.SetActive(false);
+		}
+
+		private void RefreshBiomeRemixInfo()
+		{
+			var activeMixingSettings = CustomGameSettings.Instance.GetActiveSubworldMixingSettings();
+
+			foreach (var entry in BiomeMixingSourceEntries)
+			{
+				var mixing = entry.Key;
+				var uiEntry = entry.Value;
+				bool mixingEnabled = activeMixingSettings.Contains(mixing);
+				uiEntry.gameObject.SetActive(mixingEnabled);
+				if (!mixingEnabled)
+					continue;
+
+				string currentWorldDlc = CurrentStarmapItem.HasContentDlcRequirement ? CurrentStarmapItem.GetMainDlcID() : string.Empty;
+				bool allowedInGeneral = mixing.dlcIdFrom.IsNullOrWhiteSpace() || currentWorldDlc.IsNullOrWhiteSpace();
+				bool blockedByDlc = !allowedInGeneral && mixing.dlcIdFrom == currentWorldDlc;
+				uiEntry.SetInteractable(allowedInGeneral || blockedByDlc);
+				bool blacklisted = CustomCluster.IsBiomeRemixBlacklisted(mixing.id, CurrentStarmapItem.id);
+				uiEntry.SetChecked(!blacklisted && !blockedByDlc);
+			}
 		}
 
 		private void InitializePlanetMixingContainer()
 		{
+			//old
 			WorldMixingContainer = transform.Find("Details/Content/ScrollRectContainer/WorldMixing").gameObject;
 			WorldMixingContainer?.SetActive(false);
+			//new
+			WorldMixingContainerSelectionNewGO = transform.Find("Details/Content/ScrollRectContainer/AsteroidMixingTargetSelector").gameObject;
+			WorldMixingContainerSelectionNewGO.SetActive(false);
 
+			WorldMixingTargetSelectionItemContainer = transform.Find("Details/Content/ScrollRectContainer/AsteroidMixingTargetSelector/Content/ItemContainer/ScrollArea/Content").gameObject;
+			WorldMixingTargetSelectionPrefab = WorldMixingTargetSelectionItemContainer.transform.Find("Item").gameObject.AddOrGet<MixingTargetSelectable>();
+			WorldMixingTargetSelectionPrefab.gameObject.SetActive(false);
 		}
 
 		private void InitializeGeyserOverrideContainer()
@@ -2189,7 +2382,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			foreach (var entry in ModAssets.AllGeysers)
 			{
-				AddGeyserBlacklistContainer(entry.Key).SetActive(false);
+				AddGeyserBlacklistContainer(entry.Key)?.SetActive(false);
 			}
 		}
 		void SetCurrentGeyserBlacklistShared(bool useSharedList)
@@ -2214,7 +2407,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			var tr = container.transform;
 			if (!ModAssets.AllGeysers.TryGetValue(geyserID, out var geyserData))
 			{
-				Debug.LogError("geyser " + geyserID + " not found!");
+				Debug.LogWarning("geyser " + geyserID + " not found!");
 			}
 
 			tr.Find("DeleteButton").gameObject.AddOrGet<FButton>().OnClick += () =>
@@ -2225,7 +2418,14 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					RefreshGeyserOverrides();
 				}
 			};
-			tr.Find("Label").gameObject.GetComponent<LocText>().SetText(geyserData.Name);
+			var label = tr.Find("Label").gameObject.GetComponent<LocText>();
+			IEnumerator RenameNextFrame()
+			{
+				yield return null;
+				label?.SetText(geyserData.Name);
+			}
+			StartCoroutine(RenameNextFrame());
+			//tr.Find("Label").gameObject.GetComponent<LocText>().SetText(geyserData.Name);
 			UIUtils.AddSimpleTooltipToObject(container, geyserData.Description);
 			tr.Find("ImageContainer/Image").GetComponent<Image>().sprite = geyserData.Sprite;
 			container.SetActive(true);
@@ -2238,7 +2438,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			var tr = container.transform;
 			if (!ModAssets.AllGeysers.TryGetValue(geyserID, out var geyserData))
 			{
-				Debug.LogError("geyser " + geyserID + " not found!");
+				Debug.LogWarning("geyser " + geyserID + " not found!");
+				return;
 			}
 
 			tr.Find("DeleteButton").gameObject.AddOrGet<FButton>().OnClick += () =>
@@ -2249,7 +2450,14 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					RefreshGeyserOverrides();
 				}
 			};
-			tr.Find("Label").gameObject.GetComponent<LocText>().SetText(geyserData.Name);
+			var label = tr.Find("Label").gameObject.GetComponent<LocText>();
+			IEnumerator RenameNextFrame()
+			{
+				yield return null;
+				label?.SetText(geyserData.Name);
+			}
+			StartCoroutine(RenameNextFrame());
+			//tr.Find("Label").gameObject.GetComponent<LocText>().SetText(geyserData.Name);
 			UIUtils.AddSimpleTooltipToObject(container, geyserData.Description);
 			tr.Find("ImageContainer/Image").GetComponent<Image>().sprite = geyserData.Sprite;
 			container.SetActive(true);
@@ -2389,7 +2597,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 						POIGroup_AllowDuplicates.SetOn(CurrentStarmapItem.placementPOI.canSpawnDuplicates);
 						AddSOSinglePOI_UI(CurrentStarmapItem.id, id);
 
-						if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+						if (DlcManager.IsExpansion1Active())
+							ResetSOStarmap(true);
 					});
 				}
 			};
@@ -2445,9 +2654,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			StoryTraitEntryPrefab.SetActive(false);
 			Details_StoryTraitContainer = transform.Find("Details/Content/ScrollRectContainer/StoryTrait").gameObject;// .FindOrAddComponent<FToggle2>();
 			Details_StoryTraitContainer.SetActive(true);
-			StoryTraitImage = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/HeaderImage").gameObject.AddOrGet<Image>();
-			StoryTraitDesc = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/Description").gameObject.AddOrGet<LocText>();
-			StoryTraitToggle = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/StoryTraitEnabled").gameObject.AddOrGet<FToggle>();
+			StoryTraitImage = Details_StoryTraitContainer.transform.Find("InfoContainer/HeaderImage").gameObject.AddOrGet<Image>();
+			StoryTraitDesc = Details_StoryTraitContainer.transform.Find("InfoContainer/Description").gameObject.AddOrGet<LocText>();
+			StoryTraitToggle = Details_StoryTraitContainer.transform.Find("StoryTraitEnabled").gameObject.AddOrGet<FToggle>();
 			StoryTraitToggle.SetCheckmark("Background/Checkmark");
 			Details_StoryTraitContainer.SetActive(false);
 			StoryTraitToggle.OnClick +=
@@ -2457,6 +2666,14 @@ namespace ClusterTraitGenerationManager.UI.Screens
 						ToggleStoryTrait(CurrentlySelectedItemData.ID);
 				};
 
+			StoryTraitBlacklistContainer = Details_StoryTraitContainer.transform.Find("StoryTraitBlacklist/Content/TraitContainer/ScrollArea/Content").gameObject;
+
+			UIUtils.AddSimpleTooltipToObject(Details_StoryTraitContainer.transform.Find("StoryTraitBlacklist/Descriptor/InfoImage"), STORYTRAIT.STORYTRAITBLACKLIST.DESCRIPTOR.TOOLTIP);
+
+			StoryTraitBlacklistEntryPrefab = StoryTraitBlacklistContainer.transform.Find("Item").gameObject;
+			StoryTraitBlacklistEntryPrefab.SetActive(false);
+
+			HashSet<string> storyTraitIds = new HashSet<string>();
 			foreach (Story Story in Db.Get().Stories.resources)
 			{
 				var entry = Util.KInstantiateUI(StoryTraitEntryPrefab, StoryTraitGridContainer);
@@ -2478,11 +2695,36 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				{
 					SelectStoryTrait(Story.Id);
 				};
-
+				storyTraitIds.Add(Story.Id);
 				entry.SetActive(true);
+			}
+			{
+				var allEntry = Util.KInstantiateUI(StoryTraitEntryPrefab, StoryTraitGridContainer);
+				UIUtils.TryChangeText(allEntry.transform, "Label", global::STRINGS.UI.TOOLS.FILTERLAYERS.ALL.NAME);
+				allEntry.transform.Find("ImageContainer/Image").gameObject.SetActive(false);
+				//var btn = allEntry.gameObject.AddOrGet<FToggleButton>();
+				FToggle toggle = allEntry.transform.Find("Background").gameObject.AddOrGet<FToggle>();
+				toggle.SetCheckmark("Checkmark");
+				toggle.OnClick +=
+				(v) =>
+				{
+					SgtLogger.l("Toggling all story traits to " + (v ? "enabled" : "disabled"));
+					var currentPlacements = CustomCluster.GetAllPlanets().Select(planet => planet.placement).ToList();
+					foreach (var storyId in storyTraitIds)
+					{
+						if (CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, currentPlacements))
+							CustomGameSettings.Instance.SetStorySetting(CustomGameSettings.Instance.StorySettings[storyId], v);
+					}
+					RefreshStoryTraitsUI();
+				};
+				allEntry.transform.SetAsFirstSibling();
+				allEntry.SetActive(true);
+				StoryTraitToggleCheckmarks[ALLSTORIES] = toggle;
+				toggle.SetOnFromCode(false);
 			}
 		}
 
+		const string ALLSTORIES = "CGM_ALL";
 		Dictionary<string, FToggle> StoryTraitToggleCheckmarks = new Dictionary<string, FToggle>();
 		Dictionary<string, FToggleButton> StoryTraitToggleButtons = new Dictionary<string, FToggleButton>();
 
@@ -2494,30 +2736,68 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		}
 		void RefreshStoryTraitsUI()
 		{
-			if (CurrentlySelectedItemData is not SelectedStoryTrait)
+			if (CurrentlySelectedItemData is not SelectedStoryTrait data)
 				return;
-			var data = CurrentlySelectedItemData as SelectedStoryTrait;
-
 			var currentPlacements = CustomCluster.GetAllPlanets().Select(planet => planet.placement).ToList();
 
 			bool SelectedToggleable = CGMWorldGenUtils.ShouldStoryBeInteractable(data.ID, currentPlacements);
 			StoryTraitToggle.SetInteractable(SelectedToggleable);
 			StoryTraitToggle.SetOnFromCode(StoryTraitEnabled(data.ID) || !SelectedToggleable);
 
+			bool allOn = false;
 			foreach (var state in StoryTraitToggleCheckmarks)
 			{
 				string storyId = state.Key;
+				if (storyId == ALLSTORIES)
+					continue;
 				bool Interactable = CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, currentPlacements);
 
 				state.Value.SetInteractable(Interactable);
 				state.Value.SetOnFromCode(StoryTraitEnabled(storyId) || !Interactable);
+				if (!allOn && Interactable && StoryTraitEnabled(storyId))
+					allOn = true;
 			}
+			StoryTraitToggleCheckmarks[ALLSTORIES].SetOnFromCode(allOn);
 
 			foreach (var state in StoryTraitToggleButtons)
 			{
 				state.Value.SetIsSelected(state.Key == data.ID);
 			}
+
+			foreach (var existingPlanet in ActiveStoryTraitBlacklistToggles)
+				existingPlanet.Value.gameObject.SetActive(false);
+
+			foreach (var asteroid in CustomCluster.GetAllPlanets())
+			{
+				bool disallowedOnAsteroid = CustomCluster.IsStoryTraitBlacklisted(data.ID, asteroid.id);
+
+				if (CGMWorldGenUtils.IsImpactorTrait(data.ID))
+				{
+					SelectedToggleable = false;
+					disallowedOnAsteroid = CustomCluster.StarterPlanet != asteroid;
+				}
+
+				var toggle = AddOrGetStoryTraitBlacklistToggle(asteroid.id);
+				toggle.Refresh(
+					!disallowedOnAsteroid,
+					StoryTraitEnabled(data.ID) && SelectedToggleable,
+					(world, on) => CustomCluster.SetStorytraitBlacklisted(data.ID, asteroid.id, !on));
+			}
+
 			RefreshDetails();
+		}
+		StoryTraitAsteroidBlacklistToggle AddOrGetStoryTraitBlacklistToggle(string asteroidId)
+		{
+			if (ActiveStoryTraitBlacklistToggles.TryGetValue(asteroidId, out var value))
+			{
+				value.gameObject.SetActive(true);
+				return value;
+			}
+			value = Util.KInstantiateUI(StoryTraitBlacklistEntryPrefab.gameObject, StoryTraitBlacklistContainer).AddOrGet<StoryTraitAsteroidBlacklistToggle>();
+			value.gameObject.SetActive(true);
+			value.Init(asteroidId);
+			ActiveStoryTraitBlacklistToggles[asteroidId] = value;
+			return value;
 		}
 
 		public void SelectStoryTrait(string id)
@@ -2527,7 +2807,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			CurrentlySelectedItemData = new SelectedStoryTrait(id, Strings.Get(storyTrait.name));
 
 
-			selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, Strings.Get(storyTrait.name)), SelectedCategory));
+			selectionHeaderLabel.SetText(ModAssets.ModStringHelper.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, Strings.Get(storyTrait.name)), SelectedCategory));
 			StoryTraitDesc.SetText(Strings.Get(storyTrait.description));
 			StoryTraitImage.sprite = Assets.GetSprite(storyTrait.icon.Replace("_icon", "_image"));
 			RefreshStoryTraitsUI();
@@ -2557,7 +2837,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			;
 			AddCategoryItem(DlcManager.IsExpansion1Active() ? StarmapItemCategory.POI : StarmapItemCategory.VanillaStarmap);
 			if (DlcManager.IsExpansion1Active())
+			{
 				SpacedOutStarmap_CategoryToggle = AddCategoryItem(StarmapItemCategory.SpacedOutStarmap);
+				SpacedOutStarmap_CategoryToggle.InitWarning(STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.TOOLTIP_STARMAPRESETINFO);
+			}
 
 
 			var StoryTraitsBtn = StoryTraitButton.AddOrGet<CategoryItem>();
@@ -2960,7 +3243,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					if (CurrentStarmapItem.IsPOI)
 						RefreshPOIGroupHeader(CurrentStarmapItem.id);
 					RefreshDetails();
-					if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+					if (DlcManager.IsExpansion1Active())
+						ResetSOStarmap(true);
 				}
 			}
 
@@ -3051,21 +3335,23 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 
 			itemLogic.ActiveToggle.OnClick += () => SelectItem(planet);
-			itemLogic.ActiveToggle.OnDoubleClick += () =>
-			{
-				SelectItem(planet);
-				if (CurrentStarmapItem != null)
-				{
-					TogglePlanetoid(CurrentStarmapItem);
-					RefreshView();
-
-					if (DlcManager.IsExpansion1Active())
-						ResetSOStarmap(true);
-				}
-			};
+			itemLogic.ActiveToggle.OnDoubleClick += () => ToggleAsteroid(planet);
+			itemLogic.Checkbox.OnChange += (_) => ToggleAsteroid(planet);
 			planetoidGridButtons[planet] = itemLogic;
 			//this.SetItemClickUISound(planet, component2);
 			availableGridButton.SetActive(true);
+		}
+		void ToggleAsteroid(StarmapItem planet)
+		{
+			SelectItem(planet);
+			if (CurrentStarmapItem != null)
+			{
+				TogglePlanetoid(CurrentStarmapItem);
+				RefreshView();
+
+				if (DlcManager.IsExpansion1Active())
+					ResetSOStarmap(true);
+			}
 		}
 
 
@@ -3073,7 +3359,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		{
 			GameObject categoryItem = Util.KInstantiateUI(PlanetoidCategoryPrefab, categoryListContent, true);
 
-			string categoryName = ModAssets.Strings.CategoryEnumToName(StarmapItemCategory); //CATEGORYENUM
+			string categoryName = ModAssets.ModStringHelper.CategoryEnumToName(StarmapItemCategory); //CATEGORYENUM
 
 			categoryItem.transform.Find("Label").GetComponent<LocText>().SetText(categoryName);
 			var item = categoryItem.AddOrGet<CategoryItem>();

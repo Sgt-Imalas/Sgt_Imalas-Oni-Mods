@@ -1,15 +1,12 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine.UI;
 using UnityEngine;
-using UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.ReorderableList;
-using UtilLibs.UIcmp;
+using UnityEngine.UI;
 using UtilLibs;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using UtilLibs.UIcmp;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 {
@@ -18,7 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		public static BuildingEditor_MainScreen Instance;
 		public BuildingConfigurationEntry SelectedOutline = null;
 
-
+		ToolTip MaxMassTT;
 		public FInputField2 FilterBar;
 		public FButton ClearFilterButton;
 
@@ -32,11 +29,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 		public FMultiSelectDropdown FilterDropDown;
 
-		GameObject WattageContainer, StorageCapacityContainer, RangeContainer;
-		LocText WattageLabel, RangeLabel;
+		GameObject WattageContainer, StorageCapacityContainer, RangeContainer, RateContainer;
+		LocText WattageLabel, RangeLabel, RateLabel;
+		ToolTip RateTooltip;
 
-		FInputField2 WattageInput, StorageCapacityInput, RangeInput;
+		FInputField2 WattageInput, StorageCapacityInput, RangeInput, RateInput;
+		FSlider RateInputSlider;
 		FToggle BuildingEnabledToggle;
+
+		FButton ResetSingleBuilding;
 
 		GameObject Details;
 
@@ -61,12 +62,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				Instance.name = "AIO_BuildingEditor_MainScreen";
 			}
 			Instance.Show(true);
-			Instance.ConsumeMouseScroll = true;
-			Instance.transform.SetAsLastSibling();
 			Instance.OpenedFrom(source);
-			Instance.ClearFilter();
-			Instance.SelectOutline(null);
 		}
+
+		public override void Show(bool show = true)
+		{
+			base.Show(show);
+			Instance.ConsumeMouseScroll = show;
+			if (show)
+			{
+				transform.SetAsLastSibling();
+				RefreshMaxMassTooltip();
+				SelectOutline(null);
+				ClearFilter();
+			}
+		}
+
 		void OpenedFrom(SourceModInfo? source = null)
 		{
 			if (source == null || !source.HasValue)
@@ -90,7 +101,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 		public void UpdateEntryList()
 		{
-			foreach (var outline in BuildingManager.ConfigCollection.BuildingConfigurations)
+			var configs = BuildingManager.ConfigCollection.BuildingConfigurations.OrderBy(kvp => kvp.Value.GetDisplayName()).ToList();
+			foreach (var outline in configs)
 			{
 				var uiElement = AddOrGetBuildingConfigUIEntry(outline.Value);
 				uiElement.UpdateUI();
@@ -102,6 +114,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		{
 			DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.BUILDINGEDITOR.RESETALLCHANGES.TITLE, STRINGS.UI.BUILDINGEDITOR.RESETALLCHANGES.TEXT, on_confirm: ResetEntries, on_cancel: () => { });
 		}
+		void ResetCurrentBuilding()
+		{
+			if (SelectedOutline == null)
+				return;
+
+			BuildingManager.ResetSingleConfig(SelectedOutline);
+			OnOutlineEntryUpdated(SelectedOutline);
+			RefreshDetails();
+		}
+
 		public void ResetEntries()
 		{
 			SelectedOutline = null;
@@ -116,7 +138,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			}
 			ConfigEntries.Clear();
 			UpdateEntryList();
-			Instance.ApplyCarePackageFilter(FilterBar.Text);
+			Instance.ApplyBuildingFilter(FilterBar.Text);
 			RefreshDetails();
 		}
 
@@ -141,8 +163,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			Details = transform.Find("HorizontalLayout/ItemInfo").gameObject;
 
 			FilterBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			FilterBar.OnValueChanged.AddListener(ApplyCarePackageFilter);
-			FilterBar.Text = string.Empty;
+			FilterBar.AddListener(ApplyBuildingFilter);
+			FilterBar.ClearInputTextWithoutEvent();
 
 			ClearFilterButton = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 			ClearFilterButton.OnClick += () => FilterBar.Text = string.Empty;
@@ -159,22 +181,41 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			WattageLabel = WattageContainer.GetComponent<LocText>();
 			WattageInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Input").FindOrAddComponent<FInputField2>();
 			WattageInput.Text = "0";
-			WattageInput.OnValueChanged.AddListener(UpdateItemWattage);
+			WattageInput.AddListener(UpdateItemWattage);
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.ELECTRICAL.WATT);
 			WattageContainer.SetActive(false);
 
 			StorageCapacityContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings").gameObject;
+			MaxMassTT = UIUtils.AddSimpleTooltipToObject(StorageCapacityContainer, "");
 			StorageCapacityInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Input").FindOrAddComponent<FInputField2>();
 			StorageCapacityInput.Text = "0";
-			StorageCapacityInput.OnValueChanged.AddListener(UpdateItemCapacity);
+			StorageCapacityInput.AddListener(UpdateItemCapacity);
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM);
 
 			RangeContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings").gameObject;
 			RangeInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings/Input").FindOrAddComponent<FInputField2>();
 			RangeInput.Text = "0";
-			RangeInput.OnValueChanged.AddListener(UpdateItemRange);
+			RangeInput.AddListener(UpdateItemRange);
 			RangeLabel = RangeContainer.GetComponent<LocText>();
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.TILES);
+
+			RateContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/MultiplierSettings").gameObject;
+			RateInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/MultiplierSettings/Input").FindOrAddComponent<FInputField2>();
+			RateInput.Text = "100";
+			RateInput.AddListener(UpdateItemMultiplier);
+			RateLabel = RateContainer.GetComponent<LocText>();
+			RateLabel.key = string.Empty;
+			RateLabel.text = "FILLER:";
+			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/MultiplierSettings/Unit").gameObject.GetComponent<LocText>().SetText("%");
+
+			RateInputSlider = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/MultiplierSettings/Slider").FindOrAddComponent<FSlider>();
+			RateInputSlider.TrailingOutputNumbers = 2;
+			RateInputSlider.SetWholeNumbers(true);
+			RateInputSlider.OnChange += UpdateItemMultiplierSlider;
+			RateInputSlider.SetMinMaxCurrent(10, 1000, 100);
+
+			RateTooltip = UIUtils.AddSimpleTooltipToObject(RateContainer, "");
+
 
 			StorageCapacityContainer.gameObject.SetActive(false);
 
@@ -188,6 +229,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				}
 			};
 
+			ResetSingleBuilding = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ResetButton").gameObject.AddOrGet<FButton>();
+			ResetSingleBuilding.OnClick += ResetCurrentBuilding;
+
 			FilterDropDown = transform.Find("HorizontalLayout/ObjectList/Filters/FilterButton").FindOrAddComponent<FMultiSelectDropdown>();
 			var entries = Enum.GetValues(typeof(SourceModInfo)).Cast<SourceModInfo>().Select(CreateFilterEntry).ToList();
 			FilterDropDown.DropDownEntries = entries;
@@ -200,16 +244,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			UpdateEntryList();
 			SelectOutline(null);
 		}
+		void RefreshMaxMassTooltip()
+		{
+			string tt = string.Format(STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.CAPACITYSETTINGS_TOOLTIP, PrimaryElement.MAX_MASS);
+			MaxMassTT.SetSimpleTooltip(tt);
+		}
+
 		FMultiSelectDropdown.FDropDownEntry CreateFilterEntry(SourceModInfo mod)
 		{
 			var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{mod.ToString().ToUpperInvariant()}").ToString();
-			return new FMultiSelectDropdown.FDropDownEntry(ModName, (_)=>ToggleModFiltered(mod),true);
+			return new FMultiSelectDropdown.FDropDownEntry(ModName, (_) => ToggleModFiltered(mod), true);
 		}
 
 		void SetToggleButtonState()
 		{
 			bool shouldDisable = FilteredMods.Any();
-			if(shouldDisable)
+			if (shouldDisable)
 				ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.DISABLE_ALL);
 			else
 				ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.ENABLE_ALL);
@@ -238,7 +288,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			else
 				FilteredMods.Add(mod);
 
-			ApplyCarePackageFilter(FilterBar.Text);
+			ApplyBuildingFilter(FilterBar.Text);
 			SetToggleButtonState();
 			return FilteredMods.Contains(mod);
 		}
@@ -259,13 +309,40 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 			if (int.TryParse(text, out int mass))
 			{
-				mass = Mathf.Clamp(mass, 1, 100000);
+				mass = Mathf.Clamp(mass, 1, Mathf.RoundToInt(PrimaryElement.MAX_MASS));
 				StorageCapacityInput.SetTextFromData(mass.ToString());
 				SelectedOutline?.SetMassCapacity(mass);
 			}
 			OnOutlineEntryUpdated();
 		}
+		void UpdateItemMultiplierSlider(float rate)
+		{
+			if (SelectedOutline == null)
+				return;
+			SelectedOutline?.SetRateMultiplier(rate / 100f);
 
+			rate = SelectedOutline.GetRateMultiplier() * 100f;
+			RateInput.SetTextFromData(rate.ToString());
+
+			RateTooltip.toolTip = SelectedOutline.GetMultiplierToolTip();
+			OnOutlineEntryUpdated();
+		}
+		void UpdateItemMultiplier(string text)
+		{
+			if (SelectedOutline == null)
+				return;
+			if (float.TryParse(text, out float rate))
+			{
+				SelectedOutline?.SetRateMultiplier(rate / 100f);
+			}
+
+			rate = SelectedOutline.GetRateMultiplier() * 100f;
+			RateInput.SetTextFromData(rate.ToString());
+			RateInputSlider.SetCurrentFromCode(rate);
+
+			RateTooltip.toolTip = SelectedOutline.GetMultiplierToolTip();
+			OnOutlineEntryUpdated();
+		}
 		void UpdateItemRange(string text)
 		{
 			if (SelectedOutline == null)
@@ -281,12 +358,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		public void ClearFilter()
 		{
 			FilterBar.Text = string.Empty;
-			ApplyCarePackageFilter();
+			ApplyBuildingFilter();
 		}
 
 		void RefreshItemFilterEntries()
 		{
-			ApplyCarePackageFilter(FilterBar.Text);
+			ApplyBuildingFilter(FilterBar.Text);
 
 			var mods = Enum.GetValues(typeof(SourceModInfo)).Cast<SourceModInfo>().ToList();
 			for (int i = 0; i < mods.Count(); i++)
@@ -296,7 +373,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				FilterDropDown.DropDownEntries[i].Toggle.SetOnFromCode(FilteredMods.Contains(mod));
 			}
 		}
-		public void ApplyCarePackageFilter(string filterstring = "")
+		public void ApplyBuildingFilter(string filterstring = "")
 		{
 			foreach (var go in ConfigEntries)
 			{
@@ -407,7 +484,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			{
 				StorageCapacityContainer.SetActive(false);
 			}
-			if(SelectedOutline.HasWattage(out var wattage))
+			if (SelectedOutline.HasWattage(out var wattage))
 			{
 				WattageContainer.SetActive(true);
 				WattageLabel.SetText(SelectedOutline.IsGenerator
@@ -419,10 +496,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			{
 				WattageContainer.SetActive(false);
 			}
-			if(SelectedOutline.HasTileRange(out int range))
+			if (SelectedOutline.HasTileRange(out int range))
 			{
 				RangeContainer.SetActive(true);
-				if(SelectedOutline.HasTileRangeDescriptor(out string descriptor))
+				if (SelectedOutline.HasTileRangeDescriptor(out string descriptor))
 				{
 					RangeLabel.SetText(descriptor);
 				}
@@ -436,6 +513,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			{
 				RangeContainer.SetActive(false);
 			}
+			if (SelectedOutline.HasRateMultiplier(out float rate))
+			{
+				RateContainer.SetActive(true);
+				RateLabel.SetText(SelectedOutline.RateMultiplierLabel);
+				RateTooltip.toolTip = SelectedOutline.GetMultiplierToolTip();
+
+				int roundRate = Mathf.RoundToInt(rate * 100f);
+
+				RateInput.SetTextFromData(roundRate.ToString());
+				RateInputSlider.SetCurrentFromCode(roundRate);
+			}
+			else
+			{
+				RateContainer.SetActive(false);
+			}
+
+			
 			SelectedEntryPreviewImage.sprite = Def.GetUISprite(SelectedOutline.BuildingID).first;
 		}
 

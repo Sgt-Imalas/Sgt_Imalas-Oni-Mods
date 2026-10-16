@@ -24,7 +24,6 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 
 
 			label = transform.Find("Label").GetComponent<LocText>();
-			label.SetText(Text);
 
 			if (Tooltip != null && Tooltip.Length > 0)
 			{
@@ -37,6 +36,11 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 
 			delete = transform.Find("DeleteBtn").FindOrAddComponent<FButton>();
 			delete.OnClick += OnDeleteClicked;
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			label.SetText(Text);
 		}
 		void InputListener(string text)
 		{

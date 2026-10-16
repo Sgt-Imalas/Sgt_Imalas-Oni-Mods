@@ -1,10 +1,5 @@
 ﻿using HarmonyLib;
 using ItemDropPrevention.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ItemDropPrevention.Patches
 {
@@ -16,7 +11,7 @@ namespace ItemDropPrevention.Patches
 		{
             public static void Prefix(Storage __instance, ref DroppablesHolder __state)
             {
-                if(__instance.dropOnLoad && __instance.TryGetComponent<DroppablesHolder>(out __state))
+                if(__instance.dropOnLoad && __instance.TryGetComponent(out __state))
                 {
                     __instance.dropOnLoad = false;
 				}

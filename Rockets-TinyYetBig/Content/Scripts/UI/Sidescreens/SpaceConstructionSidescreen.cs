@@ -1,5 +1,5 @@
-﻿using Rockets_TinyYetBig.SpaceStations;
-using Rockets_TinyYetBig.SpaceStations.Construction;
+﻿using Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +13,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 {
     class SpaceConstructionSidescreen : SideScreenContent
     {
-
         private SpaceConstructionTargetScreen buildTargetScreen;
         public override void OnSpawn()
         {
             base.OnSpawn();
             ConnectReference();
-
         }
 
         protected Clustercraft targetCraft;
@@ -35,10 +33,10 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
             public Slider ConstructionProgress;
             public LocText ConstructionProgressLabel;
-            public PartProject Reference;
+            public StoredStationPart Reference;
 
 
-            public void Init(PartProject referencedProject)
+            public void Init(StoredStationPart referencedProject)
             {
                 Reference = referencedProject;
                 ToggleConstruction = transform.Find("Row1/ConstructBtn").gameObject.AddOrGet<FButton>();
@@ -154,7 +152,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
         {
             if (buildTargetScreen == null)
             {
-                buildTargetScreen = (SpaceConstructionTargetScreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.SpaceConstructionTargetSecondarySideScreen, CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT);
+                buildTargetScreen = (SpaceConstructionTargetScreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.ConstructionSelector_SecondarySidescreen, CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT);
                 buildTargetScreen.UpdatePositions(targetCraft.Location);
             }
             else

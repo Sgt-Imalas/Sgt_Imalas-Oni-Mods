@@ -1,12 +1,10 @@
 ﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -25,9 +23,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[Serialize]
 		[SerializeField]
 		public float MaxWattage = 80f;
-		public CellOffset[] solarCellOffsets = [new(0,2), new(0,3), new (0,4)];
+		public CellOffset[] solarCellOffsets = [new(0, 2), new(0, 3), new(0, 4)];
 		private static readonly EventSystem.IntraObjectHandler<RotatableSmallSolarPanel> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<RotatableSmallSolarPanel>((component, data) => component.OnActiveChanged(data));
-
+		private float EnergyMultiplier = 1f;
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
@@ -48,7 +46,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				"meter_OL"
 			});
 			SetLightBlockIfHorizontal(true);
+			CheckSolidsAbove();
 			//AddSolidBaseTile();
+			EnergyMultiplier = CustomizeBuildings.GetSolarEnergyMultiplier();
 		}
 		void SetLightBlockIfHorizontal(bool blockLight)
 		{
@@ -56,46 +56,58 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				return;
 
 			var orientation = rotatable.GetOrientation();
-			if ( orientation == Orientation.R90 || orientation == Orientation.R270)
+			if (orientation == Orientation.R90 || orientation == Orientation.R270)
 			{
 				int ownCell = Grid.PosToCell(this);
 				foreach (var cellOffset in solarCellOffsets)
 				{
-					 var solarCell = Grid.OffsetCell(ownCell, building.GetRotatedOffset(cellOffset));
+					var solarCell = Grid.OffsetCell(ownCell, building.GetRotatedOffset(cellOffset));
 					if (Grid.IsValidCell(solarCell))
 					{
-						if(blockLight)
-							SimMessages.SetCellProperties(solarCell, PartialLightBlockingProperties);
-						else
-							SimMessages.ClearCellProperties(solarCell, PartialLightBlockingProperties);
+						SetCellPartiallyBlockingFlag(solarCell, blockLight);
 					}
 				}
 			}
 		}
-		//public void AddSolidBaseTile()
-		//{			
-		//	int cell = Grid.PosToCell(this); 
-		//	SimMessages.ReplaceAndDisplaceElement(cell, SimHashes.Vacuum, CellEventLogger.Instance.SimCellOccupierOnSpawn, 0f, 0f);
-		//	Grid.Foundation[cell] = true;
-		//	Grid.SetSolid(cell, solid: true, CellEventLogger.Instance.SimCellOccupierForceSolid);
-		//	SimMessages.SetCellProperties(cell, 103);
-		//	Grid.RenderedByWorld[cell] = false;
-		//	World.Instance.OnSolidChanged(cell);
-		//	GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
-		//}
 
-		//public void RemoveSolidBaseTile()
-		//{
-		//	int cell = Grid.PosToCell(this);
-		//	SimMessages.ReplaceAndDisplaceElement(cell, SimHashes.Vacuum, CellEventLogger.Instance.SimCellOccupierOnSpawn, 0f);
-		//	Grid.Objects[cell, 9] = null;
-		//	Grid.Foundation[cell] = false;
-		//	Grid.SetSolid(cell, solid: false, CellEventLogger.Instance.SimCellOccupierDestroy);
-		//	SimMessages.ClearCellProperties(cell, 103);
-		//	Grid.RenderedByWorld[cell] = true;
-		//	World.Instance.OnSolidChanged(cell);
-		//	GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
-		//}
+		void SetCellPartiallyBlockingFlag(int solarCell, bool blockLight, bool register = true)
+		{
+			if (!Grid.IsValidCell(solarCell))
+				return;
+
+			if (blockLight)
+			{
+				if (register)
+					CurrentlyFlaggedCells.Add(solarCell);
+				else
+					OverriddenCells.Add(solarCell);
+				SimMessages.SetCellProperties(solarCell, PartialLightBlockingProperties);
+			}
+			else
+			{
+				if (register)
+					CurrentlyFlaggedCells.Remove(solarCell);
+				else
+					OverriddenCells.Remove(solarCell);
+				SimMessages.ClearCellProperties(solarCell, PartialLightBlockingProperties);
+			}
+		}
+		HashSet<int> CurrentlyFlaggedCells = [];
+		HashSet<int> OverriddenCells = [];
+		void CheckSolidsAbove()
+		{
+			if (!CurrentlyFlaggedCells.Any())
+				return;
+
+			foreach (var cell in CurrentlyFlaggedCells)
+			{
+				var cellToCheck = Grid.CellAbove(cell);
+				bool cellSolidNonTransparent = Grid.IsSolidCell(cellToCheck) && !Grid.Transparent[cellToCheck];
+
+				if (OverriddenCells.Contains(cellToCheck) != cellSolidNonTransparent)
+					SetCellPartiallyBlockingFlag(cell, !cellSolidNonTransparent, false);
+			}
+		}
 		public override void OnCleanUp()
 		{
 			//RemoveSolidBaseTile();
@@ -122,13 +134,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				if (!(this.statusHandle != Guid.Empty))
 					return;
-				this.GetComponent<KSelectable>().ReplaceStatusItem(this.statusHandle,  StatusItemsDatabase.CG_RotatableSolarPanelWattage, this);
+				this.GetComponent<KSelectable>().ReplaceStatusItem(this.statusHandle, StatusItemsDatabase.CG_RotatableSolarPanelWattage, this);
 			}
 		}
 
 		public override void EnergySim200ms(float dt)
 		{
+			//that new check
+			CheckSolidsAbove();
 			base.EnergySim200ms(dt);
+
+			//solar panel logic
 			int circuitId = CircuitID;
 			this.operational.SetFlag(Generator.wireConnectedFlag, circuitId != ushort.MaxValue);
 			if (!this.operational.IsOperational)
@@ -138,16 +154,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				CellOffset rotatedOffset = building.GetRotatedOffset(solarCellOffset);
 				int luxAtCell = Grid.LightIntensity[Grid.OffsetCell(Grid.PosToCell(this), rotatedOffset)];
-				currentWattage += luxAtCell * 0.00053f;
+				currentWattage += luxAtCell * 0.00053f * EnergyMultiplier;
 			}
 			float clampedWattage = Mathf.Clamp(currentWattage, 0.0f, MaxWattage);
-			this.operational.SetActive((double)clampedWattage > 0.0);
+			this.operational.SetActive(clampedWattage > 0);
 			Game.Instance.accumulators.Accumulate(this.accumulator, clampedWattage * dt);
-			if ((double)clampedWattage > 0.0)
+			if (clampedWattage > 0)
 				this.GenerateJoules(Mathf.Max(clampedWattage * dt, 1f * dt));
 			this.meter.SetPositionPercent(Game.Instance.accumulators.GetAverageRate(this.accumulator) / MaxWattage);
 			this.UpdateStatusItem();
 		}
+
 
 		public float CurrentWattage => Game.Instance.accumulators.GetAverageRate(this.accumulator);
 

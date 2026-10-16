@@ -1,11 +1,6 @@
 ﻿using Database;
 using HarmonyLib;
 using Imalas_TwitchChaosEvents.Meteors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Imalas_TwitchChaosEvents.ModPatches
 {

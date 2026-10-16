@@ -2,7 +2,9 @@
 using KSerialization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Science
 {
@@ -51,36 +53,22 @@ namespace Rockets_TinyYetBig.Science
 		{
 			Target = null;
 			var Techs = Db.Get().Techs;
-			for (int i = 0; i < Techs.Count; ++i)
+
+			List<Tech> potentialTechs = new List<Tech>();
+			foreach (var dst in DeepSpaceTechs)
 			{
-				var potentialDeepSpaceTech = Techs[i];
-				if (potentialDeepSpaceTech.IsComplete())
-					continue;
-
-				if (potentialDeepSpaceTech.RequiresResearchType(ModAssets.DeepSpaceScienceID) &&
-					potentialDeepSpaceTech.ArePrerequisitesComplete() &&
-					Research.Instance.Get(potentialDeepSpaceTech).PercentageCompleteResearchType(ModAssets.DeepSpaceScienceID) < 1f)
-				{
-					Target = potentialDeepSpaceTech;
-					return true;
-				}
+				var tech = Techs.TryGet(dst);
+				if (tech != null)
+					potentialTechs.Add(tech);
 			}
-			for (int i = 0; i < Techs.Count; ++i)
-			{
-				var potentialDeepSpaceTech2 = Techs[i];
-				if (potentialDeepSpaceTech2.IsComplete())
-					continue;
+			potentialTechs.Sort( (a, b) => a.costsByResearchTypeID[ModAssets.DeepSpaceScienceID].CompareTo(b.costsByResearchTypeID[ModAssets.DeepSpaceScienceID]));
+			potentialTechs.RemoveAll(tech => tech.IsComplete() || !tech.RequiresResearchType(ModAssets.DeepSpaceScienceID) || Research.Instance.Get(tech).PercentageCompleteResearchType(ModAssets.DeepSpaceScienceID) >= 1f);
 
-				if (potentialDeepSpaceTech2.RequiresResearchType(ModAssets.DeepSpaceScienceID) &&
-					Research.Instance.Get(potentialDeepSpaceTech2).PercentageCompleteResearchType(ModAssets.DeepSpaceScienceID) < 1f)
-				{
-					Target = potentialDeepSpaceTech2;
-					return true;
-				}
-			}
-
-
-			return false;
+			if(!potentialTechs.Any())
+				return false;
+			
+			Target = potentialTechs.First();
+			return true;
 		}
 
 		public void ArtifactResearched(bool terrestial)
@@ -98,16 +86,16 @@ namespace Rockets_TinyYetBig.Science
 			{
 				switch (researchType)
 				{
-					case ResearchTypes.ID.BASIC:
+					case TechUtils.ID.BASIC:
 						CurrentScienceValue += 0.1f;
 						break;
-					case ResearchTypes.ID.ADVANCED:
+					case TechUtils.ID.ADVANCED:
 						CurrentScienceValue += 0.2f;
 						break;
-					case ResearchTypes.ID.NUCLEAR:
+					case TechUtils.ID.NUCLEAR:
 						CurrentScienceValue += 0.4f;
 						break;
-					case ResearchTypes.ID.ORBITAL:
+					case TechUtils.ID.ORBITAL:
 						CurrentScienceValue += 0.4f;
 						break;
 				}

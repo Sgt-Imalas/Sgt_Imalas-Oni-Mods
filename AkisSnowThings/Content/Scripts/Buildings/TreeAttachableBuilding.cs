@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
-
-namespace AkisSnowThings.Content.Scripts.Buildings
+﻿namespace AkisSnowThings.Content.Scripts.Buildings
 {
 	internal class TreeAttachableBuilding:KMonoBehaviour
 	{
@@ -37,6 +30,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 						harvestable.ForceCancelHarvest();
 				}
 			}
+			pooledList.Recycle();
 		}
 
 		public override void OnCleanUp()

@@ -8,12 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.Patches;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -40,34 +38,42 @@ namespace ClusterTraitGenerationManager.ClusterData
 			//so that it wont throw errors in these saves if the mod is removed.
 			//goes in effect if warp or outer ceres is used since those contain a heatpump
 
-			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList());
-			bool hasImpactor = CGMWorldGenUtils.HasImpactorShowerInCluster(GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList());
+			var placements = GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList();
+
+			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(placements);
+			bool hasImpactor = CGMWorldGenUtils.HasImpactorShowerInCluster(placements);
+			bool hasMinnow = CGMWorldGenUtils.HasMinnowInCluster(placements);
 			SgtLogger.l($"HasCeresAsteroid: {HasCeresAsteroid}, HasCeresStarter: {HasCeresStarter}, has pump in cluster: {hasPump}");
 
 			string clusterID;
 
-			if(CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID)
-				&& (StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) || StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID)))
+			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID) && StarterPlanet.HasContentDlcRequirement)
 			{
+				SgtLogger.l("start planet is has dlc requirement, using its cluster");
+				SgtLogger.l("main dlc requirement: "+StarterPlanet.GetMainDlcID() + ", optional secondaries: " + string.Join(',', StarterPlanet.World_Internal?.requiredDlcIds ?? []));
 				return clusterID;
 			}
-
-			if (StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) 
-				|| HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) && hasPump)
+			if (HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) && hasPump)
 			{
-				return spacedOutActive ? "dlc2::clusters/CeresClassicCluster" : "dlc2::clusters/CeresBaseGameCluster";
+				SgtLogger.l("start planet had no dlc requirement, but geothermal pump was found, using ceres cluster");
+				return spacedOutActive ? "dlc2::clusters/CeresSpacedOutCluster" : "dlc2::clusters/CeresBaseGameCluster";
 			}
-			if (StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID)
-				|| HasDlcRequiringContentActive(DlcManager.DLC4_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID) && hasImpactor)
+			if (HasDlcRequiringContentActive(DlcManager.DLC4_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID) && hasImpactor)
 			{
+				SgtLogger.l("start planet had no dlc requirement, but impactor asteroid was found, using prehistoric cluster");
 				return spacedOutActive ? "dlc4::clusters/PrehistoricSpacedOutCluster" : "dlc4::clusters/PrehistoricBaseGameCluster";
+			}
+			if (HasDlcRequiringContentActive(DlcManager.DLC5_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC5_ID) && hasMinnow)
+			{
+				SgtLogger.l("start planet had no dlc requirement, but minnow was found, using aquatic cluster");
+				return spacedOutActive ? "dlc4::clusters/AquaticSpacedOutCluster" : "dlc4::clusters/AquaticBaseGameCluster";
 			}
 			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID))
 			{
+				SgtLogger.l("no dlc requirement detected, using start asteroid cluster");
 				return clusterID;
 			}
-
-
+			SgtLogger.l("non-default starter detected, using fallback sandstone clusters");
 			return spacedOutActive ? "expansion1::clusters/SandstoneStartCluster" : "clusters/SandstoneDefault"; //final fallback
 		}
 
@@ -135,7 +141,44 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public string DLC_Id = DlcManager.IsContentSubscribed(DlcManager.EXPANSION1_ID) ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
 
 		public Dictionary<int, List<string>> VanillaStarmapItems = new Dictionary<int, List<string>>();
+		public Dictionary<string, List<string>> BlacklistedStoryTraitLocations = new Dictionary<string, List<string>>();
+		public Dictionary<string, List<string>> BlacklistedBiomeMixingLocations = new Dictionary<string, List<string>>();
 		public int MaxStarmapDistance;
+		public bool IsBiomeRemixBlacklisted(string remixId, string planetId)
+		{
+			if (!BlacklistedBiomeMixingLocations.TryGetValue(remixId, out var blacklisted))
+				return false;
+			return blacklisted.Contains(planetId);
+		}
+		public void SetBiomeRemixBlacklisted(string remixId, string planetId, bool setblacklisted)
+		{
+			if (!BlacklistedBiomeMixingLocations.TryGetValue(remixId, out var blacklisted))
+				blacklisted = BlacklistedBiomeMixingLocations[remixId] = [];
+
+			if (setblacklisted)
+				blacklisted.Add(planetId);
+			else
+				blacklisted.Remove(planetId);
+			SgtLogger.l((setblacklisted ? "adding " : "removing ") + "biome remix blacklist for " + remixId + " on " + planetId);
+		}
+		public bool IsStoryTraitBlacklisted(string storyTraitId, string planetId)
+		{
+			if (!BlacklistedStoryTraitLocations.TryGetValue(storyTraitId, out var blacklisted))
+				return false;
+			return blacklisted.Contains(planetId);
+		}
+		public void SetStorytraitBlacklisted(string storyTraitId, string planetId, bool setblacklisted)
+		{
+			if (!BlacklistedStoryTraitLocations.TryGetValue(storyTraitId, out var blacklisted))
+				blacklisted = BlacklistedStoryTraitLocations[storyTraitId] = [];
+
+			if (setblacklisted)
+				blacklisted.Add(planetId);
+			else
+				blacklisted.Remove(planetId);
+			SgtLogger.l((setblacklisted ? "adding " : "removing ") + "story trait blacklist for " + storyTraitId + " on " + planetId);
+		}
+
 
 		public bool HasStarmapItem(string id, out StarmapItem starmapItem)
 		{

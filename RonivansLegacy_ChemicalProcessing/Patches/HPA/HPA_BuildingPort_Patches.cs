@@ -1,13 +1,5 @@
 ﻿using HarmonyLib;
-using Klei.AI;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
@@ -40,7 +32,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 						cmp.targetLevel = tweakedCapacity;
 					if (cmp.TryGetComponent<SolidConduitConsumer>(out var scc))
 						scc.capacityKG = tweakedCapacity;
-					break;
+					else if (cmp.TryGetComponent<SolidConduitDispenser>(out _))
+						cmp.gameObject.AddOrGet<HPA_DynamicSolidConduitDispenser>();
+						break;
 			}
 		}
 		public static void IncreaseConsumerInput(ConduitConsumer __instance, bool increaseStorage)
@@ -96,6 +90,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+
+			[HarmonyPriority(Priority.Low)]
 			public static void Postfix(RocketConduitStorageAccess __instance)
 			{
 				IncreaseRocketConduitTarget(__instance);
@@ -107,6 +103,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+
+			[HarmonyPriority(Priority.Low)]
 			public static void Postfix(ValveBase __instance)
 			{
 				if (__instance.conduitType == ConduitType.Gas || __instance.conduitType == ConduitType.Liquid)
@@ -114,6 +112,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					float conduitMax = HighPressureConduitRegistration.GetMaxConduitCapacity(__instance.conduitType, true);
 					if (__instance.maxFlow < conduitMax)
 						__instance.maxFlow *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitType);
+					ModAssets.AdjustValveAnimFlowAnim(__instance, __instance.maxFlow);
 				}
 			}
 		}
@@ -126,7 +125,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
-			[HarmonyPriority(Priority.Low)]
+			[HarmonyPriority(Priority.High)]
 			public static void Prefix(WarpConduitSender __instance)
 			{
 				__instance.gasStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Gas);
@@ -155,7 +154,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 
-			[HarmonyPriority(Priority.Low)]
+			[HarmonyPriority(Priority.High)]
 			public static void Prefix(RocketConduitSender __instance)
 			{
 				__instance.conduitStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitPortInfo.conduitType);
@@ -166,14 +165,34 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class BaseModularLaunchpadPortConfig_ConfigureBuildingTemplate_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled && DlcManager.IsExpansion1Active();
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+
+			[HarmonyPriority(Priority.High)]
 			public static void Prefix(GameObject go, ConduitType conduitType, ref float storageSize, bool isLoader)
 			{
 				storageSize *= HighPressureConduitRegistration.GetConduitMultiplier(conduitType);
+				SgtLogger.l($"Increasing maximum throughput of {conduitType} port on {go.PrefabID()} to {storageSize}");
 
 				if (!isLoader && conduitType == ConduitType.Solid)
 					go.AddOrGet<HPA_DynamicSolidConduitDispenser>();
 			}
 		}
+
+		///breathing station (APP)
+
+
+		[HarmonyPatch(typeof(UnderwaterBreathingStationConfig), nameof(UnderwaterBreathingStationConfig.ConfigureBuildingTemplate))]
+		public class UnderwaterBreathingStationConfig_ConfigureBuildingTemplate_Patch
+		{
+			[HarmonyPriority(Priority.Low)]
+			public static void Postfix(GameObject go)
+			{
+				if (go.TryGetComponent<ConduitConsumer>(out var consumer))
+					consumer.consumptionRate *= HighPressureConduitRegistration.GetConduitMultiplier(consumer.conduitType);
+				else
+					SgtLogger.warning("Could not find ConduitConsumer on UnderwaterBreathingStationConfig!");
+			}
+		}
+
 	}
 }

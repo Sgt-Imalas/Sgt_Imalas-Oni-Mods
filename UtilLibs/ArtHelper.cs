@@ -14,50 +14,60 @@ namespace UtilLibs
 		public const string OKAY = "LookingOkay";
 		public const string GREAT = "LookingGreat";
 
-        public static string AddStatueStage(ArtableStages __instance, string buildingId, string statueId, string name, string description, string kanim, ArtableStatuses.ArtableStatusType level, string animNameOverride = null)
-        {
-            ArtHelper.GetDefaultDecors(__instance, buildingId, out var greatDecor, out var okayDecor, out var uglyDecor);
-            int decor;
-            switch (level)
-            {
-                default:
-                case ArtableStatuses.ArtableStatusType.LookingUgly:
-                    decor = uglyDecor; break;
-                case ArtableStatuses.ArtableStatusType.LookingOkay:
-                    decor = okayDecor; break;
-                case ArtableStatuses.ArtableStatusType.LookingGreat:
-                    decor = greatDecor; break;
-            }
-            return AddStatueStage(__instance,buildingId,statueId,name,description,kanim,level, decor, animNameOverride);
-        }
+		public static string AddStatueStage(ArtableStages __instance, string buildingId, string statueId, string name, string description, string kanim, ArtableStatuses.ArtableStatusType level, string animNameOverride = null, bool? cheer = null)
+		{
+			ArtHelper.GetDefaultDecors(__instance, buildingId, out var greatDecor, out var okayDecor, out var uglyDecor);
+			int decor;
+			switch (level)
+			{
+				default:
+				case ArtableStatuses.ArtableStatusType.LookingUgly:
+					decor = uglyDecor; break;
+				case ArtableStatuses.ArtableStatusType.LookingOkay:
+					decor = okayDecor; break;
+				case ArtableStatuses.ArtableStatusType.LookingGreat:
+					decor = greatDecor; break;
+			}
 
-        public static string AddStatueStage(ArtableStages __instance, string buildingId, string statueId, string name, string description, string kanim, ArtableStatuses.ArtableStatusType level, int decorValue, string animNameOverride = null)
-        {
+			if (cheer == null)
+			{
+				cheer = level == ArtableStatuses.ArtableStatusType.LookingGreat ? true : false;
+			}
+
+			return AddStatueStage(__instance, buildingId, statueId, name, description, kanim, level, decor, animNameOverride, cheer.Value);
+		}
+
+		public static string AddStatueStage(ArtableStages __instance, string buildingId, string statueId, string name, string description, string kanim, ArtableStatuses.ArtableStatusType level, int decorValue, string animNameOverride = null, bool? cheer = null)
+		{
+			if (cheer == null)
+			{
+				cheer = level == ArtableStatuses.ArtableStatusType.LookingGreat ? true : false;
+			}
 			if (animNameOverride.IsNullOrWhiteSpace())
 				animNameOverride = statueId;
-			SgtLogger.l(statueId+ ": anim name: " + animNameOverride);
+			SgtLogger.l(statueId + ": anim name: " + animNameOverride);
 
 			string skinID = buildingId + "_" + statueId;
-            __instance.Add(
-                skinID,
-                name,
-                description,
-                PermitRarity.Universal,
-                kanim,
-				animNameOverride, 
-                decorValue,
-                true,
-                level.ToString(),
-                buildingId,
-                "ui",
+			__instance.Add(
+				skinID,
+				name,
+				description,
+				PermitRarity.Universal,
+				kanim,
+				animNameOverride,
+				decorValue,
+				cheer.Value,
+				level.ToString(),
+				buildingId,
+				"ui",
 				null,
 				null
-                );
-            return skinID;
-        }
+				);
+			return skinID;
+		}
 
 
-        public static void GetDefaultDecors(ArtableStages artableStages, string id, out int ugly, out int mediocre, out int great, int fallbackUgly = 5, int fallbackMediocre = 10, int fallbackGreat = 15)
+		public static void GetDefaultDecors(ArtableStages artableStages, string id, out int ugly, out int mediocre, out int great, int fallbackUgly = 5, int fallbackMediocre = 10, int fallbackGreat = 15)
 		{
 			var stages = artableStages.GetPrefabStages(id);
 

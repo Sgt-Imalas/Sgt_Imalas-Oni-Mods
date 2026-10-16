@@ -1,9 +1,4 @@
 ﻿using RonivansLegacy_ChemicalProcessing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 
@@ -19,6 +14,8 @@ namespace Mineral_Processing_Mining.Buildings
 			GameObject go = EntityTemplates.CreateLooseEntity(ID, MINING_DRILLBITS_TUNGSTEN_ITEM.NAME, MINING_DRILLBITS_TUNGSTEN_ITEM.DESC, 1f, true, Assets.GetAnim("drillbits_tungsten_kanim"), "object", Grid.SceneLayer.Ore, EntityTemplates.CollisionShape.RECTANGLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.RandomRecipeIngredient_DestroyOnCancel, ModAssets.Tags.MineralProcessing_Drillbit]);
 			go.AddOrGet<EntitySplitter>();
 			go.AddOrGet<SimpleMassStatusItem>();
+			if (!Config.Instance.MineralProcessing_Mining_Enabled)
+				ModAssets.HideFromCodex(go);
 			return go;
 		}
 

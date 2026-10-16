@@ -7,12 +7,18 @@
 		<Optimize>true</Optimize>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>preview</LangVersion>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 	<!--<UsingTask TaskName="RecursiveFolderHashing" AssemblyFile="HashService.dll"/>-->
 
 	<PropertyGroup>
 		<!--Marks Deprecated warnings as errors-->
 		<WarningsAsErrors>CS0618,CS0612</WarningsAsErrors>
+		<!--MSB3277: Ignore this warning for System.Compression -->
+		<!--CS0169,CS0649: Ignore never assigned warnings for MyCmpGet,MyCmpReq-->
+		<!--CS8632: Ignore nullable-->
+		<NoWarn>MSB3277,CS0169,CS0649,CS8632</NoWarn>		
 	</PropertyGroup>
 
 
@@ -39,8 +45,13 @@
 		<FebruaryQOL_Hotfix3>661174</FebruaryQOL_Hotfix3>
 		<PrehistoricRelease>674504</PrehistoricRelease>
 		<QOL2025NovBeta>699556</QOL2025NovBeta>
+		<QOL2025NovRelease>700386</QOL2025NovRelease>
+		<QOL2026MarchRelease>722606</QOL2026MarchRelease>
+		<BeachedDlcBeta>731233</BeachedDlcBeta>
+		<BeachedDlcRelease>736649</BeachedDlcRelease>
+		<BeachedDlcHotfix1>737790</BeachedDlcHotfix1>
 		<!--Latest-->
-		<TargetGameVersion>$(QOL2025NovBeta)</TargetGameVersion>
+		<TargetGameVersion>$(BeachedDlcHotfix1)</TargetGameVersion>
 	</PropertyGroup>
 
 
@@ -49,10 +60,12 @@
 		<CurrentYear>$([System.DateTime]::Now.ToString(`yyyy`))</CurrentYear>
 		<Author>Sgt_Imalas</Author>
 		<AuthorWith3GuB>Sgt_Imalas, 3GuB</AuthorWith3GuB>
+		<AuthorWithAki>Aki, Sgt_Imalas</AuthorWithAki>
 		<AuthorWithRonivan>Ronivan, Sgt_Imalas</AuthorWithRonivan>
 		<AssemblyCopyright>Copyright ©$(Author) $(CurrentYear)</AssemblyCopyright>
 		<RetroOniCopyright>Copyright ©$(AuthorWith3GuB) $(CurrentYear)</RetroOniCopyright>
 		<RonivanCopyright>Copyright ©$(AuthorWithRonivan) $(CurrentYear)</RonivanCopyright>
+		<AkiCopyright>Copyright ©$(AuthorWithAki) $(CurrentYear)</AkiCopyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -75,10 +88,14 @@
 			<HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp-firstpass_public.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="netstandard">
+		<!--<Reference Include="netstandard">
 			<HintPath>$(GameLibsFolder)/netstandard.dll</HintPath>
 			<Private>False</Private>
-		</Reference>
+		</Reference>-->
+		<!--<Reference Include="mscorlib">
+			<HintPath>$(GameLibsFolder)/mscorlib.dll</HintPath>
+			<Private>False</Private>
+		</Reference>-->
 		<Reference Include="0Harmony">
 			<HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
 			<Private>False</Private>
@@ -144,14 +161,19 @@
 			<HintPath>$(GameLibsFolder)\com.rlabrecque.steamworks.net.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<Reference Include="UnityEngine.IMGUIModule">
+			<HintPath>$(GameLibsFolder)\UnityEngine.IMGUIModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
 	</ItemGroup>
 
-
+	
 	<ItemGroup Condition="'$(IsMod)' == 'true'">
-		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="*">
+		<!--<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+		</PackageReference>-->
+		<PackageReference Include="Lib.Harmony.Ref" Version="2.4.2"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(IsPacked)' == 'true'">
@@ -161,4 +183,10 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<!--<ItemGroup Condition="'$(IsMod)' == 'true'">
+		<PackageReference Include="ONIModLauncher.MSBuild.Task" Version="*" >
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>-->
 </Project>

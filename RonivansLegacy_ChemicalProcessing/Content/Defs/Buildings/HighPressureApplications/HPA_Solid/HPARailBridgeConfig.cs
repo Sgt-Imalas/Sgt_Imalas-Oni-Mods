@@ -1,10 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -29,10 +24,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		{
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
 
-			string[] mats = [ModElements.SteelAndTungstenMaterial, MATERIALS.TRANSPARENT];
+			string[] mats = [ModElements.SteelAndTungstenMaterial, MATERIALS.ALL_GLASSES];
 			float[] costs = [100, 50];
 
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_rail_bridge_kanim", 100, 30f, costs, mats, 1600f, BuildLocationRule.NotInTiles, BUILDINGS.DECOR.NONE, nONE, 0.2f);
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_rail_bridge_kanim", 100, 30f, costs, mats, 1600f, Config.Instance.HPA_AllowRailsInWalls ? BuildLocationRule.Conduit : BuildLocationRule.NotInTiles, BUILDINGS.DECOR.NONE, nONE);
 
 			def1.ObjectLayer = ObjectLayer.SolidConduitConnection;
 			//def1.SceneLayer = Grid.SceneLayer.SolidConduitBridges;

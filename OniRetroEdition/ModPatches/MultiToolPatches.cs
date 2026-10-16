@@ -1,9 +1,5 @@
 ﻿using HarmonyLib;
 using OniRetroEdition.FX;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using UnityEngine;
 using UtilLibs;
 
@@ -94,7 +90,7 @@ namespace OniRetroEdition.ModPatches
 
 				SoundUtils.CopySoundsToAnim("deconstruct_fx_kanim", "construct_beam_kanim");
 				SoundUtils.CopySoundsToAnim("deconstruct_impact_kanim", "sparks_radial_build_kanim");
-				SoundUtils.GetSounds();
+				//xxSoundUtils.DumpAllGetSounds();
 				InjectionMethods.AddLaserEffect("DeconstructEffect", (HashedString)DeconstructTool, kbatchedAnimEventToggler, kbac, "deconstruct_fx_kanim", "beam");
 			}
 		}

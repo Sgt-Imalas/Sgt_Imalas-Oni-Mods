@@ -1,13 +1,7 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
-using System;
+﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
-using UnityEngine;
 using UtilLibs;
 using static PoisNotIncluded.ModAssets;
 
@@ -40,19 +34,22 @@ namespace PoisNotIncluded
 				,{MouldingTileConfig.ID  ,  GameStrings.PlanMenuSubcategory.Tiles  }
 				,{PropGravitasLabWallConfig.ID   ,GameStrings.PlanMenuSubcategory.Tiles  }
 				,{PropGravitasLabWindowConfig.ID   , GameStrings.PlanMenuSubcategory.Tiles  }
-				,{PropGravitasLabWindowHorizontalConfig.ID  ,GameStrings.PlanMenuSubcategory.Tiles }
+				,{PropGravitasLabWindowHorizontalConfig.ID ,GameStrings.PlanMenuSubcategory.Tiles }
 				,{FacilityBackWallWindowConfig.ID  ,GameStrings.PlanMenuSubcategory.Tiles }
-				//,{TemporalTearOpenerConfig.ID  ,GameStrings.PlanMenuSubcategory.Exploration }
+				//,{TemporalTearOpenerConfig.ID  ,GameStrings.PlanMenuSubcategory.Exploration } ///is added manually by dlc check below
+				,{MassiveHeatSinkConfig.ID  , StoryTraitsCategory }
+				,{PropBeachChairConfig.ID  , GameStrings.PlanMenuSubcategory.Recreation }
 			};
 			static HashSet<string> StoryTraitBuildings = [
 				GravitasCreatureManipulatorConfig.ID,// critter flux
-				MorbRoverMakerConfig.ID ,//morb rover maker
+				MorbRoverMakerConfig.ID ,//biobot maker
 				GravitasContainerConfig.ID,//braintank pajamas cubby
-				 MegaBrainTankConfig.ID, //braintank story trait		
-				 LonelyMinionHouseConfig.ID, //minion storytrait		
-				 LonelyMinionMailboxConfig.ID,//minion storytrait		
-				 FossilDigSiteConfig.ID ,//fossil storytrait			
+				MegaBrainTankConfig.ID, //braintank story trait		
+				LonelyMinionHouseConfig.ID, //hermit/jorge storytrait		
+				LonelyMinionMailboxConfig.ID,//hermit/jorge storytrait food intake
+				FossilDigSiteConfig.ID ,//fossil storytrait			
 				HijackedHeadquartersConfig.ID,//printerceptor
+				GravitasBathroomStallConfig.ID,//printerceptor toilet
 				];
 
 
@@ -69,6 +66,10 @@ namespace PoisNotIncluded
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix()
 			{
+
+
+				if (DlcManager.IsExpansion1Active() && Config.Instance.EntitySpawners)
+					GravitasBuildingIds["TemporalTearOpener"] = StoryTraitsCategory;
 
 				var buildingIDs = GravitasBuildingIds.Keys.ToList();
 				if (Config.Instance.ConstructableStoryTraits)
@@ -118,6 +119,9 @@ namespace PoisNotIncluded
 			public static void Postfix(Db __instance)
 			{
 				PlanScreen.IconNameMap.Add(HashCache.Get().Add(POI_Category), "icon_category_lights");
+
+				InjectionMethods.AddBuildingToTechnology( GameStrings.Technology.Decor.EnvironmentalAppreciation, PropBeachChairConfig.ID);
+
 			}
 		}
 
@@ -126,6 +130,8 @@ namespace PoisNotIncluded
 		{
 			public static void Postfix(LegacyModMain __instance)
 			{
+				bool isSpacedOut = DlcManager.IsExpansion1Active();
+
 				Strings.Add($"STRINGS.UI.NEWBUILDCATEGORIES.{StoryTraitsCategory.ToUpperInvariant()}.NAME", STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWN_STORY_TRAIT.NAME);
 				Strings.Add($"STRINGS.UI.NEWBUILDCATEGORIES.{StoryTraitsCategory.ToUpperInvariant()}.BUILDMENUTITLE", STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWN_STORY_TRAIT.NAME);
 				Strings.Add($"STRINGS.UI.NEWBUILDCATEGORIES.{StoryTraitsCategory.ToUpperInvariant()}.TOOLTIP", STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWN_STORY_TRAIT.TOOLTIP);
@@ -142,8 +148,23 @@ namespace PoisNotIncluded
 					TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Resin.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
 					TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Rock.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
 				}
-				RegisterNewBuilding("TemporalTearOpener", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "temporal_tear_opener_kanim", "off", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.NAME", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.DESC", 3, 4, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "on", "inert", "working_loop"]);
+				if (Config.Instance.EntitySpawners)
+				{
+					TryRegisterDynamicGravitasBuilding(SapTreeConfig.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.WoodLog.CreateTag().ToString(), SimHashes.Steel.ToString()], costOverride: [1000, 1000]);
+					TryRegisterDynamicGravitasBuilding("GeneShuffler", StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Steel.CreateTag().ToString()], costOverride: [2000]);
+				}
+				if (isSpacedOut)
+					RegisterNewBuilding("TemporalTearOpener", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "temporal_tear_opener_kanim", "off", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.NAME", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.DESC", 3, 4, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "on", "inert", "working_loop"]);
 
+
+				bool spawnVistas = false;
+				if (spawnVistas)
+				{
+					TryRegisterDynamicGravitasBuilding(VistaConfigs.BEACH_VISTA_ID, StoryTraitsCategory, BuildLocationRule.Anywhere, isEntitySpawner: true, materialOverride: TUNING.MATERIALS.RAW_MINERALS_OR_METALS, costOverride: [10000],debugOnly:true);
+					TryRegisterDynamicGravitasBuilding(VistaConfigs.REEF_VISTA_ID, StoryTraitsCategory, BuildLocationRule.Anywhere, isEntitySpawner: true, materialOverride: TUNING.MATERIALS.RAW_MINERALS_OR_METALS, costOverride: [8000], debugOnly: true);
+					TryRegisterDynamicGravitasBuilding(VistaConfigs.KELP_VISTA_ID, StoryTraitsCategory, BuildLocationRule.Anywhere, isEntitySpawner: true, materialOverride: TUNING.MATERIALS.RAW_MINERALS_OR_METALS, costOverride: [8000], debugOnly: true);
+					TryRegisterDynamicGravitasBuilding(VistaConfigs.ABYSS_VISTA_ID, StoryTraitsCategory, BuildLocationRule.Anywhere, isEntitySpawner: true, materialOverride: TUNING.MATERIALS.RAW_MINERALS_OR_METALS, costOverride: [8000], debugOnly: true);
+				}
 
 				TryRegisterDynamicGravitasBuilding("PropCeresPosterA", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding("PropCeresPosterB", GameStrings.PlanMenuSubcategory.Decor);
@@ -153,6 +174,7 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding("PropClock", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding("GravitasClockSquare", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding("PropClothesHanger", GameStrings.PlanMenuSubcategory.Storage, materialOverride: [GameTags.Metal.ToString()], altAnims: ["on", "off"]);
+				TryRegisterDynamicGravitasBuilding("PropDrySuitHanger", GameStrings.PlanMenuSubcategory.Storage, materialOverride: [GameTags.Metal.ToString()], altAnims: ["on", "off"]);
 				TryRegisterDynamicGravitasBuilding_Floor("PropDesk", GameStrings.PlanMenuSubcategory.Wellness);
 				TryRegisterDynamicGravitasBuilding_Floor("PropDlc2GeothermalCart", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding_Floor("PropElevator", GameStrings.PlanMenuSubcategory.Decor);
@@ -167,7 +189,6 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding("PropFacilityDisplay3", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.NotInTiles);
 				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasDisplay4", GameStrings.PlanMenuSubcategory.Exploration);
 				TryRegisterDynamicGravitasBuilding_Floor("PropDlc2Display1", GameStrings.PlanMenuSubcategory.Exploration);
-				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding("PropFacilityPainting", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityStatue", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityTable", GameStrings.PlanMenuSubcategory.Wellness, new(2, 0));
@@ -204,9 +225,14 @@ namespace PoisNotIncluded
 
 				TryRegisterDynamicGravitasBuilding_Backwall("PropGravitasDecorativeWindow", GameStrings.PlanMenuSubcategory.Tiles);
 
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Storage, decorrName: true, decorNameAffectsId: false);
+				TryRegisterDynamicGravitasBuilding_Locker("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Storage);
+				TryRegisterDynamicGravitasBuilding("GravitasFridge", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor);
 				TryRegisterDynamicGravitasBuilding("MissileSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
-				TryRegisterDynamicGravitasBuilding("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
-				TryRegisterDynamicGravitasBuilding("SetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor);
+				TryRegisterDynamicGravitasBuilding("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"], decorName: true, decorNameAffectsId: false);
+				TryRegisterDynamicGravitasBuilding_Locker("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage);
+				TryRegisterDynamicGravitasBuilding("SetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, decorName: true, decorNameAffectsId: false);
+				TryRegisterDynamicGravitasBuilding_Locker("SetLocker", GameStrings.PlanMenuSubcategory.Storage);
 				TryRegisterDynamicGravitasBuilding("VendingMachine", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
 				TryRegisterDynamicGravitasBuilding("PropGravitasSmallSeedLocker", GameStrings.PlanMenuSubcategory.Storage, altAnims: ["empty", "on"]);
 
@@ -215,8 +241,9 @@ namespace PoisNotIncluded
 
 
 				TryRegisterDynamicGravitasBuilding("PropLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, altAnims: ["off", "misc"]);
+				TryRegisterDynamicGravitasBuilding("GravitasCeilingLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, materialOverride: TUNING.MATERIALS.REFINED_METALS);
 				TryRegisterDynamicGravitasBuilding("PropFacilityHangingLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
-				TryRegisterDynamicGravitasBuilding("PropFacilityChandelier", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
+				TryRegisterDynamicGravitasBuilding("PropFacilityChandelier", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, costOverride: TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4);
 
 				TryRegisterDynamicGravitasBuilding_Lamp("PropLight", "setpiece_light_kanim", new Tuple<string, string>("misc", "on"), "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 10, 1800, 8, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
 				TryRegisterDynamicGravitasBuilding_Lamp("CeilingLight_Pretty", "ceilinglight_pretty_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 10, 1800, 8, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
@@ -225,6 +252,7 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding_Lamp("PropFacilityChandelier", "gravitas_chandelier_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPFACILITYCHANDELIER.NAME", "STRINGS.BUILDINGS.PREFABS.PROPFACILITYCHANDELIER.DESC", 5, 7, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, 480, 18000, 24, new(0, 2), new(0, 6), LightShape.Circle);
 
 				RegisterNewBuilding("WhiteBoard", GameStrings.PlanMenuSubcategory.Decor, BuildLocationRule.OnFloor, "whiteboard_poi_kanim", "off", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.DESC", 2, 2, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, false);
+				RegisterNewBuilding("RoleStation", GameStrings.PlanMenuSubcategory.Decor, BuildLocationRule.OnFloor, "job_station_kanim", "off", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.DESC", 2, 2, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, false);
 				RegisterNewBuilding("WidePedestal", GameStrings.PlanMenuSubcategory.Wellness, BuildLocationRule.OnFloor, "gravitas_pedestal_regular_kanim", "pedestal_regular", "STRINGS.BUILDINGS.PREFABS.GRAVITASPEDESTAL.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASPEDESTAL.DESC", 3, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3);
 
 				RegisterNewBuilding("WarpConduitSender", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "warp_conduit_sender_kanim", "idle", "STRINGS.BUILDINGS.PREFABS.WARPCONDUITSENDER.NAME", "STRINGS.BUILDINGS.PREFABS.WARPCONDUITSENDER.DESC", 4, 3, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "idle", "working_loop"]);
@@ -234,16 +262,19 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding(WarpReceiverConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "idle"]);
 				TryRegisterDynamicGravitasBuilding(PioneerLanderConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
 				TryRegisterDynamicGravitasBuilding(ScoutLanderConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
-				TryRegisterDynamicGravitasBuilding(SapTreeConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off","idle", "eat_loop", "ooze_loop", "attacking_loop", "attack_cooldown", "withered"]);
+				TryRegisterDynamicGravitasBuilding(SapTreeConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "idle", "eat_loop", "ooze_loop", "attacking_loop", "attack_cooldown", "withered"]);
 
 				TryRegisterDynamicGravitasBuilding(GravitasBathroomSinkConfig.ID, GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor);
 				TryRegisterDynamicGravitasBuilding(GravitasBathroomMirrorConfig.ID, GameStrings.PlanMenuSubcategory.Medical);
 				TryRegisterDynamicGravitasBuilding(GravitasPaperTowelDispenserConfig.ID, GameStrings.PlanMenuSubcategory.Medical);
 				TryRegisterDynamicGravitasBuilding(GravitasToiletPaperHolderConfig.ID, GameStrings.PlanMenuSubcategory.Medical);
-				RegisterNewBuilding("GravitasToiletPOI", GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor, "gravitas_toilet_kanim", "off", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.DESC", 2, 2, MATERIALS.RAW_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER0, decorName: true, altAnims: ["off","working_loop"]);
+				RegisterNewBuilding("GravitasToiletPOI", GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor, "gravitas_toilet_kanim", "off", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.DESC", 2, 2, MATERIALS.RAW_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER0, decorName: true, altAnims: ["off", "working_loop"]);
+				RegisterNewBuilding("MassiveHeatSinkPOI", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "massiveheatsink_kanim", "off", "STRINGS.BUILDINGS.PREFABS.MASSIVEHEATSINK.NAME", "STRINGS.BUILDINGS.PREFABS.MASSIVEHEATSINK.DESC", 4, 4, MATERIALS.RAW_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "on", "working_loop"]);
+				RegisterNewBuilding("GravestonePet", GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor, "gravestone_pet_kanim", "open", "Pet Gravestone", "", 2, 3, TUNING.MATERIALS.RAW_MINERALS, [100], altAnims: ["open", "closed"], altMode: KAnim.PlayMode.Paused);
 
-				RegisterNewBuilding("GravestonePet", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor,"gravestone_pet_kanim","off","Pet Gravestone", "", 2, 3, TUNING.MATERIALS.RAW_MINERALS, [100]);
-
+				TryRegisterDynamicGravitasBuilding("POICeresTechUnlock", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "on"]);
+				TryRegisterDynamicGravitasBuilding(POIDlc4TechUnlockConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "on"]);
+				TryRegisterDynamicGravitasBuilding("POIDlc5TechUnlock", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "on"]);
 			}
 		}
 	}

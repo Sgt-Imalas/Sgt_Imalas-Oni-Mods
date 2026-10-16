@@ -27,24 +27,13 @@ namespace SaveGameModLoader
 		public static bool ModsFilterActive = false;
 
 
-		public static bool UseSteamOverlay;
-
-		public enum BrowserChoice
+		public static bool UseSteamOverlay => Config.Instance.UseSteamOverlay;
+		static HashSet<string> BrokenModInstallations = new HashSet<string>();
+		public static bool IsModInstallationBroken(string modStaticID)
 		{
-			undefined = 0,
-			web = 1,
-			steamOverlay = 2,
+			return BrokenModInstallations.Contains(modStaticID);
 		}
 
-		public static string RegistryKey = "Workshop_Browser_Choice";
-		public static void ReadOrRegisterBrowserSetting()
-		{
-			if (KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.undefined) //nothing valid set;
-			{
-				KPlayerPrefs.SetInt(RegistryKey, (int)BrowserChoice.steamOverlay);
-			}
-			UseSteamOverlay = KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.steamOverlay;
-		}
 
 		static List<string> forbiddenNames = new List<string>()
 		{
@@ -149,12 +138,29 @@ namespace SaveGameModLoader
 		}
 		public static bool ModNameFilter(string filterText, KMod.Mod mod)
 		{
-			return CultureInfo.InvariantCulture.CompareInfo.IndexOf(
-										mod.label.title,
-										filterText,
-										CompareOptions.IgnoreCase
-									) >= 0;
+			bool AcceptedByFilter(string source) => CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+									source,
+									filterText,
+									CompareOptions.IgnoreCase
+								) >= 0;
+
+			return AcceptedByFilter(mod.label.title) || AcceptedByFilter(mod.label.id) || AcceptedByFilter(mod.staticID);
 		}
+
+		public static bool TryGetModAuthor(KMod.Mod mod, out string authorName)
+		{
+			authorName = null;
+			if (mod == null)
+				return false;
+
+			if (!SteamInfoQuery.FetchedModData.TryGetValue(mod.label.id, out var queryInfo))
+				return false;
+
+			authorName = queryInfo.authorName;
+			return authorName.Any();
+		}
+
+
 		public static bool ModAuthorFilter(string filterText, KMod.Mod mod)
 		{
 			//original game filter code, dont allow uninstalled mods/language mods from showing
@@ -245,7 +251,7 @@ namespace SaveGameModLoader
 			}
 			catch (Exception ex)
 			{
-				SgtLogger.error("Error while trying to fetch modlist for save "+filePath+":\n"+ex.Message);
+				SgtLogger.error("Error while trying to fetch modlist for save " + filePath + ":\n" + ex.Message);
 				return null;
 			}
 		}
@@ -270,6 +276,39 @@ namespace SaveGameModLoader
 				saveFileRoot.requiredMods.Clear();
 			}
 			return new(saveFileRoot.active_mods);
+		}
+
+		internal static void FlagBrokenMods(IReadOnlyList<KMod.Mod> mods)
+		{
+			BrokenModInstallations.Clear();
+			foreach (var mod in mods)
+			{
+				var directory = mod.label.install_path;
+
+				//should never happen, but original code has sth with zip files so we want to ignore them;
+				if (directory.EndsWith(".zip"))
+					continue;
+
+				if (!Directory.Exists(directory) || !Directory.EnumerateFileSystemEntries(directory).Any())
+					BrokenModInstallations.Add(mod.label.defaultStaticID);
+			}
+		}
+
+		internal static void OnModUpdated(KMod.Label mod)
+		{
+			var installDir = mod.install_path;
+
+			bool filesExisting = (Directory.Exists(installDir) && Directory.EnumerateFileSystemEntries(installDir).Any());
+			string modID = mod.defaultStaticID;
+
+			if(filesExisting && BrokenModInstallations.Contains(modID))
+			{
+				BrokenModInstallations.Remove(modID);
+			}
+			else if(!filesExisting && !BrokenModInstallations.Contains(modID))
+			{
+				BrokenModInstallations.Add(modID);
+			}
 		}
 	}
 }

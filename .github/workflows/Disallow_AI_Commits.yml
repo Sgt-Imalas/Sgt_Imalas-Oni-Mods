@@ -1,0 +1,16 @@
+name: Prohibit AI commits
+
+on:
+    pull_request:
+        branches: [ "master" ]
+
+jobs:
+    no-ai-commits:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  # Required so the full commit range is available
+                  fetch-depth: 0
+
+            - uses: Jondolf/ai-commit-check@v1

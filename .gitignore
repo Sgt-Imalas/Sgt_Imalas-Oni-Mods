@@ -35,6 +35,8 @@ bld/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+# Rider
+.idea/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -361,15 +363,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Robo Rockets/Sprites
-/Plib/PLibUI.dll
-/Plib/PLibOptions.dll
-/Plib/PLibCore.dll
-/Directory.Build.props
-/Directory.Build.props
 /PublicisedAssembly
 /InvertedItemFilter/Patches.cs
 /Builds
 /.editorconfig
 /UtilLibs/ErrorRemoval.cs
 /.ReleasedModFiles/Desc.md
+/BlueprintsV2_backup

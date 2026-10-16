@@ -1,0 +1,7 @@
+name: STRINGS.SUBWORLDS.FOREST.NAME
+description: STRINGS.SUBWORLDS.FOREST.DESC
+icon: biomeIconForest
+mixingTags: 
+- Cold
+subworld:
+  name: subworlds/forest/CGM_ForestMix

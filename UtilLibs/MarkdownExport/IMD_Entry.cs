@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UtilLibs.MarkdownExport
+﻿namespace UtilLibs.MarkdownExport
 {
 	public interface IMD_Entry
 	{

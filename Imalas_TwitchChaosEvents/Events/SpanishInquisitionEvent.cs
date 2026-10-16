@@ -1,20 +1,12 @@
 ﻿using ONITwitchLib;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using Util_TwitchIntegrationLib.Scripts;
 using Util_TwitchIntegrationLib;
 using UtilLibs;
 using Klei.AI;
 using TUNING;
-using TemplateClasses;
 using ONITwitchLib.Utils;
-using static Operational;
-using ONITwitchLib.Logger;
-using FMOD.Studio;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
@@ -44,12 +36,10 @@ namespace Imalas_TwitchChaosEvents.Events
 		public Action<object> EventAction => (object data) =>
 		{
 			int centerCell = PosUtil.ClampedMouseCell();
-
-			var validPos = GameUtil.FloodFillFind<object>(
-							static (cell, _) => CanSpawnInquisition(cell),
-							null,
+			int validPos = FloodFill.Find<FloodFill.MaxDepth>(
+							CanSpawnInquisition,
 							centerCell,
-							40,
+							new FloodFill.MaxDepth(40),
 							false,
 							false
 							);
@@ -70,7 +60,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			if(Config.Instance.SpanishInquisitionFX)
 				SoundUtils.PlaySound(ModAssets.SOUNDS.SPANISH_INQUISITION, SoundUtils.GetSFXVolume() * 1.0f, true);
 
-			ToastManager.InstantiateToastWithPosTarget(STRINGS.CHAOSEVENTS.SPANISHINQUISITION.TOAST, STRINGS.CHAOSEVENTS.SPANISHINQUISITION.TOASTTEXT, bossGO.transform.position);
+			ToastHelper.InstantiateToastWithPosTarget(STRINGS.CHAOSEVENTS.SPANISHINQUISITION.TOAST, STRINGS.CHAOSEVENTS.SPANISHINQUISITION.TOASTTEXT, bossGO.transform.position);
 		};
 
 		GameObject SpawnInquisitionMember(string dupeName, int cell)

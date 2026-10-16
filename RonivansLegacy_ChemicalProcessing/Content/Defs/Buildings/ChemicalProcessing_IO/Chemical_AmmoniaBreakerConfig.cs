@@ -1,11 +1,6 @@
 ﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -45,7 +40,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 2);
 			buildingDef.ViewMode = OverlayModes.GasConduits.ID;
 			SoundUtils.CopySoundsToAnim("ammonia_breaker_kanim", "desalinator_kanim");
-			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			return buildingDef;
 		}
 
@@ -68,13 +62,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			];
 			elementConverter.outputElements =
 			[
-				new(0.75f, SimHashes.Hydrogen, 371.15f, storeOutput: true, diseaseWeight: 0.75f),
-				new(0.25f, ModElements.Nitrogen_Gas, 371.15f, storeOutput: true, diseaseWeight: 0.25f),
-				new(0.01f, SimHashes.Rust, 307.15f, storeOutput: true, diseaseWeight: 0.01f)
+				new(0.176f, SimHashes.Hydrogen, 371.15f, storeOutput: true),
+				new(0.824f, ModElements.Nitrogen_Gas, 371.15f, storeOutput: true),
+				new(0.01f, SimHashes.Rust, 307.15f, storeOutput: true)
 			];
 
 			ElementDropper elementDropper = go.AddComponent<ElementDropper>();
-			elementDropper.emitMass = 10f;
+			elementDropper.emitMass = 1f;
 			elementDropper.emitTag = SimHashes.Rust.CreateTag();
 			elementDropper.emitOffset = new Vector3(0.0f, 1f, 0.0f);
 
@@ -126,7 +120,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigurePreview(def, go);
 			this.AttachPort(go);
-			go.AddOrGet<PortPreviewVisualizer>().DisableInOverlay = OverlayModes.GasConduits.ID;
+			go.AddOrGet<PortPreviewVisualizer>().SetOverlayToggles(true, false);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

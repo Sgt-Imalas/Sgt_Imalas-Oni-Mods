@@ -24,14 +24,14 @@ namespace AkisSnowThings.Patches
 			}
 		}
 
-		[HarmonyPatch(typeof(SelectToolHoverTextCard), "UpdateHoverElements")]
+		[HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
 		public class SelectToolHoverTextCard_UpdateHoverElements_Patch
 		{
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
 
-				var m_GetDecorAtCell = AccessTools.Method(typeof(GameUtil), "GetDecorAtCell");
+				var m_GetDecorAtCell = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetDecorAtCell), [typeof(int), typeof(bool)]);
 				var index = codes.FindIndex(c => c.Calls(m_GetDecorAtCell));
 
 				if (index == -1)

@@ -1,11 +1,7 @@
-﻿using Database;
-using ProcGen;
-using ProcGenGame;
+﻿using ProcGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UtilLibs
 {
@@ -19,6 +15,10 @@ namespace UtilLibs
 		/// Frosty Planet Heatpump Story Trait
 		/// </summary>
 		public static readonly string CGM_Heatpump_StoryTrait = "CGM_GeothermalHeatPump";
+		/// <summary>
+		/// Aquatic Planet Minnow Story Trait
+		/// </summary>
+		public static readonly string CGM_Minnow_StoryTrait = "CGM_Minnow";
 
 		/// <summary>
 		/// Caches whether a cluster has a geothermal pump or not to avoid repeatedly checking the same cluster.
@@ -28,6 +28,10 @@ namespace UtilLibs
 		/// caches whether a cluster has an impactor shower or not to avoid repeatedly checking the same cluster.
 		/// </summary>
 		static Dictionary<string, bool> CachedImpactorInfo = new();
+		/// <summary>
+		/// caches whether a cluster has minnow pois or not to avoid repeatedly checking the same cluster.
+		/// </summary>
+		static Dictionary<string, bool> CachedMinnowInfo = new();
 		public static bool ShouldStoryBeInteractable(string storyId, List<WorldPlacement> worlds)
 		{
 			if (storyId == CGM_Heatpump_StoryTrait)
@@ -38,8 +42,80 @@ namespace UtilLibs
 			{
 				return !HasImpactorShowerInCluster(worlds);
 			}
+			else if (storyId == CGM_Minnow_StoryTrait)
+			{
+				return !HasMinnowInCluster(worlds);
+			}
 			return true;
 		}
+
+		public static bool IsImpactorTrait(string storyId) => storyId == CGM_Impactor_StoryTrait;
+
+		#region DLC5
+		public static bool HasMinnowOnWorld(ProcGen.World world)
+		{
+			if (world == null)
+				return false;
+			foreach (var rule in world.worldTemplateRules)
+			{
+				if (rule.names == null || !rule.names.Any())
+					continue;
+
+				if (rule.names.Contains("dlc5::poi/imperative/minnowPOI_A")
+				|| rule.names.Contains("dlc5::poi/imperative/minnowPOI_B")
+				|| rule.names.Contains("dlc5::poi/imperative/minnowPOI_C")
+				|| rule.names.Contains("dlc5::poi/imperative/minnowPOI_C_small")
+					)
+
+				{
+					//SgtLogger.l("world " + world.name + " has geothermal pump");
+					return true;
+				}
+			}
+			//SgtLogger.l("world " + world.name + " has no geothermal pump!");
+			return false;
+		}
+		public static bool HasMinnowOnWorld(List<string> worldTags) => worldTags != null && worldTags.Contains("Aquatic");
+		public static bool HasMinnowOnWorld(Tag[] worldTags) => worldTags != null && worldTags.Contains("Aquatic");
+
+		public static bool HasMinnowInCluster(List<WorldPlacement> worldPlacements)
+		{
+			foreach (WorldPlacement placement in worldPlacements)
+			{
+				var world = placement.world;
+				var worldData = SettingsCache.worlds.GetWorldData(world);
+				if (worldData == null)
+				{
+					SgtLogger.warning("world " + world + " not found in world layouts");
+					continue;
+				}
+				if (HasMinnowOnWorld(worldData))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		public static bool HasMinnowInCluster(string clusterID)
+		{
+			if(CachedMinnowInfo.TryGetValue(clusterID, out bool hasMinnow))
+			{
+				return hasMinnow;
+			}
+
+			var cluster = SettingsCache.clusterLayouts.GetClusterData(clusterID);
+			if (cluster == null)
+			{
+				SgtLogger.warning("cluster " + clusterID + " not found in cluster layouts");
+				return false;
+			}
+			hasMinnow = HasMinnowInCluster(cluster.worldPlacements);
+			SgtLogger.l("cluster " + clusterID + " has minnow: " + hasMinnow);
+			CachedMinnowInfo[clusterID] = hasMinnow;
+			return hasMinnow;
+		}
+
+		#endregion
 
 		#region DLC4
 		public static bool HasImpactorShower(ProcGen.World world) => world != null && world.seasons != null && HasImpactorShower(world.seasons);

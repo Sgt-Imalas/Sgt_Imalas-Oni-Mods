@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>ModProfileManager_Addon</PackageId>
-		<Version>1.5.2</Version>
+		<Version>1.5.4</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2024 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>ModProfileManager_Addon</AssemblyName>
 		<RootNamespace>ModProfileManager_Addon</RootNamespace>

@@ -1,9 +1,4 @@
 ﻿using AkisSnowThings.Content.Scripts.Buildings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
@@ -23,7 +18,7 @@ namespace AkisSnowThings.Content.Defs.Buildings
 			   BUILDINGS.HITPOINTS.TIER2,
 			   BUILDINGS.CONSTRUCTION_TIME_SECONDS.TIER4,
 			   BUILDINGS.CONSTRUCTION_MASS_KG.TIER3,
-			   MATERIALS.TRANSPARENTS,
+			   MATERIALS.GLASSES,
 			   BUILDINGS.MELTING_POINT_KELVIN.TIER2,
 			   BuildLocationRule.BuildingAttachPoint,
 			   DECOR.NONE,

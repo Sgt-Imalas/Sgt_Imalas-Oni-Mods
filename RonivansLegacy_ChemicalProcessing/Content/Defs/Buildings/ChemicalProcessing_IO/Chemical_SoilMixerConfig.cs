@@ -1,12 +1,7 @@
-﻿using HarmonyLib;
-using KSerialization;
+﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -24,17 +19,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static string ID = "Chemical_SoilMixer";
 
 		//--[ Special Settings ]-----------------------------------------------------------------------------
-		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1));
-		private static readonly PortDisplayInput gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1));
-
-		static Chemical_SoilMixerConfig()
-		{
-			Color? waterPortColor = new Color32(3, 148, 252, 255);
-			waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1), null, waterPortColor);
-			Color? gasCo2PortColor = new Color32(215, 227, 252, 255);
-			gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1), null, gasCo2PortColor);
-
-		}
+		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1), null, new Color32(3, 148, 252, 255));
+		private static readonly PortDisplayInput pWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 0), null, new Color32(143, 140, 73, 255));
+		private static readonly PortDisplayInput gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1), null, new Color32(215, 227, 252, 255));
 
 		//--[ Building Definitions ]--------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -48,8 +35,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.SelfHeatKilowattsWhenActive = 2f;
 			buildingDef.PowerInputOffset = new CellOffset(1, 0);
 			buildingDef.AudioCategory = "Metal";
-			buildingDef.InputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityInputOffset = new CellOffset(1, 0);
+			//buildingDef.InputConduitType = ConduitType.Liquid;
+			//buildingDef.UtilityInputOffset = new CellOffset(1, 0);
 			SoundUtils.CopySoundsToAnim("soil_mixer_kanim", "fertilizer_maker_kanim");
 			return buildingDef;
 		}
@@ -64,14 +51,16 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//liquidStorage.showCapacityAsMainStatus = true;
 			//liquidStorage.showDescriptor = true;
 
-			ConduitConsumer pollutedWaterInput = go.AddOrGet<ConduitConsumer>();
+			PortConduitConsumer pollutedWaterInput = go.AddOrGet<PortConduitConsumer>();
 			pollutedWaterInput.conduitType = ConduitType.Liquid;
 			pollutedWaterInput.consumptionRate = 10f;
 			pollutedWaterInput.capacityKG = 100f;
 			pollutedWaterInput.storage = buildingStorage;
-			pollutedWaterInput.capacityTag = SimHashes.DirtyWater.CreateTag(); ;
+			pollutedWaterInput.capacityTag = SimHashes.DirtyWater.CreateTag();
 			pollutedWaterInput.forceAlwaysSatisfied = true;
 			pollutedWaterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			pollutedWaterInput.SkipSetOperational = true;
+			pollutedWaterInput.AssignPort(pWaterInputPort);
 
 			PortConduitConsumer waterInput = go.AddComponent<PortConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;
@@ -81,6 +70,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.capacityTag = SimHashes.Water.CreateTag();
 			waterInput.forceAlwaysSatisfied = true;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			waterInput.SkipSetOperational = true;
 			waterInput.AssignPort(waterInputPort);
 
 			PortConduitConsumer gasAmmoniaInput = go.AddComponent<PortConduitConsumer>();
@@ -91,6 +81,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			gasAmmoniaInput.capacityTag = ModElements.Ammonia_Gas.Tag;
 			gasAmmoniaInput.forceAlwaysSatisfied = true;
 			gasAmmoniaInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			gasAmmoniaInput.SkipSetOperational = true;
 			gasAmmoniaInput.AssignPort(gasAmmoniaInputPort);
 
 			//----------------------------- Fabricator Section
@@ -108,7 +99,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			soilMixer.keepAdditionalTag = ModElements.Ammonia_Gas.Tag;
 			soilMixer.storeProduced = false;
 			soilMixer.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-			soilMixer.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage	);
+			soilMixer.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			soilMixer.inStorage = buildingStorage;
 			soilMixer.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			soilMixer.outputOffset = new Vector3(-1f, 0.5f);
@@ -140,7 +131,26 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Description(SOILMIXER_4_1, 4, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
-
+			}
+			else
+			{
+				///metallurgy exclusive
+				//---- [ Phosphorite Fertilizer ] ------------------------------------------------------------------------
+				// Ingredient: Phosphorite - 25kg
+				//             Dirt - 25kg
+				//             Sulfur - 25kg
+				//             Polluted Water - 25kg
+				// Result: Fertilizer - 100kg
+				//-----------------------------------------------------------------------------------------------------
+				RecipeBuilder.Create(ID, 80)
+					.Input(SimHashes.Phosphorite, 25)
+					.Input(SimHashes.Dirt, 25)
+					.Input(SimHashes.Sulfur, 25)
+					.Input(SimHashes.DirtyWater, 25)
+					.Output(SimHashes.Fertilizer, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(SOILMIXER_4_1, 4, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.Build();
 			}
 
 			//---- [ Ammonia Fertilizer ] ------------------------------------------------------------------------
@@ -170,9 +180,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Phosphate Nodules - 100kg
 			//---------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 60)
-				.Input(SimHashes.Phosphorus, 50)
-				.Input(SimHashes.CrushedRock, 40)
-				.Input(SimHashes.Water, 10)
+				.Input(SimHashes.Phosphorus, 70)
+				.Input(SimHashes.CrushedRock, 25)
+				.Input(SimHashes.Water, 5)
 				.Output(SimHashes.PhosphateNodules, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_3_1, 3, 1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
@@ -212,7 +222,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 60)
 				.Input(SimHashes.CrushedRock, 40)
 				.Input(SimHashes.ToxicSand, 20)
-				.Input([SimHashes.Carbon, SimHashes.Peat, SimHashes.WoodLog], 20, GameTags.CombustibleSolid)
+				.Input(RefinementRecipeHelper.GetWoods().Append(SimHashes.Carbon).Append(SimHashes.Peat), 20, GameTags.CombustibleSolid)
 				.Input(SimHashes.Water, 20)
 				.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_4_1, 4, 1)
@@ -261,12 +271,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortDisplayController controller = go.AddComponent<PortDisplayController>();
 			controller.Init(go);
 			controller.AssignPort(go, waterInputPort);
+			controller.AssignPort(go, pWaterInputPort);
 			controller.AssignPort(go, gasAmmoniaInputPort);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+			this.AttachPort(go);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

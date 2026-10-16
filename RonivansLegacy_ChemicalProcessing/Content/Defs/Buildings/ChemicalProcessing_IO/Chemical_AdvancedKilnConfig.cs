@@ -1,12 +1,7 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
-using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -65,16 +60,27 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		private void ConfigureRecipes()
 		{
 			bool cemprocessingEnabled = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
-
+			int index = 0;
 			//---- [ Refined Coal ] -------------------------------------------------------------------------------------
 			// Ingredient: Coal - 500kg        
 			// Result: Refined Coal - 500kg
 			//-----------------------------------------------------------------------------------------------------------
+			List<SimHashes> convertableElements = [SimHashes.Carbon];
+			List<float> conversionAmounts = [500];
+			foreach (var wood in RefinementRecipeHelper.GetWoods())
+			{
+				convertableElements.Add(wood);
+				conversionAmounts.Add(800);
+			}
+			convertableElements.Add(SimHashes.Peat);
+			conversionAmounts.Add(1200);
+
 			RecipeBuilder.Create(ID, 30)
-				.Input([SimHashes.Carbon, SimHashes.WoodLog, SimHashes.FabricatedWood, SimHashes.Peat], [500, 800, 800, 1200], GameTags.CombustibleSolid)
+				.Input(convertableElements.ToArray(), conversionAmounts.ToArray(), GameTags.CombustibleSolid)
 				.Output(SimHashes.RefinedCarbon, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(HEAT_REFINE)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.SortOrder(index++)
 				.Build();
 
 
@@ -89,6 +95,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.Ceramic, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(HEAT_REFINE)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Concrete Block ] --------------------------------------------------------------------------------------
@@ -109,6 +116,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(ConcreteBlock_Solid, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(THREE_MIXTURE_COMPRESS_COOKING, 3, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.SortOrder(index++)
 					.Build();
 			}
 
@@ -126,6 +134,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(FiberGlass_Solid, 400, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(THREE_MIXTURE_FUSE, 3, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.SortOrder(index++)
 					.Build();
 
 			//---- [ Carbon Fibre ] --------------------------------------------------------------------------------------------
@@ -144,6 +153,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(CarbonFiber_Solid, 150, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(string.Format(THREE_MIXTURE_COMPRESS_COOKING, SimHashes.Polypropylene.CreateTag().ProperName(), SimHashes.Fullerene.CreateTag().ProperName(), RAYONFIBER.NAME_PLURAL, CarbonFiber_Solid.Tag.ProperName()))
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.SortOrder(index++)
 					.Build();
 
 

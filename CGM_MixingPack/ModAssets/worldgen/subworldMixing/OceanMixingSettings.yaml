@@ -1,0 +1,7 @@
+name: STRINGS.SUBWORLDS.OCEAN.NAME
+description: STRINGS.SUBWORLDS.OCEAN.DESC
+icon: biomeIconOcean
+mixingTags: 
+- Cold
+subworld:
+  name: subworlds/Ocean/CGM_OceanMix

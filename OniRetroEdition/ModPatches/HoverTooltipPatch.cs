@@ -36,27 +36,27 @@ namespace OniRetroEdition.ModPatches
 			}
 		}
 
-		[HarmonyPatch(typeof(MopToolHoverTextCard), nameof(MopToolHoverTextCard.UpdateHoverElements))]
-		public class MopToolHoverTextCard_UpdateHoverElements_Patch
-		{
-			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-			{
-				var codes = orig.ToList();
+		//[HarmonyPatch(typeof(MopToolHoverTextCard), nameof(MopToolHoverTextCard.UpdateHoverElements))]
+		//public class MopToolHoverTextCard_UpdateHoverElements_Patch
+		//{
+		//	public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+		//	{
+		//		var codes = orig.ToList();
 
-				// find injection point
-				var CIs = codes.Where(ci => ci.opcode == OpCodes.Ldstr && ci.operand is string s && s == "dash").ToList();
+		//		// find injection point
+		//		var CIs = codes.Where(ci => ci.opcode == OpCodes.Ldstr && ci.operand is string s && s == "dash").ToList();
 
-				if (CIs.Count > 0)
-				{
-					CIs[0].operand = SpritePatch.DigHex;
-				}
-				if (CIs.Count > 1)
-				{
-					CIs[1].operand = SpritePatch.DigMass;
-				}
-				return codes;
-			}
-		}
+		//		if (CIs.Count > 0)
+		//		{
+		//			CIs[0].operand = SpritePatch.DigHex;
+		//		}
+		//		if (CIs.Count > 1)
+		//		{
+		//			CIs[1].operand = SpritePatch.DigMass;
+		//		}
+		//		return codes;
+		//	}
+		//}
 
 		[HarmonyPatch(typeof(HoverTextScreen), nameof(HoverTextScreen.GetSprite))]
 		public class HoverTextScreen_GetSprite_Patch

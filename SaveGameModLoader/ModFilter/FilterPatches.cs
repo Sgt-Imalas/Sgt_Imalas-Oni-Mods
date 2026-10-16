@@ -4,6 +4,7 @@ using SaveGameModLoader.Patches;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilLibs;
 
 namespace SaveGameModLoader.ModFilter
 {
@@ -54,7 +55,13 @@ namespace SaveGameModLoader.ModFilter
 				}
 				// ERROR!
 				else
-					Debug.Log("[ModProfileManager] Error creating search prefab!  The searchbar will not function!");
+					SgtLogger.error("Error creating search prefab!  The searchbar will not function!");
+
+				var dropDownPrefab = ScreenPrefabs.Instance.OptionsScreen.graphicsOptionsScreenPrefab.resolutionDropdown;
+				if (dropDownPrefab != null)
+					_dropDownPrefab = Util.KInstantiateUI(dropDownPrefab.gameObject);
+				else
+					SgtLogger.error("Error creating dropdown prefab!  The filter dropdown will not function!");
 
 
 				//if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Checkbox)
@@ -127,7 +134,7 @@ namespace SaveGameModLoader.ModFilter
 		public static GameObject _prefab;
 		public static FilterManager _filterManager;
 		public static ModsScreen _modsScreen;
-		//public static GameObject _dropDownPrefab;
+		public static GameObject _dropDownPrefab;
 		public static class ModsScreen_OnActivate_SearchBar_Patch
 		{
 			public static void ExecutePatch(Harmony harmony)

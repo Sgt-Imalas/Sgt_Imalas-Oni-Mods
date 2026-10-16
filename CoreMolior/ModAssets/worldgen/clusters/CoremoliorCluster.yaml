@@ -1,0 +1,16 @@
+name: STRINGS.COREMOLIOR_NAME
+description: STRINGS.COREMOLIOR_NAME
+requiredDlcIds: [EXPANSION1_ID]
+coordinatePrefix: CORE
+menuOrder: 0
+clusterCategory: Special
+
+startWorldIndex: 0
+numRings: 4
+worldPlacements:
+- world: worlds/DemoliorCoreMoonlet
+  buffer: 2
+  locationType: StartWorld
+  allowedRings:
+    min: 0
+    max: 0

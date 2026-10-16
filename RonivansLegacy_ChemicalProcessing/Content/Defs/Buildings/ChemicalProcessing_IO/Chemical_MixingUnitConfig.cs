@@ -1,18 +1,11 @@
 ﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.BuildingPortUtils;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
-using static UtilLibs.UIcmp.FSlider;
 
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings

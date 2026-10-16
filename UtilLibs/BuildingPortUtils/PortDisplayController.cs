@@ -1,9 +1,6 @@
 ﻿using PeterHan.PLib.Core;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using static UtilLibs.BuildingPortUtils.SharedConduitUtils;
 
@@ -56,7 +53,6 @@ namespace UtilLibs.BuildingPortUtils
 			}
 		}
 
-		static int lastCell = -1;
 		public static bool TryGetActivePortDesc(int utilityCell, out string portDesc, out Sprite sprite, out Color color)
 		{
 			portDesc = null;

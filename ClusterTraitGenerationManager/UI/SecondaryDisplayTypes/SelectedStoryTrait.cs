@@ -13,7 +13,7 @@ namespace ClusterTraitGenerationManager.UI.SecondaryDisplayTypes
 		public string ID { get; set; }
 		public string LocationDescription()
 		{
-			return ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, TraitName), StarmapItemCategory.StoryTraits);
+			return ModAssets.ModStringHelper.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, TraitName), StarmapItemCategory.StoryTraits);
 		}
 	}
 }

@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using KSerialization;
 using ComplexFabricatorRibbonController.Content.Defs.Buildings;
 using UnityEngine;
@@ -15,6 +13,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 	class ComplexFabricatorRecipeControlAttachment : KMonoBehaviour
 	{
 		[MyCmpReq] LogicPorts logicPorts;
+		[MyCmpReq] BuildingComplete building;
 		[MyCmpGet] KSelectable selectable;
 		[MyCmpGet] KBatchedAnimController kbac;
 
@@ -30,6 +29,9 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 
 		public int Cell => _cell;
 		private int _cell = -1;
+		private int handle = -1;
+		private HandleVector<int>.Handle partitionerEntry;
+		Coroutine PendingReattachmentCheck = null;
 
 		public override void OnSpawn()
 		{
@@ -37,25 +39,30 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 			base.OnSpawn();
 			TryReattach();
 			AllAttachments.Add(this);
-			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			handle = Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			partitionerEntry = GameScenePartitioner.Instance.Add("ComplexFabricatorRecipeControlAttachment.RefreshAttachement", (object)this.gameObject, building.GetExtents(), GameScenePartitioner.Instance.objectLayers[(int)ObjectLayer.Building], OnAttachableBuildingChanged);
+
 			UpdateSymbolColors();
 			RefreshRecipeOrders();
 		}
 		public override void OnCleanUp()
 		{
+			if (PendingReattachmentCheck != null)
+				StopCoroutine(PendingReattachmentCheck);
+			GameScenePartitioner.Instance.Free(ref this.partitionerEntry);
 			AllAttachments.Remove(this);
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			Unsubscribe(handle);
 		}
 
-		void SetStatusItem()
+		void RefreshStatusItem()
 		{
 			selectable.SetStatusItem(Db.Get().StatusItemCategories.Role, HasParentFab ? null : ModAssets.NotAttachedToFabricator);
 		}
 
 		void RefreshRecipeOrders()
 		{
-			SetStatusItem();
+			RefreshStatusItem();
 			if (!HasParentFab)
 				return;
 
@@ -74,7 +81,22 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 		public void Detatch()
 		{
 			ParentFab = null;
-			SetStatusItem();
+			RefreshStatusItem();
+		}
+
+		void OnAttachableBuildingChanged(object _)
+		{
+			if (PendingReattachmentCheck != null)
+				return;
+			PendingReattachmentCheck = StartCoroutine(DelayedReattach());
+		}
+
+		IEnumerator DelayedReattach()
+		{
+			yield return null;
+			TryReattach();
+			RefreshStatusItem();
+			PendingReattachmentCheck = null;
 		}
 
 		public void TryReattach()
@@ -101,14 +123,12 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 			}
 			var recipeIds = ParentFab.GetRecipes().Select(r => r.id).ToHashSet();
 
-			if (selectedRecipeIds[0] != null && !recipeIds.Contains(selectedRecipeIds[0]))
-				selectedRecipeIds[0] = null;
-			if (selectedRecipeIds[1] != null && !recipeIds.Contains(selectedRecipeIds[1]))
-				selectedRecipeIds[1] = null;
-			if (selectedRecipeIds[2] != null && !recipeIds.Contains(selectedRecipeIds[2]))
-				selectedRecipeIds[2] = null;
-			if (selectedRecipeIds[3] != null && !recipeIds.Contains(selectedRecipeIds[3]))
-				selectedRecipeIds[3] = null;
+			for(int i = 0; i < selectedRecipeIds.Length; i++)
+			{
+				var recipeId = selectedRecipeIds[i];
+				if (recipeId != null && !recipeIds.Contains(recipeId))
+					selectedRecipeIds[i] = null;
+			}
 			RefreshRecipeOrders();
 		}
 
@@ -210,6 +230,9 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 
 		public ComplexRecipe GetRecipe(int bit)
 		{
+			if(bit < 0 || bit >= selectedRecipeIds.Length)
+				return null;
+
 			if (selectedRecipeIds[bit] == null)
 				return null;
 

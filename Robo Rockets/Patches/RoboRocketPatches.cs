@@ -1,12 +1,12 @@
 using HarmonyLib;
 using Klei.AI;
-using KnastoronOniMods;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.CREATURES.SPECIES;
 
 namespace RoboRockets
 {
@@ -102,7 +102,23 @@ namespace RoboRockets
 		{			
 			public static bool Prefix(GameObject target, ref bool __result)
 			{
-				if (target.TryGetComponent<PassengerRocketModule>(out var passengerRocketModule) && passengerRocketModule is AIPassengerModule)
+				if (target.TryGetComponent<AIPassengerModule>(out _))
+				{
+					__result = false;
+					return false;
+				}
+				return true;
+			}
+		}
+		/// <summary>
+		/// Hide habitat side screen for ai rockets
+		/// </summary>
+		[HarmonyPatch(typeof(RocketInteriorSectionSideScreen), nameof(RocketInteriorSectionSideScreen.IsValidForTarget))]
+		public class RocketInteriorSectionSideScreen_IsValidForTarget_Patch
+		{
+			public static bool Prefix(GameObject target, ref bool __result)
+			{
+				if (target.TryGetComponent<AIPassengerModule>(out _))
 				{
 					__result = false;
 					return false;
@@ -237,7 +253,8 @@ namespace RoboRockets
 #if DEBUG
                         SgtLogger.l("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
 #endif
-						rocketModuleCluster.CraftInterface.m_clustercraft.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
+						rocketModuleCluster.CraftInterface.m_clustercraft.AutoPilotMultiplier = 1;
+						rocketModuleCluster.CraftInterface.m_clustercraft.PilotSkillMultiplier = Config.Instance.NoBrainRockets;
 					}
 
 					SgtLogger.l("World forbidden to look into: " + worldRefID);

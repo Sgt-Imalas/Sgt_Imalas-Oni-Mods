@@ -1,15 +1,7 @@
-﻿using AkiTrueTiles_SkinSelectorAddon.UI;
-using Klei.AI;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static UnityEngine.UI.Image;
 
 namespace AkiTrueTiles_SkinSelectorAddon
 {
@@ -118,7 +110,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 				def.BuildingComplete.AddOrGet<TrueTiles_OverrideStorage>();
 				AtlasSprites[def] = new Dictionary<SimHashes, Sprite>();
 				//fallback default texture for non-initialized elements
-				AtlasSprites[def][SimHashes.Void] = GetSpriteForAtlas(def.BlockTileAtlas);
+				AtlasSprites[def][TrueTiles_OverrideStorage.VanillaTexture] = GetSpriteForAtlas(def.BlockTileAtlas);
 			}
 			AtlasSprites[def][element] = GetSpriteForAtlas(atlas);
 

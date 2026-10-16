@@ -1,11 +1,4 @@
-﻿using AkisSnowThings.Content.Scripts.Buildings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AkisSnowThings.Content.Scripts.Entities
+﻿namespace AkisSnowThings.Content.Scripts.Entities
 {
 	public class TreeAttachment : KMonoBehaviour
 	{
@@ -43,6 +36,7 @@ namespace AkisSnowThings.Content.Scripts.Entities
 					deconstructable.ForceDestroyAndGetMaterials();
 				}
 			}
+			pooledList.Recycle();
 		}
 	}
 }

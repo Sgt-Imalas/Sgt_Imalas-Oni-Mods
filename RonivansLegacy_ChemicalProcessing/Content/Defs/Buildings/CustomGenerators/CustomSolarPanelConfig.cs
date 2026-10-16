@@ -1,10 +1,7 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using STRINGS;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -14,15 +11,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
     class CustomSolarPanelConfig : IBuildingConfig
 	{
 		public static string ID = "CustomSolarPanel";
+		
+		// Vanilla panel 380W / 14 * 3 <- vanilla panel has 14 solar cells, this panel has 3, rounded
+		public const float MAX_WATTS = 80f; 
 
-		public const float MAX_WATTS = 80f; // 380 / 14 * 3 <- vanilla panel has 14 solar cells, this panel has 3, rounded
+		private static float WATTS = MAX_WATTS;
 
 		public override BuildingDef CreateBuildingDef()
 		{
+			InitCustomizeBuildingsIntegration();
 			float[] cost = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER1;
 			string[] glasses = TUNING.MATERIALS.GLASSES;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 5, "custom_solar_panel_kanim", 20, 120f, cost, glasses, 2400f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, NOISE_POLLUTION.NONE);
-			buildingDef.GeneratorWattageRating = MAX_WATTS;
+			buildingDef.GeneratorWattageRating = WATTS;
 			buildingDef.GeneratorBaseCapacity = buildingDef.GeneratorWattageRating;
 			buildingDef.ExhaustKilowattsWhenActive = 0.0f;
 			buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
@@ -38,6 +39,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			SoundUtils.CopySoundsToAnim("custom_solar_panel_kanim", "solar_panel_kanim");
 			return buildingDef;
 		}
+
+		void InitCustomizeBuildingsIntegration()
+		{
+			if(CustomizeBuildings.TryGetMaxSolarPanelAmount(out float modifiedBaseWattage))
+			{
+				WATTS = RoundOff(modifiedBaseWattage / 14f * 3f);
+			}
+		}
+		static int RoundOff(float i)
+		{
+			return ((int)Math.Round(i / 10.0f)) * 10;
+		}
+
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
@@ -66,7 +80,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			go.AddOrGet<Repairable>().expectedRepairTime = 10f;
 			var panel = go.AddOrGet<RotatableSmallSolarPanel>();
 			panel.powerDistributionOrder = 9;
-			panel.MaxWattage = MAX_WATTS;
+			panel.MaxWattage = WATTS;
 			go.AddOrGetDef<PoweredActiveController.Def>();
 			MakeBaseSolid.Def def = go.AddOrGetDef<MakeBaseSolid.Def>();
 			def.occupyFoundationLayer = false;

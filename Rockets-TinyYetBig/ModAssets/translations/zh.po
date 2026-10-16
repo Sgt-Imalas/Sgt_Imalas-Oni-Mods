@@ -720,7 +720,7 @@ msgstr "<link=\"COALGENERATORMODULECONFIG\">煤碳发电舱</link>"
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP"
 msgid "Duplicants will be requested to deliver <style=\"KKeyword\">{0}</style> when the amount stored falls below <b>{1}</b>"
-msgstr "当存储量低于 {1} 时，将要求复制人运送 <style=\"KKeyword\">{0}"
+msgstr "当存储量低于 {1} 时，将要求复制人运送 <style=\"KKeyword\">{0}"</style>"
 
 #. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC"

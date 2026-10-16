@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 					}
 				if (counter > 0)
 				{
-					ToastManager.InstantiateToast(EventName, EventDescription);
+					ToastHelper.InstantiateToast(EventName, EventDescription);
 				}
 			});
 

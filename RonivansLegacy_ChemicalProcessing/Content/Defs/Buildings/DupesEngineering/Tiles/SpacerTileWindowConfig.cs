@@ -1,10 +1,4 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
+﻿using TUNING;
 using UnityEngine;
 using UtilLibs;
 
@@ -18,7 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			string kanim = "floor_spacer_glass_kanim";
 			float[] mass = [95, 5];
-			string[] cost = [GameTags.Transparent.ToString(),GameTags.RefinedMetal.ToString()];
+			string[] cost = [MATERIALS.ALL_GLASSES,GameTags.RefinedMetal.ToString()];
 
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, mass, cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER1, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateFoundationTileDef(def);
@@ -66,7 +60,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			simCellOccupier.movementSpeedMultiplier = 1.25f; //== DUPLICANTSTATS.MOVEMENT_MODIFIERS.BONUS_2;
 
 			go.AddOrGet<TileTemperature>();
-			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID =Hash.SDBMLower("tiles_spacer_glass_tops"); 
+			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("spacer_tile_connector_id");
 			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 			go.AddOrGet<TileTemperature>();
 			go.AddOrGet<Insulator>();

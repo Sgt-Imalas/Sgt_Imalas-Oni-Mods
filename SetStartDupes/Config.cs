@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using PeterHan.PLib.Options;
 using SetStartDupes.CarePackageEditor.UI;
 using System;
-using System.Collections.Generic;
 
 namespace SetStartDupes
 {
@@ -38,21 +38,31 @@ namespace SetStartDupes
 
 		[Option("STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME", "STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
-		public bool ModifyDuringGame { get; set; } = true; 
+		public bool ModifyDuringGame { get; set; } = true;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.PODDUPESKINCHANGE.NAME", "STRINGS.UI.DSS_OPTIONS.PODDUPESKINCHANGE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public bool SkinDuringGame { get; set; } = true;
+
+
+		[Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public bool RerollDuringGame { get; set; }
+
+		[Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public bool RerollDuringGame_CarePackage { get; set; } = true;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_LIMITCOUNTER.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_LIMITCOUNTER.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public int RerollDuringGame_Limiter { get; set; } = 0;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_CAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_CAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
 		public bool ModifyDuringGame_CarePackage { get; set; } = true;
 
-		[Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
-		[JsonProperty]
-		public bool RerollDuringGame { get; set; }
-		[Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
-		[JsonProperty]
-		public bool RerollDuringGame_CarePackage { get; set; } = true;
-
 		[Option("STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
-		public bool CarePackageEntriesSorted { get; set; } = true;	
+		public bool CarePackageEntriesSorted { get; set; } = true;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
@@ -111,10 +121,10 @@ namespace SetStartDupes
 		{
 			var config = Config.Instance;
 
-			if(config.CarePackagesOnlyMode == CarePackageLimiterMode.None)
+			if (config.CarePackagesOnlyMode == CarePackageLimiterMode.None)
 				return false;
 
-			if(config.CarePackagesOnlyMode == CarePackageLimiterMode.DupeCount)
+			if (config.CarePackagesOnlyMode == CarePackageLimiterMode.DupeCount)
 				return Components.LiveMinionIdentities.Count >= config.CarePackagesOnlyDupeCap;
 
 			int bedCount = Components.NormalBeds.GlobalCount;
@@ -126,12 +136,12 @@ namespace SetStartDupes
 
 			if (config.CarePackagesOnlyMode == CarePackageLimiterMode.NumberOfBeds_SharingIsCaring)
 			{
-				if(Mod.SharingIsCaringInstalled)
+				if (Mod.SharingIsCaringInstalled)
 					return Components.LiveMinionIdentities.Count >= bedCount * scheduleCount;
 				else
 					return Components.LiveMinionIdentities.Count >= bedCount;
 			}
-			if(config.CarePackagesOnlyMode == CarePackageLimiterMode.PrinterCheckbox)
+			if (config.CarePackagesOnlyMode == CarePackageLimiterMode.PrinterCheckbox)
 			{
 				return PrintingPodCheckboxToggle.PrintOnlyCarePackages;
 			}
@@ -155,7 +165,7 @@ namespace SetStartDupes
 
 		public enum CarePackageLimiterMode
 		{
-			[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NONE.NAME","STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NONE.TOOLTIP")]
+			[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NONE.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NONE.TOOLTIP")]
 			None = 0,
 			[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.DUPECOUNT.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.DUPECOUNT.TOOLTIP")]
 			DupeCount = 1,
@@ -198,19 +208,22 @@ namespace SetStartDupes
 
 		[Option("STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME", "STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
 		[JsonProperty]
-		public bool HermitSkin { get; set; }
+		public bool HermitSkin { get; set; } = true;
+		[Option("STRINGS.UI.DSS_OPTIONS.MINNOWSKIN.NAME", "STRINGS.UI.DSS_OPTIONS.MINNOWSKIN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
+		[JsonProperty]
+		public bool MinnowSkin { get; set; } = false;
 
 
 		[Option("STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME", "STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool AddAndRemoveTraitsAndInterests { get; set; }
+		public bool AddAndRemoveTraitsAndInterests { get; set; } = true;
 		[Option("STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME", "STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
 		public bool DirectAttributeEditing { get; set; } = false;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME", "STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool AddVaccilatorTraits { get; set; }
+		public bool AddVaccilatorTraits { get; set; } = false;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME", "STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
@@ -218,15 +231,36 @@ namespace SetStartDupes
 
 		[Option("STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME", "STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool BalanceAddRemove { get; set; }
+		public bool BalanceAddRemove { get; set; } = true;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool NoJoyReactions { get; set; }
+		public bool NoJoyReactions { get; set; } = false;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool NoStressReactions { get; set; }
+		public bool NoStressReactions { get; set; } = false;
+
+
+		[Option("STRINGS.UI.DSS_OPTIONS.XP_LEVEL_CAP_MOD.NAME", "STRINGS.UI.DSS_OPTIONS.XP_LEVEL_CAP_MOD.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
+		[JsonProperty]
+		[Limit(1, 500)]
+		public int LevelingCapIncrease { get; set; } = 20;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_ATTRIBUTES.NAME", "STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_ATTRIBUTES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
+		[JsonProperty]
+		[Limit(0.01f, 20f)]
+		public float LevelingXPMultiplier_Attributes { get; set; } = 1f;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_SKILLS.NAME", "STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_SKILLS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
+		[JsonProperty]
+		[Limit(0.01f, 20f)]
+		public float LevelingXPMultiplier_Skills { get; set; } = 1f;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.EXTRA_SKILL_POINTS.NAME", "STRINGS.UI.DSS_OPTIONS.EXTRA_SKILL_POINTS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+		[JsonProperty]
+		public bool ExtraSkillPoints { get; set; } = false;
+
 
 
 		public Config()

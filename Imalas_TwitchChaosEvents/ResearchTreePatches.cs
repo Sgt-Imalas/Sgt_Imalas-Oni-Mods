@@ -1,10 +1,4 @@
-﻿using HarmonyLib;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI.Extensions;
-using UtilLibs;
-
-namespace Imalas_TwitchChaosEvents
+﻿namespace Imalas_TwitchChaosEvents
 {
 	public class ResearchTreePatches
 	{

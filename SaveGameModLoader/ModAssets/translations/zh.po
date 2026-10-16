@@ -752,3 +752,83 @@ msgstr "访问创意工坊网页"
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPFINDTOOLTIP"
 msgid "Click here to to select workshop action"
 msgstr "点击此处选择创意工坊操作"
+
+#. Show mod authors names always
+msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.MODAUTHORINFO.NAME"
+msgid "Show mod authors names always"
+msgstr "始终显示模组作者姓名"
+
+#. When active, show mod author names in all ordering configurations.  Otherwise, they are only listed when sorting by author.
+msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.MODAUTHORINFO.TOOLTIP"
+msgid "When active, show mod author names in all ordering configurations.\nOtherwise, they are only listed when sorting by author."
+msgstr "启用后，在所有排序方式中都会显示模组作者名。\n否则，仅在按作者排序时才会列出。"
+
+#. Open links in Steam Overlay
+msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.USESTEAMOVERLAY.NAME"
+msgid "Open links in Steam Overlay"
+msgstr "在 Steam 界面中打开链接"
+
+#. When active, uses the steam overlay instead of the browser to open workshop links
+msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.USESTEAMOVERLAY.TOOLTIP"
+msgid "When active, uses the steam overlay instead of the browser to open workshop links"
+msgstr "启用后，使用 Steam 叠加界面而非浏览器打开创意工坊链接"
+
+#. - <color=#FF0000FF><b>Installation Failure!</b></color>
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.EMPTY_MOD_FOLDER.TITLE"
+msgid "- <color=#FF0000FF><b>Installation Failure!</b></color>"
+msgstr "- <color=#FF0000FF><b>安装失败！</b></color>"
+
+#. Something went wrong during the installation of this mod, its installation folder is completely empty right now!    Please ensure the game has writing access for the mods folder and is not blocked by OneDrive or similar software!
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.EMPTY_MOD_FOLDER.TOOLTIP"
+msgid "Something went wrong during the installation of this mod, its installation folder is completely empty right now!\n\nPlease ensure the game has writing access for the mods folder and is not blocked by OneDrive or similar software!"
+msgstr "安装此模组时出错，其安装文件夹目前完全为空！\n\n请确保游戏对模组文件夹有写入权限，且未被 OneDrive 或类似软件阻止！"
+
+#. Mod Author
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.SORT_AUTHOR"
+msgid "Mod Author"
+msgstr "模组作者"
+
+#. Mod Name
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.SORT_NAME"
+msgid "Mod Name"
+msgstr "模组名称"
+
+#. Mod Order
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.SORT_NONE"
+msgid "Mod Order"
+msgstr "模组顺序"
+
+#. Last Update
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.SORT_UPDATED"
+msgid "Last Update"
+msgstr "最后更新"
+
+#. Sort by:
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.TEXT"
+msgid "Sort by:"
+msgstr "排序方式："
+
+#. Set the position of the mod in the load order.
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MOD_ENTRY_TOOLTIPS.LOADORDER"
+msgid "Set the position of the mod in the load order."
+msgstr "设置模组在加载顺序中的位置。"
+
+#. Pin this mod.  Pinned mods are always shown at the top of the mod list
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MOD_ENTRY_TOOLTIPS.PIN_PIN"
+msgid "Pin this mod.\nPinned mods are always shown at the top of the mod list"
+msgstr "固定此模组。\n固定的模组始终显示在模组列表顶部"
+
+#. Unpin this mod.  Pinned mods are always shown at the top of the mod list
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MOD_ENTRY_TOOLTIPS.PIN_UNPIN"
+msgid "Unpin this mod.\nPinned mods are always shown at the top of the mod list"
+msgstr "取消固定该模组。\n固定的模组始终显示在模组列表顶部"
+
+#. Use this button to automatically synchronize all mods with those in the save,then load it.  This will enable mods not yet enabled, and disable mods that weren't enabled in the save.
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL_TOOLTIP"
+msgid "Use this button to automatically synchronize all mods with those in the save,then load it.\nThis will enable mods not yet enabled, and disable mods that weren't enabled in the save."
+msgstr "使用此按钮将所有模组与存档中的模组自动同步，然后加载存档。\n这将启用尚未启用的模组，并禁用存档中未启用的模组。"
+
+#. Configure the displayed mod differences to your desire,  then use this button to load the save with your manual changes (no full automatic sync)
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED_TOOLTIP"
+msgid "Configure the displayed mod differences to your desire,\nthen use this button to load the save with your manual changes (no full automatic sync)"
+msgstr "按你的意愿配置显示的模组差异，\n然后使用此按钮以手动更改加载存档（无全自动同步）"

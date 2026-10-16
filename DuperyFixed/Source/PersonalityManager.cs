@@ -20,6 +20,9 @@ namespace Dupery
 		private Dictionary<string, PersonalityOutline> stockPersonalities;
 		private Dictionary<string, PersonalityOutline> customPersonalities;
 		private Dictionary<string, Dictionary<string, PersonalityOutline>> importedPersonalities;
+		private static Dictionary<string, string> importedPersonalitiyMods = [];
+		public static bool TryGetModId(string personalityId, out string modId) => importedPersonalitiyMods.TryGetValue(personalityId, out modId);
+
 		private Dictionary<string, Dictionary<string, string>> accessoryOwnershipMap;
 
 		public Dictionary<string, PersonalityOutline> StockPersonalities { get { return stockPersonalities; } }
@@ -125,6 +128,8 @@ namespace Dupery
 
 				accessoryOwnershipMap[duplicantId][slotId] = accessoryId.ToString();
 			}
+			//else
+			//	SgtLogger.warning("Could not find accessory: " + accessoryKey + " for " + duplicantId + " in slot " + slotId);
 		}
 
 		public string FindOwnedAccessory(string duplicantId, string slotId)
@@ -169,7 +174,10 @@ namespace Dupery
 			foreach (string key in modPersonalities.Keys)
 				modPersonalities[key].SetSourceModId(mod.staticID);
 
-			importedPersonalities[mod.staticID] = modPersonalities;
+			string staticModId = mod.staticID;
+			importedPersonalities[staticModId] = modPersonalities;
+			foreach (var id in modPersonalities.Keys)
+				importedPersonalitiyMods[id] = staticModId;
 			Logger.Log($"{importedPersonalities[mod.staticID].Count} personalities imported from {mod.title}.");
 
 			return true;

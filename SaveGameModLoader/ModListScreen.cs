@@ -43,7 +43,7 @@ namespace SaveGameModLoader
 			var tt = _clearSearchButton.GetComponent<ToolTip>();
 			if (tt != null)
 			{
-				tt.toolTip = "Clear Search";
+				tt.toolTip = global::STRINGS.UI.BUILDMENU.CLEAR_SEARCH_TOOLTIP;
 			}
 		}
 

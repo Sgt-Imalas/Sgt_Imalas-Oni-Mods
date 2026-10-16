@@ -87,7 +87,7 @@ namespace BawoonFwiend
 			ConduitConsumer.forceAlwaysSatisfied = UseManualDelivery;
 			ConduitConsumer.satisfied = UseManualDelivery;
 
-			requireInput.CheckRequirements(true);
+			requireInput.CheckRequirements();
 			//requireInput.SetRequirements(true, !UseManualDelivery);
 			//requireInput.requireConduitHasMass = !UseManualDelivery;
 

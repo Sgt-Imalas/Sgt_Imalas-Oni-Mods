@@ -1,10 +1,5 @@
 ﻿using HarmonyLib;
 using Imalas_TwitchChaosEvents.Attachments;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.ModPatches

@@ -1,10 +1,5 @@
 ﻿using ComplexFabricatorRibbonController.Content.Scripts.Buildings;
 using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using BUILDINGS = TUNING.BUILDINGS;
@@ -19,8 +14,8 @@ namespace ComplexFabricatorRibbonController.Content.Defs.Buildings
 		public const string ID = "CFRC_ComplexFabricatorRecipeControlAttachment";
 		public override BuildingDef CreateBuildingDef()
 		{
-			string[] Materials = [MATERIALS.REFINED_METAL, ModAssets.Microchip_Buildable.ToString()];
-			float[] MaterialCosts = [50,1];
+			string[] Materials = Config.Instance.MicrochipBuildingCost ? [MATERIALS.REFINED_METAL, ModAssets.Microchip_Buildable.ToString()] : [MATERIALS.REFINED_METAL];
+			float[] MaterialCosts = Config.Instance.MicrochipBuildingCost ? [50,1] : [60];
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
 					ID,
 					1,
@@ -43,7 +38,7 @@ namespace ComplexFabricatorRibbonController.Content.Defs.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = -1f;
-			buildingDef.ObjectLayer = ObjectLayer.AttachableBuilding;
+			buildingDef.ObjectLayer = ObjectLayer.LogicGate;
 			buildingDef.CanMove = false;
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.AUTOMATION);
 			buildingDef.ViewMode = OverlayModes.Logic.ID;
@@ -64,6 +59,7 @@ namespace ComplexFabricatorRibbonController.Content.Defs.Buildings
 		}
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			go.AddTag("Blueprints_SkipPreconfiguration");
 		}
 	}
 }

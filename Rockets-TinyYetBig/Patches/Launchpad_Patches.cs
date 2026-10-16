@@ -1,13 +1,11 @@
 ﻿using HarmonyLib;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 using Rockets_TinyYetBig.NonRocketBuildings;
+using Rockets_TinyYetBig.Content.Scripts.Buildings;
 
 namespace Rockets_TinyYetBig.Patches.RocketPlatformPatches
 {
@@ -87,7 +85,9 @@ namespace Rockets_TinyYetBig.Patches.RocketPlatformPatches
             {
                 if (instance.pad.TryGetComponent<AdvancedRocketStatusProvider>(out _))
                     return "rocket_advanced_launchpad_tower_kanim";
-                return animName;
+				if (instance.pad.TryGetComponent<BunkerLaunchpadDigger>(out _))
+					return "rocket_bunker_launchpad_tower_kanim";
+				return animName;
 
 
 			}

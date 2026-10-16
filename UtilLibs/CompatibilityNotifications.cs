@@ -1,17 +1,10 @@
 ﻿using HarmonyLib;
-using KMod;
 using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Runtime.InteropServices;
 using System.Text;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
-using static STRINGS.BUILDINGS.PREFABS;
-using static STRINGS.ELEMENTS;
 
 namespace UtilLibs
 {
@@ -105,6 +98,8 @@ namespace UtilLibs
 
 		public static void RemoveCrashingIncompatibility(Harmony harmony, IReadOnlyList<KMod.Mod> mods, string faultyId)
 		{
+			if (mods == null)
+				return;
 			faultyId = faultyId.ToLowerInvariant();
 			var faultyMod = mods.FirstOrDefault(mod => mod.staticID.ToLowerInvariant().Contains(faultyId));
 			if (faultyMod != null)
@@ -120,6 +115,7 @@ namespace UtilLibs
 		{
 			var hr = new Harmony(new Guid().ToString());
 			hr.UnpatchAll("OxygenNotIncluded_v0.1");
+			Debug.s_loggingDisabled = false;
 			RemoveCrashingIncompatibility(hr, _mods, "DEBUGCONSOLE");
 		}
 

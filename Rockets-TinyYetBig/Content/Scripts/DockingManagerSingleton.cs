@@ -109,9 +109,9 @@ namespace Rockets_TinyYetBig.Docking
 
 		public void RegisterSpacecraftHandler(DockingSpacecraftHandler handler)
 		{
-			if (!DockingSpacecraftHandlers.Contains(handler))
+			if (!DockingSpacecraftHandlers.Contains(handler) && handler.WorldId != -1)
 			{
-				SgtLogger.l("registering spacecraft docking handler for " + handler.GetProperName());
+				SgtLogger.l("registering spacecraft docking handler for " + handler.GetProperName() + ", world id: " + handler.WorldId);
 				DockingSpacecraftHandlers.Add(handler);
 				WorldToDockingSpacecraftHandlers.Add(handler.WorldId, handler);
 
@@ -134,10 +134,14 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			if (DockingSpacecraftHandlers.Contains(handler))
 			{
-				SgtLogger.l("unregistering spacecraft docking handler for " + handler.GetProperName());
+				SgtLogger.l("unregistering spacecraft docking handler for " + handler.GetProperName() + ", world id: " + handler.WorldId);
 				DockingSpacecraftHandlers.Remove(handler);
-				WorldToDockingSpacecraftHandlers.Remove(handler.WorldId);
-				RemoveToStationDock(handler.WorldId);
+				int worldId = handler.WorldId;
+				if (worldId != -1)
+				{
+					WorldToDockingSpacecraftHandlers.Remove(worldId);
+					RemoveToStationDock(worldId);
+				}
 
 				if (handler.CraftType == DockingSpacecraftHandler.DockableType.Rocket)
 				{
@@ -159,6 +163,8 @@ namespace Rockets_TinyYetBig.Docking
 			IDockables[dockable.GUID] = dockable;
 			if (!DockingConnections.ContainsKey(dockable.GUID))
 				DockingConnections.Add(dockable.GUID, null);
+
+			ClusterManager.Instance.Trigger(ModAssets.Hashes.DockableAdded, dockable);
 		}
 		public void UnregisterDockable(IDockable dockable)
 		{
@@ -176,6 +182,7 @@ namespace Rockets_TinyYetBig.Docking
 				SgtLogger.l("not docked");
 
 			IDockables.Remove(dockable.GUID);
+			ClusterManager.Instance.Trigger(ModAssets.Hashes.DockableRemoved, dockable);
 		}
 
 		public bool AddPendingDock(string first, string second)
@@ -363,7 +370,7 @@ namespace Rockets_TinyYetBig.Docking
 				return false;
 			}
 
-			if (!handler.IsSpaceStation && RocketryUtils.IsRocketTraveling(handler.clustercraft))
+			if (!handler.IsSpaceStation && (RocketryUtils.IsRocketTraveling(handler.clustercraft) || handler.clustercraft.status != Clustercraft.CraftStatus.InFlight))
 				return false;
 
 
@@ -383,6 +390,7 @@ namespace Rockets_TinyYetBig.Docking
 		}
 		public bool TryInitializingDockingBetweenHandlers(DockingSpacecraftHandler first, DockingSpacecraftHandler second, DockingDoor overrideDoor = null)
 		{
+
 			SgtLogger.l("trying to dock " + first.GetProperName() + " and " + second.GetProperName());
 
 
@@ -664,7 +672,9 @@ namespace Rockets_TinyYetBig.Docking
 			var values = new List<DockingSpacecraftHandler>();
 			foreach (var handler in DockingSpacecraftHandlers)
 			{
-				if (handler.clustercraft.Location.Equals(location) && handler.HasDoors() && handler.InSpace)
+				if (handler.clustercraft.Location.Equals(location) && handler.HasDoors() 
+					//&& handler.InSpace //Docked to space station == not in space
+					)
 					values.Add(handler);
 			}
 			return values;
@@ -674,5 +684,18 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			return PendingUndockBlockers.Contains(dockerId);
 		}
+		internal bool HasPendingDocks(string dockerId)
+		{
+			return PendingDockBlockers.Contains(dockerId);
+		}
+		internal bool HasPendingDocks(DockingSpacecraftHandler dockableHandler)
+		{
+			foreach(var door in dockableHandler.GetAllDockables())
+				if(PendingDockBlockers.Contains(door.GUID))
+					return true; 
+			return false;
+		}
+		public bool HasPendingUndocks(string first, string second) => HasPendingUndocks(first) || HasPendingUndocks(second);
+		public bool HasPendingDocks(string first, string second) => HasPendingDocks(first) || HasPendingDocks(second);
 	}
 }

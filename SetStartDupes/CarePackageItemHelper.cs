@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SetStartDupes
 {
@@ -19,6 +14,7 @@ namespace SetStartDupes
 			}
 			return prefab.GetProperName();
 		}
+		
 		public static string GetSpawnableQuantity(string CarePackageID, float CarePackageQuantity)
 		{
 			if (ElementLoader.GetElement(CarePackageID.ToTag()) != null)

@@ -2,9 +2,6 @@
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
@@ -28,7 +25,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA
 		}
 		static void TriggerEventScheduler()
 		{
-			if (handle != null || handle.HasValue)
+			if (handle != null && handle.Value.IsValid)
 				return;
 			handle = GameScheduler.Instance.ScheduleNextFrame("ExecuteQueuedEvents", (_) => ExecuteQueuedEventActions());
 		}
@@ -65,7 +62,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA
 
 		internal static void PressureDamageHandling(int cell, ConduitType type, float sentMass, float receiverMax)
 		{
-			if (sentMass >= receiverMax * 2f && Random.Next() < 0.33f)
+			if (sentMass >= receiverMax * 2f && Random.Next(100) < 33)
 			{
 				//This damage CANNOT be dealt immediately, or it will cause the game to crash. This code execution occurs during an UpdateNetworkTask execution and does not seem to support executing Triggers
 				//The damage will instead be queued and dealt by a scheduler on the next tick
@@ -78,7 +75,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA
 		{
 			//33% chance to damage the receiver when sender has double its capacity if the receiver is not a bridge
 			//if receiver is a bridge, 33% to damage the bridge if the sender's contents are above the bridge's capacity at all
-			if (receiver != null && sentMass >= receiverMax * 2f && Random.Next() < 0.33f)
+			if (receiver != null && sentMass >= receiverMax * 2f && Random.Next(100) < 33)
 			{
 				//This damage CANNOT be dealt immediately, or it will cause the game to crash. This code execution occurs during an UpdateNetworkTask execution and does not seem to support executing Triggers
 				//The damage will instead be queued and dealt by a scheduler on the next tick

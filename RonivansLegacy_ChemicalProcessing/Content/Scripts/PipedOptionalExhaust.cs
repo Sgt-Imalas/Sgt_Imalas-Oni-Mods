@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static STRINGS.UI;
 using UnityEngine;
 using UtilLibs;
-using KSerialization;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -16,7 +12,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public PipedConduitDispenser dispenser;
 
 		[SerializeField]
-		public Tag elementTag;
+		public List<Tag> elementTags = null;
+
+		[SerializeField]
+		public bool invertedFilter = false;
 
 		[SerializeField]
 		public float capacity = float.MaxValue;
@@ -39,6 +38,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		readonly private Operational operational;
 
 		private Guid pipeBlockedGuid;
+
+		private Tag elementState = null;
 
 		private static readonly CellElementEvent SpawnEvent = new(
 	"Chemical_ExhaustSpawned",
@@ -64,13 +65,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				}
 			}
 			if (dispenser != null)
+			{
 				dispenser.SkipSetOperational = true;
+				elementState = dispenser.conduitType switch
+				{
+					ConduitType.Solid => GameTags.Solid,
+					ConduitType.Liquid => GameTags.Liquid,
+					ConduitType.Gas => GameTags.Gas,
+					_ => null
+				};
+			}
 			else
-				SgtLogger.error("DISPENSER NULL ON: " + this.gameObject.name + " with tag: " + elementTag);
+				SgtLogger.error("DISPENSER NULL ON: " + this.gameObject.name + " with tag: " + string.Join(',', elementTags));
 
 			string operationalFlag = "output_blocked_";
-			if (elementTag != null)
-				operationalFlag += elementTag.ToString();
+			if (elementTags != null && elementTags.Any())
+				operationalFlag += string.Join('_', elementTags);
+			if (invertedFilter)
+				operationalFlag += "_inverted";
 			operationalFlag += "_" + capacity;
 			operationalFlag += "_" + dispenser.conduitType.ToString();
 			operationalFlag += "_" + dispenser.conduitOffset.ToString();
@@ -79,9 +91,36 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			outputFlag = new Operational.Flag(operationalFlag, Operational.Flag.Type.Functional);
 		}
 
+		GameObject GetFirstViableStoredItem()
+		{
+			bool elementLocked = elementState != null;
+
+			if (!elementTags.Any() && elementState == null)
+			{
+				if (storage.items.Any())
+					return storage.items.FirstOrDefault(e => elementLocked ? e.HasTag(elementState) : true);
+				else
+					return null;
+			}
+
+			for (int i = 0; i < storage.items.Count; i++)
+			{
+				GameObject item = storage.items[i];
+				if (elementLocked && !item.HasTag(elementState))
+					continue;
+
+				bool hasAnyTags = item.HasAnyTags(elementTags);
+				if (hasAnyTags != invertedFilter)
+				{
+					return item;
+				}
+			}
+			return null;
+		}
+
 		public void Sim200ms(float dt)
 		{
-			GameObject storedObject = this.storage.FindFirst(elementTag);
+			GameObject storedObject = GetFirstViableStoredItem();
 			PrimaryElement primaryElement = null;
 			float stored = 0f;
 			if (storedObject != null && storedObject.TryGetComponent<PrimaryElement>(out primaryElement))
@@ -90,6 +129,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 
 			int outputCell = dispenser.UtilityCell;
+			if (outputCell < 0)
+				return;
 			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected);
 			bool outputCellBlocked = Grid.Mass[outputCell] > OverpressureThreshold || Grid.Solid[outputCell];
 			bool maxAmountSpilled = false;

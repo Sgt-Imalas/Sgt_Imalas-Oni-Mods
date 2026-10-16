@@ -81,7 +81,7 @@ namespace DupePrioPresetManager
 			ShiftRightButton = transform.Find("Content/CloneOffset/Offset/RightButton").FindOrAddComponent<FButton>();
 
 			ShiftAmountTextField = transform.Find("Content/CloneOffset/Offset/Input").FindOrAddComponent<FInputField2>();
-			ShiftAmountTextField.OnValueChanged.AddListener(TextOffset);
+			ShiftAmountTextField.AddListener(TextOffset);
 			ShiftAmountTextField.Text = "0";
 
 			ShiftLeftIMG = transform.Find("Content/CloneOffset/Offset/offset_left_img").gameObject;

@@ -1,12 +1,6 @@
 ﻿using ForceFieldWallTile.Content.ModDb;
 using Klei.AI;
 using KSerialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs;
 
 namespace ForceFieldWallTile.Content.Scripts
 {
@@ -56,7 +50,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			//		var bodyCell = Grid.OffsetCell(cell, cellOffset);
 			//		if (!Grid.IsValidCell(bodyCell))
 			//			continue;
-			if (ForceFieldTile.ForceFieldAt(cell, out var projector))
+			if (ForceFieldTile.ForceFieldAt(cell, out var projector) && projector.ShieldActive)
 			{
 				projector.RecievePercentageDamage(shieldDamage * dt);
 				stuckInBarrier = true;

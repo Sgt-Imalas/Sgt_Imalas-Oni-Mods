@@ -3,12 +3,7 @@ using HarmonyLib;
 using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static HoverTextConfiguration;
 using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace UtilLibs.BuildingPortUtils
@@ -112,10 +107,12 @@ namespace UtilLibs.BuildingPortUtils
 
 				var target2 = AccessTools.Method(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements));
 				var target3 = AccessTools.Method(typeof(BuildToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements));
+				///checks if theres sth valid to draw, if yes, sets the "addAny" bool to true, which will be checked in the EndDrawing prefix
 				harmony.Patch(target2, new HarmonyMethod(typeof(PortInfoDrawing), nameof(HoverTextConfiguration_UpdateHoverElements_Prefix)));
 				harmony.Patch(target3, new HarmonyMethod(typeof(PortInfoDrawing), nameof(HoverTextConfiguration_UpdateHoverElements_Prefix)));
 
 				var target4 = AccessTools.Method(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing));
+				///Draws port info box right before endDrawing is called and the bool "addAny" was set to true, sets it to false afterwards to not affect other drawers
 				harmony.Patch(target4, new HarmonyMethod(typeof(PortInfoDrawing), nameof(HoverTextDrawer_EndDrawing_Prefix)));
 			}
 
@@ -246,8 +243,18 @@ namespace UtilLibs.BuildingPortUtils
 			M_NeedGasOut = __instance.CreateStatusItem(M_NeedGasOut_Key, "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.GasConduits.ID);
 			M_NeedGasOut.resolveStringCallback = delegate (string str, object data)
 			{
-				Tuple<ConduitType, List<Tag>> tuple = (Tuple<ConduitType, List<Tag>>)data;
-				foreach (var tag in tuple.second)
+				List<Tag> tags = null;
+				if(data is Tuple<ConduitType, Tag> singularTagInfo)
+				{
+					tags = [singularTagInfo.second];
+				}
+				else if(data is Tuple<ConduitType, List<Tag>> multipleTagsInfo)
+				{
+					tags = multipleTagsInfo.second;
+				}
+				if (tags == null)
+					return str;
+				foreach (var tag in tags)
 				{
 					str += "\n";
 					str += string.Format(NEEDGASIN.LINE_ITEM, tag.ProperName());
@@ -257,8 +264,18 @@ namespace UtilLibs.BuildingPortUtils
 			M_NeedLiquidOut = __instance.CreateStatusItem(M_NeedLiquidOut_Key, "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.LiquidConduits.ID);
 			M_NeedLiquidOut.resolveStringCallback = delegate (string str, object data)
 			{
-				Tuple<ConduitType, List<Tag>> tuple = (Tuple<ConduitType, List<Tag>>)data;
-				foreach (var tag in tuple.second)
+				List<Tag> tags = null;
+				if (data is Tuple<ConduitType, Tag> singularTagInfo)
+				{
+					tags = [singularTagInfo.second];
+				}
+				else if (data is Tuple<ConduitType, List<Tag>> multipleTagsInfo)
+				{
+					tags = multipleTagsInfo.second;
+				}
+				if (tags == null)
+					return str;
+				foreach (var tag in tags)
 				{
 					str += "\n";
 					str += string.Format(NEEDLIQUIDIN.LINE_ITEM, tag.ProperName());
@@ -268,8 +285,18 @@ namespace UtilLibs.BuildingPortUtils
 			M_NeedSolidOut = __instance.CreateStatusItem(M_NeedSolidOut_Key, "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.SolidConveyor.ID);
 			M_NeedSolidOut.resolveStringCallback = delegate (string str, object data)
 			{
-				Tuple<ConduitType, List<Tag>> tuple = (Tuple<ConduitType, List<Tag>>)data;
-				foreach (var tag in tuple.second)
+				List<Tag> tags = null;
+				if (data is Tuple<ConduitType, Tag> singularTagInfo)
+				{
+					tags = [singularTagInfo.second];
+				}
+				else if (data is Tuple<ConduitType, List<Tag>> multipleTagsInfo)
+				{
+					tags = multipleTagsInfo.second;
+				}
+				if (tags == null)
+					return str;
+				foreach (var tag in tags)
 				{
 					str += "\n";
 					str += string.Format(NEEDLIQUIDIN.LINE_ITEM, tag.ProperName());

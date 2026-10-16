@@ -1,14 +1,8 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static ResearchTypes;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
 using static UtilLibs.GameStrings;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables
@@ -26,6 +20,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk
 			GameObject go = EntityTemplates.CreateLooseEntity(ID, name, desc, 1f, true, Assets.GetAnim(anim), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.RandomRecipeIngredient_DestroyOnCancel, ModAssets.Tags.MineralProcessing_Drillbit]);
 			go.AddOrGet<EntitySplitter>();
 			go.AddOrGet<SimpleMassStatusItem>();
+			if (!Config.Instance.MineralProcessing_Mining_Enabled)
+				ModAssets.HideFromCodex(go);
 			return go;
 		}
 		public List<GameObject> CreatePrefabs()
@@ -46,7 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk
 
 			var basic = RecipeBuilder.Create(ID, duration)
 				.Input(RefinementRecipeHelper.GetStarterMetals(), drillbitCost)
-				.Output(ID_BASIC, 1* mult, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ID_BASIC, 1 * mult, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(craftingTableRecipe ? AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
@@ -67,7 +63,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk
 			//steel drilling
 			var steel = RecipeBuilder.Create(ID, duration)
 				.Input(RefinementRecipeHelper.GetSteelLikes(), drillbitCost)
-				.Output(ID_HARDENED, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ID_HARDENED, 1 * mult, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(craftingTableRecipe ? AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)

@@ -1,9 +1,5 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches.BuildingDefPatches
@@ -34,6 +30,7 @@ namespace Rockets_TinyYetBig.Patches.BuildingDefPatches
 				conduitConsumer.capacityKG = tank.storage.capacityKg;
 				conduitConsumer.forceAlwaysSatisfied = true;
 				conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+				go.AddOrGet<EngineFuelFilter>();
 			}
 		}
 	}

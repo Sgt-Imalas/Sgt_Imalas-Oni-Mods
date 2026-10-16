@@ -10,44 +10,81 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.9\n"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.NAME
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.NAME"
+msgid "Mass Relocate Here"
+msgstr "Массовое перемещение сюда"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TITLE
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TITLE"
+msgid "Experimental: use Multi-Delivery Targets"
+msgstr "Экспериментально: использовать несколько целей доставки"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TOOLTIP
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TOOLTIP"
+msgid ""
+"Replaces the Relocate targets with a custom modded variant that allows "
+"multiple deliveries in parallel.\n"
+"Turn off if you experience crashes"
+msgstr ""
+"Заменяет цели перемещения на модифицированный вариант, позволяющий выполнять "
+"несколько доставок одновременно.\n"
+"Отключите, если наблюдаются вылеты игры"
+
+#. MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TITLE
+msgctxt "MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TITLE"
+msgid "Experimental: use Multi-Delivery Targets"
+msgstr "Экспериментально: использовать несколько целей доставки"
+
+#. MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TOOLTIP
+msgctxt "MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TOOLTIP"
+msgid ""
+"Replaces the Relocate targets with a custom modded variant that allows "
+"multiple deliveries in parallel.\n"
+"Turn off if you experience crashes"
+msgstr ""
+"Заменяет цели перемещения на модифицированный вариант, позволяющий выполнять "
+"несколько доставок одновременно.\n"
+"Отключите, если наблюдаются вылеты игры"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.CATEGORY_MISCPICKUPABLE
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.CATEGORY_MISCPICKUPABLE"
-msgid "Other"
+msgid "Другое"
 msgstr "Другое"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.DIALOG_TITLE
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.DIALOG_TITLE"
-msgid "Materials to move"
+msgid "Материалы для перемещения"
 msgstr "Материалы для перемещения"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.NAME
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.NAME"
-msgid "Mass Move To"
+msgid "Массовое перемещение"
 msgstr "Массовое перемещение"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOL_NAME_FILTERED
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOL_NAME_FILTERED"
-msgid "FILTERED MASS MOVE TOOL"
+msgid "ИНСТРУМЕНТ МАССОВОГО ПЕРЕМЕЩЕНИЯ С ФИЛЬТРОМ"
 msgstr "ИНСТРУМЕНТ МАССОВОГО ПЕРЕМЕЩЕНИЯ С ФИЛЬТРОМ"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION"
-msgid "MOVE ALL ITEMS"
+msgid "ПЕРЕМЕСТИТЬ ВСЕ ПРЕДМЕТЫ"
 msgstr "ПЕРЕМЕСТИТЬ ВСЕ ПРЕДМЕТЫ"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION_FILTERED
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION_FILTERED"
-msgid "MOVE ONLY SELECTED ITEMS"
+msgid "ПЕРЕМЕСТИТЬ ТОЛЬКО ВЫБРАННЫЕ ПРЕДМЕТЫ"
 msgstr "ПЕРЕМЕСТИТЬ ТОЛЬКО ВЫБРАННЫЕ ПРЕДМЕТЫ"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLNAME
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLNAME"
-msgid "MASS MOVE TOOL"
+msgid "ИНСТРУМЕНТ МАССОВОГО ПЕРЕМЕЩЕНИЯ"
 msgstr "ИНСТРУМЕНТ МАССОВОГО ПЕРЕМЕЩЕНИЯ"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLTIP
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLTIP"
-msgid "Move debris to a location in bulk {0}"
+msgid "Массовое перемещение мусора в нужное место {0}"
 msgstr "Массовое перемещение мусора в нужное место {0}"

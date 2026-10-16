@@ -1,8 +1,8 @@
 ﻿using Beached_ModAPI;
 using Database;
+using HarmonyLib;
 using Klei.AI;
 using SetStartDupes.API_IO;
-using SetStartDupes.CarePackageEditor;
 using SetStartDupes.DuplicityEditing.ScreenComponents;
 using STRINGS;
 using System;
@@ -12,16 +12,19 @@ using System.Runtime.CompilerServices;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static CharacterContainer;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.STRINGS.UI;
-using static STRINGS.UI.DETAILTABS;
 using static TUNING.DUPLICANTSTATS;
 
 namespace SetStartDupes
 {
 	public static class ModAssets
 	{
+		public const string SPECIALDUPE_MINNOW = "MINNOW";
+		public const string SPECIALDUPE_JORGE = "JORGE";
+
+
+
 		public static string ExtraCarePackageFileInfo;
 		public static string DisabledVanillaCarePackages;
 		public static string DupeTemplatePath;
@@ -29,14 +32,17 @@ namespace SetStartDupes
 		public static string DupeGroupTemplatePath;
 		public static string DupeTemplateName = "UnnamedDuplicantPreset";
 		public static bool EditingSingleDupe = false;
-		public static bool EditingJorge = false;
+		public static string EditingSpecialDupeId = string.Empty;
+
 
 		public static GameObject StartPrefab;
 
-		public static Personality ToShufflePersonality;
+		public static Personality ToShufflePersonality { get; private set; }
+		private static Personality NonFreedivingMinnow = null;
+
 
 		public static CharacterContainer SingleCharacterContainer;
-		public static GameObject CryoDupeToApplyStatsOn = null;
+		public static GameObject SingleMinionGOforStatEditing = null;
 
 
 		public static GameObject NextButtonPrefab;
@@ -64,6 +70,16 @@ namespace SetStartDupes
 		public static bool RainbowFartsActive = false;
 		public static List<DUPLICANTSTATS.TraitVal> RAINBOWFARTS_FARTTRAITS = new List<DUPLICANTSTATS.TraitVal>();
 
+		public static bool FoodOverhaulActive = false;
+		public static List<DUPLICANTSTATS.TraitVal> FOODOVERHAUL_FAVTRAITS = new List<DUPLICANTSTATS.TraitVal>();
+
+		public static Dictionary<string, string> ExtraTraitTooltipKeys = new Dictionary<string, string>();
+		public static readonly AccessTools.FieldRef<CharacterContainer, Action<CharacterContainer>> CharacterContainer_OnReshuffled = AccessTools.FieldRefAccess<CharacterContainer, Action<CharacterContainer>>("OnReshuffled");
+
+		public static void AddExtraTraitTooltipKey(string traitId, string tooltipKey)
+		{
+			ExtraTraitTooltipKeys[traitId] = tooltipKey;
+		}
 
 		public static GameObject ParentScreen
 		{
@@ -108,7 +124,7 @@ namespace SetStartDupes
 			}
 		}
 
-		private static GameObject parentScreen = null;	
+		private static GameObject parentScreen = null;
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);
@@ -140,6 +156,10 @@ namespace SetStartDupes
 			TMPConverter.ReplaceAllText(CarePackageEditorWindowPrefab);
 			TMPConverter.ReplaceAllText(EditNumberRowPrefab.gameObject);
 
+		}
+		public static void SetToShufflePersonality(Personality personality)
+		{
+			ToShufflePersonality = personality;
 		}
 
 		///Assuming the component added by the Trait has the same class name as the trait, which is the case for all klei traits.
@@ -179,7 +199,7 @@ namespace SetStartDupes
 		public static Dictionary<CharacterContainer, List<KButton>> buttonsToDeactivateOnEdit = new Dictionary<CharacterContainer, List<KButton>>();
 		public static Dictionary<MinionStartingStats, DupeTraitManager> DupeTraitManagers = new Dictionary<MinionStartingStats, DupeTraitManager>();
 
-		public static void ApplySkinToExistingDuplicant(Personality Skin, GameObject Duplicant)
+		public static void ApplySkinToExistingDuplicant(Personality PersonalitySkin, GameObject Duplicant)
 		{
 			if (Duplicant.TryGetComponent<MinionIdentity>(out var IdentityHolder))
 			{
@@ -187,14 +207,14 @@ namespace SetStartDupes
 
 				if (IdentityHolder.name == OldPersonality.Name)
 				{
-					IdentityHolder.SetName(Skin.Name);
+					IdentityHolder.SetName(PersonalitySkin.Name);
 				}
-				IdentityHolder.nameStringKey = Skin.nameStringKey;
-				IdentityHolder.genderStringKey = Skin.genderStringKey;
-				IdentityHolder.personalityResourceId = Skin.IdHash;
-				IdentityHolder.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(Skin.nameStringKey);
-				IdentityHolder.SetStickerType(Skin.stickerType);
-				IdentityHolder.SetGender(Skin.genderStringKey);
+				IdentityHolder.nameStringKey = PersonalitySkin.nameStringKey;
+				IdentityHolder.genderStringKey = PersonalitySkin.genderStringKey;
+				IdentityHolder.personalityResourceId = PersonalitySkin.IdHash;
+				IdentityHolder.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(PersonalitySkin.nameStringKey);
+				IdentityHolder.SetStickerType(PersonalitySkin.stickerType);
+				IdentityHolder.SetGender(PersonalitySkin.genderStringKey);
 			}
 
 			//Changing Joy/Stress Traits if applicable
@@ -217,13 +237,13 @@ namespace SetStartDupes
 				}
 				if (!Config.Instance.NoJoyReactions)
 				{
-					var newJoyTrait = Db.Get().traits.TryGet(Skin.stresstrait);
+					var newJoyTrait = Db.Get().traits.TryGet(PersonalitySkin.stresstrait);
 					if (newJoyTrait != null)
 						traits.Add(newJoyTrait);
 				}
 				if (!Config.Instance.NoStressReactions)
 				{
-					var newStressTrait = Db.Get().traits.TryGet(Skin.joyTrait);
+					var newStressTrait = Db.Get().traits.TryGet(PersonalitySkin.joyTrait);
 					if (newStressTrait != null)
 						traits.Add(newStressTrait);
 				}
@@ -232,7 +252,7 @@ namespace SetStartDupes
 			if (Duplicant.TryGetComponent<Accessorizer>(out var accessorizer))
 			{
 
-				accessorizer.ApplyMinionPersonality(Skin);
+				accessorizer.ApplyMinionPersonality(PersonalitySkin);
 				accessorizer.UpdateHairBasedOnHat();
 
 				///These symbols get overidden at dupe creation, as we are editing already spawned dupes, we have to remove the old overrides and add the new overrides
@@ -251,8 +271,8 @@ namespace SetStartDupes
 					symbolOverride.AddSymbolOverride((HashedString)Db.Get().AccessorySlots.HatHair.targetSymbolId, Db.Get().AccessorySlots.HatHair.Lookup("hat_" + HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol.hash)).symbol, 1);
 				}
 			}
-			ApplyOutfit(Skin, Duplicant);
-			ApplyJoyResponseOutfit(Skin, Duplicant);
+			ApplyOutfit(PersonalitySkin, Duplicant);
+			ApplyJoyResponseOutfit(PersonalitySkin, Duplicant);
 		}
 		public static void ApplyOutfit(Personality personality, GameObject go)
 		{
@@ -290,7 +310,6 @@ namespace SetStartDupes
 					Beached_API.RemoveLifeGoal(stats);
 					Beached_API.SetLifeGoal(stats, Beached_API.GetLifeGoalFromPersonality(personality), false);
 				}
-
 			}
 
 			//stats.congenitaltrait = Db.Get().traits.TryGet(personality.congenitaltrait);
@@ -309,7 +328,7 @@ namespace SetStartDupes
 		{
 			var attributes = DUPLICANTSTATS.ALL_ATTRIBUTES.ToList();
 
-			if(!DlcManager.IsExpansion1Active())
+			if (!DlcManager.IsExpansion1Active())
 				attributes.Remove("SpaceNavigation");
 
 			if (BeachedEnabled && !attributes.Contains("Beached_Precision"))
@@ -464,7 +483,7 @@ namespace SetStartDupes
 
 			ModAssets.GetTraitListOfTrait(trait.Id, out var list);
 			if (list == null)
-				return tooltip;
+				return AppendExtraTooltipInfo(trait.Id, tooltip);
 
 			var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
 			if (traitBonusHolder.statBonus != 0 || traitBonusHolder.rarity != 0)
@@ -481,8 +500,17 @@ namespace SetStartDupes
 				tooltip += "\n" + string.Format(DUPESETTINGSSCREEN.TRAIT_RARITYLEVEL, rarityLevelName);
 			}
 
-			return tooltip;
+			return AppendExtraTooltipInfo(trait.Id, tooltip);
 		}
+		static string AppendExtraTooltipInfo(string traitId, string current)
+		{
+			if (ExtraTraitTooltipKeys.TryGetValue(traitId, out var tooltipKey))
+			{
+				current += "\n\n" + Strings.Get(tooltipKey);
+			}
+			return current;
+		}
+
 		public static string GetTraitStatBonusTooltip(Trait trait, bool withDescriptor = true)
 		{
 			string tooltip = string.Empty;
@@ -514,12 +542,12 @@ namespace SetStartDupes
 		{
 			if (group == null)
 				return string.Format(STRINGS.MISSINGSKILLGROUPDESC, id);
-
+			var db = Db.Get();
 
 			string description;
-			if (!group.choreGroupID.IsNullOrWhiteSpace())
+			if (!group.choreGroupID.IsNullOrWhiteSpace() && db.ChoreGroups.TryGet(group.choreGroupID) != null)
 			{
-				ChoreGroup choreGroup = Db.Get().ChoreGroups.Get(group.choreGroupID);
+				ChoreGroup choreGroup = db.ChoreGroups.Get(group.choreGroupID);
 				description = string.Format(DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION_CHOREGROUP, group.Name, DUPLICANTSTATS.APTITUDE_BONUS, choreGroup.description);
 			}
 			else
@@ -577,13 +605,48 @@ namespace SetStartDupes
 			public static Color green = Util.ColorFromHex("367d48");
 			public static Color red = Util.ColorFromHex("802024");
 			public static Color grey = Util.ColorFromHex("404040");
-
-
+			public static Color cyan = Util.ColorFromHex("19a294");
 
 			///Color.Lerp(originalColor, Color.black, .5f); To darken by 50%
 			///Color.Lerp(originalColor, Color.white, .5f); To lighten by 50% 
 		}
 
+		public static void InitFoodOverhaul()
+		{
+			SgtLogger.l("Food Overhaul Found, initializing...");
+			FoodOverhaulActive = true;
+
+			var rawTraitVals = FoodOverhaul_API.GetRawTraitVals();
+			var db = Db.Get().traits;
+
+			foreach (var foodTraitVal in rawTraitVals)
+			{
+
+				string traitID = "FF_" + foodTraitVal.id;
+				var foodTrait = db.TryGet(traitID);
+				var food = Assets.GetPrefab(foodTraitVal.id);
+				if (food == null)
+				{
+					SgtLogger.warning(traitID + " was not a valid food for the current installation!");
+					continue;
+				}
+				var iHasDlc = food.GetComponent<IHasDlcRestrictions>();
+
+				if (foodTrait != null)
+				{
+					var val = new DUPLICANTSTATS.TraitVal()
+					{
+						id = traitID,
+						requiredDlcIds = iHasDlc?.GetRequiredDlcIds(),
+						forbiddenDlcIds = iHasDlc?.GetForbiddenDlcIds(),
+					};
+					FOODOVERHAUL_FAVTRAITS.Add(val);
+					SgtLogger.l("added fav. food trait for " + traitID);
+				}
+				else
+					SgtLogger.warning(traitID, "Trait was null");
+			}
+		}
 		public static void InitRainbowFarts()
 		{
 			SgtLogger.l("Rainbow Farts Found, initializing...");
@@ -606,7 +669,6 @@ namespace SetStartDupes
 				else
 					SgtLogger.warning(traitID, "Trait was null");
 			}
-
 		}
 		public static void InitBeached()
 		{
@@ -639,6 +701,10 @@ namespace SetStartDupes
 
 		private static Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>> TraitsByType = new Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>>()
 		{
+			{
+				NextType.FoodOverhaul_Favourite,
+				FOODOVERHAUL_FAVTRAITS
+			},
 			{
 				NextType.RainbowFart,
 				RAINBOWFARTS_FARTTRAITS
@@ -676,7 +742,7 @@ namespace SetStartDupes
 				DUPLICANTSTATS.SPECIALTRAITS
 			},
 			{
-				NextType.cogenital,
+				NextType.congenital,
 				DUPLICANTSTATS.CONGENITALTRAITS
 			},
 			{
@@ -689,6 +755,7 @@ namespace SetStartDupes
 			}
 		};
 
+		public static DUPLICANTSTATS.TraitVal MINNOW_DLC_LOCKED = new DUPLICANTSTATS.TraitVal() { id = "Minnow", requiredDlcIds = DlcManager.DLC5 };
 		private static List<TUNING.DUPLICANTSTATS.TraitVal> _regularJoyReactions = null;
 		private static List<TUNING.DUPLICANTSTATS.TraitVal> _bionicJoyReactions = null;
 		static List<TUNING.DUPLICANTSTATS.TraitVal> RegularJoyReactions
@@ -720,7 +787,7 @@ namespace SetStartDupes
 		{
 			get
 			{
-				if(_stressWithShocker == null)
+				if (_stressWithShocker == null)
 				{
 					_stressWithShocker = new(DUPLICANTSTATS.STRESSTRAITS);
 					_stressWithShocker.Add(new TraitVal
@@ -737,13 +804,18 @@ namespace SetStartDupes
 		public static void RefreshDuplicantPanel(this CharacterContainer container, bool setAttributes = true)
 		{
 			container.SetInfoText();
-			if(setAttributes)
+			if (setAttributes)
 				container.SetAttributes();
+			if (container.animController != null)
+			{
+				for (int i = container.animController.overrideAnimFiles.Count - 1; i >= 0; i--)
+					container.animController.RemoveAnimOverrides(container.animController.overrideAnimFiles[i].file);
+
+			}
+			container.outfitSelectorIndex = -1;
+			container.UpdateDefaultOutfitSelector(container.stats.personality);
 			container.SetAnimator();
 			container.RefreshOutfitSelector();
-			int outfitIndex = container.outfitSelectorIndex;
-			container.stats.ApplyOutfit(container.stats.personality, container.animController.gameObject, container.stats.GetSelectedOutfitOption());
-
 		}
 
 		private static List<TUNING.DUPLICANTSTATS.TraitVal> _validBionicStressReactions = null;
@@ -755,7 +827,7 @@ namespace SetStartDupes
 				{
 					_validBionicStressReactions = [.. StressWithShocker];
 					///these traits crash bionics
-					_validBionicStressReactions.RemoveAll(t => t.id == "StressVomiter" || t.id == "BingeEater"); 
+					_validBionicStressReactions.RemoveAll(t => t.id == "StressVomiter" || t.id == "BingeEater");
 				}
 
 				return _validBionicStressReactions;
@@ -763,9 +835,10 @@ namespace SetStartDupes
 		}
 
 		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, bool overrideShowAll = false)
-		{			
+		{
 			bool initializingUI = minionModel == null;
 			bool bionicMinion = minionModel == GameTags.Minions.Models.Bionic;
+			bool standardOrAquaticMinion = (minionModel == GameTags.Minions.Models.Standard) || (minionModel == "AquaticMinion");
 
 			if (type != NextType.allTraits)
 			{
@@ -800,13 +873,14 @@ namespace SetStartDupes
 				if (ModAssets.RainbowFartsActive)
 					returnValues.AddRange(TraitsByType[NextType.RainbowFart]);
 
-				if (minionModel == GameTags.Minions.Models.Bionic || initializingUI)
+				if (bionicMinion || initializingUI)
 				{
 					returnValues.AddRange(TraitsByType[NextType.bionic_boost]);
 					returnValues.AddRange(TraitsByType[NextType.bionic_bug]);
 				}
-				if (minionModel == GameTags.Minions.Models.Standard || initializingUI || Config.Instance.BionicNormalTraits)
+				if (standardOrAquaticMinion || initializingUI || Config.Instance.BionicNormalTraits)
 				{
+					returnValues.Add(MINNOW_DLC_LOCKED);
 					returnValues.AddRange(TraitsByType[NextType.posTrait]);
 					returnValues.AddRange(TraitsByType[NextType.needTrait]);
 					returnValues.AddRange(TraitsByType[NextType.negTrait]);
@@ -821,9 +895,26 @@ namespace SetStartDupes
 			{"StressShocker",NextType.stress }
 		};
 
+		public static bool RerollingDisabled(NextType type)
+		{
+			switch (type)
+			{
+				case NextType.special:
+				case NextType.congenital:
+				case NextType.undefined:
+					return true;
+
+				default: return false;
+			}
+		}
+
+
 		public static NextType GetTraitListOfTrait(Trait trait) => GetTraitListOfTrait(trait.Id);
 		public static NextType GetTraitListOfTrait(string traitId)
 		{
+			if(traitId.IsNullOrWhiteSpace())
+				return NextType.undefined;
+
 			if (!NextTypesPerTrait.ContainsKey(traitId))
 			{
 				return GetTraitListOfTrait(traitId, out _);
@@ -836,6 +927,11 @@ namespace SetStartDupes
 		{
 			NextType nextType = NextType.undefined;
 			TraitList = null;
+
+			///Hardcode for grey color bc its part of the congenital list for some reason and I do not want "none" to be cyan
+			///this has gotten relevant with APP since that adds the "Minnow" trait as an actually used congenital trait
+			if (traitId == "None")
+				return nextType;
 
 			if (!NextTypesPerTrait.ContainsKey(traitId))
 			{
@@ -859,7 +955,7 @@ namespace SetStartDupes
 			}
 
 
-			if (nextType == NextType.special) //chatty, ancient knowledge shouldnt be editable 
+			if (nextType == NextType.special || nextType == NextType.congenital) //chatty, ancient knowledge shouldnt be editable 
 			{
 				TraitList = null;
 				nextType = NextType.undefined;
@@ -884,6 +980,7 @@ namespace SetStartDupes
 					break;
 				case DupeTraitManager.NextType.needTrait:
 				case DupeTraitManager.NextType.Beached_LifeGoal:
+				case DupeTraitManager.NextType.FoodOverhaul_Favourite:
 					colorToPaint = Colors.gold;
 					break;
 
@@ -892,6 +989,9 @@ namespace SetStartDupes
 					break;
 				case DupeTraitManager.NextType.geneShufflerTrait:
 					colorToPaint = Colors.purple;
+					break;
+				case DupeTraitManager.NextType.congenital:
+					colorToPaint = Colors.cyan;
 					break;
 				default:
 					colorToPaint = Colors.grey;
@@ -989,7 +1089,7 @@ namespace SetStartDupes
 
 		public static void SetContainerPersonalityLock(CharacterContainer container, bool lockPersonality)
 		{
-			if (lockPersonality && !LockedContainers.Contains(container))
+			if (lockPersonality)
 			{
 				LockedContainers.Add(container);
 			}
@@ -1030,12 +1130,14 @@ namespace SetStartDupes
 				return;
 
 			container.permittedModels = new() { personality.model };
-			container.selectedModelIcon.sprite = Assets.GetSprite(MinionModelIcons[personality.model]);
+			var sprite = MinionModelIcons.TryGetValue(personality.model, out var spriteId) ? Assets.GetSprite(spriteId) : personality.GetMiniIcon(); 
+
+			container.selectedModelIcon.sprite = sprite;
 		}
 
 		static Dictionary<Tag, string> MinionModelIcons = new()
 		{
-			{ GameTags.Minions.Models.Standard,"ui_duplicant_minion_selection"},
+			{ GameTags.Minions.Models.Standard, "ui_duplicant_minion_selection"},
 			{ GameTags.Minions.Models.Bionic,"ui_duplicant_bionicminion_selection"},
 			{ GameTags.Any, "ui_duplicant_any_selection" },
 		};
@@ -1050,5 +1152,60 @@ namespace SetStartDupes
 		}
 
 		public static string UnlockIcon = "OpenLock";
+
+		static ConditionalWeakTable<MinionStartingStats, AdditionalMinionStartData> AdditionalSkillLevels = new();
+		internal static void PostProcessMinion(GameObject go, MinionStartingStats stats)
+		{
+			if (AdditionalSkillLevels.TryGetValue(stats, out var data) && go.TryGetComponent<MinionResume>(out var resume))
+			{
+				if (data.ExtraXP > 0)
+				{
+					resume.AddExperience(data.ExtraXP);
+				}
+				else if (data.ExtraLevels > 0)
+				{
+					for (int i = 0; i < data.ExtraLevels; i++)
+					{
+						resume.ForceAddSkillPoint();
+					}
+				}
+
+			}
+		}
+		public static bool TryGetExtraLevels(MinionStartingStats stats, out int value)
+		{
+			if (AdditionalSkillLevels.TryGetValue(stats, out var holder))
+			{
+				value = holder.ExtraLevels;
+				return true;
+			}
+			value = 0;
+			return false;
+		}
+
+		public static void SetExtraLevels(this MinionStartingStats stats, int levels)
+		{
+			if (!AdditionalSkillLevels.TryGetValue(stats, out var holder))
+			{
+				holder = new();
+				AdditionalSkillLevels.Add(stats, holder);
+			}
+			holder.ExtraLevels = levels;
+		}
+		public static void SetExtraXp(this MinionStartingStats stats, float xp)
+		{
+			if (!AdditionalSkillLevels.TryGetValue(stats, out var holder))
+			{
+				holder = new();
+				AdditionalSkillLevels.Add(stats, holder);
+			}
+			holder.ExtraXP = xp;
+		}
+
+		class AdditionalMinionStartData
+		{
+			public float ExtraXP = 0;
+			public int ExtraLevels = 0;
+		}
 	}
 }

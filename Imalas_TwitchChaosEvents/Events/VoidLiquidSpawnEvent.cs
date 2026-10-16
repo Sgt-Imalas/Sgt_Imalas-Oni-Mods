@@ -34,7 +34,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			string name = randomMinion.GetProperName();
 			SoundUtils.PlaySound(ModAssets.SOUNDS.CAVE_NOISE, SoundUtils.GetSFXVolume() * 0.3f, true);
 
-			ToastManager.InstantiateToastWithGoTarget(
+			ToastHelper.InstantiateToastWithGoTarget(
 				STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOAST,
 				string.Format(STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOASTTEXT, name),
 				randomMinion.gameObject);
@@ -45,7 +45,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 				RandomTickManager.Instance.StartVoidEvent(randomMinion);
 
-				ToastManager.InstantiateToastWithGoTarget(
+				ToastHelper.InstantiateToastWithGoTarget(
 					STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOAST,
 					string.Format(STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOASTTEXT2, name),
 					randomMinion.gameObject);

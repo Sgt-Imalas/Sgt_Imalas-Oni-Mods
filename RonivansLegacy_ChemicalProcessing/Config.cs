@@ -5,8 +5,8 @@ using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing
 {
@@ -15,7 +15,8 @@ namespace RonivansLegacy_ChemicalProcessing
 	[ConfigFile(SharedConfigLocation: true)]
 	public class Config : SingletonOptions<Config>
 	{
-		public static bool SubModEnabled(SourceModInfo mod )=> ModBuildingEnabled([mod]);
+		public static bool Toxicity = false;
+		public static bool SubModEnabled(SourceModInfo mod) => ModBuildingEnabled([mod]);
 		public static bool ModBuildingEnabled(IEnumerable<SourceModInfo> buildingMods)
 		{
 			Debug.Assert(buildingMods != null && buildingMods.Any(), "ModBuildingEnabled called with null or empty buildingMods");
@@ -79,7 +80,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP")]
 		[JsonIgnore]
-		public System.Action<object> Button_OpenBuildingConfigEditor => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null,null);
+		public System.Action<object> Button_OpenBuildingConfigEditor => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, null);
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP_ELEMENTS", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
@@ -117,7 +118,7 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.NUCLEARPROCESSING")]
 		[JsonProperty]
 		[RequireDLC(DlcManager.EXPANSION1_ID)] //hide this option in base game
-		public bool NuclearProcessing_Enabled { get; set; } = true; 
+		public bool NuclearProcessing_Enabled { get; set; } = true;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.NUCLEARPROCESSING")]
 		[JsonIgnore]
@@ -171,17 +172,25 @@ namespace RonivansLegacy_ChemicalProcessing
 		public bool HPA_Rails_Mod_Enabled => HPA_Rails_Enabled && HighPressureApplications_Enabled;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
-		public bool HPA_Rails_Insulation_Enabled  { get; set; } = true;
-		
+		public bool HPA_Rails_Insulation_Enabled { get; set; } = true;
+
 		[JsonIgnore]
 		public bool HPA_Rails_Insulation_Mod_Enabled => HPA_Rails_Mod_Enabled && HPA_Rails_Insulation_Enabled;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
 		public bool DupesRefrigeration_Enabled { get; set; } = true;
-		
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
 		[JsonIgnore]
 		public System.Action<object> Button_OpenBuildingConfigEditor_Refrigeration => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.DupesRefrigeration);
+
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.REFRIGERATION_ATMOSPHEREINPUT.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.REFRIGERATION_ATMOSPHEREINPUT.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
+		public bool DupesRefrigeration_SterileAtmospherePort { get; set; } = true;
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.REFRIGERATION_ATMOSPHEREINPUTRATE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.REFRIGERATION_ATMOSPHEREINPUTRATE.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION", Format = "0 g")]
+		[Limit(0.01f, 100f)]
+		public float DupesRefrigeration_SterileAtmosphereConsumption { get; set; } = 1f;
+
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMGENERATORS")]
 		public bool CustomGenerators_Enabled { get; set; } = true;
@@ -199,11 +208,11 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
-		[Limit(1, 25)]
+		[Limit(1, 100)]
 		public float HPA_Capacity_Gas_Multiplier { get; set; } = 10;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
-		[Limit(1, 25)]
+		[Limit(1, 100)]
 		public float HPA_Capacity_Liquid_Multiplier { get; set; } = 4;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
@@ -214,6 +223,9 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Limit(10, 1000)]
 		public int HPA_Pump_Base_Mult_Liquid { get; set; } = 240;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HPA_HARDENEDALLOY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HPA_HARDENEDALLOY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		public bool HPA_HardenedAlloy { get; set; } = false;
+
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
 		[Limit(0.1f, 1f)]
@@ -223,34 +235,65 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Limit(1, 25)]
 		public float HPA_Capacity_Solid_Multiplier { get; set; } = 10;
 
-		///moved to building editor
-		//[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
-		//[Limit(2, 12)]
-		//public int Logistic_Arm_Range { get; set; } = 4; //vanilla arm range, only capcaity is nerfed by default
-
-		///moved to building editor
-		//[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
-		//[Limit(6, 24)]
-		//public int HPA_Arm_Range { get; set; } = 12;
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HPA_RAILINWALLS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HPA_RAILINWALLS.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		public bool HPA_AllowRailsInWalls { get; set; } = false;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
 		[Limit(1, 200)]
 		public int Biochem_AnaerobicDigesterBuff { get; set; } = 10;
 
-		///[Option("STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.NAME", "STRINGS.BIOCHEM_OILPRESSREBALANCE.OLDREFINERIES.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
-		///public bool IO_OldRefineries { get; set; } = false;
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
+		[Limit(0.1f, 10f)]
+		public float Biochem_BioOilMultiplier { get; set; } = 1f;
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO", Format = "P0")]
 		[Limit(0.5f, 1f)]
 		public float ChemProc_RefineryFudge { get; set; } = 0.6f;
 
-		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO",Format ="P0")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO", Format = "P0")]
 		[Limit(0.5f, 1f)]
 		public float ChemProc_AdvRefineryFudge { get; set; } = 0.9f;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO", Format = "P0")]
 		[Limit(0.5f, 1f)]
 		public float ChemProc_ArcFudge { get; set; } = 0.9f;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO", 
+			Format = "0 MJ"
+			//Format = "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.FORMAT"
+			)]
+		public int ArcFurnace_CapacitorSizeMJ { get; set; } = 220;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESENGINEERING")]
+		public bool Drywall_Hides_Pipes { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		public bool HPA_OverheatImmunePumps { get; set; } = false;
+
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS")]
+
+		[JsonIgnore]
+		public int PrimaryElement_MaxMassOverride { get => _primaryElement_MaxMassOverride; set { _primaryElement_MaxMassOverride = value; SetElementMaxMassIfApplicable(); } }
+		[JsonProperty]
+
+		private int _primaryElement_MaxMassOverride = 100000;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.LOGISTIC_SWEEPER", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
+		public bool DupesLogistics_NoSelfHeat_Sweeper { get; set; } = false;
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.LOGISTIC_LOADER", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
+		public bool DupesLogistics_NoSelfHeat_Loader { get; set; } = false;
+		public void SetElementMaxMassIfApplicable()
+		{
+			int currentMaxMass = Mathf.RoundToInt(PrimaryElement.MAX_MASS);
+			if (currentMaxMass >= PrimaryElement_MaxMassOverride)
+			{
+				SgtLogger.l("PrimaryElement.MAX_MASS was already higher or at the configured value: " + currentMaxMass + "kg, ignoring the setting");
+				return;
+			}
+			PrimaryElement.MAX_MASS = PrimaryElement_MaxMassOverride;
+			SgtLogger.l("Increasing PrimaryElement.MAX_MASS to " + PrimaryElement_MaxMassOverride);
+		}
 	}
 }

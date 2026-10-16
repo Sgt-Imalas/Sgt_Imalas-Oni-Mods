@@ -110,9 +110,9 @@ namespace SaveGameModLoader
 			ModlistManager.Instance.GetAllModPacks();
 
 			ModSyncUtils.RegisterModAsSyncMod(this.mod);
-			ModAssets.ReadOrRegisterBrowserSetting();
 			base.OnLoad(harmony);
 			Steam_MakeMod.TryPatchingSteam(harmony);
+			harmony.RegisterForLocalization(typeof(STRINGS), true);
 
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
@@ -145,6 +145,7 @@ namespace SaveGameModLoader
 
 			ModsScreen_BuildDisplay_Patch_Pin_Button.ExecutePatch(harmony);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
+			ModAssets.FlagBrokenMods(mods);
 		}
 	}
 

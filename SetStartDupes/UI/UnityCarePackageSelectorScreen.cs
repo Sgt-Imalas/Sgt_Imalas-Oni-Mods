@@ -68,7 +68,7 @@ namespace SetStartDupes
 			{
 				this.Show(false);
 			}
-			if (e.TryConsume(Action.DebugToggleClusterFX))
+			if (e.TryConsume(Action.Find))
 			{
 				Searchbar.ExternalStartEditing();
 			}
@@ -124,7 +124,7 @@ namespace SetStartDupes
 			ReferencedContainer.SetAnimator();
 			ReferencedContainer.SetInfoText();
 			ReferencedContainer.selectButton.ClearOnClick();
-			ReferencedContainer.selectButton.onClick += (System.Action)(() => ReferencedContainer.SelectDeliverable());
+			ReferencedContainer.selectButton.onClick += () => ReferencedContainer.SelectDeliverable();
 
 			this.Show(false);
 		}
@@ -138,7 +138,7 @@ namespace SetStartDupes
 			ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();
 
 			Searchbar = transform.Find("SearchBar/Input").FindOrAddComponent<FInputField2>();
-			Searchbar.OnValueChanged.AddListener(ApplyFilter);
+			Searchbar.AddListener(ApplyFilter);
 			Searchbar.Text = string.Empty;
 
 

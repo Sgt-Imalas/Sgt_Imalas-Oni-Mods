@@ -3,9 +3,16 @@
   "isRoot": true,
   "tools": {
     "jetbrains.refasmer.clitool": {
-      "version": "2.0.2",
+      "version": "2.0.3",
       "commands": [
         "refasmer"
+      ],
+      "rollForward": false
+    },
+    "bepinex.assemblypublicizer.cli": {
+      "version": "0.5.0-beta.2",
+      "commands": [
+        "assembly-publicizer"
       ],
       "rollForward": false
     }

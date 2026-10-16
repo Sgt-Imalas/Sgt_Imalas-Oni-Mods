@@ -1,19 +1,11 @@
 ﻿using KSerialization;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.RecipeElementConverters
 {
 	public abstract class RecipeSelectorBase : KMonoBehaviour, FewOptionSideScreen.IFewOptionSideScreen
 	{
-		const string AmmoniaRecipeID = "NitricAcid_from_Ammonia";
-		const string AcidRecipeID = "NitricAcid_from_SulphuricAcid";
-
 		[Serialize] protected Tag SelectedRecipe;
 		protected static StringBuilder sb = new();
 

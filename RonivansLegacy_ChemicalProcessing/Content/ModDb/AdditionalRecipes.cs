@@ -2,23 +2,16 @@
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
 using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Gaskets;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using UtilLibs.UIcmp;
-using static Crop;
-using static ResearchTypes;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
-using static STRINGS.CODEX;
-using static STRINGS.ITEMS.FOOD;
-using static STRINGS.ITEMS.INGREDIENTS;
-using static STRINGS.UI.TOOLS.FILTERLAYERS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -92,7 +85,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RecipeBuilder.Create(ID, 40)
 					.Input(ModElements.VegetableOil_Liquid, oilAmount)
 					.Input(SimHashes.Water, waterAmount)
-					.Output(SimHashes.PhytoOil, 100)
+					.Output(SimHashes.PhytoOil, 100, storeElement: true)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_2_1, 2, 1)
 					.Build();
 			}
@@ -118,6 +111,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Build();
 			}
 		}
+		public static void RegisterRecipes_AdvancedCraftingTable()
+		{
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				RecipeBuilder.Create(AdvancedCraftingTableConfig.ID, TUNING.INDUSTRIAL.RECIPES.STANDARD_FABRICATION_TIME * 4f)
+					.Input(ModElements.BioPlastic_Solid, 200, true)
+					.Output(FetchDroneConfig.ID, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.ResultWithIngredient)
+					.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ADVANCEDCRAFTINGTABLE.GENERIC_RECIPE_DESCRIPTION, ModElements.BioPlastic_Solid.Tag.ProperName(), global::STRINGS.ROBOTS.MODELS.FLYDO.NAME))
+					.RequiresTech(Db.Get().TechItems.fetchDrone.parentTechId)
+					.SortOrder(2)
+					.Build();
+			}
+		}
 		public static void RegisterRecipes_FabricatedWoodMaker()
 		{
 			string ID = FabricatedWoodMakerConfig.ID;
@@ -134,9 +141,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			string ID = Chemical_RayonLoomConfig.ID;
 			RecipeBuilder.Create(ID, 50)
-				.Input(RefinementRecipeHelper.GetWoods(), 150)
+				.Input(RefinementRecipeHelper.GetWoods(), 150, GameTags.BuildingWood)
 				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.NameOverrideFormatFromTo()
 				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
 				.Build();
 
@@ -179,8 +187,33 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterRecipes_CraftingTable()
 		{
-			SimpleDrillbits_Config.CreateSimpleDrillRecipes(CraftingTableConfig.ID,true);
+			var id = CraftingTableConfig.ID;
+			if (Config.Instance.MineralProcessing_Mining_Enabled)
+			{
+				SimpleDrillbits_Config.CreateSimpleDrillRecipes(id, true);
+			}
+			int pos = 4;
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+				MakeGasketRecipe(id, ModElements.BioPlastic_Solid, BioPlasticGasketConfig.ID, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.NAME, true, pos++);
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				MakeGasketRecipe(id, ModElements.FiberGlass_Solid, FiberglassGasketConfig.ID, AIO_FIBERGLASSGASKET.NAME, true, pos++);
+			MakeGasketRecipe(id, SimHashes.HardPolypropylene, HardPolyPropyleneGasketConfig.ID, AIO_HARDPOLYPROPYLENEGASKET.NAME, true, pos++);
 		}
+
+
+		public static void MakeGasketRecipe(string fabricatorID, SimHashes material, Tag output, string outputName, bool craftingTableRecipe, int sortOrder, float gasketCount = 1)
+		{
+			RecipeBuilder.Create(fabricatorID, craftingTableRecipe ? TUNING.INDUSTRIAL.RECIPES.STANDARD_FABRICATION_TIME : 20)
+				.Input(material, gasketCount * 50, true)
+				.Output(output, gasketCount)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.CRAFTINGTABLE.RECIPE_DESCRIPTION, material.CreateTag().ProperName(), outputName))
+				.RequiresTech(Db.Get().TechItems.gasket.parentTechId)
+				.SortOrder(sortOrder)
+				.Build();
+
+		}
+
 
 		public static void RegisterRecipes_SuperMaterialRefinery()
 		{
@@ -224,14 +257,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterRecipes_AnaerobicDigester();
 				RegisterRecipes_ExpellerPress();
 			}
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-			{
-				RegisterRecipes_RayonLoom();
-			}
-			if (Config.Instance.MineralProcessing_Mining_Enabled)
-			{
-				RegisterRecipes_CraftingTable();
-			}
+			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			//{
+			RegisterRecipes_RayonLoom();
+			//}
+
+			RegisterRecipes_CraftingTable();
 		}
 		public static void RegisterRecipes_AnaerobicDigester()
 		{
@@ -351,7 +382,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Input(PlantFiberConfig.ID, 100)
 					.Input(SimHashes.Sand, 99)
 					.Input(SimHashes.Water, 1)
-					.Output(SimHashes.Methane, 5.445f * Config.Instance.Biochem_AnaerobicDigesterBuff / 4) 
+					.Output(SimHashes.Methane, 5.445f * Config.Instance.Biochem_AnaerobicDigesterBuff / 4)
 					.Output(SimHashes.Dirt, 200)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
@@ -368,10 +399,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//              Dirt -> 50kg
 			//-------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 100)
-					.Input(SimHashes.Algae, 20)
-					.Input(SimHashes.Sand, 79)
+					.Input(SimHashes.Algae, 70)
+					.Input(SimHashes.Sand, 29)
 					.Input(SimHashes.Water, 1)
-					.Output(SimHashes.Methane, 3 * Config.Instance.Biochem_AnaerobicDigesterBuff)
+					.Output(SimHashes.Methane, 1 * Config.Instance.Biochem_AnaerobicDigesterBuff)
 					.Output(SimHashes.Dirt, 100)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
@@ -506,7 +537,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///Kelp,Seakomb Leaf, plant consumes 50kg of fertilizer(solid mass: 50, liquid mass: 0) over 5 cycles, making 50 items
 			///normal Seakomb has a 1-4 conversion with 3/4 of water; 25kg Seakomb + 75kg water become 100kg of phyto oil
 			///
-			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 6, 3.65f, 10);
+			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 6 * 2.5f, 3.65f * 2.5f, 10 * 2.5f);
 
 			///Dupes Cuisine Integration
 			string sunnyGrainId = "SunnyWheatSeed";
@@ -523,13 +554,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				SgtLogger.warning("Could not find Dupes Cuisine, not adding any of its plants to expeller press.");
 
 
-
+			int index = 0;
 
 			foreach (var recipe in PredefinedExpellerPressRecipes)
 			{
 				Tag ingredient = recipe.Key;
 				var data = recipe.Value;
-				float oil = data.first;
+				float oil = data.first * Config.Instance.Biochem_BioOilMultiplier;
 				float biomass = data.second;
 				float ingredientmass = data.third;
 
@@ -543,17 +574,57 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 					.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_FOODTOOIL, 0)
 					.IconPrefabIngredient(0)
+					.SortOrder(index++)
 					.Build();
 			}
 			ExpellerPress_Seeds(ID);
+
+			HashSet<ComplexRecipe> toConvertRecipes = [];
+			foreach (var existingRecipe in ComplexRecipeManager.Get().preProcessRecipes)
+			{
+				if (!existingRecipe.fabricators.Any() || existingRecipe.fabricators[0] != MilkPressConfig.ID)
+				{
+					continue;
+				}
+				toConvertRecipes.Add(existingRecipe);
+			}
+
+			foreach (var existingRecipe in toConvertRecipes)
+			{
+				var pressRecipe = RecipeBuilder.Create(ID, existingRecipe.time);
+
+				foreach (var ingredient in existingRecipe.ingredients)
+				{
+					pressRecipe.Input(ingredient.material, ingredient.amount * 2f);
+				}
+				foreach (var product in existingRecipe.results)
+				{
+					pressRecipe.Output(product.material, product.amount * 2f);
+				}
+				pressRecipe.RequiresTech(existingRecipe.requiredTech);
+				pressRecipe.Description(existingRecipe.description);
+				pressRecipe.NameDisplay(existingRecipe.nameDisplay);
+				pressRecipe.NameOverride(existingRecipe.customName);
+				pressRecipe
+					.SortOrder(index++)
+					.Build();
+			}
 		}
 		public static void ExpellerPress_Seeds(string ID)
 		{
 			HashSet<Tag> seeds = new();
+			SgtLogger.l("Gathering Seeds for ExpellerPress recipe seeds->oil");
 			foreach (var seed in Assets.GetPrefabsWithTag(GameTags.CropSeed))
 			{
 				var prefabTag = seed.PrefabID();
-				//SgtLogger.l("Seed Tag: " + prefabTag);
+				SgtLogger.l("Land Seed Tag: " + prefabTag);
+				if (!PredefinedExpellerPressRecipes.ContainsKey(prefabTag))
+					seeds.Add(prefabTag);
+			}
+			foreach (var seed in Assets.GetPrefabsWithTag(GameTags.WaterSeed))
+			{
+				var prefabTag = seed.PrefabID();
+				SgtLogger.l("Water Seed Tag: " + prefabTag);
 				if (!PredefinedExpellerPressRecipes.ContainsKey(prefabTag))
 					seeds.Add(prefabTag);
 			}
@@ -572,7 +643,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			RecipeBuilder.Create(ID, 10)
 				.Input(seeds.ToArray(), 10, GameTags.Seed)
-				.Output(ModElements.VegetableOil_Liquid, 9.5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ModElements.VegetableOil_Liquid, 9.5f * Config.Instance.Biochem_BioOilMultiplier, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Output(ModElements.BioMass_Solid, 0.5f)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL, 0)
@@ -792,8 +863,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		internal static void RegisterTags()
 		{
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-				GameTags.Fabrics = GameTags.Fabrics.Append(RayonFabricConfig.ID);
+			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			GameTags.Fabrics = GameTags.Fabrics.Append(RayonFabricConfig.ID);
 		}
 	}
 }

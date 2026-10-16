@@ -1,10 +1,6 @@
-﻿using Klei.AI;
-using System;
-using System.Collections;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -27,6 +23,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 		public static ModHashes OnBuildingFacadeChanged = new ModHashes("RonivanAIO_OnBuildingFacadeChanged");
+		public static ModHashes FabricatorOrderCanceled = new ModHashes("RonivanAIO_OnFabricatorRecipeCanceled");
 
 		public static void AddMachineAttachmentPort(GameObject go)
 		{
@@ -63,25 +60,79 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///Biodiesel and Renewable Diesel
 			public static Tag AIO_BioFuel = TagManager.Create("AIO_BioFuel");
+
+			///Elements that go into the Soda Fountain, atm Nitrogen and CO2
+			public static Tag SodaFountainGas = TagManager.Create("SodaFountainGas");
+
+			///Generally acidic elements
+			public static Tag AIO_Acid = TagManager.Create("AIO_Acid");
+
+			///Elements that are sterile atmosphere to be used by the fridges
+			public static Tag AIO_SterileAtmosphere = TagManager.Create("AIO_SterileAtmosphere");
+
 		}
 		public static GameObject BuildingEditorWindowPrefab;
+		public static GameObject MultiIngredientCodexVisualizer;
+		public static GameObject CraftButton;
 
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("ronivan_aio", platformSpecific: true);
-
 			BuildingEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/BuildingEditor.prefab");
+			MultiIngredientCodexVisualizer = bundle.LoadAsset<GameObject>("Assets/UIs/HoverableMultiEntry.prefab");
+			CraftButton = bundle.LoadAsset<GameObject>("Assets/UIs/CraftButton.prefab");
 
+			MultiIngredientCodexVisualizer.AddComponent<MultiIngredientCodexVisualizer>();
 			SgtLogger.Assert(BuildingEditorWindowPrefab, "BuildingEditorWindowPrefab");
-
-
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BuildingEditorWindowPrefab);
+			TMPConverter.ReplaceAllText(MultiIngredientCodexVisualizer);
+			TMPConverter.ReplaceAllText(CraftButton);
 
 		}
 		public static List<Tag> GetNonLiquifiableSolids()
 		{
 			return STORAGEFILTERS.NOT_EDIBLE_SOLIDS.Where(item => item != GameTags.Liquifiable).ToList();
+		}
+		public static string GetHPASteelIngredient()
+		{
+			if (Config.Instance.HPA_HardenedAlloy)
+				return GameTags.Steel + "&" + Tags.AIO_HardenedAlloy;
+			return GameTags.Steel.ToString();
+		}
+
+		public static Grid.SceneLayer AboveDrywallLayer => Grid.SceneLayer.GasFront;
+		internal static void MakeWallHidePipesIfEnabled(BuildingDef result)
+		{
+			if (Config.Instance.Drywall_Hides_Pipes)
+				result.SceneLayer = Grid.SceneLayer.LogicGatesFront;
+		}
+
+		internal static void HideFromCodex(GameObject go)
+		{
+			go.AddTag(GameTags.HideFromCodex);
+			go.AddTag(GameTags.DeprecatedContent);
+			go.AddTag(GameTags.HideFromSpawnTool);
+		}
+
+		internal static void AdjustValveAnimFlowAnim(ValveBase instance, float maxFlow)
+		{
+			if (!instance.animFlowRanges.Any())
+				return;
+			var lastAnimIndex = instance.animFlowRanges.Last();
+			if (lastAnimIndex.minFlow < maxFlow)
+			{
+				var hpaMaxFlow = new ValveBase.AnimRangeInfo(maxFlow, lastAnimIndex.animName);
+				instance.animFlowRanges = instance.animFlowRanges.Append(hpaMaxFlow);
+			}
+		}
+		internal static void AddFridgeAtmospherePort(GameObject go)
+		{
+			if (true)//Config.Instance.AdvFreezerAtmosphereInput
+				return;
+
+			var atmoStorage = go.AddComponent<Storage>();
+			atmoStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 		}
 	}
 }

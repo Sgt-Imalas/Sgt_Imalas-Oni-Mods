@@ -1,0 +1,54 @@
+biomeNoise: expansion1::noise/Swamp
+temperatureRange: Room
+density:
+  min: 10
+  max: 15
+avoidRadius: 15.0
+extraBiomeChildren: 1
+doAvoidPoints: false
+sampleBehaviour: PoissonDisk
+biomes:
+  - name: expansion1::biomes/Swamp/Basic
+    weight: 2
+    tags:
+      - med_Staterpillar
+      - med_WineCups
+      - med_WineCupsSeed
+      - med_SwampHarvestPlantSeed
+      - med_SwampHarvestPlant
+      - med_SwampForagePlant
+      - med_SwampForagePlantPlanted
+  - name: expansion1::biomes/Swamp/Water_CO2
+    weight: 2
+    tags:
+      - med_Pacu
+      - med_SwampForagePlant
+      - med_SwampForagePlantPlanted
+      - med_WineCups
+      - med_WineCupsSeed
+      - med_SwampHarvestPlantSeed
+      - med_SwampHarvestPlant
+features:
+  - type: expansion1::features/swamp/DirtBallSmall
+  - type: expansion1::features/swamp/MetalCavernSmall
+  - type: expansion1::features/swamp/AirPocket
+  - type: expansion1::features/swamp/AirPocket
+  - type: expansion1::features/swamp/PacuPoolSmall
+tags:
+  - IgnoreCaveOverride
+  - NoGlobalFeatureSpawning
+  - Mixing
+zoneType: Swamp
+subworldTemplateRules:
+  - names:
+      - expansion1::poi/swamp/water_a
+      - expansion1::poi/swamp/water_b
+      - expansion1::poi/swamp/water_c
+    listRule: TryOne
+  - names:        # 2 of them
+      - expansion1::poi/swamp/staterpillar_a
+    listRule: TryOne
+  - names:        # 3 of them
+      - expansion1::poi/swamp/staterpillar_b
+      - expansion1::poi/swamp/staterpillar_c
+    listRule: TryOne

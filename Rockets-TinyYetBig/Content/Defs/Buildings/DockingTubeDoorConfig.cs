@@ -29,8 +29,8 @@ namespace Rockets_TinyYetBig.Buildings
 			};
 			string[] materialType = new string[2]
 			{
-				"RefinedMetal",
-				"Transparent"
+				MATERIALS.REFINED_METAL,
+				MATERIALS.ALL_GLASSES
 			};
 			EffectorValues noiseLevel = NOISE_POLLUTION.NONE;
 			EffectorValues _decor = BUILDINGS.DECOR.BONUS.TIER0;

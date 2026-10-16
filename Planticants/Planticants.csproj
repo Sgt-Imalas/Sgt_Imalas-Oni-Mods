@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>Planticants</AssemblyName>
 		<RootNamespace>Planticants</RootNamespace>
@@ -39,7 +39,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Content\Scripts\" />
 	  <Folder Include="ModAssets\" />
 	</ItemGroup>
 </Project>

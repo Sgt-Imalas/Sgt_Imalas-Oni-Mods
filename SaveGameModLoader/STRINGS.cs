@@ -1,4 +1,7 @@
 ﻿
+using UnityEngine;
+using UtilLibs;
+
 namespace SaveGameModLoader
 {
 	public class STRINGS
@@ -30,11 +33,31 @@ namespace SaveGameModLoader
 				public static LocString NAME = "Keep mod enabled on crash";
 				public static LocString TOOLTIP = "any crash during load will wrongfully blame this mod and disable it.\nEnable this option to prevent the mod from getting disabled.";
 			}
+			public class USESTEAMOVERLAY
+			{
+				public static LocString NAME = "Open links in Steam Overlay";
+				public static LocString TOOLTIP = "When active, uses the steam overlay instead of the browser to open workshop links";
+			}
+			public class MODAUTHORINFO
+			{
+				public static LocString NAME = "Show mod authors names always";
+				public static LocString TOOLTIP = "When active, show mod author names in all ordering configurations.\nOtherwise, they are only listed when sorting by author.";
+			}
+			public class HIDEINCOMPATIBLESAVES
+			{
+				public static LocString NAME = "Hide Incompatible Saves";
+				public static LocString TOOLTIP = "Hide savegames that are not compatible with the current game version \n(spaced out saves in base game and vice versa)";
+			}
 		}
 		public class UI
 		{
 			public class FRONTEND
 			{
+				public class EMPTY_MOD_FOLDER
+				{
+					public static LocString TITLE =" - "+UIUtils.ColorText("<b>Installation Failure!</b>", Color.red);
+					public static LocString TOOLTIP = "Something went wrong during the installation of this mod, its installation folder is completely empty right now!\n\nPlease ensure the game has writing access for the mods folder and is not blocked by OneDrive or similar software!";
+				}
 				public class MODORDER
 				{
 					public static LocString WINDOWTITLE = "Change Mod Index";
@@ -48,8 +71,22 @@ namespace SaveGameModLoader
 
 					public static LocString BUTTONTOOLTIPADDON = "click to move it via index";
 				}
+				public class MOD_ENTRY_TOOLTIPS
+				{
+					public static LocString LOADORDER = "Set the position of the mod in the load order.";
+					public static LocString PIN_UNPIN = "Unpin this mod.\nPinned mods are always shown at the top of the mod list";
+					public static LocString PIN_PIN = "Pin this mod.\nPinned mods are always shown at the top of the mod list";
+				}
 				public class FILTERSTRINGS
 				{
+					public class SORTBY_DROPDOWN
+					{
+						public static LocString TEXT = "Sort by:";
+						public static LocString SORT_NONE = "Mod Order";
+						public static LocString SORT_NAME = "Mod Name";
+						public static LocString SORT_AUTHOR = "Mod Author";
+						public static LocString SORT_UPDATED = "Last Update";
+					}
 					public class DROPDOWN
 					{
 						public static LocString SHOW = "Show: {0}";
@@ -135,8 +172,10 @@ namespace SaveGameModLoader
 
 					public static LocString SYNCMODSBUTTONBG = "SYNC MODS";
 					public static LocString SYNCALL = "SYNC AND LOAD SAVE";
+					public static LocString SYNCALL_TOOLTIP = "Use this button to automatically synchronize all mods with those in the save,then load it.\nThis will enable mods not yet enabled, and disable mods that weren't enabled in the save.";
 					public static LocString MODDIFFS = "MOD DIFFERENCES";
 					public static LocString SYNCSELECTED = "LOAD WITH CURRENT LOADOUT";
+					public static LocString SYNCSELECTED_TOOLTIP = "Configure the displayed mod differences to your desire,\nthen use this button to load the save with your manual changes (no full automatic sync)";
 					public static LocString MISSINGMOD = "MISSING MODS!";
 					public static LocString ALLSYNCED = "ALL MODS SYNCED, CLOSE";
 

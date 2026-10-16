@@ -13,6 +13,7 @@ namespace OniRetroEdition.Behaviors
 
 		private MeterController storageMeter;
 		private List<Storage> storages;
+		[SerializeField]
 		public bool inFront = false;
 		[Serialize]
 		public float MaxMassOverride = -1;
@@ -28,7 +29,7 @@ namespace OniRetroEdition.Behaviors
 			else
 				meterTarget = "meter_target";
 
-			SgtLogger.l("initializing meter, meter target: " + meterTarget);
+			SgtLogger.l("initializing meter on "+gameObject.name+", meter target: " + meterTarget+", in front? "+inFront);
 			storageMeter = new MeterController(kbac, meterTarget, "meter", inFront ? Meter.Offset.Infront : Meter.Offset.Behind, Grid.SceneLayer.NoLayer, new string[]
 			{
 				meterTarget

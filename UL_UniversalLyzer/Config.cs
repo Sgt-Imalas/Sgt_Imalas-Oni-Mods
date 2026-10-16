@@ -87,6 +87,21 @@ namespace UL_UniversalLyzer
 		[Limit(1, 15)]
 		public float PressureThresholdMass_brine { get; set; }
 
+
+		[Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Brine.", "(6) Polluted Brine")]
+		[JsonProperty]
+		[Limit(10, 300)]
+		public int consumption_murkybrine { get; set; }
+
+		[Option("Minimum Gas Output Temperature", "Minimum Temperature of the Output Gasses in °C ", "(6) Polluted Brine")]
+		[JsonProperty]
+		[Limit(10, 160)]
+		public int minOutputTemp_murkybrine { get; set; }
+		[Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Brine.", "(6) Polluted Brine")]
+		[JsonProperty]
+		[Limit(1, 15)]
+		public float PressureThresholdMass_murkybrine { get; set; }
+
 		public Config()
 		{
 			IsPiped = true;
@@ -97,16 +112,19 @@ namespace UL_UniversalLyzer
 			PressureThresholdMass_pollutedwater = 1.8f;
 			PressureThresholdMass_saltwater = 2.7f;
 			PressureThresholdMass_brine = 3.0f;
+			PressureThresholdMass_murkybrine = 2.7f;
 
 			consumption_water = 120;
 			consumption_pollutedwater = 130;
 			consumption_saltwater = 90;
 			consumption_brine = 60;
+			consumption_murkybrine = 95;
 
 			minOutputTemp_brine = 75;
 			minOutputTemp_saltwater = 70;
 			minOutputTemp_pollutedwater = 50;
 			minOutputTemp_water = 80;
+			minOutputTemp_murkybrine = 65;
 		}
 	}
 }

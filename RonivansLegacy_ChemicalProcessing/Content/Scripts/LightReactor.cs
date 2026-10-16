@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
@@ -17,6 +14,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public Vector3 dumpOffsetOverride = new Vector3(0.5f, -1f, 0.0f);
 
+		[MyCmpGet] ConduitConsumer consumer;
+		public float MaxCoolantCapacity => consumer.capacityKG;
 		public float GetEmissionRads(bool inMeltdown) => inMeltdown ? emissionRads * 2f : emissionRads; //mirrors game behavior
 		public double GetRadGermMultiplierRads(double baseAmount) => baseAmount * 10;
 

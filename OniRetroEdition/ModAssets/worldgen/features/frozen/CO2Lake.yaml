@@ -1,0 +1,50 @@
+shape: ShortWide
+borders:
+  - 1
+  - 1
+  - 1
+blobSize:
+  min: 6
+  max: 10
+  internalMobs:
+  - type: ShockWorm
+    count:
+      min: 0
+      max: 2
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: LiquidCarbonDioxide
+        weight: 2.5
+        overrides:
+          massOverride: 1
+      - element: Oxygen
+        weight: 1.5
+        overrides:
+          massOverride: 1
+      - element: Ice
+        weight: 0.5
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Granite
+        weight: 1
+      - element: Ice
+        weight: 2
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Granite
+        weight: 1
+      - element: Ice
+        weight: .1
+  RoomBorderChoices2:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Ice
+        weight: .1
+      - element: DirtyIce
+        weight: 1
+      - element: Snow
+        weight: 1

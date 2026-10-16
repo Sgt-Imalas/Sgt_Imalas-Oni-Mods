@@ -1,12 +1,6 @@
-﻿using PeterHan.PLib.Options;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -88,6 +82,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			var pcd2 = go.AddComponent<PipedConduitDispenser>();
 			pcd2.AssignPort(SecondaryOutputPort);
 			pcd2.SkipSetOperational = true;
+
+			go.AddOrGet<BabyProofedStorageCapacity>();
 
 
 			AttachPorts(go);

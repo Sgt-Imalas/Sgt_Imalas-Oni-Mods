@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Peter Han
+ * Copyright 2026 Peter Han
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
@@ -29,7 +29,9 @@ using static MassMoveTo.STRINGS.UI;
 namespace MassMoveTo.Tools.SweepByType
 {
 	/// <summary>
-	/// A control which allows selection of types.
+	/// A control which allows selection of types. It also has a preset control that persists
+	/// with the save (shared across instances, if multiple are created) to allow multiple
+	/// sets of preset items to be used.
 	/// </summary>
 	public sealed class TypeSelectControl
 	{
@@ -51,7 +53,12 @@ namespace MassMoveTo.Tools.SweepByType
 		/// <summary>
 		/// The size of the panel (UI sizes are hard coded in prefabs).
 		/// </summary>
-		internal static readonly Vector2 PANEL_SIZE = new Vector2(260.0f, 320.0f);
+		internal static readonly Vector2 PANEL_SIZE = new Vector2(280.0f, 320.0f);
+
+		/// <summary>
+		/// The size of each preset selection button.
+		/// </summary>
+		internal static readonly Vector2 PRESET_SELECT_SIZE = new Vector2(30.0f, 30.0f);
 
 		/// <summary>
 		/// The margin between the scroll pane and the window.
@@ -119,8 +126,8 @@ namespace MassMoveTo.Tools.SweepByType
 					else
 						// Partially checked or unchecked
 						all = false;
-				PCheckBox.SetCheckState(allItems, none ? PCheckBox.STATE_UNCHECKED : all ?
-					PCheckBox.STATE_CHECKED : PCheckBox.STATE_PARTIAL);
+				PCheckBox.SetCheckState(allItems, none ? PCheckBox.STATE_UNCHECKED : (all ?
+					PCheckBox.STATE_CHECKED : PCheckBox.STATE_PARTIAL));
 			}
 		}
 
@@ -148,6 +155,11 @@ namespace MassMoveTo.Tools.SweepByType
 		}
 
 		/// <summary>
+		/// The currently active preset index, 0 based.
+		/// </summary>
+		public int SelectedPresetIndex { get; private set; }
+
+		/// <summary>
 		/// Whether material icons should be disabled.
 		/// </summary>
 		public bool DisableIcons { get; }
@@ -168,6 +180,11 @@ namespace MassMoveTo.Tools.SweepByType
 		private GameObject childPanel;
 
 		/// <summary>
+		/// The buttons to select each preset.
+		/// </summary>
+		private readonly GameObject[] presetButtons;
+
+		/// <summary>
 		/// The child categories.
 		/// </summary>
 		private readonly SortedList<Tag, TypeSelectCategory> children;
@@ -175,69 +192,12 @@ namespace MassMoveTo.Tools.SweepByType
 		public TypeSelectControl(bool disableIcons = false)
 		{
 			DisableIcons = disableIcons;
-			// Select/deselect all types
-			var cp = new PPanel("Categories")
-			{
-				Direction = PanelDirection.Vertical,
-				Alignment = TextAnchor.UpperLeft,
-				Spacing = ROW_SPACING,
-				Margin = ELEMENT_MARGIN,
-				FlexSize = Vector2.right,
-				// Background ensures that scrolling works properly!
-				BackColor = PUITuning.Colors.BackgroundLight
-			}.AddChild(new PTextField("TextFilter")
-			{
-				Text = FilterText,
-				MinWidth = 180,
-				FlexSize = new Vector2(1,0),
-				TextAlignment = TMPro.TextAlignmentOptions.MidlineLeft,
-			}.AddOnRealize((go)=>
-			{
-				go.GetComponent<TMP_InputField>().onValueChanged.AddListener(text => OnFilterTextChanged(text));
-			}))
-			.AddChild(new PCheckBox("SelectAll")
-			{
-				Text = global::STRINGS.UI.UISIDESCREENS.TREEFILTERABLESIDESCREEN.ALLBUTTON,
-				CheckSize = ROW_SIZE,
-				InitialState = PCheckBox.STATE_CHECKED,
-				OnChecked = OnCheck,
-				TextStyle = PUITuning.Fonts.TextDarkStyle
-			}.AddOnRealize((obj) => allItems = obj)).AddOnRealize((obj) => childPanel = obj);
-			// Scroll to select elements
-			var sp = new PScrollPane("Scroll")
-			{
-				Child = cp,
-				ScrollHorizontal = false,
-				ScrollVertical = true,
-				AlwaysShowVertical = true,
-				TrackSize = 8.0f,
-				FlexSize = Vector2.one
-			};
-			// Title bar
-			var title = new PLabel("Title")
-			{
-				TextAlignment = TextAnchor.MiddleCenter,
-				Text = STRINGS.UI.TOOLS.MOVETOSELECTTOOL.DIALOG_TITLE,
-				FlexSize = Vector2.right,
-				Margin = TITLE_MARGIN,
-				Sprite = PUITuning.Images.BoxBorder,
-				SpriteMode = Image.Type.Sliced
-			}.SetKleiPinkColor();
-			// 1px black border on the rest of the dialog for contrast
-			RootPanel = new PRelativePanel("Border")
-			{
-				BackImage = PUITuning.Images.BoxBorder,
-				ImageMode = Image.Type.Sliced,
-				DynamicSize = false,
-				BackColor = PUITuning.Colors.BackgroundLight
-			}.AddChild(sp).AddChild(title).SetMargin(sp, OUTER_MARGIN).
-				SetLeftEdge(title, fraction: 0.0f).SetRightEdge(title, fraction: 1.0f).
-				SetLeftEdge(sp, fraction: 0.0f).SetRightEdge(sp, fraction: 1.0f).
-				SetTopEdge(title, fraction: 1.0f).SetBottomEdge(sp, fraction: 0.0f).
-				SetTopEdge(sp, below: title).Build();
+			presetButtons = new GameObject[SavedTypeSelections.PRESET_COUNT];
+			RootPanel = CreatePresetPanel().Build();
 			RootPanel.SetMinUISize(PANEL_SIZE);
 			children = new SortedList<Tag, TypeSelectCategory>(16, TagAlphabetComparer.
 				INSTANCE);
+			RootPanel.AddComponent<GraphicRaycaster>();
 			RootPanel.AddComponent<Canvas>();
 			RootPanel.AddComponent<TypeSelectScreen>();
 			RootPanel.SetActive(false);
@@ -273,6 +233,125 @@ namespace MassMoveTo.Tools.SweepByType
 				child.Value.ClearAll();
 		}
 
+		private PRelativePanel CreatePresetPanel()
+		{
+			PButton lastButton = null;
+			var innerPanel = CreateTypePanel();
+			var rp = new PRelativePanel("TypeSelect")
+			{
+				DynamicSize = false
+			}.AddChild(innerPanel).SetRightEdge(innerPanel, fraction: 1.0f).
+				SetTopEdge(innerPanel, fraction: 1.0f).
+				SetBottomEdge(innerPanel, fraction: 0.0f).
+				SetLeftEdge(innerPanel, fraction: 0.0f);
+			// Create and add the right number of preset buttons
+			for (int pi = 0; pi < SavedTypeSelections.PRESET_COUNT; pi++)
+			{
+				// Danger! Capturing pi will grab the wrong value!
+				int index = pi;
+				var button = new PButton("Select" + pi)
+				{
+					DynamicSize = false,
+					Text = (pi + 1).ToString(),
+					Margin = new RectOffset(1, 2, 1, 1),
+					OnClick = SwitchPresetButton,
+					FlexSize = Vector2.zero,
+					TextAlignment = TextAnchor.MiddleCenter,
+				}.AddOnRealize(obj => {
+					presetButtons[index] = obj;
+					obj.rectTransform().pivot = new Vector2(1.0f, 0.5f);
+				}).SetKleiBlueStyle();
+				rp.AddChild(button).AnchorXAxis(button, 0.0f).OverrideSize(button,
+					PRESET_SELECT_SIZE);
+				if (lastButton == null)
+					rp.SetTopEdge(button, fraction: 1.0f);
+				else
+					rp.SetTopEdge(button, below: lastButton);
+				lastButton = button;
+			}
+			// Spacer below all
+			var spacer = new PSpacer()
+			{
+				FlexSize = Vector2.up
+			};
+			rp.AddChild(spacer).SetBottomEdge(spacer, fraction: 0.0f).
+				AnchorXAxis(spacer, 0.0f).SetTopEdge(spacer, below: lastButton);
+			return rp;
+		}
+
+		private PRelativePanel CreateTypePanel()
+		{
+			// Select/deselect all types
+			var categoryPanel = new PPanel("Categories")
+			{
+				Direction = PanelDirection.Vertical,
+				Alignment = TextAnchor.UpperLeft,
+				Spacing = ROW_SPACING,
+				Margin = ELEMENT_MARGIN,
+				FlexSize = Vector2.right,
+				// Background ensures that scrolling works properly!
+				BackColor = PUITuning.Colors.BackgroundLight
+			}
+			.AddChild(new PCheckBox("SelectAll")
+			{
+				Text = global::STRINGS.UI.UISIDESCREENS.TREEFILTERABLESIDESCREEN.ALLBUTTON,
+				CheckSize = ROW_SIZE,
+				InitialState = PCheckBox.STATE_CHECKED,
+				OnChecked = OnCheck,
+				TextStyle = PUITuning.Fonts.TextDarkStyle
+			}.AddOnRealize(obj => allItems = obj)).AddOnRealize(obj => childPanel = obj);
+			// Scroll to select elements
+			var scrollPane = new PScrollPane("Scroll")
+			{
+				Child = categoryPanel,
+				ScrollHorizontal = false,
+				ScrollVertical = true,
+				AlwaysShowVertical = true,
+				TrackSize = 8.0f,
+				FlexSize = Vector2.one
+			};
+			// Title bar
+			var title = new PLabel("Title")
+			{
+				TextAlignment = TextAnchor.MiddleCenter,
+				Text = STRINGS.UI.TOOLS.MOVETOSELECTTOOL.DIALOG_TITLE,
+				FlexSize = Vector2.right,
+				Margin = TITLE_MARGIN
+			}.SetKleiPinkColor().AddOnRealize(obj => {
+				var img = obj.AddOrGet<Image>();
+				img.sprite = PUITuning.Images.BoxBorder;
+				img.type = Image.Type.Sliced;
+				img.preserveAspect = true;
+			});
+			// Search bar
+			var filter = new PTextField("TextFilter")
+			{
+				MinWidth = 170,
+				FlexSize = new Vector2(1, 0),
+				PlaceholderText = global::STRINGS.UI.
+				ALLRESOURCESSCREEN.SEARCH,
+				TextAlignment = TextAlignmentOptions.MidlineLeft,
+			}.AddOnRealize((go) => {
+				var field = go.GetComponent<TMP_InputField>();
+				if (field != null)
+					field.onValueChanged.AddListener(OnFilterTextChanged);
+			});
+			// 1px black border on the rest of the dialog for contrast
+			return new PRelativePanel("Border")
+			{
+				BackImage = PUITuning.Images.BoxBorder,
+				ImageMode = Image.Type.Sliced,
+				DynamicSize = false,
+				BackColor = PUITuning.Colors.BackgroundLight
+			}.AddChild(scrollPane).AddChild(title).AddChild(filter).SetMargin(scrollPane, OUTER_MARGIN).
+				SetLeftEdge(title, fraction: 0.0f).SetRightEdge(title, fraction: 1.0f).
+				SetLeftEdge(scrollPane, fraction: 0.0f).SetRightEdge(scrollPane, fraction: 1.0f).
+				SetLeftEdge(filter, fraction: 0.0f).SetRightEdge(filter, fraction: 1.0f).
+				SetTopEdge(title, fraction: 1.0f).SetBottomEdge(scrollPane, fraction: 0.0f).
+				SetTopEdge(scrollPane, below: filter).SetTopEdge(filter, below: title).
+				SetMargin(filter, ELEMENT_MARGIN);
+		}
+
 		private void OnCheck(GameObject source, int state)
 		{
 			if (state == PCheckBox.STATE_UNCHECKED)
@@ -288,16 +367,22 @@ namespace MassMoveTo.Tools.SweepByType
 		/// Saves the selected types to the save game so that Sweep By Type will remember
 		/// the selected types across reload.
 		/// </summary>
-		private void SaveTypes()
+		public void SaveTypes()
 		{
-			var savedTypes = SaveGame.Instance?.GetComponent<SavedTypeSelections>();
-			if (savedTypes != null)
+			var si = SaveGame.Instance;
+			int index = SelectedPresetIndex;
+			if (si != null && si.TryGetComponent(out SavedTypeSelections savedTypes))
 			{
-				// Save type list to the save game
-				var tags = ListPool<Tag, TypeSelectControl>.Allocate();
-				AddTypesToSweep(tags);
-				savedTypes.SetSavedTypes(tags);
-				tags.Recycle();
+				var presets = savedTypes.GetSavedPresets();
+				if (index >= 0 && index < presets.Count)
+				{
+					// Save type list to the save game
+					var tags = ListPool<Tag, TypeSelectControl>.Allocate();
+					AddTypesToSweep(tags);
+					//PUtil.LogWarning("Saved types " + tags.Join(",") + " to preset " + index);
+					presets[index].SetSavedTypes(tags);
+					tags.Recycle();
+				}
 			}
 		}
 
@@ -313,6 +398,7 @@ namespace MassMoveTo.Tools.SweepByType
 			if (selected != null)
 			{
 				var tagSet = HashSetPool<Tag, TypeSelectControl>.Allocate();
+				//PUtil.LogWarning("Set selections to " + selected.Join(","));
 				// Make a quick list to look up
 				foreach (var tag in selected)
 					tagSet.Add(tag);
@@ -322,6 +408,62 @@ namespace MassMoveTo.Tools.SweepByType
 						tagPair.Value.SetSelected(tagSet.Contains(tagPair.Key));
 				tagSet.Recycle();
 			}
+		}
+
+		private void ShowPreset(int index)
+		{
+			// Visually update the selected button to pink and the others to blue
+			for (int i = 0; i < SavedTypeSelections.PRESET_COUNT; i++)
+			{
+				var button = presetButtons[i];
+				if (button != null && button.TryGetComponent(out KImage image))
+				{
+					image.colorStyleSetting = (index == i) ? PUITuning.Colors.
+						ButtonPinkStyle : PUITuning.Colors.ButtonBlueStyle;
+					image.ApplyColorStyleSetting();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Switches to a different user preset. The current preset is not saved before loading,
+		/// use SaveTypes first if that is desired (any user checkbox change already saves
+		/// the current preset).
+		/// </summary>
+		/// <param name="index">The new active preset index, or -1 to select the "last used" saved in the settings.</param>
+		public void SwitchPreset(int index)
+		{
+			var si = SaveGame.Instance;
+			if (si != null && si.TryGetComponent(out SavedTypeSelections savedTypes))
+			{
+				var presets = savedTypes.GetSavedPresets();
+				int n = Math.Min(presets.Count, SavedTypeSelections.PRESET_COUNT);
+				if (index < n && index != SelectedPresetIndex)
+				{
+					if (index < 0)
+						index = savedTypes.index;
+					// Guard against invalid index from old saves
+					if (index < 0 || index >= n)
+						index = 0;
+					SelectedPresetIndex = index;
+					SetSelections(presets[index].GetSavedTypes());
+					// Save current active position
+					savedTypes.index = index;
+					ShowPreset(index);
+				}
+			}
+		}
+
+		private void SwitchPresetButton(GameObject obj)
+		{
+			// Look for realized object in button list
+			int n = presetButtons.Length;
+			for (int index = 0; index < n; index++)
+				if (presetButtons[index] == obj)
+				{
+					SwitchPreset(index);
+					break;
+				}
 		}
 
 		/// <summary>
@@ -366,7 +508,7 @@ namespace MassMoveTo.Tools.SweepByType
 				{
 					current = new TypeSelectCategory(this, category, overrideName);
 					children.Add(category, current);
-					int index = 1 + (children.IndexOfKey(category) << 1);
+					int index = 2 + (children.IndexOfKey(category) << 1);
 					GameObject header = current.Header, panel = current.ChildPanel;
 					// Header goes in even indexes, panel goes in odds
 					header.SetParent(childPanel);
@@ -384,30 +526,46 @@ namespace MassMoveTo.Tools.SweepByType
 		/// <summary>
 		/// Updates the parent check box state from the children.
 		/// </summary>
-		internal void UpdateFromChildren()
+		internal void UpdateFromChildren(Tag? changedTag = null, bool selected = true)
 		{
+			UpdateCategoryEntriesForTag(changedTag, selected);
 			UpdateAllItems(allItems, children.Values);
 			SaveTypes();
+		}
+
+		void UpdateCategoryEntriesForTag(Tag? elementTag, bool selected)
+		{
+			if (!elementTag.HasValue)
+				return;
+
+			foreach (var item in children)
+				if (item.Value.children.TryGetValue(elementTag.Value, out var selectElement))
+				{
+					selectElement.SetSelected(selected, false);
+				}
 		}
 
 		void UpdateVisibility()
 		{
 			bool hasFilter = !FilterText.IsNullOrWhiteSpace() && FilterText.Length > 0;
 			var filterUpper = FilterText.ToUpperInvariant();
-			foreach (var item in children)
+			foreach (var category in children)
 			{
-				bool shouldBeVisible = false;
+				bool categoryInFilters = category.Key.ProperName().ToUpperInvariant().Contains(filterUpper);
+				bool childInFilters = false;
 
-				foreach (var entry in item.Value.children)
+				foreach (var entry in category.Value.children)
 				{
-					bool filterFulfilled = !hasFilter || entry.Key.ProperName().ToUpperInvariant().Contains(filterUpper);
+					bool filterFulfilled = !hasFilter || categoryInFilters || entry.Key.ProperName().ToUpperInvariant().Contains(filterUpper);
 					entry.Value.CheckBox.SetActive(filterFulfilled);
 					if (filterFulfilled)
-						shouldBeVisible = true;
+						childInFilters = true;
 				}
-				item.Value.Header.SetActive(shouldBeVisible);
-				if(shouldBeVisible)
-					item.Value.SetToggleState(shouldBeVisible && hasFilter);
+				bool categoryActive = childInFilters || categoryInFilters;
+
+				category.Value.Header.SetActive(categoryActive);
+				if (categoryActive)
+					category.Value.SetToggleState(categoryActive && hasFilter);
 
 			}
 		}
@@ -446,7 +604,6 @@ namespace MassMoveTo.Tools.SweepByType
 			/// The header for this category.
 			/// </summary>
 			public GameObject Header { get; }
-
 			public GameObject Toggle { get; private set; }
 
 			/// <summary>
@@ -457,7 +614,7 @@ namespace MassMoveTo.Tools.SweepByType
 			public void SetToggleState(bool open)
 			{
 				PToggle.SetToggleState(Toggle, open);
-				OnToggle(Toggle,open);
+				OnToggle(Toggle, open);
 			}
 			internal TypeSelectCategory(TypeSelectControl parent, Tag categoryTag,
 					string overrideName = null)
@@ -483,7 +640,7 @@ namespace MassMoveTo.Tools.SweepByType
 					ROW_SIZE.y * 0.5f),
 					Color = PUITuning.Colors.ComponentLightStyle
 				};
-				showHide.OnRealize += (obj)=> { Toggle = obj; };
+				showHide.OnRealize += (obj) => { Toggle = obj; };
 				Header = new PRelativePanel("TypeSelectCategory") { DynamicSize = false }.
 					AddChild(showHide).AddChild(selectBox)
 					.SetLeftEdge(showHide, fraction: 0.0f)
@@ -587,10 +744,10 @@ namespace MassMoveTo.Tools.SweepByType
 			/// <summary>
 			/// Updates the parent check box state from the children.
 			/// </summary>
-			internal void UpdateFromChildren()
+			internal void UpdateFromChildren(Tag? changedTag = null, bool selected = true)
 			{
 				UpdateAllItems(CheckBox, children.Values);
-				Control.UpdateFromChildren();
+				Control.UpdateFromChildren(changedTag, selected);
 			}
 		}
 
@@ -644,7 +801,7 @@ namespace MassMoveTo.Tools.SweepByType
 			/// Sets the selected state of this type.
 			/// </summary>
 			/// <param name="selected">true to select this type, or false otherwise.</param>
-			public void SetSelected(bool selected)
+			public void SetSelected(bool selected, bool updateParent = true)
 			{
 				if (selected)
 					// Clicked when unchecked, check and possibly check all
@@ -652,7 +809,8 @@ namespace MassMoveTo.Tools.SweepByType
 				else
 					// Clicked when checked, clear and possibly uncheck
 					PCheckBox.SetCheckState(CheckBox, PCheckBox.STATE_UNCHECKED);
-				parent.UpdateFromChildren();
+				if (updateParent)
+					parent.UpdateFromChildren(ElementTag, selected);
 			}
 
 			public override string ToString()

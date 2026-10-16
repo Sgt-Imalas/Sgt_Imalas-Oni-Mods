@@ -1,12 +1,7 @@
-﻿using HarmonyLib;
-using KSerialization;
+﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -111,7 +106,7 @@ namespace Metallurgy.Buildings
 
 			PipedOptionalExhaust exhaustCO2 = go.AddComponent<PipedOptionalExhaust>();
 			exhaustCO2.dispenser = co2Output;
-			exhaustCO2.elementTag = SimHashes.CarbonDioxide.CreateTag();
+			exhaustCO2.elementTags = [SimHashes.CarbonDioxide.CreateTag()];
 			exhaustCO2.capacity = 10f;
 
 			PipedConduitDispenser methaneOutput = go.AddComponent<PipedConduitDispenser>();
@@ -124,7 +119,7 @@ namespace Metallurgy.Buildings
 
 			PipedOptionalExhaust exhaustMethane = go.AddComponent<PipedOptionalExhaust>();
 			exhaustMethane.dispenser = methaneOutput;
-			exhaustMethane.elementTag = SimHashes.Methane.CreateTag();
+			exhaustMethane.elementTags = [SimHashes.Methane.CreateTag()];
 			exhaustMethane.capacity = 10f;
 
 			Prioritizable.AddRef(go);

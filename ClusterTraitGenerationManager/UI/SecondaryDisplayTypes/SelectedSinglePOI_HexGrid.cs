@@ -15,7 +15,7 @@ namespace ClusterTraitGenerationManager.UI.SecondaryDisplayTypes
 		public Tuple<int, int> Location;
 		public string LocationDescription()
 		{
-			return (ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL_LOCATION, Name, (Location.first + "," + Location.second)), StarmapItemCategory.SpacedOutStarmap));
+			return (ModAssets.ModStringHelper.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL_LOCATION, Name, (Location.first + "," + Location.second)), StarmapItemCategory.SpacedOutStarmap));
 		}
 	}
 }

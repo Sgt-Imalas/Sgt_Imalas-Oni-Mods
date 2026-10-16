@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
 using Klei;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 
 namespace _1LineCrasher
 {
@@ -18,6 +16,8 @@ namespace _1LineCrasher
 		[HarmonyPatch(nameof(DateTime.Update))]
 		public static class CommaToNumber
 		{
+
+			[HarmonyPrepare] public static bool Prepare() => Config.Instance.CycleComma;
 			public static void Postfix(DateTime __instance)
 			{
 				__instance.text.text = (GameClock.Instance.GetTimeInCycles() + 1).ToString("n3");
@@ -28,35 +28,47 @@ namespace _1LineCrasher
 		/// <summary>
 		/// make the entire grid space exposure
 		/// </summary>
-		//[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.InitSimZones))]
-		//public class SubworldZoneRenderData_InitSimZones_Patch
-		//{
-		//	//bytes is the sim zone type of the entire grid
-		//	public static void Prefix(SubworldZoneRenderData __instance, ref byte[] bytes)
-		//	{
-		//		Debug.Log("Making the entire grid space exposure");
-		//		for(int i = 0; i < bytes.Length; ++i)
-		//		{
-		//			bytes[i] = byte.MaxValue; //space exposure is defined as byte.max in the sim
-		//			__instance.worldZoneTypes[i] = ProcGen.SubWorld.ZoneType.Space;
-		//		}
-		//	}
-		//}
+		[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.InitSimZones))]
+		public class SubworldZoneRenderData_InitSimZones_Patch
+		{
+			//bytes is the sim zone type of the entire grid
+			[HarmonyPrepare] public static bool Prepare() => Config.Instance.VoidWorld;
+			public static void Prefix(SubworldZoneRenderData __instance, ref byte[] bytes)
+			{
+				Debug.Log("Making the entire grid space exposure");
+				for (int i = 0; i < bytes.Length; ++i)
+				{
+					bytes[i] = byte.MaxValue; //space exposure is defined as byte.max in the sim
+					__instance.worldZoneTypes[i] = ProcGen.SubWorld.ZoneType.Space;
+				}
+			}
+		}
 
-		//[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.GenerateTexture))]
-		//public class SubworldZoneRenderData_GenerateTexture_Patch
-		//{
-		//	public static void Prefix(SubworldZoneRenderData __instance)
-		//	{
+		[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.GenerateTexture))]
+		public class SubworldZoneRenderData_GenerateTexture_Patch
+		{
+			[HarmonyPrepare] public static bool Prepare() => Config.Instance.VoidWorld;
+			public static void Prefix(SubworldZoneRenderData __instance)
+			{
 
-		//		Debug.Log("Making the entire grid space exposure");
-		//		WorldDetailSave clusterDetailSave = SaveLoader.Instance.clusterDetailSave;
-		//		for(int i = 0; i < clusterDetailSave.overworldCells.Count; ++i)
-		//		{
-		//			clusterDetailSave.overworldCells[i].zoneType = ProcGen.SubWorld.ZoneType.Space;
-		//		}
-		//	}
-		//}
+				Debug.Log("Making the entire grid space exposure");
+				WorldDetailSave clusterDetailSave = SaveLoader.Instance.clusterDetailSave;
+				for (int i = 0; i < clusterDetailSave.overworldCells.Count; ++i)
+				{
+					clusterDetailSave.overworldCells[i].zoneType = ProcGen.SubWorld.ZoneType.Space;
+				}
+			}
+		}
+
+		[HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.PostProcess))]
+		public class BuildingConfigManager_RegisterBuilding_Patch
+		{
+			[HarmonyPrepare] public static bool Prepare() => !Mathf.Approximately(1, Config.Instance.EnergyMultiplier);
+			static void Postfix(BuildingDef __instance)
+			{
+				__instance.EnergyConsumptionWhenActive *= Config.Instance.EnergyMultiplier;
+			}
+		}
 
 		//[HarmonyPatch(typeof(CodexEntryGenerator))]
 		//[HarmonyPatch(nameof(CodexEntryGenerator.PopulateCategoryEntries))]

@@ -1,17 +1,12 @@
-﻿using HarmonyLib;
-using Klei.AI;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
 namespace ItemDropPrevention.Content.Scripts
 {
 
-	internal class DroppablesHolder : KMonoBehaviour
+	internal class DroppablesHolder : KMonoBehaviour, ISim33ms
 	{
 		[MyCmpReq] Storage internalStorage;
 		[MyCmpReq] KPrefabID kprefabID;
@@ -20,10 +15,11 @@ namespace ItemDropPrevention.Content.Scripts
 
 		StaminaMonitor.Instance staminaMonitor;
 		Narcolepsy narcolepsy;
-		bool hasStamina,hasNarcolepsy;
+		bool hasStamina, hasNarcolepsy;
 
 		static Dictionary<GameObject, DroppablesHolder> droppablesHolders = [];
 		HashSet<int> MarkedForDrop = [];
+		int handle = -1;
 
 		public override void OnSpawn()
 		{
@@ -32,13 +28,29 @@ namespace ItemDropPrevention.Content.Scripts
 			narcolepsy = this.GetSMI<Narcolepsy>();
 			hasStamina = staminaMonitor != null;
 			hasNarcolepsy = narcolepsy != null;
-			Subscribe((int)GameHashes.PathAdvanced, OnPathAdvanced);
+			handle = Subscribe((int)GameHashes.PathAdvanced, OnPathAdvanced);
 			droppablesHolders.Add(this.gameObject, this);
+			ExpellNonBatteries();
+		}
+		void ExpellNonBatteries()
+		{
+			var batteryMonitor = gameObject.GetSMI<BionicBatteryMonitor.Instance>();
+			if (batteryMonitor == null)
+				return;
+			var batteryStorage = batteryMonitor.storage;
+			List<Tag> batteryTags = [GameTags.ChargedPortableBattery, GameTags.DisposablePortableBattery, GameTags.EmptyPortableBattery];
+
+			for (int i = batteryStorage.Count - 1; i >= 0; i--)
+			{
+				var batteryItem = batteryStorage[i];
+				if (!batteryItem.HasAnyTags(batteryTags))
+					batteryStorage.Drop(batteryItem);
+			}
 		}
 		public override void OnCleanUp()
 		{
 			droppablesHolders.Remove(this.gameObject);
-			Unsubscribe((int)GameHashes.PathAdvanced, OnPathAdvanced);
+			Unsubscribe(handle);
 			base.OnCleanUp();
 		}
 
@@ -46,52 +58,80 @@ namespace ItemDropPrevention.Content.Scripts
 
 		bool InterruptedByCurrentChore(Chore chore)
 		{
-			if(hasStamina && staminaMonitor.IsSleeping())			
+			if (hasStamina && staminaMonitor.IsSleeping())
 				return true;
-			
-			if(hasNarcolepsy && narcolepsy.IsNarcolepsing())
+
+			if (hasNarcolepsy && narcolepsy.IsNarcolepsing())
 				return true;
 
 			if (chore == null)
 				return false;
 
-			if(chore is RecoverBreathChore)
+			if (chore is RecoverBreathChore)
 				return true;
 
 			return false;
 		}
-			
 
 		void OnPathAdvanced(object _)
+		{
+			DropMarkedItemsIfValid();
+		}
+
+		public void Sim33ms(float dt)
+		{
+			DropMarkedItemsIfValid();
+		}
+		public void ForceDropCheck()
+		{
+			DropMarkedItemsIfValid();
+		}
+		void RemoveItemFromDropList(int? id, GameObject item)
+		{
+			MarkItemInvisible(item.gameObject, false);
+			MarkedForDrop.Remove(id.Value);
+		}
+		void DropMarkedItemsIfValid()
 		{
 			if (!MarkedForDrop.Any())
 				return;
 
 			///dont drop when not above solid tile
+			//SgtLogger.l(this.GetProperName() + " in cell: " + Grid.PosToCell(this)+", can drop?: "+AboveSolidGround());
 			if (!AboveSolidGround())
 				return;
+
 
 			///dont drop in transit tube
 			if (kprefabID.HasTag(GameTags.InTransitTube))
 				return;
 
-			///if deliverable chunks of the current chore have merged into those marked for drop, prevent them from dropping
 			Chore currentChore = choreDriver.GetCurrentChore();
 
 			///exhaustion, narcolepsy, breath recovery
 			if (InterruptedByCurrentChore(currentChore))
 				return;
 
-			if (currentChore != null && currentChore is FetchAreaChore fac)
+			///if deliverable chunks of the current chore have merged into those marked for drop, prevent them from dropping
+			if (currentChore != null)
 			{
-				var fetchInstance = fac.smi;
-				var deliverables = fetchInstance.deliverables;
-				foreach (var item in deliverables)
+				if (currentChore is FetchAreaChore fac)
 				{
-					var id = item.gameObject?.GetInstanceID();
-					if (id.HasValue)
-						MarkedForDrop.Remove(id.Value);
+					var fetchInstance = fac.smi;
+					var deliverables = fetchInstance.deliverables;
+					foreach (var item in deliverables)
+					{
+						var id = item.gameObject?.GetInstanceID();
+						if (id.HasValue)
+						{
+							RemoveItemFromDropList(id, item.gameObject);
+						}
+					}
 				}
+				//if(currentChore.choreType == Db.Get().ChoreTypes.Relocate)
+				//{
+					
+				//}
 			}
 			///if the workable is something in the hands of the dupe, dont drop it
 			var task = worker.GetWorkable();
@@ -99,11 +139,15 @@ namespace ItemDropPrevention.Content.Scripts
 			{
 				var id = task.gameObject?.GetInstanceID();
 				if (id.HasValue)
-					MarkedForDrop.Remove(id.Value);
+				{
+					RemoveItemFromDropList(id, task.gameObject);
+				}
 			}
 
 
 			var items = internalStorage.items;
+
+			bool reWrangleCritters = Config.Instance.WrangleDroppedCritters;
 
 			for (int i = items.Count - 1; i >= 0; --i)
 			{
@@ -115,26 +159,69 @@ namespace ItemDropPrevention.Content.Scripts
 				if (MarkedForDrop.Contains(instanceID))
 				{
 					MarkItemInvisible(item, false);
-					internalStorage.Drop(item);
-
-					//if (item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable)
-					//{
-					//	markForSweep.MarkForClear();
-					//	if (item.TryGetComponent<Prioritizable>(out var prioritizable))
-					//		prioritizable.SetMasterPriority(new(PriorityScreen.PriorityClass.basic, 5));
-					//}
+					PostProcessDroppedItem(CenterInCell(internalStorage.Drop(item)), reWrangleCritters);
 				}
 			}
 			MarkedForDrop.Clear();
 		}
 
+		/// <summary>
+		/// Force the item position to be in the center of the cell
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		GameObject CenterInCell(GameObject item)
+		{
+			var middleOfCell = Grid.CellToPosCCC(Grid.PosToCell(this), Grid.SceneLayer.Ore);
+			item.transform.SetPosition(middleOfCell);
+			return item;
+		}
+
+		static void PostProcessDroppedItem(GameObject item, bool reWrangleCritters)
+		{
+			bool sweepDroppedItems_solid = Config.Instance.SweepDroppedItems_Solid;
+			bool sweepDroppedItems_liquid = Config.Instance.SweepDroppedItems_Liquid;
+			bool sweepDroppedItems_gas = Config.Instance.SweepDroppedItems_Gas;
+
+			if (!reWrangleCritters && !sweepDroppedItems_solid && !sweepDroppedItems_liquid && !sweepDroppedItems_gas)
+				return;
+
+			if (item.IsNullOrDestroyed()) return;
+
+			if (item.HasTag(GameTags.MarkedForMove)) return;
+
+			if (item.TryGetComponent<Capturable>(out var wrangleable) && wrangleable.IsCapturable())
+			{
+				if (reWrangleCritters)
+					wrangleable.MarkForCapture(true);
+			}
+			else if (item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable && markForSweep.TryGetComponent<PrimaryElement>(out var primaryElement))
+			{
+
+
+				if (primaryElement.Element.IsGas && sweepDroppedItems_gas ||
+					primaryElement.Element.IsLiquid && sweepDroppedItems_liquid ||
+					primaryElement.Element.IsSolid && sweepDroppedItems_solid
+					)
+					markForSweep.MarkForClear(true);
+			}
+		}
+
 		void MarkItemInvisible(GameObject item, bool setInvis)
 		{
+			//SgtLogger.l($"{(setInvis?"Marking":"Unmarking")} {item} as invisible");
 			if (item.TryGetComponent<Pickupable>(out var pickupable))
 			{
 				pickupable.prevent_absorb_until_stored = setInvis;
 				if (setInvis)
 					pickupable.ClearReservations();
+			}
+			if (item.TryGetComponent<KPrefabID>(out var prefabID))
+			{
+				if (setInvis)
+					prefabID.AddTag(ModAssets.BlockedFromDoingStuff);
+				else
+					prefabID.RemoveTag(ModAssets.BlockedFromDoingStuff);
 			}
 		}
 
@@ -144,13 +231,25 @@ namespace ItemDropPrevention.Content.Scripts
 			if (!Grid.IsValidCell(cell))  //should never happen, but check anyway
 				return false;
 
+			if (Grid.HasDoor[cell]) //dont drop inside of doors
+				return false;
+
 			var floorCell = Grid.CellBelow(cell);
 			if (!Grid.IsValidCell(floorCell))
 				return false;
 
-			bool isSolidGround = Grid.Solid[floorCell];
-			//SgtLogger.l("cell "+floorCell + " is solid? " + isSolidGround);
-			return isSolidGround;
+			bool isSolidGround = Grid.IsSolidCell(floorCell);
+
+			if (isSolidGround)
+				return true;
+
+			//check for 1 dropheight
+			int cellBelowFloorCell = Grid.CellBelow(floorCell);
+
+			if (!Grid.IsValidCell(cellBelowFloorCell))
+				return false;
+
+			return Grid.IsSolidCell(cellBelowFloorCell);
 		}
 
 		internal void MarkAllItemsForDrop()
@@ -163,28 +262,33 @@ namespace ItemDropPrevention.Content.Scripts
 
 		void MarkForDrop(GameObject gameObject)
 		{
-			if (gameObject == null)
+			SgtLogger.l($"Marking {gameObject} as drop later");
+			if (gameObject.IsNullOrDestroyed())
 				return;
 			MarkedForDrop.Add(gameObject.GetInstanceID());
 			MarkItemInvisible(gameObject, true);
 		}
 		void UnmarkForDrop(GameObject gameObject)
 		{
-			if (gameObject == null)
+			SgtLogger.l($"Unarking {gameObject} as drop later");
+			if (gameObject.IsNullOrDestroyed())
 				return;
 			MarkedForDrop.Remove(gameObject.GetInstanceID());
 			MarkItemInvisible(gameObject, false);
 		}
 
+
 		internal bool IsItemMarkedForDrop(GameObject gameObject)
 		{
-			if(gameObject == null)
+			if (gameObject == null)
 				return false;
 			return MarkedForDrop.Contains(gameObject.GetInstanceID());
 		}
 
+		//too buggy with loops
 		internal Pickupable FindFetchTargetFromDroppables(FetchChore chore, ChoreConsumerState consumer_state)
 		{
+			return null;
 			foreach (var item in internalStorage.items)
 			{
 				if (!IsItemMarkedForDrop(item.gameObject))
@@ -195,12 +299,17 @@ namespace ItemDropPrevention.Content.Scripts
 				{
 					continue;
 				}
-
+				if (!item.TryGetComponent<KPrefabID>(out var prefabID))
+				{
+					continue;
+				}
+				prefabID.RemoveTag(ModAssets.BlockedFromDoingStuff);
 				if (FetchManager.IsFetchablePickup(pickupable, chore, consumer_state.storage))
 				{
 					UnmarkForDrop(item);
-					return pickupable;					
+					return pickupable;
 				}
+				prefabID.AddTag(ModAssets.BlockedFromDoingStuff);
 			}
 			return null;
 		}

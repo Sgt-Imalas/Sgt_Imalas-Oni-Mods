@@ -1,13 +1,10 @@
-﻿using PeterHan.PLib.Options;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Descriptors;
-using System;
+using Steamworks;
+using STRINGS;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -30,10 +27,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 		public float BaseFridgeMultiplier => GetWattage() / 120f;
 
 		public PortDisplayInput WaterConsumer = new(ConduitType.Liquid, new CellOffset(1, 0));
+		public PortDisplayInput SterileGasConsumer = new(ConduitType.Gas, new CellOffset(0, 2));
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER0;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "advanced_techfridge_kanim", 30, 30f, [700, 100], [GameTags.RefinedMetal.ToString(), GameTags.Plastic.ToString()], 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.BONUS.TIER1, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "advanced_techfridge_kanim", 30, 30f, [700, 2], [GameTags.RefinedMetal.ToString(), GameTags.BuildingGasket.ToString()], 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.BONUS.TIER1, noise);
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = GetWattage();
 			buildingDef.AddLogicPowerPort = false;
@@ -58,6 +56,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			SoundEventVolumeCache.instance.AddVolume("advanced_techfridge_kanim", "Refrigerator_open", NOISE_POLLUTION.NOISY.TIER1);
 			SoundEventVolumeCache.instance.AddVolume("advanced_techfridge_kanim", "Refrigerator_close", NOISE_POLLUTION.NOISY.TIER1);
 			SoundUtils.CopySoundsToAnim("advanced_techfridge_kanim", "smartstoragelocker_kanim");
+			buildingDef.AddSearchTerms((string)SEARCH_TERMS.FRIDGE);
 			return buildingDef;
 		}
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
@@ -73,7 +72,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.Refrigerator, false);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.KitchenRefrigerator, false);
 			Storage storage = go.AddOrGet<Storage>();
 			storage.showInUI = true;
 			storage.showDescriptor = true;
@@ -84,16 +83,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
 			storage.showCapacityStatusItem = true;
 			Prioritizable.AddRef(go);
-			go.AddOrGet<TreeFilterable>();
+			go.AddOrGet<TreeFilterable>().allResourceFilterLabelString = (string)UI.UISIDESCREENS.TREEFILTERABLESIDESCREEN.ALLBUTTON_EDIBLES;
 			go.AddOrGet<FoodStorage>();
 			go.AddOrGet<Refrigerator>();
 			RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
 			def.powerSaverEnergyUsage = GetWattage() / 6f;
 			def.coolingHeatKW = 0.375f * BaseFridgeMultiplier;
 			def.steadyHeatKW = 0f;
-			def.simulatedInternalHeatCapacity = 1000f;
+			//def.simulatedInternalHeatCapacity = 1000f;
 			def.simulatedInternalTemperature = 252.15f;
-			def.simulatedThermalConductivity = 10000f;
+			//def.simulatedThermalConductivity = 10000f;
 			go.AddOrGet<UserNameable>();
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
@@ -126,12 +125,34 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			//waterInput.alwaysConsume = true;
 			waterInput.capacityKG = liquidStorage.capacityKg;
 			waterInput.AssignPort(WaterConsumer);
-			AttachPort(go);
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
 
-			PreciseStorageControl.AddComponent(go);
-			HysteresisStorage.AddComponent(go);
+			if (Config.Instance.DupesRefrigeration_SterileAtmospherePort)
+			{
+				///sterile gas storage
+				float consumptionRate = Config.Instance.DupesRefrigeration_SterileAtmosphereConsumption / 1000f;
 
+				Storage gasStorage = BuildingTemplates.CreateDefaultStorage(go, true);
+				gasStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+				//liquidStorage.showDescriptor = true;
+				gasStorage.capacityKg = consumptionRate * 600 * 2; //2 days of buffer
+				gasStorage.name = "SterilizerGasStorage";
+
+				PortConduitConsumer gasInputPort = go.AddComponent<PortConduitConsumer>();
+				gasInputPort.storage = gasStorage;
+				gasInputPort.conduitType = ConduitType.Gas;
+				gasInputPort.ignoreMinMassCheck = true;
+				gasInputPort.forceAlwaysSatisfied = true;
+				gasInputPort.SkipSetOperational = true;
+				gasInputPort.capacityTag = ModAssets.Tags.AIO_SterileAtmosphere;
+				gasInputPort.capacityKG = gasStorage.capacityKg;
+				gasInputPort.AssignPort(SterileGasConsumer);
+				var atmosphereController = go.AddOrGet<FridgeAtmosphereController>();
+				atmosphereController.FoodStorage = storage;
+				atmosphereController.GasStorage = gasStorage;
+			}
+			AttachPort(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 		}
 		private void AttachPort(GameObject go)
 		{
@@ -139,6 +160,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			controller.Init(go);
 
 			controller.AssignPort(go, WaterConsumer);
+			if (Config.Instance.DupesRefrigeration_SterileAtmospherePort)
+				controller.AssignPort(go, SterileGasConsumer);
 		}
 	}
 }

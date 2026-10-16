@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs;
-using static STRINGS.UI.SPACEDESTINATIONS;
+﻿using System.Linq;
 
 namespace RotatableRadboltStorage
 {
@@ -24,7 +18,7 @@ namespace RotatableRadboltStorage
 			Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
 			base.OnCleanUp();
 		}
-		void OnLogicValueChanged(object data)
+		void OnLogicValueChanged(object _)
 		{
 			if (logicPorts.inputPortInfo == null || !logicPorts.inputPortInfo.Any())
 				return;
@@ -32,7 +26,7 @@ namespace RotatableRadboltStorage
 			var firstInputPort = logicPorts.inputPortInfo.First();
 			HashedString portId = firstInputPort.id;
 
-			if (!logicPorts.IsPortConnected(portId) ||logicPorts.GetConnectedWireBitDepth(portId) != LogicWire.BitDepth.FourBit)
+			if (!logicPorts.IsPortConnected(portId) || logicPorts.GetConnectedWireBitDepth(portId) != LogicWire.BitDepth.FourBit)
 				return;
 
 			int portValue = logicPorts.GetInputValue(firstInputPort.id);

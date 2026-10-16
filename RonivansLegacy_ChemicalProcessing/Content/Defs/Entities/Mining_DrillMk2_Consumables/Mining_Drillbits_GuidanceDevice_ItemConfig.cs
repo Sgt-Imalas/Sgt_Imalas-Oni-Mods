@@ -1,14 +1,8 @@
 ﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static ResearchTypes;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
 
 namespace Mineral_Processing_Mining.Buildings
 {
@@ -27,7 +21,14 @@ namespace Mineral_Processing_Mining.Buildings
 		public static Tag SoftStratumTag = TagManager.Create(ProgrammedPrefix + "soft_stratum");
 
 
-		public static List<Tag> ProgrammedGuidanceModules = [AquiferTag, CryosphereTag, HardStratumTag, MantleTag, OilReservesTag, SoftStratumTag];
+		//frosty
+		public static Tag DLC2_StratumTag = TagManager.Create(ProgrammedPrefix + "dlc2");
+		//prehistoric
+		public static Tag DLC4_StratumTag = TagManager.Create(ProgrammedPrefix + "dlc4");
+		//aquatic
+		public static Tag DLC5_StratumTag = TagManager.Create(ProgrammedPrefix + "dlc5");
+
+		public static List<Tag> ProgrammedGuidanceModules = [AquiferTag, CryosphereTag, HardStratumTag, MantleTag, OilReservesTag, SoftStratumTag, DLC2_StratumTag, DLC4_StratumTag, DLC5_StratumTag];
 
 
 		public GameObject CreatePrefab(string id = null)
@@ -59,6 +60,9 @@ namespace Mineral_Processing_Mining.Buildings
 			go.AddComponent<ProgrammableGuidanceModule>();
 			go.AddOrGet<Prioritizable>();
 			Prioritizable.AddRef(go);
+
+			if (!Config.Instance.MineralProcessing_Mining_Enabled)
+				ModAssets.HideFromCodex(go);
 			return go;
 		}
 
@@ -86,7 +90,7 @@ namespace Mineral_Processing_Mining.Buildings
 
 		internal static string GetTargetNameKey(Tag programmable)
 		{
-			string targetID = programmable.ToString().Replace(ProgrammedPrefix, "");
+			string targetID = programmable.ToString().Replace(ProgrammedPrefix, string.Empty);
 			return ("STRINGS.UI.MINING_SMART_DRILL_LOCATIONS." + targetID.ToUpperInvariant());
 		}
 		public static string GetTargetName(Tag programmable) => Strings.Get(GetTargetNameKey(programmable));

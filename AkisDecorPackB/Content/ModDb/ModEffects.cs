@@ -1,0 +1,32 @@
+﻿using UtilLibs;
+
+namespace AkisDecorPackB.Content.ModDb
+{
+	internal class ModEffects
+	{
+		public const string INSPIRED_LOW = "DecorpackB_Inspired_Low";
+		public const string INSPIRED_OKAY = "DecorpackB_Inspired_Okay";
+		public const string INSPIRED_GREAT = "DecorpackB_Inspired_Great";
+		public const string INSPIRED_GIANT = "DecorpackB_Inspired_Giant";
+		public const float INSPIRED_DURATION = 60f;
+
+		public static void Register()
+		{
+			var db = Db.Get();
+			var learning = db.Attributes.Learning.Id;
+
+			new EffectBuilder(INSPIRED_LOW, INSPIRED_DURATION, false)
+				.Modifier(learning, 1)
+				.Add(db, out _);
+
+			new EffectBuilder(INSPIRED_OKAY, INSPIRED_DURATION, false)
+				.Modifier(learning, 2).Add(db, out _);
+
+			new EffectBuilder(INSPIRED_GREAT, INSPIRED_DURATION, false)
+				.Modifier(learning, 4).Add(db, out _);
+
+			new EffectBuilder(INSPIRED_GIANT, 600f, false)
+				.Modifier(learning, 6).Add(db, out _);
+		}
+	}
+}

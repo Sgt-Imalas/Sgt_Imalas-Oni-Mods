@@ -1,64 +1,82 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
-using Rockets_TinyYetBig.Buildings.Engines;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using Rockets_TinyYetBig.NonRocketBuildings;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
 	internal class CraftModuleInterface_Patches
 	{
-		[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.FuelRemaining), MethodType.Getter)]
-		public static class FuelRemaining_Patch
+
+		[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.HasCargoModule), MethodType.Getter)]
+		public class CraftModuleInterface_HasCargoModule_Patch
 		{
-			/// <summary>
-			/// for electric engines, check battery capacity and convert to fuel kg
-			/// </summary>
-			/// <param name="__instance"></param>
-			/// <param name="__result"></param>
-			public static void Postfix(CraftModuleInterface __instance, ref float __result)
+			public static void Postfix(CraftModuleInterface __instance, ref bool __result)
 			{
-				if (__result == 0f)
-				{
+				if (__result)
 					return;
-				}
-				float totalBatteryJoules = 0f;
-				ElectricEngineCluster targetEngine = null;
-				foreach (Ref<RocketModuleCluster> clusterModule in __instance.clusterModules)
+
+				foreach (Ref<RocketModuleCluster> clusterModule in __instance.ClusterModules)
 				{
-					var md = clusterModule.Get();
-					if (targetEngine == null && md.TryGetComponent<ElectricEngineCluster>(out var eng))
+					if (clusterModule.Get().TryGetComponent<MultiMaterialCargoBay>(out _))
 					{
-						targetEngine = eng;
-					}
-					if (md.TryGetComponent<ModuleBattery>(out var battery))
-					{
-						totalBatteryJoules += battery.JoulesAvailable;
+						__result = true;
+						break;
 					}
 				}
-				if (targetEngine == null || !targetEngine.TryGetComponent<RocketModuleCluster>(out var module))
-				{
-					return;
-				}
 
-				float hexesRemaining_electricity = totalBatteryJoules / targetEngine.Joules_Per_Hex;
-				//SgtLogger.l("TotalBatteryJoules: " + totalBatteryJoules);
-				//SgtLogger.l("hexes : " + hexesRemaining_electricity);
-				float fuelPerHex = module.performanceStats.fuelKilogramPerDistance;
-				float remainingElectricity = hexesRemaining_electricity * fuelPerHex * 600f;
-				//SgtLogger.l("remaining electricity : " + remainingElectricity);
-
-				__result = Mathf.Min(__result, remainingElectricity);
 			}
 		}
+
+
+		//[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.FuelRemaining), MethodType.Getter)]
+		//public static class FuelRemaining_Patch
+		//{
+		//	/// <summary>
+		//	/// for electric engines, check battery capacity and convert to fuel kg
+		//	/// </summary>
+		//	/// <param name="__instance"></param>
+		//	/// <param name="__result"></param>
+		//	public static void Postfix(CraftModuleInterface __instance, ref float __result)
+		//	{
+		//		if (__result == 0f)
+		//		{
+		//			return;
+		//		}
+		//		float totalBatteryJoules = 0f;
+		//		ElectricEngineCluster targetEngine = null;
+		//		foreach (Ref<RocketModuleCluster> clusterModule in __instance.clusterModules)
+		//		{
+		//			var md = clusterModule.Get();
+		//			if (targetEngine == null && md.TryGetComponent<ElectricEngineCluster>(out var eng))
+		//			{
+		//				targetEngine = eng;
+		//			}
+		//			if (md.TryGetComponent<ModuleBattery>(out var battery))
+		//			{
+		//				totalBatteryJoules += battery.JoulesAvailable;
+		//			}
+		//		}
+		//		if (targetEngine == null || !targetEngine.TryGetComponent<RocketModuleCluster>(out var module))
+		//		{
+		//			return;
+		//		}
+
+		//		float hexesRemaining_electricity = totalBatteryJoules / targetEngine.Joules_Per_Hex;
+		//		//SgtLogger.l("TotalBatteryJoules: " + totalBatteryJoules);
+		//		//SgtLogger.l("hexes : " + hexesRemaining_electricity);
+		//		float fuelPerHex = module.performanceStats.fuelKilogramPerDistance;
+		//		float remainingElectricity = hexesRemaining_electricity * fuelPerHex * 600f;
+		//		//SgtLogger.l("remaining electricity : " + remainingElectricity);
+
+		//		__result = Mathf.Min(__result, remainingElectricity);
+		//	}
+		//}
 		[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.EvaluateConditionSet))]
 		public class CraftModuleInterface_EvaluateConditionSet_Patch
 		{

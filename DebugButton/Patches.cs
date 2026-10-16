@@ -1,5 +1,10 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -8,6 +13,36 @@ namespace DebugButton
 {
 	internal class Patches
 	{
+		static bool isAppleSilicon => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+		static bool triedInitTraverse = false;
+		static bool traverseSuccessful = false;
+		public static Traverse f_showImGui;
+
+		public static bool ShowImGui => traverseSuccessful && f_showImGui.GetValue<bool>();
+
+		static void InitTraverse()
+		{
+			if (triedInitTraverse)
+				return;
+			triedInitTraverse = true;
+
+			var devToolManager = AccessTools.TypeByName("DevToolManager");
+			try
+			{
+				if (devToolManager != null)
+				{
+					var instance = devToolManager.Field("Instance").GetValue(null);
+					f_showImGui = Traverse.Create(instance).Field("showImGui");
+				}
+			}
+			catch (Exception ex)
+			{
+				SgtLogger.warning("Could not init dev tools:\n"+ex.Message);
+			}
+			traverseSuccessful = f_showImGui != null;
+		}
+
 
 		public static DebugHandler _debugHandler;
 		[HarmonyPatch(typeof(TopLeftControlScreen))]
@@ -15,14 +50,22 @@ namespace DebugButton
 		public static class Add_Debug_Button
 		{
 			static SpeedButtonRefresher SpeedRefresherLogic;
+			static DevToolsButtonRefresher DevToolsButtonRefresher;
 			static MultiToggle DebugInstaBuildButton = null;
 			static MultiToggle DebugSuperSpeeButton = null;
 			static MultiToggle DebugToggleButton = null;
 			static ToolTip DebugInstaBuildButtonTooltip = null;
 			static ToolTip DebugSuperSpeedButtonTooltip = null;
+			static MultiToggle DevToolsButton = null;
+			static ToolTip DevToolsButtonTooltip = null;
+			static Image bugImage = null;
+			static Sprite bugOn, bugOff;
 
 			public static void UpdateDebugToggleState()
 			{
+				if (DevToolsButtonRefresher != null)
+					DevToolsButtonRefresher.RefreshToggleState();
+
 				if (SpeedRefresherLogic != null)
 				{
 					SpeedRefresherLogic.RefreshToggleState();
@@ -48,18 +91,36 @@ namespace DebugButton
 						}
 					}
 				}
-
 				if (DebugToggleButton != null)
 				{
 					if (DebugHandler.enabled)
 					{
 						DebugToggleButton.ChangeState(2);
+						bugImage.sprite = bugOn;
 					}
 					else
 					{
 						DebugToggleButton.ChangeState(1);
+						bugImage.sprite = bugOff;
 					}
 				}
+			}
+
+
+			public static void OnClickDevToolsToggle()
+			{
+				if (!DebugHandler.enabled)
+				{
+					KMonoBehaviour.PlaySound(GlobalAssets.GetSound("Negative"));
+				}
+				else
+				{
+					SgtLogger.l("Dev toggle clicked");
+
+					if (traverseSuccessful)
+						f_showImGui.SetValue(!f_showImGui.GetValue<bool>());
+				}
+				UpdateDebugToggleState();
 			}
 			public static void OnClickSuperSpeedToggle()
 			{
@@ -82,7 +143,7 @@ namespace DebugButton
 					{
 						Time.timeScale = 30f;
 					}
-					else if(!isOn && SpeedControlScreen.Instance != null)
+					else if (!isOn && SpeedControlScreen.Instance != null)
 					{
 						SpeedControlScreen.Instance.OnChanged();
 					}
@@ -133,6 +194,26 @@ namespace DebugButton
 
 			public static void Postfix(TopLeftControlScreen __instance)
 			{
+				//var isArm = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
+				//var isOSX = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+				//var isAppleSilicon = isOSX;
+
+				InitTraverse();
+				if (!isAppleSilicon)
+				{
+					var devToolsButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
+					//UIUtils.ListAllChildrenWithComponents(debugButton);
+					devToolsButton.SetSiblingIndex(__instance.sandboxToggle.transform.GetSiblingIndex() + 1);
+					devToolsButton.Find("FG").GetComponent<Image>().sprite = Assets.GetSprite("action_repair");
+					devToolsButton.Find("Label").GetComponent<LocText>().text = STRINGS.UI.TOOLS.DEV_TOOLS.NAME;
+					devToolsButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
+					devToolsButton.TryGetComponent<MultiToggle>(out DevToolsButton);
+					devToolsButton.TryGetComponent<ToolTip>(out DevToolsButtonTooltip);
+					DevToolsButtonRefresher = devToolsButton.gameObject.AddOrGet<DevToolsButtonRefresher>();
+					DevToolsButton.onClick = (System.Action)Delegate.Combine(DevToolsButton.onClick, new System.Action(OnClickDevToolsToggle));
+				}
+				else
+					SgtLogger.l("IOS version detected, skipping dev tools button");
 
 				var debugTimeButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
 				//UIUtils.ListAllChildrenWithComponents(debugButton);
@@ -160,7 +241,13 @@ namespace DebugButton
 				var debugButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
 				//UIUtils.ListAllChildrenWithComponents(debugButton);
 				debugButton.SetSiblingIndex(__instance.sandboxToggle.transform.GetSiblingIndex() + 1);
-				debugButton.Find("FG").GetComponent<Image>().sprite = Def.GetUISprite(Assets.GetPrefab("LightBug")).first;
+				bugImage =  debugButton.Find("FG").GetComponent<Image>();
+
+
+				bugOn = Def.GetUISprite(Assets.GetPrefab("LightBug")).first;
+				bugOff = Def.GetUISprite(Assets.GetPrefab("LightBugBlack")).first;
+
+				bugImage.sprite = bugOn;
 				debugButton.Find("Label").GetComponent<LocText>().text = STRINGS.UI.TOOLS.DEBUG_TOGGLE.NAME;
 				debugButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
 				debugButton.TryGetComponent<MultiToggle>(out DebugToggleButton);
@@ -168,6 +255,15 @@ namespace DebugButton
 				tt.SetSimpleTooltip(STRINGS.UI.TOOLS.DEBUG_TOGGLE.TOOLTIP_TOGGLE);
 				DebugToggleButton.onClick = (System.Action)Delegate.Combine(DebugToggleButton.onClick, new System.Action(OnClickDebugToggle));
 
+                if (Config.Instance.DisableWhenSandboxOff)
+                {
+                    Game.Instance.Subscribe((int)GameHashes.ToggleSandbox, delegate
+                    {
+                        RefreshVisibility();
+                        UpdateDebugToggleState();
+                    });
+                }
+                RefreshVisibility();
 
 				Game.Instance.Subscribe((int)GameHashes.DebugInsantBuildModeChanged, delegate
 				{
@@ -175,6 +271,25 @@ namespace DebugButton
 				});
 				UpdateDebugToggleState();
 			}
+          
+            private static void RefreshVisibility()
+            {
+                if (Config.Instance.DisableWhenSandboxOff)
+                {
+                    var isOff = !Game.Instance.sandboxModeActive;
+                    if (isOff)
+                    {
+                        SetSuperSpeed(false);
+                        ToggleInstaBuild(true);
+                        DebugHandler.SetDebugEnabled(false);
+                    }
+                    
+                    DebugToggleButton.gameObject.SetActive(!isOff);
+                    DebugInstaBuildButton.gameObject.SetActive(!isOff);
+                    DebugSuperSpeeButton.gameObject.SetActive(!isOff);
+                    DevToolsButton.gameObject.SetActive(!isOff);
+                }
+            }
 		}
 
 		[HarmonyPatch(typeof(TopLeftControlScreen))]
@@ -225,5 +340,24 @@ namespace DebugButton
 
 		//public static string bugIconName = "no_bugs_instabuild_icon";
 
+		[HarmonyPatch]
+		public static class ImGui_Patch
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => FindMethod() != null;
+			[HarmonyTargetMethod]
+			public static MethodBase FindMethod()
+			{
+				var targetType = AccessTools.TypeByName("KImGuiUtil");
+				return AccessTools.Method(targetType, "SetKAssertCB");
+			}
+
+			[UsedImplicitly]
+			[HarmonyTranspiler]
+			public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> orig)
+			{
+				return new[] { new CodeInstruction(OpCodes.Ret) };
+			}
+		}
 	}
 }

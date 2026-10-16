@@ -2,12 +2,8 @@
 using Klei.CustomSettings;
 using ProcGen;
 using System.IO;
-using static STRINGS.INPUT_BINDINGS;
-using UnityEngine.Networking;
 using ProcGenGame;
 using System.Linq;
-using System.Collections.Generic;
-using System.Numerics;
 
 namespace _WorldGenStateCapture
 {

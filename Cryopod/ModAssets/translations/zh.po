@@ -1,0 +1,194 @@
+#. Energy Saving Mode
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTATTEMPERATURE.NAME"
+msgid "Energy Saving Mode"
+msgstr "节能模式"
+
+#. Fully cooled down, this buiding has entered energy saving mode.
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTATTEMPERATURE.TOOLTIP"
+msgid "Fully cooled down, this buiding has entered energy saving mode."
+msgstr "完全冷却后，该建筑已进入节能模式。"
+
+#. Warning, Duplicant is thawing improperly
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTCRYODAMAGE.NAME"
+msgid "Warning, Duplicant is thawing improperly"
+msgstr "警告：复制人解冻异常"
+
+#. When this duplicant thaws fully, it won't have a good time.
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTCRYODAMAGE.TOOLTIP"
+msgid "When this duplicant thaws fully, it won't have a good time."
+msgstr "当这名复制人完全解冻时，它可不会好受。"
+
+#. The Duplicant is in a healthy condition
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHGOOD"
+msgid "The Duplicant is in a healthy condition"
+msgstr "该复制人状况健康"
+
+#. Healthy
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHGOODNAME"
+msgid "Healthy"
+msgstr "健康"
+
+#. The Duplicant has suffered extreme amounts of cell damage and will die if thawed
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHINCAPACITATE"
+msgid "The Duplicant has suffered extreme amounts of cell damage and will die if thawed"
+msgstr "该复制人遭受了极大量的细胞损伤，解冻后会死亡"
+
+#. Critical
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHINCAPACITATENAME"
+msgid "Critical"
+msgstr "危急"
+
+#. The Duplicant has suffered major damage due to malfunctions!
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHMAJORDAMAGE"
+msgid "The Duplicant has suffered major damage due to malfunctions!"
+msgstr "该复制人因故障遭受了严重损伤！"
+
+#. Severe Wounds
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHMAJORDAMAGENAME"
+msgid "Severe Wounds"
+msgstr "严重创伤"
+
+#. The Duplicant has suffered minor damage due to malfunctions.
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHSOMEDAMAGE"
+msgid "The Duplicant has suffered minor damage due to malfunctions."
+msgstr "该复制人因故障遭受了轻微损伤。"
+
+#. Light Wounds
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHSOMEDAMAGENAME"
+msgid "Light Wounds"
+msgstr "轻伤"
+
+#. Cryogenic Healthyness: {DupeHealthState}
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.NAME"
+msgid "Cryogenic Healthyness: {DupeHealthState}"
+msgstr "低温健康度：{DupeHealthState}"
+
+#. {DupeHealthStateTooltip}
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.TOOLTIP"
+msgid "{DupeHealthStateTooltip}"
+msgstr "{DupeHealthStateTooltip}"
+
+#. The Dupe is at {InternalTemperature}.
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTINTERNALTEMPERATURE.NAME"
+msgid "The Dupe is at {InternalTemperature}."
+msgstr "复制人处于 {InternalTemperature}。"
+
+#. Cryogenic process cools down the body for preservation.
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTINTERNALTEMPERATURE.TOOLTIP"
+msgid "Cryogenic process cools down the body for preservation."
+msgstr "低温处理会冷却身体以进行保存。"
+
+#. Duplicant in cryogenic sleep: {DupeName}
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTNAMESTATUS.NAME"
+msgid "Duplicant in cryogenic sleep: {DupeName}"
+msgstr "处于低温睡眠的复制人：{DupeName}"
+
+#. {DupeName} takes a cool nap.
+msgctxt "Cryopod.STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTNAMESTATUS.TOOLTIP"
+msgid "{DupeName} takes a cool nap."
+msgstr "{DupeName}小睡了一会儿。"
+
+#. Defrost stored Friend
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTON"
+msgid "Defrost stored Friend"
+msgstr "解冻存储的朋友"
+
+#. Cancel Defrosting
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTONCANCEL"
+msgid "Cancel Defrosting"
+msgstr "取消解冻"
+
+#. Unfreeze the duplicant stored here.
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTONTOOLTIP"
+msgid "Unfreeze the duplicant stored here."
+msgstr "解冻存放在这里的复制人。"
+
+#. A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DESC"
+msgid "A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it."
+msgstr "这种设计发现于一处古老设施，你的复制人几乎完美地复刻了它。"
+
+#. Can store 1 Duplicant.    Heats up during freezing.  Cools down during thawing.
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.EFFECT"
+msgid "Can store 1 Duplicant.\n\nHeats up during freezing.\nCools down during thawing."
+msgstr "可存储 1 名复制人。\n\n冷冻时会升温。\n解冻时会降温。"
+
+#. Thaw Duplicant
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT"
+msgid "Thaw Duplicant"
+msgstr "解冻复制人"
+
+#. <b><style="logic_on">Green Signal</style></b>: Triggers the thawing process.
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT_ACTIVE"
+msgid "<b><style=\"logic_on\">Green Signal</style></b>: Triggers the thawing process."
+msgstr "<b><style=\"logic_on\">绿色信号</style></b>：触发解冻过程。"
+
+#. <b><style="logic_off">Red Signal</style></b>: Does nothing
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT_INACTIVE"
+msgid "<b><style=\"logic_off\">Red Signal</style></b>: Does nothing"
+msgstr "<b><style=\"logic_off\">红色信号</style></b>：无效果"
+
+#. <link="CRYBUILDABLECRYOTANK">Cryotank 4000</link>
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.NAME"
+msgid "<link=\"CRYBUILDABLECRYOTANK\">Cryotank 4000</link>"
+msgstr "<link=\"CRYBUILDABLECRYOTANK\">低温舱4000</link>"
+
+#. A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANKLIQUID.DESC"
+msgid "A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it."
+msgstr "这种设计发现于一处古老设施，你的复制人几乎完美地复刻了它。"
+
+#. Can store 1 Duplicant.    Heats up during freezing.  Cools down during thawing.    Exchanges temperature with the liquid pumped through.
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANKLIQUID.EFFECT"
+msgid "Can store 1 Duplicant.\n\nHeats up during freezing.\nCools down during thawing.\n\nExchanges temperature with the liquid pumped through."
+msgstr "可存储 1 名复制人。\n\n冷冻时会升温。\n解冻时会降温。\n\n与泵入的液体交换温度。"
+
+#. <link="CRYBUILDABLECRYOTANKLIQUID">Cryotank 5000</link>
+msgctxt "Cryopod.STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANKLIQUID.NAME"
+msgid "<link=\"CRYBUILDABLECRYOTANKLIQUID\">Cryotank 5000</link>"
+msgstr "<link=\"CRYBUILDABLECRYOTANKLIQUID\">低温舱5000</link>"
+
+#. Cryopod Analysis
+msgctxt "Cryopod.STRINGS.CRYOPODRESEARCHTYPE.NAME"
+msgid "Cryopod Analysis"
+msgstr "低温舱分析"
+
+#. Analyzing gravitas cryopods yields new knowledge.
+msgctxt "Cryopod.STRINGS.CRYOPODRESEARCHTYPE.RECIPEDESC"
+msgid "Analyzing gravitas cryopods yields new knowledge."
+msgstr "分析格拉维塔斯低温舱可获得新知识。"
+
+#. After a botched thawing process, this dupe will take time to feel normal again.
+msgctxt "Cryopod.STRINGS.DISEASES.CRYOSICKNESS.DESCRIPTION"
+msgid "After a botched thawing process, this dupe will take time to feel normal again."
+msgstr "在搞砸的解冻过程之后，这个复制人需要一段时间才能恢复正常。"
+
+#. A lot of cells got pierced by a non standard cryopod thawing.
+msgctxt "Cryopod.STRINGS.DISEASES.CRYOSICKNESS.DESCRIPTIVE_SYMPTOMS"
+msgid "A lot of cells got pierced by a non standard cryopod thawing."
+msgstr "非标准的低温休眠舱解冻过程刺穿了许多细胞。"
+
+#. Cryo Sickness
+msgctxt "Cryopod.STRINGS.DISEASES.CRYOSICKNESS.NAME"
+msgid "Cryo Sickness"
+msgstr "低温病"
+
+#. <link="FORCETHAWED">Cryo Sickness</link>
+msgctxt "Cryopod.STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.NAME"
+msgid "<link=\"FORCETHAWED\">Cryo Sickness</link>"
+msgstr "<link=\"FORCETHAWED\">冷冻病</link>"
+
+#. Being forcefully thawed, this Duplicant does not have a good time.
+msgctxt "Cryopod.STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.TOOLTIP"
+msgid "Being forcefully thawed, this Duplicant does not have a good time."
+msgstr "被强行解冻，这名复制人感觉不太好。"
+
+#. Unlocked by investigating ancient artifacts left behind.  Enables freezing your Duplicants in cryosleep.
+msgctxt "Cryopod.STRINGS.RESEARCH.TECHS.FROSTEDDUPERESEARCH.DESC"
+msgid "Unlocked by investigating ancient artifacts left behind.\nEnables freezing your Duplicants in cryosleep."
+msgstr "通过研究遗留下来的远古遗物解锁。\n可让复制人进入冷冻休眠。"
+
+#. <link="FROSTEDDUPERESEARCH">Cryogenics</link>
+msgctxt "Cryopod.STRINGS.RESEARCH.TECHS.FROSTEDDUPERESEARCH.NAME"
+msgid "<link=\"FROSTEDDUPERESEARCH\">Cryogenics</link>"
+msgstr "<link=\"FROSTEDDUPERESEARCH\">低温学</link>"

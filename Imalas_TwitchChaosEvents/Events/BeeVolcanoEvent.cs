@@ -134,7 +134,7 @@ namespace Imalas_TwitchChaosEvents.Events
 				var go = GameUtil.KInstantiate(global::Assets.GetPrefab(BeeGeyserConfig.ID), CellToPos(cell), Grid.SceneLayer.Building);
 				go.SetActive(true);
 
-				ONITwitchLib.ToastManager.InstantiateToastWithGoTarget(
+				ToastHelper.InstantiateToastWithGoTarget(
 					STRINGS.CHAOSEVENTS.BEEVOLCANO.TOAST,
 					STRINGS.CHAOSEVENTS.BEEVOLCANO.TOASTTEXT,
 					go);
@@ -192,7 +192,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			var go = GameUtil.KInstantiate(global::Assets.GetPrefab(BeeGeyserConfig.ID), CellToPos(cell), Grid.SceneLayer.Building);
 			go.SetActive(true);
 
-			ONITwitchLib.ToastManager.InstantiateToastWithGoTarget(
+			ToastHelper.InstantiateToastWithGoTarget(
 				STRINGS.CHAOSEVENTS.BEEVOLCANO.TOAST,
 				STRINGS.CHAOSEVENTS.BEEVOLCANO.TOASTTEXT,
 				go);

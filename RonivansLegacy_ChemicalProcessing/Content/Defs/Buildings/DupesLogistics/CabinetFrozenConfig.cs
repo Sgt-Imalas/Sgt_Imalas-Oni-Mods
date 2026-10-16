@@ -1,13 +1,6 @@
-﻿using PeterHan.PLib.Options;
-using ProcGen;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -33,12 +26,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			def1.ViewMode = OverlayModes.Logic.ID;
 			def1.RequiresPowerInput = true;
 			def1.AddLogicPowerPort = false;
-			def1.EnergyConsumptionWhenActive = 240f;
+			def1.EnergyConsumptionWhenActive = 480f;
 			def1.ExhaustKilowattsWhenActive = 0.125f;
 			def1.LogicOutputPorts = [LogicPorts.Port.OutputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(0, 1),
 				global::STRINGS.BUILDINGS.PREFABS.STORAGELOCKERSMART.LOGIC_PORT, 
 				global::STRINGS.BUILDINGS.PREFABS.STORAGELOCKERSMART.LOGIC_PORT_ACTIVE, 
-				global::STRINGS.BUILDINGS.PREFABS.STORAGELOCKERSMART.LOGIC_PORT_INACTIVE, true, false)];
+				global::STRINGS.BUILDINGS.PREFABS.STORAGELOCKERSMART.LOGIC_PORT_INACTIVE, false, true),
+				LogicPorts.Port.OutputPort(EnergySaverLogicOutput.PORT_ID, new CellOffset(0, 0),
+				STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT,
+				STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_ACTIVE,
+				STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_INACTIVE, false, true)
+
+			];
 
 			def1.InputConduitType = ConduitType.Solid;
 			def1.UtilityInputOffset = new CellOffset(0, 0);
@@ -49,7 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
 			SoundEventVolumeCache.instance.AddVolume("cabinet_frozen_kanim", "StorageLocker_Hit_metallic_low", TUNING.NOISE_POLLUTION.NOISY.TIER1);
 			Prioritizable.AddRef(go);
-			go.AddOrGet<Automatable>();
+			//go.AddOrGet<Automatable>();
 			Storage storage = go.AddOrGet<Storage>();
 			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			storage.showInUI = true;
@@ -64,18 +63,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			go.AddOrGet<CopyBuildingSettings>().copyGroupTag = GameTags.StorageLocker;
 			go.AddOrGet<StorageLockerSmart>();
 			go.AddOrGet<UserNameable>();
-			RefrigeratorController.Def local2 = go.AddOrGetDef<RefrigeratorController.Def>();
-			local2.powerSaverEnergyUsage = 20f;
-			local2.coolingHeatKW = 0.375f;
-			local2.steadyHeatKW = 0f;
-			local2.simulatedInternalTemperature = UtilMethods.GetKelvinFromC(24);
-			local2.simulatedThermalConductivity = 10000f;
-
+			RefrigeratorController.Def fridgeController = go.AddOrGetDef<RefrigeratorController.Def>();
+			fridgeController.powerSaverEnergyUsage = 40f;
+			fridgeController.coolingHeatKW = 8;
+			fridgeController.steadyHeatKW = 0f;
+			fridgeController.simulatedInternalTemperature = UtilMethods.GetKelvinFromC(24);
+			//fridgeController.simulatedInternalHeatCapacity = 500f;
+			fridgeController.simulatedThermalConductivity = 500f;
 
 			//filtered solid conduit input
 			go.AddOrGet<FilteredSolidConduitConsumer>();
+			go.AddOrGet<EnergySaverLogicOutput>();
 
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 		}
 	}
 }

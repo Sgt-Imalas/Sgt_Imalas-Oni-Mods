@@ -1,16 +1,15 @@
 ﻿using Beached_ModAPI;
 using Database;
 using Klei.AI;
+using SetStartDupes.API_IO;
 using SetStartDupes.DuplicityEditing.ScreenComponents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using UtilLibs.UIcmp;
 
 namespace SetStartDupes
 {
@@ -49,8 +48,7 @@ namespace SetStartDupes
 		Dictionary<SkillGroup, UI_InterestLogic> UI_InterestEntries = new();
 		Dictionary<Klei.AI.Attribute, NumberInput> UI_AttributeEntries = new();
 
-
-
+		NumberInput ExtraXPSkillPoints;
 
 		GameObject ListEntryButtonPrefab;
 		GameObject ListEntryButtonContainer;
@@ -68,6 +66,8 @@ namespace SetStartDupes
 		string TraitBalanceTooltip;
 
 
+		GameObject ExtraSkillPointsContainer;
+
 		GameObject AttributeContainer;
 
 		GameObject InterestContainer;
@@ -75,6 +75,7 @@ namespace SetStartDupes
 		GameObject OverjoyedContainer;
 		GameObject StressContainer;
 		GameObject LifeGoalContainer;
+		GameObject FavFoodContainer;
 
 		GameObject AddNewTrait;
 		GameObject AddNewInterest;
@@ -88,6 +89,8 @@ namespace SetStartDupes
 		ToolTip StressTT;
 		LocText GoalLabel;
 		ToolTip GoalTT;
+		LocText FavFoodLabel;
+		ToolTip FavFoodTT;
 
 		private bool _currentlyEditing = false;
 
@@ -117,8 +120,22 @@ namespace SetStartDupes
 			Debug.Assert(TraitContainer, "traitcontainer was null!");
 
 			AttributeContainer = InitContainer("AttributeContainer", global::STRINGS.UI.DETAILTABS.STATS.GROUPNAME_ATTRIBUTES);
+			UIUtils.FindAndDestroy(AttributeContainer.transform, "Title", true);
 			AttributeContainer.transform.SetSiblingIndex(InterestContainer.transform.GetSiblingIndex());
 			AttributeContainer.SetActive(Config.Instance.DirectAttributeEditing);
+
+
+			ExtraSkillPointsContainer = InitContainer("ExtraSkillPointsContainer", global::STRINGS.UI.SKILLS_SCREEN.POINTS_AVAILABLE);
+			ExtraSkillPointsContainer.transform.SetSiblingIndex(InterestContainer.transform.GetSiblingIndex());
+			ExtraSkillPointsContainer.SetActive(Config.Instance.ExtraSkillPoints);
+			UIUtils.FindAndDestroy(ExtraSkillPointsContainer.transform, "Title", true);
+
+			var entryTransform = Util.KInstantiateUI(NumberInputPrefab, ExtraSkillPointsContainer);
+			ExtraXPSkillPoints = entryTransform.AddOrGet<NumberInput>();
+			ExtraXPSkillPoints.Text = global::STRINGS.UI.SKILLS_SCREEN.SORT_BY_SKILL_AVAILABLE + ":";
+			ExtraXPSkillPoints.OnInputChanged += (text) => TryChangeBonusSkillPoints(text);
+			UIUtils.FindAndDestroy(ExtraXPSkillPoints.transform, "spacer", true);
+
 
 			OverjoyedContainer = InitContainer("OverjoyedContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
 			OverjoyedContainer.SetActive(!Config.Instance.NoJoyReactions);
@@ -128,6 +145,9 @@ namespace SetStartDupes
 
 			LifeGoalContainer = InitContainer("LifeGoalContainer", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
 			LifeGoalContainer.SetActive(ModAssets.Beached_LifegoalsActive);
+
+			FavFoodContainer = InitContainer("FavFoodContainer", "Favourite Food:");
+			FavFoodContainer.SetActive(ModAssets.FoodOverhaulActive && !IsBionicMinion());
 
 			if (InterestContainer.transform.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
 			{
@@ -195,33 +215,32 @@ namespace SetStartDupes
 			SpacerPrefab = Util.KInstantiateUI(selectLabel.gameObject);
 			SpacerPrefab.AddOrGet<LayoutElement>().minHeight = 25;
 
-
-
 			InterestBonusHeaderGO = Util.KInstantiateUI(SpacerPrefab, InterestContainer, true);
 			InterestBonusHeaderGO.name = "InterestBonusPointInfoHeader";
 			InterestBonusHeader = InterestBonusHeaderGO.GetComponent<LocText>();
 			interestBonusTooltipCMP = UIUtils.AddSimpleTooltipToObject(InterestBonusHeaderGO.gameObject, "tt");
 
-			AddNewInterest = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, InterestContainer, Config.Instance.AddAndRemoveTraitsAndInterests);
+			AddNewInterest = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, InterestContainer, true);
 			AddNewInterest.TryGetComponent<LayoutElement>(out var addbtnLE);
 			addbtnLE.preferredWidth = 262;
 			var imgAddinterest = AddNewInterest.transform.Find("Image").rectTransform();
 			imgAddinterest.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (addbtnLE.preferredWidth / 2f) - (25f / 2f), 25);
 			UIUtils.AddActionToButton(AddNewInterest.transform, "", () => UnityTraitScreen.ShowWindow(ToEditMinionStats, () => UpdateUI(), DupeTraitManager: this, openedFrom: UnityTraitScreen.OpenedFrom.Interest));
 			AddNewInterest.TryGetComponent<ToolTip>(out var tt1);
+			AddNewInterest.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests);
 			tt1.enabled = true;
 			tt1.SetSimpleTooltip(STRINGS.UI.BUTTONS.ADDTOSTATS);
 
 
 
-			AddNewTrait = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, TraitContainer, Config.Instance.AddAndRemoveTraitsAndInterests);
+			AddNewTrait = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, TraitContainer, true);
 			AddNewTrait.TryGetComponent<LayoutElement>(out var addtraitbtnLE);
 			addtraitbtnLE.preferredWidth = 262;
 			var imgAdd = AddNewTrait.transform.Find("Image").rectTransform();
 			imgAdd.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (addbtnLE.preferredWidth / 2f) - (25f / 2f), 25);
 			UIUtils.AddActionToButton(AddNewTrait.transform, "", () => UnityTraitScreen.ShowWindow(ToEditMinionStats, () => UpdateUI(), DupeTraitManager: this, openedFrom: UnityTraitScreen.OpenedFrom.Trait));
 			AddNewTrait.TryGetComponent<ToolTip>(out var tt2);
-			AddNewTrait.SetActive(true);
+			AddNewTrait.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests);
 			tt2.enabled = true;
 			tt2.SetSimpleTooltip(STRINGS.UI.BUTTONS.ADDTOSTATS);
 
@@ -231,6 +250,7 @@ namespace SetStartDupes
 			TraitBalanceTooltipCMP = UIUtils.AddSimpleTooltipToObject(TraitBalanceHeaderGO.gameObject, "tt");
 			RebuildUI();
 		}
+
 
 
 		GameObject AddInterestEditToggle(GameObject parent) //this started as something, not used
@@ -310,7 +330,29 @@ namespace SetStartDupes
 				}
 				GoalTT.SetSimpleTooltip(ModAssets.GetTraitTooltip(LifeGoalTrait, LifeGoalTrait.Id));
 			}
+			if (ModAssets.FoodOverhaulActive && !IsBionicMinion())
+			{
+				Trait currentFavFoodTrait = FoodOverhaul_API.GetFavouriteFoodTrait(ToEditMinionStats);
+				if (currentFavFoodTrait != null)
+				{
+					if (FavFoodLabel == null)
+					{
+						FavFoodLabel = AddTraitContainerUI(currentFavFoodTrait, FavFoodContainer, NextType.FoodOverhaul_Favourite, false).transform.Find("Label").GetComponent<LocText>();
+					}
+					else
+					{
+						FavFoodLabel.text = currentFavFoodTrait.Name;
+					}
+					if (FavFoodTT == null)
+					{
+						FavFoodTT = FavFoodLabel.transform.parent.gameObject.GetComponent<ToolTip>();
+					}
+					FavFoodTT.SetSimpleTooltip(ModAssets.GetTraitTooltip(currentFavFoodTrait, currentFavFoodTrait.Id));
+				}
+			}
 		}
+
+		public bool IsBionicMinion() => ToEditMinionStats != null && ToEditMinionStats.personality.model == GameTags.Minions.Models.Bionic;
 
 
 		void RebuildTraits()
@@ -330,28 +372,32 @@ namespace SetStartDupes
 			if (ToEditMinionStats == null)
 				return;
 
-
+			bool applyBalancing = Config.Instance.BalanceAddRemove;
 			InterestBonusHeader.text = STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL + " " + PointPool;
 
 			InterestBonusTooltip = string.Empty;
 
-			InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, Config.Instance.BalanceAddRemove ? AdditionalSkillPoints : "∞");
+			InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, applyBalancing ? AdditionalAttributePoints : "∞");
 
-			if (!Config.Instance.BalanceAddRemove)
+			if (!applyBalancing)
 				InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.CONFIGBALANCINGDISABLED, UIUtils.ColorText("∞", UIUtils.number_green));
 
-
+			bool anyBonus = false;
 			foreach (var trait in ToEditMinionStats.Traits)
 			{
 				var thisOnesInterest = ModAssets.GetTraitStatBonusTooltip(trait, false);
 				if (thisOnesInterest != string.Empty)
 				{
+					anyBonus = true;
 					InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, thisOnesInterest);
 				}
 			}
 
-			if (ExternalModPoints != 0)
-				InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME, UIUtils.ColorNumber(ExternalModPoints));
+			if (ExternalModAttributePoints != 0)
+				InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME, UIUtils.ColorNumber(ExternalModAttributePoints));
+			else if(!anyBonus)
+				InterestBonusTooltip += "\n • " + global::STRINGS.DUPLICANTS.CONGENITALTRAITS.NONE.NAME;
+
 
 			interestBonusTooltipCMP.SetSimpleTooltip(InterestBonusTooltip);
 		}
@@ -481,11 +527,13 @@ namespace SetStartDupes
 				UI_TraitEntries[trait] = traitEntry;
 
 				var textLabel = traitEntry.transform.Find("Label").GetComponent<LocText>();
-				if (type != NextType.undefined && type != NextType.special)
+				if (!ModAssets.RerollingDisabled(type))
 					textLabel.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 26, LE.preferredWidth - 25);
 			}
 			UpdateTraitSorting();
 		}
+
+
 		GameObject AddTraitContainerUI(Trait trait, GameObject parent, NextType type, bool enableDeleteButton = true)
 		{
 			var traitEntry = Util.KInstantiateUI(ListEntryButtonPrefab, parent, true);
@@ -497,7 +545,7 @@ namespace SetStartDupes
 
 			ModAssets.ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
 
-			bool notEditable = (type == NextType.undefined || type == NextType.special);
+			bool notEditable = ModAssets.RerollingDisabled(type);
 
 
 			traitEntry.GetComponent<KButton>().enabled = !notEditable;
@@ -534,6 +582,11 @@ namespace SetStartDupes
 
 			InterestContainer.SetActive(!isBionic);
 		}
+		void RebuildXPSkillPoints()
+		{
+			ExtraXPSkillPoints.SetInputFieldValue(additionalXPSkillPoints.ToString());
+		}
+
 		void RebuildAttributes()
 		{
 			if (ToEditMinionStats == null || !Config.Instance.DirectAttributeEditing)
@@ -643,7 +696,8 @@ namespace SetStartDupes
 				UI_TraitEntries[t].transform.SetAsLastSibling();
 			}
 
-			AddNewTrait.transform.SetAsLastSibling();
+			if (AddNewTrait.gameObject.activeSelf)
+				AddNewTrait.transform.SetAsLastSibling();
 			UpdateTraitInfoHeader();
 		}
 		void UpdateTraitInfoHeader()
@@ -669,7 +723,7 @@ namespace SetStartDupes
 
 				if (rarity.ToString() != string.Empty)
 				{
-					TraitBalanceTooltip += "\n  " + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, ModAssets.GetTraitRarityString(rarity));
+					TraitBalanceTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, ModAssets.GetTraitRarityString(rarity));
 				}
 			}
 
@@ -684,6 +738,10 @@ namespace SetStartDupes
 
 
 			//TraitBalanceTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP, balanceString,totalRarityBalance, -balanceThreshold,balanceThreshold) + TraitBalanceTooltip; 
+
+			if (TraitBalanceTooltip.IsNullOrWhiteSpace())
+				TraitBalanceTooltip = "\n • " + global::STRINGS.DUPLICANTS.CONGENITALTRAITS.NONE.NAME;
+
 			TraitBalanceTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP_SIMPLE, totalRarityBalance) + TraitBalanceTooltip;
 			TraitBalanceHeader.text = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBALANCEHEADER, totalRarityBalance);
 			TraitBalanceTooltipCMP.SetSimpleTooltip(TraitBalanceTooltip);
@@ -697,7 +755,8 @@ namespace SetStartDupes
 				UI_InterestEntries[t].transform.SetAsLastSibling();
 			}
 
-			AddNewInterest.transform.SetAsLastSibling();
+			if (AddNewInterest.gameObject.activeSelf)
+				AddNewInterest.transform.SetAsLastSibling();
 			UpdateInterestLabels();
 		}
 
@@ -708,11 +767,11 @@ namespace SetStartDupes
 			SgtLogger.l("Rebuilding UI");
 
 			RebuildTypeSpecifics();
+			RebuildXPSkillPoints();
 			RebuildAttributes();
 			RebuildInterests();
 			RebuildTraits();
 			RebuildInterestPointTooltip();
-
 			UpdateUI();
 		}
 
@@ -731,22 +790,26 @@ namespace SetStartDupes
 		public List<SkillGroup> ActiveInterests = new();
 
 		MinionStartingStats ToEditMinionStats = null;
+		bool _startScreenMinion = false;
+		public bool StartScreenMinion => _startScreenMinion;
+
 		public MinionStartingStats Stats => ToEditMinionStats;
 
 
 
+		int additionalXPSkillPoints = 0;
 
 		int FallBack = -1;
 
-		int additionalSkillPoints = 0;
-		int skillPointPool = 0;
-		public int SkillPointPool => skillPointPool;
-		public int AdditionalSkillPoints => additionalSkillPoints;
+		int additionalAttributePoints = 0;
+		int attributePointPool = 0;
+		public int SkillPointPool => attributePointPool;
+		public int AdditionalAttributePoints => additionalAttributePoints;
 
-		public int ExternalModPoints => _externalModPoints;
-		int _externalModPoints = 0;
+		public int ExternalModAttributePoints => _externalModAttributePoints;
+		int _externalModAttributePoints = 0;
 
-		public string PointPool => Config.Instance.BalanceAddRemove ? UIUtils.ColorNumber(skillPointPool) : UIUtils.ColorText("∞", UIUtils.number_green);
+		public string PointPool => Config.Instance.BalanceAddRemove ? UIUtils.ColorNumber(attributePointPool) : UIUtils.ColorText("∞", UIUtils.number_green);
 
 
 		public enum NextType
@@ -771,17 +834,48 @@ namespace SetStartDupes
 
 
 			undefined, //catch
-			cogenital,  //unused
+			congenital,  //unused
 
 			//fill type for all
 			allTraits,
 
 			//mod integration types
 			Beached_LifeGoal, //lifegoal from akis beached mod
-			RainbowFart //rainbow fart from rainbow farts mod
+			RainbowFart, //rainbow fart from rainbow farts mod
+			FoodOverhaul_Favourite, //favourite food from FoodOverhaul mod
 		}
-		internal void SetReferenceStats(MinionStartingStats referencedStats)
+
+
+		public void TryChangeBonusSkillPoints(string numberInput)
 		{
+			int minAmount = MinimumRequiredSkillPoints();
+
+			if (!int.TryParse(numberInput, out int selectedAmount) || selectedAmount < minAmount)
+				ExtraXPSkillPoints.SetInputFieldValue(minAmount.ToString());
+
+			selectedAmount = Math.Max(minAmount, selectedAmount);
+			///the minimum amount is always applied by the game itself
+			ModAssets.SetExtraLevels(Stats, selectedAmount - minAmount);
+		}
+		public int MinimumRequiredSkillPoints()
+		{
+			if (Stats == null)
+				return 0;
+			///Cryodupes, jorge, Minnow
+			if (Stats.Traits.Contains(Db.Get().traits.Get("AncientKnowledge")))
+				return 3;
+			///regular dupes:
+			return StartScreenMinion ? 0 : 1;
+		}
+
+
+		internal void SetReferenceStats(CharacterContainer container)
+		{
+			if (container == null || container.Stats == null)
+				return;
+			var referencedStats = container.Stats;
+			if (container.controller != null)
+				_startScreenMinion = (container.controller is MinionSelectScreen);
 			if (ToEditMinionStats != referencedStats)
 			{
 				SgtLogger.l("Redoing Reference");
@@ -791,8 +885,10 @@ namespace SetStartDupes
 				ToEditMinionStats = referencedStats;
 
 				ModAssets.DupeTraitManagers.Add(referencedStats, this);
-				RecalculateAll();
 
+				FavFoodContainer.SetActive(ModAssets.FoodOverhaulActive && !IsBionicMinion());
+				additionalXPSkillPoints = MinimumRequiredSkillPoints();
+				RecalculateAll();
 			}
 		}
 
@@ -820,16 +916,16 @@ namespace SetStartDupes
 		public bool CalculateAdditionalSkillPointsTrueIfChanged()
 		{
 			var newValue = ModAssets.GetTraitBonus(ToEditMinionStats);
-			var oldValue = additionalSkillPoints;
+			var oldValue = additionalAttributePoints;
 
-			additionalSkillPoints = newValue;
+			additionalAttributePoints = newValue;
 			return newValue != oldValue;
 		}
 		public void ExternalModBonusPointCalculation()
 		{
 			SgtLogger.l("Initializing External Bonus Point Calculation for " + ToEditMinionStats.Name);
 
-			_externalModPoints = 0;
+			_externalModAttributePoints = 0;
 			int PointsPerInterest = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
 
 			SgtLogger.l("Minimum points per interest: " + PointsPerInterest);
@@ -859,34 +955,41 @@ namespace SetStartDupes
 				{
 					int pointsThatAttributeShouldHave = relevantAttributes[startingLevel.Key] * PointsPerInterest;
 
-					_externalModPoints += Math.Max(0, (startingLevel.Value - pointsThatAttributeShouldHave)); ///collecting all bonus points in that attribute
+					_externalModAttributePoints += Math.Max(0, (startingLevel.Value - pointsThatAttributeShouldHave)); ///collecting all bonus points in that attribute
 				}
 			}
-			SgtLogger.l("Total bonus gathered from starting levels " + _externalModPoints);
+			SgtLogger.l("Total bonus gathered from starting levels " + _externalModAttributePoints);
 			SgtLogger.l("Total trait bonus " + ModAssets.GetTraitBonus(ToEditMinionStats));
 			int TraitBonus = ModAssets.GetTraitBonus(ToEditMinionStats);
 
-			if (_externalModPoints > 0)
-				_externalModPoints -= TraitBonus;
+			if (_externalModAttributePoints > 0)
+				_externalModAttributePoints -= TraitBonus;
 
-			SgtLogger.l("Final Value: " + _externalModPoints);
+			SgtLogger.l("Final Value: " + _externalModAttributePoints);
 
 
-			if (_externalModPoints != 0)
+			if (_externalModAttributePoints != 0)
 			{
 				SgtLogger.l("Registering additional mod points");
-				ModAssets.OtherModBonusPoints.Add(ToEditMinionStats, _externalModPoints);
+				ModAssets.OtherModBonusPoints.Add(ToEditMinionStats, _externalModAttributePoints);
 
 			}
 		}
 
 		public void DeltaPointPool(int delta)
 		{
-			skillPointPool += delta;
+			attributePointPool += delta;
 		}
 		public void ResetPool()
 		{
-			skillPointPool = 0;
+			attributePointPool = 0;
+		}
+		public void SetFavouriteFood(Trait trait)
+		{
+			if (ToEditMinionStats != null && ModAssets.FoodOverhaulActive)
+			{
+				FoodOverhaul_API.SetFavouriteFoodTrait(ToEditMinionStats, trait);
+			}
 		}
 		public void RemoveLifeGoal()
 		{
@@ -939,7 +1042,7 @@ namespace SetStartDupes
 
 			if (CalculateAdditionalSkillPointsTrueIfChanged())
 			{
-				RecalculateSkillPoints();
+				RecalculateAttributePoints();
 				ResetPool();
 			}
 		}
@@ -956,13 +1059,13 @@ namespace SetStartDupes
 						ToEditMinionStats.StartingLevels[attribute.Id]++;
 					}
 				}
-				skillPointPool--;
+				attributePointPool--;
 			}
 		}
 
 		public bool CanIncreaseInterest()
 		{
-			return skillPointPool > 0 || !Config.Instance.BalanceAddRemove;
+			return attributePointPool > 0 || !Config.Instance.BalanceAddRemove;
 		}
 		public bool CanReduceInterest(SkillGroup interest)
 		{
@@ -994,7 +1097,7 @@ namespace SetStartDupes
 					ToEditMinionStats.StartingLevels[attribute.Id]--;
 				}
 			}
-			skillPointPool++;
+			attributePointPool++;
 		}
 
 
@@ -1043,7 +1146,7 @@ namespace SetStartDupes
 
 			if (rebalanceAfter)
 			{
-				RecalculateSkillPoints();
+				RecalculateAttributePoints();
 				Beached_RecalculateLifeGoal();
 			}
 
@@ -1089,7 +1192,7 @@ namespace SetStartDupes
 			}
 			if (rebalanceAfter)
 			{
-				RecalculateSkillPoints();
+				RecalculateAttributePoints();
 				Beached_RecalculateLifeGoal();
 			}
 			ResetPool();
@@ -1097,10 +1200,10 @@ namespace SetStartDupes
 			AddOrUpdateInterestUI(interest);
 		}
 
-		public void RecalculateSkillPoints()
+		public void RecalculateAttributePoints()
 		{
-			SgtLogger.l("Recalculating Skill Points, current amount to Ship: " + AdditionalSkillPoints);
-			int amountToShip = AdditionalSkillPoints;
+			SgtLogger.l("Recalculating atttribute bonus Points, current amount to Ship: " + AdditionalAttributePoints);
+			int amountToShip = AdditionalAttributePoints;
 
 			Dictionary<string, int> newVals = new Dictionary<string, int>();
 
@@ -1162,7 +1265,7 @@ namespace SetStartDupes
 				SgtLogger.l(newv.Value + "", newv.Key);
 				ToEditMinionStats.StartingLevels[newv.Key] = newv.Value;
 			}
-			SgtLogger.l("Skill Points recalculated");
+			SgtLogger.l("Attribute Points recalculated");
 
 			UpdateInterestLabels();
 		}

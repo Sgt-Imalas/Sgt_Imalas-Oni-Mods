@@ -1,13 +1,8 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.SpaceStations;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static Operational;
 using static Rockets_TinyYetBig.STRINGS;
 using static Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN;
 
@@ -255,7 +250,7 @@ namespace Rockets_TinyYetBig.Patches
 							RocketHeight += building.Def.HeightInCells;
 							RocketWidth = building.Def.WidthInCells > RocketWidth ? building.Def.WidthInCells : RocketWidth;
 
-							ModuleOrderTOOLTIP = string.Concat((NumberOfModules - moduleCounter).ToString(), ") ", building.GetProperName(), ": ", building.Def.WidthInCells, "x", building.Def.HeightInCells, "\n", ModuleOrderTOOLTIP);
+							ModuleOrderTOOLTIP = string.Concat((NumberOfModules - moduleCounter).ToString(), ") ", building.Def.Name, ": ", building.Def.WidthInCells, "x", building.Def.HeightInCells, "\n", ModuleOrderTOOLTIP);
 
 							++moduleCounter;
 						}
@@ -471,7 +466,7 @@ namespace Rockets_TinyYetBig.Patches
 							RocketBurden.ToString(),
 
 							global::STRINGS.UI.CLUSTERMAP.ROCKETS.SPEED.PILOT_SPEED_MODIFIER,
-							dupe_piloted ? string.Concat("\n    • ", global::STRINGS.UI.CLUSTERMAP.ROCKETS.SPEED.DUPEPILOT_SPEED_TOOLTIP.Replace("{speed_boost}", GameUtil.GetFormattedPercent(clusterCraft.PilotSkillMultiplier - 1f))) : string.Empty,
+							dupe_piloted ? string.Concat("\n    • ", global::STRINGS.UI.CLUSTERMAP.ROCKETS.SPEED.DUPEPILOT_SPEED_TOOLTIP.Replace("{speed_boost}", GameUtil.GetFormattedPercent((clusterCraft.PilotSkillMultiplier - 1f)*100f))) : string.Empty,
 							controlType
 							);
 
@@ -590,7 +585,9 @@ namespace Rockets_TinyYetBig.Patches
 						}
 					}
 
-					if (redrawPanel)
+					bool redrawForCargoBays = (!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV));
+
+					if (redrawPanel || redrawForCargoBays)
 					{
 						rocketStatusContainer.SetLabel("RangeRemaining", RangeRemainingTextSTRING, RangeRemainingToolTipSTRING);
 						rocketStatusContainer.SetLabel("Speed", SpeedTextSTRING, SpeedToolTipSTRING);
@@ -613,7 +610,7 @@ namespace Rockets_TinyYetBig.Patches
 						}
 					}
 
-					if (redrawPanel || (!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV)))
+					if (redrawPanel || redrawForCargoBays)
 					{
 						CargoStoragePREV = cargoStorage;
 						CargoStorageMaxPREV = cargoStorageMax;

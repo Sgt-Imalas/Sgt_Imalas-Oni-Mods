@@ -1,18 +1,13 @@
-﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing;
+﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static LogicGate.LogicGateDescriptions;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
-using static STRINGS.ELEMENTS;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
@@ -24,7 +19,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		private const float INPUT_KG = 500f;
 		private const float LIQUID_COOLED_HEAT_PORTION = 0.8f;
-		private static readonly Tag COOLANT_TAG = SimHashes.SuperCoolant.CreateTag();
+		private static readonly Tag COOLANT_TAG = GameTags.Liquid;
+		//private static readonly Tag COOLANT_TAG = SimHashes.SuperCoolant.CreateTag();
 		private const float COOLANT_MASS = 1000f;
 
 
@@ -37,7 +33,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 5, "adv_metalrefinery_kanim", 30, 60f, quantity1, materials1, 2400f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
 			def1.RequiresPowerInput = true;
-			def1.EnergyConsumptionWhenActive = 3000f;
+			def1.EnergyConsumptionWhenActive = 2400f;
 			def1.SelfHeatKilowattsWhenActive = 16f;
 			def1.InputConduitType = ConduitType.Liquid;
 			def1.UtilityInputOffset = new CellOffset(-1, 1);
@@ -62,7 +58,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			liquidCooledRefinery.keepExcessLiquids = true;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
-			Workable workable = go.AddOrGet<ComplexFabricatorWorkable>();
+			go.AddOrGet<AdvRefinerySuperCoolantRequirement>();
+
+			var workable = go.AddOrGet<CustomComplexFabricatorWorkableBase>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, liquidCooledRefinery);
 			liquidCooledRefinery.coolantTag = COOLANT_TAG;
 			liquidCooledRefinery.minCoolantMass = 400f;
@@ -99,6 +97,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//==== [ CHEMICAL: ADVANCED METAL REFINERY RECIPES | Ore to Metal Ratio: 92,5% ] =========================================================== 
 		private void ConfigureRecipes()
 		{
+			float recipeDuration = 40f;
 			bool chemicalProcessingEnabled = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 
 			int index = 0;
@@ -112,20 +111,20 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------------------------
 
 			//METALLURGY
-			//===[eneric Ore Refining ]=======================================================================================================================
+			//===[ Generic Ore Refining ]=======================================================================================================================
 			// Ingredients: Ore - 500kg
 			// Result: Refined Metal - 500kg
 			//==================================================================================================================================================
-			foreach (var element in RefinementRecipeHelper.GetNormalOres())
+			foreach (var oreInput in RefinementRecipeHelper.GetAllOres())
 			{
-				Element refinedElement = element.highTempTransition.lowTempTransition;
 				if (chemicalProcessingEnabled)
 				{
-					RecipeBuilder.Create(ID, 40)
-						.Input(element.tag, 400f)
+					RecipeBuilder.Create(ID, recipeDuration)
+						.Input(oreInput.tag, 400f)
 						.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
 						.Input(SimHashes.Sand.CreateTag(), 50f)
-						.Output(refinedElement.tag, 370f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+						.OverrideMainProductOutputGeneration(Rephysicalized.RephysicalizedOutput)
+						.OutputOreTransition(oreInput, 370f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.Output(Slag_Solid.Tag, 130f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 						.Description3I2O(THREE_MIXTURE_SMELT_WASTE)
@@ -134,9 +133,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				}
 				else
 				{
-					RecipeBuilder.Create(ID, 40)
-						.Input(element.tag, 400f)
-						.Output(refinedElement.tag, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					RecipeBuilder.Create(ID, recipeDuration)
+						.Input(oreInput.tag, 400f)
+						.OverrideMainProductOutputGeneration(Rephysicalized.RephysicalizedOutput)
+						.OutputOreTransition(oreInput, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 						.Description1I1O(ARCFURNACE_SMELT)
 						.SortOrder(index++)
@@ -162,31 +162,31 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//         Copper - 200kg "There is no silver in the game, so yeah going to be copper here"
 			//==================================================================================================================================================
 
-			if (chemicalProcessingEnabled)
-			{
-				RecipeBuilder.Create(ID, 40)
-					.Input(SimHashes.Electrum.CreateTag(), 400f)
-					.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
-					.Input(SimHashes.Sand.CreateTag(), 50f)
-					.Output(SimHashes.Gold.CreateTag(), 250f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(Silver_Solid.Tag, 120f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(Slag_Solid.Tag, 130f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Description(THREE_MIXTURE_TWO_PRODUCTS_SMELT_WASTE,3,3)
-					.SortOrder(index++)
-					.Build();
-			}
-			else
-			{
-				RecipeBuilder.Create(ID, 40)
-					.Input(SimHashes.Electrum.CreateTag(), 400f)
-					.Output(SimHashes.Gold.CreateTag(), 250f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(SimHashes.Copper.CreateTag(), 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Description1I2O(PLASMAFURNACE_1_2)
-					.SortOrder(index++)
-					.Build();
-			}
+			//if (chemicalProcessingEnabled)
+			//{
+			//	RecipeBuilder.Create(ID, recipeDuration)
+			//		.Input(SimHashes.Electrum.CreateTag(), 400f)
+			//		.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
+			//		.Input(SimHashes.Sand.CreateTag(), 50f)
+			//		.Output(SimHashes.Gold.CreateTag(), 250f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(Silver_Solid.Tag, 120f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(Slag_Solid.Tag, 130f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Description(THREE_MIXTURE_TWO_PRODUCTS_SMELT_WASTE,3,3)
+			//		.SortOrder(index++)
+			//		.Build();
+			//}
+			//else
+			//{
+			//	RecipeBuilder.Create(ID, recipeDuration)
+			//		.Input(SimHashes.Electrum.CreateTag(), 400f)
+			//		.Output(SimHashes.Gold.CreateTag(), 250f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(SimHashes.Copper.CreateTag(), 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Description1I2O(PLASMAFURNACE_1_2)
+			//		.SortOrder(index++)
+			//		.Build();
+			//}
 
 			//---- [ Advanced Galena Refining ] -----------------------------------------------------------------------------------------------------------
 			// Ingredient: Galena              - 400kg
@@ -197,22 +197,23 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//         Slag            - 150kg
 			//---------------------------------------------------------------------------------------------------------------------------------------------
 
-			if (chemicalProcessingEnabled)
-			{
-				RecipeBuilder.Create(ID, 40)
-					.Input(Galena_Solid.Tag, 400f)
-					.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
-					.Input(SimHashes.Sand.CreateTag(), 50f)
+			///Vanilla galena takes priority
+			//if (chemicalProcessingEnabled)
+			//{
+			//	RecipeBuilder.Create(ID, recipeDuration)
+			//		.Input(Galena_Solid.Tag, 400f)
+			//		.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
+			//		.Input(SimHashes.Sand.CreateTag(), 50f)
 					
-					.Output(SimHashes.Lead.CreateTag(), 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(Silver_Solid.Tag, 200f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(Slag_Solid.Tag, 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(SimHashes.Lead.CreateTag(), 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(Silver_Solid.Tag, 200f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(Slag_Solid.Tag, 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Description(THREE_MIXTURE_TWO_PRODUCTS_SMELT_WASTE,3,3)
-					.SortOrder(index++)
-					.Build();
-			}
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Description(THREE_MIXTURE_TWO_PRODUCTS_SMELT_WASTE,3,3)
+			//		.SortOrder(index++)
+			//		.Build();
+			//}
 
 			//CHEMPROC
 			//---- [ Advanced Iron Refining with Pyrite ] --------------------------------------------------------------------------------------------------
@@ -229,39 +230,39 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Iron - 400kg
 			//         Sulfur - 100kg
 			//==================================================================================================================================================
-			if (chemicalProcessingEnabled)
-			{
-				RecipeBuilder.Create(ID, 40)
-					.Input(SimHashes.FoolsGold.CreateTag(), 400f)
-					.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
-					.Input(SimHashes.Sand.CreateTag(), 50f)
+			//if (chemicalProcessingEnabled)
+			//{
+			//	RecipeBuilder.Create(ID, recipeDuration)
+			//		.Input(SimHashes.FoolsGold.CreateTag(), 400f)
+			//		.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
+			//		.Input(SimHashes.Sand.CreateTag(), 50f)
 
-					.Output(SimHashes.Iron.CreateTag(), 300f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(Slag_Solid.Tag, 200f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(SimHashes.Iron.CreateTag(), 300f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(Slag_Solid.Tag, 200f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Description(THREE_MIXTURE_SMELT_WASTE, 3, 2)
-					.SortOrder(index++)
-					.Build();
-			}
-			else
-			{
-				RecipeBuilder.Create(ID, 40)
-					.Input(SimHashes.FoolsGold.CreateTag(), 400f)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Description(THREE_MIXTURE_SMELT_WASTE, 3, 2)
+			//		.SortOrder(index++)
+			//		.Build();
+			//}
+			//else
+			//{
+			//	RecipeBuilder.Create(ID, recipeDuration)
+			//		.Input(SimHashes.FoolsGold.CreateTag(), 400f)
 
-					.Output(SimHashes.Iron.CreateTag(), 300f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(SimHashes.Sulfur.CreateTag(), 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(SimHashes.Iron.CreateTag(), 300f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(SimHashes.Sulfur.CreateTag(), 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Description1I1O(ARCFURNACE_SMELT)
-					.SortOrder(index++)
-					.Build();
-			}
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Description1I1O(ARCFURNACE_SMELT)
+			//		.SortOrder(index++)
+			//		.Build();
+			//}
 
 			///Chromium extraction from ferrochrome; 32% iron, 68% chromium
 			if (chemicalProcessingEnabled)
 			{
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(ModElements.FerroChrome_Solid, 300f)
 					.Input(SimHashes.OxyRock, 100f)
 
@@ -291,7 +292,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//==================================================================================================================================================
 
 
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.Katairite.CreateTag(), 400f)
 				.Input(SimHashes.RefinedCarbon.CreateTag(), 100f)
 				.Input(SimHashes.Lime.CreateTag(), 20f)
@@ -312,7 +313,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Steel - 500kg
 			//==================================================================================================================================================
 
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.Iron, 280)
 				.Input(SimHashes.RefinedCarbon, 80)
 				.Input(SimHashes.Lime, 40)

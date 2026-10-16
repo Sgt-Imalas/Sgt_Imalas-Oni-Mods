@@ -1,0 +1,7 @@
+name: STRINGS.SUBWORLDS.FROZEN.NAME
+description: STRINGS.SUBWORLDS.FROZEN.DESC
+icon: biomeIconFrozen
+mixingTags: 
+- Cold
+subworld:
+  name: subworlds/frozen/CGM_FrozenMix

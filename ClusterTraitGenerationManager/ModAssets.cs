@@ -3,7 +3,7 @@ using ClusterTraitGenerationManager.FixedTraitExperiment;
 using ClusterTraitGenerationManager.GeyserExperiments;
 using ClusterTraitGenerationManager.ModIntegrations;
 using Klei;
-using MonoMod.Utils;
+using Klei.CustomSettings;
 using ProcGen;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.Linq;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
+using static SandboxSettings;
 
 namespace ClusterTraitGenerationManager
 {
@@ -22,8 +23,8 @@ namespace ClusterTraitGenerationManager
 		public static GameObject CGM_MainMenu;
 		public static GameObject TraitPopup;
 		public static GameObject PresetScreen;
-		public static GameObject CustomGameSettings;
-		public static GameObject SO_StarmapScreen;
+		public static GameObject CustomGameSettingsScreen;
+		//public static GameObject SO_StarmapScreen;
 		public static string CustomClusterTemplatesPath;
 		public static readonly string TemporalTearId = "TemporalTear", TeapotId = "ArtifactSpacePOI_RussellsTeapot";
 
@@ -32,7 +33,7 @@ namespace ClusterTraitGenerationManager
 		public static Dictionary<string, string> ModPlanetOriginPaths = new Dictionary<string, string>();
 		public static void AddModPlanetOrigin(string modifiedWorld, string original)
 		{
-			if(!ModPlanetOriginPaths.ContainsKey(modifiedWorld))
+			if (!ModPlanetOriginPaths.ContainsKey(modifiedWorld))
 			{
 				ModPlanetOriginPaths.Add(modifiedWorld, original);
 			}
@@ -70,6 +71,12 @@ namespace ClusterTraitGenerationManager
             { "expansion1::worlds/SmallRadioactiveLandingSiteStart", "expansion1::worlds/IdealLandingSiteStart"}, //start
             { "expansion1::worlds/SmallRadioactiveLandingSiteWarp", "expansion1::worlds/IdealLandingSiteWarp"}, //warp
         };
+
+		public static Dictionary<string, string> OldStandaloneFragmentRedirects = new()
+		{
+
+		};
+
 		public static bool FindSwapAsteroid(string item, out string replacement)
 		{
 			replacement = null;
@@ -81,6 +88,17 @@ namespace ClusterTraitGenerationManager
 			}
 			return false;
 		}
+		public static bool FindOldStandaloneFragment(string item, out string replacement)
+		{
+			replacement = null;
+			if (OldStandaloneFragmentRedirects.TryGetValue(item, out replacement))
+			{
+				SgtLogger.l("found old standalone mixing fragment: " + item + "in preset, redirecting to " + replacement);
+				return true;
+			}
+			return false;
+		}
+
 
 		private static Dictionary<string, int> _sunlightFixedTraits = null;
 		public static Dictionary<string, int> SunlightFixedTraits
@@ -328,7 +346,7 @@ namespace ClusterTraitGenerationManager
 			return TraitSprite;
 		}
 
-		public static class Strings
+		public static class ModStringHelper
 		{
 			public static string ApplyCategoryTypeToString(string input, StarmapItem item) => ApplyCategoryTypeToString(input, item.category);
 			public static string ApplyCategoryTypeToString(string input, StarmapItemCategory category)
@@ -388,19 +406,19 @@ namespace ClusterTraitGenerationManager
 			var bundle = AssetUtils.LoadAssetBundle("clustergenerationsettingsmanager_menuassets", platformSpecific: true);
 			var Assets = bundle.LoadAsset<GameObject>("Assets/UIs/CGMExport_SideMenus.prefab");
 			CGM_MainMenu = bundle.LoadAsset<GameObject>("Assets/UIs/CGM_MainScreenExport.prefab");
-			SO_StarmapScreen = bundle.LoadAsset<GameObject>("Assets/UIs/CGM_SOStarmap.prefab");
+			//SO_StarmapScreen = bundle.LoadAsset<GameObject>("Assets/UIs/CGM_SOStarmap.prefab");
 
 			//UIUtils.ListAllChildren(Assets.transform);
 
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(Assets);
 			TMPConverter.ReplaceAllText(CGM_MainMenu);
-			TMPConverter.ReplaceAllText(SO_StarmapScreen);
+			//TMPConverter.ReplaceAllText(SO_StarmapScreen);
 
 			CustomPlanetSideScreen = Assets.transform.Find("IndividualSettings").gameObject;
 			TraitPopup = Assets.transform.Find("TraitPopup").gameObject;
 			PresetScreen = Assets.transform.Find("PresetWindowCGM").gameObject;
-			CustomGameSettings = Assets.transform.Find("GameSettingsChangerCGM").gameObject;
+			CustomGameSettingsScreen = Assets.transform.Find("GameSettingsChangerCGM").gameObject;
 			//var TMPConverter = new TMPConverter();
 			//TMPConverter.ReplaceAllText(wallSidescreenPrefab);
 			//TMPConverter.ReplaceAllText(settingsDialogPrefab);
@@ -442,9 +460,9 @@ namespace ClusterTraitGenerationManager
 					{
 						if (trait.additionalWorldTemplateRules.Any())
 						{
-							foreach(var templateRule in trait.additionalWorldTemplateRules)
+							foreach (var templateRule in trait.additionalWorldTemplateRules)
 							{
-								_traitTemplateRules.Add(templateRule,templateRule.times);
+								_traitTemplateRules.Add(templateRule, templateRule.times);
 							}
 						}
 					}
@@ -455,6 +473,24 @@ namespace ClusterTraitGenerationManager
 
 		public static Dictionary<string, GeyserDataEntry> AllGeysers = new();
 		public static List<GeyserGenericConfig.GeyserPrefabParams> AllGenericGeysers = new();
+		public static List<GeyserGenericConfig.GeyserPrefabParams> AllNonGenericGeysers = new();
+
+		public static string PickItemFromListExcludingBlacklist(string currentGeyser, int seed, List<GeyserGenericConfig.GeyserPrefabParams> geyserList, HashSet<string> blacklist)
+		{
+			List<GeyserGenericConfig.GeyserPrefabParams> localList = new();
+
+			foreach (var entry in geyserList)
+			{
+				if (!blacklist.Contains(entry.id))
+					localList.Add(entry);
+			}
+			if (!localList.Any())
+			{
+				SgtLogger.warning("All geysers of type " + (geyserList.FirstOrDefault().isGenericGeyser == true ? "generic" : "non generic") + " are blacklisted, cannot replace geyser " + currentGeyser);
+				return currentGeyser;
+			}
+			return localList[new KRandom(seed).Next(0, localList.Count)].id;
+		}
 
 		public static string GetGenericGeyserAt(int seed, Vector2I position, HashSet<string> geyserBlacklist = null)
 		{
@@ -466,19 +502,23 @@ namespace ClusterTraitGenerationManager
 			int Seed = num + position.x + position.y;
 
 			string geyserID = AllGenericGeysers[new KRandom(Seed).Next(0, AllGenericGeysers.Count)].id;
+			string original = geyserID;
 
-			if (geyserBlacklist != null && geyserBlacklist.Count > 0 && geyserBlacklist.Contains(geyserID))
+			if (geyserBlacklist != null && geyserBlacklist.Any() && geyserBlacklist.Contains(geyserID))
 			{
-				int failure = AllGenericGeysers.Count;
-				while (geyserBlacklist.Contains(geyserID) && failure > 0)
+				geyserID = PickItemFromListExcludingBlacklist(geyserID, Seed, AllGenericGeysers, geyserBlacklist);
+				if (geyserID == original)
 				{
-					failure--;
-					num++;
-					Seed = num + position.x + position.y;
-					geyserID = AllGenericGeysers[new KRandom(Seed).Next(0, AllGenericGeysers.Count)].id;
+					SgtLogger.warning("All generic geysers are blacklisted, falling back to checking non generic geysers");
+					geyserID = PickItemFromListExcludingBlacklist(geyserID, Seed, AllNonGenericGeysers, geyserBlacklist);
+				}
+				if (geyserID == original)
+				{
+					SgtLogger.warning("Congratulations, you blacklisted every single geyser, we cannot replace this one. Falling back to spawning the original geyser id : " + geyserID);
 				}
 			}
-			if(geyserBlacklist == null)
+
+			if (geyserBlacklist == null)
 				SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed + " --> " + geyserID);
 			else
 				SgtLogger.l("grabbing replacement geyser at " + position.ToString() + ", seed :" + seed + " --> " + geyserID);
@@ -502,6 +542,26 @@ namespace ClusterTraitGenerationManager
 
 		}
 
+		internal static void DumpToFile(object data, string name)
+		{
+			var path = System.IO.Path.Combine(IO_Utils.ModPath, name + ".json");
+			IO_Utils.DumpToFile(data, path);
+
+		}
+
+		internal static void AddGeyserLikes()
+		{
+			//Oil Well:
+			ModAssets.AllGeysers[OilWellConfig.ID] = new GeyserDataEntry(OilWellConfig.ID, global::STRINGS.CREATURES.SPECIES.OIL_WELL.NAME, global::STRINGS.CREATURES.SPECIES.OIL_WELL.DESC, "geyser_side_oil_kanim", false);
+			if (DlcManager.IsContentSubscribed(DlcManager.DLC5_ID))
+			{
+				//Tidal Spring:
+				ModAssets.AllGeysers[SmallReefGeyserConfig.ID] = new GeyserDataEntry(SmallReefGeyserConfig.ID, global::STRINGS.CREATURES.SPECIES.GEYSER.SMALLREEFGEYSER.NAME, global::STRINGS.CREATURES.SPECIES.GEYSER.SMALLREEFGEYSER.DESC, "geyser_reef_kanim", false);
+				//Thermal Gas Fissure
+				ModAssets.AllGeysers[UnderwaterVentConfig.ID] = new GeyserDataEntry(UnderwaterVentConfig.ID, global::STRINGS.CREATURES.SPECIES.GEYSER.UNDERWATERVENT.NAME, global::STRINGS.CREATURES.SPECIES.GEYSER.UNDERWATERVENT.DESC, "underwater_vent_kanim", false);
+			}
+		}
+
 		public static List<KeyValuePair<string, WorldTrait>> AllTraitsWithRandom
 		{
 			get
@@ -510,7 +570,7 @@ namespace ClusterTraitGenerationManager
 				{
 					new KeyValuePair<string, WorldTrait>(ModAssets.CGM_RandomTrait, ModAssets.RandomizedTraitsTrait)
 				};
-				traits.AddRange(SettingsCache.worldTraits.ToList());				
+				traits.AddRange(SettingsCache.worldTraits.ToList());
 				return traits.OrderBy(kvp => global::Strings.Get(kvp.Value.name).ToString()).ToList();
 			}
 		}

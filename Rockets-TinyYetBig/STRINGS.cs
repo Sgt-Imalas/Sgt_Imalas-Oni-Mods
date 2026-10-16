@@ -1,6 +1,4 @@
-﻿using Rockets_TinyYetBig.Buildings.CargoBays;
-using Rockets_TinyYetBig.Buildings.Nosecones;
-using UtilLibs;
+﻿using UtilLibs;
 using static Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.ELEMENTS;
@@ -85,6 +83,10 @@ namespace Rockets_TinyYetBig
 				public static LocString RTB_OXIDIZEREFFICIENCY_6 = "Oxidizer Efficiency 6";
 
 				public static LocString KATAIRITE = global::STRINGS.ELEMENTS.KATAIRITE.NAME;
+				public static LocString RTB_ATTACHMENTSLOTSTATIONPARTS = "Orbital Construction Module mounting point";
+				public static LocString RTB_ATTACHMENTSLOTROCKETMODULEUPGRADES = "Module Upgrade Installation Slot";
+
+				public static LocString RTB_BURNABLECARBON = "Burnable Carbon";
 			}
 
 		}
@@ -114,7 +116,7 @@ namespace Rockets_TinyYetBig
 			public static LocString NAME = FormatAsLink("Deep Space Research",nameof(DEEPSPACERESEARCH));
 			public static LocString UNLOCKNAME = (PRE_KEYWORD + NAME + PST_KEYWORD + " Capability");
 			public static LocString UNLOCKDESC = ("Allows " + PRE_KEYWORD + NAME + PST_KEYWORD + " points to be accumulated, unlocking higher technology tiers.\nCan be accumulated before research completion via artifact analysis.");
-			public static LocString DESC = FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH)) + " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting deep space analysis research in the low artifical gravity of a space station.";
+			public static LocString DESC = FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH)) + " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting deep space analysis research in the low artifical gravity of a space station.\n\nALPHA INFO: Un-dust artifacts at the artifact analysis station to unlock the initial science, THIS WILL BE CHANGED IN THE FUTURE!)";
 			public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 
 		}
@@ -205,6 +207,14 @@ namespace Rockets_TinyYetBig
 			}
 		}
 
+		public class ENTITIES
+		{
+			public class DERELICTSTATION
+			{
+				public static LocString NAMEPRREFIX = "Derelict: ";
+				public static LocString DESCPREFIX = "The derelict remains of an old station, bearing some long lost secrets.\n\n";
+			}
+		}
 
 		public class BUILDINGS
 		{
@@ -258,8 +268,15 @@ namespace Rockets_TinyYetBig
 					public static LocString LOGIC_PORT_ARTIFACT = "POI has Artifact";
 					public static LocString LOGIC_PORT_ARTIFACT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the targeted POI has an artifact");
 					public static LocString LOGIC_PORT_ARTIFACT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
-
-
+					public class MODESWITCH
+					{
+						public static LocString HARVESTABLE_ONLY = "Mode: Drillable Resources only";
+						public static LocString HARVESTABLE_ONLY_TOOLTIP = "Only include resources of the POI that require drilling";
+						public static LocString FLOATING_ONLY = "Mode: Collectable Resources only";
+						public static LocString FLOATING_ONLY_TOOLTIP = "Only include collectable resources that do not require a drillcone.";
+						public static LocString ALL = "Mode: All Resources";
+						public static LocString ALL_TOOLTIP = "Include both freely collectable resources and those that require drilling.";
+					}
 				}
 
 				public class RTB_FRIDGEMODULEACCESSHATCH
@@ -392,6 +409,12 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "Connecting rocket platforms, now with verticality";
 					public static LocString EFFECT = ("Connects adjacent rocket platforms while doubling as a ladder.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
 				}
+				public class RTB_FIREPOLECONNECTIONADAPTER
+				{
+					public static LocString NAME = FormatAsLink("Rocket Port Firepole Adapter", nameof(RTB_FIREPOLECONNECTIONADAPTER));
+					public static LocString DESC = "Connecting rocket platforms, now with sliding";
+					public static LocString EFFECT = ("Connects adjacent rocket platforms while doubling as a firepole.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+				}				
 				public class RTB_HEPFUELLOADER
 				{
 					public static LocString NAME = FormatAsLink("Radbolt Loader", nameof(RTB_HEPFUELLOADER));
@@ -451,13 +474,13 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_STEAMGENERATORMODULE
 				{
-					public static LocString NAME = FormatAsLink("Steam Generator Module", nameof(SteamGeneratorModuleConfig));
+					public static LocString NAME = FormatAsLink("Steam Generator Module", nameof(RTB_STEAMGENERATORMODULE));
 					public static LocString DESC = "Useful for converting hot steam into usable power.";
 					public static LocString EFFECT = "Draws in " + FormatAsLink("Steam", "STEAM") + " from gas storage modules and uses it to generate electrical " + FormatAsLink("Power", "POWER") + ".\n\n If there are liquid storage modules with appropriate filters set, outputs hot " + FormatAsLink("Water", "WATER") + " to them." + GENERATORLIMIT;
 				}
 				public class RTB_GENERATORCOALMODULE
 				{
-					public static LocString NAME = FormatAsLink("Coal Generator Module", nameof(CoalGeneratorModuleConfig));
+					public static LocString NAME = FormatAsLink("Coal Generator Module", nameof(RTB_GENERATORCOALMODULE));
 					public static LocString DESC = ("Converts " + FormatAsLink("Coal", "CARBON") + " into electrical " + FormatAsLink("Power", "POWER") + ".");
 					public static LocString EFFECT = "Burning coal produces more energy than manual power, who could have thought this also works in space." + GENERATORLIMIT;
 					public static LocString SIDESCREEN_TOOLTIP = "Duplicants will be requested to deliver " + PRE_KEYWORD + "{0}" + PST_KEYWORD + " when the amount stored falls below <b>{1}</b>";
@@ -466,7 +489,7 @@ namespace Rockets_TinyYetBig
 
 				public class RTB_HABITATMODULESTARGAZER
 				{
-					public static LocString NAME = FormatAsLink("Stargazer Nosecone", nameof(HabitatModuleStargazerConfig));
+					public static LocString NAME = FormatAsLink("Stargazer Nosecone", nameof(RTB_HABITATMODULESTARGAZER));
 					public static LocString DESC = "The stars have never felt this close before like in this Command Module.";
 					public static LocString EFFECT = ("Closes during starts and landings to protect the glass\n\n" +
 														"Functions as a Command Module and a Nosecone.\n\n" +
@@ -476,13 +499,13 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_CRITTERCONTAINMENTMODULE
 				{
-					public static LocString NAME = FormatAsLink("[DEPRECATED] Critter Containment Module", nameof(CritterContainmentModuleConfigOLD));
+					public static LocString NAME = FormatAsLink("[DEPRECATED] Critter Containment Module", nameof(RTB_CRITTERCONTAINMENTMODULE));
 					public static LocString EFFECT = "This module allows the safe transport of critters to their new home. ";
 					public static LocString DESC = "These critters will go where no critter has gone before.";
 				}
 				public class RTB_CRITTERSTASISMODULE
 				{
-					public static LocString NAME = FormatAsLink("Critter Stasis Module", nameof(CritterStasisModuleConfig));
+					public static LocString NAME = FormatAsLink("Critter Stasis Module", nameof(RTB_CRITTERSTASISMODULE));
 					public static LocString EFFECT = "This module allows the safe transport of critters to their new home.\n\nStored Critters wont age.";
 					public static LocString DESC = "These critters will go where no critter has gone before.";
 				}
@@ -508,7 +531,7 @@ namespace Rockets_TinyYetBig
 				}
 				public class RYB_NOSECONEHEPHARVEST
 				{
-					public static LocString NAME = FormatAsLink("Laser Drillcone", nameof(ResourceHarvestModuleHEP));
+					public static LocString NAME = FormatAsLink("Laser Drillcone", "RYB_NOSECONEHEPHARVEST");
 					public static LocString DESC = "Harvests resources from the universe with the power of radbolts and lasers";
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEHARVEST.EFFECT;
 				}
@@ -534,7 +557,7 @@ namespace Rockets_TinyYetBig
 
 				public class RTB_NOSECONESOLAR
 				{
-					public static LocString NAME = FormatAsLink("Solar Nosecone", nameof(NoseConeSolarConfig));
+					public static LocString NAME = FormatAsLink("Solar Nosecone", nameof(RTB_NOSECONESOLAR));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.DESC;
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.EFFECT + "\n\n" +
 						"Converts " + FormatAsLink("Sunlight", "LIGHT") + " into electrical " + FormatAsLink("Power", "POWER") + " for use on rockets.\n\nMust be exposed to space.";
@@ -543,33 +566,42 @@ namespace Rockets_TinyYetBig
 
 				public class RTB_HEPBATTERYMODULE
 				{
-					public static LocString NAME = FormatAsLink("Radbolt Chamber Module", nameof(HEPBatteryModuleConfig));
+					public static LocString NAME = FormatAsLink("Radbolt Chamber Module", nameof(RTB_HEPBATTERYMODULE));
 					public static LocString DESC = "Particles packed up and ready to visit the stars.";
 					public static LocString EFFECT = ("Stores Radbolts in a high-energy state, ready for transport.\n\n" +
 						"Requires a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " to release radbolts from storage when the Radbolt threshold is reached.\n\n" +
-						"Radbolts in storage won't decay as long as the modules solar panels can function.\n\n" +
+						"Radbolts in storage won't decay as long as the module is powered, this can either happen via its built in solar panels or power connectors on battery- and spacefarer modules\n\n" +
 						"Automatically refills a " + RYB_NOSECONEHEPHARVEST.NAME);
 				}
 
 				public class RTB_HABITATMODULEPLATEDLARGE
 				{
-					public static LocString NAME = FormatAsLink("Plated Spacefarer Nosecone", nameof(HabitatModuleSmallExpandedConfig));
+					public static LocString NAME = FormatAsLink("Plated Spacefarer Nosecone", nameof(RTB_HABITATMODULEPLATEDLARGE));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.DESC;
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.EFFECT + "\n\nInterior is fully shielded from radiation.";
 				}
 
 				public class RTB_HABITATMODULESMALLEXPANDED
 				{
-					public static LocString NAME = FormatAsLink("Extended Solo Spacefarer Nosecone", nameof(HabitatModuleSmallExpandedConfig));
+					public static LocString NAME = FormatAsLink("Extended Solo Spacefarer Nosecone", nameof(RTB_HABITATMODULESMALLEXPANDED));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.DESC;
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.EFFECT;
 				}
 				public class RTB_HABITATMODULEMEDIUMEXPANDED
 				{
-					public static LocString NAME = FormatAsLink("Extended Spacefarer Module", nameof(HabitatModuleMediumExpandedConfig));
+					public static LocString NAME = FormatAsLink("Extended Spacefarer Module", nameof(RTB_HABITATMODULEMEDIUMEXPANDED));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.DESC;
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.EFFECT;
 				}
+				public class RTB_AIOCARGOBAYCLUSTER
+				{
+					public static LocString NAME = FormatAsLink("Multi-Functional Storage Module", nameof(RTB_AIOCARGOBAYCLUSTER));
+					public static LocString DESC = "A bit of this, a bit of that.."; 
+					public static LocString EFFECT = ("Allows Duplicants to keep a supply of all types of materials in the rocket.\n\nDoes not collect floating space resources.\n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
+				}
+
+
+
 				public class RTB_ROCKETPLATFORMTAG
 				{
 					public static LocString NAME = "Rocket Platform";
@@ -588,6 +620,56 @@ namespace Rockets_TinyYetBig
 
 					public static LocString STATUSITEM_TOOLTIP_ACTIVE = "The custom condition \"{0}\" is completed";
 					public static LocString STATUSITEM_TOOLTIP_INACTIVE = "The custom condition \"{0}\" is incomplete!";
+				}
+				public class RTB_DERELICTWALLTILE
+				{
+					public static LocString NAME = FormatAsLink("Derelict Wall Tile", "RTB_DERELICTWALLTILE");
+					public static LocString DESC = "Keeps the space out.";
+					public static LocString EFFECT = "The walls of a space derelict.";
+				}
+				public class RTB_POI_SOLARPANEL
+				{
+					public static LocString NAME = FormatAsLink("Derelict Solar Panel", "RTB_POI_SOLARPANEL");
+					public static LocString DESC = "It has stopped working";
+					public static LocString EFFECT = "The the dysfunctional remains of a solar panel.";
+				}
+				public class RTB_DERELICTEXTERIORWALL
+				{
+					public static LocString NAME = FormatAsLink("Derelict Wall", "RTB_DERELICTEXTERIORWALL");
+					public static LocString DESC = "Wall panelling that creaks with age";
+					public static LocString EFFECT = $"Prevents {FormatAsLink("Gas", "ELEMENTS_GAS")} and {FormatAsLink("Liquid", "ELEMENTS_LIQUID")} loss in space.";
+				}
+				public class RTB_DERELICTDOCKINGDOOR
+				{
+					public static LocString NAME = FormatAsLink("Derelict Docking Port", nameof(RTB_DERELICTDOCKINGDOOR));
+					public static LocString DESC = "Back in the day, this was used for astronaut transfers..";
+					public static LocString EFFECT = "Enables Rockets with a docking bridge to connect to the derelict station.\nRockets requirWe a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.";
+				}
+				public class RTB_TECHUNLOCK
+				{
+					public static LocString NAME = FormatAsLink("Abandoned Station Computer", "RTB_TECHUNLOCK");
+					public static LocString DESC = $"An ancient computer terminal, it still runs on Windows 42\n\n\nThis computer terminal is somehow still able to function.\n\nIt contains valuable insights on the mysteries of the cosmos\n\nInteract to unlock new Technologies.";
+				}
+				public class RTB_PROPLADDER
+				{
+					public static LocString NAME = FormatAsLink("Derelict Ladder", "RTB_PROPLADDER");
+					public static LocString DESC = "A functional ladder, made a long time ago";
+					public static LocString EFFECT = "Increases Duplicant climbing speed.";
+				}
+				public class RTB_DERELICTANTENNA
+				{
+					public static LocString NAME = FormatAsLink("Derelict Antenna", "RTB_DERELICTANTENNA");
+					public static LocString DESC = "The transmission speed on this thing must have been great.";
+					public static LocString EFFECT = "A broken down antenna that was once used to transmit data";
+				}
+				public class RTB_CARGOBAYFILTER
+				{
+					public static LocString NAME = FormatAsLink("Cargo Bay Filter Upgrade", "RTB_CARGOBAYFILTER");
+					public static LocString DESC = "Turns out not collecting it in the first place beats having to dump the unwanted resources later.";
+					public static LocString EFFECT = UIUtils.EmboldenText(PRE_KEYWORD+"Rocket Module Upgrade"+ PST_KEYWORD) +
+						", must be constructed attached to compatible rocket modules" +
+						"\n\nCompatible with regular cargo bay modules." +
+						$"\nEnables filtering of items collected by {PRE_KEYWORD}Cargo Bays{PST_KEYWORD} via their storage filters.";
 				}
 
 			}
@@ -681,17 +763,46 @@ namespace Rockets_TinyYetBig
 					public static LocString DOCKEDINFO = "\n • {0}";
 					public static LocString MULTIPLES = "multiple crafts";
 				}
+				public class RTB_PENDINGSTATIONPARTDECONSTRUCTION
+				{
+					public static LocString NAME = "Part Deconstruction Errand";
+					public static LocString TOOLTIP = "Stored station part will be deconstructed once a Duplicant is available";
+				}
 			}
 		}
 
 		public class UI
 		{
+			public static class RTB_ROCKET_UPGRADES
+			{
+				public static class FAILURE_REASONS
+				{
+					public static LocString INVALID = "Unknown Upgrade - how did this happen?";
+					public static LocString DUPLICATE = "Upgrade is already installed!";
+					public static LocString INCOMPATIBLE = "Upgrade not compatible with this module!";
+				}
+			}
+			public static class RTB_DISMANTLESTATIONPART
+			{
+				public static LocString LABEL = "Deconstruct stored part";
+				public static LocString TOOLTIP = "Dismantle the currently stored space station part back into its construction materials.";
+			}
+			public static class RTB_CARGOBAYFILTER
+			{
+				public static LocString LABEL = "Only collect filtered items";
+				public static LocString TOOLTIP = "When enabled, the cargo bay will only collect floating resources selected in its item filter.";
+				public static LocString TOOLTIP_NOTCONSTRUCTED = "Cargo bay filter upgrade not installed.";
+			}
+			public static class RTB_DERELICTDISCOVERED
+			{
+				public static LocString NAME = "Derelict Station Discovered!";
+				public static LocString TOOLTIP = "Amazing!\n\nMy Duplicants have discovered an abandoned derelict floating in space.\n\nI should send a space mission to investigate it.";
+			}
 			public static LocString PRODUCTINFO_SPACE_STATION_INTERIOR = "Space station interior only";
 			public static LocString PRODUCTINFO_SPACE_STATION_NOT_INTERIOR = "Cannot build inside space station";
 			public class RTB_RESEACH_UNLOCK
 			{
 				public static LocString TEXT = "Eureka! We've decrypted the abandoned station computer's salvageable data.\n\nWe now have the ability to construct habitat stations in the vast emptyness of space!\n\nNew Research has become available.";
-				
 			}
 
 			public static LocString TOOLTIP_ADDON_RTB = UIUtils.ColorText(UIUtils.EmboldenText("Rocketry Expanded"), "a0a0a0") + " Content"; //light grey
@@ -852,7 +963,7 @@ namespace Rockets_TinyYetBig
 				public static LocString ASSIGNTOOTHERBUTTONTEXT = "Assign Duplicant to the other Spacecraft";
 
 			}
-			public static class ROCKETGENERATOR
+			public class ROCKETGENERATOR
 			{
 				public static LocString TITLE = "Generator State";
 				public static LocString BUTTONTEXT = "Active while landed";
@@ -866,12 +977,39 @@ namespace Rockets_TinyYetBig
 					public static LocString BUILDMENUTITLE = "Rocket Fueling";
 					public static LocString TOOLTIP = "";
 				}
+				public static class RTB_MODULEUPGRADES
+				{
+					public static LocString NAME = "Rocket Module Upgrades";
+					public static LocString BUILDMENUTITLE = "Rocket Module Upgrades";
+					public static LocString TOOLTIP = "";
+				}
 
 			}
+			public class ROCKETBLUEPRINTS_SECONDARYSIDESCREEN
+			{
+				public class TITLE
+				{
+					public static LocString TITLETEXT = "Rocket Templates";
+				}
+				public class BLUEPRINTID
+				{
+					public class TEXTAREA
+					{
+						public static LocString PLACEHOLDER = "Enter rocket template name...";
+					}
+				}
+				public class USEBUTTON
+				{
+					public static LocString TEXT = "Create new rocket template";
+					public static LocString TEXT_USE = "Construct selected template";
+				}
+			}
+
 		}
 
 		public class UI_MOD
 		{
+			public static LocString RTB_ROCKETBLOCKEDBY = "Launch path blocked by:";
 			public class CLUSTERMAPROCKETSIDESCREEN
 			{
 
@@ -904,15 +1042,22 @@ namespace Rockets_TinyYetBig
 				public class SPACESTATIONSIDESCREEN
 				{
 					public static LocString VIEW_WORLD_TOOLTIP = "View Space Station Interior";
+					public static LocString VIEW_DERELICT_TOOLTIP = "View Oversee Derelict Interior";
 					public static LocString TITLE = "Space Station";
-
+					public static LocString TITLE_DERELICT = "Derelict Station";
 					public static LocString VIEW_WORLD_DESC = "Oversee Station Interior";
+					public static LocString VIEW_WORLD_DERELICT_DESC = "Oversee Derelict Interior";
 				}
 				public class SPACECONSTRUCTIONSITE
 				{
 					public static LocString TITLE = "Space Construction Site";
 					public static LocString DESC = "This construction site will produce a {0} once all these parts are assembled:";
 
+				}
+				public class SCANNERMODULE_GATHERINGSTRINGS
+				{
+					public static LocString GATHERING_IN_PROGRESS = "Scanning...";
+					public static LocString GATHERING_STOPPED = "Not scanning";
 				}
 			}
 			public class FLUSHURANIUM
@@ -1105,6 +1250,11 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Infinite POI Mining Capacity";
 				public static LocString TOOLTIP = "Capacity of mineable POIs becomes infinite. Does not affect artifacts.";
 			}
+			public class ROCKETMODULEUPGRADES
+			{
+				public static LocString TITLE = "Rocket Module Upgrades";
+				public static LocString TOOLTIP = "Adds a number of upgrades that can be applied to various rocket modules to improve them.";
+			}
 			public class PILOTSKILLAFFECTSDRILLSPEED
 			{
 				public static LocString TITLE = "Pilot Skill affects Mining Speed";
@@ -1182,6 +1332,11 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Compress Interiors & Remove Rocket Limit";
 				public static LocString TOOLTIP = "Removes the rocket limit of 16 and trims excessive space outside of the rocket walls in spacefarer interiors\nRequired for space stations.";
 			}
+			public class CEMTEREDINTERIORS
+			{
+				public static LocString TITLE = "Center Interiors";
+				public static LocString TOOLTIP = "Centers the rocket interior template in the rocket (it is offset by 1 otherwise)\nAlways active with Compressed Interiors.";
+			}
 			public class ENABLEADVWORLDSELECTOR
 			{
 				public static LocString TITLE = "Improved World Selector";
@@ -1234,8 +1389,13 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_HUGECARGOBAYTECH
 				{
-					public static LocString NAME = FormatAsLink("Thinking larger", nameof(RTB_LARGESPACESTATIONTECH));
+					public static LocString NAME = FormatAsLink("Thinking Larger", nameof(RTB_LARGESPACESTATIONTECH));
 					public static LocString DESC = "Lets bring home ALL those minerals.";
+				}
+				public class RTB_CARGOBAYFILTERTECH
+				{
+					public static LocString NAME = FormatAsLink("Cargo Bay Collection Filters", nameof(RTB_CARGOBAYFILTERTECH));
+					public static LocString DESC = "Lets bring home ONLY THOSE minerals.";
 				}
 			}
 		}

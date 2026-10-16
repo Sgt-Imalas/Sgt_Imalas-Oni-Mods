@@ -1,16 +1,11 @@
-﻿using Database;
-using Klei.CustomSettings;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SetStartDupes.CarePackageEditor.UI;
 using SetStartDupes.Patches;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 
 namespace SetStartDupes.CarePackageEditor
 {

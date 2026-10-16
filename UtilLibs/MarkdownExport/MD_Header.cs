@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static UtilLibs.MarkdownExport.MD_Localization;
-using static UtilLibs.MarkdownExport.MarkdownUtil;
 
 namespace UtilLibs.MarkdownExport
 {

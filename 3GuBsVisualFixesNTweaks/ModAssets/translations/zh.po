@@ -1,0 +1,89 @@
+#. Hide Floor Visualizer
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.MISC.TAGS.VFNT_PLACEMENTVISUALIZEREXCLUDED"
+msgid "Hide Floor Visualizer"
+msgstr "隐藏地板可视化"
+
+#. Liquid Tweaks
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.CATEGORIES.LIQUID"
+msgid "Liquid Tweaks"
+msgstr "液体调整"
+
+#. Hide Tile Bits
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.HIDDENTILEBITS.NAME"
+msgid "Hide Tile Bits"
+msgstr "隐藏砖块碎片"
+
+#. Small Bits and Tops
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.HIDDENTILEBITS.TILEBITCHANGE.BITSANDTOPS"
+msgid "Small Bits and Tops"
+msgstr "小碎片和顶部"
+
+#. Small bits only
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.HIDDENTILEBITS.TILEBITCHANGE.BITSONLY"
+msgid "Small bits only"
+msgstr "仅小碎片"
+
+#. All Bits and Tops
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.HIDDENTILEBITS.TILEBITCHANGE.EVERYTHING"
+msgid "All Bits and Tops"
+msgstr "所有部件与上衣"
+
+#. None
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.HIDDENTILEBITS.TILEBITCHANGE.NONE"
+msgid "None"
+msgstr "无"
+
+#. Hide parts of the decor bits of tiles
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.HIDDENTILEBITS.TOOLTIP"
+msgid "Hide parts of the decor bits of tiles"
+msgstr "隐藏砖块装饰碎片的某些部分"
+
+#. Bubbling Magma
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.MAGMA_BUBBLES.NAME"
+msgid "Bubbling Magma"
+msgstr "冒泡岩浆"
+
+#. Magma open to air/vacuum is now bubbling (visual fx only).
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.MAGMA_BUBBLES.TOOLTIP"
+msgid "Magma open to air/vacuum is now bubbling (visual fx only)."
+msgstr "暴露于空气/真空的岩浆现在会冒泡（仅视觉效果）。"
+
+#. More Tool FX
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.MORETOOLFX.NAME"
+msgid "More Tool FX"
+msgstr "更多工具特效"
+
+#. Makes the Dig tool display different tool FX based on the material dug out.  Also reintroduces an unused deconstruct tool fx beam.
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.MORETOOLFX.TOOLTIP"
+msgid "Makes the Dig tool display different tool FX based on the material dug out.\nAlso reintroduces an unused deconstruct tool fx beam."
+msgstr "使挖掘工具根据挖出的材料显示不同的工具特效。\n同时重新引入一条未使用的拆除工具特效光束。"
+
+#. Old Magma Visuals
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.OLD_MAGMA.NAME"
+msgid "Old Magma Visuals"
+msgstr "旧版岩浆视觉"
+
+#. Reverts Magma back to the Red Soup it was before the liquid shader update (U59/Aquatic Dlc Release)
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.OLD_MAGMA.TOOLTIP"
+msgid "Reverts Magma back to the Red Soup it was before the liquid shader update (U59/Aquatic Dlc Release)"
+msgstr "将岩浆还原为液体着色器更新（U59/水生 DLC 发布）之前的红色浓汤"
+
+#. Old Molten Metal Visuals
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.OLD_METALS.NAME"
+msgid "Old Molten Metal Visuals"
+msgstr "旧版熔融金属视觉"
+
+#. Reverts molten metals back to the colorful Soup they were before the liquid shader update (U59/Aquatic Dlc Release)
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.OLD_METALS.TOOLTIP"
+msgid "Reverts molten metals back to the colorful Soup they were before the liquid shader update (U59/Aquatic Dlc Release)"
+msgstr "将熔融金属还原为液体着色器更新（U59/水生 DLC 发布）之前的彩色浓汤"
+
+#. Rocket Platform in Front of rockets
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.ROCKETPLATFORM_FRONT.NAME"
+msgid "Rocket Platform in Front of rockets"
+msgstr "火箭平台位于火箭前方"
+
+#. Render the rocket platform in front of rocket engines and their exhaust
+msgctxt "_3GuBsVisualFixesNTweaks.STRINGS.VFNT_MODCONFIG.ROCKETPLATFORM_FRONT.TOOLTIP"
+msgid "Render the rocket platform in front of rocket engines and their exhaust"
+msgstr "将火箭平台渲染在火箭引擎及其尾焰前方"

@@ -128,37 +128,37 @@ namespace SGTIM_NotificationManager
 			}
 		}
 
-        [HarmonyPatch(typeof(BionicSuffocationMonitor))]
-        [HarmonyPatch(nameof(BionicSuffocationMonitor.InitializeStates))]
-        public static class BionicSuffocationNotification
-        {
-            public static void Postfix(BionicSuffocationMonitor __instance)
-            {
-                __instance.noOxygen.suffocating.enterActions.Clear();
-                //__instance.nooxygen.suffocating.exitActions.Clear();
-                __instance.noOxygen.suffocating.Update((BionicSuffocationMonitor.Instance smi, float dt) =>
-                {
-                    float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
-                    bool BeyondNotificationThreshold = (double)smi.breath.value <= breathValuePercentage;
+		[HarmonyPatch(typeof(BionicSuffocationMonitor))]
+		[HarmonyPatch(nameof(BionicSuffocationMonitor.InitializeStates))]
+		public static class BionicSuffocationNotification
+		{
+			public static void Postfix(BionicSuffocationMonitor __instance)
+			{
+				__instance.noOxygen.suffocating.enterActions.Clear();
+				//__instance.nooxygen.suffocating.exitActions.Clear();
+				__instance.noOxygen.suffocating.Update((BionicSuffocationMonitor.Instance smi, float dt) =>
+				{
+					float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+					bool BeyondNotificationThreshold = (double)smi.breath.value <= breathValuePercentage;
 
-                    if (smi.master.gameObject.TryGetComponent<KSelectable>(out var selectable))
-                    {
-                        if (BeyondNotificationThreshold)
-                        {
-                            selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.Suffocating);
-                        }
-                        else
-                        {
-                            selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.HoldingBreath);
-                        }
-                    }
-                }
-                );
-            }
-        }
-		        
+					if (smi.master.gameObject.TryGetComponent<KSelectable>(out var selectable))
+					{
+						if (BeyondNotificationThreshold)
+						{
+							selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.Suffocating);
+						}
+						else
+						{
+							selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.HoldingBreath);
+						}
+					}
+				}
+				);
+			}
+		}
 
-        [HarmonyPatch(typeof(NotificationScreen), nameof(NotificationScreen.PlayDingSound))]
+
+		[HarmonyPatch(typeof(NotificationScreen), nameof(NotificationScreen.PlayDingSound))]
 		public static class MuteDingSound
 		{
 			public static void Prefix(Notification notification)
@@ -221,12 +221,32 @@ namespace SGTIM_NotificationManager
 				{
 					skipAudio = Config.Instance.MUTE_RADIATIONVOMITING_SOUND;
 				}
-				else if(notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.FOODROT.NAME)
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.FOODROT.NAME)
 				{
 					skipAudio = Config.Instance.MUTE_FOODROT_SOUND;
 				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.UNREFRIGERATEDFOOD.NAME)
+				{
+					skipAudio = Config.Instance.MUTE_UNREFRIGERATEDFOOD_SOUND;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.BROKENMACHINE.NAME)
+				{
+					skipAudio = Config.Instance.MUTE_BROKENMACHINE_SOUND;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.DUPLICANTDIED.NAME)
+				{
+					skipAudio = Config.Instance.MUTE_DUPLICANTDIED_SOUND;
+				}
+				else if (notification.titleText == global::STRINGS.CREATURES.STATUSITEMS.STARVING.NOTIFICATION_NAME)
+				{
+					skipAudio = Config.Instance.MUTE_CRITTER_STARVATION_SOUND;
+				}
+				else if(notification.titleText == global::STRINGS.DUPLICANTS.DISEASES.ALLERGIES.NAME)
+				{
+					skipAudio = Config.Instance.MUTE_ALLERGIES_SOUND;
+				}
 
-				notification.playSound = !skipAudio;
+					notification.playSound = !skipAudio;
 			}
 		}
 		[HarmonyPatch(typeof(NotificationScreen.Entry))]
@@ -241,6 +261,7 @@ namespace SGTIM_NotificationManager
 				bool pause = false;
 				bool moveCam = false;
 
+				//no switch case possible due to these field values not being constant
 				if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STARVING.NOTIFICATION_NAME)
 				{
 					pause = Config.Instance.PAUSE_ON_STARVATION;
@@ -300,6 +321,31 @@ namespace SGTIM_NotificationManager
 				{
 					pause = Config.Instance.PAUSE_ON_FOODROT;
 					moveCam = Config.Instance.PAN_TO_FOODROT;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.UNREFRIGERATEDFOOD.NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_UNREFRIGERATEDFOOD;
+					moveCam = Config.Instance.PAN_TO_UNREFRIGERATEDFOOD;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.BROKENMACHINE.NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_BROKENMACHINE;
+					moveCam = Config.Instance.PAN_TO_BROKENMACHINE;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.DUPLICANTDIED.NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_DUPLICANTDIED;
+					moveCam = Config.Instance.PAN_TO_DUPLICANTDIED;
+				}
+				else if (notification.titleText == global::STRINGS.CREATURES.STATUSITEMS.STARVING.NOTIFICATION_NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_CRITTER_STARVATION;
+					moveCam = Config.Instance.PAN_TO_CRITTER_STARVATION;
+				}
+				else if(notification.titleText == global::STRINGS.DUPLICANTS.DISEASES.ALLERGIES.NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_ALLERGIES;
+					moveCam = Config.Instance.PAN_TO_ALLERGIES;
 				}
 
 				if (GameClock.Instance != null)

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
 	<!--Write mod.yaml file-->
 	<Target Name="GenerateModYaml" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<ModLines Include="title: '$(ModName)'"/>
 			<ModLines Include="description: &quot;$([System.String]::Copy('$(ModDescription)').Replace('&quot;', '\&quot;'))&quot;"/>
 			<ModLines Include="staticID: $(AssemblyName)"/>
-			<!--<ModLines Include="steamID: $(SteamId)" Condition="'$(SteamId)' != ''"/>--> <!--Causes recoverable parse errors :/-->
+			<!--<ModLines Include="steamID: $(SteamId)" Condition="'$(SteamId)' != ''"/>-->
+			<!--Causes recoverable parse errors :/-->
 		</ItemGroup>
 		<WriteLinesToFile File="$(TargetDir)/mod.yaml" Overwrite="true" Lines="@(ModLines)"/>
-    <ItemGroup>
-      <FileWrites Include="$(TargetDir)/mod.yaml" Condition="Exists('$(TargetDir)/mod.yaml')"/>
-    </ItemGroup>
+		<ItemGroup>
+			<FileWrites Include="$(TargetDir)/mod.yaml" Condition="Exists('$(TargetDir)/mod.yaml')"/>
+		</ItemGroup>
 	</Target>
 	<!--Write mod_info.yaml file-->
 	<Target Name="GenerateModInfoYaml" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
@@ -26,9 +26,9 @@
 			<ModInfoLines Include="$([System.String]::Copy('$(ForbiddenDlcIds)').Insert(0,' - ').Replace(',','%0a- '))" Condition="'$(ForbiddenDlcIds)' != ''"/>
 		</ItemGroup>
 		<WriteLinesToFile File="$(TargetDir)/mod_info.yaml" Overwrite="true" Lines="@(ModInfoLines)"/>
-    <ItemGroup>
-      <FileWrites Include="$(TargetDir)/mod_info.yaml" Condition="Exists('$(TargetDir)/mod_info.yaml')"/>
-    </ItemGroup>
+		<ItemGroup>
+			<FileWrites Include="$(TargetDir)/mod_info.yaml" Condition="Exists('$(TargetDir)/mod_info.yaml')"/>
+		</ItemGroup>
 	</Target>
 	<!--Write LauncherMetadata.json file for Romen ModLauncher and SgtsModUpdater-->
 	<Target Name="GenerateLauncherMetadata" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
@@ -38,14 +38,60 @@
 			<LauncherMetadataLines Include='"UpdateIndexURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json",'/>
 			<LauncherMetadataLines Include='"BugReportURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues/new/choose",'/>
 			<LauncherMetadataLines Include='"RepoURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods",'/>
-			<LauncherMetadataLines Include='"Author":"$(Authors)"'/>			
+			<LauncherMetadataLines Include='"Author":"$(Authors)"'/>
 			<LauncherMetadataLines Include='}'/>
 		</ItemGroup>
 		<WriteLinesToFile File="$(TargetDir)/LauncherMetadata.json" Overwrite="true" Lines="@(LauncherMetadataLines)"/>
-    <ItemGroup>
-      <FileWrites Include="$(TargetDir)/LauncherMetadata.json" Condition="Exists('$(TargetDir)/LauncherMetadata.json')"/>
-    </ItemGroup>
+		<ItemGroup>
+			<FileWrites Include="$(TargetDir)/LauncherMetadata.json" Condition="Exists('$(TargetDir)/LauncherMetadata.json')"/>
+		</ItemGroup>
 	</Target>
+
+
+	<!--Checks if any PO files in the translations folder are invalid (if there are any)-->
+	<PropertyGroup>
+		<_POVerify>$(MSBuildThisFileDirectory)_POVerify\bin\$(Configuration)\netstandard2.0\_POVerify.dll</_POVerify>
+	</PropertyGroup>
+	
+	<UsingTask
+    TaskName="_POVerify.ValidatePoFiles"
+    AssemblyFile="$(_POVerify)"
+    Condition="Exists('$(_POVerify)')" />
+	
+	<Target Name="Verify PO files" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true' and Exists('$(_POVerify)') and '$(GameLibsFolder)' != '../Lib'">
+		<ItemGroup>
+			<POFiles Include=".\ModAssets\translations\**\*.po" />
+		</ItemGroup>
+
+		<ValidatePoFiles Files="@(POFiles)" />
+	</Target>
+
+	<!--Compresses Kanims--><!--
+	<PropertyGroup>
+		<_KAnimPacker>$(MSBuildThisFileDirectory)_KAnimPacker\bin\$(Configuration)\netstandard2.0\_KAnimPacker.dll</_KAnimPacker>
+	</PropertyGroup>
+
+	<UsingTask
+    TaskName="_KAnimPacker.PackKanims"
+    AssemblyFile="$(_KAnimPacker)"
+    Condition="Exists('$(_KAnimPacker)')" />-->
+
+	<!--BeforeTargets="Build"--><!--
+	<Target Name="CompressKanims"
+			BeforeTargets="Clean"
+			Condition="'$(CompressKanims)' == 'true' and '$(DoNotBuildAsMod)' != 'true' and Exists('$(_KAnimPacker)')">
+		<ItemGroup>
+			<KAnims Include=".\ModAssets\translations\**\*.po" />
+		</ItemGroup>
+
+		<PackKanims Executable="$(MSBuildThisFileDirectory)_KAnimPacker\texconv.exe" InputDirectory=".\ModAssets\anim" />
+	</Target>
+
+
+	<Target Name="PackTextures">
+		<TexconvTask Executable="$(ProjectDir)Tools\texconv.exe" InputDirectory="$(ProjectDir)Textures" />
+	</Target>-->
+
 
 	<!--Merges all dlls in the output folder into a single dll-->
 	<Target Name="ILRepack" AfterTargets="Build" Condition="'$(IsPacked)' == 'true'">
@@ -69,15 +115,43 @@
 		<TargetFolder Condition="'$(GameLibsFolder)' == '../Lib'">../Builds\$(TargetName)</TargetFolder>
 	</PropertyGroup>
 
+	<!--<Target Name="PackKanims" BeforeTargets="CopyModsToDevFolder" Condition="'$(CompressKanims)' == 'true' and '$(DoNotBuildAsMod)' != 'true'">
+		<ItemGroup>
+			<IgnorableAssets Include=".\**\*.afphoto;.\**\*.mo;.\**\*.afphoto~lock~;.\**\*.pdn;.\**\.gitkeep" />
+		</ItemGroup>
+
+		<ItemGroup>
+			<ModAnimBytes Include=".\ModAssets\anims\**\*.bytes" Exclude="@(IgnorableAssets)"/>
+			<ModAnimPngs Include=".\ModAssets\anims\**\*.png" Exclude="@(IgnorableAssets)"/>
+		</ItemGroup>
+
+
+		<Copy
+		  SourceFiles="@(ModAnimBytes)"
+		  DestinationFolder=".\ModAssets\anims_packed\%(RecursiveDir)')"
+		  SkipUnchangedFiles="false" />
+
+
+		<Message Text="Compressing Kanims" Importance="High"/>
+		--><!--<Exec Command='texconv -f BC7_UNORM -m 1 -y "%(ModAnimPngs.FileName)" -o ".\ModAssets\anims_packed\%(ModAnimPngs.RecursiveDir)"' />--><!--
+
+	</Target>-->
+
 	<!--Copies the mod dll, the two yaml files and everything inside the ModAssets folder to the target mod folder-->
 	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(DoNotBuildAsMod)' != 'true'">
 
 		<Message Text="Executing CopyDLLs task" Importance="High" />
+		<ItemGroup>
+			<IgnorableAssets Include=".\**\*.afphoto;.\**\*.mo;.\**\*.afphoto~lock~;.\**\*.pdn;.\**\.gitkeep" />
 
+			<IgnorableAssets Include=".\ModAssets\anim\**\*.*" Condition="'$(CompressKanims)' == 'true'" />
+			<IgnorableAssets Include=".\ModAssets\assets\textures\**\*.*" Condition="'$(CompressTextures)' == 'true'" />
+
+		</ItemGroup>
 		<ItemGroup>
 			<ModAssets
 				Include = ".\ModAssets\**\*.*"
-				Exclude = ".\**\*.afphoto;.\**\*.mo;.\**\*.afphoto~lock~"
+				Exclude="@(IgnorableAssets)"
 				/>
 		</ItemGroup>
 
@@ -92,14 +166,14 @@
 		  
 		  DestinationFolder="$(TargetFolder)"/>
 
-		<Message Text="Copy ModAssets to $(TargetFolder)" Importance="High"></Message>
+		<Message Text="Copy ModAssets to $(TargetFolder)" Importance="High"/>
 
 		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(TargetFolder)\%(RecursiveDir)" SkipUnchangedFiles="false" Condition="'$(GameLibsFolder)' == '../Lib' Or '$(SkipAssetClone)' != 'true'"/>
 
 		<Message Text="Copied build files" Importance="High" />
 
 	</Target>
-	
+
 	<!--<Target Name ="CreateHashInfoFile" AfterTargets="CopyModsToDevFolder" Condition="'$(DoNotBuildAsMod)' != 'true' and '$(GameLibsFolder)' == '../Lib'">
 		<RecursiveFolderHashing TargetFile="FileHashes.json" TargetFolder="$(TargetFolder)"></RecursiveFolderHashing>
 	</Target>-->
@@ -139,14 +213,6 @@
 
 	</Target>-->
 
-	<!--Create folder for publicized dlls if not existing-->
-	<Target Name="PubliciseMKDIR"
-		BeforeTargets="Publicise"
-		Condition="'$(GameLibsFolder)' != '../Lib' and '$(IsMod)' == 'true'"
-		>
-		<MakeDir Directories="$(SolutionDir)\PublicisedAssembly"/>
-	</Target>
-
 	<!--Creates publicized dlls from the game dlls-->
 	<ItemGroup>
 		<PubliciseAssemblies       Include="Assembly-CSharp.dll;Assembly-CSharp-firstpass.dll;"/>
@@ -159,11 +225,15 @@
 		Condition="'$(GameLibsFolder)' != '../Lib' and '$(IsMod)' == 'true'"
 		>
 
-		<Publicise
+		<Message Text="Publicizing $(Inputs)" Importance="High"/>
+		<MakeDir Directories="$(SolutionDir)/PublicisedAssembly"/>
+		<Exec Command='dotnet tool run assembly-publicizer -o "$(SolutionDir)PublicisedAssembly/%(PubliciseAssembliesInputs.Filename)_public%(PubliciseAssembliesInputs.Extension)" "%(PubliciseAssembliesInputs.Identity)"' />
+
+		<!--<Publicise
 			InputAssemblies="@(PubliciseAssembliesInputs)"
 			OutputPath="$(SolutionDir)\PublicisedAssembly"
 			PubliciseCompilerGenerated="false"
-			/>
+			/>-->
 		<!--
 		    Publicise also does internal incremental "compilation", and
 		    doesn't change the timestamp on the target file when it does
@@ -202,7 +272,7 @@
 					    Ionic.Zip.dll;
 					    Newtonsoft.Json.dll;
 					    com.rlabrecque.steamworks.net.dll;
-					    netstandard.dll
+						UnityEngine.IMGUIModule.dll;
 					    " />
 		<RefAssemblies Include="../PublicisedAssembly/*.dll; @(GameRefAssemblies->'$(GameLibsFolder)\%(Identity)')" />
 	</ItemGroup>
@@ -218,7 +288,6 @@
 		<ItemGroup>
 			<RefAsmerArguments Include="@(RefAssemblies -> '&quot;%(FullPath)&quot;', ' ')" />
 		</ItemGroup>
-
-		<Exec Command="Refasmer -v -O ../Lib --all -c @(RefAsmerArguments)" />
+		<Exec Command="dotnet tool run refasmer -v -O ../Lib --all -c @(RefAsmerArguments)" />
 	</Target>
 </Project>

@@ -117,7 +117,7 @@ namespace ModProfileManager_Addon.UnityUI
 			//blueprint files
 
 			ModProfileSearchbar = transform.Find("FileHierarchy/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			ModProfileSearchbar.OnValueChanged.AddListener(ApplyPresetsFilter);
+			ModProfileSearchbar.AddListener(ApplyPresetsFilter);
 			ModProfileSearchbar.Text = string.Empty;
 
 			OpenPresetFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
@@ -141,7 +141,7 @@ namespace ModProfileManager_Addon.UnityUI
 
 			ModEntrySearchbar = transform.Find("ModEntryView/SearchBar/Input").FindOrAddComponent<FInputField2>();
 
-			ModEntrySearchbar.OnValueChanged.AddListener(ApplyModsFilter);
+			ModEntrySearchbar.AddListener(ApplyModsFilter);
 
 			ModEntrySearchbar.Text = string.Empty;
 
@@ -222,7 +222,7 @@ namespace ModProfileManager_Addon.UnityUI
 		{
 			ModAssets.SyncMods(dontDisableActives);
 			var mm = Global.Instance.modManager;
-			mm.events.Add(new Event() { event_type = EventType.RestartRequested });
+			mm.events.Add(new KMod.Event() { event_type = KMod.EventType.RestartRequested });
 
 			mm.RestartDialog((string)STRINGS.UI.PRESET_APPLIED_TITLE, global::STRINGS.UI.FRONTEND.MOD_DIALOGS.MODS_SCREEN_CHANGES.MESSAGE, new System.Action(() => this.Show(false)), true, this.gameObject);
 		}
@@ -302,7 +302,7 @@ namespace ModProfileManager_Addon.UnityUI
 				if (!DialogueCurrentlyOpen)
 					this.Show(false);
 			}
-			if (e.TryConsume(Action.DebugToggleClusterFX))
+			if (e.TryConsume(Action.Find))
 			{
 				ModProfileSearchbar.ExternalStartEditing();
 			}

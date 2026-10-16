@@ -1,11 +1,7 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
-using System;
+﻿using HarmonyLib;
+using SkillsInfoScreen.UI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
@@ -28,16 +24,22 @@ namespace SkillsInfoScreen
         {
 			[HarmonyPrefix]
             public static void CreateAttributeListScreen(ManagementMenu __instance)
-            {
+			{
 				///make attribute screen
-				var vitalsScreenGO = __instance.vitalsScreen.gameObject;
-				var screenGO = Util.KInstantiateUI(vitalsScreenGO, vitalsScreenGO.transform.parent.gameObject);
-				screenGO.transform.name = nameof(AttributeInfoScreen);
-				UnityEngine.Object.DestroyImmediate(screenGO.GetComponent<VitalsTableScreen>());
-				AttributesScreen = screenGO.AddOrGet<AttributeInfoScreen>();
-				AttributesScreen.GetPrefabRefs(__instance.vitalsScreen);
-				AttributesScreen.FetchOptionsPanel(__instance.jobsScreen);
-				screenGO.SetActive(true);
+				var sourceScreenGO = __instance.vitalsScreen.gameObject;
+
+				var parent = sourceScreenGO.transform.parent.gameObject;
+
+				UnityAttributeInfoScreen.InitScreen(parent);
+				/////make attribute screen
+				//var vitalsScreenGO = __instance.vitalsScreen.gameObject;
+				//var screenGO = Util.KInstantiateUI(vitalsScreenGO, vitalsScreenGO.transform.parent.gameObject);
+				//screenGO.transform.name = nameof(AttributeInfoScreen);
+				//UnityEngine.Object.DestroyImmediate(screenGO.GetComponent<VitalsTableScreen>());
+				//AttributesScreen = screenGO.AddOrGet<AttributeInfoScreen>();
+				//AttributesScreen.GetPrefabRefs(__instance.vitalsScreen);
+				//AttributesScreen.FetchOptionsPanel(__instance.jobsScreen);
+				//screenGO.SetActive(true);
 
 				//SgtLogger.l("SkillsInfoScreen gameobject:");
 				//UIUtils.ListAllChildrenWithComponents(screenGO.transform);
@@ -45,10 +47,10 @@ namespace SkillsInfoScreen
 
 				///make menu info entry
 				AttributesInfo = new ManagementMenu.ManagementMenuToggleInfo(
-					 STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE,
+					 global::STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE,
 					AttributeIcon, 
 					hotkey: Action.NumActions, 
-					tooltip: STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE);
+					tooltip: global::STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE);
 
 				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
 				__instance.AddToggleTooltip(AttributesInfo);
@@ -57,11 +59,11 @@ namespace SkillsInfoScreen
 				AttributesInfo.prefabOverride =  Util.KInstantiateUI<KToggle>((useSmallButtons ? __instance.smallPrefab : __instance.prefab).gameObject);
 
 				//prevent word wrapping due to shrunken buttons
-				__instance.prefab.transform.Find("TextContainer/Text").GetComponent<LocText>().enableWordWrapping = false;
+				__instance.prefab.transform.Find("TextContainer/Text").GetComponent<LocText>().textWrappingMode = TMPro.TextWrappingModes.NoWrap;
 
 				__instance.ScreenInfoMatch.Add(AttributesInfo, new()
 				{
-					screen = AttributesScreen,
+					screen = UnityAttributeInfoScreen.Instance,
 					toggleInfo = AttributesInfo,
 					cancelHandler = null
 				});
@@ -80,8 +82,8 @@ namespace SkillsInfoScreen
 				screenGO.SetActive(true);
 
 				SgtLogger.l("SkillsOverviewInfoScreen gameobject:");
-				UIUtils.ListAllChildrenWithComponents(screenGO.transform);
-				UIUtils.ListAllChildrenPath(screenGO.transform);
+				//UIUtils.ListAllChildrenWithComponents(screenGO.transform);
+				//UIUtils.ListAllChildrenPath(screenGO.transform);
 
 				///make menu info entry
 				SkillsOverviewInfo = new ManagementMenu.ManagementMenuToggleInfo(
@@ -126,14 +128,14 @@ namespace SkillsInfoScreen
 
 			}
 		}
-
+		
 		[HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
 		public class Localization_Initialize_Patch
 		{
 			public static void Postfix()
 			{
-				SkillsOverviewName = STRINGS.UI.DETAILTABS.STATS.NAME + " " + STRINGS.UI.DETAILTABS.NEEDS.OVERVIEW;
-				LocalisationUtil.Translate(typeof(MOD_STRINGS));
+				SkillsOverviewName = global::STRINGS.UI.DETAILTABS.STATS.NAME + " " + global::STRINGS.UI.DETAILTABS.NEEDS.OVERVIEW;
+				LocalisationUtil.Translate(typeof(STRINGS), true);
 
 				//Strings.Add(SkillOverviewKey, skillsoverview);
 			}

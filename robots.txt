@@ -1,0 +1,498 @@
+# This is an unfinished list of blocks for AI web crawlers. The descriptions have been mostly copied from the companies
+# websites / taken from our other sources.
+# 
+# The data has been sourced from the following places:
+# - https://www.foundationwebdev.com/2023/11/which-web-crawlers-are-associated-with-ai-crawlers/
+# - https://www.cyberciti.biz/web-developer/block-openai-bard-bing-ai-crawler-bots-using-robots-txt-file/
+# - https://www.searchenginejournal.com/ai-crawler-user-agents-list/558130/
+# - https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0
+# - https://pageradar.io/free-tools/ai-user-agents-list
+
+#
+# Block OpenAI Crawlers (probably incomplete)
+#
+
+# Bot used by OpenAI to collect training data for ChatGPT and future GPT models
+User-agent: GPTBot
+Disallow: /
+
+# Bot used for real-time searches when a user asks a question to ChatGPT
+User-agent: ChatGPT-User
+Disallow: /
+
+# This agent will probably ignore this file but you never know :(
+# OpenAI's agentic browser with integrated AI. Uses standard Chrome user-agent, making it completely indistinguishable from regular browser traffic. 
+User-agent: ChatGPT Atlas
+Disallow: /
+
+# ChatGPT web browsing bot for real-time web access during conversations
+User-agent;: ChatGPT-Browser
+Disallow: /
+
+# Updated version of ChatGPT-User bot for real-time searches (since February 2025)
+User-agent;: ChatGPT-User-v2
+Disallow: /
+
+# Specific indexing bot for ChatGPT Search, competitor to Google Search
+User-agent;: OAI-SearchBot
+Disallow: /
+
+#
+# Block Google Crawlers
+# - https://developers.google.com/crawling/docs/crawlers-fetchers/overview-google-crawlers
+
+# Crawling preferences addressed to the Google-CloudVertexBot user agent affect crawls requested by the site owners' for building Vertex AI Agents. It has no effect on Google Search or other products. 
+User-agent: Google-CloudVertexBot
+Disallow: /
+
+# Google-Extended is a standalone product token that web publishers can use to manage whether content Google crawls from their sites may be used for training future generations of Gemini models that power Gemini Apps
+# and Vertex AI API for Gemini and for grounding (providing content from the Google Search index to the model at prompt time to improve factuality and relevancy) in Gemini Apps and Grounding with Google Search on Vertex AI. 
+User-agent: Google-Extended
+Disallow: /
+
+# Google Bard AI assistant bot for web content retrieval
+User-agent: Bard-Ai
+Disallow: /
+
+# Google Gemini AI model bot for training and web content analysis
+User-agent: Gemini-Ai
+Disallow: /
+
+# Bot for Gemini Deep Research in-depth searches
+User-agent: Gemini-Deep-Research
+Disallow: /
+
+# Google crawler for Vertex AI Agents, crawls content at request of site owners building AI agents
+User-agent: Google-CloudVertexBot
+Disallow: /
+
+# Token to control access to content for Gemini/Bard and Vertex AI
+User-agent: Google-Extended
+Disallow: /
+
+# This agent will probably ignore this file but you never know :(
+# Google NotebookLM bot that fetches individual URLs provided by users as sources for their research projects
+User-agent: Google-NotebookLM
+Disallow: /
+
+# Google Project Mariner agentic browser for AI Ultra subscribers ($249.99/month). 
+# Operates on cloud-based virtual machines as a remote browser environment rather than traditional crawler.
+User-agent: GoogleAgent-Mariner
+Disallow: /
+
+#
+# Block Meta AI Training Crawlers
+#
+
+# Meta bot for training their AI models (Llama, etc.)
+User-agent: meta-externalagent
+Disallow: /
+
+# Meta bot for training their AI models (Llama, etc.)
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+# Traditional Facebook bot extended for AI and machine learning
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Meta-ExternalFetcher
+Disallow: /
+
+# Meta web indexer bot for building independent search capabilities for Meta AI chatbot
+User-agent: meta-webindexer
+Disallow: /
+
+# Allow link preview crawler (optional - comment out to block everything)
+User-agent: facebookexternalhit
+Allow: /
+
+#
+# Block common crawl non profit Crawlers
+#
+
+# Common Crawl bot, widely used for training open source AI models
+User-agent: CCBot
+Disallow: /
+
+#
+# Block Perplexity Crawlers
+#
+
+# If you want some info about perplexity stealth crawling, refer to this 
+# - https://blog.cloudflare.com/perplexity-is-using-stealth-undeclared-crawlers-to-evade-website-no-crawl-directives/
+
+# This agent will probably ignore this file but you never know :(
+# Perplexity indexing bot to feed their AI search engine
+User-agent: PerplexityBot
+Disallow: /
+
+# This agent will probably ignore this file but you never know :(
+# Perplexity uses headless browsers with Chrome user agents to bypass blocking
+User-agent;: Perplexity-Stealth
+Disallow: /
+
+# This agent will probably ignore this file but you never know :(
+# Bot triggered when a user clicks on a link in a Perplexity response
+User-agent;: Perplexity-User
+Disallow: /
+
+# Andi AI search engine bot, competitor to Perplexity
+User-agent: Andibot
+Disallow: /
+
+#
+# Block Anthropic Crawlers
+#
+
+# Updated Anthropic Claude bot for real-time web access and citations
+User-agent: Anthropic-Claude
+Disallow: /
+
+# Training bot for Anthropic's Claude models, collects data to improve models
+User-agent: anthropic-ai
+Disallow: /
+
+# Claude's web bot for exploration and indexing of web content
+‍User-agent: Claude-Web
+Disallow: /
+
+# Bot used by Claude to fetch citations and references in real-time during conversations
+User-agent: ClaudeBot
+Disallow: /
+
+#
+# Block Amazon Crawlers
+#
+
+# Amazon bot to improve Alexa and AWS AI services
+User-agent: Amazonbot
+Disallow: /
+
+#
+# Block Apple Crawlers
+#
+
+# Bot for training Apple AI models (Apple Intelligence)
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Applebot
+Disallow: /
+
+#
+# Block Bytedance Crawlers
+#
+
+# ByteDance (TikTok) bot for training their Chinese AI models
+User-agent: Bytespider
+Disallow: /
+
+User-agent: TikTokSpider
+Disallow: /
+
+#
+# Block Cohere AI Crawlers
+#
+
+# Cohere bot for training their language models and NLP
+User-agent: cohere-ai
+Disallow: /
+
+#
+# Block Diffbot Crawlers
+#
+
+# Diffbot bot for structured data extraction and creating knowledge graphs for AI
+User-agent: Diffbot
+Disallow: /
+
+#
+# Block DuckDuckGo Crawlers
+#
+
+# DuckDuckGo bot for their privacy-respecting AI assistant
+User-agent: DuckAssistBot
+Disallow: /
+
+#
+# Block Huawei Crawlers
+#
+
+User-agent: PetalBot
+Disallow: /
+
+#
+# Block ImagesiftBot Crawlers
+#
+
+# Bot for reverse image search and training image generation models
+User-agent: ImagesiftBot
+Disallow: /
+
+#
+# Block Webz.io Crawlers
+#
+
+User-agent: OmigiliBot
+Disallow: /
+
+User-agent: Omigili
+Disallow: /
+
+#
+# Block Bing Crawlers
+#
+
+# This could break some of bings search functions so use with caution.
+# Microsoft Bing crawler used for Bing Search and Copilot AI features
+User-agent: Bingbot
+Disallow: /
+
+#
+# Block Mistral Crawlers
+#
+
+# Mistral AI bot to retrieve citations in Le Chat
+User-agent: MistralAI-User
+Disallow: /
+
+#
+# Block ICC Crawlers
+#
+
+User-agent: ICC-Crawler
+Disallow: /
+
+#
+# Block Allen Institute Crawlers
+#
+
+# Allen Institute for AI bot for academic research and model training
+User-agent: AI2Bot
+Disallow: /
+
+#
+# Block Bisgur AI Crawlers
+#
+
+# New emerging AI bot, details on usage still limited
+User-agent: bigsur.ai
+Disallow: /
+
+#
+# Block Bright Data analysis Crawlers
+#
+
+# Bright Data analysis bot to collect data for AI
+User-agent: Brightbot
+Disallow: /
+
+#
+# Block Ceramic AI Crawlers
+#
+
+# This agent will probably ignore this file but you never know :(
+# Ceramic AI crawler for web content indexing and model training, first seen June 2025
+User-agent: TerraCotta
+Disallow: /
+
+#
+# Block Character.AI Crawlers
+#
+
+# Character.AI bot for training conversational AI characters
+User-agent: Character-AI 
+Disallow: /
+
+
+#
+# Block Devin AI Crawlers
+#
+
+# Devin AI code assistant bot to analyze and understand online code
+User-agent: Devin
+Disallow: /
+
+#
+# Block Cohere Crawlers
+#
+
+# Cohere bot for training their language models and NLP
+User-agent: Cohere-Ai
+Disallow: /
+
+# Cohere Command model bot for real-time information retrieval
+User-agent: Cohere-Command
+Disallow: /
+
+#
+# Block Crawlspace Crawlers
+#
+
+# Crawling service specialized for AI and data extraction
+User-agent: Crawlspace
+Disallow: /
+
+#
+# Block DeepSeek Crawlers
+#
+
+# DeepSeek AI bot for training their advanced reasoning models and data collection
+User-agent: DeepseekBot
+Disallow: /
+
+#
+# Block Fire Crawlers
+#
+
+# New scraping service specialized for AI and LLMs
+User-agent: FirecrawlAgent
+Disallow: /
+
+#
+# Block Groq Crawlers
+#
+
+# Groq inference engine bot for high-speed AI model data collection
+User-agent: Groq-Bot
+Disallow: /
+
+#
+# Block Hugging Face Crawlers
+#
+
+# Hugging Face bot for training open-source AI models and datasets
+User-agent: HuggingFace-Bot
+Disallow: /
+
+#
+# Block Ibou Crawlers
+#
+
+# Ethical search engine crawler that drives traffic to original sources. 
+# Uses GenAI for query processing but does NOT train AI models. Respects creators and publisher rights
+User-agent: IbouBot
+Disallow: /
+
+#
+# Block Replicate Crawlers
+#
+
+# Replicate platform bot for AI model training and data collection
+User-agent: Replicate-Bot
+Disallow: /
+
+#
+# Block RunPod Crawlers
+#
+
+# RunPod cloud platform bot for GPU-based AI training data collection
+User-agent: RunPod-Bot
+Disallow: /
+
+#
+# Block Imagesift Crawlers
+#
+
+# Bot for reverse image search and training image generation models
+User-agent: ImagesiftBot
+Disallow: /
+
+#
+# Block Timpi Crawlers
+#
+
+# Timpi bot for training their Large Language Models
+User-agent: TimpiBot
+Disallow: /
+
+#
+# Block Together AI Crawlers
+#
+
+# Together AI platform bot for decentralized AI model training
+User-agent: Together-Bot
+Disallow: /
+
+#
+# Block Webzio Crawlers
+#
+
+# Webz.io bot that collects data to sell to AI companies for training
+User-agent: Webzio-Extended
+Disallow: /
+
+#
+# Block xAI Crawlers
+#
+
+# Elon Musk's xAI bot for training Grok and other AI models
+User-agent: xAI-Bot
+Disallow: /
+
+#
+# Block You Crawlers
+#
+
+# You.com AI search engine bot for indexing and answering questions
+User-agent: YouBot
+Disallow: /
+
+#
+# Block Unknown Crawlers
+#
+
+# This agent will probably ignore this file but you never know :(
+# Chinese AI bot, origin and exact usage unknown
+User-agent: Kangaroo Bot
+Disallow: /
+
+# This agent will probably ignore this file but you never know :(
+# Another Chinese AI bot, possibly linked to Pangu models
+User-agent: PanguBot
+Disallow: /
+
+# Japanese AI bot, specific usage unknown
+User-agent: Cotoyogi
+Disallow: /
+
+# This agent will probably ignore this file but you never know :(
+# Malicious spam bot using OpenAI LLMs to generate custom spam messages for contact forms. 
+# Uses generic Chrome user-agent strings and residential proxies. Primarily targets customer support chats via Selenium automation.
+User-agent: AkiraBot
+Disallow: /
+
+# Below here, a couple of SEO analyzers follow, since those often
+# seem to be run by gen AI loving companies that collect site data,
+# or at best not very useful:
+
+# Block SemRush SEO analyzer:
+
+User-agent: SiteAuditBot
+Disallow: /
+
+# Block SemRush SEO analyzer:
+
+User-agent: SemrushBot-BA 
+Disallow: /
+
+# Block archive.org (may no longer work, but worth a try):
+
+User-agent: ia_archiver
+Disallow: /
+
+# Block archive.org (may no longer work, but worth a try):
+
+User-agent: archive.org_bot
+Disallow: /
+
+# Block ahrefs.com SEO analyzer:
+
+User-agent: AhrefsBot
+Disallow: /
+
+# Block https://moz.com/help/moz-pro SEO analyzer:
+
+User-agent: rogerbot
+Disallow: / 

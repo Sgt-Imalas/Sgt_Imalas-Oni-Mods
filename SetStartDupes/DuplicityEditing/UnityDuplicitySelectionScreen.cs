@@ -40,7 +40,7 @@ namespace SetStartDupes
 		Dictionary<Trait, GameObject> TraitContainers = new Dictionary<Trait, GameObject>();
 		Dictionary<SkillGroup, GameObject> DupeInterestContainers = new Dictionary<SkillGroup, GameObject>();
 		Dictionary<Effect, GameObject> EffectContainers = new Dictionary<Effect, GameObject>();
-		Dictionary<AccessorySlot, Dictionary<HashedString, GameObject>> BodypartContainers = new();
+		Dictionary<AccessorySlot, Dictionary<string, GameObject>> BodypartContainers = new();
 
 		Dictionary<OpenedFrom, List<GameObject>> CategoryEntries = new();
 
@@ -55,7 +55,7 @@ namespace SetStartDupes
 		}
 
 
-		public static void ShowWindow(Tag minionModel,OpenedFrom from, System.Action<object> OnSelect, System.Action onClose, AccessorySlot accessorySlot = null)
+		public static void ShowWindow(Tag minionModel, OpenedFrom from, System.Action<object> OnSelect, System.Action onClose, AccessorySlot accessorySlot = null)
 		{
 			if (Instance == null)
 			{
@@ -64,7 +64,7 @@ namespace SetStartDupes
 				Instance.Init();
 			}
 			Instance.OnSelect = OnSelect;
-			Instance.SetOpenedType(minionModel,from, accessorySlot);
+			Instance.SetOpenedType(minionModel, from, accessorySlot);
 			Instance.Show(true);
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
@@ -84,7 +84,7 @@ namespace SetStartDupes
 			{
 				this.Show(false);
 			}
-			if (e.TryConsume(Action.DebugToggleClusterFX))
+			if (e.TryConsume(Action.Find))
 			{
 				Searchbar.ExternalStartEditing();
 			}
@@ -102,10 +102,18 @@ namespace SetStartDupes
 
 				if (!enable)
 				{
+					HashSet<GameObject> invalids = [];
 					foreach (var entry in cat.Value)
 					{
+						if (entry.IsNullOrDestroyed())
+						{
+							invalids.Add(entry);
+							continue;
+						}
+
 						entry.SetActive(false);
 					}
+					cat.Value.RemoveAll(x => invalids.Contains(x));
 				}
 			}
 
@@ -207,7 +215,7 @@ namespace SetStartDupes
 			ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();
 
 			Searchbar = transform.Find("SearchBar/Input").FindOrAddComponent<FInputField2>();
-			Searchbar.OnValueChanged.AddListener(ApplyFilter);
+			Searchbar.AddListener(ApplyFilter);
 			Searchbar.Text = string.Empty;
 
 
@@ -255,6 +263,7 @@ namespace SetStartDupes
 				NextType.stress,
 				NextType.special,
 				NextType.geneShufflerTrait,
+				NextType.congenital,
 				NextType.posTrait,
 				NextType.bionic_boost,
 				NextType.needTrait,
@@ -277,6 +286,9 @@ namespace SetStartDupes
 
 				}
 			}
+			if(ModAssets.TraitAllowedInCurrentDLC(ModAssets.MINNOW_DLC_LOCKED))
+				CategoryEntries[OpenedFrom.Trait].Add(AddUIContainer(traitsDb.TryGet(ModAssets.MINNOW_DLC_LOCKED.id), NextType.congenital));
+
 			foreach (var item in interests)
 			{
 				if(item.choreGroupID == null) continue;
@@ -306,12 +318,12 @@ namespace SetStartDupes
 			}
 			foreach (var slot in AccessorySlotHelper.GetAllChangeableSlot())
 			{
-				BodypartContainers[slot] = new Dictionary<HashedString, GameObject>();
+				BodypartContainers[slot] = new();
 				foreach (var accessory in slot.accessories)
 				{
-					if (!BodypartContainers[slot].ContainsKey(accessory.IdHash))
+					if (!BodypartContainers[slot].ContainsKey(accessory.Id))
 					{
-						BodypartContainers[slot].Add(accessory.IdHash,
+						BodypartContainers[slot].Add(accessory.Id,
 							AddUiContainer(
 								accessory.Id,
 								"",
@@ -367,7 +379,7 @@ namespace SetStartDupes
 						}
 						else
 						{
-							entry.Value.SetActive(ShowInFilter(filterstring, new string[] { entry.Key.ToString() }));
+							entry.Value.SetActive(ShowInFilter(filterstring, new string[] { entry.Key.ToString()}));
 						}
 					}
 				}

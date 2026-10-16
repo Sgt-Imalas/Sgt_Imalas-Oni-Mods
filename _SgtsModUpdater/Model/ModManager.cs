@@ -1,21 +1,15 @@
 ﻿using _SgtsModUpdater.Extensions;
 using _SgtsModUpdater.Model.LocalMods;
+using _SgtsModUpdater.Model.ModsJsonData;
 using _SgtsModUpdater.Model.Update;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
+using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace _SgtsModUpdater.Model
@@ -37,8 +31,59 @@ namespace _SgtsModUpdater.Model
 		public ObservableCollection<ModRepoListInfo> Repos = new();
 		public ObservableCollection<RemoteMod> CurrentRepoMods = new();
 		public Dictionary<string, LocalMod> CurrentLocalInstalledMods = new();
+		public Dictionary<string, LocalMod> CurrentLocalInstalledModsByStaticId = new();
 
 		public ObservableCollection<LocalMod> LocalInstalledMods = new();
+
+		public ModsJsonWrapper ModsJsonWrap;
+
+		public void LoadModsJson()
+		{
+			RefreshLocalModInfoList();
+			string modsJsonPath = Path.Combine(Paths.ModsFolder, "mods.json");
+			if (File.Exists(modsJsonPath))
+			{
+				try
+				{
+					string json = File.ReadAllText(modsJsonPath);
+					var modsJson = Newtonsoft.Json.JsonConvert.DeserializeObject<ModsJson>(json);
+
+					ModsJsonWrap = new ModsJsonWrapper();
+					ModsJsonWrap.version = modsJson.version;
+
+					foreach (KleiMod mod in modsJson.mods)
+					{
+						if (CurrentLocalInstalledMods.TryGetValue(mod.staticID, out var localMod))
+						{
+							ModsJsonWrap.Add(mod, localMod);
+						}
+						else
+						{
+							Console.WriteLine(mod.staticID + " is missing mod.yaml");
+							ModsJsonWrap.Add(mod, null);
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine("Failed to load mods.json file: " + e.Message);
+				}
+			}
+		}
+		public void WriteModsJson()
+		{
+			string modsJsonPath = Path.Combine(Paths.ModsFolder, "mods.json");
+			try
+			{
+				string json = Newtonsoft.Json.JsonConvert.SerializeObject(ModsJsonWrap.UnWrap(), Newtonsoft.Json.Formatting.Indented);
+				File.WriteAllText(modsJsonPath, json);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("Failed to write mods.json file: " + e.Message);
+			}
+		}
+
 
 		public void SelectRepo(ModRepoListInfo repo)
 		{
@@ -56,7 +101,7 @@ namespace _SgtsModUpdater.Model
 
 			foreach (var mod in CurrentRepoMods)
 			{
-				if (CurrentLocalInstalledMods.TryGetValue(mod.staticID, out var localMod))
+				if (CurrentLocalInstalledModsByStaticId.TryGetValue(mod.staticID, out var localMod))
 				{
 					mod.SetInstalledMod(localMod);
 				}
@@ -102,8 +147,16 @@ namespace _SgtsModUpdater.Model
 		public void RefreshLocalModInfoList(bool collectRepos = false)
 		{
 			CurrentLocalInstalledMods.Clear();
+			CurrentLocalInstalledModsByStaticId.Clear();
 
 			Console.WriteLine("Refreshing info on local mods..");
+			if (Directory.Exists(Paths.DevModsFolder))
+			{
+				foreach (var modFolder in Directory.GetDirectories(Paths.DevModsFolder))
+				{
+					RefreshLocalModInfo(modFolder, collectRepos);
+				}
+			}
 			if (Directory.Exists(Paths.LocalModsFolder))
 			{
 				foreach (var modFolder in Directory.GetDirectories(Paths.LocalModsFolder))
@@ -148,25 +201,43 @@ namespace _SgtsModUpdater.Model
 					}
 				}
 
-				string modYamlFile = Path.Combine(modFolder, "mod.yaml");
-				if (!File.Exists(modYamlFile))
-					return null;
+				string staticModID = new DirectoryInfo(modFolder).Name + "." + new DirectoryInfo(modFolder).Parent.Name;
 
-				string modYaml = File.ReadAllText(modYamlFile);
-				ModYaml modYamlData = deserializer.Deserialize<ModYaml>(modYaml);
+				string modYamlFile = Path.Combine(modFolder, "mod.yaml");
+				ModYaml modYamlData = new ModYaml() { title = new DirectoryInfo(modFolder).Name, description = "No description found.", staticID = staticModID };
+				if (File.Exists(modYamlFile))
+				{
+					try
+					{
+						string modYaml = File.ReadAllText(modYamlFile);
+						modYamlData = deserializer.Deserialize<ModYaml>(modYaml);
+					}
+					catch (YamlException ye)
+					{
+						Console.WriteLine("could not parse mod.yaml for mod " + new DirectoryInfo(modFolder).Name);
+					}
+
+				}
 
 
 				string modInfoYamlFile = Path.Combine(modFolder, "mod_info.yaml");
-				if (!File.Exists(modInfoYamlFile))
-					return null;
-
-				string modInfoYaml = File.ReadAllText(modInfoYamlFile);
-				ModInfoYaml modInfoYamlData = deserializer.Deserialize<ModInfoYaml>(modInfoYaml);
-				var localModInfo = new LocalMod(modYamlData, modInfoYamlData, modFolder);
-				if (modYamlData.staticID == null)
+				ModInfoYaml modInfoYamlData = new ModInfoYaml() { version = " - " };
+				if (File.Exists(modInfoYamlFile))
 				{
-					return null;
+					try
+					{
+						string modInfoYaml = File.ReadAllText(modInfoYamlFile);
+						modInfoYamlData = deserializer.Deserialize<ModInfoYaml>(modInfoYaml);
+					}
+
+					catch (YamlException ye)
+					{
+						Console.WriteLine("could not parse mod_info.yaml for mod " + new DirectoryInfo( modFolder).Name);
+					}
 				}
+
+				var localModInfo = new LocalMod(modYamlData, modInfoYamlData, modFolder);
+
 				foreach (var file in Directory.GetFiles(modFolder))
 				{
 					var lower = file.ToLowerInvariant();
@@ -175,17 +246,28 @@ namespace _SgtsModUpdater.Model
 					var info = new FileInfo(file);
 					if (info.Extension != "dll")
 						continue;
-					string dllVersion = FileVersionInfo.GetVersionInfo(file).FileVersion;
+					string? dllVersion = FileVersionInfo.GetVersionInfo(file).FileVersion;
 					if (dllVersion != null)
 					{
 						localModInfo.DllVersion = dllVersion;
 					}
 				}
 
-				if (CurrentLocalInstalledMods.ContainsKey(modYamlData.staticID))
-					CurrentLocalInstalledMods.Remove(modYamlData.staticID);
+				if (CurrentLocalInstalledMods.ContainsKey(staticModID))
+				{
+					Console.WriteLine("Duplicate mod entry: " + staticModID);
+					CurrentLocalInstalledMods.Remove(staticModID);
+				}
 
-				CurrentLocalInstalledMods.Add(modYamlData.staticID, localModInfo);
+				CurrentLocalInstalledMods.Add(staticModID, localModInfo);
+				if(new DirectoryInfo(modFolder).Parent.Name == "Dev")
+					return localModInfo;
+				//dont look at dev mods for staticID mapping (thats used for remote updating)
+				if (CurrentLocalInstalledModsByStaticId.ContainsKey(modYamlData.staticID))
+				{
+					CurrentLocalInstalledModsByStaticId.Remove(modYamlData.staticID);
+				}
+				CurrentLocalInstalledModsByStaticId.Add(modYamlData.staticID, localModInfo);
 
 				return localModInfo;
 

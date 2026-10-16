@@ -1,10 +1,11 @@
-﻿using ElementUtilNamespace;
+﻿using ElementData;
+using ElementUtilNamespace;
 using Klei.AI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.ElementUtilNamespace;
@@ -17,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static ElementGrouping PlasticGroup;
 
-		public static string SteelAndTungstenMaterial => GameTags.Steel + "&" +ModElements.StainlessSteel_Solid.Tag+ "&" + SimHashes.Tungsten;
+		public static string SteelAndTungstenMaterial => ModAssets.GetHPASteelIngredient() + "&" + SimHashes.Tungsten;
 
 		/// Chemical Processing Industrial overhaul
 		public static readonly Color32 LOWGRADESAND_COLOR = new Color32(59, 46, 12, 255);
@@ -53,7 +54,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static readonly Color32 NITROGEN_COLOR = new Color32(205, 194, 255, 255);
 		///Permendur, alloy of cobalt and iron
 		public static readonly Color32 PERMENDUR_COLOR = UIUtils.rgb(140, 207, 255);
-		
+
 		//chromium color
 		public static readonly Color32 CHROMIUM_COLOR = UIUtils.rgb(223, 236, 247);
 		//chrome ore
@@ -96,7 +97,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Chloroschist_Solid = ElementInfo.Solid("Chloroschist", "raw_chloroschist_kanim", CHLOROSCHIST_COLOR),
 			ConcreteBlock_Solid = ElementInfo.Solid("ConcreteBlock", "slabs_new_kanim", CONCRETEBLOCK_COLOR),
 			FiberGlass_Solid = ElementInfo.Solid("SolidFiberglass", "solid_fiberglass_kanim", FIBERGLASS_COLOR),
-			Galena_Solid = ElementInfo.Solid("Galena", "raw_galena_kanim", GALENA_COLOR),
+			///Vanilla now
+			//Galena_Solid = ElementInfo.Solid("Galena", "raw_galena_kanim", GALENA_COLOR),
 			Isopropane_Gas = ElementInfo.Gas("IsopropaneGas", ISOPROPANE_COLOR),
 			MeteorOre_Solid = ElementInfo.Solid("MeteorOre", "raw_meteor_ore_kanim", METEOR_COLOR),
 			//Nitric Acid
@@ -123,8 +125,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			ToxicMix_Gas = ElementInfo.Gas("ToxicGas", TOXIC_COLOR),
 
 			Zinc_Solid = ElementInfo.Solid("SolidZinc", "solid_zinc_kanim", ZINC_COLOR),
-			Zinc_Liquid = ElementInfo.Liquid("MoltenZinc", ZINC_COLOR),
-			Zinc_Gas = ElementInfo.Gas("ZincGas", ZINC_COLOR),
+			///Vanilla now
+			//Zinc_Liquid = ElementInfo.Liquid("MoltenZinc", ZINC_COLOR),
+			//Zinc_Gas = ElementInfo.Gas("ZincGas", ZINC_COLOR),
 
 			//unburied from older version:
 			Nitrogen_Solid = ElementInfo.Solid("SolidNitrogen", "solid_nitrogen_kanim", NITROGEN_COLOR),
@@ -169,10 +172,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 
 		public static HashSet<Substance> ChemicalProcessing_IO_Elements = [], ChemicalProcessing_BioChem_Elements = [];
-
+		public static HashSet<SimHashes> ChemicalProcessing_IO_ElementIds = [], ChemicalProcessing_BioChem_ElementIds = [];
+		public static HashSet<SimHashes> DisabledModElements = [];
+		public static HashSet<Tag> DisabledModElementTags = [];
+		static void HideElement(Element element)
+		{
+			element.disabled = true;
+			element.oreTags = element.oreTags.Append(GameTags.HideFromCodex);
+			element.oreTags = element.oreTags.Append(GameTags.DeprecatedContent);
+			element.oreTags = element.oreTags.Append(GameTags.HideFromSpawnTool);
+			DisabledModElements.Add(element.id);
+			DisabledModElementTags.Add(element.id.CreateTag());
+			//SgtLogger.l("hiding " + element.name);
+		}
 		public static void RegisterSubstances(List<Substance> list)
 		{
 			var oreMaterial = list.Find(e => e.elementID == SimHashes.AluminumOre).material;
+
 			ChemicalProcessing_IO_Elements = new HashSet<Substance>()
 			{
 				BaseGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
@@ -180,13 +196,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				LowGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.Cuprite),
 
 				Ammonia_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidOxygen),
-				Ammonia_Liquid.CreateSubstance(),
+				Ammonia_Liquid.CreateSubstance().MakeLiquidifedAtmosphericGas(),
 				Ammonia_Gas.CreateSubstance(),
 
 				AmmoniumSalt_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidOxygen),
-				AmmoniumWater_Liquid.CreateSubstance(),
+				AmmoniumWater_Liquid.CreateSubstance().CausticSwirls(),
 
-				Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum, SILVER_COLOR),
+				//Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum, SILVER_COLOR),
+				Argentite_Solid.CreateSubstance(true,oreMaterial),
 				//Aurichalcite_Solid.CreateSubstanceFromElementTinted(SimHashes.Lead),
 				Aurichalcite_Solid.CreateSubstance(true,oreMaterial),
 				Borax_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCarbonDioxide),
@@ -196,9 +213,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				ConcreteBlock_Solid.CreateSubstanceFromElementTinted(SimHashes.Aerogel),
 				FiberGlass_Solid.CreateSubstanceFromElementTinted(SimHashes.Fullerene),
 				Isopropane_Gas.CreateSubstance(),
-				Galena_Solid.CreateSubstanceFromElementTinted(SimHashes.Rust),
+				//Galena_Solid.CreateSubstanceFromElementTinted(SimHashes.Rust),
 				MeteorOre_Solid.CreateSubstanceFromElementTinted(SimHashes.CrushedRock),
-				NitricAcid_Liquid.CreateSubstance(),
 				OilShale_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCrudeOil),
 				PhosphorBronze.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
 				Plasteel_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
@@ -209,55 +225,58 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				ChromiteOre_Solid.CreateSubstanceFromElementTinted(SimHashes.IronOre),
 				FerroChrome_Solid.CreateSubstanceFromElementTinted(SimHashes.Iron),
-				FerroChrome_Liquid.CreateSubstance(),
+				FerroChrome_Liquid.CreateSubstance().MakeMoltenMetal(),
+
 				Chromium_Solid.CreateSubstanceFromElementTinted(SimHashes.Steel),
-				Chromium_Liquid.CreateSubstance(),
+				Chromium_Liquid.CreateSubstance().MakeMoltenMetal(),
 				Chromium_Gas.CreateSubstance(),
 
 
 				RawNaturalGas_Gas.CreateSubstance(),
 
 				Silver_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),
-				Silver_Liquid.CreateSubstance(),
+				Silver_Liquid.CreateSubstance().MakeMoltenMetal(),
 				Silver_Gas.CreateSubstance(),
 
 				Slag_Solid.CreateSubstanceFromElementTinted(SimHashes.Regolith),
-				Slag_Liquid.CreateSubstance(),
+				Slag_Liquid.CreateSubstance().Glows().Opaque().Texture(Substance.SubstanceTexture.Magma),
 
-				SourWater_Liquid.CreateSubstance(),
+				SourWater_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Polluted),
 
-				SulphuricAcid_Liquid.CreateSubstance(),
+				NitricAcid_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Thick),
+				SulphuricAcid_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Thick),
 				SulphuricAcid_Gas.CreateSubstance(),
 
 				ToxicMix_Solid.CreateSubstanceFromElementTinted(SimHashes.Clay),
-				ToxicMix_Liquid.CreateSubstance(),
+				ToxicMix_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.PollutedBrine),
 				ToxicMix_Gas.CreateSubstance(),
 
 				Zinc_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),
-				Zinc_Liquid.CreateSubstance(),
-				Zinc_Gas.CreateSubstance(),
+				//Zinc_Liquid.CreateSubstance(),
+				//Zinc_Gas.CreateSubstance(),
 
 				//unburied from older version:
 				Nitrogen_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidHydrogen),
-				Nitrogen_Liquid.CreateSubstance(),
+				Nitrogen_Liquid.CreateSubstance().MakeLiquidifedAtmosphericGas(),
 				Nitrogen_Gas.CreateSubstance(),
 			};
+			ChemicalProcessing_IO_ElementIds = ChemicalProcessing_IO_Elements.Select(e => e.elementID).ToHashSet();
 
 			ChemicalProcessing_BioChem_Elements = new HashSet<Substance>()
 			{
 				BioDiesel_Solid.CreateSubstanceFromElementTinted(SimHashes.SuperInsulator),
-				BioDiesel_Liquid.CreateSubstance(),
+				BioDiesel_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Oil),
 
 				BioMass_Solid.CreateSubstanceFromElementTinted(SimHashes.Algae),
 
 				BioPlastic_Solid.CreateSubstanceFromElementTinted(SimHashes.Polypropylene),
 
 				VegetableOil_Solid.CreateSubstanceFromElementTinted(SimHashes.Isoresin),
-				VegetableOil_Liquid.CreateSubstance(),
+				VegetableOil_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Oil),
 				VegetableOil_Gas.CreateSubstance(),
 			};
-
-			list.AddRange(ChemicalProcessing_IO_Elements);			
+			ChemicalProcessing_BioChem_ElementIds = ChemicalProcessing_BioChem_Elements.Select(e => e.elementID).ToHashSet();
+			list.AddRange(ChemicalProcessing_IO_Elements);
 			list.AddRange(ChemicalProcessing_BioChem_Elements);
 
 			SetElementRottables();
@@ -372,7 +391,39 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 		}
 
-		public static void ClearReenabledVanillaElementCodexTags(ref List<ElementLoader.ElementEntry> elementList)
+		public static void HideDisabledWaters()
+		{
+			bool noChemprocIO = !Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+
+			var waters = PLANTS.SAFE_ELEMENTS.AllWaters.ToList();
+			waters.RemoveAll(e => noChemprocIO && ChemicalProcessing_IO_ElementIds.Contains(e));
+			PLANTS.SAFE_ELEMENTS.AllWaters = waters.ToArray();
+
+			var murkyWaters = PLANTS.SAFE_ELEMENTS.MurkyWaters.ToList();
+			murkyWaters.RemoveAll(e => noChemprocIO && ChemicalProcessing_IO_ElementIds.Contains(e));
+			PLANTS.SAFE_ELEMENTS.MurkyWaters = murkyWaters.ToArray();
+		}
+
+		public static void HideDisabledModElements()
+		{
+			bool noChemprocIO = !Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+			bool noChemprocBiochem = !Config.Instance.ChemicalProcessing_BioChemistry_Enabled;
+			if (noChemprocIO)
+				SgtLogger.l(ChemicalProcessing_IO_Elements.Count + " elements in disabled Chemproc IO, hiding them");
+			if (noChemprocBiochem)
+				SgtLogger.l(ChemicalProcessing_BioChem_Elements.Count + " elements in disabled Chemproc biochem, hiding them");
+
+			foreach (var element in ElementLoader.elements)
+			{
+				if (noChemprocIO && ChemicalProcessing_IO_ElementIds.Contains(element.id))
+					HideElement(element);
+				if (noChemprocBiochem && ChemicalProcessing_BioChem_ElementIds.Contains(element.id))
+					HideElement(element);
+			}
+		}
+
+
+		public static void ClearReenabledVanillaElementCodexTags(ref List<ElementData.ElementEntry> elementList)
 		{
 			HashSet<string> ToUnhide = [];
 
@@ -405,22 +456,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				UnhideElement(SimHashes.Brick);
 				UnhideElement(SimHashes.Cement);
 			}
-			HashSet<string> toHide = [];
 
-			if (!Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
-			{
-				foreach (var element in ChemicalProcessing_BioChem_Elements)
-				{
-					toHide.Add(element.elementID.ToString());
-				}
-			}
-			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-			{
-				foreach (var element in ChemicalProcessing_IO_Elements)
-				{
-					toHide.Add(element.elementID.ToString());
-				}
-			}
 			foreach (var element in elementList)
 			{
 				if (ToUnhide.Contains(element.elementId) && element.tags != null)
@@ -428,13 +464,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					var oreTags = element.tags.ToList();
 					oreTags.Remove(GameTags.HideFromCodex.ToString());
 					oreTags.Remove(GameTags.HideFromSpawnTool.ToString());
-					element.tags = oreTags.ToArray();
-				}
-				if (toHide.Contains(element.elementId))
-				{
-					var oreTags = element.tags?.ToList() ?? [];
-					oreTags.Add(GameTags.HideFromCodex.ToString());
-					oreTags.Add(GameTags.HideFromSpawnTool.ToString());
 					element.tags = oreTags.ToArray();
 				}
 			}
@@ -471,6 +500,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void ModifyExistingElements()
 		{
 			PlasticGroup = ElementGrouping.GroupAllWith(GameTags.Plastic);
+			bool ChemProcEnabled = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+			bool HPA_Enabled = Config.Instance.HighPressureApplications_Enabled;
 
 			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
 			{
@@ -481,7 +512,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///needs to always be active or fullerene page crashes
 			FixCachedStateTransitions();
 
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			if (ChemProcEnabled || (Config.Instance.HPA_HardenedAlloy && HPA_Enabled))
+				AddTagToElementAndEnable(SimHashes.TempConductorSolid, ModAssets.Tags.AIO_HardenedAlloy);
+
+			if (ChemProcEnabled)
 			{
 				//=[ SYNGAS ENABLING PATCH ]===============================================
 				AddTagToElementAndEnable(SimHashes.Syngas, GameTags.CombustibleGas);
@@ -511,6 +545,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				electrum_material.highTempTransitionOreID = SimHashes.Gold;
 				electrum_material.highTempTransitionOreMassConversion = 0.6f;
 				electrum_material.disabled = false;
+				electrum_material.oreTags = electrum_material.oreTags.Append(GameTags.UseSmeltingByproducts).ToArray();
+
+				//PYRITE: add sulphur physically accurate percentage
+				var pyriteElement = ElementLoader.FindElementByHash(SimHashes.FoolsGold);
+				pyriteElement.highTempTransitionOreID = SimHashes.Sulfur;
+				pyriteElement.highTempTransitionOreMassConversion = 0.53f;
+				pyriteElement.oreTags = pyriteElement.oreTags.Append(GameTags.UseSmeltingByproducts).ToArray();
+
 
 				//=[ BITUMEN PATCH ]=======================================================
 				AddTagsToElementAndEnable(SimHashes.Bitumen, [GameTags.ManufacturedMaterial, GameTags.BuildableAny], true);
@@ -521,11 +563,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//=[ MAFIC ROCK PATCH ]==========================================================
 				AddTagToElementAndEnable(SimHashes.MaficRock, GameTags.Crushable);
 
-
 				///add hardened alloy tag to thermium
-				AddTagToElementAndEnable(SimHashes.TempConductorSolid, ModAssets.Tags.AIO_HardenedAlloy);
 			}
-			if (Config.Instance.DupesEngineering_Enabled || Config.Instance.DupesMachinery_Enabled || Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			if (Config.Instance.DupesEngineering_Enabled || Config.Instance.DupesMachinery_Enabled || ChemProcEnabled)
 			{
 				//=[ CRUSHED ROCK PATCH ]====================================================
 				Element crushedRock_material = ElementLoader.FindElementByHash(SimHashes.CrushedRock);
@@ -533,7 +573,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddTagToElementAndEnable(SimHashes.CrushedRock, GameTags.ConsumableOre);
 			}
 			if (DlcManager.IsExpansion1Active() && Config.Instance.NuclearProcessing_Enabled)
-			{//=[ ENABLING RADIUM ]===================================================
+			{
+				//=[ ENABLING RADIUM ]===================================================
 				AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre, true);
 				//=[ ENABLING YellowCake ]===================================================
 				AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial, true);
@@ -556,14 +597,87 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				brick.highTemp = 2000;
 				AddTagsToElementAndEnable(SimHashes.Brick, [GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
 			}
-			
+
 
 			// adding combustible solid tag to coal and peat
 			AddTagToElementAndEnable(SimHashes.Carbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.RefinedCarbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.Peat, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.RefinedLipid, ModAssets.Tags.AIO_BioFuel);
+
+			AddTagToElementAndEnable(SimHashes.CarbonDioxide, ModAssets.Tags.SodaFountainGas);
+
+			//SgtLogger.l("Amount of elements with an atmosphere modifier: " + Rottable.AtmosphereModifier.Count);
+			foreach (var atmosphereModifier in Rottable.AtmosphereModifier)
+			{
+				//SgtLogger.l("Atmosphere modifier for element " + ((SimHashes)atmosphereModifier.Key).ToString() + " is " + atmosphereModifier.Value.ToString());
+				if (atmosphereModifier.Value != Rottable.RotAtmosphereQuality.Sterilizing)
+					continue;
+				var elementId = (SimHashes)atmosphereModifier.Key;
+				var element = ElementLoader.FindElementByHash(elementId);
+				if (element == null || !element.IsGas || element.lowTemp > UtilMethods.GetKelvinFromC(95))
+					continue;
+
+				AddTagToElementAndEnable(elementId, ModAssets.Tags.AIO_SterileAtmosphere);
+			}
+
+			foreach (var element in ElementLoader.elements)
+			{
+				if (element.HasTag(ModAssets.Tags.AIO_SterileAtmosphere))
+					SterilizingElements.Add(element.id);
+			}
 		}
+		public static HashSet<SimHashes> SterilizingElements = [];
+
+		static Dictionary<byte, HashSet<SimHashes>> DiseaseKilledByElementsCache = null;
+
+		public static bool DoesDiseaseKillGerm(byte diseaseIdx, SimHashes element)
+		{
+			if (DiseaseKilledByElementsCache == null)
+				InitializeSterileGermKilling();
+			return DiseaseKilledByElementsCache.TryGetValue(diseaseIdx, out var cached) && cached.Contains(element);
+
+		}
+		public static void InitializeSterileGermKilling()
+		{
+			SgtLogger.l("Caching Disease infos");
+			DiseaseKilledByElementsCache = [];
+			var diseases = Db.Get().Diseases;
+			foreach (var disease in diseases.resources)
+			{
+				DiseaseKilledByElementsCache[diseases.GetIndex(disease.id)] = [];
+
+				var rules = disease.exposureRules;
+				if (rules == null)
+					continue;
+				foreach (var elementId in SterilizingElements)
+				{
+					var element = ElementLoader.FindElementByHash(elementId);
+					if (element == null)
+					{
+						SgtLogger.warning("Could not find element " + elementId);
+						continue;
+					}
+
+					foreach (var rule in rules)
+					{
+						if (rule.Test(element))
+						{
+							if (!rule.populationHalfLife.HasValue)
+								continue;
+							var halfLife = rule.populationHalfLife.Value;	
+
+							if(halfLife > 0 && halfLife != float.PositiveInfinity)
+							{
+								SgtLogger.l(disease.Name + " dies on " + element.id);
+								DiseaseKilledByElementsCache[diseases.GetIndex(disease.id)].Add(elementId);
+							}
+						}
+					}					
+				}
+			}
+		}
+
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
 
 		static void AddTagsToElementAndEnable(SimHashes element, Tag[] tags = null, bool setMatCat = false)
@@ -615,6 +729,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		internal static void ConfigureElements()
 		{
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				//Warning: this needs to be done after Db.Init()!
+				var veggyOilLubeEffect = BionicOilMonitor.CreateFreshOilEffectVariation(VegetableOil_Liquid.Tag.ToString(), -1f / 60f, 3f);
+				//power delta doesnt work, its handled in BionicBatteryMonitor.DischargeUpdate
+				//veggyOilLubeEffect.Add(new AttributeModifier(Db.Get().Amounts.BionicInternalBattery.deltaAttribute.Id, stressBonus, global::STRINGS.DUPLICANTS.MODIFIERS.FRESHOIL.NAME));
+				BionicOilMonitor.LUBRICANT_TYPE_EFFECT[VegetableOil_Liquid] = veggyOilLubeEffect;
+			}
+
+
+
 			AddElementOverheatModifier(ConcreteBlock_Solid, 100);
 			AddElementDecorModifier(ConcreteBlock_Solid, -0.15f);
 
@@ -626,8 +751,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddElementOverheatModifier(Brass_Solid, 80);
 
 			//=: Giving Galena Temperature modifications :==============================================================
-			AddElementDecorModifier(Galena_Solid, 0.1f);
-			AddElementOverheatModifier(Galena_Solid, -30);
+			AddElementDecorModifier(SimHashes.Galena, 0.1f);
+			AddElementOverheatModifier(SimHashes.Galena, -30);
 
 			//=: Giving Carbon Fibre Temperature modifications :========================================================
 			AddElementOverheatModifier(CarbonFiber_Solid, 5000);
@@ -635,7 +760,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//=: Giving Plasteel Temperature modifications :============================================================
 			AddElementOverheatModifier(Plasteel_Solid, 400);
 			//AddElementOverheatModifier(Plasteel_Solid, 800);
-	
+
 
 			float silverDegreeBonus = 40;
 			///---own additions----
@@ -687,5 +812,60 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddElementDecorModifier(StainlessSteel_Solid, 0.75f);
 		}
 
+		internal static void RegisterTraitElementBandModifications()
+		{
+			foreach (var worldTrait in ProcGen.SettingsCache.GetCachedWorldTraits())
+			{
+				if (worldTrait.elementBandModifiers == null || !worldTrait.elementBandModifiers.Any())
+					continue;
+				var copperOreMods = worldTrait.elementBandModifiers.FirstOrDefault(modifier => modifier.element == SimHashes.Cuprite.ToString());
+
+				if (copperOreMods != null)
+				{
+					float massMult = copperOreMods.massMultiplier;
+					float bandMult = copperOreMods.bandMultiplier;
+
+					foreach (var element in RefinementRecipeHelper.GetAllOres())
+					{
+						if (worldTrait.elementBandModifiers.Any(band => band.element == element.id.ToString()))
+							continue;
+
+						///is an ore and not an alloy
+						if (element.HasTag(GameTags.Metal) && !element.HasTag(GameTags.RefinedMetal))
+						{
+							SgtLogger.l("adding " + element.id + " ore band multiplier to " + worldTrait.filePath);
+							worldTrait.elementBandModifiers.Add(new() { element = element.id.ToString(), bandMultiplier = bandMult, massMultiplier = massMult });
+						}
+					}
+				}
+			}
+		}
+
+		internal static void LoadYaml(ref List<ElementEntry> result)
+		{
+			try
+			{
+				foreach (var file in new DirectoryInfo(Path.Combine(IO_Utils.ModPath, "mod_elements")).GetFiles("*.yaml"))
+				{
+					var fileName = file.Name;
+					if (fileName.StartsWith("~") || fileName.StartsWith("."))
+					{
+						continue;
+					}
+					if (KYaml.LoadFile<ElementEntryCollection>(file.FullName, out ElementEntryCollection elementCollection, (KYaml.ErrorHandler)((path, exception) => { })))
+					{
+						result.AddRange(elementCollection.elements);
+					}
+					else
+					{
+						SgtLogger.error("Failed to load custom elements from yaml: " + file.FullName);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				SgtLogger.error("Failed to load custom elements from yaml: " + e);
+			}
+		}
 	}
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
+﻿using TUNING;
 using UnityEngine;
 
 namespace LightBridge.Buildings
@@ -17,7 +12,7 @@ namespace LightBridge.Buildings
             string[] Materials = new string[]
             {
                 MATERIALS.REFINED_METAL,
-                MATERIALS.TRANSPARENT
+                MATERIALS.ALL_GLASSES
             };
             float[] MaterialCosts = new float[] { 400, 200 };
 

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using SetStartDupes.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,12 +105,15 @@ namespace SetStartDupes.Patches
 
 
 
-                if (__instance.reshuffleButton == null || !Config.Instance.RerollDuringGame_CarePackage)
+                if (__instance.reshuffleButton == null || !Config.Instance.ModifyDuringGame_CarePackage)
                     return;
 
                 var selectButton = Util.KInstantiateUI<KButton>(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
-                selectButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
-                UIUtils.FindAndDestroy(selectButton.transform, "Text");
+				selectButton.GetComponent<RerollDisabler>()?.SelfDestruct();
+				selectButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
+				selectButton.transform.GetComponentInChildren<ToolTip>()?.SetSimpleTooltip(STRINGS.UI.BUTTONS.SELECTCAREPACKAGE);
+
+				UIUtils.FindAndDestroy(selectButton.transform, "Text");
                 if (selectButton.transform.Find("FG").TryGetComponent<Image>(out var image))
                 {
                     image.sprite = Assets.GetSprite("icon_gear");

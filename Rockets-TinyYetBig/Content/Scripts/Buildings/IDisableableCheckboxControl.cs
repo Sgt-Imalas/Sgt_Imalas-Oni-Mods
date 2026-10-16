@@ -1,0 +1,16 @@
+﻿namespace Rockets_TinyYetBig.Content.Scripts.Buildings
+{
+	internal interface IDisableableCheckboxControl
+	{
+		string CheckboxTitleKey { get; }
+		string CheckboxLabel { get; }
+		string CheckboxTooltip { get; }
+		bool GetCheckboxValue();
+		void SetCheckboxValue(bool value);
+		bool GetIsCheckboxInteractable();
+		bool GetShowCheckbox();
+
+		int GetVerticalSortOrder();
+
+	}
+}

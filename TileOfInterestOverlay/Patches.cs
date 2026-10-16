@@ -1,22 +1,12 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
+﻿using HarmonyLib;
 using PeterHan.PLib.Actions;
-using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
-using PeterHan.PLib.Database;
 using PeterHan.PLib.Detours;
 using PeterHan.PLib.PatchManager;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
-using static StatusItem;
-using static TileOfInterestOverlay.ModAssets;
 
 namespace TileOfInterestOverlay
 {

@@ -1,0 +1,42 @@
+shape: TallThin
+borders:
+  - 1
+  - 1
+
+blobSize:
+  min: 2
+  max: 2
+internalMobs:
+  - type: ShockWorm
+    count:
+      min: 0
+      max: 2
+forceBiome: biomes/Ocean/Dry
+biomeTags:
+  - Pacu
+  - Crab
+  - SeaLettuceSeed
+  - SpiceVineSeed
+
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: CarbonDioxide
+        weight: 3
+        overrides:
+          massOverride: 1
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: CarbonDioxide
+        weight: 2  
+      - element: Salt
+        weight: 2  
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Salt
+        weight: 2  
+      - element: SedimentaryRock
+        weight: 1  

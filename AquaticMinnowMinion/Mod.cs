@@ -1,0 +1,30 @@
+﻿using HarmonyLib;
+using KMod;
+using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
+using System.Collections.Generic;
+using UtilLibs;
+
+namespace AquaticMinnowMinion
+{
+	public class Mod : UserMod2
+	{
+		public override void OnLoad(Harmony harmony)
+		{
+			SgtLogger.LogVersion(this, harmony);
+			PUtil.InitLibrary();
+			new POptions().RegisterOptions(this, typeof(Config));
+			UtilLibs.SharedTweaks.SkillsWidgetBetterConnectionLines.Register();
+			if (!DlcManager.IsContentSubscribed(DlcManager.DLC5_ID))
+				return;
+			base.OnLoad(harmony);
+		}
+
+		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+		{
+			base.OnAllModsLoaded(harmony, mods);
+			CompatibilityNotifications.FlagLoggingPrevention(mods);
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
+		}
+	}
+}

@@ -25,13 +25,13 @@ namespace Imalas_TwitchChaosEvents.Events
 
 			if (TargetWorld == null)
 			{
-				ToastManager.InstantiateToast(
+				ToastHelper.InstantiateToast(
 		  STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOAST,
 		   STRINGS.CHAOSEVENTS.HUNGRYROACHES.EVENTFAIL);
 				return;
 			}
 
-			ToastManager.InstantiateToast(
+			ToastHelper.InstantiateToast(
 				STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOAST,
 				 string.Format(STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOASTTEXT, TargetWorld.GetProperName())
 				 );

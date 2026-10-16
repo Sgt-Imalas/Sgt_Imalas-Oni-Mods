@@ -1,0 +1,3 @@
+this was the first atttempt for packing kanims within a msbuild task, but it had too many issues, so consider it retired.
+its like 90% working, has some issues with alternative gamma values (!= 2.2)
+the KanimPackerExe tool has that fixed, go use that or sth

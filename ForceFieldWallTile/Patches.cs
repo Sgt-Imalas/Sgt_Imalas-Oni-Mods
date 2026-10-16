@@ -1,18 +1,8 @@
-﻿using Database;
-using ForceFieldWallTile.Content.Defs.Buildings;
+﻿using ForceFieldWallTile.Content.Defs.Buildings;
 using ForceFieldWallTile.Content.ModDb;
 using ForceFieldWallTile.Content.Scripts;
 using HarmonyLib;
-using Klei.AI;
-using PeterHan.PLib.Buildings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UtilLibs;
-using static ForceFieldWallTile.ModAssets;
 
 namespace ForceFieldWallTile
 {
@@ -25,6 +15,7 @@ namespace ForceFieldWallTile
 			{
 				ModStatusItems.CreateStatusItems();
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.Projectiles, ForceFieldTileConfig.ID);
+				ModEffects.Register();
 			}
 		}
 
@@ -34,15 +25,6 @@ namespace ForceFieldWallTile
 			public static void Postfix(Navigator __instance)
 			{
 				__instance.gameObject.AddOrGet<NavigatorForceFieldInteractions>();
-			}
-		}
-
-		[HarmonyPatch(typeof(ModifierSet), nameof(ModifierSet.Initialize))]
-		public class ModifierSet_Initialize_Patch
-		{
-			public static void Postfix(ModifierSet __instance)
-			{
-				ModEffects.Register(__instance);
 			}
 		}
 

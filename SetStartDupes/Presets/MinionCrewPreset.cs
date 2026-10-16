@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Klei.CustomSettings;
+using Newtonsoft.Json;
 using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using UtilLibs;
 
 namespace SetStartDupes
@@ -36,7 +36,13 @@ namespace SetStartDupes
 					UnityEngine.Object.Destroy(controller.containers[i].GetGameObject());
 				}
 			}
-
+			bool minionSelectScreen = controller is MinionSelectScreen mss;
+			bool aquaticStart = false;
+			{
+				SettingLevel clusterPath = CustomGameSettings.Instance.GetCurrentQualitySetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout);
+				ProcGen.ClusterLayout cluster = ProcGen.SettingsCache.clusterLayouts.GetClusterData(clusterPath.id);
+				aquaticStart = MinionSelectScreen.IsAquaticStartWorld(cluster);
+			}
 			controller.containers = new List<ITelepadDeliverableContainer>();
 
 			SgtLogger.l("creating new deliverables");
@@ -46,9 +52,12 @@ namespace SetStartDupes
 				characterContainer.SetController(controller);
 				characterContainer.DisableSelectButton();
 				controller.containers.Add(characterContainer);
-
 				OpenPresetAssignments.Add(Crewmates[i]);
-
+				if(minionSelectScreen && aquaticStart)
+				{
+					characterContainer.OnReshuffled -= MinionSelectScreen.EnsureSwimmingSkill;
+					characterContainer.OnReshuffled += MinionSelectScreen.EnsureSwimmingSkill;
+				}
 			}
 			controller.selectedDeliverables = new List<ITelepadDeliverable>();
 			controller.EnableProceedButton();
@@ -62,10 +71,13 @@ namespace SetStartDupes
 			SgtLogger.Assert("stats were null", container.stats);
 			var pers = Db.Get().Personalities.GetPersonalityFromNameStringKey(Mate.first);
 			if (pers != null)
+			{
+				SgtLogger.l("CrewPreset applying personality: " + pers.Name);
 				ModAssets.ApplySkinFromPersonality(pers, container.Stats);
+			}
 			Mate.second.ApplyPreset(container.Stats, true, true);
 
-
+			ModAssets.CharacterContainer_OnReshuffled(container)?.Invoke(container);
 			container.characterNameTitle.OnEndEdit(Mate.second.ConfigName);
 			container.RefreshDuplicantPanel();
 		}

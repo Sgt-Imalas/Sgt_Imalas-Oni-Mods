@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -19,14 +21,83 @@ namespace SaveGameModLoader.ModFilter
 		ColorStyleSetting normal, highlighted, blue;
 		System.Action RefreshModList = null;
 
-		Dropdown PlatformDropDown;
+		Dropdown SortByDropDown;
 
 		public static FilterButtons Instance;
 		public static bool hasDev, hasLocal, hasSteam, hasPins;
 
+		static string GetFilterString(MPM_Config.OrderBy position, bool prefix)
+		{
+			string pre = prefix ? STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.TEXT+"\n" : " ";
+			switch(position)
+			{
+				case MPM_Config.OrderBy.ModOrdering:
+					return pre + STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.SORT_NONE;
+				case MPM_Config.OrderBy.ModName:
+					return pre + STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.SORT_NAME;
+				case MPM_Config.OrderBy.ModAuthor:
+					return pre + STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.SORT_AUTHOR;
+				case MPM_Config.OrderBy.LastUpdated:
+					return pre + STRINGS.UI.FRONTEND.FILTERSTRINGS.SORTBY_DROPDOWN.SORT_UPDATED;
+			}
+			return "Unknown";
+		}
+
+		static IEnumerator FixLabel(Dropdown d, int value)
+		{
+			yield return null;
+			///force a refresh
+			d.value = value == 0 ? 1 : 0;
+			d.value = value;
+			///add logic listeners
+			d.onValueChanged.AddListener(selected =>
+			{
+				var option = (MPM_Config.OrderBy)selected;
+				MPM_Config.Instance.ModSortOrder = option;
+				MPM_Config.SaveInstanceToFile();
+				Instance.RefreshUIState();
+			});
+		}
+
 		internal void Init(System.Action _refresh)
 		{
 			Instance = this;
+
+			var dropDownGo = Util.KInstantiateUI(FilterPatches._dropDownPrefab, gameObject, true);
+			//UIUtils.ListAllChildrenPath(dropDownGo.transform);
+			//UIUtils.ListAllChildrenWithComponents(dropDownGo.transform);
+			dropDownGo.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 5, 120);
+			dropDownGo.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 40);
+			dropDownGo.transform.Find("Label").TryGetComponent<Text>(out var dropDownLabel);
+			dropDownLabel.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 32);
+			dropDownLabel.alignment = TextAnchor.MiddleCenter;
+			dropDownLabel.resizeTextForBestFit = true;
+			dropDownLabel.lineSpacing = 0.9f;
+
+
+			//dropDownLabel.rectTransform()?.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 140);
+			var drop = dropDownGo.GetComponent<Dropdown>();
+			dropDownGo.gameObject.name = "SortByDropdown";
+
+			drop.ClearOptions();
+			List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
+			options.Add(new Dropdown.OptionData(GetFilterString(MPM_Config.OrderBy.ModOrdering, false)));
+			options.Add(new Dropdown.OptionData(GetFilterString(MPM_Config.OrderBy.ModName, false)));
+			options.Add(new Dropdown.OptionData(GetFilterString(MPM_Config.OrderBy.ModAuthor, false)));
+			options.Add(new Dropdown.OptionData(GetFilterString(MPM_Config.OrderBy.LastUpdated, false)));
+			drop.AddOptions(options);
+			UtilMethods.ListAllPropertyValues(drop);
+
+			drop.onValueChanged.AddListener(selected =>
+			{
+				var option = (MPM_Config.OrderBy)selected;
+				dropDownLabel.text = GetFilterString(option, true);
+			});
+			drop.gameObject.SetActive(true);
+			drop.SetValueWithoutNotify(0);
+			drop.StartCoroutine(FixLabel(drop, (int)MPM_Config.Instance.ModSortOrder));
+			SortByDropDown = drop;
+
 			var buttonPrefab = transform.Find("CloseButton").gameObject;
 			buttonPrefab.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 96);
 			//buttonPrefab.TryGetComponent<KImage>(out var referenceImg);
@@ -69,31 +140,6 @@ namespace SaveGameModLoader.ModFilter
 			steamFiller = Util.KInstantiateUI(buttonPrefab, gameObject, true);
 			Destroy(steamFiller.transform.Find("Text").gameObject);
 			Destroy(steamFiller.GetComponent<Image>());
-			//var dropDownContainer = Util.KInstantiateUI(FilterPatches._dropDownPrefab, gameObject, true);
-			//UIUtils.ListAllChildrenPath(dropDownContainer.transform);
-			//UIUtils.ListAllChildrenWithComponents(dropDownContainer.transform);
-			//dropDownContainer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 5, 330);
-			//dropDownContainer.transform.Find("Label").TryGetComponent<LocText>(out var dropDownLabel);
-			//if (!dropDownContainer.transform.Find("Dropdown").TryGetComponent<Dropdown>(out var drop))
-			//    SgtLogger.error("DropDownNotFoun");
-			//drop.gameObject.name = Dropdown_Show_Patch.TargetName;
-
-			//drop.ClearOptions();
-			//List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
-			//options.Add(new Dropdown.OptionData(STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.DEV));
-			//options.Add(new Dropdown.OptionData(STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.LOCAL));
-			//options.Add(new Dropdown.OptionData(STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.STEAM));
-			//drop.AddOptions(options);
-			//UtilMethods.ListAllPropertyValues(drop);
-
-			//drop.onValueChanged.AddListener(v => 
-			//{
-			//    HandleStateInput(v);
-			//}
-			//);
-			//drop.value = 0;
-			//drop.gameObject.SetActive(true);
-			//PlatformDropDown = drop;
 
 			#region buttons
 
@@ -105,6 +151,7 @@ namespace SaveGameModLoader.ModFilter
 				Dialog_EditFilterTags.ShowFilterDialog(null, () => RefreshUIState(), false);
 			};
 			TagFilterTooltip = UIUtils.AddSimpleTooltipToObject(TagFilterButton.transform, MPM_Config.Instance.GetModTagConfigUIString(null));
+			TagFilterButton.transform.SetSiblingIndex(drop.transform.GetSiblingIndex());
 
 			if (blue == null)
 			{

@@ -1,10 +1,4 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TUNING;
+﻿using TUNING;
 using UnityEngine;
 using UtilLibs;
 
@@ -57,7 +51,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			simCellOccupier.strengthMultiplier = 1.5f;
 
 			go.AddOrGet<TileTemperature>();
-			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("tiles_spacer_tops");
+			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("spacer_tile_connector_id");
 			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 			go.AddOrGet<Insulator>();
 			go.AddOrGet<TileTemperature>();

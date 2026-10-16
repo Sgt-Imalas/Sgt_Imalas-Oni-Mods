@@ -5,13 +5,6 @@ namespace RoboRockets
 {
 	public class STRINGS
 	{
-		public class MISC
-		{
-			public class TAGS
-			{
-				public static LocString RR_SPACEBRAINFLYER = RR_BRAINFLYER.NAME;
-			}
-		}
 		public class ITEMS
 		{
 			public class INDUSTRIAL_PRODUCTS
@@ -22,6 +15,13 @@ namespace RoboRockets
 					public static LocString DESC = "This brain learned to fly.";
 					public static LocString EFFECT = "Seated in a brain jar, this brain will fly your rockets\n\nFlying a rocket slowly increases the brains piloting skill, resulting in faster rockets.\n\nSince it does not have anything to learn, it may fly even more efficient than a duplicant.";
 				}
+			}
+		}
+		public class MISC
+		{
+			public class TAGS
+			{
+				public static LocString RR_SPACEBRAINFLYER = RR_BRAINFLYER.NAME;
 			}
 		}
 		public class UI

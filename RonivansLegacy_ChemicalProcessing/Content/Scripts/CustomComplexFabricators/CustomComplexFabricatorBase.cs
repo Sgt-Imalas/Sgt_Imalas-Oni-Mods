@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators
@@ -14,6 +11,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		[SerializeField]
 		public bool keepExcessGasses = false;
 
+		[SerializeField]
+		public List<Tag> KeepAdditionalTags = new List<Tag>();
+
 		public new void DropExcessIngredients(Storage storage)
 		{
 			HashSet<Tag> hashSet = new HashSet<Tag>();
@@ -21,6 +21,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			{
 				hashSet.Add(keepAdditionalTag);
 			}
+			if (KeepAdditionalTags.Any())
+			{
+				foreach (var item in KeepAdditionalTags)
+					hashSet.Add(item);
+			}
+
 			for (int i = 0; i < recipe_list.Length; i++)
 			{
 				ComplexRecipe complexRecipe = recipe_list[i];

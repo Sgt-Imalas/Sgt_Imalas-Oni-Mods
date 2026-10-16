@@ -28,7 +28,7 @@ namespace OniRetroEdition.ModPatches
 		{
 			static void SetPortrait(Sprite sprite, Color color = default)
 			{
-				if (UIImage == null)
+				if (UIImage == null || sprite == null)
 					return;
 
 				UIImage.gameObject.SetActive(true);
@@ -70,9 +70,15 @@ namespace OniRetroEdition.ModPatches
 						var anim = Def.GetUISprite(comp.element);
 						SetPortrait(anim.first, anim.second);
 						return;
-					};
+					}
+					;
+					if (target.TryGetComponent<BackwallSelectionObject>(out var comp2))
+					{
+						var anim = Def.GetUISprite(comp2.element);
+						SetPortrait(anim.first, anim.second);
+						return;
+					}
 
-					KSelectable component = target.GetComponent<KSelectable>();
 					if (!target.TryGetComponent<KSelectable>(out _) || target.TryGetComponent<MinionIdentity>(out _))
 					{
 						UIImage.gameObject.SetActive(false);

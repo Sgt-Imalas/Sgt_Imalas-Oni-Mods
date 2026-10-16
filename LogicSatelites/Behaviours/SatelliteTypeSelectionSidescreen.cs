@@ -93,6 +93,11 @@ namespace LogicSatellites
 
 		private void RefreshAll(object data = null) => this.RefreshButtons();
 
+		public override void ClearTarget()
+		{
+			targetSatelliteCarrier = null;
+			base.ClearTarget();
+		}
 
 
 		private void GenerateStateButtons()
@@ -116,6 +121,9 @@ namespace LogicSatellites
 
 		private void AddButton(KeyValuePair<int, SatelliteConfiguration> type, System.Action onClick)
 		{
+			if (targetSatelliteCarrier == null)
+				return;
+
 			var gameObject = Util.KInstantiateUI(stateButtonPrefab, buttonContainer.gameObject, true);
 
 			//Debug.Log("ButtonPrefab_");
@@ -137,8 +145,16 @@ namespace LogicSatellites
 
 		void RefreshButtons()
 		{
+			if (!IsActive())
+				return;
+			if (targetSatelliteCarrier == null)
+				return;
+
 			int SatType = 0;
 			SatType = targetSatelliteCarrier.SatelliteType();
+			if (!ModAssets.SatelliteConfigurations.ContainsKey(SatType))
+				return;
+
 
 			foreach (var button in buttons)
 			{

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using static ProcGen.ClusterLayout;
 
 namespace ClusterTraitGenerationManager.ClusterData
@@ -14,7 +10,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 	{
 		public string musicWelcome { get; set; }
 
-		public string musicFirst { get; set; }
+		public string musicFirst { get; set; }		
+		public List<string> musicPlaylist { get; set; }
 
 		public string stingerDay { get; set; }
 
@@ -24,13 +21,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			musicWelcome = "Music_WattsonMessage";
 			musicFirst = null;
+			musicPlaylist = null;
 			stingerDay = "Stinger_Day";
 			stingerNight = "Stinger_Loop_Night";
 		}
-		public CustomClusterAudio(string musicWelcome, string musicFirst, string stingerDay, string stingerNight)
+		public CustomClusterAudio(string musicWelcome, string musicFirst, List<string> musicPlaylist, string stingerDay, string stingerNight)
 		{
 			this.musicWelcome = musicWelcome;
 			this.musicFirst = musicFirst;
+			this.musicPlaylist = musicPlaylist;
 			this.stingerDay = stingerDay;
 			this.stingerNight = stingerNight;
 		}
@@ -40,6 +39,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				musicWelcome = this.musicWelcome,
 				musicFirst = this.musicFirst,
+				musicPlaylist = this.musicPlaylist,
 				stingerDay = this.stingerDay,
 				stingerNight = this.stingerNight
 			};

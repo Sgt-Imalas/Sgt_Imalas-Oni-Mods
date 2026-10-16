@@ -1,13 +1,8 @@
-﻿using Klei.AI;
-using KSerialization;
-using ONITwitchLib;
-using System;
-using System.Collections.Generic;
+﻿using KSerialization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
+using Util_TwitchIntegrationLib;
 
 namespace Imalas_TwitchChaosEvents.Elements
 {
@@ -59,7 +54,7 @@ namespace Imalas_TwitchChaosEvents.Elements
 
 			string name = Target.GetProperName();
 
-			ToastManager.InstantiateToast(
+			ToastHelper.InstantiateToast(
 				STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOAST,
 				string.Format(STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.CONSUME_FAILURE, name));
 
@@ -76,7 +71,7 @@ namespace Imalas_TwitchChaosEvents.Elements
 
 			string name = Target.GetProperName();
 
-			ToastManager.InstantiateToast(
+			ToastHelper.InstantiateToast(
 				STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOAST,
 				string.Format(STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.CONSUME_SUCCESS, name));
 			Target = null;

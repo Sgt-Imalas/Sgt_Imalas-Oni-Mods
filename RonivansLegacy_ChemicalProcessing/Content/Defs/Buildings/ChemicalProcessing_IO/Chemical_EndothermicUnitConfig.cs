@@ -1,10 +1,4 @@
-﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -99,7 +93,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				GameComps.StructureTemperatures.SetPayload(handle, ref payload);
 			};
 		}
-		private static readonly CellOffset[] overrideOffsets = [new CellOffset(-1, -1), new CellOffset(1, -1), new CellOffset(-1, 1), new CellOffset(1, 1)];
+		private static readonly CellOffset[] overrideOffsets = [new CellOffset(-1, -1), new CellOffset(2, -1), new CellOffset(-1, 2), new CellOffset(2, 2)];
 	}
 
 	

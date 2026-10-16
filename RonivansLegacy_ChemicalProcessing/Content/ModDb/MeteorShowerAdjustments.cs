@@ -1,14 +1,7 @@
 ﻿using Database;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Space;
 using Klei.AI;
-using Klei.CustomSettings;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static STRINGS.UI.SPACEDESTINATIONS.CLUSTERMAPMETEORS;
-using TUNING;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {

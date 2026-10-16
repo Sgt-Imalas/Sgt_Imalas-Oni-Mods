@@ -13,11 +13,15 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 		public UnityEngine.Color? backgroundColor = null;
 		public bool HideDelete = false;
 
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			label.SetText(Text);
+		}
 		public override void OnPrefabInit()
 		{
 			base.OnSpawn();
 			label = transform.Find("Label").GetComponent<LocText>();
-			label.SetText(Text);
 
 			if (!HideDelete)
 			{

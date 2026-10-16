@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>RonivansLegacy_ProcessingAIO</PackageId>
-		<Version>1.11.1</Version>
+		<Version>1.20.1</Version>
 		<Authors>Ronivan, Sgt_Imalas</Authors>
 		<Copyright>$(RonivanCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,15 +11,16 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>RonivansLegacy_ChemicalProcessing</AssemblyName>
 		<RootNamespace>RonivansLegacy_ChemicalProcessing</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
+		<CompressKanims>true</CompressKanims>
+		<CompressTextures>true</CompressTextures>
 	</PropertyGroup>
-
 
 	<!-- Mod Info -->
 	<PropertyGroup>
@@ -54,6 +55,8 @@
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_merger\" />
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_valve\" />
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_transferarm\" />
+	  <Folder Include="ModAssets\dlc\" />
+	  <Folder Include="ModAssets\buildingfacades\" />
 	</ItemGroup>
 
 	<ItemGroup>

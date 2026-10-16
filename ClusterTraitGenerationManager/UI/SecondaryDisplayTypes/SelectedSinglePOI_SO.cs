@@ -18,7 +18,7 @@ namespace ClusterTraitGenerationManager.UI.SecondaryDisplayTypes
 		{
 			var data = ModAssets.SO_POIs[ID];
 			return
-			 ModAssets.Strings.ApplyCategoryTypeToString(
+			 ModAssets.ModStringHelper.ApplyCategoryTypeToString(
 			 string.Format(VANILLAPOI_RESOURCES.SELECTEDDISTANCE_SO,
 					data.Name,
 					GroupID.Substring(0, 8))

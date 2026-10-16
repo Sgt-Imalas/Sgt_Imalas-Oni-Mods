@@ -137,8 +137,8 @@ namespace UtilLibs
 				tt.WrapWidth = wrapWidth;
 				tt.SizingSetting = ToolTip.ToolTipSizeSetting.MaxWidthWrapContent;
 			}
-			ToolTipScreen.Instance.SetToolTip(tt);
 			tt.SetSimpleTooltip(tooltip);
+			//ToolTipScreen.Instance?.SetToolTip(tt);
 			return tt;
 		}
 
@@ -236,9 +236,10 @@ namespace UtilLibs
 		{
 			if (level >= maxDepth) return;
 
-			if (level == 0 && PreAmblel.Length > 0)
+			if (level == 0)
 			{
-				SgtLogger.l(PreAmblel);
+				SgtLogger.l("Dumping UI structure of "+parent+":");
+				//SgtLogger.l(PreAmblel);
 			}
 
 			foreach (Transform child in parent)
@@ -250,6 +251,11 @@ namespace UtilLibs
 		public static void ListAllChildrenPath(Transform parent, string path = "/", int level = 0, int maxDepth = 10)
 		{
 			if (level >= maxDepth) return;
+			if (level == 0)
+			{
+				SgtLogger.l("Dumping UI structure with paths of " + parent + ":");
+				//SgtLogger.l(PreAmblel);
+			}
 
 			foreach (Transform child in parent)
 			{
@@ -370,6 +376,7 @@ namespace UtilLibs
 			};
 		}
 
+		public static Color GetRandomRainbowColor(bool desaturated = false) => GetRainbowColorForIndex(UnityEngine.Random.Range(0, RainbowColors.Count), desaturated);
 		public static Color GetRainbowColorForIndex(int i, bool desaturated = false) => !desaturated ? RainbowColors[i % RainbowColors.Count] : RainbowColorsDesaturated[i % RainbowColorsDesaturated.Count];
 
 		public static readonly List<Color> RainbowColors = new List<Color> {
@@ -411,6 +418,7 @@ namespace UtilLibs
 			return number.ToString();
 		}
 		public static string EmboldenText(string text) => "<b>" + text + "</b>";
+		public static string ItalicText(string text) => "<i>" + text + "</i>";
 
 		public static string ColorText(string text, string hex)
 		{
@@ -496,6 +504,13 @@ namespace UtilLibs
 
 			knownSymbols[key] = symbol;
 			return symbol;
+		}
+
+		public static string StripAllFormatting(string title)
+		{
+			title = STRINGS.UI.StripLinkFormatting(STRINGS.UI.StripStyleFormatting(title));
+			title = STRINGS.UI.StripTagFormatting(title,"color");
+			return title;
 		}
 	}
 }

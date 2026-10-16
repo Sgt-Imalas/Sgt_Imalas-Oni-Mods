@@ -1,9 +1,4 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {
@@ -15,7 +10,6 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			public static void Postfix()
 			{
 				UtilLibs.LocalisationUtil.Translate(typeof(STRINGS), true);
-				UtilLibs.LocalisationUtil.FixTranslationStrings();
 			}
 		}
 	}

@@ -1,13 +1,6 @@
-﻿using PeterHan.PLib.Options;
-using ProcGen;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -45,7 +38,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = Wattage;
 			buildingDef.ExhaustKilowattsWhenActive = 0f;
-			buildingDef.SelfHeatKilowattsWhenActive = 0f;
+			buildingDef.SelfHeatKilowattsWhenActive = Config.Instance.DupesLogistics_NoSelfHeat_Sweeper ? 0 : 1f;
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
@@ -75,6 +68,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			var capacity = go.AddOrGet<VariableCapacityForTransferArm>();
 			capacity.TargetCarryCapacity = StorageCapacity;
 			capacity.TargetTurnRate = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 360f; // 180 degrees per second, half of the vanilla arm speed
+			capacity.WorkingSpeedMultiplier = Mathf.Max(0.75f, HighPressureConduitRegistration.GetLogisticConduitMultiplier()); // set a minimum speed multiplier of 0.75 to avoid too slow delivery
 			var arm = go.AddOrGet<SolidTransferArm>();
 			arm.pickupRange = SweeperArmRange;
 			AddVisualizer(go, false);

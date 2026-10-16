@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>CycleComma</PackageId>
-		<Version>1.0.0</Version>
+		<Version>2.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
        <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -12,7 +12,7 @@
   
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<LangVersion>preview</LangVersion>
 		<AssemblyName>CycleComma</AssemblyName>
@@ -25,8 +25,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Void World</ModName>
-		<ModDescription>The asteroids back has been cut open, there is space exposure everywhere!</ModDescription>
+		<ModName>Challenge Collection</ModName>
+		<ModDescription>A bunch of game challenge options, configurable in the mod config</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -37,7 +37,7 @@
 
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
-
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2|AnyCPU'" />
+	<ItemGroup>
+		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
 </Project>

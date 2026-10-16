@@ -1,21 +1,198 @@
-﻿using Klei.AI;
+﻿using HarmonyLib;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Reflection.Emit;
 using UnityEngine;
 using UtilLibs;
+using System.Linq;
 
 namespace ElementUtilNamespace
 {
-	public class SgtElementUtil
+	public static class SgtElementUtil
 	{
-		public static readonly Dictionary<SimHashes, string> SimHashNameLookup = new Dictionary<SimHashes, string>();
-		public static readonly Dictionary<string, object> ReverseSimHashNameLookup = new Dictionary<string, object>();
-		public static readonly List<ElementInfo> elements = new List<ElementInfo>();
+		public static bool LoadCompressedTextures = false;
 
+		public static readonly Dictionary<SimHashes, string> SimHashNameLookup = new Dictionary<SimHashes, string>();
+		//public static readonly Dictionary<string, string> StringifiedSimHashToTagLookup = new Dictionary<string, string>();
+		public static readonly Dictionary<string, object> ReverseSimHashNameLookup = new Dictionary<string, object>();
+		public static readonly List<ElementInfo> Elements = new List<ElementInfo>();
+
+		//Unused, alternative approach to enum.parse patch
+		static class EnumParseRedirect
+		{
+			static List<MethodInfo> SimhashesEnumParsers = [
+				AccessTools.Method(typeof(ElementLoader),nameof(ElementLoader.GetID)),
+				AccessTools.Method(typeof(DevToolGeyserModifiers),nameof(DevToolGeyserModifiers.RenderTo)),
+				AccessTools.Method(typeof(ProcGenGame.WorldGen),nameof(ProcGenGame.WorldGen.EnsureEnoughElementsInStartingBiome)),
+				AccessTools.Method(typeof(DebugPaintElementScreen),nameof(DebugPaintElementScreen.OnSelectElement), [typeof(string),typeof(int)]),
+				];
+			public static void PatchEnumParseLocations(Harmony harmony)
+			{
+				foreach (var target in SimhashesEnumParsers)
+				{
+					if (target == null)
+					{
+						SgtLogger.l("Failed to find method for simhash enum parse patching");
+						continue;
+					}
+					SgtLogger.l("Patching simhash enum parse location: " + target.DeclaringType.FullName + "." + target.Name);
+					harmony.Patch(target, transpiler: new HarmonyMethod(typeof(EnumParseRedirect), nameof(SimhashEnumParseTranspiler)));
+				}
+			}
+
+			static IEnumerable<CodeInstruction> SimhashEnumParseTranspiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+				var m_EnumParse = AccessTools.Method(typeof(Enum), nameof(Enum.Parse), [typeof(Type), typeof(string)]);
+				var m_EnumParseIgnoreCase = AccessTools.Method(typeof(Enum), nameof(Enum.Parse), [typeof(Type), typeof(string), typeof(bool)]);
+
+				List<CodeInstruction> codes = orig.ToList();
+				List<CodeInstruction> output = [];
+
+
+				for (int i = 0; i < codes.Count; i++)
+				{
+					var ci = codes[i];
+
+					bool wrapNormal = ci.Calls(m_EnumParse);
+					bool wrapIgnoreCase = ci.Calls(m_EnumParseIgnoreCase);
+
+					///Grabs the string from the stack and caches it, then pushes a valid vanilla simhash name (steel) to avoid parse exceptions
+					var wrapPrefix = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(EnumParseRedirect), nameof(CacheAndRedirectElementId)));
+
+					if (wrapNormal)
+						output.Add(wrapPrefix);
+					else if (wrapIgnoreCase)///needs to be inserted 1 earlier bc otherwise the bool argument for ignorecase will be on top of the stack instead of the string id
+						output.Insert(output.Count - 1, wrapPrefix);
+
+					output.Add(ci);
+
+					//after the enum parse call, swap the result with our own modded simhash if applicable
+					if (wrapNormal || wrapIgnoreCase)
+						output.Add(new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(EnumParseRedirect), nameof(SwapEnumParseResult))));
+				}
+				//SgtLogger.l("ENUM TRANSPILER APPLIED");
+				//TranspilerHelper.PrintInstructions(output);
+				return output;
+			}
+			static string _cachedElementName;
+
+			static string CacheAndRedirectElementId(string elementId)
+			{
+				if (ReverseSimHashNameLookup.ContainsKey(elementId))
+				{
+					//SgtLogger.l("EnumParse: replacing modded " + elementId);
+					_cachedElementName = elementId;
+					return "Steel"; // Return a valid SimHashes name to avoid exceptions
+				}
+				else
+					_cachedElementName = null;
+				return elementId;
+			}
+			static object SwapEnumParseResult(object result)
+			{
+				if (_cachedElementName != null && ReverseSimHashNameLookup.TryGetValue(_cachedElementName, out object simHash))
+				{
+					return simHash;
+				}
+				return result;
+			}
+		}
+		//unused enum tostring idea, isnt called, so useless
+		static class EnumToStringRedirect
+		{
+			static bool logged = false;
+			//[HarmonyPatch(typeof(Type), "GetEnumData")]
+			public class Type_GetEnumData_Patch
+			{
+				public static void Postfix(Type __instance, ref string[] enumNames, ref Array enumValues)
+				{
+
+					SgtLogger.l("TtypeEnum: " + __instance.AssemblyQualifiedName);
+					if (__instance != typeof(SimHashes))
+						return;
+
+					var nameList = enumNames.ToList();
+					var valueList = (enumValues as object[]).ToList();
+					foreach (var item in SimHashNameLookup)
+					{
+						nameList.Add(item.Value);
+						valueList.Add(item.Key);
+					}
+
+
+					enumNames = nameList.ToArray();
+					enumValues = valueList.ToArray();
+					if (logged)
+						return;
+					logged = true;
+
+					SgtLogger.l("Postfixed Type_GetEnumData:");
+					for (int i = 0; i < enumNames.Length; i++)
+					{
+						SgtLogger.l("Element: " + nameList[i] + ": " + valueList[i]);
+					}
+				}
+			}
+		}
+
+
+		public static void ExecuteElementEnumPatches(Harmony harmony)
+		{
+			SgtLogger.l("Attempting to patch Enum.ToString's internal InternalFormat method...");
+			try
+			{
+				var original = AccessTools.Method(typeof(Enum), "InternalFormat");
+				var m_postfix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashInternalFormat_EnumPatch));
+				harmony.Patch(original, postfix: m_postfix);
+			}
+			catch (Exception e)
+			{
+				SgtLogger.error("Error while patching Enum.InternalFormat:\n" + e);
+			}
+
+			SgtLogger.l("Attempting to patch Enum.Parse...");
+			try
+			{
+				var original = AccessTools.Method(typeof(Enum), nameof(Enum.Parse), [typeof(Type), typeof(string), typeof(bool)]);
+				//var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(PrefixSimHashInternalFormat_EnumPatch));
+				var m_postfix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimhashParse_EnumPatch));
+				harmony.Patch(original, postfix: m_postfix);
+			}
+			catch (Exception e)
+			{
+				SgtLogger.error("Error while patching Enum.Parse:\n" + e);
+				return;
+			}
+			SgtLogger.l("Element enum patches successful!");
+		}
+
+		//public static void TagManager_CreatePatch(ref string tag_string)
+		//{
+		//	if(StringifiedSimHashToTagLookup.TryGetValue(tag_string, out string corrected))
+		//		tag_string = corrected;
+		//}
+
+		//public static void PrefixSimHashInternalFormat_EnumPatch(Type eT, object value, ref string __result)
+		//{
+		//	SgtLogger.l(eT == null ? "eT is null" : "eT: " + eT);
+		//	SgtLogger.l(value == null ? "value is null" : "value: " + value);
+		//	SgtLogger.l(__result == null ? "__result is null" : "__result: " + __result);
+		//}
+
+		public static void SimHashInternalFormat_EnumPatch(Type eT, object value, ref string __result)
+		{
+			if (eT != null && eT == typeof(SimHashes) && SimHashNameLookup.TryGetValue((SimHashes)value, out string id))
+			{
+				__result = id;
+			}
+		}
 
 		public static bool SimHashToString_EnumPatch(Enum __instance, ref string __result)
 		{
+
 			if (__instance is SimHashes hashes)
 			{
 				return !SimHashNameLookup.TryGetValue(hashes, out __result);
@@ -23,39 +200,93 @@ namespace ElementUtilNamespace
 
 			return true;
 		}
-		public static bool SimhashParse_EnumPatch(Type enumType, string value, ref object __result)
+
+		public static void SimhashParse_EnumPatch(Type enumType, string value, ref object __result)
 		{
-			if (enumType.Equals(typeof(SimHashes)))
+			if (enumType == typeof(SimHashes) && SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out object id))
 			{
-				return !SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out __result);
+				__result = id;
 			}
-			return true;
 		}
-
-
 
 		public static SimHashes RegisterSimHash(string name)
 		{
 			var simHash = (SimHashes)Hash.SDBMLower(name);
 			SgtLogger.l("Element: " + name + ", simhash " + simHash);
 			SimHashNameLookup.Add(simHash, name);
+			//StringifiedSimHashToTagLookup.Add(simHash.ToString(), name);
 			ReverseSimHashNameLookup.Add(name, simHash);
 
 			return simHash;
 		}
 
-		public static void SetTexture_Main(Material material, string texture) => SetTexture(material, texture, "_MainTex");
+		public static void SetTexture_Main(Material material, string texture) =>
+			SetTexture(material, texture, "_MainTex");
+
 		public static void SetTexture_ShineMask(Material material, string texture, Color? specularColor = null)
 		{
 			SetTexture(material, texture, "_ShineMask");
 			if (specularColor.HasValue)
 				material.SetColor("_ShineColour", specularColor.Value);
-
 		}
 
-		public static void SetTexture_NormalNoise(Material material, string normal) => SetTexture(material, normal, "_NormalNoise");
+		public static void SetTexture_NormalNoise(Material material, string normal) =>
+			SetTexture(material, normal, "_NormalNoise");
 
-		public static Substance CreateSubstance(SimHashes id, bool specular, string anim, Element.State state, Color color, Material material, Color uiColor, Color conduitColor, Color? specularColor, string normal, bool isCloned = false)
+		public static Substance MakeMoltenMetal(this Substance substance)
+		{
+			substance.glows = true;
+			substance.isOpaqueLiquid = true;
+			substance.metalic = true;
+			substance.texture = Substance.SubstanceTexture.MoltenMetal;
+			return substance;
+		}
+		public static Substance MakeLiquidifedAtmosphericGas(this Substance substance)
+		{
+			///currently; liquidifed gases only seem to have these swirls + some gradient but im not adding that gradient here for now
+			substance.CausticSwirls();
+			return substance;
+		}
+		public static Substance Glows(this Substance substance, bool val = true)
+		{
+			substance.glows = val;
+			return substance;
+		}
+		public static Substance Gradient(this Substance substance, Gradient val)
+		{
+			substance.gradient = val;
+			return substance;
+		}
+		public static Substance CausticSwirls(this Substance substance, bool val = true)
+		{
+			substance.usesCaustics = val;
+			return substance;
+		}
+		public static Substance Opaque(this Substance substance, bool val = true)
+		{
+			substance.isOpaqueLiquid = val;
+			return substance;
+		}
+		public static Substance Metallic(this Substance substance, bool val = true)
+		{
+			substance.metalic = val;
+			return substance;
+		}
+		public static Substance Texture(this Substance substance, Substance.SubstanceTexture texture)
+		{
+			substance.texture = texture;
+			return substance;
+		}
+		public static Substance MaterialFloatProperty(this Substance substance, string propertyName, float value)
+		{
+			substance.material.SetFloat(propertyName, value);
+			return substance;
+		}
+
+
+		public static Substance CreateSubstance(SimHashes id, bool specular, string anim, Element.State state,
+			Color color, Material material, Color uiColor, Color conduitColor, Color? specularColor, string normal,
+			bool isCloned = false)
 		{
 			var animFile = Assets.Anims.Find(a => a.name == anim);
 
@@ -81,26 +312,34 @@ namespace ElementUtilNamespace
 				}
 			}
 
-			Substance substance = ModUtil.CreateSubstance(id.ToString(), state, animFile, newMaterial, color, uiColor, conduitColor);
-			substance.anims = [animFile]; 
+			Substance substance = ModUtil.CreateSubstance(id.ToString(), state, animFile, newMaterial, color, uiColor,
+				conduitColor);
+			substance.anims = [animFile];
 			return substance;
 		}
 
-		// TODO: load from an assetbundle later
 		private static void SetTexture(Material material, string texture, string property)
 		{
-			var path = Path.Combine(UtilMethods.ModPath, "assets", "textures", texture + ".png");
+			var path = LoadCompressedTextures 
+				? Path.Combine(UtilMethods.ModPath, "assets", "textures_packed", texture + ".zip")
+				: Path.Combine(UtilMethods.ModPath, "assets", "textures", texture + ".png");
 
 			if (TryLoadTexture(path, out var tex))
 			{
 				material.SetTexture(property, tex);
 			}
 		}
+
 		public static bool TryLoadTexture(string path, out Texture2D texture)
 		{
-			texture = LoadTexture(path, true);
+			if (LoadCompressedTextures)
+				texture = InjectionMethods.LoadTextureBC7(path);
+			else
+				texture = LoadTexture(path, true);
+
 			return texture != null;
 		}
+
 		public static Texture2D LoadTexture(string path, bool warnIfFailed = true)
 		{
 			Texture2D texture = null;
@@ -118,6 +357,7 @@ namespace ElementUtilNamespace
 
 			return texture;
 		}
+
 		public static byte[] TryReadFile(string texFile)
 		{
 			try
@@ -135,12 +375,14 @@ namespace ElementUtilNamespace
 		{
 			if (decor != 0)
 			{
-				element.attributeModifiers.Add(new AttributeModifier(Db.Get().BuildingAttributes.Decor.Id, decor, element.name, true));
+				element.attributeModifiers.Add(new AttributeModifier(Db.Get().BuildingAttributes.Decor.Id, decor,
+					element.name, true));
 			}
 
 			if (overHeat != 0)
 			{
-				element.attributeModifiers.Add(new AttributeModifier(Db.Get().BuildingAttributes.OverheatTemperature.Id, overHeat, element.name, false));
+				element.attributeModifiers.Add(new AttributeModifier(Db.Get().BuildingAttributes.OverheatTemperature.Id,
+					overHeat, element.name, false));
 			}
 		}
 
@@ -161,7 +403,8 @@ namespace ElementUtilNamespace
 			};
 		}
 
-		public static ElementsAudio.ElementAudioConfig CopyElementAudioConfig(ElementsAudio.ElementAudioConfig reference, SimHashes id)
+		public static ElementsAudio.ElementAudioConfig CopyElementAudioConfig(
+			ElementsAudio.ElementAudioConfig reference, SimHashes id)
 		{
 			return new ElementsAudio.ElementAudioConfig()
 			{

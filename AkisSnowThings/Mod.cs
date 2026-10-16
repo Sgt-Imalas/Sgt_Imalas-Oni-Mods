@@ -1,6 +1,6 @@
-﻿using HarmonyLib;
+﻿using ElementUtilNamespace;
+using HarmonyLib;
 using KMod;
-using System;
 using System.Collections.Generic;
 using UtilLibs;
 using UtilLibs.SharedTweaks;
@@ -13,9 +13,13 @@ namespace AkisSnowThings
 		public override void OnLoad(Harmony harmony)
 		{
 			HarmonyInstance = harmony;
-			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
+			base.OnLoad(harmony);
+			//PUtil.InitLibrary(false);
+			//new POptions().RegisterOptions(this, typeof(Config));
 			AttachmentPointTagNameFix.Register();
+			SgtElementUtil.ExecuteElementEnumPatches(harmony);
+
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

@@ -1,11 +1,6 @@
-﻿using PeterHan.PLib.Options;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using STRINGS;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -26,8 +21,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 		}
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] material_required = [100f, 50f];
-			string[] material_type = ["RefinedMetal", "Plastic"];
+			float[] material_required = [100f, 1];
+			string[] material_type = ["RefinedMetal", MATERIALS.GASKET];
 
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER0;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "space_box_kanim", 30, 10f, material_required, material_type, 800f, BuildLocationRule.OnRocketEnvelope, TUNING.BUILDINGS.DECOR.BONUS.TIER1, noise);
@@ -46,12 +41,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "Metal";
 			SoundUtils.CopySoundsToAnim("simple_techfridge_kanim", "rationbox_kanim");
+			buildingDef.AddSearchTerms((string)SEARCH_TERMS.FRIDGE);
 			return buildingDef;
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.Refrigerator, false);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.KitchenRefrigerator, false);
 			Prioritizable.AddRef(go);
 			Storage storage = go.AddOrGet<Storage>();
 			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
@@ -69,8 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGet<UserNameable>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.RocketInteriorBuilding, false);
 
-			PreciseStorageControl.AddComponent(go);
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 		}
 	}
 }

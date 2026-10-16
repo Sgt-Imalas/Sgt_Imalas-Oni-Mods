@@ -29,10 +29,15 @@ namespace ForceFieldWallTile
 		[JsonProperty]
 		public bool PressureDamage { get; set; } = true;
 
-		[Option("STRINGS.FFT_MODCONFIG.FFT_METEORYIELD.NAME", "STRINGS.FFT_MODCONFIG.FFT_METEORYIELD.TOOLTIP")]
+		[Option("STRINGS.FFT_MODCONFIG.FFT_METEORYIELD.NAME", "STRINGS.FFT_MODCONFIG.FFT_METEORYIELD.TOOLTIP", Format = "0\\%")]
 		[JsonProperty]
 		[Limit(1f, 100f)]
 		public float MeteorMassPercentage { get; set; } = 50f;
+
+		[Option("STRINGS.FFT_MODCONFIG.FFT_OVERLOADCOOLDOWN.NAME", "STRINGS.FFT_MODCONFIG.FFT_OVERLOADCOOLDOWN.TOOLTIP", Format = "0 s")]
+		[JsonProperty]
+		[Limit(1, 20)]
+		public int OverloadCooldown { get; set; } = 8;
 
 		public float SteadyWattage() => NormalWattage * Mathf.Clamp01(SteadyWattagePercentage);
 	}

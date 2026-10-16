@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ForceFieldWallTile.Content.Scripts
+﻿namespace ForceFieldWallTile.Content.Scripts
 {
 	internal class CometShieldImpactor : KMonoBehaviour, ISim33ms
 	{

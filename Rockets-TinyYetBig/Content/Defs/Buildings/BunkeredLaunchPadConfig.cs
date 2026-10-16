@@ -1,4 +1,5 @@
-﻿using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
+﻿using Rockets_TinyYetBig.Content.Scripts.Buildings;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,9 +30,11 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			buildingDef.AttachmentSlotTag = GameTags.Rocket;
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.attachablePosition = new CellOffset(0, 0);
-			buildingDef.RequiresPowerInput = false;
 			buildingDef.DefaultAnimState = "idle";
 			buildingDef.CanMove = false;
+			buildingDef.EnergyConsumptionWhenActive = 360;
+			buildingDef.RequiresPowerInput = true;
+			buildingDef.PowerInputOffset = new(-3, 0);
 			buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
 			{
 				LogicPorts.Port.InputPort((HashedString) "TriggerLaunch",
@@ -60,6 +63,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
+			GeneratedBuildings.RemoveLoopingSounds(go);
 			go.AddOrGet<LoopingSounds>();
 			var prefab = go.GetComponent<KPrefabID>();
 			prefab.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
@@ -99,11 +103,17 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			conduitPortTiler.manageRightCap = true;
 			conduitPortTiler.manageLeftCap = false;
 			conduitPortTiler.leftCapDefaultSceneLayerAdjust = 1;
+
+			go.AddOrGet<SkipOperationalEnergyConsumer>();
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
+			Object.DestroyImmediate(go.GetComponent<RequireInputs>());
+
+			go.AddComponent<BunkerLaunchpadDigger>();
+
 		}
 	}
 }

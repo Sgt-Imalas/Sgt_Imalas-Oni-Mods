@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using System.Collections.Generic;
+using UtilLibs;
 using static ComplexRecipe;
 
 namespace BathTub.Duck
@@ -16,26 +16,12 @@ namespace BathTub.Duck
 
 			private static void AddDuckRecipe()
 			{
-				var plasticTag = ElementLoader.FindElementByHash(SimHashes.Polypropylene).tag;
-				RecipeElement[] input = new RecipeElement[]
-				{
-						new RecipeElement(plasticTag, 10f),
-				};
-
-				RecipeElement[] output = new RecipeElement[]
-				{
-						new RecipeElement(RubberDuckieConfig.ID, 1f)
-				};
-
-				string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
-				RubberDuckieConfig.recipe = new ComplexRecipe(recipeID, input, output)
-				{
-					time = 15,
-					description = STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.DESC,
-					nameDisplay = RecipeNameDisplay.IngredientToResult,
-					fabricators = new List<Tag> { CraftingTableConfig.ID }
-				};
-
+				RecipeBuilder.Create(CraftingTableConfig.ID, 15)
+					.Input([SimHashes.Rubber, SimHashes.Polypropylene], 10)
+					.Output(RubberDuckieConfig.ID, 1f)
+					.NameDisplay(RecipeNameDisplay.Result)
+					.Description(STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.DESC)
+					.Build();
 			}
 		}
 	}

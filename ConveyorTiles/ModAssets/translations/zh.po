@@ -207,3 +207,13 @@ msgstr "不需要自动化接口"
 msgctxt "ConveyorTiles.STRINGS.MODCONFIG.NOLOGICPORT.TOOLTIP"
 msgid "Removes the logic input of conveyor tiles"
 msgstr "移除传动带砖块的自动化输入接口"
+
+#. Immune Critters
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.IMMUNECRITTERS.NAME"
+msgid "Immune Critters"
+msgstr "免疫小动物"
+
+#. Critters are not affected by the conveyor.  Might reduce fun.
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.IMMUNECRITTERS.TOOLTIP"
+msgid "Critters are not affected by the conveyor.\nMight reduce fun."
+msgstr "小动物不受传送带影响。\n可能会降低乐趣。"

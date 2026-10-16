@@ -65,6 +65,8 @@ namespace RoboRockets.LearningBrain
 						controller.Queue("grounded");
 						controller.onAnimComplete += new KAnimControllerBase.KAnimEvent(OnAnimsComplete);
 					}
+					craft.PilotSkillMultiplier = flyer.GetCurrentSpeed();
+					craft.AutoPilotMultiplier = 1;
 				}
 			}
 			else
@@ -90,8 +92,8 @@ namespace RoboRockets.LearningBrain
 				var speedHandler = brain.GetComponent<FlyingBrain>();
 				speedHandler.TraveledDistance(1);
 				SgtLogger.l("Brain Learned a bit; new skill level: " + speedHandler.GetCurrentSpeed());
-				craft.AutoPilotMultiplier = speedHandler.GetCurrentSpeed();
-				//craft.PilotSkillMultiplier = speedHandler.GetCurrentSpeed();
+				craft.PilotSkillMultiplier = speedHandler.GetCurrentSpeed();
+				craft.AutoPilotMultiplier = 1;
 			}
 
 		}

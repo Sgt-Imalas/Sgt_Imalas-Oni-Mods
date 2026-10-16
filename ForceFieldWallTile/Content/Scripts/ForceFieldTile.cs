@@ -1,22 +1,10 @@
-﻿using ForceFieldWallTile.Content.Defs.Buildings;
-using ForceFieldWallTile.Content.ModDb;
+﻿using ForceFieldWallTile.Content.ModDb;
 using ForceFieldWallTile.Content.Scripts.MeshGen;
-using HarmonyLib;
 using KSerialization;
 using System;
-using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
-using static STRINGS.BUILDING.STATUSITEMS;
-using static STRINGS.ELEMENTS;
-using static STRINGS.INPUT_BINDINGS;
-using static STRINGS.UI.UNITSUFFIXES;
 
 namespace ForceFieldWallTile.Content.Scripts
 {
@@ -51,7 +39,7 @@ namespace ForceFieldWallTile.Content.Scripts
 
 		public float ShieldStrengthPercentage => ShieldStrength > 0f ? ShieldStrength / MaxStrenght : 0f;
 		public float ShieldStrength => _shieldStrength;
-		public bool ShieldActive => _shieldStrength > 0.001;
+		public bool ShieldActive => _shieldStrength > 0;
 		public float OverloadCooldown => _overloadCooldown;
 
 		public static void ClearAll()
@@ -64,11 +52,13 @@ namespace ForceFieldWallTile.Content.Scripts
 		List<string> Tintables = ["tintable_bloom", "tintable_fx", "tintable_off"];
 
 		public bool IsAltVariant = false;
+		float loadTime;
 
 		public static bool ForceFieldAt(int cell, out ForceFieldTile tile) => ShieldProjectors.TryGetValue(cell, out tile);
 
 		public override void OnSpawn()
 		{
+			loadTime = Time.time + 1f;
 			NormalWattage = Mathf.Max(NormalWattage, EnergySaverWattage);
 
 			cell = Grid.PosToCell(this);
@@ -90,14 +80,31 @@ namespace ForceFieldWallTile.Content.Scripts
 			GridNode.Strenght = _shieldStrength;
 			GridNode.MaxStrenght = MaxStrenght;
 
+			GameScheduler.Instance.Schedule("forcefieldtile refresh operational", 1.1f, (_) => ForceRefresh());
 			SetTints();
 			base.OnSpawn();
 			smi.StartSM();
 		}
 
+		void ForceRefresh()
+		{
+			if (IsOperational()) 
+			{
+				if(smi.IsInsideState(smi.sm.off))
+					smi.GoTo(smi.sm.on);
+			}
+			else
+			{
+				if(smi.IsInsideState(smi.sm.on))
+					smi.GoTo(smi.sm.off);
+			}
+		}
+
 		public static void HandleCometAt(Comet comet, int cell)
 		{
 			if (!ShieldProjectors.TryGetValue(cell, out ForceFieldTile tile))
+				return;
+			if (comet is GassyMooComet)
 				return;
 			tile.OnCometImpact(comet);
 		}
@@ -306,7 +313,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			//overload damage kills the shield for at least 6 seconds, at most 18 for recharge;
 			//float overloadTime = Mathf.Clamp(overloadDamage, 6, 18);
 			//overloadTime = 8;
-			_overloadCooldown = 8;
+			_overloadCooldown = Config.Instance.OverloadCooldown;
 			ResetBarrier();
 		}
 		void ResetBarrier()
@@ -462,6 +469,7 @@ namespace ForceFieldWallTile.Content.Scripts
 
 				on.defaultState = on.recharging;
 				on
+					.Transition(on_pst, smi => !smi.master.IsOperational())
 					.Enter(smi => smi.master.SetForceFieldEnabled(true))
 					.Exit(smi => smi.master.SetForceFieldEnabled(false))
 					.Update((smi, dt) => smi.master.HandlePressure(dt), UpdateRate.SIM_1000ms)
@@ -499,6 +507,9 @@ namespace ForceFieldWallTile.Content.Scripts
 		}
 		private void HandlePressureInCell(int cell, float dt)
 		{
+			if(!Grid.IsValidCell(cell)) 
+				return;
+
 			if (ShieldProjectors.ContainsKey(cell) || Grid.IsSolidCell(cell))
 				return;
 
@@ -524,7 +535,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		private bool IsOperational()
 		{
 			//Prevent the on load power outage from disabling the shield
-			if (Time.timeSinceLevelLoad < 0.01f)
+			if (Time.time < loadTime)
 				return ShieldActive;
 
 			return operational.IsOperational;

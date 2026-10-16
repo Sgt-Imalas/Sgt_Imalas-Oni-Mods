@@ -58,8 +58,20 @@ namespace SetStartDupes
 			return UnityEngine.Random.Range(0, 4);
 		}
 
+		public static void RegisterHiddenDupes()
+		{
+			RegisterJorge();
+			RegisterMinnow();
+		}
+		public static void RegisterMinnow()
+		{
+			string nameStringKey = "Minnow";
 
-		public static void RegisteringJorge()
+			///Hidden Unlockables
+			Func<bool> Unlock = () => MinnowInitiativeTraitCompletedOnce();
+			AddHiddenDupeToSkinSelection(nameStringKey, Unlock);
+		}
+		public static void RegisterJorge()
 		{
 			string nameStringKey = "Jorge";
 
@@ -71,6 +83,14 @@ namespace SetStartDupes
 			AddingCustomVoiceIdx(nameStringKey, -2);
 		}
 
+		public static bool MinnowInitiativeTraitCompletedOnce() => (
+			//false &&
+			Db.Get().Personalities.TryGet("MINNOW") != null &&
+			DlcManager.IsContentSubscribed(DlcManager.DLC5_ID) &&
+			//TODO: wait for minnow unlock, then add here:
+			//Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && 
+			//ok there is still none, whatever, set the setting default to false.
+			Config.Instance.MinnowSkin);
 		public static bool HermitTraitCompletedOnce() => (Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && Config.Instance.HermitSkin);
 
 		public static Dictionary<string, System.Func<bool>> HiddenPersonalitiesWithUnlockCondition = new Dictionary<string, Func<bool>>();

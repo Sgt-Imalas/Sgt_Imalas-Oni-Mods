@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace UtilLibs
+﻿namespace UtilLibs
 {
 	public static class GameStrings
 	{

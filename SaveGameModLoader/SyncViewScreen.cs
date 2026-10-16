@@ -48,11 +48,13 @@ namespace SaveGameModLoader
 				closeBt.onClick += () => { manager.AutoRestart(); };
 			closeBtObj.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED;
 			closeBtObj.name = "SyncSelectedButton";
+			UIUtils.AddSimpleTooltipToObject(closeBtObj.transform, STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED_TOOLTIP);
 
 			///Sync all mods button
 			var SyncAllButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
 			SyncAllButtonObject.name = "SyncAllModsButton";
 			SyncAllButtonObject.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL;
+			UIUtils.AddSimpleTooltipToObject(SyncAllButtonObject.transform, STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL_TOOLTIP);
 			var SyncAllButton = SyncAllButtonObject.GetComponentInChildren<KButton>(true);
 			SyncAllButton.ClearOnClick();
 			SyncAllButton.isInteractable = DiffCount > 0;

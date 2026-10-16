@@ -1,0 +1,57 @@
+name: lockerroomsmallPOI
+info:
+  size:
+    X: 3
+    Y: 2
+  area: 8
+cells:
+- element: Vacuum
+  location_y: 1
+- element: Vacuum
+  location_x: 1
+  location_y: 1
+- element: Obsidian
+  mass: 100
+  temperature: 318
+  location_x: -1
+- element: Obsidian
+  mass: 100
+  temperature: 318
+- element: Obsidian
+  mass: 100
+  temperature: 318
+  location_x: 1
+buildings:
+- id: TilePOI
+  location_x: -1
+  element: Obsidian
+  temperature: 318
+- id: TilePOI
+  element: Obsidian
+  temperature: 318
+- id: TilePOI
+  location_x: 1
+  element: Obsidian
+  temperature: 318
+pickupables: []
+elementalOres: []
+otherEntities:
+- id: SetLocker
+  location_x: 1
+  location_y: 1
+  element: Unobtanium
+  temperature: 300
+  units: 1
+  type: Other
+- id: SetLocker
+  location_y: 1
+  element: Unobtanium
+  temperature: 300
+  units: 1
+  type: Other
+utilityConnections:
+- name: TilePOI
+  location_x: -1
+- name: TilePOI
+- name: TilePOI
+  location_x: 1

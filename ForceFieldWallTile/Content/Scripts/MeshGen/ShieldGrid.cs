@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
-using static STRINGS.DUPLICANTS.ATTRIBUTES;
-using static STRINGS.UI.CLUSTERMAP;
 
 namespace ForceFieldWallTile.Content.Scripts.MeshGen
 {
@@ -121,6 +115,9 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 
 		public static void AddNodeVertices(List<Vector3> vertices, List<int> triangles, List<Vector2> uvs, int cell, Node node)
 		{
+			if (!Grid.IsValidCell(cell))
+				return;
+
 			var bottomLeft = Grid.CellToPos(cell);
 			var topRight = Grid.CellToPos(Grid.OffsetCell(cell, new(1, 1)));
 			var topLeft = Grid.CellToPos(Grid.OffsetCell(cell, new(0, 1)));
@@ -183,7 +180,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			{
 				return;
 			}
-			if (Grid.WorldIdx[cell] != ClusterManager.Instance?.activeWorldIdx)
+			if (!Grid.IsValidCell(cell) || Grid.WorldIdx[cell] != ClusterManager.Instance?.activeWorldIdx)
 				return;
 
 			//var nodeColor = node.GetCurrentColor();
@@ -293,50 +290,59 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			var tr_col = GetLowerStrenghtNodeMult(lowerStrength_top, lowerStrength_topRight, lowerStrength_right).GetCurrentColor(); //Color.Lerp(Color.Lerp(topCol, rightCol, 0.5f), Color.Lerp(topRightCol, nodeColor, 0.5f), 0.5f);
 			var br_col = GetLowerStrenghtNodeMult(lowerStrength_bottom, lowerStrength_bottomRight, lowerStrength_right).GetCurrentColor(); //Color.Lerp(Color.Lerp(bottomCol, rightCol, 0.5f), Color.Lerp(bottomRightCol, nodeColor, 0.5f), 0.5f);
 
-			Colors[node.bl_idx] = bl_col;
-			Colors[node.tl_idx] = tl_col;
-			Colors[node.tr_idx] = tr_col;
-			Colors[node.br_idx] = br_col;
+			SetVertexColor(node.bl_idx, bl_col);
+			SetVertexColor(node.tl_idx, tl_col);
+			SetVertexColor(node.tr_idx, tr_col);
+			SetVertexColor(node.br_idx, br_col);
 
 			if (leftNode != null)
 			{
-				Colors[leftNode.br_idx] = bl_col;
-				Colors[leftNode.tr_idx] = tl_col;
+				SetVertexColor(leftNode.br_idx, bl_col);
+				SetVertexColor(leftNode.tr_idx, tl_col);
 			}
 			if (rightNode != null)
 			{
-				Colors[rightNode.bl_idx] = br_col;
-				Colors[rightNode.tl_idx] = tr_col;
+				SetVertexColor(rightNode.bl_idx, br_col);
+				SetVertexColor(rightNode.tl_idx, tr_col);
 			}
 			if (topNode != null)
 			{
-				Colors[topNode.bl_idx] = tl_col;
-				Colors[topNode.br_idx] = tr_col;
+				SetVertexColor(topNode.bl_idx, tl_col);
+				SetVertexColor(topNode.br_idx, tr_col);
 			}
 			if (bottomNode != null)
 			{
-				Colors[bottomNode.tl_idx] = bl_col;
-				Colors[bottomNode.tr_idx] = br_col;
+				SetVertexColor(bottomNode.tl_idx, bl_col);
+				SetVertexColor(bottomNode.tr_idx, br_col);
 			}
 			if (bottomLeftNode != null)
 			{
-				Colors[bottomLeftNode.tr_idx] = bl_col;
+				SetVertexColor(bottomLeftNode.tr_idx, bl_col);
 			}
 			if (topLeftNode != null)
 			{
-				Colors[topLeftNode.br_idx] = tl_col;
+				SetVertexColor(topLeftNode.br_idx, tl_col);
 			}
 			if (topRightNode != null)
 			{
-				Colors[topRightNode.bl_idx] = tr_col;
+				SetVertexColor(topRightNode.bl_idx, tr_col);
 			}
 			if (bottomRightNode != null)
 			{
-				Colors[bottomRightNode.tl_idx] = br_col;
+				SetVertexColor(bottomRightNode.tl_idx, br_col);
 			}
 			if (apply)
 				Filter.mesh.SetColors(Colors);
 
+		}
+		static void SetVertexColor(int vertexIndex, Color color)
+		{
+			if (vertexIndex < 0 || vertexIndex >= Colors.Count)
+			{
+				SgtLogger.warning("Tried setting color for vertex index " + vertexIndex + " which is out of bounds. Colors count: " + Colors.Count);
+				return;
+			}
+			Colors[vertexIndex] = color;
 		}
 	}
 }

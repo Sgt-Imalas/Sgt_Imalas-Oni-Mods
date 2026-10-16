@@ -3,15 +3,15 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>AkisSnowThings</PackageId>
-		<Version>1.5.4</Version>
-		<Authors>Sgt_Imalas &amp; Aki</Authors>
-		<Copyright>$(AssemblyCopyright)</Copyright>
+		<Version>1.6.0</Version>
+		<Authors>Aki &amp; Sgt_Imalas</Authors>
+		<Copyright>$(AuthorWithAki)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>AkisSnowThings</AssemblyName>
 		<RootNamespace>AkisSnowThings</RootNamespace>

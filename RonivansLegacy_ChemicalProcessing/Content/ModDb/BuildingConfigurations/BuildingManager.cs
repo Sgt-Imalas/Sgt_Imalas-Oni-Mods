@@ -4,25 +4,20 @@ using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
-using UnityEngine;
 using UtilLibs;
-using UtilLibs.MarkdownExport;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	static class BuildingManager
 	{
 		public static Dictionary<string, BuildingInjectionEntry> BuildingInjections = new Dictionary<string, BuildingInjectionEntry>();
-		public static HashSet<string> DisabledBuildingIDs = new HashSet<string>();
+		public static HashSet<string> DisabledBuildingIDs = [];
 
 		public static BuildingConfigurationCollection ConfigCollection = new BuildingConfigurationCollection();
 		public static BuildingConfigurationEntry AddOrGetEntry(string buildingID)
 		{
+
+
 			if (ConfigCollection.BuildingConfigurations.TryGetValue(buildingID, out var entry))
 			{
 				return entry;
@@ -68,6 +63,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					storageConfigurator.SetStorageCapacity(entry.GetStorageCapacity());
 				}
 			}
+			if (typeof(IHasConfigurableRateMultiplier).IsAssignableFrom(buildingType))
+			{
+				var generatorMultiplier = (IHasConfigurableRateMultiplier)Activator.CreateInstance(buildingType);
+				if (generatorMultiplier != default)
+				{
+					//set the default value in the config class
+					entry.SetDefaultMultiplier(generatorMultiplier.GetDefaultMultiplier());
+					entry.SetRateStrings(generatorMultiplier.GetRateLabel(), generatorMultiplier.GetCurrentRateDescription());
+					generatorMultiplier.SetMultiplier(entry.GetRateMultiplier());
+				}
+			}
 			if (typeof(IGeneratorBuilding).IsAssignableFrom(buildingType))
 			{
 				entry.SetIsGenerator(true);
@@ -94,7 +100,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			BuildingInjectionEntry injection = BuildingInjectionEntry.Create(buildingId);
 			entry.SetInjection(injection);
-			injection.Source = entry;
 			if (allowedByDlc)
 				BuildingInjections.Add(buildingId, injection);
 			return injection;
@@ -102,6 +107,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		internal static void LoadConfigFile()
 		{
+			SgtLogger.l("Loading Building Config file");
 			ConfigCollection = BuildingConfigurationCollection.LoadFromFile();
 		}
 
@@ -114,22 +120,39 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingDatabase.RegisterBuildings();
 		}
 
+		public static bool TechExists(string techID)
+		{
+			return Db.Get().Techs.Exists(techID);
+		}
+
+		public static bool BuildingEnabled(string buildingId) => BuildingInjections != null && BuildingInjections.TryGetValue(buildingId, out var entry) && entry.Source.IsBuildingEnabled() && TechExists(entry.TechID);
 
 		public static void AddBuildingsToPlanScreen()
 		{
+			SgtLogger.l("AddingBuildingsToPlanScreen Register");
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
-				if (entry.Value.Source.IsBuildingEnabled())
+				if (entry.Value.Source.IsBuildingEnabled() && TechExists(entry.Value.TechID))
 					entry.Value.RegisterPlanscreen();
+				else
+				{
+					string id = entry.Value.Source.BuildingID;
+					DisabledBuildingIDs.Add(id);
+					var def = Assets.GetBuildingDef(id);
+					def.DebugOnly = true;
+
+					ModAssets.HideFromCodex(def.BuildingComplete);
+				}
 			}
 		}
 		public static void AddBuildingsToTechs()
 		{
+			SgtLogger.l("AddingBuildingsToTech Register");
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
-				if (entry.Value.Source.IsBuildingEnabled())
+				if (entry.Value.Source.IsBuildingEnabled() && TechExists(entry.Value.TechID))
 					entry.Value.RegisterTech();
 			}
 		}
@@ -140,6 +163,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				config.ResetChanges();
 			}
 			ConfigCollection.WriteToFile();
+		}
+		internal static void ResetSingleConfig(BuildingConfigurationEntry target)
+		{
+			if(ConfigCollection.BuildingConfigurations.TryGetValue(target.BuildingID, out var cfg))
+			{
+				cfg.ResetChanges();
+				ConfigCollection.WriteToFile();
+			}
 		}
 
 		internal static void RegisterLegacyMigrations()

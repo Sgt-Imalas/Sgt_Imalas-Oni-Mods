@@ -1,6 +1,6 @@
-﻿using ONITwitchLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Util_TwitchIntegrationLib;
 using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.Fire
@@ -108,11 +108,11 @@ namespace Imalas_TwitchChaosEvents.Fire
 			{
 				emission.rateOverTime = 0;
 				scheduledForDestruction = true;
-				ToastManager.InstantiateToast(
+				ToastHelper.InstantiateToast(
 				STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOAST,
 				 STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOASTTEXTENDING
 				 );
-				GameScheduler.Instance.Schedule("DestroyBurningCmp ", 15, (s) => Destroy(gameObject));
+				GameScheduler.Instance.Schedule("DestroyBurningCmp", 15, (s) => Destroy(gameObject));
 			}
 		}
 	}

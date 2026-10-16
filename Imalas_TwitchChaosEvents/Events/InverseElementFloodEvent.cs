@@ -36,7 +36,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 				GameScheduler.Instance.Schedule("creeper rain cheese protection toast", 5f, _ =>
 				{
-					ToastManager.InstantiateToastWithPosTarget(
+					ToastHelper.InstantiateToastWithPosTarget(
 					STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOAST,
 					string.Format(STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOASTTEXT, EventName, dupe), Grid.CellToPos(NEWcell));
 				});
@@ -82,7 +82,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			}
 
 
-			ToastManager.InstantiateToastWithPosTarget(
+			ToastHelper.InstantiateToastWithPosTarget(
 				STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOAST,
 				toastText,
 				Grid.CellToPos(nearestCell)

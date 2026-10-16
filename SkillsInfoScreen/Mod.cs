@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
 using KMod;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UtilLibs;
 
 namespace SkillsInfoScreen
@@ -13,6 +11,8 @@ namespace SkillsInfoScreen
 		{
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
+			ModAssets.LoadAssets();
+			ModAssets.LoadConfig();
 		}
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

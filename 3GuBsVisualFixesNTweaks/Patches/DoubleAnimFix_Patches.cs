@@ -1,15 +1,10 @@
 ﻿using _3GuBsVisualFixesNTweaks.Scripts;
 using HarmonyLib;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static ComplexRecipe;
-using static STRINGS.MISC.STATUSITEMS;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {
@@ -95,7 +90,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(LiquidCooledRefinery __instance, List<GameObject> __result)
 			{
-				if (!__result.Any() || !__instance.TryGetComponent<MetalRefineryTint>(out var handler))
+				if (__result.Count == 0 || !__instance.TryGetComponent<MetalRefineryTint>(out var handler))
 					return;
 
 				foreach (var obj in __result)

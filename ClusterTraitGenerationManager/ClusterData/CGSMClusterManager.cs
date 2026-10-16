@@ -1,6 +1,5 @@
 ﻿using ClusterTraitGenerationManager.UI.Screens;
 using Klei.CustomSettings;
-using ObjectCloner;
 using ProcGen;
 using ProcGenGame;
 using System;
@@ -13,7 +12,6 @@ using UtilLibs;
 using static ClusterTraitGenerationManager.STRINGS.UI;
 using static ProcGen.ClusterLayout;
 using static ProcGen.WorldPlacement;
-using static ResearchTypes;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -27,7 +25,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public const float MaxAmountRandomPlanet = 6f;
 		public const string RandomKey = "CGM_RANDOM_";
-		static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
+		static Dictionary<string, StarmapItem> _planetsAndPOIs = null;
 		static List<string> RandomOuterPlanets = new List<string>();
 
 		public const int ringMax = 25, ringMin = 6;
@@ -190,7 +188,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			CreateCustomClusterFrom(defaultCluster);
 		}
 
-		public static async void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
+		public static void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
 		{
 			if (Screen == null)
 			{
@@ -289,6 +287,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 			LoadCustomCluster = true;
 			var GeneratedCustomCluster = GenerateClusterLayoutFromCustomData(true);
 			SettingsCache.clusterLayouts.clusterCache[CustomClusterID] = GeneratedCustomCluster;
+			if (CustomCluster.WarpPlanet == null)
+				TurnOffTeleporters();
 
 			CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.ClusterLayout, GeneratedCustomCluster.filePath);
 			//SgtLogger.l(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id.ToString());
@@ -333,7 +333,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		///Random Asteroids stay random in preview
 
-		public static ClusterLayout GenerateDummyCluster(bool spacedOut, bool ceres, bool prehistoric)
+		public static ClusterLayout GenerateDummyCluster()
 		{
 			ClusterLayout clusterLayout = new ClusterLayout();
 			clusterLayout.filePath = CustomClusterID;
@@ -342,17 +342,27 @@ namespace ClusterTraitGenerationManager.ClusterData
 			clusterLayout.worldPlacements = new List<WorldPlacement>();
 			clusterLayout.coordinatePrefix = CustomClusterIDCoordinate;
 			clusterLayout.clusterTags.Add(CustomClusterClusterTag);
-			if (ceres)
+
+			if (SaveGameData.Instance != null)
 			{
-				clusterLayout.clusterTags.Add("CeresCluster");
-				clusterLayout.clusterTags.Add("GeothermalImperative");
-				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC2_ID].ToAudioSetting();
-			}
-			if (prehistoric)
-			{
-				clusterLayout.clusterTags.Add("PrehistoricCluster");
-				clusterLayout.clusterTags.Add("DemoliorImperative");
-				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC4_ID].ToAudioSetting();
+				if (SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster"))
+				{
+					clusterLayout.clusterTags.Add("CeresCluster");
+					clusterLayout.clusterTags.Add("GeothermalImperative");
+					clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC2_ID].ToAudioSetting();
+				}
+				if (SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster"))
+				{
+					clusterLayout.clusterTags.Add("PrehistoricCluster");
+					clusterLayout.clusterTags.Add("DemoliorImperative");
+					clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC4_ID].ToAudioSetting();
+				}
+				if (SaveGameData.Instance.IsClusterTagAsteroidInCluster("AquaticCluster"))
+				{
+					clusterLayout.clusterTags.Add("AquaticCluster");
+					clusterLayout.clusterTags.Add("MinnowRecruitedAchievement");
+					clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC5_ID].ToAudioSetting();
+				}
 			}
 			return clusterLayout;
 		}
@@ -468,15 +478,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 				}
 				seed++;
 			}
-			else
-			{
-				if (DlcManager.IsExpansion1Active())
-				{
-					if (log)
-						SgtLogger.log("No warp planetData selected");
-					CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.Teleporters, (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).off_level.id);
-				}
-			}
 			///STRINGS.NAMEGEN.WORLD.ROOTS
 
 			RandomOuterPlanets.Clear();
@@ -533,7 +534,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 						if (placement.worldMixing.mixingWasApplied)
 						{
-							SgtLogger.l("mixing placement: " + placement.world);
+							if (log)
+								SgtLogger.l("mixing placement: " + placement.world);
 						}
 
 						//ApplySizeMultiplier(placement, multiplier);
@@ -669,6 +671,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		private static void PostProcessCluster(ClusterLayout layout, List<StarmapItem> planets, StarmapItem starterPlanet)
 		{
+			///note to self that this is mostly redundant due to the fact that I swap out the target cluster in the Cluster.Save patch to swap it out with a vanilla cluster
 			SgtLogger.l("PostProcessing custom cluster");
 			if (starterPlanet != null && starterPlanet.world?.requiredDlcIds != null)
 			{
@@ -676,10 +679,25 @@ namespace ClusterTraitGenerationManager.ClusterData
 				{
 					if (DlcAudioSettings.TryGetValue(reqDlc, out var audioSettings))
 					{
-						SgtLogger.l("found custom audio setting");
+						SgtLogger.l("found custom audio setting: " + reqDlc);
 						layout.clusterAudio = audioSettings.ToAudioSetting();
 						break;
 					}
+				}
+				if (CGMWorldGenUtils.HasMinnowOnWorld(starterPlanet.world))
+				{
+					layout.startingMinions = ["KAI"];
+					SgtLogger.l("Start world is aquatic");
+				}
+				else if (CGMWorldGenUtils.HasGeothermalPump(starterPlanet.world))
+				{
+					layout.startingMinions = ["FREYJA"];
+					SgtLogger.l("Start world is frosty");
+				}
+				else if (CGMWorldGenUtils.HasImpactorShower(starterPlanet.world))
+				{
+					layout.startingMinions = ["MAYA", "HIGBY"];
+					SgtLogger.l("Start world is prehistoric");
 				}
 			}
 			foreach (var item in planets)
@@ -689,6 +707,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 				{
 					SgtLogger.warning("World for item " + item.id + " is null, skipping post processing");
 					continue;
+				}
+				if (CGMWorldGenUtils.HasMinnowOnWorld(world.worldTags) && !layout.clusterTags.Contains("AquaticCluster"))
+				{
+					layout.clusterTags.Add("AquaticCluster");
+					layout.clusterTags.Add("MinnowRecruitedAchievement");
 				}
 				if (CGMWorldGenUtils.HasGeothermalPump(world) && !layout.clusterTags.Contains("CeresCluster"))
 				{
@@ -821,6 +844,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				SgtLogger.l("Rebuilding Cluster Data");
 				CustomCluster = new CustomClusterData();
 				CustomCluster.SetRings(mutated.layout.numRings - 1, true);
+				CustomCluster.BlacklistedStoryTraitLocations.Clear();
 
 				foreach (var planet in PlanetoidDict.Values)
 				{
@@ -877,7 +901,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				WorldPlacement planetPlacement = mutated.layout.worldPlacements[i];
 				string planetpath = planetPlacement.world;
-				//SgtLogger.l(planetpath, "planet in cluster");
+				SgtLogger.l(planetpath, "planet in cluster");
 				string mixingAsteroid = string.Empty;
 				bool isWorldMixed = false;
 
@@ -947,15 +971,44 @@ namespace ClusterTraitGenerationManager.ClusterData
 			LastPresetGenerated = clusterID;
 			RegeneratePOIDataFrom(clusterID, singleItemId);
 		}
+		public static bool TryGetCurrentMixingTarget(string world, out StarmapItem starmapItem)
+		{
+			starmapItem = null;
+			if (world.IsNullOrWhiteSpace() || CustomCluster == null || !CustomCluster.MixingWorldsWithTarget.Any()) return false;
+			if (!IsWorldMixingAsteroid(world)) return false;
+
+			if (PlanetoidDict.TryGetValue(world, out var mixingAsteroid)
+				&& CustomCluster.MixingWorldsWithTarget.TryGetValue(mixingAsteroid, out var mixingTarget))
+			{
+				starmapItem = mixingTarget;
+				return true;
+			}
+			return false;
+		}
+		public static void SetMixingWorld(string targetId, string mixingSourceId)
+		{
+			if (!PlanetoidDict.TryGetValue(targetId, out StarmapItem target))
+			{
+				SgtLogger.error("could not find mixing target " + targetId);
+				return;
+			}
+			if (!PlanetoidDict.TryGetValue(mixingSourceId, out StarmapItem mixingSource))
+			{
+				SgtLogger.error("could not find mixing source " + mixingSourceId);
+				return;
+			}
+			SetMixingWorld(target, mixingSource);
+		}
+
 		public static void SetMixingWorld(StarmapItem target, StarmapItem mixingSource)
 		{
-			SgtLogger.l(target.id + " is getting remixed with " + (mixingSource?.id ?? "nothing"));
 			if (mixingSource != null)
 			{
+				SgtLogger.l(target.id + " is getting remixed with " + (mixingSource?.id ?? "nothing"));
 				if (CustomCluster.MixingWorldsWithTarget.TryGetValue(mixingSource, out var OldTarget)
-					&& OldTarget != target
-					&& OldTarget.MixingAsteroidSource == mixingSource
-					)
+				&& OldTarget != target
+				&& OldTarget.MixingAsteroidSource == mixingSource
+				)
 				{
 					OldTarget.SetWorldMixing(null);
 				}
@@ -1052,7 +1105,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			if (CustomCluster == null || !RerollMixingsWithSeedChange && CGM_Screen.IsCurrentlyActive)
 				return;
 
-			///!!ALWAYS clear mixings before applying them en masse
+			///!!!ALWAYS clear mixings before applying them en masse
 			RemoveActiveMixingAsteroids();
 
 			int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
@@ -1078,7 +1131,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					mixingAsteroid = planetpath;
 					planetpath = planetPlacement.worldMixing.previousWorld;
 					isWorldMixed = true;
-					SgtLogger.l(planetpath, "Mixed original");
+					SgtLogger.l(planetPlacement.worldMixing.previousWorld + " got remixed with " + planetPlacement.world);
 					mixingTargets[planetpath] = mixingAsteroid;
 				}
 				//apply mixing relations for UI
@@ -1094,13 +1147,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 				if (CustomCluster.HasStarmapItem(target.Key, out var mixTarget)
 					&& PlanetoidDict.TryGetValue(target.Value, out var mixing))
 				{
-					SgtLogger.l("Mixing " + mixing.DisplayName + " into " + mixTarget.DisplayName);
+					SgtLogger.l("Mixing " + mixing.id + " into " + mixTarget.id);
 					SetMixingWorld(mixTarget, mixing);
 				}
 				else
 					SgtLogger.error("could not mix " + target.Value + " into " + target.Key);
 			}
-
 		}
 		public static void RerollTraits()
 		{
@@ -1204,9 +1256,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				DisableModdedGeopumpStoryTrait();
 			}
-			if (CGMWorldGenUtils.HasImpactorShower(adding.world)) //impactor shower from potential mod in the future
+			if (CGMWorldGenUtils.HasImpactorShower(adding.world)) //impactor shower from impactor story trait
 			{
 				DisableModdedImpactorShowerStoryTrait();
+			}
+			if (CGMWorldGenUtils.HasMinnowOnWorld(adding.world)) //minnow from minnow story trait
+			{
+				DisableModdedMinnowStoryTrait();
 			}
 		}
 		public static void DisableModdedImpactorShowerStoryTrait()
@@ -1229,9 +1285,21 @@ namespace ClusterTraitGenerationManager.ClusterData
 				return;
 			CustomGameSettings.Instance.SetStorySetting(storyTrait, false);
 		}
+		public static void DisableModdedMinnowStoryTrait()
+		{
+			if (!CustomGameSettings.Instance.StorySettings.TryGetValue(CGMWorldGenUtils.CGM_Minnow_StoryTrait, out var storyTrait))
+				return;
+			bool isCurrentlyEnabled = CustomGameSettings.Instance.GetCurrentStoryTraitSetting(storyTrait).id == StoryContentPanel.StoryState.Guaranteed.ToString();
+
+			if (!isCurrentlyEnabled)
+				return;
+			CustomGameSettings.Instance.SetStorySetting(storyTrait, false);
+		}
 
 		public static void ToggleWorldgenAffectingDlc(bool enabled, string dlcId)
 		{
+			if (dlcId.IsNullOrWhiteSpace())
+				return;
 			var settingsInstance = CustomGameSettings.Instance;
 			if (!settingsInstance.MixingSettings.ContainsKey(dlcId))
 			{
@@ -1345,10 +1413,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 			_predefinedPlacementData = new Dictionary<string, WorldPlacement>();
 			//PredefinedPlacementDataPOI = new Dictionary<string, SpaceMapPOIPlacement>();
 			_dlcAudioSettings = new();
-
+			SgtLogger.Assert(SettingsCache.clusterLayouts, "SettingsCache.clusterLayouts");
+			SgtLogger.Assert(SettingsCache.clusterLayouts.clusterCache, "SettingsCache.clusterLayouts.clusterCache");
 			foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache.ToList())
 			{
 				var clusterId = ClusterLayout.Key;
+				if (clusterId == CustomClusterID)
+					continue;
+
 				var clusterData = ClusterLayout.Value;
 				if (DlcManager.IsExpansion1Active())
 				{
@@ -1364,7 +1436,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 				foreach (var planet in clusterData.worldPlacements)
 				{
-					if (PlanetsAndPOIs.TryGetValue(planet.world, out StarmapItem starmapItem))
+					if (PlanetoidDict.TryGetValue(planet.world, out StarmapItem starmapItem))
 					{
 						if (disablesStoryTraits)
 						{
@@ -1382,20 +1454,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 					PredefinedPlacementData[planetPlacement.world] = planetPlacement;
 				}
 
+				string dlcIdFrom = clusterData.dlcIdFrom;
 				if (clusterData.clusterAudio != null
-					&& !clusterData.dlcIdFrom.IsNullOrWhiteSpace()
-					&& !clusterData.dlcIdFrom.Contains("DLC") //no basegame/spacedout 
-					&& _dlcAudioSettings.ContainsKey(clusterData.dlcIdFrom))
+					&& !dlcIdFrom.IsNullOrWhiteSpace()
+					&& dlcIdFrom.Contains("DLC") //no basegame/spacedout 
+					&& !_dlcAudioSettings.ContainsKey(dlcIdFrom))
 				{
 					SgtLogger.l("Caching audio data for dlc: " + clusterData.dlcIdFrom);
-					var sourceAudio = clusterData.clusterAudio;
-					_dlcAudioSettings[clusterData.dlcIdFrom] = new()
-					{
-						musicWelcome = sourceAudio.musicWelcome,
-						musicFirst = sourceAudio.musicFirst,
-						stingerDay = sourceAudio.stingerDay,
-						stingerNight = sourceAudio.stingerNight
-					};
+					ClusterAudioSettings sourceAudio = clusterData.clusterAudio;
+					_dlcAudioSettings[dlcIdFrom] = new CustomClusterAudio(sourceAudio.musicWelcome, sourceAudio.musicFirst, sourceAudio.musicPlaylist, sourceAudio.stingerDay, sourceAudio.stingerNight);
 				}
 			}
 		}
@@ -1573,16 +1640,18 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			get
 			{
-				if (PlanetsAndPOIs == null)
+				if (_planetsAndPOIs == null)
 				{
-					PlanetsAndPOIs = new Dictionary<string, StarmapItem>();
+					_planetsAndPOIs = new Dictionary<string, StarmapItem>();
+					SgtLogger.l("initializing random planets");
 					foreach (StarmapItemCategory category in AvailableStarmapItemCategoriesWithoutMixing)
 					{
 						if (category < 0)
 							continue;
 
-
 						var key = RandomKey + category.ToString();
+
+						SgtLogger.l(key);
 						var randomItem = new StarmapItem
 							(
 							key,
@@ -1593,7 +1662,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 						randomItem.SetSpawnNumber(1);
 
 						var placement = new WorldPlacement();
-						MinMaxI startCoords = new MinMaxI(0, CustomCluster.Rings);
+						MinMaxI startCoords = new MinMaxI(0, CustomCluster != null ? CustomCluster.Rings : 11);
 
 						if (category == StarmapItemCategory.Starter)
 							startCoords = new MinMaxI(0, 0);
@@ -1607,13 +1676,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 						placement.locationType = category == StarmapItemCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
 
 						randomItem = randomItem.AddItemWorldPlacement(placement, category == StarmapItemCategory.Outer);
-						PlanetsAndPOIs[key] = randomItem;
+						_planetsAndPOIs[key] = randomItem;
 
 						if (category == StarmapItemCategory.Outer)
 							RandomOuterPlanetsStarmapItem = randomItem;
 						//}
 					}
 
+					SgtLogger.l("initializing cached planets");
 					foreach (var WorldFromCache in SettingsCache.worlds.worldCache)
 					{
 						StarmapItemCategory category = StarmapItemCategory.Outer;
@@ -1639,7 +1709,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 							if (isMixingWorld)
 							{
 								category = StarmapItemCategory.None;
-								PlanetsAndPOIs[WorldFromCache.Key] = new StarmapItem(
+								_planetsAndPOIs[WorldFromCache.Key] = new StarmapItem(
 									WorldFromCache.Key,
 									category,
 									sprite).MakeItemPlanet(world);
@@ -1648,7 +1718,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 							category = DeterminePlanetType(world);
 
-							PlanetsAndPOIs[WorldFromCache.Key] = new StarmapItem
+							_planetsAndPOIs[WorldFromCache.Key] = new StarmapItem
 							(
 							WorldFromCache.Key,
 							category,
@@ -1657,11 +1727,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 							.MakeItemPlanet(world)
 							;
 
-							if (PlanetIsMiniBase(PlanetsAndPOIs[WorldFromCache.Key]))
+							if (PlanetIsMiniBase(_planetsAndPOIs[WorldFromCache.Key]))
 							{
-								SgtLogger.l("making " + KeyUpper);
+								SgtLogger.l("caching minibase asteroid: " + KeyUpper);
 								SgtLogger.l(WorldFromCache.Key + " will disable story traits due to Baby size");
-								PlanetsAndPOIs[WorldFromCache.Key].DisablesStoryTraits = true;
+								_planetsAndPOIs[WorldFromCache.Key].DisablesStoryTraits = true;
 							}
 							//SgtLogger.l("isClassic: " + PlanetIsClassic(PlanetsAndPOIs[WorldFromCache.Key]), WorldFromCache.Key);
 						}
@@ -1669,7 +1739,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 							SgtLogger.l("skipping worlditemCreation: " + KeyUpper);
 					}
 				}
-				return PlanetsAndPOIs;
+				return _planetsAndPOIs;
 			}
 		}
 
@@ -1903,6 +1973,60 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 			SgtLogger.l("trying to fetch cluster for starter " + starterPlanet.id);
 			return StarterPlanetsByCluster.TryGetValue(starterPlanet.id, out clusterID);
+		}
+
+		internal static List<Tuple<StarmapItem, bool>> GetValidMixingAsteroids(string mixingAsteroidId)
+		{
+			if (!PlanetoidDict.TryGetValue(mixingAsteroidId, out var mixingWorld))
+				return [];
+
+			var mixingWorldTags = mixingWorld.world.worldTags;
+
+			var result = new List<Tuple<StarmapItem, bool>>();
+
+			foreach (var possibleTarget in CustomCluster.GetAllPlanets())
+			{
+				if (CGSMClusterManager.IsWorldMixingAsteroid(possibleTarget.id))
+					continue;
+
+				var targetPlacement = possibleTarget.placement;
+				if (targetPlacement == null || !targetPlacement.IsMixingPlacement())
+					continue;
+
+				bool validTarget = true;
+
+				foreach (var required in targetPlacement.worldMixing?.requiredTags)
+				{
+					if (!mixingWorldTags.Contains(required))
+					{
+						validTarget = false;
+						break;
+					}
+				}
+				foreach (var forbidden in targetPlacement.worldMixing?.forbiddenTags)
+				{
+					if (mixingWorldTags.Contains(forbidden))
+					{
+						validTarget = false;
+						break;
+					}
+				}
+
+				if (!validTarget)
+					continue;
+
+				result.Add(new(possibleTarget, !possibleTarget.IsMixed));
+			}
+			return result;
+		}
+
+		public static void TurnOffTeleporters()
+		{
+			if (DlcManager.IsExpansion1Active())
+			{
+				SgtLogger.l("Turning off teleporters for current cluster due to no warp planet");
+				CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.Teleporters, (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).off_level.id);
+			}
 		}
 	}
 }

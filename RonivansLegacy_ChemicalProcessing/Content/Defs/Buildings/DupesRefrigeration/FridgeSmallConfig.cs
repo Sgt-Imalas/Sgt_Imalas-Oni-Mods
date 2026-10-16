@@ -1,13 +1,8 @@
-﻿using PeterHan.PLib.Options;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Descriptors;
-using System;
+using STRINGS;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -52,6 +47,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			SoundEventVolumeCache.instance.AddVolume("simple_fridge_kanim", "Refrigerator_open", NOISE_POLLUTION.NOISY.TIER1);
 			SoundEventVolumeCache.instance.AddVolume("simple_fridge_kanim", "Refrigerator_close", NOISE_POLLUTION.NOISY.TIER1);
 			SoundUtils.CopySoundsToAnim("simple_fridge_kanim", "fridge_kanim");
+			buildingDef.AddSearchTerms((string)SEARCH_TERMS.FRIDGE);
 			return buildingDef;
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
@@ -60,7 +56,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.Refrigerator, false);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.KitchenRefrigerator, false);
 			Storage storage = go.AddOrGet<Storage>();
 			storage.showInUI = true;
 			storage.showDescriptor = true;
@@ -71,24 +67,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
 			storage.showCapacityStatusItem = true;
 			Prioritizable.AddRef(go);
-			go.AddOrGet<TreeFilterable>();
+			go.AddOrGet<TreeFilterable>().allResourceFilterLabelString = (string)UI.UISIDESCREENS.TREEFILTERABLESIDESCREEN.ALLBUTTON_EDIBLES;
 			go.AddOrGet<FoodStorage>();
 			go.AddOrGet<Refrigerator>();
 			RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
 			def.powerSaverEnergyUsage = GetWattage() / 6f;
 			def.coolingHeatKW = 0.375f * BaseFridgeMultiplier;
 			def.steadyHeatKW = 0f;
-			def.simulatedInternalHeatCapacity = 1000f;
+			//def.simulatedInternalHeatCapacity = 1000f;
 			def.simulatedInternalTemperature = 252.15f;
-			def.simulatedThermalConductivity = 10000f;
+			//def.simulatedThermalConductivity = 10000f;
 			go.AddOrGet<UserNameable>();
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 			go.AddOrGetDef<StorageController.Def>();
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
 
-			PreciseStorageControl.AddComponent(go);
-			HysteresisStorage.AddComponent(go);
+			ModIntegrationHelper.AllStorageIntegations(go);
 		}
 	}
 }

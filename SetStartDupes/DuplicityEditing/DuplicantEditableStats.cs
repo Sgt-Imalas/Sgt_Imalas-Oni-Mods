@@ -1,7 +1,6 @@
 ﻿using Database;
 using Klei.AI;
 using SetStartDupes.DuplicityEditing.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TUNING;
@@ -37,6 +36,8 @@ namespace SetStartDupes.DuplicityEditing
 		internal static DuplicantEditableStats GenerateFromMinion(GameObject go)
 		{
 			var stats = new DuplicantEditableStats();
+			var db = Db.Get();
+
 			if (go.TryGetComponent<StoredMinionIdentity>(out var storedMinionIdentity))
 			{
 
@@ -82,6 +83,12 @@ namespace SetStartDupes.DuplicityEditing
 					stats.Traits = new HashSet<string>();
 					foreach (var traitId in traits.GetTraitIds())
 					{
+						if(db.traits.TryGet(traitId) == null)
+						{
+							SgtLogger.warning("Invalid trait id \"" + traitId + "\" found, skipping that");
+							continue;
+						}
+
 						if (ModAssets.TryGetTraitsOfCategory(DupeTraitManager.NextType.joy, stats.Model).Any(trait => trait.id == traitId))
 						{
 							stats.JoyTraitId = traitId;
@@ -332,15 +339,19 @@ namespace SetStartDupes.DuplicityEditing
 					//SgtLogger.l("mouth hash replace");
 					//SgtLogger.l(HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth).symbol.hash).ToString());
 
-					var mouth_cheek_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth).symbol.hash).Replace("mouth", "cheek");
+					var mouth = accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth);
+
+					var mouth_cheek_symbolName = (KAnimHashedString)HashCache.Get().Get(mouth.symbol.hash).Replace("mouth", "cheek");
 					var cheek_symbol_snapTo = (HashedString)"snapto_cheek";
 					var hair_symbol_snapTo = (HashedString)"snapto_hair_always";
 
 					symbolOverride.RemoveSymbolOverride(mouth_cheek_symbolName);
 					symbolOverride.RemoveSymbolOverride(cheek_symbol_snapTo);
 					symbolOverride.RemoveSymbolOverride(hair_symbol_snapTo);
-
-					symbolOverride.AddSymbolOverride(cheek_symbol_snapTo, Assets.GetAnim((HashedString)"head_swap_kanim").GetData().build.GetSymbol((KAnimHashedString)mouth_cheek_symbolName), 1);
+					var anim = DuperyShared.HasCustomCheekAnimForMouth(mouth.Id, out var kanim) ? kanim : Assets.GetAnim((HashedString)"head_swap_kanim");
+					var cheekSymbol = anim.GetData().build.GetSymbol(mouth_cheek_symbolName);
+					if(cheekSymbol != null)
+						symbolOverride.AddSymbolOverride(cheek_symbol_snapTo, cheekSymbol, 1);
 					symbolOverride.AddSymbolOverride(hair_symbol_snapTo, accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol, 1);
 					symbolOverride.AddSymbolOverride((HashedString)Db.Get().AccessorySlots.HatHair.targetSymbolId, Db.Get().AccessorySlots.HatHair.Lookup("hat_" + HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol.hash)).symbol, 1);
 				}

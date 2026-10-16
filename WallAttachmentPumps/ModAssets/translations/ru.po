@@ -1,0 +1,68 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: DarkEviL <darkevilx17@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.9\n"
+
+#. WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_GASPUMP.DESC
+msgctxt "WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_GASPUMP.DESC"
+msgid ""
+"Piping a pump's output to a building's intake will send gas to that building."
+msgstr ""
+"Для поступления газа необходимо соединить выходное отверстие насоса с "
+"входным отверстием строения."
+
+#. WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_GASPUMP.EFFECT
+msgctxt "WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_GASPUMP.EFFECT"
+msgid ""
+"Draws in <link=\"ELEMENTSGAS\">Gas</link> and runs it through "
+"<link=\"GASPIPING\">Pipes</link>.\n"
+"\n"
+"Must be attached to a floor, wall or ceiling in order to draw in gas from "
+"the other side."
+msgstr ""
+"Служит для забора <link=\"ELEMENTSGAS\">газа</link> и его транспортировки по "
+"<link=\"GASPIPING\">трубам</link>.\n"
+"Для того чтобы откачивать газ с другой стороны, насос должен крепиться к "
+"полу, стене или потолку."
+
+#. WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_GASPUMP.NAME
+msgctxt "WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_GASPUMP.NAME"
+msgid "<link=\"WAPGASPUMP\">Wall Attachment Gas Pump</link>"
+msgstr "<link=\"WAPGASPUMP\">Настенный насос для газа</link>"
+
+#. WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_LIQUIDPUMP.DESC
+msgctxt "WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_LIQUIDPUMP.DESC"
+msgid ""
+"Piping a pump's output to a building's intake will send liquid to that "
+"building."
+msgstr ""
+"Для поступления жидкости необходимо соединить выходное отверстие насоса с "
+"входным отверстием строения."
+
+#. WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_LIQUIDPUMP.EFFECT
+msgctxt "WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_LIQUIDPUMP.EFFECT"
+msgid ""
+"Draws in <link=\"ELEMENTSLIQUID\">Liquid</link> and runs it through "
+"<link=\"LIQUIDPIPING\">Pipes</link>.\n"
+"\n"
+"Must be attached to a floor, wall or ceiling in order to draw in liquid from "
+"the other side."
+msgstr ""
+"Служит для забора <link=\"ELEMENTSLIQUID\">жидкости</link> и транспортировки "
+"ее по <link=\"LIQUIDPIPING\">трубам</link>.\n"
+"Для того чтобы откачивать жидкость с другой стороны, насос должен крепиться "
+"к полу, стене или потолку."
+
+#. WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_LIQUIDPUMP.NAME
+msgctxt "WallAttachmentPumps.STRINGS.BUILDINGS.PREFABS.WAP_LIQUIDPUMP.NAME"
+msgid "<link=\"WAPLIQUIDPUMP\">Wall Attachment Liquid Pump</link>"
+msgstr "<link=\"WAPLIQUIDPUMP\">Настенный насос для жидкости</link>"

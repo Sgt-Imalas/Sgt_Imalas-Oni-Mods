@@ -1,8 +1,5 @@
 ﻿using HarmonyLib;
-using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
 using Rockets_TinyYetBig.RocketFueling;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UtilLibs;
 
@@ -13,6 +10,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 		[HarmonyPatch(typeof(ChainedBuilding.StatesInstance),nameof(ChainedBuilding.StatesInstance.CollectNeighbourToChain))]
 		public static class ChainedBuilding_StatesInstance_CollectNeighbourToChain_Patch
 		{
+
 			/// <summary>
 			/// Skip and replace original method for vertical port loaders to allow vertical connections
 			/// </summary>

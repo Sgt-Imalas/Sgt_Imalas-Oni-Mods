@@ -1,15 +1,11 @@
 ﻿using HarmonyLib;
 using Imalas_TwitchChaosEvents.Elements;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static CodexEntryGenerator_Elements;
 using static CodexTemperatureTransitionPanel;
 
 namespace Imalas_TwitchChaosEvents.ModPatches
@@ -33,7 +29,7 @@ namespace Imalas_TwitchChaosEvents.ModPatches
 		[HarmonyPatch(typeof(CodexTemperatureTransitionPanel), nameof(CodexTemperatureTransitionPanel.ConfigureResults))]
 		public class CodexTemperatureTransitionPanel_ConfigureResults_Patch
 		{
-			public static bool Prefix(CodexTemperatureTransitionPanel __instance, GameObject contentGameObject, Transform displayPane, Dictionary<CodexTextStyle, TextStyleSetting> textStyles)
+			public static bool Prefix(CodexTemperatureTransitionPanel __instance, GameObject contentGameObject, Transform displayPanel, Dictionary<CodexTextStyle, TextStyleSetting> textStyles)
 			{
 				if (__instance.sourceElement.id != ModElements.InverseIce.SimHash)
 				{

@@ -1,19 +1,11 @@
-﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing;
+﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Configuration;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static LogicGateBase;
 using static RonivansLegacy_ChemicalProcessing.STRINGS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
 
@@ -102,7 +94,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.Copper, 70)
-				.Input([ModElements.Zinc_Solid.Tag, "Beached_Zinc"], 30)
+				.Input([SimHashes.Zinc.CreateTag(), ModElements.Zinc_Solid.Tag], 30, SimHashes.Zinc.CreateTag())
 				.Output(ModElements.Brass_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(ARCFURNACE_SMELT_2_1, 2, 1)

@@ -4,9 +4,11 @@
 	<PropertyGroup>
 		<!--Gamedata Folder, adjust to your own ONI installation-->
 		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
+		<GameLibsFolder Condition="!Exists('$(GameLibsFolder)')" >/mnt/Intel_Pestflatte/SteamLibrary/steamapps/common/OxygenNotIncluded/OxygenNotIncluded_Data/Managed</GameLibsFolder>
 		
 		<!--OutputModFolder, adjust it to your own dev folder-->
 		<ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
+		<ModFolder Condition="!Exists('$(GameLibsFolder)')">/mnt/Intel_Pestflatte/Klei/OxygenNotIncluded/mods/dev</ModFolder>
 		<!--Default for dev folder: -->
 		<!--<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
 		

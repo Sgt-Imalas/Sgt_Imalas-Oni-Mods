@@ -48,7 +48,7 @@ namespace AmogusMorb.TwitchEvents.Events
 
 				GameObject pet = GameUtil.KInstantiate(Assets.GetPrefab(ImposterConfig.ID), targetCoords, Grid.SceneLayer.Creatures);
 				pet.SetActive(true);
-				ToastManager.InstantiateToastWithPosTarget(EventName, EventDescription, targetCoords);
+				ToastHelper.InstantiateToastWithPosTarget(EventName, EventDescription, targetCoords);
 			};
 	}
 }

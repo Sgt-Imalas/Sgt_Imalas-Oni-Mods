@@ -9,6 +9,7 @@ namespace Dupery
 	[HarmonyPatch("Initialize")]
 	internal class Db_Initialize
 	{
+		[HarmonyPriority(Priority.VeryHigh)]
 		public static void Postfix()
 		{
 			// Import resources from other mods (which should now be loaded), if they are activated

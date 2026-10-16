@@ -179,65 +179,12 @@ namespace Rockets_TinyYetBig
 			public void EmptyRocket(float dt)
 			{
 				CraftModuleInterface craftInterface = this.sm.attachedRocket.Get<CraftModuleInterface>(this.smi);
-				DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, DockedRocketMaterialDistributor>.PooledList, DockedRocketMaterialDistributor>.PooledDictionary pooledDictionary = DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, DockedRocketMaterialDistributor>.PooledList, DockedRocketMaterialDistributor>.Allocate();
-				pooledDictionary[CargoBay.CargoType.Solids] = ListPool<CargoBayCluster, DockedRocketMaterialDistributor>.Allocate();
-				pooledDictionary[CargoBay.CargoType.Liquids] = ListPool<CargoBayCluster, DockedRocketMaterialDistributor>.Allocate();
-				pooledDictionary[CargoBay.CargoType.Gasses] = ListPool<CargoBayCluster, DockedRocketMaterialDistributor>.Allocate();
-				foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)craftInterface.ClusterModules)
-				{
-					CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
-					if ((UnityEngine.Object)component != (UnityEngine.Object)null && component.storageType != CargoBay.CargoType.Entities && (double)component.storage.MassStored() > 0.0)
-						pooledDictionary[component.storageType].Add(component);
-				}
-				bool flag = false;
 				HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain = HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.Allocate();
 				this.smi.GetSMI<ChainedBuilding.StatesInstance>().GetLinkedBuildings(ref chain);
-				foreach (ChainedBuilding.StatesInstance smi1 in (HashSet<ChainedBuilding.StatesInstance>)chain)
-				{
-					ModularConduitPortController.Instance smi2 = smi1.GetSMI<ModularConduitPortController.Instance>();
-					IConduitDispenser component1 = smi1.GetComponent<IConduitDispenser>();
-					Operational component2 = smi1.GetComponent<Operational>();
-					bool isUnloading = false;
-					if (component1 != null && (smi2 == null || smi2.SelectedMode == ModularConduitPortController.Mode.Unload || smi2.SelectedMode == ModularConduitPortController.Mode.Both) && ((UnityEngine.Object)component2 == (UnityEngine.Object)null || component2.IsOperational))
-					{
-						smi2.SetRocket(true);
-						TreeFilterable component3 = smi1.GetComponent<TreeFilterable>();
-						float amount = component1.Storage.RemainingCapacity();
-						foreach (CargoBayCluster cargoBayCluster in (List<CargoBayCluster>)pooledDictionary[CargoBayConduit.ElementToCargoMap[component1.ConduitType]])
-						{
-							if (cargoBayCluster.storage.Count != 0)
-							{
-								for (int index = cargoBayCluster.storage.items.Count - 1; index >= 0; --index)
-								{
-									GameObject go = cargoBayCluster.storage.items[index];
-									if (component3.AcceptedTags.Contains(go.PrefabID()))
-									{
-										isUnloading = true;
-										flag = true;
-										if ((double)amount > 0.0)
-										{
-											Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
-											if ((UnityEngine.Object)pickupable != (UnityEngine.Object)null)
-											{
-												component1.Storage.Store(pickupable.gameObject);
-												amount -= pickupable.PrimaryElement.Mass;
-											}
-										}
-										else
-											break;
-									}
-								}
-							}
-						}
-					}
-					smi2?.SetUnloading(isUnloading);
-				}
-				chain.Recycle();
-				pooledDictionary[CargoBay.CargoType.Solids].Recycle();
-				pooledDictionary[CargoBay.CargoType.Liquids].Recycle();
-				pooledDictionary[CargoBay.CargoType.Gasses].Recycle();
-				pooledDictionary.Recycle();
-				this.sm.emptyComplete.Set(!flag, this);
+
+				System.Action<bool> emptyCompleteACtion = new Action<bool>((isLoading) => this.sm.emptyComplete.Set(isLoading, this.smi));
+
+				RocketPortCargoLoading.ReplacedCargoUnloadingMethod(craftInterface, chain, emptyCompleteACtion);
 			}
 
 			public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] arr)

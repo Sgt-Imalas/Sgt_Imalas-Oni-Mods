@@ -1,11 +1,5 @@
-﻿using PeterHan.PLib.Options;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -26,12 +20,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public Tuple<int, int> GetTileValueRange() => new(4, 24);
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] quantity1 = [400f, 200f];
-			string[] materials1 = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
+			float[] quantity1 = [400f, 4f];
+			string[] materials1 = [ModAssets.GetHPASteelIngredient(), GameTags.BuildingGasket.ToString()];
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "pressure_gas_pump_kanim", 30, 30f, quantity1, materials1, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, noise, 0.2f);
 			def1.RequiresPowerInput = true;
-			def1.Overheatable = false;
+			def1.Overheatable = !Config.Instance.HPA_OverheatImmunePumps;
 			def1.EnergyConsumptionWhenActive = Config.Instance.HPA_Pump_Base_Mult_Gas * HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Gas);
 			def1.ExhaustKilowattsWhenActive = 0f;
 			def1.SelfHeatKilowattsWhenActive = 0f;

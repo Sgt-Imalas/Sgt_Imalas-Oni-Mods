@@ -1,17 +1,11 @@
 ﻿using ItemDropPrevention.Content.Scripts;
-using Klei.AI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ItemDropPrevention
 {
 	internal class ModAssets
 	{
+		public static Tag BlockedFromDoingStuff = TagManager.Create("MassMoveTo_BlockedFromMerging");
 		internal static bool MarkForLaterDroppage(GameObject gameObject)
 		{
 			if (!gameObject.TryGetComponent<DroppablesHolder>(out var droppablesHolder))

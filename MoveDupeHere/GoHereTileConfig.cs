@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace LogicSatellites.Buildings
 {
@@ -83,6 +84,8 @@ namespace LogicSatellites.Buildings
 			ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
 			var mdh = go.AddOrGet<MoveDupeHereSM>();
 			mdh.targetCellOffset = new CellOffset(0, 1);
+
+			BuildingUtil.RenderAboveLiquids(go);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

@@ -1,11 +1,9 @@
 ﻿using HarmonyLib;
 using PeterHan.PLib.Core;
-using ProcGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -36,7 +34,7 @@ namespace UtilLibs.SharedTweaks
 		{
 			new ResearchScreenBetterConnectionLines().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 6);
+		public override Version Version => new Version(1, 0, 1, 0);
 
 		public override void Initialize(Harmony plibInstance)
 		{
@@ -47,11 +45,11 @@ namespace UtilLibs.SharedTweaks
 				var onSpawnPostfix = AccessTools.Method(typeof(ResearchScreenBetterConnectionLines), nameof(CreateLinesPostfix));
 				///change the line renderers to be more spaced out
 				plibInstance.Patch(targetMethod, postfix: new(onSpawnPostfix, Priority.HigherThanNormal));
-				Debug.Log(this.GetType().ToString() + " successfully patched");
+				Debug.Log(Assembly.GetExecutingAssembly().GetName().Name + ": " + this.GetType().ToString() + " successfully patched");
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning(this.GetType().ToString() + " patch failed!");
+				Debug.LogWarning(Assembly.GetExecutingAssembly().GetName().Name + ": " + this.GetType().ToString() + " patch failed!");
 				Debug.LogWarning(e.Message);
 			}
 		}
@@ -65,7 +63,7 @@ namespace UtilLibs.SharedTweaks
 
 		public static void CreateLinesPostfix(ResearchEntry __instance)
 		{
-			RefreshSkillScreenMatrix(__instance);
+			RefreshResearchMatrix(__instance);
 
 			if (techConnectionPoints == null)
 			{
@@ -182,7 +180,7 @@ namespace UtilLibs.SharedTweaks
 		static Dictionary<string, Vector2I> lookupTable = [];
 		static Dictionary<Vector2I, string> reverseLookupTable = [];
 		static int gradient = 0;
-		static void RefreshSkillScreenMatrix(ResearchEntry __instance)
+		static void RefreshResearchMatrix(ResearchEntry __instance)
 		{
 			if (init)
 				return;
@@ -217,8 +215,14 @@ namespace UtilLibs.SharedTweaks
 
 				//SgtLogger.l(skill.Id + ", " + rowX + "," + columnY + "(" + x + "," + y + ")");
 				var data = new Vector2I(rowX, columnY);
-				lookupTable.Add(tech.Id, data);
-				reverseLookupTable.Add(data, tech.Id);
+				if (!lookupTable.ContainsKey(tech.Id))
+					lookupTable.Add(tech.Id, data);
+				else
+					SgtLogger.warning("ResearchMatrix duplicate key detected for tech " + tech.Id + " and value " + data.ToString());
+				if (!reverseLookupTable.ContainsKey(data))
+					reverseLookupTable.Add(data, tech.Id);
+				else
+					SgtLogger.warning("ResearchMatrix duplicate reverse key detected for value " + tech.Id + " and key " + data.ToString());
 			}
 			//PrintMatrix();
 		}
@@ -275,13 +279,13 @@ namespace UtilLibs.SharedTweaks
 			float horizontalOffsetTarget = midpoint + Mathf.Abs(relativeYDiffTarget);
 			float horizontalOffsetSource = midpoint + Mathf.Abs(relativeYDiffSource);
 
+			Vector2 start = new Vector2(0, 0) + relativeEndPoint,
+					p1 = new Vector2(-horizontalOffsetTarget, 0) + relativeEndPoint,
+					p2 = new Vector2(-horizontalOffsetSource, verticalOffset) + relativeStartPoint,
+					end = new Vector2(-requisiteTechRightBorderX, verticalOffset) + relativeStartPoint;
+
 			UILineRenderer component = Util.KInstantiateUI(__instance.linePrefab, __instance.lineContainer.gameObject, true).GetComponent<UILineRenderer>();
-			component.Points = [
-				new Vector2(0, 0) + relativeEndPoint,
-						new Vector2(-horizontalOffsetTarget, 0) + relativeEndPoint,
-						new Vector2(-horizontalOffsetSource, verticalOffset) + relativeStartPoint,
-						new Vector2(-requisiteTechRightBorderX, verticalOffset) + relativeStartPoint,
-						];
+			component.Points = [start,p1,p2,end];
 
 
 			//foreach (var point in component.Points)
@@ -317,16 +321,12 @@ namespace UtilLibs.SharedTweaks
 				var srcTech = techs.Get(srcTechId);
 				if (srcTech.requiredTech.Any(t => t.Id == destTech))
 				{
-					SgtLogger.l("warning: crossing detected for " + currentTech.Id + " at y level: " + i + ", with connection between " + srcTechId + " and " + destTech);
-					var ownPos = __instance.lineContainer.transform.position;
-					var crossPosY = __instance.researchScreen.entryMap[srcTech].lineContainer.transform.position;
-
-					//var ownRec = __instance.rectTransform();
-
-					//SgtLogger.l("ownPos: " + ownPos.x + "," + ownPos.y + ", crossPos: " + crossPos.x + "," + crossPos.y);
-
-					Vector2 pos = new(ownPos.x - horizontalOffsetSource-6.5f, crossPosY.y + 1.25f);
-					CreateCrossRenderer(__instance, pos);
+					SgtLogger.l("crossing detected for " + currentTech.Id + " at y level: " + i + ", with connection between " + srcTechId + " and " + destTech);
+					var alt = __instance.researchScreen.entryMap[srcTech].rectTransform().anchoredPosition - __instance.rectTransform().anchoredPosition;
+					var altPos = new Vector2(-horizontalOffsetTarget, alt.y+1.25f);// + relativeEndPoint;
+					//altPos.y -= 6f;
+					//SgtLogger.l("alt cross anchored pos: " + alt.y);
+					CreateCrossRendererRelative(__instance, altPos);
 				}
 			}
 
@@ -335,7 +335,27 @@ namespace UtilLibs.SharedTweaks
 
 		static GameObject IconPrefab = null;
 
-		static void CreateCrossRenderer(ResearchEntry __instance, Vector2 pos)
+		static void CreateCrossRenderer(ResearchEntry __instance, Vector2 pos, Color? c = null)
+		{
+			if (IconPrefab == null)
+			{
+				IconPrefab = Util.KInstantiateUI(__instance.iconPrefab.transform.Find("Icon_FG").gameObject);
+				IconPrefab.GetComponent<Image>().sprite = Assets.GetSprite("unknown");//crossIcon;
+			}
+			var icon = Util.KInstantiateUI(IconPrefab, __instance.lineContainer.gameObject, true);
+
+			icon.name = __instance.targetTech.Id + "_LinePreventionMeasure";
+			icon.transform.SetPosition(pos);
+			var scale = icon.transform.localScale;
+			//scale.x *= 1.15f;
+			//scale.y *= 0.85f;
+			icon.transform.localScale = scale;
+			if (c.HasValue)
+				icon.GetComponent<Image>().color = c.Value;
+
+			SgtLogger.l("setting icon pos to " + pos.x + "," + pos.y + " with color: " + c.ToString());
+		}
+		static void CreateCrossRendererRelative(ResearchEntry __instance, Vector2 pos, Color? c = null)
 		{
 			if (IconPrefab == null)
 			{
@@ -345,13 +365,15 @@ namespace UtilLibs.SharedTweaks
 			var icon = Util.KInstantiateUI(IconPrefab, __instance.lineContainer.gameObject, true);
 
 			icon.name = __instance.targetTech.Id + "_LinePreventionMeasure";
-			icon.transform.SetPosition(pos);
+			icon.transform.localPosition = (pos);
 			var scale = icon.transform.localScale;
-			scale.x *= 1.15f;
-			scale.y *= 0.85f;
+			//scale.x *= 1.15f;
+			//scale.y *= 0.85f;
 			icon.transform.localScale = scale;
+			if (c.HasValue)
+				icon.GetComponent<Image>().color = c.Value;
 
-			//SgtLogger.l("setting icon pos to " + pos.x + "," + pos.y);
+			SgtLogger.l("setting icon pos to " + pos.x + "," + pos.y + " with color: " + c.ToString());
 		}
 	}
 }

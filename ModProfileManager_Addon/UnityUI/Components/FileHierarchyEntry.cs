@@ -40,10 +40,6 @@ namespace ModProfileManager_Addon.UnityUI.Components
 
 			if (ModProfile != null)
 			{
-				if (ModProfile.ModList.SavePoints.Count == 1)
-					Label.SetText(ModProfile.ModList.ModlistPath);
-				else
-					Label.SetText(ModProfile.ModList.ModlistPath + ": " + ModProfile.Path);
 				bool isCloneEntry = ModProfile.Clone;
 				deleteButton.OnClick += ConfirmDelete;
 				deleteButton.SetInteractable(!isCloneEntry);
@@ -64,6 +60,17 @@ namespace ModProfileManager_Addon.UnityUI.Components
 
 				if (isCloneEntry)
 					selectButtonTT.SetSimpleTooltip(PRESETHIERARCHYENTRY.TOOLTIP_CLONE);
+			}
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			if (ModProfile != null)
+			{
+				if (ModProfile.ModList.SavePoints.Count == 1)
+					Label.SetText(ModProfile.ModList.ModlistPath);
+				else
+					Label.SetText(ModProfile.ModList.ModlistPath + ": " + ModProfile.Path);
 			}
 		}
 

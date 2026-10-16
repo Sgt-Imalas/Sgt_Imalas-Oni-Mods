@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace _SgtsModUpdater
 {
@@ -13,6 +8,7 @@ namespace _SgtsModUpdater
 		public static string GameDocumentsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Klei","OxygenNotIncluded");
 		public static string ModsFolder = Path.Combine(GameDocumentsFolder, "mods");
 		public static string LocalModsFolder = Path.Combine(ModsFolder, "Local");
+		public static string DevModsFolder = Path.Combine(ModsFolder, "Dev");
 		public static string SteamModsFolder = Path.Combine(ModsFolder, "Steam");
 		
 		

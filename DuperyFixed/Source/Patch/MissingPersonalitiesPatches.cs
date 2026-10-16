@@ -20,7 +20,8 @@ namespace DuperyFixed.Source.Patch
 					{
 						return;
 					}
-					SgtLogger.l("Personality of " + __instance.gameObject.name + " is missing, defaulting to jorge for ui keys");
+					SgtLogger.error($"The duplicant \"{__instance.GetProperName()}\" does not have a valid personality, please reenable the mod that adds \"{identity.personalityResourceId}\"");
+					SgtLogger.warning("Defaulting the dupe to use Jorges personality to prevent ui key crashes, do note that this will not be sufficient for dupes that have custom icons!");
 					personality = Db.Get().Personalities.GetPersonalityFromNameStringKey("JORGE");
 					identity.personalityResourceId = personality.Id;
 					identity.nameStringKey = LonelyMinionConfig.PERSONALITY_ID;

@@ -1,0 +1,7 @@
+name: STRINGS.SUBWORLDS.SWAMP.NAME
+description: STRINGS.SUBWORLDS.SWAMP.DESC
+icon: biomeIconSwamp
+mixingTags: 
+- Warm
+subworld:
+  name: expansion1::subworlds/swamp/CGM_SwampMix

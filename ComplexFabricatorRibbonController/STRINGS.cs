@@ -1,10 +1,4 @@
-﻿using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static STRINGS.UI;
+﻿using static STRINGS.UI;
 
 namespace ComplexFabricatorRibbonController
 {
@@ -39,6 +33,14 @@ namespace ComplexFabricatorRibbonController
 		}
 		public class UI
 		{
+			public class RFRC_CONFIG
+			{
+				public class MICROCHIP_REQUIRED
+				{
+					public static LocString TEXT = "Building requires microchip";
+					public static LocString TOOLTIP = "Whether or not the building requires a microchip to construct. If disabled, the metal cost will be slightly higher.";
+				}
+			}
 			public static LocString RFRC_NO_RECIPE = "No Recipe";
 			public class RIBBONSELECTIONSIDESCREEN
 			{
@@ -49,9 +51,22 @@ namespace ComplexFabricatorRibbonController
 					public static LocString TOOLTIP = "This recipe controller is not attached to a fabricator building!";
 				}
 			}
-			public class RIBBONSELECTIONSECONDARYSIDESCREEN
+
+
+			public class LISTSELECTION_SECONDARYSIDESCREEN
 			{
 				public static LocString TITLE = "Recipe Selection for Bit {0}:";
+				public class SEARCHBAR
+				{
+					public static LocString CLEARTOOLTIP = "Clear search bar";
+					public class INPUT
+					{
+						public class TEXTAREA
+						{
+							public static LocString PLACEHOLDER = "Enter text to filter recipes...";
+						}
+					}
+				}
 				public class USETOOLTIPS
 				{
 					public static LocString CURRENTRECIPE = "Currently selected for this Bit";

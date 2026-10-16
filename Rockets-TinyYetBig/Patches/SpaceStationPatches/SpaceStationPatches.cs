@@ -475,32 +475,36 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
             }
         }
         /// <summary>
-        /// No Self Destruct button.. for now
+        /// No Self Destruct button for derelicts
         /// </summary>
-        //[HarmonyPatch(typeof(SelfDestructButtonSideScreen))]
-        //[HarmonyPatch(nameof(SelfDestructButtonSideScreen.IsValidForTarget))]
-        //public static class NoSpaceStationSelfDestruct
-        //{
-        //	public static void Postfix(GameObject target, ref bool __result)
-        //	{
-        //		//if (target.TryGetComponent<SpaceStation>(out _) || target.TryGetComponent<DerelictStation>(out _))
-        //		//{
-        //		//	__result = false;
-        //		//}
-        //	}
-        //}
+        [HarmonyPatch(typeof(SelfDestructButtonSideScreen))]
+        [HarmonyPatch(nameof(SelfDestructButtonSideScreen.IsValidForTarget))]
+        public static class NoSpaceStationSelfDestruct
+        {
+            public static void Postfix(GameObject target, ref bool __result)
+            {
+                if (target.TryGetComponent<DerelictStation>(out _))
+                {
+                    __result = false;
+                }
+            }
+        }
         [HarmonyPatch(typeof(CraftModuleInterface))]
         [HarmonyPatch(nameof(CraftModuleInterface.CompleteSelfDestruct))]
         public static class FixStationSelfDestruct
         {
             public static bool Prefix(CraftModuleInterface __instance)
             {
-                if (!__instance.TryGetComponent<SpaceStation>(out _) && !__instance.TryGetComponent<DerelictStation>(out _))
+                if (!__instance.TryGetComponent<SpaceStation>(out var station))
                     return true;
-                //skip non existing module chain and blow up world
-                __instance.m_clustercraft.SetExploding();
-                SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(__instance.GetInteriorWorld().id);
-                return false;
+				//skip non existing module chain and blow up world
+				station.SetExploding();
+                SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(station.SpaceStationInteriorId);
+                __instance.Trigger((int)GameHashes.RocketSelfDestructRequested);
+                ClusterMapScreen.Instance.RemoveDeletedEntities(__instance.gameObject);
+				ClusterMapSelectTool.Instance.SelectNextFrame(null);
+
+				return false;
             }
         }
 
@@ -528,77 +532,6 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
             }
         }
 
-        [HarmonyPatch(typeof(RocketConduitReceiver))]
-        [HarmonyPatch(nameof(RocketConduitReceiver.FindPartner))]
-        public static class FixReceiverPortsInsideStationOnLoad
-        {
-            public static bool IsTrueRocketInterior(WorldContainer target)
-            {
-                return SpaceStationManager.WorldIsRocketInterior(target.id);
-            }
-
-
-            public static readonly MethodInfo IsTrueRocket = AccessTools.Method(
-               typeof(FixReceiverPortsInsideStationOnLoad),
-               "IsTrueRocketInterior");
-
-            public static readonly MethodInfo IsRocketInteriorGetter = AccessTools.Method(
-               typeof(WorldContainer),
-               "get_IsModuleInterior");
-            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-            {
-                var codes = orig.ToList();
-
-                // find injection point
-                var isModuleInteriorIndex = codes.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == IsRocketInteriorGetter);
-
-                if (isModuleInteriorIndex == -1)
-                {
-                    SgtLogger.warning("IsModuleInteriorCall not found");
-                    return codes;
-                }
-                codes[isModuleInteriorIndex] = new CodeInstruction(OpCodes.Callvirt, IsTrueRocket);
-
-                return codes;
-            }
-        }
-
-        [HarmonyPatch(typeof(RocketConduitSender))]
-        [HarmonyPatch(nameof(RocketConduitSender.FindPartner))]
-        public static class FixSenderPortsInsideStationOnLoad
-        {
-            public static bool IsTrueRocketInterior(WorldContainer target)
-            {
-                return SpaceStationManager.WorldIsRocketInterior(target.id);
-            }
-
-
-            public static readonly MethodInfo IsTrueRocket = AccessTools.Method(
-               typeof(FixSenderPortsInsideStationOnLoad),
-               "IsTrueRocketInterior");
-
-            public static readonly MethodInfo IsRocketInteriorGetter = AccessTools.Method(
-               typeof(WorldContainer),
-               "get_IsModuleInterior");
-            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-            {
-                var codes = orig.ToList();
-
-                // find injection point
-                var isModuleInteriorIndex = codes.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == IsRocketInteriorGetter);
-
-                if (isModuleInteriorIndex == -1)
-                {
-                    SgtLogger.warning("IsModuleInteriorCall not found");
-                    return codes;
-                }
-                codes[isModuleInteriorIndex] = new CodeInstruction(OpCodes.Callvirt, IsTrueRocket);
-
-                return codes;
-            }
-        }
-
-
 
         [HarmonyPatch(typeof(ClusterUtil))]
         [HarmonyPatch(nameof(ClusterUtil.GetAsteroidWorldIdAtLocation))]
@@ -610,9 +543,9 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
                 {
                     foreach (ClusterGridEntity clusterGridEntity in ClusterGrid.Instance.cellContents[location])
                     {
-                        if (clusterGridEntity is SpaceStation)
+                        if (clusterGridEntity is SpaceStation station)
                         {
-                            __result = (clusterGridEntity as SpaceStation).SpaceStationInteriorId;
+                            __result = station.SpaceStationInteriorId;
                         }
                     }
                 }

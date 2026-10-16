@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using KMod;
 using ShockWormMob.OreDeposits;
-using System;
 using UtilLibs;
 
 namespace ShockWormMob

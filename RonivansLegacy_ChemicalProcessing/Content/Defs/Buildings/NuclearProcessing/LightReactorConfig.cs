@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS;
+﻿using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
@@ -61,12 +56,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			radiationEmitter.emitRate = 0.0f;
 			radiationEmitter.emissionOffset = new Vector3(0.35f, -2f, 0.0f);
 
-			var modifers = new List<Storage.StoredItemModifier>()
-			{
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate,
-				Storage.StoredItemModifier.Hide
-			};
+			var modifers = Storage.StandardInsulatedStorage;
 
 			Storage supplyStorage = go.AddComponent<Storage>();			
 			Storage reactionStorage = go.AddComponent<Storage>();			
@@ -86,7 +76,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			Prioritizable.AddRef(go);
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Liquid;
-			conduitConsumer.consumptionRate = 30f;
+			conduitConsumer.consumptionRate = 10f;
 			conduitConsumer.capacityKG = 36f;
 			conduitConsumer.capacityTag = GameTags.AnyWater;
 			conduitConsumer.forceAlwaysSatisfied = true;

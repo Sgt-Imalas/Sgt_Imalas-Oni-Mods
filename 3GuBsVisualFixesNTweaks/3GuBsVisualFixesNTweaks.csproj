@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>VisualFixesNTweaks</PackageId>
-		<Version>1.2.1</Version>
+		<Version>1.4.1</Version>
 		<Authors>3GuB, Sgt_Imalas</Authors>
 		<Copyright>$(RetroOniCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>VisualFixesNTweaks</AssemblyName>
 		<RootNamespace>_3GuBsVisualFixesNTweaks</RootNamespace>

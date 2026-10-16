@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using static GeoTunerConfig;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -11,6 +9,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static GeyserConfigurator.GeyserType Log(this GeyserConfigurator.GeyserType type)
 		{
 			ModGeysers.GeyserIDs.Add("GeyserGeneric_" + type.id);
+			return type;
+		}
+		public static GeyserConfigurator.GeyserType SetTuningCategory(this GeyserConfigurator.GeyserType type, GeoTunerConfig.Category category = Category.DEFAULT_CATEGORY)
+		{
+			GeoTunerConfig.geotunerGeyserSettings[type.id] = GeoTunerConfig.CategorySettings[category];
 			return type;
 		}
 	}
@@ -47,7 +50,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				500,
 				0.4f,
 				0.8f,
-				210.15f).Log(),
+				210.15f).Log().SetTuningCategory(Category.HYDROCARBON_CATEGORY),
 				generic));
 
 			//===[ CHEMICAL: AMMONIUM WATER GEYSER ]=====================================================================
@@ -69,7 +72,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				272.15f).Log(),
+				268.15f).Log().SetTuningCategory(Category.WATER_CATEGORY),
 				generic));
 
 			//===[ CHEMICAL: HOT MERCURY GAS VENT ]=====================================================================
@@ -91,7 +94,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				272.15f).Log(),
+				272.15f).Log().SetTuningCategory(Category.METALS_CATEGORY),
 				generic));
 
 			//===[ CHEMICAL: MOLTEN SALT GEYSER ]=====================================================================
@@ -113,7 +116,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				1300.15f).Log(),
+				1300.15f).Log().SetTuningCategory(Category.METALS_CATEGORY),
 				generic));
 
 			//===[ CHEMICAL: LIQUID PHOSPHORUS GEYSER ]=====================================================================
@@ -135,7 +138,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				392.15f).Log(),
+				392.15f).Log().SetTuningCategory(Category.ORGANIC_CATEGORY),
 				generic));
 
 			//===[ CHEMICAL: HOT RAW NATURAL GAS VENT ]=====================================================================
@@ -157,7 +160,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				773.15f).Log(),
+				773.15f).Log().SetTuningCategory(Category.HYDROCARBON_CATEGORY),
 				generic));
 
 			//===[ CHEMICAL: SOUR WATER GEYSER ]=====================================================================
@@ -179,7 +182,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				278.15f).Log(),
+				278.15f).Log().SetTuningCategory(Category.WATER_CATEGORY),
 				generic));
 
 			//===[ CHEMICAL: HOT NITROGEN VENT ]=====================================================================
@@ -201,8 +204,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				320.15f).Log(),
+				320.15f).Log().SetTuningCategory(Category.ORGANIC_CATEGORY),
 				false)); //nitrogen is too limited in use, keep it in the mod, but disable it from generic geyser list
+		}
+
+		internal static void MarkInvis(List<GameObject> geyserList)
+		{
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				return;
+
+			foreach (var go in geyserList)
+			{
+				if(GeyserIDs.Contains(go.PrefabID().ToString()))
+					ModAssets.HideFromCodex(go);
+			}
 		}
 	}
 }

@@ -1,17 +1,15 @@
 ﻿using Klei.AI;
-using KMod;
 using Newtonsoft.Json;
 using ObjectCloner;
 using ProcGen;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT;
+using static ProcGen.WorldPlacement;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -26,6 +24,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		[JsonIgnore] public Sprite planetSprite;
 		[JsonIgnore] public Sprite planetMixingSprite => world_mixing?.planetSprite;
+		/// <summary>
+		/// automatically changes to mixing target ui sprite if it is remixed
+		/// </summary>
+		[JsonIgnore] public Sprite DisplaySprite => world_mixing != null ? world_mixing.planetSprite : planetSprite;
 
 		[JsonIgnore] public ProcGen.World world => world_mixing != null ? world_mixing.world : world_internal;
 		[JsonIgnore] public ProcGen.World World_Internal => world_internal;
@@ -43,6 +45,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 		[JsonIgnore] public string ModName = string.Empty;
 		[JsonIgnore] private string DlcID = "";
 
+		/// <summary>
+		/// checking for any planet packs
+		/// </summary>
+		public bool HasContentDlcRequirement => DlcID != string.Empty && DlcID != DlcManager.EXPANSION1_ID || (world_internal?.GetRequiredDlcIds()?.Any(dlc => dlc != "" && dlc != DlcManager.EXPANSION1_ID) ?? false) || (world_mixing?.HasContentDlcRequirement ?? false);
 		public string GetMainDlcID() => DlcID;
 
 		public bool IsDlcRequired(string dlcId) => DlcID == dlcId || (world_internal?.GetRequiredDlcIds()?.Contains(dlcId) ?? false) || (world_mixing?.IsDlcRequired(dlcId) ?? false);
@@ -51,10 +57,56 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public SpaceMapPOIPlacement placementPOI;
 
+		public bool HasBiomeMixingSlots()
+		{
+			if(world == null)
+				return false;
+			return world.subworldMixingRules != null && world.subworldMixingRules.Count > 0;
+		}
+
 		public bool IsPOI => category == StarmapItemCategory.POI;
 		public bool IsRandom => id.Contains(RandomKey);
 
 		public int PredefinedPlacementOrder = -1;
+
+		public string OriginalDisplayName
+		{
+			get
+			{
+				if (id.Contains(RandomKey))
+				{
+					switch (category)
+					{
+						case StarmapItemCategory.Starter:
+							return STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_STARTER.NAME;
+						case StarmapItemCategory.Warp:
+							return STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP.NAME;
+						case StarmapItemCategory.Outer:
+							return STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.NAME;
+						case StarmapItemCategory.POI:
+							return STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI.NAME;
+					}
+				}
+
+				if (world != null && world.name != null)
+				{
+					if (Strings.TryGet(world.name, out var nameEntry))
+					{
+						var name = nameEntry.ToString();
+						if (IsMixed && World_Internal != null && Strings.TryGet(World_Internal.name, out var namePreMixing))
+						{
+							return namePreMixing;
+						}
+						return name;
+					}
+				}
+				else if (category == StarmapItemCategory.POI)
+				{
+					return id.Substring(0, 8);
+				}
+				return id;
+			}
+		}
 
 		public string DisplayName
 		{
@@ -563,7 +615,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 			placement.width = placement2.width;
 			placement.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
 			placement.buffer = placement2.buffer;
-			placement.locationType = placement2.locationType;
+			placement.locationType = (this.category) switch
+			{
+				StarmapItemCategory.Starter => LocationType.Startworld,
+				StarmapItemCategory.Warp => LocationType.InnerCluster,
+				_ => LocationType.Cluster
+			};
 			placement.worldMixing = SerializingCloner.Copy(placement2.worldMixing);
 			placement.worldMixing = new()
 			{
@@ -603,6 +660,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				//clearing previous mixing
 				placement.UndoWorldMixing();
+				placement.worldMixing.previousWorld = null;
 
 				if (mix != null)//applying mixing
 				{
@@ -624,9 +682,9 @@ namespace ClusterTraitGenerationManager.ClusterData
 		private bool _geyserBlacklistShared = true;
 
 		private bool _geyserBlacklistAffectsNonGenerics = true;
-		public bool GeyserBlacklistAffectsNonGenerics => 
-			IsMixed 
-			? MixingAsteroidSource._geyserBlacklistAffectsNonGenerics 
+		public bool GeyserBlacklistAffectsNonGenerics =>
+			IsMixed
+			? MixingAsteroidSource.GeyserBlacklistAffectsNonGenerics
 			: GeyserBlacklistShared ? CGSMClusterManager.BlacklistAffectsNonGenerics : _geyserBlacklistAffectsNonGenerics;
 		public bool GeyserBlacklistShared => IsMixed ? MixingAsteroidSource._geyserBlacklistShared : _geyserBlacklistShared;
 
@@ -647,7 +705,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			if (IsMixed)
 				MixingAsteroidSource.SetGeyserBlacklistAffectsNonGenerics(affectsNongenerics);
-			else if(GeyserBlacklistShared)
+			else if (GeyserBlacklistShared)
 				CGSMClusterManager.BlacklistAffectsNonGenerics = affectsNongenerics;
 			else
 				_geyserBlacklistAffectsNonGenerics = affectsNongenerics;
@@ -705,14 +763,16 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 
 
-			_geyserOverrideIDs = NEWs;
-			for (int i = _geyserOverrideCount - 1; i >= 0; i--)
+			_geyserOverrideIDs = [];
+			foreach (var geyser in NEWs)
 			{
-				var currentGeyser = _geyserOverrideIDs[i];
-				if (!ModAssets.AllGeysers.TryGetValue(currentGeyser, out _))
+				if (ModAssets.AllGeysers.ContainsKey(geyser))
 				{
-					SgtLogger.l("invalid geyser found: " + currentGeyser);
-					_geyserOverrideIDs.RemoveAt(i);
+					_geyserOverrideIDs.Add(geyser);
+				}
+				else
+				{
+					SgtLogger.l("invalid geyser found: " + geyser);
 				}
 			}
 		}

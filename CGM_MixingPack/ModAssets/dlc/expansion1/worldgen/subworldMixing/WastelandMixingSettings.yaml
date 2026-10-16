@@ -1,0 +1,5 @@
+name: STRINGS.SUBWORLDS.WASTELAND.NAME
+description: STRINGS.SUBWORLDS.WASTELAND.DESC
+icon: biomeIconWasteland
+subworld:
+  name: expansion1::subworlds/wasteland/CGM_WastelandMix

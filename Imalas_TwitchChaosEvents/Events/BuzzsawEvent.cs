@@ -47,7 +47,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			blade.SetActive(true);
 			SgtLogger.l(spawningPosition.ToString(), "POS2");
 
-			ToastManager.InstantiateToastWithGoTarget(
+			ToastHelper.InstantiateToastWithGoTarget(
 			STRINGS.CHAOSEVENTS.BUZZSAW.TOAST,
 			 STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT, blade
 			 );

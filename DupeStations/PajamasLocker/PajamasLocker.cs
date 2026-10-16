@@ -1,14 +1,5 @@
-﻿using Klei;
-using KSerialization;
-using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UtilLibs;
-using static STRINGS.MISC.STATUSITEMS;
 
 namespace DupeStations.PajamasLocker
 {

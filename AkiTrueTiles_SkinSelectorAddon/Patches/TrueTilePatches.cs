@@ -1,13 +1,8 @@
 ﻿using HarmonyLib;
 using Rendering;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static Rendering.BlockTileRenderer;
 
 namespace AkiTrueTiles_SkinSelectorAddon.Patches
 {
@@ -67,13 +62,15 @@ namespace AkiTrueTiles_SkinSelectorAddon.Patches
 				if (!matchesDef || lastCheckedCell == -1)
 					return;
 
-				if (layer == (int)ObjectLayer.ReplacementTile)
-					return;
+				//if (layer == (int)ObjectLayer.ReplacementTile)
+				//	return;
 
 				var cell = Grid.XYToCell(x, y);
 
-				if(TrueTiles_OverrideStorage.TryGetElement(cell, out var element) 
-				&& TrueTiles_OverrideStorage.TryGetElement(lastCheckedCell, out var secondElement))
+				bool first = TrueTiles_OverrideStorage.TryGetElement(cell, null, out var element);
+				bool second = TrueTiles_OverrideStorage.TryGetElement(lastCheckedCell, null, out var secondElement);
+
+				if ( first && second)
 				{
 					bool equalElement = element == secondElement;
 					if (equalElement != __result)

@@ -1,0 +1,107 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME"
+msgid "Bunkered down"
+msgstr "Đang ẩn nấp"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP"
+msgid "This radiator is currently protected from meteor impacts."
+msgstr "Bộ tản nhiệt này hiện đang được bảo vệ khỏi va chạm thiên thạch."
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME"
+msgid "Radiating {0}"
+msgstr "Đang tỏa nhiệt {0}"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP"
+msgid "This radiator is currently radiating heat at {0} with {AREAPERCENTAGE}% of its area."
+msgstr "Bộ tản nhiệt này hiện đang tỏa nhiệt ở mức {0} với {AREAPERCENTAGE}% diện tích của nó."
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME"
+msgid "Not in space"
+msgstr "Không ở trong không gian"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP"
+msgid "This radiators panels are not exposed to space, thus it won't radiate any heat away."
+msgstr "Các tấm của bộ tản nhiệt này không được tiếp xúc với không gian, do đó nó sẽ không tỏa bất kỳ nhiệt lượng nào ra ngoài."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.DESC
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr "Tỏa nhiệt năng ra không gian dưới dạng bức xạ hồng ngoại."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.EFFECT
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.EFFECT"
+msgid "Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law."
+msgstr "Trao đổi nhiệt với chất lỏng được bơm qua nó.\n\nNếu ở trong không gian, tỏa năng lượng hồng ngoại dựa trên định luật Stefan–Boltzmann."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.NAME"
+msgid "Space Radiator"
+msgstr "Bộ Tản Nhiệt Không Gian"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.DESC
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr "Tỏa nhiệt năng ra không gian dưới dạng bức xạ hồng ngoại."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.EFFECT
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.EFFECT"
+msgid "Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law."
+msgstr "Trao đổi nhiệt với chất lỏng được bơm qua nó.\n\nNếu ở trong không gian, tỏa năng lượng hồng ngoại dựa trên định luật Stefan–Boltzmann."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.NAME"
+msgid "Space Radiator"
+msgstr "Bộ Tản Nhiệt Không Gian"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.DESC
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr "Tỏa nhiệt năng ra không gian dưới dạng bức xạ hồng ngoại."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.EFFECT
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.EFFECT"
+msgid "Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.\n\nHas to be attached to the rocket interior wall."
+msgstr "Trao đổi nhiệt với chất lỏng được bơm qua nó.\n\nNếu ở trong không gian, tỏa năng lượng hồng ngoại dựa trên định luật Stefan–Boltzmann.\n\nPhải được gắn vào tường bên trong tên lửa."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.NAME"
+msgid "Space Radiator (Rocket)"
+msgstr "Bộ Tản Nhiệt Không Gian (Tên Lửa)"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.NAME
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.NAME"
+msgid "Radiation Multiplier"
+msgstr "Hệ Số Nhân Bức Xạ"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.TOOLTIP"
+msgid "Set a custom multiplier that affects the radiation rate.\n1 is the scientificially most accurate value."
+msgstr "Đặt hệ số nhân tùy chỉnh ảnh hưởng đến tốc độ bức xạ.\n1 là giá trị chính xác nhất về mặt khoa học."
+
+#. Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.NAME
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.NAME"
+msgid "Old Functionality (v2.2.1 and earlier)"
+msgstr "Chức Năng Cũ (v2.2.1 trở về trước)"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.TOOLTIP"
+msgid "restore the old deletion method that made the radiator up to 5x as powerful as intended for low shc materials"
+msgstr "khôi phục phương pháp cũ khiến bộ tản nhiệt mạnh gấp tới 5 lần so với dự định đối với vật liệu có nhiệt dung riêng thấp"

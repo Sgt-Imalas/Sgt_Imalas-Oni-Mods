@@ -43,7 +43,14 @@ namespace UtilLibs.UIcmp //Source: Aki
 				this.wholeNumbers = wholeNumbers;
 			}
 		}
-
+		public void SetCurrentFromCode(float current)
+		{
+			if (slider != null)
+			{
+				slider.SetValueWithoutNotify(current);
+			}
+			SetOutputText();
+		}
 		public void SetCurrent(float current)
 		{
 			if (slider != null)

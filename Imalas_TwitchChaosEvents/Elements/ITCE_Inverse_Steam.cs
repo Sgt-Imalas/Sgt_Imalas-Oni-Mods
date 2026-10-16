@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Imalas_TwitchChaosEvents.Elements.ELEMENTpatches;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.Elements
 {

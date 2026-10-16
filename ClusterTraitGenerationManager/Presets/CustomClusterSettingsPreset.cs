@@ -1,7 +1,6 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
-using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +12,6 @@ using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS;
 using static CustomGameSettings;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 
 namespace ClusterTraitGenerationManager
 {
@@ -50,6 +48,8 @@ namespace ClusterTraitGenerationManager
 		public List<string> BlacklistedTraits;
 		public List<string> SharedBlacklistedGeysers;
 		public bool SharedBlacklistAffectsNonGenerics;
+		public Dictionary<string, List<string>> StoryTraitAsteroidBlacklists;
+		public Dictionary<string, List<string>> BiomeRemixAsteroidBlacklists;
 
 		void PopulatePresetData(CustomClusterData data)
 		{
@@ -79,6 +79,11 @@ namespace ClusterTraitGenerationManager
 				SO_POI_Overrides = new List<SO_POI_DataEntry>();
 				data.SO_Starmap.OverridePlacements.ToList().ForEach(entry => SO_POI_Overrides.Add(new SO_POI_DataEntry(entry.Key, entry.Value)));
 			}
+			data.BlacklistedStoryTraitLocations ??= [];
+			StoryTraitAsteroidBlacklists = new(data.BlacklistedStoryTraitLocations);
+
+			data.BlacklistedBiomeMixingLocations ??= [];
+			BiomeRemixAsteroidBlacklists = new(data.BlacklistedBiomeMixingLocations);
 		}
 
 		public string ImmuneSystem, CalorieBurn, Morale, Durability, MeteorShowers, Radiation, Stress, Seed, SandboxMode, StressBreaks, CarePackages, FastWorkersMode, SaveToCloud, Teleporters;
@@ -179,6 +184,17 @@ namespace ClusterTraitGenerationManager
 				CGSMClusterManager.BlacklistedGeysers = [.. this.SharedBlacklistedGeysers];
 			CGSMClusterManager.BlacklistAffectsNonGenerics = this.SharedBlacklistAffectsNonGenerics;
 
+			var geysers = ModAssets.AllGeysers.Keys.ToHashSet();
+			var allGeysers = CGSMClusterManager.BlacklistedGeysers.ToArray();
+			foreach (var geyser in allGeysers)
+			{
+				if (!geysers.Contains(geyser))
+				{
+					CGSMClusterManager.BlacklistedGeysers.Remove(geyser);
+				}
+
+			}
+
 			#region legacySettings
 			///ImmuneSystem
 			if (ImmuneSystem != null && ImmuneSystem.Length > 0)
@@ -248,7 +264,7 @@ namespace ClusterTraitGenerationManager
 				if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
 					continue;
 
-				if(DifficultySettings != null && DifficultySettings.TryGetValue(id, out var difficultyLevel))
+				if (DifficultySettings != null && DifficultySettings.TryGetValue(id, out var difficultyLevel))
 				{
 					SetCustomGameSettings(qualitySetting.Value, difficultyLevel);
 				}
@@ -285,6 +301,11 @@ namespace ClusterTraitGenerationManager
 			public bool geyserBlacklistAffectsNonGenerics, useSharedGeyserBlacklist;
 			public bool allowDuplicates, avoidClumping, guarantee;
 			public string mixedBy = null;
+
+			public bool IsValid()
+			{
+				return !itemID.IsNullOrWhiteSpace();
+			}
 
 			public SerializableStarmapItem AddGeysers(List<string> geyserIDs)
 			{
@@ -502,7 +523,7 @@ namespace ClusterTraitGenerationManager
 
 			//RemoveActiveMixings();
 
-			if (StarterPlanet != null)
+			if (StarterPlanet != null && StarterPlanet.IsValid())
 			{
 				string itemId = StarterPlanet.itemID;
 
@@ -523,7 +544,7 @@ namespace ClusterTraitGenerationManager
 				cluster.StarterPlanet = null;
 			}
 
-			if (WarpPlanet != null)
+			if (WarpPlanet != null && WarpPlanet.IsValid())
 			{
 				string itemId = WarpPlanet.itemID;
 
@@ -531,7 +552,6 @@ namespace ClusterTraitGenerationManager
 				var WarpPlanetItem = dict.ContainsKey(itemId) ? dict[itemId] : null;
 				if (WarpPlanetItem != null)
 				{
-					SgtLogger.l("setting warp planet from preset");
 					cluster.WarpPlanet = ApplyDataToStarmapItem(WarpPlanet, WarpPlanetItem);
 				}
 				else
@@ -548,7 +568,6 @@ namespace ClusterTraitGenerationManager
 			cluster.OuterPlanets.Clear();
 			foreach (var outerplanet in this.OuterPlanets)
 			{
-
 				string itemId = outerplanet.Value.itemID;
 
 				var outerItem = dict.ContainsKey(itemId) ? (dict[itemId]) : null;
@@ -613,6 +632,11 @@ namespace ClusterTraitGenerationManager
 					cluster.SO_Starmap = null;
 				}
 			}
+			StoryTraitAsteroidBlacklists ??= [];
+			cluster.BlacklistedStoryTraitLocations = new(StoryTraitAsteroidBlacklists);
+
+			BiomeRemixAsteroidBlacklists ??= [];
+			cluster.BlacklistedBiomeMixingLocations = new(BiomeRemixAsteroidBlacklists);
 
 			RerollMixingsWithSeedChange = mixingRerollActive;
 
@@ -622,7 +646,6 @@ namespace ClusterTraitGenerationManager
 			{
 				DialogUtil.CreateConfirmDialogFrontend(ERRORMESSAGES.MISSINGWORLDS_TITLE, string.Format(ERRORMESSAGES.MISSINGWORLDS_TEXT, missinCount));
 			}
-
 		}
 		StarmapItem ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
 		{
@@ -737,28 +760,48 @@ namespace ClusterTraitGenerationManager
 
 		private void FixAsteroidIDs()
 		{
-			if (StarterPlanet != null)
+			if (StarterPlanet != null && StarterPlanet.IsValid())
 			{
 				if (ModAssets.FindSwapAsteroid(StarterPlanet.itemID, out var newId))
 					StarterPlanet.itemID = newId;
+
+				if (StarterPlanet.mixedBy.IsNullOrWhiteSpace() && ModAssets.FindOldStandaloneFragment(StarterPlanet.itemID, out newId))
+					StarterPlanet.itemID = newId;
+
 			}
-			if (WarpPlanet != null)
+			if (WarpPlanet != null && WarpPlanet.IsValid())
 			{
+				//SgtLogger.l("setting warp planet from preset " + FileName);
 				if (ModAssets.FindSwapAsteroid(WarpPlanet.itemID, out var newId))
+					WarpPlanet.itemID = newId;
+				if (WarpPlanet.mixedBy.IsNullOrWhiteSpace() && ModAssets.FindOldStandaloneFragment(WarpPlanet.itemID, out newId))
 					WarpPlanet.itemID = newId;
 			}
 
 			if (OuterPlanets != null)
 			{
 				List<string> Keys = OuterPlanets.Keys.ToList();
-				foreach (var asteroid in Keys)
+				foreach (var aster in Keys)
 				{
-					if (ModAssets.FindSwapAsteroid(asteroid, out var newId))
+					string asteroidId = aster;
+					var ast = OuterPlanets[asteroidId];
+					if (ast == null ||!ast.IsValid())
 					{
-						var ast = OuterPlanets[asteroid];
+						SgtLogger.l("invalid asteroid id " + asteroidId + " in preset " + FileName);
+						continue;
+					}
+					if (ModAssets.FindSwapAsteroid(asteroidId, out var newId))
+					{
 						ast.itemID = newId;
-
-						OuterPlanets.Remove(asteroid);
+						OuterPlanets.Remove(asteroidId);
+						asteroidId = newId;
+						OuterPlanets.Add(newId, ast);
+					}
+					if (ast.mixedBy.IsNullOrWhiteSpace() && ModAssets.FindOldStandaloneFragment(asteroidId, out newId))
+					{
+						ast.itemID = newId;
+						OuterPlanets.Remove(asteroidId);
+						asteroidId = newId;
 						OuterPlanets.Add(newId, ast);
 					}
 				}

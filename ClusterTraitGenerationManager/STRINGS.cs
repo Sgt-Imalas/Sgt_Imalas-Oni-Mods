@@ -14,6 +14,11 @@
 				public static LocString NAME = "Enable Challenge Asteroids";
 				public static LocString TOOLTIP = "Generate more challenging start asteroids like superconductive and regolith moonlet";
 			}
+			public class CGM_MASSSCALE
+			{
+				public static LocString NAME = "Tile Mass Scaling";
+				public static LocString TOOLTIP = "Scales up tile mass on shrunken down asteroids to compensate for the reduced tile count";
+			}
 		}
 		public class WORLD_TRAITS
 		{
@@ -33,6 +38,8 @@
 			public class INFOTOOLTIPS
 			{
 				public static LocString INFO_ONLY = "These are for info only and are not configurable.";
+				public static LocString NONGENERICGEYSER = "This geyser is "+ global::STRINGS.UI.FormatAsKeyWord("<b>non-generic</b>")+" and can only generate naturally when declared in the worldgen file of the asteroid.\nBy default, it cannot get spawned in from the \"Geoactive\" trait or similar modded variants.";
+				public static LocString GENERICGEYSER = "This geyser is "+ global::STRINGS.UI.FormatAsKeyWord("<b>generic</b>")+" and can generate randomly.";
 			}
 			public class GENERATIONWARNING
 			{
@@ -46,6 +53,7 @@
 			{
 				public class CATEGORIES
 				{
+					public static LocString TOOLTIP_STARMAPRESETINFO = "Something in the cluster composition was changed,\nthe starmap has been regenerated.\nAny changes you have made were lost.";
 					public class HEADER
 					{
 						public static LocString LABEL = "Starmap Item Categories";
@@ -224,6 +232,14 @@
 									public static LocString LABEL = "Generate Story Trait:";
 									public static LocString TOOLTIP = "Should this Story Trait be generated?";
 								}
+								public class STORYTRAITBLACKLIST
+								{
+									public class DESCRIPTOR
+									{
+										public static LocString LABEL = "Allow Story Trait on these Asteroids:";
+										public static LocString TOOLTIP = "Allows you to block the game from spawning this story trait on certain asteroids.\n\nBlocking too many asteroids can prevent the worldgen from succeeding!";
+									}
+								}
 							}
 							public class VANILLAPOI_RESOURCES
 							{
@@ -360,6 +376,15 @@
 
 									}
 									public static LocString OUTPUT = "0";
+								}
+							}
+
+							public class ASTEROIDMIXINGTARGETSELECTOR
+							{
+								public class DESCRIPTOR
+								{
+									public static LocString LABEL = "Asteroid Remix Target:";
+									public static LocString TOOLTIP = "The target asteroid that is getting remixed.";
 								}
 							}
 
@@ -509,6 +534,30 @@
 									public static LocString TEXT = "Add Trait";
 								}
 							}
+							public class BIOMEMIXINGTARGETSELECTOR
+							{
+								public class DESCRIPTOR
+								{
+									public static LocString LABEL = "Biome Remix allowed:";
+								}
+								public class CONTENT
+								{
+									public class ITEMCONTAINER
+									{
+										public class SCROLLAREA
+										{
+											public class CONTENT
+											{
+												public class NONEENTRY
+												{
+													public static LocString LABEL = "No Biome\nRemix active!";
+												}
+											}
+										}
+									}
+								}
+							}
+
 
 							public class ASTEROIDGEYSERS
 							{
@@ -665,8 +714,8 @@
 							public class RESETCLUSTERBUTTON
 							{
 								public static LocString TEXT = "Reset Everything";
-								public static LocString TOOLTIP = "Undo all changes you have made by reloading the cluster preset.";
-								public static LocString TOOLTIP_VANILLA = "Undo all changes you have made by reloading the world preset.";
+								public static LocString TOOLTIP = "Undo all changes you have made by reloading the vanilla cluster template.";
+								public static LocString TOOLTIP_VANILLA = "Undo all changes you have made by reloading the world from the vanilla template.";
 							}
 							public class RESETSELECTIONBUTTON
 							{

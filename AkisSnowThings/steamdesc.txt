@@ -2,8 +2,7 @@
 
 adds 4 new winter themed decor buildings and a new tree plant to decorate your base with
 
-[img]https://i.imgur.com/oNBUpGe.png[/img] [img]https://i.imgur.com/Cd1HwbV.png[/img] 
-[img]https://i.imgur.com/pa6jsyD.png[/img] [img]https://i.imgur.com/ix2Nmhl.png[/img]
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All.png[/img]
 [h1]Current latest Version: 1.0[/h1]
 
 [hr][/hr]

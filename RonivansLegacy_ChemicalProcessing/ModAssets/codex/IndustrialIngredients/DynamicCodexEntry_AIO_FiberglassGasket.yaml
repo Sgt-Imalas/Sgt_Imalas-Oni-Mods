@@ -1,0 +1,24 @@
+id: "AIO_FiberglassGasket"
+title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.NAME
+
+contentContainers:
+#-----------------------------BIOPLASTIC
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.NAME
+          style: Title
+      - !CodexText
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.DESC
+          style: Body
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          batchedAnimPrefabSourceID: AIO_FiberglassGasket
+          preferredWidth: 128
+          preferredHeight: 128
+
+contentMadeAndUsed:
+  - tag: AIO_FiberglassGasket

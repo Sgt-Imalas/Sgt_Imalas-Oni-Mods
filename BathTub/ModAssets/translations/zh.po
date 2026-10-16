@@ -90,3 +90,8 @@ msgstr "关闭 (禁用随机鸭叫)"
 msgctxt "BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.BUTTON_OFF"
 msgid "Quack! (enables random quacks)"
 msgstr "开启 (启用随机鸭叫)"
+
+#. 提升复制人的<link="MORALE">士气</link>并去除<link="DISEASE">病菌</link>。
+msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.EFFECT"
+msgid "提升复制人的<link=\"MORALE\">士气</link>并去除<link=\"DISEASE\">病菌</link>。"
+msgstr "提升复制人的<link=\"MORALE\">士气</link>并去除<link=\"DISEASE\">病菌</link>。"

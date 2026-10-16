@@ -3,9 +3,8 @@ using Klei;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using PeterHan.PLib.Core;
-using ProcGenGame;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,12 +12,14 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 using UtilLibs;
 using static AnimExportTool.Patches.MainMenu_OnPrefabInit.GameSettingExport;
+using static ProcGen.DlcMixingSettings;
 
 namespace AnimExportTool
 {
-	internal class Patches
+	internal static class Patches
 	{
 		//static Texture2D BuildImageFromFrame(KAnimFile animFile, string animName = "ui", int frameIdx = 0)
 		//{
@@ -30,6 +31,17 @@ namespace AnimExportTool
 
 
 		//}
+
+
+		[HarmonyPatch(typeof(KBatchedAnimController), nameof(KBatchedAnimController.OnStart))]
+		public class KCollider2D_OnSpawn_Patch
+		{
+			public static void Postfix(KBatchedAnimController __instance)
+			{
+				if (__instance.gameObject.TryGetComponent<KPrefabID>(out _) && __instance.gameObject.TryGetComponent<KBoxCollider2D>(out _))
+					__instance.gameObject.AddOrGet<AETE_KbacSnapShotter>();
+			}
+		}
 
 
 		[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.OnSpawn))]
@@ -278,6 +290,70 @@ namespace AnimExportTool
 
 			}
 		}
+		private static readonly KButtonMenu.ButtonInfo StartBuildingExportButton = new KButtonMenu.ButtonInfo("StartBuildingExport", Action.NumActions, new UnityAction(StartExport));
+		private static void StartExport()
+		{
+			PauseScreen.Instance.Show(false);
+			Game.Instance.StartCoroutine(BuildingSnapper());
+		}
+
+		static IEnumerator BuildingSnapper()
+		{
+			var cell = Grid.PosToCell(Camera.main.transform.position);
+
+			for(int i = 0; i<10; ++i)
+				cell = Grid.CellDownLeft(cell);
+
+
+			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<ClusterDestinationSelector>();
+			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<ClusterTraveler>();
+			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<Clustercraft>();
+			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<CraftModuleInterface>();
+			foreach (var def in Assets.BuildingDefs)
+			{
+				if (!def.ShowInBuildMenu || def.Deprecated||!def.BuildingComplete.TryGetComponent<KBatchedAnimController>(out _))
+					continue;
+
+
+
+				var temporaryTargetBuilding = def.Create(Grid.CellToPos(cell), null, [SimHashes.Unobtanium.CreateTag()], null, 100, def.BuildingComplete);
+				temporaryTargetBuilding.AddOrGet<AETE_KbacSnapShotter>().AutoSnapshot = true;
+				while (!temporaryTargetBuilding.IsNullOrDestroyed())
+					yield return null;
+			}
+		}
+
+
+		[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.GenerateTexture))]
+		public class SubworldZoneRenderData_GenerateTexture_Patch
+		{
+			public static void Prefix(SubworldZoneRenderData __instance)
+			{
+				for (int i = 0; i < __instance.zoneColours.Length; ++i)
+				{
+					if (i == 7) //space biome
+						continue;
+					var color = __instance.zoneColours[i];
+					SgtLogger.l($"Biome {((ProcGen.SubWorld.ZoneType)i).ToString()} has color {color} and hex {Util.ToHexString(color)}");
+					__instance.zoneColours[i].r = byte.MaxValue;
+					__instance.zoneColours[i].g = byte.MaxValue;
+					__instance.zoneColours[i].b = byte.MaxValue;
+				}
+			}	
+		}
+
+		[HarmonyPatch(typeof(PauseScreen), "ConfigureButtonInfos")]
+		private static class PauseScreen_OnPrefabInit_Patch
+		{
+			public static void Postfix(ref IList<KButtonMenu.ButtonInfo> ___buttons)
+			{
+				SgtLogger.l("adding exporter button");
+				List<KButtonMenu.ButtonInfo> list = ___buttons.ToList<KButtonMenu.ButtonInfo>();
+				StartBuildingExportButton.isEnabled = true;
+				list.Insert(5, StartBuildingExportButton);
+				___buttons = (IList<KButtonMenu.ButtonInfo>)list;
+			}
+		}
 
 		[HarmonyPatch(typeof(BuildingTemplates))]
 		[HarmonyPatch(nameof(BuildingTemplates.CreateBuildingDef))]
@@ -445,10 +521,6 @@ namespace AnimExportTool
 		//}
 
 
-
-
-
-
 		public static StringBuilder EntityIdBuilder
 		{
 			get
@@ -464,6 +536,7 @@ namespace AnimExportTool
 
 		}
 		private static StringBuilder _entityIdBuilder = null;
+		public static string Strip(this string toStrip) => StripFormatting(toStrip);
 		public static string StripFormatting(string toStrip)
 		{
 			toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
@@ -568,6 +641,8 @@ namespace AnimExportTool
 				public string[] ForbiddenClusterTags;
 				public string WorldMixing;
 				public string SubworldMixing;
+				public List<ProcGen.SpaceMapPOIPlacement> spacePois;
+				public List<SpaceDestinationMix> spaceDesinations;
 
 
 				public MixingType SettingType = MixingType.None;
@@ -771,7 +846,7 @@ namespace AnimExportTool
 				{
 					IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
 
-					properties = properties.Where(p => !_typesToIgnore.Contains( p.PropertyType)) .ToList();
+					properties = properties.Where(p => !_typesToIgnore.Contains(p.PropertyType)).ToList();
 
 					return properties;
 				}
@@ -872,11 +947,68 @@ namespace AnimExportTool
 				//}
 
 				//Console.WriteLine(EntityIdBuilder.ToString());
-				
+
 				Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export,new JsonSerializerSettings { ContractResolver = new DynamicContractResolver([typeof(Vector2I)]) }));
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export, new JsonSerializerSettings { ContractResolver = new DynamicContractResolver([typeof(Vector2I)]) }));
 				Console.WriteLine("LOC:");
 				Console.WriteLine(loc.ToString());
+				CreateMixingExport();
+				CreateStarmapExportBasegame();
+				ExportSpacedOutPOIs();
+
+			}
+			static void CreateMixingExport()
+			{
+				var mixingList = new List<GameSettingExport>();
+
+				foreach (var coordinatedMixingSetting in CustomGameSettings.Instance.CoordinatedMixingSettings)
+				{
+					SettingConfig mixingSetting = CustomGameSettings.Instance.MixingSettings[coordinatedMixingSetting];
+					MixingType mixingType = MixingType.DLC;
+
+					var setting = new GameSettingExport()
+					{
+						Id = mixingSetting.id,
+						Name = StripFormatting(mixingSetting.label),
+						Description = StripFormatting(mixingSetting.tooltip),
+						coordinate_range = mixingSetting.coordinate_range,
+						DlcIdFrom = mixingSetting.GetRequiredDlcIds().FirstOrDefault(),
+						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip), coordinate_value = l.coordinate_value }).ToList(),
+
+					};
+					if (mixingSetting is SubworldMixingSettingConfig subworldMixing)
+					{
+						setting.ForbiddenClusterTags = subworldMixing.forbiddenClusterTags?.ToArray();
+						setting.Icon = subworldMixing.icon.name;
+
+						mixingType = MixingType.Subworld;
+						ProcGen.SubworldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedSubworldMixingSetting(subworldMixing.worldgenPath);
+						setting.SubworldMixing = worldgenData?.subworld?.name;
+					}
+					else if (mixingSetting is WorldMixingSettingConfig worldMixing)
+					{
+						setting.ForbiddenClusterTags = worldMixing.forbiddenClusterTags?.ToArray();
+						setting.Icon = worldMixing.icon.name;
+						ProcGen.WorldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedWorldMixingSetting(worldMixing.worldgenPath);
+						mixingType = MixingType.World;
+						setting.WorldMixing = worldgenData?.world;
+					}
+					else if (mixingSetting is DlcMixingSettingConfig dlcMixingSetting)
+					{
+						var dlcSettings = ProcGen.SettingsCache.GetCachedDlcMixingSettings(dlcMixingSetting.id);
+						setting.spacePois = dlcSettings.spacePois;
+						setting.spaceDesinations = dlcSettings.spaceDesinations;
+					}
+					setting.SettingType = mixingType;
+
+					mixingList.Add(setting);
+
+				}
+				Console.WriteLine("CCCCCCCCCCCCCCCCCCC");
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(mixingList));
+			}
+			static void CreateStarmapExportBasegame()
+			{
 				var starmapExport = new StarmapGeneratorData();
 
 				foreach (var location in Db.Get().SpaceDestinationTypes.resources)
@@ -922,49 +1054,114 @@ namespace AnimExportTool
 
 				Console.WriteLine("BBBBBBBBBBBBBBBBBB");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(starmapExport));
+			}
+			public class POI_Data
+			{
+				public string Id;
+				public string Name;
+				public string Description;
+				[JsonIgnore]
+				public Sprite Sprite;
+				public Dictionary<SimHashes, float> Mineables;
+				public bool HasArtifacts;
 
-				var mixingList = new List<GameSettingExport>();
+				public float RechargeMin, RechargeMax;
+				public float CapacityMin, CapacityMax;
 
-				foreach (var coordinatedMixingSetting in CustomGameSettings.Instance.CoordinatedMixingSettings)
+			}
+			static POI_Data GetPoiData(GameObject item)
+			{
+				if (item.TryGetComponent<ClusterGridEntity>(out var component1))
 				{
-					SettingConfig mixingSetting = CustomGameSettings.Instance.MixingSettings[coordinatedMixingSetting];
-					MixingType mixingType = MixingType.DLC;
+					POI_Data data = new POI_Data();
 
-					var setting = new GameSettingExport()
+					data.Id = component1.PrefabID().ToString();
+
+					var animName = component1.AnimConfigs.First().initialAnim;
+					var animFile = component1.AnimConfigs.First().animFile;
+
+					if (data.Id.Contains(HarvestablePOIConfig.CarbonAsteroidField)) ///carbon field fix
+						animName = "carbon_asteroid_field";
+
+					if (animName == "closed_loop")///Temporal tear
+						animName = "ui";
+
+					data.Sprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName, true);
+
+					if (item.TryGetComponent<HarvestablePOIConfigurator>(out var harvest))
 					{
-						Id = mixingSetting.id,
-						Name = StripFormatting(mixingSetting.label),
-						Description = StripFormatting(mixingSetting.tooltip),
-						coordinate_range = mixingSetting.coordinate_range,
-						DlcIdFrom = mixingSetting.GetRequiredDlcIds().FirstOrDefault(),
-						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip), coordinate_value = l.coordinate_value }).ToList(),
-
-					};
-					if (mixingSetting is SubworldMixingSettingConfig subworldMixing)
-					{
-						setting.ForbiddenClusterTags = subworldMixing.forbiddenClusterTags?.ToArray();
-						setting.Icon = subworldMixing.icon.name;
-
-						mixingType = MixingType.Subworld;
-						ProcGen.SubworldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedSubworldMixingSetting(subworldMixing.worldgenPath);
-						setting.SubworldMixing = worldgenData?.subworld?.name;
+						var HarvestableConfig = HarvestablePOIConfigurator.FindType(harvest.presetType);
+						data.Mineables = new(HarvestableConfig.harvestableElements);
+						data.CapacityMin = HarvestableConfig.poiCapacityMin;
+						data.CapacityMax = HarvestableConfig.poiCapacityMax;
+						data.RechargeMin = HarvestableConfig.poiRechargeMin;
+						data.RechargeMax = HarvestableConfig.poiRechargeMax;
 					}
-					else if (mixingSetting is WorldMixingSettingConfig worldMixing)
+					if (item.TryGetComponent<ArtifactPOIConfigurator>(out _))
 					{
-						setting.ForbiddenClusterTags = worldMixing.forbiddenClusterTags?.ToArray();
-						setting.Icon = worldMixing.icon.name;
-						ProcGen.WorldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedWorldMixingSetting(worldMixing.worldgenPath);
-						mixingType = MixingType.World;
-						setting.WorldMixing = worldgenData?.world;
+						data.HasArtifacts = true;
 					}
-					setting.SettingType = mixingType;
 
-					mixingList.Add(setting);
+					if (item.TryGetComponent<InfoDescription>(out var descHolder))
+					{
+						data.Description = descHolder.description;
+						data.Name = component1.Name;
+					}
+					if (component1 is ArtifactPOIClusterGridEntity && data.Name == null)
+					{
+						string artifact_ID = component1.PrefabID().ToString().Replace("ArtifactSpacePOI_", string.Empty);
+						data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + artifact_ID.ToUpper() + ".NAME"));
+						data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + artifact_ID.ToUpper() + ".DESC"));
+					}
+					if (component1 is TemporalTear && data.Name == null)
+					{
+						data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.NAME"));
+						data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.DESCRIPTION"));
+					}
+
+					return data;
+				}
+				return null;
+			}
+			private static void ExportSpacedOutPOIs()
+			{
+				Dictionary<string, POI_Data> _so_POIs = [];
+				foreach (var item in Assets.GetPrefabsWithComponent<HarvestablePOIClusterGridEntity>())
+				{
+					var data = GetPoiData(item);
+					if (data != null && !_so_POIs.ContainsKey(data.Id))
+					{
+						_so_POIs.Add(data.Id, data);
+					}
 
 				}
-				Console.WriteLine("CCCCCCCCCCCCCCCCCCC");
-				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(mixingList));
+				foreach (var item in Assets.GetPrefabsWithComponent<ArtifactPOIClusterGridEntity>())
+				{
+					var data = GetPoiData(item);
+					if (data != null && !_so_POIs.ContainsKey(data.Id))
+					{
+						_so_POIs.Add(data.Id, data);
+					}
+				}
+				foreach (var item in Assets.GetPrefabsWithComponent<TemporalTear>())
+				{
+					var data = GetPoiData(item);
+					if (data != null && !_so_POIs.ContainsKey(data.Id))
+					{
+						_so_POIs.Add(data.Id, data);
+					}
+				}
+				foreach (var poi in _so_POIs)
+				{
 
+					poi.Value.Name = poi.Value.Name.Strip();
+					poi.Value.Description = poi.Value.Description.Strip();
+					WriteUISpriteToFile(poi.Value.Sprite, Path.Combine(UtilMethods.ModPath, "Starmap_SO"), poi.Key);
+				}
+
+
+				Console.WriteLine("EEEEEEEEEEEEEE");
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(_so_POIs));
 			}
 		}
 

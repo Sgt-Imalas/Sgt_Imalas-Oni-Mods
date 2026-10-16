@@ -1,9 +1,4 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -15,8 +10,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public static string ID = "HPAVentLiquid";
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = [200f, 100f];
-			string[] construction_materials = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
+			float[] construction_mass = [200f, 2f];
+			string[] construction_materials = [ModAssets.GetHPASteelIngredient(), GameTags.BuildingGasket.ToString()];
 			EffectorValues none = NOISE_POLLUTION.NONE;
 			EffectorValues tieR1 = BUILDINGS.DECOR.PENALTY.TIER1;
 			EffectorValues noise = none;
@@ -52,7 +47,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Liquid;
 			conduitConsumer.ignoreMinMassCheck = true;
-			BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
+			var storage = BuildingTemplates.CreateDefaultStorage(go);
+			storage.showInUI = true;
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			go.AddOrGet<SimpleVent>();
 			var inputs = go.AddOrGet<RequireInputs>();
 			inputs.requireConduitHasMass = false;

@@ -1,20 +1,8 @@
-﻿using FMOD;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Klei.AI;
-using PeterHan.PLib.Core;
-using ProcGen;
-using ProcGenGame;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using TemplateClasses;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UI;
 using UtilLibs;
-using static ProcGen.Mob;
 
 namespace TinyFixes
 {
@@ -34,7 +22,7 @@ namespace TinyFixes
 				{
 					if (!__instance.StorySettings.ContainsKey(story))
 					{
-						__instance.StorySettings.Remove(story);
+						__instance.currentStoryLevelsBySetting.Remove(story);
 					}
 				}
 				var currentMixingSettings = __instance.CurrentMixingLevelsBySetting.Keys.ToList();

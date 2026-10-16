@@ -1210,10 +1210,10 @@
                 or <see cref="F:Grid.InvalidCell" /> (-1) if one cannot be found in range.
             </returns>
             <remarks>
-                This search is based on <c>GameUtil.FloodFillFind</c>, which does a breadth first search,
+                This search is based on <c>FloodFill.Find</c>, which does a breadth first search,
                 moving out approximately equally in all directions
             </remarks>
-            <seealso cref="M:GameUtil.FloodFillFind``1(System.Func{System.Int32,``0,System.Boolean},``0,System.Int32,System.Int32,System.Boolean,System.Boolean)" />
+            <seealso cref="M:FloodFill.Find``1(System.Func{System.Int32,System.Boolean},System.Int32,``0,System.Boolean,System.Boolean)" />
             <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellEmpty(System.Int32)" />
         </member>
         <member name="M:ONITwitchLib.Utils.GridUtil.FindCellWithCavityClearance(System.Int32)">
@@ -1228,10 +1228,10 @@
                 empty, or <see cref="F:Grid.InvalidCell" /> (-1) if one cannot be found in range.
             </returns>
             <remarks>
-                This search is based on <c>GameUtil.FloodFillFind</c>, which does a breadth first search,
+                This search is based on <c>FloodFill.Find</c>, which does a breadth first search,
                 moving out approximately equally in all directions
             </remarks>
-            <seealso cref="M:GameUtil.FloodFillFind``1(System.Func{System.Int32,``0,System.Boolean},``0,System.Int32,System.Int32,System.Boolean,System.Boolean)" />
+            <seealso cref="M:FloodFill.Find``1(System.Func{System.Int32,System.Boolean},System.Int32,``0,System.Boolean,System.Boolean)" />
             <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellEmpty(System.Int32)" />
         </member>
         <member name="M:ONITwitchLib.Utils.GridUtil.FindCellWithFoundationClearance(System.Int32)">
@@ -1245,10 +1245,10 @@
                 neighbors do not have foundation, or <see cref="F:Grid.InvalidCell" /> (-1) if one cannot be found in range.
             </returns>
             <remarks>
-                This search is based on <c>GameUtil.FloodFillFind</c>, which does a breadth first search,
+                This search is based on <c>FloodFill.Find</c>, which does a breadth first search,
                 moving out approximately equally in all directions
             </remarks>
-            <seealso cref="M:GameUtil.FloodFillFind``1(System.Func{System.Int32,``0,System.Boolean},``0,System.Int32,System.Int32,System.Boolean,System.Boolean)" />
+            <seealso cref="M:FloodFill.Find``1(System.Func{System.Int32,System.Boolean},System.Int32,``0,System.Boolean,System.Boolean)" />
             <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellFoundationEmpty(System.Int32)" />
         </member>
         <member name="M:ONITwitchLib.Utils.GridUtil.FloodCollectCells(System.Int32,System.Func{System.Int32,System.Boolean},System.Int32,System.Collections.Generic.HashSet{System.Int32})">

@@ -2,9 +2,9 @@
 using HarmonyLib;
 using Imalas_TwitchChaosEvents.Meteors;
 using Klei.AI;
-using ONITwitchLib;
 using System.Collections.Generic;
 using TUNING;
+using Util_TwitchIntegrationLib;
 using UtilLibs;
 using static ComplexRecipe;
 
@@ -65,7 +65,7 @@ namespace Imalas_TwitchChaosEvents
 					if (!ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe)
 					{
 						ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
-						ToastManager.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
+						ToastHelper.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
 					}
 				}
 				else if (e.TryConsume(ModAssets.HotKeys.TriggerTacoRain.GetKAction()))

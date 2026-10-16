@@ -44,13 +44,13 @@ namespace Imalas_TwitchChaosEvents.Events
 				if (SpaceCheeseChecker.HasThereBeenAttemptedSpaceCheese(cell, out var NEWcell, out var dupe, 5, 8, false, 4))
 				{
 					rain.StartRaining(NEWcell);
-					ToastManager.InstantiateToast(
+					ToastHelper.InstantiateToast(
 						STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
 						string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT2, ClusterManager.Instance.activeWorld.GetProperName()));
 
 					GameScheduler.Instance.Schedule("creeper rain cheese protection toast", 5f, _ =>
 					{
-						ToastManager.InstantiateToastWithPosTarget(
+						ToastHelper.InstantiateToastWithPosTarget(
 						STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOAST,
 						string.Format(STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOASTTEXT, EventName, dupe), Grid.CellToPos(NEWcell));
 					});
@@ -60,7 +60,7 @@ namespace Imalas_TwitchChaosEvents.Events
 				else
 				{
 					rain.StartRaining();
-					ToastManager.InstantiateToast(
+					ToastHelper.InstantiateToast(
 						STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
 						string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT2, ClusterManager.Instance.activeWorld.GetProperName()));
 				}
@@ -70,7 +70,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			if (Config.Instance.ShowWarnings)
 			{
 				SoundUtils.PlaySound(ModAssets.SOUNDS.EVILSOUND, SoundUtils.GetSFXVolume() * 1.0f, true);
-				ToastManager.InstantiateToast(
+				ToastHelper.InstantiateToast(
 					STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
 					string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT, ClusterManager.Instance.activeWorld.GetProperName()));
 

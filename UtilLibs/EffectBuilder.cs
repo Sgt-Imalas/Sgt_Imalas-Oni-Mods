@@ -20,13 +20,13 @@ namespace UtilLibs
 		private string stompGroup;
 		private List<Reactable.ReactablePrecondition> emotePreconditions;
 
-		public EffectBuilder(string ID, float duration, bool isBad)
+		public EffectBuilder(string ID, float durationInSeconds, bool isBad)
 		{
 			name = Strings.Get("STRINGS.DUPLICANTS.MODIFIERS." + ID.ToUpper() + ".NAME");
 			description = Strings.Get("STRINGS.DUPLICANTS.MODIFIERS." + ID.ToUpper() + ".TOOLTIP");
 			triggerFloatingText = true;
 			showInUI = true;
-			this.duration = duration;
+			this.duration = durationInSeconds;
 			this.isBad = isBad;
 			this.ID = ID;
 			customIcon = "";
@@ -100,9 +100,9 @@ namespace UtilLibs
 			return this;
 		}
 
-		public void Add(ModifierSet set)
+		public void Add(Db db, out Effect effect)
 		{
-			var effect = new Effect(ID, name, description, duration, showInUI, triggerFloatingText, isBad, emoteAnim, emoteCooldown, stompGroup, customIcon);
+			effect = new Effect(ID, name, description, duration, showInUI, triggerFloatingText, isBad, emoteAnim, emoteCooldown, stompGroup, customIcon);
 
 			if (modifiers != null)
 			{
@@ -114,7 +114,7 @@ namespace UtilLibs
 				effect.emotePreconditions = emotePreconditions;
 			}
 
-			set.effects.Add(effect);
+			db.effects.Add(effect);
 		}
 	}
 }

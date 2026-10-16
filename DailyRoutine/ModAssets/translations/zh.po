@@ -93,3 +93,8 @@ msgstr ""
 "当这个模式停用时, 每次周期更新会取消任何剩余的任务, 然后按照每日生产的目标"
 "进行\n"
 "当这个模式启用时, 每次周期更新不会取消剩余任务, 而会叠加到每日生产的目标."
+
+#. Daily Routine
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.DAILYROUTINETITLE"
+msgid "Daily Routine"
+msgstr "日常作息"

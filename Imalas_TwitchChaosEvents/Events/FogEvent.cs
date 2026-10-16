@@ -23,7 +23,7 @@ namespace Imalas_TwitchChaosEvents.Events
 		{
 			GameScheduler.Instance.Schedule("fog start", 16f, _ =>
 			{
-				ToastManager.InstantiateToast(
+				ToastHelper.InstantiateToast(
 				STRINGS.CHAOSEVENTS.FOG.TOAST,
 				 STRINGS.CHAOSEVENTS.FOG.TOASTTEXT
 				 );
@@ -41,7 +41,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 			GameScheduler.Instance.Schedule("fog removal", Mathf.Max(Config.Instance.FogDuration * 600f, 300f), _ =>
 			{
-				ToastManager.InstantiateToast(
+				ToastHelper.InstantiateToast(
 				STRINGS.CHAOSEVENTS.FOG.TOAST,
 				 STRINGS.CHAOSEVENTS.FOG.TOASTTEXTENDING
 				 );

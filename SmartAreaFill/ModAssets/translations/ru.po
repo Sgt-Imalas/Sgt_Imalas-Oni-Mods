@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: DarkEviL <darkevilx17@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.9\n"
+
+#. SmartAreaFill.STRINGS.FLOODFILLTOOLS_OPTIONS.HOLD_DELAY.NAME
+msgctxt "SmartAreaFill.STRINGS.FLOODFILLTOOLS_OPTIONS.HOLD_DELAY.NAME"
+msgid "Flood fill hold delay"
+msgstr "Задержка заливки"
+
+#. SmartAreaFill.STRINGS.FLOODFILLTOOLS_OPTIONS.HOLD_DELAY.TOOLTIP
+msgctxt "SmartAreaFill.STRINGS.FLOODFILLTOOLS_OPTIONS.HOLD_DELAY.TOOLTIP"
+msgid ""
+"Time delay from holding down leftclick to flood fill starting to propagate, "
+"value in seconds."
+msgstr ""
+"Задержка времени от момента удерживания левой кнопки мыши до начала "
+"заливки, значение в секундах."
+
+#. SmartAreaFill.STRINGS.FLOODFILLTOOLS_OPTIONS.SOLID_DOORS.NAME
+msgctxt "SmartAreaFill.STRINGS.FLOODFILLTOOLS_OPTIONS.SOLID_DOORS.NAME"
+msgid "Doors count as solids"
+msgstr "Двери считаются твёрдой клеткой"
+
+#. SmartAreaFill.STRINGS.FLOODFILLTOOLS_OPTIONS.SOLID_DOORS.TOOLTIP
+msgctxt "SmartAreaFill.STRINGS.FLOODFILLTOOLS_OPTIONS.SOLID_DOORS.TOOLTIP"
+msgid ""
+"Affects tools that propagate in non-solid tiles;\n"
+"Makes these tools stop their floodfill at doors, even if the door is not "
+"solid (like a pneumatic door)."
+msgstr ""
+"Затрагивает инструменты, работающие с пустым клетками.\n"
+"Это позволяет остановить заливку, даже если дверь не является непроницаемой "
+"(например, пневматическая дверь)."

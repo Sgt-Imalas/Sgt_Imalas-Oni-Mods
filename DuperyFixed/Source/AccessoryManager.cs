@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UtilLibs;
 
 namespace Dupery
@@ -22,7 +23,20 @@ namespace Dupery
 		}
 		public bool TryGetCheekGetterAnimOverride(MinionIdentity identity, out string headAnimOverride)
 		{
-			SgtLogger.l("trying to get custom cheek anim for "+identity.personalityResourceId);
+
+			var personalities = Db.Get().Personalities;
+			var personality = personalities.GetPersonalityFromNameStringKey(identity.nameStringKey);
+			if (personality == null)
+			{
+				SgtLogger.error($"The duplicant with the name \"{identity.name}\" does not have a valid personality registered. Missing personality id: {identity.nameStringKey}");
+				headAnimOverride = null;
+				return false;
+			}
+			else
+			{
+				SgtLogger.l($"checking if the dupe \"{identity.name}\" with the personality \"{personality.Name}\" requires a custom cheek override");
+			}
+
 			return PersonalityCheekSourceMouthOverrides.TryGetValue(identity.personalityResourceId, out headAnimOverride);
 		}
 		public bool RegisterPersonalityForCustomCheeks(HashedString personalityID, string mouth)
@@ -33,6 +47,7 @@ namespace Dupery
 			{
 				SgtLogger.l("Registered custom mouth for " + personalityID + ": " + mouth + " -> " + anim);
 				PersonalityCheekSourceMouthOverrides[personalityID] = anim;
+				DuperyShared.RegisterMouthSymbolForCustomCheek(mouth, anim);
 				return true;
 			}
 			return false;
@@ -48,7 +63,18 @@ namespace Dupery
 		//    }
 		//}
 
-		public int LoadAccessories(string animName, bool saveToCache = false)
+
+		//[HarmonyPatch(typeof(KAnimGroupFile), nameof(KAnimGroupFile.Load))]
+		//public class KAnimGroupFile_Load_Patch
+		//{
+		//	public static void Prefix(KAnimGroupFile __instance)
+		//	{
+		//		SgtLogger.l("KanimgGroupFile.Load");
+				
+		//	}
+		//}
+
+		public int LoadAccessories(string animName, bool saveToCache = false, bool logSymbolDuplicates = true)
 		{
 			//custom mouth flap
 			if (animName.Contains("anim_mouth_") && animName.Contains("flap_kanim"))
@@ -77,12 +103,30 @@ namespace Dupery
 				string id = HashCache.Get().Get(build.symbols[index].hash);
 				AccessorySlot slot = null;
 				string lowerinvid = id.ToLowerInvariant();
-				Debug.Log("[Dupery]: trying to load accessory " + id);
+				if(logSymbolDuplicates)
+					Debug.Log("[Dupery]: trying to load accessory " + id);
+
+				bool isSleeveSymbol = lowerinvid.Contains("sleeve");
+				bool isSkinSymbol = lowerinvid.Contains("skin");
+				bool isHatHairSymbol = lowerinvid.Contains("hat_hair");
+
 				foreach (var _slot in accessorySlots.resources)
 				{
 					string slotID = _slot.Id.ToLowerInvariant();
+					if (isSleeveSymbol != slotID.Contains("sleeve"))
+						continue;
+
+					if (isSkinSymbol != slotID.Contains("skin"))
+						continue;
+
+					if (isHatHairSymbol != slotID.Contains("hat_hair"))
+						continue;
+
 					if (lowerinvid.Contains(slotID))
+					{ 
 						slot = _slot;
+						break;
+					}
 				}
 
 				if (slot == null)
@@ -99,9 +143,16 @@ namespace Dupery
 					MouthOverrideAnims.Add(id, animName);
 					Debug.Log("[Dupery]: setting custom cheek override anim for mouth: " + id);
 				}
-
+				//InjectionMethods.MoveKanimsToBatchGroupOf(KAnimGroupFile.groupfile, [animName], "head_swap");
 
 				Accessory accessory = new Accessory(id, accessories, slot, anim.batchTag, build.symbols[index], anim);
+				if(slot.accessories.Any(existing => existing.Id == accessory.Id))
+				{
+					if (logSymbolDuplicates)
+						Debug.Log("[Dupery]: accessory " + id + " already exists in slot " + slot.Name + ", skipping.");
+					continue;
+				}
+
 				slot.accessories.Add(accessory);
 				resourceTable.Add(accessory);
 
@@ -111,7 +162,7 @@ namespace Dupery
 					numCached++;
 				}
 				numLoaded++;
-				Debug.Log("[Dupery]: accessory successfully loaded as " + slot.Name);
+				Debug.Log("[Dupery]: accessory "+id+" successfully loaded as " + slot.Name);
 			}
 
 			if (numCached > 0)

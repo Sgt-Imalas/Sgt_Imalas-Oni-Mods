@@ -1,10 +1,4 @@
-﻿using AkisSnowThings.Content.Defs.Plants;
-using AkisSnowThings.Content.Scripts.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AkisSnowThings.Content.Scripts.Entities;
 using UnityEngine;
 using static AkisSnowThings.STRINGS;
 

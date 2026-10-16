@@ -10,14 +10,24 @@ namespace SaveGameModLoader
 {
 	public class MPM_Config
 	{
+		public enum OrderBy
+		{
+			ModOrdering = 0,
+			ModName = 1,
+			ModAuthor = 2,
+			LastUpdated = 3,
+		}
+
 		public class TagFilterState
 		{
 			public bool FilterEnabled;
 			public bool FilterInverted;
+			public bool FilterPinned;
 			public TagFilterState()
 			{
 				FilterEnabled = false;
 				FilterInverted = false;
+				FilterPinned = false;
 			}
 		}
 
@@ -46,6 +56,8 @@ namespace SaveGameModLoader
 
 		public bool hideLocal, hideDev, hidePlatform, hideIncompatible, hideInactive, hideActive, hidePins;
 
+
+		public OrderBy ModSortOrder = OrderBy.ModOrdering;
 
 		public void ToggleAll(bool state = true)
 		{
@@ -125,6 +137,18 @@ namespace SaveGameModLoader
 				return;
 
 			filter.FilterInverted = !filter.FilterInverted;
+			SaveToFile();
+		}
+		public bool IsFilterPinned(string id)
+		{
+			return FilterTags.TryGetValue(id, out var filter) && filter.FilterPinned;
+		}
+		public void SetFilterPinned(string id)
+		{
+			if (!FilterTags.TryGetValue(id, out var filter))
+				return;
+
+			filter.FilterPinned = !filter.FilterPinned;
 			SaveToFile();
 		}
 

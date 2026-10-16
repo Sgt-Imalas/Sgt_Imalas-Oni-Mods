@@ -1,19 +1,15 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Buildings.Engines;
 using Rockets_TinyYetBig.Content.ModDb;
-using Rockets_TinyYetBig.Derelicts;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.SpaceStations;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static Clustercraft;
-using static Operational;
 using static Rockets_TinyYetBig.Docking.DockingSpacecraftHandler;
 
 namespace Rockets_TinyYetBig.Patches
@@ -21,44 +17,35 @@ namespace Rockets_TinyYetBig.Patches
 	internal class Clustercraft_Patches
 	{
 
-		[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.OnClusterDestinationChanged))]
-		public static class Clustercraft_OnClusterDestinationChanged_Patch
+
+		[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.OnPrefabInit))]
+		public class Clustercraft_OnPrefabInit_Patch
 		{
-			/// <summary>
-			/// when two rockets are docked together, make them fly the same path
-			/// if the docked target is a space station interior, undock instead
-			/// </summary>
 			public static void Postfix(Clustercraft __instance)
 			{
-				if (RocketryUtils.IsRocketTraveling(__instance) && !(__instance is SpaceStation))
-				{
-					if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
-					{
-						var myDestination = manager.clustercraft.ModuleInterface.GetClusterDestinationSelector().GetDestination();
-
-						foreach (var docked in manager.WorldDockables)
-						{
-							if (!DockingManagerSingleton.Instance.TryGetDockableIfDocked(docked.Value.GUID, out var dockedDockable))
-								continue;
-
-							if (SpaceStationManager.WorldIsSpaceStationInterior(dockedDockable.WorldId))
-							{
-								DockingManagerSingleton.Instance.AddPendingUndock(docked.Value.GUID, dockedDockable.GUID);
-							}
-							else
-							{
-								var selector = dockedDockable.spacecraftHandler.clustercraft.ModuleInterface.GetClusterDestinationSelector();
-								if (selector.GetDestination() != myDestination)
-								{
-									selector.SetDestination(myDestination);
-								}
-							}
-						}
-					}
-				}
+				__instance.gameObject.AddOrGet<DockingSpacecraftHandler>();
 			}
 		}
 
+		//[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.OnClusterDestinationChanged))]
+		//public static class Clustercraft_OnClusterDestinationChanged_Patch
+		//{
+		//	/// <summary>
+		//	/// when two rockets are docked together, make them fly the same path
+		//	/// if the docked target is a space station interior, undock instead
+		//	/// </summary>
+		//	public static void Postfix(Clustercraft __instance)
+		//	{
+		//		if (RocketryUtils.IsRocketTraveling(__instance) && __instance is not SpaceStation)
+		//		{
+		//		}
+		//	}
+		//}
+
+		/// <summary>
+		/// Prevents automatic redocking bc OnClusterDestinationReached runs in iSim4000
+		/// </summary>
+		static Dictionary<Clustercraft, AxialI> LastLocations = [];
 		[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.OnClusterDestinationReached))]
 		public static class Clustercraft_OnClusterDestinationReached_Patch
 		{
@@ -67,10 +54,20 @@ namespace Rockets_TinyYetBig.Patches
 			/// </summary>
 			public static void Postfix(Clustercraft __instance)
 			{
-				if (__instance is SpaceStation || __instance is DerelictStation)
+				if (__instance is SpaceStation)
 					return;
 
 				var clusterDestinationSelector = __instance.m_moduleInterface.GetClusterDestinationSelector();
+
+				if(LastLocations.TryGetValue(__instance, out var lastLocation) && lastLocation == __instance.Location)
+				{
+					return;
+				}
+				else
+				{
+					LastLocations[__instance] = __instance.Location;
+				};
+
 
 				if (__instance.status == CraftStatus.InFlight //In space on a station hex
 					&& __instance.Location == clusterDestinationSelector.GetDestination() //at destination
@@ -162,6 +159,7 @@ namespace Rockets_TinyYetBig.Patches
 					&& __instance.TryGetComponent<DockingSpacecraftHandler>(out var manager)
 					&& !craft_status.Equals(CraftStatus.InFlight))
 				{
+					SgtLogger.l(__instance.name + " craft status setter not in flight anymore, undocking");
 					manager.UndockAll();
 				}
 			}
@@ -303,32 +301,71 @@ namespace Rockets_TinyYetBig.Patches
 			/// <param name="__instance"></param>
 			public static void Postfix(Clustercraft __instance)
 			{
+				RebalanceCollectors(__instance);
 				__instance.m_clusterTraveler.onTravelCB += () =>
 				{
 					if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
 					{
-						foreach (var docked in manager.GetCurrentDocks())
+						var dockedSpaceCrafts = manager.GetCurrentDocks();
+
+						SgtLogger.l(__instance.name + " onTravelCallback, currently docked to: "+dockedSpaceCrafts.Count);
+
+						foreach (var docked in dockedSpaceCrafts)
 						{
-							var handler = docked.spacecraftHandler;
-							if (handler != null
-							&& (Mathf.RoundToInt(handler.clustercraft.ModuleInterface.Range) == 0 || handler.CraftType != DockableType.Rocket) // pull other rockets if they are empty or if __instance is not a rocket (space station or derelict - maybe flying derelicts later?)
-							&& handler.clustercraft.Location != __instance.Location)
+							var dockedSpacecraftHandler = docked.spacecraftHandler;
+							if (dockedSpacecraftHandler != null
+							///600 range needed for 1 hex flight, anything below that can be considered stranded
+							&& (Mathf.RoundToInt(dockedSpacecraftHandler.clustercraft.ModuleInterface.Range) < 600f || dockedSpacecraftHandler.CraftType != DockableType.Rocket) // pull other rockets if they are empty or if __instance is not a rocket (space station or derelict - maybe flying derelicts later?)
+							&& dockedSpacecraftHandler.clustercraft.Location != __instance.Location)
 							{
 								if (ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(__instance.Location, EntityLayer.Asteroid) == null)
 								{
-									SgtLogger.l("Pulled stranded rocket " + handler.clustercraft.Name + " to new tile with " + __instance.Name);
-									handler.clustercraft.Location = __instance.Location;
+									SgtLogger.l("Pulled stranded rocket " + dockedSpacecraftHandler.clustercraft.Name + " to new tile with " + __instance.Name);
+									dockedSpacecraftHandler.clustercraft.Location = __instance.Location;
+									dockedSpacecraftHandler.clustercraft.m_clusterTraveler.UpdateAnimationTags();
 								}
 								else
 								{
-									SgtLogger.l("Disconnected " + handler.clustercraft.Name + " as stranded in orbit");
-									handler.clustercraft.m_clusterTraveler.m_destinationSelector.SetDestination(handler.clustercraft.Location);
+									SgtLogger.l("Disconnected " + dockedSpacecraftHandler.clustercraft.Name + " as stranded in orbit");
+									dockedSpacecraftHandler.clustercraft.m_clusterTraveler.m_destinationSelector.SetDestination(dockedSpacecraftHandler.clustercraft.Location);
 									//craft.m_clusterTraveler.m_destinationSelector.SetDestination(__instance.Location);
 								}
+							}
+							else
+							{
+								SgtLogger.l(dockedSpacecraftHandler.name + " did not fit pulling params");
+								if (dockedSpacecraftHandler == null)
+									SgtLogger.warning("CraftHandler was null");
+								if (Mathf.RoundToInt(dockedSpacecraftHandler.clustercraft.ModuleInterface.Range) >= 600)
+									SgtLogger.warning("Range was not 0; it was "+ dockedSpacecraftHandler.clustercraft.ModuleInterface.RangeInTiles + " hexes , remaining fuel: " + dockedSpacecraftHandler.clustercraft.ModuleInterface.FuelRemaining);
+								if (dockedSpacecraftHandler.clustercraft.Location == __instance.Location)
+									SgtLogger.warning("Location was identical!");
 							}
 						}
 					}
 				};
+			}
+
+			private static void RebalanceCollectors(Clustercraft craft)
+			{
+				foreach(var smi in craft.GetAllHexCellCollectorModules())				
+				{
+					RebalanceCollector(smi);
+				}
+			}
+			internal static void RebalanceCollector(RocketModuleHexCellCollector.Instance smi)
+			{
+				var master = smi.master.gameObject;
+				//SgtLogger.l(master.name + " OnSpawn");
+
+				if (master.TryGetComponent<CargoBayCluster>(out var cargoBay)
+				&& cargoBay.storageType != CargoBay.CargoType.Entities
+				&& master.TryGetComponent<KPrefabID>(out var prefabID)
+				&& CustomCargoBayDB.TryGetCargobayCollectionSpeed(prefabID.PrefabID().ToString(), out float adjustedSpeed))
+				{
+					SgtLogger.l("Adjusting Cargobay collection speed of " + prefabID.PrefabID() + ", old kg per cycle: " + smi.def.collectSpeed * 600 + ", new kg per cycle: " + adjustedSpeed * 600);
+					smi.def.collectSpeed = adjustedSpeed;
+				}
 			}
 		}
 		
@@ -464,6 +501,11 @@ namespace Rockets_TinyYetBig.Patches
 				}
 				return true;
 			}
+			//public static void Postfix(Clustercraft __instance, ref float __result)
+			//{
+			////uncomment if fast rockets are needed for debug
+			//	__result *= 100f;
+			//}
 		}
 		#endregion
 	}

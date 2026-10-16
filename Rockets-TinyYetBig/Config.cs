@@ -13,13 +13,13 @@ namespace Rockets_TinyYetBig
 	{
 		public static bool SpaceStationsPossible =>
 			   Instance.SpaceStationsAndTech
-			&& SpaceStationRequirements
-			;
-		public static bool SpaceStationRequirements =>
-			   Instance.CompressInteriors
+			&& Instance.CompressInteriors
 			&& Instance.EnableAdvWorldSelector
 			&& Instance.NeutroniumMaterial
 			;
+		public static bool Derelicts =>
+			   SpaceStationsPossible && false;
+			
 
 		//[Option("Vanilla+ Preset", "Load a settings preset: All the bugfixes and qol improvements, everything else disabled")]
 		//public Action<object> LoadVanillaPlusSettings { get 
@@ -99,6 +99,9 @@ namespace Rockets_TinyYetBig
 		[Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
 		[JsonProperty]
 		public bool CompressInteriors { get; set; } = true;
+		[Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.CEMTEREDINTERIORS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CEMTEREDINTERIORS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
+		[JsonProperty]
+		public bool CenteredInteriors { get; set; } = true;
 
 		[Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEXTENDEDHABS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
 		[JsonProperty]
@@ -200,6 +203,9 @@ namespace Rockets_TinyYetBig
 		[Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLERADBOLTSTORAGE.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
 		[JsonProperty]
 		public bool EnableRadboltStorage { get; set; } = true;
+		//[Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETMODULEUPGRADES.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
+		//[JsonProperty]
+		public bool RocketModuleUpgrades { get; set; } = false;
 
 		[Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
 		[Limit(1000, 10000)]

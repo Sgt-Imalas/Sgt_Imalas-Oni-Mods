@@ -9,9 +9,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UtilLibs;
-using static KAnim;
-using static ResearchTypes;
-using static STRINGS.DUPLICANTS.ATTRIBUTES;
 
 namespace OniRetroEdition
 {
@@ -25,21 +22,23 @@ namespace OniRetroEdition
 		public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
 		{
 
-			public static void Prefix()
+			public static void Postfix()
 			{
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, WallLampConfig.ID, CeilingLightConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, GammaRayOvenConfig.ID, MicrobeMusherConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Power, BatteryLargeConfig.ID, BatteryMediumConfig.ID);
-
-
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, SmelterConfig.ID, MetalRefineryConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, MetalReclaimerConfig.ID, RockCrusherConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Ventilation, RetroPumpConfig.ID, GasPumpConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
 
 				foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
 				{
-
-
 					if (config.Value.buildMenuCategory != null && config.Value.buildMenuCategory.Length > 0)
 					{
 						string buildingId = config.Key;
+						if (Assets.GetBuildingDef(buildingId) == null)
+							continue;
+
 						string category = config.Value.buildMenuCategory;
 
 						if (config.Value.placedBehindBuildingId != null && config.Value.placedBehindBuildingId.Length > 0)
@@ -76,6 +75,10 @@ namespace OniRetroEdition
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.Employment, RoleStationConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.GlassBlowing, WallLampConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, BatteryLargeConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(RetroPumpConfig.ID, GasPumpConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(MetalReclaimerConfig.ID, RockCrusherConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(SmelterConfig.ID, MetalReclaimerConfig.ID);
+
 
 
 				foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
@@ -234,12 +237,12 @@ namespace OniRetroEdition
 			}
 		}
 		[HarmonyPatch(typeof(GeyserGenericConfig))]
-		[HarmonyPatch(nameof(GeyserGenericConfig.CreateGeyser), [typeof(string), typeof(string), typeof(int), typeof(int) , typeof(string ), typeof(string ), typeof(HashedString ), typeof(float ), typeof(string[] ), typeof(string[]) ])]
+		[HarmonyPatch(nameof(GeyserGenericConfig.CreateGeyser), [typeof(string), typeof(string), typeof(int), typeof(int), typeof(string), typeof(string), typeof(HashedString), typeof(float), typeof(string[]), typeof(string[])])]
 		public static class GeyserResize
 		{
-			public static void Prefix(string id, ref int width, ref int height)
+			public static void Prefix(string id, string anim, ref int width, ref int height)
 			{
-				if (id.Contains("steam") || id.Contains("hot_steam") || id.Contains("methane"))
+				if (anim.Contains("geyser_gas"))
 				{
 					width = 3;
 					height = 3;

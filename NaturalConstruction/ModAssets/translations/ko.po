@@ -1,0 +1,68 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+"Last-Translator: Nubula"
+"Language: ko"
+"Last-Update: 2026-06-28"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.DESC"
+msgid "Very natural, much wow."
+msgstr "감탄스러울 정도로 자연스럽습니다."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.EFFECT"
+msgid "Creates a natural backwall on finishing construction.\nMass can be configured during construction."
+msgstr "자연스러운 뒷벽을 건설합니다. 건설 중에 질량을 조절할 수 있습니다."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.NAME"
+msgid "<link=\"NCNATURALBACKWALL\">Natural Backwall</link>"
+msgstr "<link=\"NCNATURALBACKWALL\">자연 뒷벽</link>"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.DESC"
+msgid "Very natural, much wow."
+msgstr "감탄스러울 정도로 자연스럽습니다."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.EFFECT"
+msgid "Creates a natural tile on finishing construction.\nMass can be configured during construction."
+msgstr "자연스러운 타일을 건설합니다. 건설 중에 질량을 조절할 수 있습니다."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.NAME"
+msgid "<link=\"NCNATURALTILE\">Natural Tile</link>"
+msgstr "<link=\"NCNATURALTILE\">자연 타일 Tile</link>"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TITLE"
+msgid "Construction time mass scaling."
+msgstr "질량 비례 건설 시간"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TOOLTIP"
+msgid "When active, lets the construction time scale with the mass picked for the individual natural building.\nOtherwise defaults to 30 s."
+msgstr "활성화 시 자연 구조물을 건축할 때 선택한 질량에 맞춰서 건설 시간이 재조정됩니다.\n비활성화 시 기본 값인 30초가 적용됩니다."
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TITLE"
+msgid "Natural Backwall default mass"
+msgstr "자연 뒷벽 기본 질량"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TOOLTIP"
+msgid "Configure the default value for natural backwall mass.\nThis value can be changed on the building plan."
+msgstr "자연 뒷벽 타일의 기본 질량을 설정합니다.\n이 값은 건축 시에 변경할 수 있습니다."
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TITLE"
+msgid "Natural Tile default mass"
+msgstr "자연 타일 기본 질량"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TOOLTIP"
+msgid "Configure the default value for natural tile mass.\nThis value can be changed on the building plan."
+msgstr "자연 타일의 기본 질량을 설정합니다.\n이 값은 건축 시에 변경할 수 있습니다"
+

@@ -17,6 +17,12 @@ namespace SaveGameModLoader
 		public ulong modId;
 		public string modName;
 		public string authorName = string.Empty;
+
+		internal void Update(ulong m_PublishedFileId, string name)
+		{
+			modId = m_PublishedFileId;
+			modName = name;
+		}
 	}
 	internal class SteamInfoQuery
 	{
@@ -169,7 +175,7 @@ namespace SaveGameModLoader
 			if (!ioError && result == EResult.k_EResultOK)
 			{
 				for (uint i = 0U; i < callback.m_unNumResultsReturned; i++)
-				{
+				{					
 					if (SteamUGC.GetQueryUGCResult(handle, i, out SteamUGCDetails_t details))
 					{
 						string modID = details.m_nPublishedFileId.m_PublishedFileId.ToString();
@@ -182,6 +188,9 @@ namespace SaveGameModLoader
 								PendingLookups[modID].Invoke(name);
 								if (!FetchedModData.ContainsKey(modID))
 									FetchedModData[modID] = new FetchedModData(details.m_nPublishedFileId.m_PublishedFileId, name);
+								else
+									FetchedModData[modID].Update(details.m_nPublishedFileId.m_PublishedFileId, name);
+
 							}
 							continue;
 						}
@@ -192,6 +201,8 @@ namespace SaveGameModLoader
 
 						if (!FetchedModData.ContainsKey(modID))
 							FetchedModData[modID] = new FetchedModData(details.m_nPublishedFileId.m_PublishedFileId, details.m_rgchTitle.ToString());
+						else
+							FetchedModData[modID].Update(details.m_nPublishedFileId.m_PublishedFileId, details.m_rgchTitle.ToString());
 
 						MPM_Config.Instance.AddAutoFetchedSteamTags(modID, details.m_rgchTags);
 
@@ -212,7 +223,6 @@ namespace SaveGameModLoader
 						else
 						{
 							//SgtLogger.l(SteamFriends.GetFriendPersonaName(new(details.m_ulSteamIDOwner)), "authorname");
-
 							if (FetchedModData.ContainsKey(modID))
 								FetchedModData[modID].authorName = SteamFriends.GetFriendPersonaName(new(details.m_ulSteamIDOwner));
 						}

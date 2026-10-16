@@ -3,7 +3,6 @@ using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -88,7 +87,7 @@ namespace SetStartDupes
             {
                 this.Show(false);
             }
-            if (e.TryConsume(Action.DebugToggleClusterFX))
+            if (e.TryConsume(Action.Find))
             {
                 Searchbar.ExternalStartEditing();
             }
@@ -225,7 +224,10 @@ namespace SetStartDupes
                 case NextType.joy:
                     ReferencedStats.joyTrait = trait;
                     break;
-                case NextType.Beached_LifeGoal:
+				case NextType.FoodOverhaul_Favourite:
+					currentStatManager.SetFavouriteFood(trait);
+                    break;
+				case NextType.Beached_LifeGoal:
                     currentStatManager.RemoveLifeGoal();
                     currentStatManager.AddLifeGoal(trait);
 
@@ -272,7 +274,7 @@ namespace SetStartDupes
             ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();
 
             Searchbar = transform.Find("SearchBar/Input").FindOrAddComponent<FInputField2>();
-            Searchbar.OnValueChanged.AddListener(ApplyFilter);
+            Searchbar.AddListener(ApplyFilter);
             Searchbar.Text = string.Empty;
 
 
@@ -305,8 +307,9 @@ namespace SetStartDupes
         private void InitAllContainers()
         {
             var traitsDb = Db.Get().traits;
-            var interests = new List<SkillGroup>(Db.Get().SkillGroups.resources);
-            interests.RemoveAll(interest => interest.choreGroupID == null);
+            var choregroupsDb = Db.Get().ChoreGroups;
+			var interests = new List<SkillGroup>(Db.Get().SkillGroups.resources);
+            interests.RemoveAll(interest => !interest.allowAsAptitude);
             var sortedInterests = interests.OrderBy(interest =>  interest.Name);
 
 
@@ -317,7 +320,6 @@ namespace SetStartDupes
                 var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type, null);
 
                 var sortedTraits = TraitsOfCategory.OrderBy(traitval => traitsDb.TryGet(traitval.id)?.GetName());
-
                 foreach (var item in sortedTraits)
                 {
                     if (ModAssets.TraitAllowedInCurrentDLC(item))

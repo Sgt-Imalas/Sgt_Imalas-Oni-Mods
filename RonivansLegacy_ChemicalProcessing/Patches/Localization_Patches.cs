@@ -1,10 +1,5 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
@@ -20,7 +15,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Postfix()
 			{
 				LocalisationUtil.Translate(typeof(STRINGS), true);
-				LocalisationUtil.FixTranslationStrings();
 				BuildingDatabase.RegisterExtraStrings();
 				Mod.RegisterLocalizedDescription();
 				StatusItemsDatabase.RegisterClonedStatusStrings();

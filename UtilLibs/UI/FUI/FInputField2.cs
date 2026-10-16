@@ -1,10 +1,43 @@
-﻿using TMPro;
+﻿using HarmonyLib;
+using PeterHan.PLib.Core;
+using System;
+using TMPro;
 using UnityEngine;
 
 namespace UtilLibs.UIcmp //Source: Aki
 {
 	public class FInputField2 : KScreen, IInputHandler
 	{
+		public static void Postfix(CameraController __instance, ref bool __result)
+		{
+			if (__result)
+				return;
+			UnityEngine.EventSystems.EventSystem current = UnityEngine.EventSystems.EventSystem.current;
+			if (current == null || current.currentSelectedGameObject == null)
+				return;
+			if (current.currentSelectedGameObject.GetComponent(nameof(FInputField2)) != null)
+				__result = true;
+		}
+		static FInputField2()
+		{
+			string id = nameof(FInputField2);
+			if (PRegistry.GetData<bool>(id))
+				return;
+
+			try
+			{
+				var target = AccessTools.Method(typeof(CameraController), nameof(CameraController.WithinInputField));
+				var patch = AccessTools.Method(typeof(FInputField2), nameof(FInputField2.Postfix));
+				new Harmony(id).Patch(target, postfix: new(patch));
+				PRegistry.PutData(id, true);
+			}
+			catch (Exception e)
+			{
+				SgtLogger.error("Caught error while patching CameraController.WithinInputField:\n" + e.Message);
+			}
+		}
+
+
 		[MyCmpReq]
 		public TMP_InputField inputField;
 
@@ -20,11 +53,13 @@ namespace UtilLibs.UIcmp //Source: Aki
 		private bool initialized;
 
 		private bool DataTextUpdate = false;
-		public void SetTextFromData(string newText)
+		public void ClearInputTextWithoutEvent() => SetTextFromData(string.Empty, true);
+		public void SetTextFromData(string newText, bool forceRefresh = false)
 		{
 			DataTextUpdate = true;
 			Text = newText;
-			//inputField.ForceLabelUpdate();
+			if(forceRefresh)
+				inputField.ForceLabelUpdate();
 
 			DataTextUpdate = false;
 		}
@@ -32,6 +67,15 @@ namespace UtilLibs.UIcmp //Source: Aki
 		public bool IsEditing()
 		{
 			return isEditing;
+		}
+
+		public void ClearPlace()
+		{
+			var locText = inputField?.textViewport?.transform.Find(placeHolderPath)?.gameObject?.AddOrGet<LocText>();
+			if (locText == null)
+				return;
+
+			locText.SetText(string.Empty);
 		}
 
 		public string Text
@@ -43,7 +87,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 				{
 					// rehook references, these were lost on LocText conversion
 #if DEBUG
-                    SgtLogger.debuglog("rehooking text input references");
+					SgtLogger.debuglog("rehooking text input references");
 #endif
 					inputField.textComponent = inputField.textViewport.transform.Find(textPath).gameObject.AddOrGet<LocText>();
 					inputField.placeholder = inputField.textViewport.transform.Find(placeHolderPath).gameObject.AddOrGet<LocText>();
@@ -61,7 +105,20 @@ namespace UtilLibs.UIcmp //Source: Aki
 			}
 		}
 
-		public TMP_InputField.OnChangeEvent OnValueChanged => inputField.onValueChanged;
+		private TMP_InputField.OnChangeEvent OnValueChanged => inputField.onValueChanged;
+		public TMP_InputField.SelectionEvent OnSelect => inputField.onSelect;
+
+		public void AddListener(System.Action<string> onValueChangedEvent)
+		{
+			inputField.onValueChanged.AddListener((e) =>
+			{
+				if (!DataTextUpdate)
+				{
+					onValueChangedEvent(e);
+				}
+			});
+		}
+
 
 		public override void OnPrefabInit()
 		{
@@ -71,6 +128,8 @@ namespace UtilLibs.UIcmp //Source: Aki
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			//klei has this check on the camera controler that looks explicitly for KInputTextField and InputField... not normal TMP_InputField
+			//adding a disabled one here to get that check to detect the inputfield
 			inputField.onFocus += OnEditStart;
 			inputField.onEndEdit.AddListener(OnEditEnd);
 			Activate();
@@ -128,7 +187,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 				isEditing = false;
 			}
 
-			if (e.TryConsume(Action.DialogSubmit))
+			if (e.TryConsume(Action.DialogSubmit) && inputField.lineType == TMP_InputField.LineType.SingleLine)
 			{
 				e.Consumed = true;
 				inputField.OnSubmit(null);

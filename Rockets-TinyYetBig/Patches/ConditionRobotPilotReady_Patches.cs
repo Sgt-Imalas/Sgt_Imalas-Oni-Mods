@@ -1,9 +1,4 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -21,7 +16,7 @@ namespace Rockets_TinyYetBig.Patches
 
             public static void Postfix(ConditionRobotPilotReady __instance, ref ProcessCondition.Status __result)
             {
-                ///warning status is problematic, ignore everything else
+                ///warning status is the problematic one as its read as "Ready", ignore everything else for reevaluation
                 if (__result != ProcessCondition.Status.Warning)
                     return;
 

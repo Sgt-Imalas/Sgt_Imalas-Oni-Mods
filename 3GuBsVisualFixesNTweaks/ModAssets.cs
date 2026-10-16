@@ -1,20 +1,14 @@
 ﻿using _3GuBsVisualFixesNTweaks.Scripts;
-using HarmonyLib;
-using Klei.AI;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static STRINGS.UI.ELEMENTAL;
 
 namespace _3GuBsVisualFixesNTweaks
 {
     internal class ModAssets
 	{
+		public static string DeconstructToolContext = "deconstruct";
 		public static class ModTags
 		{
 			//completely disable wall visualizers for the building (use if those are fully included in the building anim)
@@ -29,6 +23,13 @@ namespace _3GuBsVisualFixesNTweaks
 
 		static Dictionary<GameObject, KBatchedAnimController> CachedKBACs = new();
 		static Dictionary<GameObject, KBatchedAnimController> CachedFGKBACs = new();
+
+		public static HashSet<string> PossibleTintSymbols = [
+			//general
+			"tint", "tint_dark", "tint_fg", 
+			//neutronium decor pack water heater...
+			"tint_1", "tint_2", "tint_3", "tint_4", "tint_5", "tint_6",
+		];
 
 		public static Color GetElementColor(SimHashes simhash)
 		{
@@ -50,7 +51,8 @@ namespace _3GuBsVisualFixesNTweaks
 				return;
 			var build = item.GetComponent<KBatchedAnimController>().AnimFiles[0].GetData().build;
 			KAnim.Build.Symbol symbol = build.GetSymbol((KAnimHashedString)build.name);
-			if (symbol == null && build.symbols.Any()) //klei forgot to name symbols properly, defaulting to the first symbol
+			//klei forgot to name some element symbols properly (e.g. cobalt), defaulting to the first symbol if thats the case
+			if (symbol == null && build.symbols.Any()) 
 			{
 				symbol = build.symbols[0];
 			}
@@ -115,8 +117,9 @@ namespace _3GuBsVisualFixesNTweaks
 				if (key.TryGetComponent<KBatchedAnimController>(out kbac))
 				{
 					CachedKBACs.Add(key, kbac);
-					if (kbac.layering?.foregroundController is KBatchedAnimController kbac2)
+					if (kbac.layering?.layerControllers.TryGetValue(KAnim.SymbolFlags.FG, out var fgBase) ?? false)
 					{
+						var kbac2 = fgBase as KBatchedAnimController;
 						CachedFGKBACs.Add(key, kbac2);
 						fg = kbac2;
 					}

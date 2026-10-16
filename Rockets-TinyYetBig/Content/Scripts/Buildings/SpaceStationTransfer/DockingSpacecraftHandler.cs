@@ -1,6 +1,7 @@
 ﻿using Rockets_TinyYetBig.ClustercraftRouting;
 using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.SpaceStations;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Rockets_TinyYetBig.Docking
 		[MyCmpGet] public Clustercraft clustercraft;
 		[MyCmpGet] public RocketClusterDestinationSelector destinationSelector;
 		public Dictionary<string, IDockable> WorldDockables = new Dictionary<string, IDockable>();
-		public PassengerRocketModule PassengerModule;
+		//public PassengerRocketModule PassengerModule;
 
 		public bool IsSpaceStation => Type == DockableType.SpaceStation;
 
@@ -31,22 +32,29 @@ namespace Rockets_TinyYetBig.Docking
 		public bool IsRocket => Type == DockableType.Rocket;
 		public DockableType CraftType => Type;
 
-		public int WorldId => world.id;
+		public int WorldId => _worldIdCached;
+		private int _worldIdCached = -1;
 
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
 
 		}
 		public override void OnCleanUp()
 		{
 			DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
+
+			foreach (var handler in _handlers)
+				Unsubscribe(handler);
 			base.OnCleanUp();
 		}
+		List<int> _handlers = [];
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			RefreshCachedWorldId();
+			if (WorldId != -1)
+				DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
 			if (clustercraft is SpaceStation)
 				Type = DockableType.SpaceStation;
 			if (clustercraft is DerelictStation)
@@ -55,7 +63,67 @@ namespace Rockets_TinyYetBig.Docking
 			//{
 			//    GameScheduler.Instance.ScheduleNextFrame("CheckIfWaiting", (_) => UpdateWaitingStatus());
 			//}
+			SgtLogger.l("DockingHandler " + gameObject.name + " OnSpawn. Type: " + Type);
+			if(Type == DockableType.Rocket)
+			{
+				_handlers.Add(Subscribe((int)GameHashes.ClusterDestinationChanged, OnClusterDestinationChanged));
+				_handlers.Add(Subscribe((int)GameHashes.RocketModuleChanged, OnRocketModulesChanged));
+			}
+		}
+		void OnRocketModulesChanged(object _)
+		{
+			StartCoroutine(RefreshWorldStateDelayed());
+		}
+		private void RefreshCachedWorldId()
+		{
+			world = GetComponent<WorldContainer>();
+			if(world != null)
+				_worldIdCached = world.id;
+			else
+				_worldIdCached = -1;
 
+		}
+		IEnumerator RefreshWorldStateDelayed()
+		{
+			///wait 2 frames for world creation one frame after module addition
+			yield return null;
+			yield return null;
+
+			world = GetComponent<WorldContainer>();
+			if (world == null)
+			{
+				DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
+				RefreshCachedWorldId();
+			}
+			else
+			{
+				RefreshCachedWorldId();
+				DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
+			}
+		}
+
+		void OnClusterDestinationChanged(object boxed)
+		{
+			SgtLogger.l("DockingSpaceCraftHandler.OnClusterDestinationChanged");
+			var myDestination = destinationSelector.GetDestination();
+			foreach (var docked in WorldDockables)
+			{
+				if (!DockingManagerSingleton.Instance.TryGetDockableIfDocked(docked.Value.GUID, out var dockedDockable))
+					continue;
+
+				if (SpaceStationManager.WorldIsSpaceStationInterior(dockedDockable.WorldId))
+				{
+					DockingManagerSingleton.Instance.AddPendingUndock(docked.Value.GUID, dockedDockable.GUID);
+				}
+				else
+				{
+					var selector = dockedDockable.spacecraftHandler.clustercraft.ModuleInterface.GetClusterDestinationSelector();
+					if (selector.GetDestination() != myDestination)
+					{
+						selector.SetDestination(myDestination);
+					}
+				}
+			}
 
 		}
 
@@ -71,7 +139,6 @@ namespace Rockets_TinyYetBig.Docking
 				UndockAll();
 				if (destinationSelector is ExtendedRocketClusterDestinationSelector Extended)
 				{
-
 					Extended.ProceedToNextTarget();
 				}
 				else
@@ -81,7 +148,7 @@ namespace Rockets_TinyYetBig.Docking
 			}
 		}
 
-		public bool InSpace => world.ParentWorldId == world.id;
+		public bool InSpace => world != null ? world.ParentWorldId == world.id : clustercraft.status == Clustercraft.CraftStatus.InFlight;
 		internal bool CanDock()
 		{
 			bool cando =
@@ -114,6 +181,7 @@ namespace Rockets_TinyYetBig.Docking
 					DockingManagerSingleton.Instance.AddPendingUndock(dockable, dockedTo);
 				}
 			}
+			DockingManagerSingleton.Instance.RemoveToStationDock(WorldId);
 		}
 		public Sprite GetDockingIcon()
 		{
@@ -160,6 +228,10 @@ namespace Rockets_TinyYetBig.Docking
 			return list;
 		}
 
+		internal List<IDockable> GetAllDockables()
+		{
+			return WorldDockables.Values.ToList();
+		}
 		internal List<IDockable> GetCurrentDocks()
 		{
 			var list = new List<IDockable>();

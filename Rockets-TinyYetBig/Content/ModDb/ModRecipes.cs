@@ -1,10 +1,5 @@
 ﻿using Rockets_TinyYetBig.Content.Defs.Entities;
 using Rockets_TinyYetBig.Elements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
 using static ComplexRecipe;
 
@@ -34,6 +29,17 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				.Input(SimHashes.Steel.CreateTag(), 4)
 				.Input(SimHashes.Polypropylene.CreateTag(), 6)
 				.Output(EmptyDataCardConfig.TAG, 1)
+				.Build();
+		}
+		public static void AdditionalRecipes_ClothingFabricator()
+		{
+			if (!Config.Instance.SpaceStationsAndTech)
+				return;
+
+			RecipeBuilder.Create(ClothingFabricatorConfig.ID,100)
+				.Input(SimHashes.RefinedCarbon,95)
+				.Input(SimHashes.NaturalResin, 5)
+				.Output(SimHashes.CarbonFibre, 50)
 				.Build();
 		}
 	}

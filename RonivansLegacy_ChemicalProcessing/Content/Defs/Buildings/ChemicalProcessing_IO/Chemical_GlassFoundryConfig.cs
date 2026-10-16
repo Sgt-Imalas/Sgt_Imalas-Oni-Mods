@@ -1,12 +1,6 @@
-﻿using HarmonyLib;
-using KSerialization;
+﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -85,13 +79,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			PipedOptionalExhaust exhaustGlass = go.AddComponent<PipedOptionalExhaust>();
 			exhaustGlass.dispenser = dispenser;
-			exhaustGlass.elementTag = SimHashes.MoltenGlass.CreateTag();
+			exhaustGlass.elementTags = [SimHashes.MoltenGlass.CreateTag()];
 			exhaustGlass.capacity = 100f;
 			exhaustGlass.emissionRate = 50f;
 
 			PipedOptionalExhaust exhaustWater = go.AddComponent<PipedOptionalExhaust>();
 			exhaustWater.dispenser = dispenser;
-			exhaustWater.elementTag = GameTags.AnyWater;
+			exhaustWater.elementTags = [GameTags.AnyWater];
 			exhaustWater.capacity = 500f;
 			exhaustWater.emissionRate = 100f;
 

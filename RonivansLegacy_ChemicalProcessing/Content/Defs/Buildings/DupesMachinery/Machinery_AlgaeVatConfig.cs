@@ -1,11 +1,5 @@
-﻿using HarmonyLib;
-using KSerialization;
+﻿using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -108,12 +102,13 @@ namespace Dupes_Machinery.Biological_Vats
 
 			PipedOptionalExhaust exhaust = go.AddComponent<PipedOptionalExhaust>();
 			exhaust.dispenser = oxygenDispenser;
-			exhaust.elementTag = SimHashes.Oxygen.CreateTag();
+			exhaust.elementTags = [SimHashes.Oxygen.CreateTag()];
 			exhaust.capacity = 0.40f;
 			this.AttachPort(go);
 
 			go.AddOrGet<ElementConversionBuilding>().UsePrimaryConverterOnly = true; //Handles element converter
 
+			go.AddComponent<TutorialOxygenGenerator>();
 			Prioritizable.AddRef(go);
 		}
 

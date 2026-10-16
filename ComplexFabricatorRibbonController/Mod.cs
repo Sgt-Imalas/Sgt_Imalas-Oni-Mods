@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
-using System;
+using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
 using System.Collections.Generic;
 using UtilLibs;
 
@@ -9,8 +10,10 @@ namespace ComplexFabricatorRibbonController
     public class Mod : UserMod2
     {
         public override void OnLoad(Harmony harmony)
-        {
-            base.OnLoad(harmony);
+		{
+			PUtil.InitLibrary(false);
+			new POptions().RegisterOptions(this, typeof(Config));
+			base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
             ModAssets.LoadAssets();
 			GameTags.MaterialBuildingElements.Add(ModAssets.Microchip_Buildable);

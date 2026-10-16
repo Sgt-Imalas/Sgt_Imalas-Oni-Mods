@@ -1,10 +1,7 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.Core;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
@@ -35,5 +32,23 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		//		AdditionalRecipes.AddOrGetPlantConsumptionInfo(CropId, info.tag, info.massConsumptionRate);
 		//	}
 		//}
+
+		/// <summary>
+		/// allow all "atmosphere" plants to also grow in nitrogen
+		/// </summary>
+		[HarmonyPatch]
+		public class EntityTemplates_ExtendEntityToBasicPlant_Patch
+		{
+			[HarmonyTargetMethod]
+			static MethodBase GetTarget()
+			{
+				return typeof(EntityTemplates).GetOverloadWithMostArguments(nameof(EntityTemplates.ExtendEntityToBasicPlant), true);
+			}
+
+			public static void Prefix(GameObject template, ref SimHashes[] safe_elements, string crop_id, bool can_tinker)
+			{
+				CodexDatabase.GenerateFertilizationInfo(template, ref safe_elements, crop_id, can_tinker);
+			}
+		}
 	}
 }

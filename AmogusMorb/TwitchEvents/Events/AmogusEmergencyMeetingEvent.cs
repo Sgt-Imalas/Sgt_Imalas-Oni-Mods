@@ -52,7 +52,7 @@ namespace AmogusMorb.TwitchEvents.Events
 					//    GameComps.Fallers.Remove(go);
 					//GameComps.Fallers.Add(go, initial_velocity);
 				}
-				ToastManager.InstantiateToastWithPosTarget(EventName, EventDescription, printerCoords);
+				ToastHelper.InstantiateToastWithPosTarget(EventName, EventDescription, printerCoords);
 			};
 
 		public string EventGroupID => null;

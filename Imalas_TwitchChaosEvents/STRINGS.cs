@@ -1,6 +1,4 @@
-﻿using STRINGS;
-using static Imalas_TwitchChaosEvents.STRINGS.ELEMENTS;
-using static STRINGS.BUILDINGS.PREFABS;
+﻿using static Imalas_TwitchChaosEvents.STRINGS.ELEMENTS;
 using static STRINGS.UI;
 
 namespace Imalas_TwitchChaosEvents

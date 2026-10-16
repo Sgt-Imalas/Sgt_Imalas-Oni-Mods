@@ -1,13 +1,9 @@
 ﻿using HarmonyLib;
-using Mono.Cecil.Cil;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static ConduitFlowVisualizer;
@@ -17,7 +13,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 	class ConduitFlowVisualizer_Patches
 	{
 		/// <summary>
-		/// This patch overrides the colored border of the blobs to the custom overlay colors of the HPA conduits
+		/// This patch overrides the colored border of the color blobs to the custom overlay colors of the HPA conduits
 		/// </summary>
 		[HarmonyPatch(typeof(ConduitFlowVisualizer), nameof(ConduitFlowVisualizer.GetCellTintColour))]
 		public class ConduitFlowVisualizer_GetCellTintColour_Patch
@@ -26,7 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static bool Prefix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
 			{
-				if (HighPressureConduitRegistration.HasHighPressureConduitAt(cell, __instance.flowManager.conduitType, __instance.showContents, out var changedTint))
+				if (HighPressureConduitRegistration.HasTintableHighPressureConduitAt(cell, __instance.flowManager.conduitType, __instance.showContents, __instance.radiantCells.Contains(cell), out var changedTint))
 				{
 					__result = changedTint;
 					return false;
@@ -46,7 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 
 			static ConduitType CurrentConduitType;
-			public static void Prefix(RenderMeshContext shared_data)
+			public static void Prefix(ref RenderMeshContext shared_data)
 			{
 				CurrentConduitType = shared_data.outer.flowManager.conduitType;
 			}

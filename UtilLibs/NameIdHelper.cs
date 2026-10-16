@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UtilLibs
 {
@@ -26,16 +22,20 @@ namespace UtilLibs
 				return true;
 			}
 
-			foreach (var prefab in Assets.PrefabsByTag) 
+			foreach (var prefabWithId in Assets.PrefabsByTag) 
 			{
-				string properName = prefab.Value.gameObject.GetProperName();
+				var prefab = prefabWithId.Value;
+				if (prefab.TryGetComponent<ClusterGridEntity>(out _))
+					continue;
+
+				string properName = prefab.gameObject.GetProperName();
 				properName = STRINGS.UI.StripLinkFormatting(properName).ToLowerInvariant();
 
-				NamesById[properName] = prefab.Key.ToString();
+				NamesById[properName] = prefabWithId.Key.ToString();
 
 				if (properName == name)
 				{
-					Id = prefab.Key.ToString();
+					Id = prefabWithId.Key.ToString();
 
 					return true;
 				}

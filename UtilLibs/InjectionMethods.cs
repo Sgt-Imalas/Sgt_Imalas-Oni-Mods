@@ -1,21 +1,348 @@
 ﻿using HarmonyLib;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using UnityEngine;
-using Database;
-using static ModUtil;
+using YamlDotNet.Serialization;
 
 namespace UtilLibs
 {
 	public static class InjectionMethods
 	{
+
 		public class BATCH_TAGS
 		{
 			public const int SWAPS = -77805842;
 			public const int INTERACTS = -1371425853;
 		}
+
+		public static void DumpBatchGroups(KAnimGroupFile __instance)
+		{
+			SgtLogger.l("Dumping all group ids of KanimGroupFile");
+			foreach (var group in __instance.groups)
+			{
+				SgtLogger.l("KanimGroup: " + group.id.ToString() + ", dir: " + group.commandDirectory);
+				foreach (var anim in group.animFiles)
+				{
+					SgtLogger.l(anim.name);
+				}
+			}
+		}
+
+		public static int LoadAllPackedKanimsRecursively(string directory, bool root = true)
+		{
+			SgtLogger.l("Loading packed kanims from directory: " + directory);
+			if (!System.IO.Directory.Exists(directory))
+				return 0;
+			var dirInfo = new DirectoryInfo(directory);
+			int count = 0;
+			foreach (var subdir in dirInfo.GetDirectories())
+			{
+				int subDirAnimCount = LoadAllPackedKanimsRecursively(subdir.FullName, false);
+				count += subDirAnimCount;
+			}
+			foreach (var file in dirInfo.GetFiles())
+			{
+				if (IO_Utils.MacFile(file))
+					continue;
+
+				if (file.Extension == ".zip")
+				{
+					count += LoadPackedKanims(file.FullName);
+				}
+			}
+			SgtLogger.l("loaded " + count + " animations from "+ dirInfo.Name);
+			return count;
+		}
+
+		public static int LoadPackedKanims(string zipFilePath)
+		{
+			if (!File.Exists(zipFilePath))
+				return 0;
+			int count = 0;
+			ZipArchive zip = null;
+			try
+			{
+				zip = ZipFile.OpenRead(zipFilePath);
+				Dictionary<string, KAnimFile.Mod> foundKanims = [];
+
+				foreach (var entry in zip.Entries)
+				{
+					if (entry.FullName.EndsWith("/"))
+						continue; //skip directories
+
+					byte[] bytes = null;
+					try
+					{
+						MemoryStream ms = new MemoryStream();
+						var stream = entry.Open();
+						stream.CopyTo(ms);
+						bytes = ms.ToArray();
+					}
+					catch (Exception ex)
+					{
+						SgtLogger.error("Failed to read zip " + entry.Name + ": " + ex.Message);
+						continue;
+					}
+					string kanimName = entry.FullName.Contains("/")
+						? Directory.GetParent(entry.FullName)?.Name + "_kanim"
+						: Path.GetFileNameWithoutExtension(zipFilePath) + "_kanim";
+
+					//SgtLogger.l("ZipEntry: "+entry.FullName + " maps to kanimName: " + kanimName);
+
+					string fileName = Path.GetFileNameWithoutExtension(entry.FullName).ToLowerInvariant();
+					string extension = Path.GetExtension(entry.FullName).ToLowerInvariant();
+
+
+					if (extension == ".bytes" || extension == ".txt")
+					{
+						if (!foundKanims.ContainsKey(kanimName))
+							foundKanims[kanimName] = new KAnimFile.Mod();
+
+						if (fileName.EndsWith("_anim"))
+						{
+							foundKanims[kanimName].anim = bytes;
+							//SgtLogger.l("found anim bytes for " + kanimName);
+						}
+						else if (fileName.EndsWith("_build"))
+						{
+							foundKanims[kanimName].build = bytes;
+							//SgtLogger.l("found build bytes for " + kanimName);
+						}
+					}
+					else if (extension == ".png")
+					{
+						if (!foundKanims.ContainsKey(kanimName))
+							foundKanims[kanimName] = new KAnimFile.Mod();
+
+						Texture2D texture = new Texture2D(2, 2);
+						texture.LoadImage(bytes);
+						foundKanims[kanimName].textures.Add(texture);
+						//SgtLogger.l("found png texture for " + kanimName);
+					}
+					else if (extension == ".dds")
+					{
+						if (!foundKanims.ContainsKey(kanimName))
+							foundKanims[kanimName] = new KAnimFile.Mod();
+
+						var texture = LoadTextureBC7(bytes);
+
+						foundKanims[kanimName].textures.Add(texture);
+						//SgtLogger.l("found dds texture for " + kanimName);
+					}
+				}
+				//SgtLogger.l("Collected " + foundKanims.Count + " kanims from zip file: " + zipFilePath);
+				foreach (var kanim in foundKanims)
+				{
+					//SgtLogger.l("trying adding kanim: " + kanim.Key + $", state: hasTex: {kanim.Value.textures != null && kanim.Value.textures.Any()}, hasBuild: {kanim.Value.build != null}, hasAnim: {kanim.Value.anim != null}");
+					if (kanim.Value.IsValid() && ModUtil.AddKAnimMod(kanim.Key, kanim.Value) != null)
+					{
+						count++;
+					}
+					else
+					{
+						SgtLogger.logwarning("Packed kanim " + kanim.Key + " is not valid, skipping");
+					}
+				}
+				return count;
+			}
+			catch (Exception ex)
+			{
+				SgtLogger.logError(zipFilePath + " could not be loaded as a packed kanim. Exception: " + ex.ToString());
+				return count;
+			}
+			finally
+			{
+				if (zip != null)
+					zip.Dispose();
+			}
+		}
+
+		public static Texture2D LoadTextureBC7(string zipFilePath, string nameInZip)
+		{
+			var textures = LoadTexturesBC7(zipFilePath, nameInZip);
+			if (!textures.Any())
+			{
+				SgtLogger.warning($"could not find {nameInZip} in {zipFilePath}");
+				return null;
+			}
+			return textures.First();
+		}
+		public static Texture2D LoadTextureBC7(string zipFilePath)
+		{
+			var textures = LoadTexturesBC7(zipFilePath);
+			if (!textures.Any())
+			{
+				SgtLogger.warning($"could not find valid BC7 DDS texture in {zipFilePath}");
+				return null;
+			}
+			return textures.First();
+		}
+		public static List<Texture2D> LoadTexturesBC7(string zipFilePath, string lookFor = null)
+		{
+			if (!File.Exists(zipFilePath))
+				return [];
+			List<Texture2D> textures = [];
+			ZipArchive zip = null;
+			try
+			{
+				zip = ZipFile.OpenRead(zipFilePath);
+
+				foreach (var entry in zip.Entries)
+				{
+					if (entry.FullName.EndsWith("/"))
+						continue; //skip directories
+
+					byte[] bytes = null;
+					try
+					{
+						MemoryStream ms = new MemoryStream();
+						var stream = entry.Open();
+						stream.CopyTo(ms);
+						bytes = ms.ToArray();
+					}
+					catch (Exception ex)
+					{
+						SgtLogger.error("Failed to read zip " + entry.Name + ": " + ex.Message);
+						continue;
+					}
+
+					string fileName = Path.GetFileNameWithoutExtension(entry.FullName).ToLowerInvariant();
+					string extension = Path.GetExtension(entry.FullName).ToLowerInvariant();
+
+					if (extension == ".png")
+					{
+						Texture2D texture = new Texture2D(2, 2);
+						texture.LoadImage(bytes);
+						texture.name = fileName;
+						textures.Add(texture);
+					}
+					else if (extension == ".dds")
+					{
+						var texture = LoadTextureBC7(bytes);
+						texture.name = fileName;
+						textures.Add(texture);
+					}
+					if (lookFor != null && fileName.Contains(lookFor) && textures.Any())
+					{
+						break;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				SgtLogger.logError(zipFilePath + " failed to extract all dds textures, Exception: " + ex.ToString());
+			}
+			finally
+			{
+				if (zip != null)
+					zip.Dispose();
+
+			}
+			return textures;
+		}
+		public static Texture2D LoadTextureBC7(byte[] bytes)
+		{
+			if (bytes == null || bytes.Length < 148)
+				return null;
+
+			//this header stuff here is tailored for the files created by the converter project, not a general solution!
+			int width = BitConverter.ToInt32(bytes, 16);
+			int height = BitConverter.ToInt32(bytes, 12);
+			int mipCount = BitConverter.ToInt32(bytes, 28);
+
+			int dxgiFormat = BitConverter.ToInt32(bytes, 128);
+
+			bool isSrgb = dxgiFormat == 99;
+
+			int dataOffset = 148; //BC7 has two separate byte headers, +128 for first header, +20 for second header
+
+			byte[] textureData = new byte[bytes.Length - dataOffset];
+
+			Buffer.BlockCopy(
+				bytes,
+				dataOffset,
+				textureData,
+				0,
+				textureData.Length
+			);
+
+			var texture = new Texture2D(
+				width,
+				height,
+				TextureFormat.BC7,
+				mipCount > 1,
+				isSrgb
+			);
+
+			texture.LoadRawTextureData(textureData);
+			texture.Apply(false, true);
+			return texture;
+		}
+
+		/// <summary>
+		/// untested and likely not working
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="lowRes"></param>
+		/// <returns></returns>
+		//public static bool LoadBC7Animation(string path, bool lowRes)
+		//{
+		//	if (!System.IO.Directory.Exists(path))
+		//		return false;
+
+		//	KAnimFile.Mod anim_mod = new KAnimFile.Mod();
+		//	var dirInfo = new DirectoryInfo(path);
+		//	string name = dirInfo.Name + "_kanim";
+
+		//	foreach (var file in dirInfo.GetFiles())
+		//	{
+		//		if (IO_Utils.MacFile(file))
+		//			continue;
+		//		if (file.Extension == ".bytes")
+		//		{
+		//			string withoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.Name);
+		//			byte[] numArray = File.ReadAllBytes(file.FullName);
+		//			if (withoutExtension.EndsWith("_anim"))
+		//				anim_mod.anim = numArray;
+		//			else if (withoutExtension.EndsWith("_build"))
+		//				anim_mod.build = numArray;
+		//			else
+		//				DebugUtil.LogWarningArgs((object)$"Unhandled TextAsset ({file.FullName})...ignoring");
+		//		}
+		//		else if (file.Extension == ".dss")
+		//		{
+		//			if (file.FullName.Contains("_lowres") != lowRes)
+		//			{
+		//				continue;
+		//			}
+
+		//			byte[] bc7Data = File.ReadAllBytes(file.FullName);
+		//			var texture = new Texture2D(
+		//				2,
+		//				2,
+		//				TextureFormat.BC7,
+		//				mipChain: true,
+		//				linear: false
+		//				);
+
+		//			texture.LoadRawTextureData(bc7Data);
+		//			texture.Apply(false, true);
+		//			anim_mod.textures.Add(texture);
+		//		}
+
+		//		else
+		//			DebugUtil.LogWarningArgs((object)$"Unhandled asset ({file.FullName})...ignoring");
+
+		//	}
+		//	return (anim_mod.IsValid() && (bool)ModUtil.AddKAnimMod(name, anim_mod));
+		//}
 
 		///Use the following patch to add any custom interact anims;
 		//      [HarmonyPatch(typeof(KAnimGroupFile), "Load")]
@@ -23,7 +350,7 @@ namespace UtilLibs
 		//      {
 		//          public static void Prefix(KAnimGroupFile __instance)
 		//          {
-		//              InjectionMethods.RegisterBatchTag(
+		//              InjectionMethods.MoveAnimGroups(
 		//                  __instance,
 		//                  InjectionMethods.BATCH_TAGS.INTERACTS,
 		//                  new HashSet<HashedString>()
@@ -36,21 +363,48 @@ namespace UtilLibs
 
 		public static void RegisterCustomSwapAnim(KAnimGroupFile kAnimGroupFile, HashedString swap) => RegisterCustomSwapAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
 		public static void RegisterCustomSwapAnims(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
-			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.SWAPS, swaps);
-		public static void RegisterCustomInteractAnim(KAnimGroupFile kAnimGroupFile,HashedString swap) => RegisterCustomInteractAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
+			MoveKanimsToNewGroup(kAnimGroupFile, BATCH_TAGS.SWAPS, swaps);
+		public static void RegisterCustomInteractAnim(KAnimGroupFile kAnimGroupFile, HashedString swap) => RegisterCustomInteractAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
 		public static void RegisterCustomInteractAnims(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
-			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
+			MoveKanimsToNewGroup(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
+
+
+		public static void MoveKanimsToBatchGroupOf(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps, string animInTargetGroupId)
+		{
+			var groups = kAnimGroupFile.GetData();
+			if (!global::Assets.TryGetAnim(animInTargetGroupId, out var animInTargetGroup))
+			{
+				Debug.LogWarning($"Could not find anim {animInTargetGroupId} in asset list!");
+				return;
+			}
+			KAnimGroupFile.Group targetGroup = null;
+			foreach (KAnimGroupFile.Group group in groups)
+			{
+				if (group.animFiles.Contains(animInTargetGroup))
+				{
+					targetGroup = group;
+					break;
+				}
+			}
+			if (targetGroup == null)
+			{
+				Debug.LogWarning($"Could not find anim group for {animInTargetGroupId}!");
+				return;
+			}
+			MoveKanimsToNewGroup(kAnimGroupFile, targetGroup.id.hash, swaps);
+		}
+
 
 		/// <summary>
 		/// Required to register the correct anim group for custom made interact anims
 		/// </summary>
 		/// <param name="kAnimGroupFile"></param>
-		/// <param name="taghash"></param>
+		/// <param name="groupIdHash"></param>
 		/// <param name="swaps"></param>
-		public static void MoveAnimGroups(KAnimGroupFile kAnimGroupFile, int taghash, HashSet<HashedString> swaps)
+		public static void MoveKanimsToNewGroup(KAnimGroupFile kAnimGroupFile, int groupIdHash, HashSet<HashedString> swaps)
 		{
 			var groups = kAnimGroupFile.GetData();
-			var swapAnimsGroup = KAnimGroupFile.GetGroup(new HashedString(taghash));
+			var swapAnimsGroup = KAnimGroupFile.GetGroup(new HashedString(groupIdHash));
 
 			// remove the wrong group
 			groups.RemoveAll(g => swaps.Contains(g.animNames[0]));
@@ -75,7 +429,10 @@ namespace UtilLibs
 
 				swapAnimsGroup.animFiles.Add(anim);
 				swapAnimsGroup.animNames.Add(anim.name);
-				SgtLogger.l(anim+"; "+anim.name+" added to group");
+
+				var data = swapAnimsGroup;
+
+				SgtLogger.l(anim + "; " + anim.name + " added to group");
 			}
 		}
 		public static Func<S, T> CreateGetter<S, T>(FieldInfo field)
@@ -230,7 +587,7 @@ namespace UtilLibs
 			else
 			{
 				TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
-				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId,ordering);//replace with ModUtil again when they fix it
+				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering);//replace with ModUtil again when they fix it
 			}
 		}
 
@@ -246,6 +603,21 @@ namespace UtilLibs
 			}
 		}
 
+		public static void AddBuildingToTechnologyOfOther(string buildingId, string otherBuildingId)
+		{
+			ResearchablesFromMod.Add(buildingId);
+			var techs = Db.Get().Techs;
+
+			foreach (var tech in techs.resources)
+			{
+				if (tech.unlockedItemIDs.Contains(otherBuildingId))
+				{
+					tech.unlockedItemIDs.Add(buildingId);
+					return;
+				}
+			}
+			SgtLogger.error("Could not add " + buildingId + " to tech as " + otherBuildingId + " was not found in any existing tech");
+		}
 		public static void AddBuildingToTechnology(string techId, string buildingId)
 		{
 			ResearchablesFromMod.Add(buildingId);
@@ -264,49 +636,49 @@ namespace UtilLibs
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.EFFECT", effect);
 		}
 
-        public static void AddLaserEffect(string ID, HashedString context, KBatchedAnimEventToggler kbatchedAnimEventToggler, KBatchedAnimController kbac, string animFile, string defaultAnimation = "loop")
-        {
-            var laserEffect = new BaseMinionConfig.LaserEffect
-            {
-                id = ID,
-                animFile = animFile,
-                anim = defaultAnimation,
-                context = context
-            };
+		public static void AddLaserEffect(string ID, HashedString context, KBatchedAnimEventToggler kbatchedAnimEventToggler, KBatchedAnimController kbac, string animFile, string defaultAnimation = "loop")
+		{
+			var laserEffect = new BaseMinionConfig.LaserEffect
+			{
+				id = ID,
+				animFile = animFile,
+				anim = defaultAnimation,
+				context = context
+			};
 
-            var laserGo = new GameObject(laserEffect.id);
-            laserGo.transform.parent = kbatchedAnimEventToggler.transform;
-            laserGo.AddOrGet<KPrefabID>().PrefabTag = new Tag(laserEffect.id);
+			var laserGo = new GameObject(laserEffect.id);
+			laserGo.transform.parent = kbatchedAnimEventToggler.transform;
+			laserGo.AddOrGet<KPrefabID>().PrefabTag = new Tag(laserEffect.id);
 
-            var tracker = laserGo.AddOrGet<KBatchedAnimTracker>();
-            tracker.controller = kbac;
-            tracker.symbol = new HashedString("snapTo_rgtHand");
-            tracker.offset = new Vector3(195f, -35f, 0f);
-            tracker.useTargetPoint = true;
+			var tracker = laserGo.AddOrGet<KBatchedAnimTracker>();
+			tracker.controller = kbac;
+			tracker.symbol = new HashedString("snapTo_rgtHand");
+			tracker.offset = new Vector3(195f, -35f, 0f);
+			tracker.useTargetPoint = true;
 
-            var kbatchedAnimController = laserGo.AddOrGet<KBatchedAnimController>();
-            kbatchedAnimController.AnimFiles =
-            [
-                Assets.GetAnim(laserEffect.animFile)
-            ];
+			var kbatchedAnimController = laserGo.AddOrGet<KBatchedAnimController>();
+			kbatchedAnimController.AnimFiles =
+			[
+				Assets.GetAnim(laserEffect.animFile)
+			];
 
-            var item = new KBatchedAnimEventToggler.Entry
-            {
-                anim = laserEffect.anim,
-                context = laserEffect.context,
-                controller = kbatchedAnimController
-            };
+			var item = new KBatchedAnimEventToggler.Entry
+			{
+				anim = laserEffect.anim,
+				context = laserEffect.context,
+				controller = kbatchedAnimController
+			};
 
-            kbatchedAnimEventToggler.entries.Add(item);
+			kbatchedAnimEventToggler.entries.Add(item);
 
-            laserGo.AddOrGet<LoopingSounds>();
-        }
-    
+			laserGo.AddOrGet<LoopingSounds>();
+		}
 
 
-    #region obsoleteStringInjections
 
-    public static void AddCreatureStrings(string creatureId, string name)
+		#region obsoleteStringInjections
+
+		public static void AddCreatureStrings(string creatureId, string name)
 		{
 			Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", STRINGS.UI.FormatAsLink(name, creatureId));
 			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", STRINGS.UI.FormatAsLink(name + "s", creatureId));
@@ -340,9 +712,9 @@ namespace UtilLibs
 			//Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.LEGEND_HOVERTEXT", hover);
 		}
 
-        #endregion
+		#endregion
 
-        public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
+		public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
 		{
 			List<GameObject> brains = Assets.GetPrefabsWithComponent<CreatureBrain>();
 			CodexEntry entry = new CodexEntry("CREATURES", new List<ContentContainer>()
@@ -395,6 +767,83 @@ namespace UtilLibs
 						});
 					}
 				}
+			}
+		}
+
+		public static void LogKanimFrameInfo(string kanim)
+		{
+			SgtLogger.l(kanim + " Symbols:");
+			var anim = Assets.GetAnim(kanim).GetData();
+			foreach (var symbol in anim.build.symbols)
+			{
+
+				SgtLogger.l($"Symbol: {symbol.path}, framecount: {symbol.numFrames}, lookupframes: {symbol.numLookupFrames}");
+				if (symbol.frameLookup == null)
+				{
+					SgtLogger.l("Framelookup was null!");
+				}
+				else
+				{
+					SgtLogger.l("FrameLookup values: " + symbol.frameLookup.Join());
+				}
+			}
+		}
+
+		//public static void AddItemToTechnologyKanim(object tECH_ID, string spaceStationTechID, string name, string description, string kanim, string[] requiredDLcs)
+		//{
+		//	throw new NotImplementedException();
+		//}
+
+		public class RespectYamlIgnoreContractResolver : DefaultContractResolver
+		{
+			protected override JsonProperty CreateProperty(
+				MemberInfo member,
+				MemberSerialization memberSerialization)
+			{
+				var property = base.CreateProperty(member, memberSerialization);
+
+				if (Attribute.IsDefined(member, typeof(JsonIgnoreAttribute), true) || Attribute.IsDefined(member, typeof(YamlIgnoreAttribute), true))
+				{
+					property.Ignored = true;
+				}
+
+				return property;
+			}
+		}
+		public class IncludePrivateContractResolver : DefaultContractResolver
+		{
+			protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+			{
+				// include public & non-public fields
+				var fields = type
+					.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+					.Where(field => !Attribute.IsDefined(field, typeof(JsonIgnoreAttribute), true))
+					.Where(field => !Attribute.IsDefined(field, typeof(YamlIgnoreAttribute), true))
+					.Select(f => base.CreateProperty(f, memberSerialization));
+
+				// include public & non-public properties
+				var properties = type
+					.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+					.Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute), true))
+					.Where(prop => !Attribute.IsDefined(prop, typeof(YamlIgnoreAttribute), true))
+					.Select(p => base.CreateProperty(p, memberSerialization));
+
+				var all = fields.Concat(properties).ToList();
+
+				foreach (var prop in all)
+				{
+					prop.Readable = true;
+					prop.Writable = true;
+				}
+
+				return all;
+			}
+
+			protected override JsonContract CreateContract(Type objectType)
+			{
+				// allow creation of objects without public default constructor
+				var contract = base.CreateContract(objectType);
+				return contract;
 			}
 		}
 	}

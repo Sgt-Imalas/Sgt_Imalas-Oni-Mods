@@ -32,7 +32,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 			DoCringeEffect();
 
-			ToastManager.InstantiateToast(STRINGS.CHAOSEVENTS.SHART.TOAST, STRINGS.CHAOSEVENTS.SHART.TOASTTEXT);
+			ToastHelper.InstantiateToast(STRINGS.CHAOSEVENTS.SHART.TOAST, STRINGS.CHAOSEVENTS.SHART.TOASTTEXT);
 		};
 
 

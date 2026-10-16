@@ -1,0 +1,20 @@
+﻿using BionicBoostersPlus.Content.Defs.Buildings;
+using HarmonyLib;
+using UtilLibs;
+
+namespace BionicBoostersPlus.Patches
+{
+	internal class GeneratedBuildings_Patches
+	{
+
+		[HarmonyPatch(typeof(GeneratedBuildings), nameof(GeneratedBuildings.LoadGeneratedBuildings))]
+		public class GeneratedBuildings_LoadGeneratedBuildings_Patch
+		{
+			public static void Postfix()
+			{
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, BoosterRecyclerConfig.ID, AdvancedCraftingTableConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, Mk3BoosterMakerConfig.ID, AdvancedCraftingTableConfig.ID, ordering: ModUtil.BuildingOrdering.After);
+			}
+		}
+	}
+}

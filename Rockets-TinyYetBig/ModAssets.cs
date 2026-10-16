@@ -1,25 +1,18 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
-using Rockets_TinyYetBig.Buildings.CargoBays;
-using Rockets_TinyYetBig.Buildings.Utility;
 using Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens;
 using Rockets_TinyYetBig.NonRocketBuildings;
-using Rockets_TinyYetBig.RocketFueling;
-using Rockets_TinyYetBig.SpaceStations;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static PeterHan.PLib.UI.PTextField;
-using static Rockets_TinyYetBig.RocketFueling.FuelLoaderComponent;
-using static Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS;
+using static UtilLibs.RocketryUtils;
 
 namespace Rockets_TinyYetBig
 {
-    public class ModAssets
+	public class ModAssets
 	{
+
+		public static readonly Tag Blueprints_SkipPreconfigure = new Tag("Blueprints_SkipPreconfiguration");
 		public static readonly HashedString LOGICPORT_ROCKETPORTLOADER_ACTIVE = "ROCKETPORTLOADER_ACTIVE";
 		public class Hashes
 		{
@@ -44,8 +37,11 @@ namespace Rockets_TinyYetBig
 		public static GameObject SpaceConstructionSideScreenWindowPrefab;
 
 		//This is required to keep the GO of SpaceConstructionTargetSecondarySideScreen from getting GCed!
-		public static GameObject SpaceConstructionTargetScreenWindowPrefab;
-		public static KScreen SpaceConstructionTargetSecondarySideScreen;
+		public static GameObject ConstructionSelector_SecondarySidescreenPrefab;
+		public static KScreen ConstructionSelector_SecondarySidescreen;
+
+		public static GameObject RocketBlueprints_SecondarySidescreenPrefab;
+		public static KScreen RocketBlueprintSecondarySideScreen;
 
 
 
@@ -55,42 +51,48 @@ namespace Rockets_TinyYetBig
 			if (!tooltipsInitialized)
 				InitializeCategoryTooltipDictionary();
 
-			if(Tooltips.TryGetValue(category, out var tooltip))
+			if (Tooltips.TryGetValue(category, out var tooltip))
 				return tooltip;
 
 			SgtLogger.warning("RE category tooltip not found for category " + category);
 
 			return "Category Tooltip not found!";
 		}
+
+
+		public static void ClearBlockedBy()
+		{
+			LastBlockingBuildings.Clear();
+			LastBlockingCells.Clear();
+		}
+		/// <summary>
+		/// Filled by ConditionFlightPathIsClear check, contains all buildings that block the currently selected rocket
+		/// </summary>
+		public static HashSet<GameObject> LastBlockingBuildings = new();
+		/// <summary>
+		/// Filled by ConditionFlightPathIsClear check, contains all (natural) cells that block the currently selected rocket
+		/// buildings will not populate this hashset, only natural cells (or some building on a non-standard layer)
+		/// </summary>
+		public static HashSet<int> LastBlockingCells = new();
+
 		private static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
 		private static void InitializeCategoryTooltipDictionary()
 		{
-			if(tooltipsInitialized)
+			if (tooltipsInitialized)
 				return;
 
-            tooltipsInitialized = true;
+			tooltipsInitialized = true;
 
-            Tooltips.Add(0, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES);
-			Tooltips.Add(1, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS);
-			Tooltips.Add(2, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES);
-			Tooltips.Add(3, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES);
-			Tooltips.Add(4, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL);
-			Tooltips.Add(5, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO);
-			Tooltips.Add(6, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER);
-			Tooltips.Add(7, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION);
-			Tooltips.Add(8, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY);
-			Tooltips.Add(-1, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED);
-
-			//engines = 0,
-			//    habitats = 1,
-			//nosecones = 2,
-			//deployables = 3,
-			//fuel = 4,
-			//cargo = 5,
-			//power = 6,
-			//production = 7,
-			//utility = 8,
-			//uncategorized = -1
+			Tooltips.Add((int)RocketCategory.engines, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES);
+			Tooltips.Add((int)RocketCategory.habitats, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS);
+			Tooltips.Add((int)RocketCategory.nosecones, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES);
+			Tooltips.Add((int)RocketCategory.deployables, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES);
+			Tooltips.Add((int)RocketCategory.fuel, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL);
+			Tooltips.Add((int)RocketCategory.cargo, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO);
+			Tooltips.Add((int)RocketCategory.power, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER);
+			Tooltips.Add((int)RocketCategory.production, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION);
+			Tooltips.Add((int)RocketCategory.utility, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY);
+			Tooltips.Add((int)RocketCategory.uncategorized, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED);
 		}
 
 		public static void LoadAssets()
@@ -100,29 +102,33 @@ namespace Rockets_TinyYetBig
 			DupeTransferSecondarySideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DockingTransferScreen.prefab");
 			DockingSideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DockingScreen.prefab");
 			SpaceConstructionSideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/SpaceAssembleMenu_Sidescreen.prefab");
-			SpaceConstructionTargetScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ConstructionSelector_SecondarySidescreen.prefab");
+			ConstructionSelector_SecondarySidescreenPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ConstructionSelector_SecondarySidescreen.prefab");
+			RocketBlueprints_SecondarySidescreenPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/RocketBlueprints_SecondarySidescreen.prefab");
 
 
 			SgtLogger.Assert("ModuleSettingsWindowPrefab", ModuleSettingsWindowPrefab);
 			SgtLogger.Assert("DockingSideScreenWindowPrefab", DockingSideScreenWindowPrefab);
 			SgtLogger.Assert("DupeTransferSecondarySideScreenWindowPrefab", DupeTransferSecondarySideScreenWindowPrefab);
 			SgtLogger.Assert("SpaceConstructionSideScreenWindowPrefab", SpaceConstructionSideScreenWindowPrefab);
-			SgtLogger.Assert("SpaceConstructionTargetScreenWindowPrefab", SpaceConstructionTargetScreenWindowPrefab);
+			SgtLogger.Assert("ConstructionSelector_SecondarySidescreenPrefab", ConstructionSelector_SecondarySidescreenPrefab);
+			SgtLogger.Assert("RocketBlueprints_SecondarySidescreenPrefab", RocketBlueprints_SecondarySidescreenPrefab);
 
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(ModuleSettingsWindowPrefab);
 			TMPConverter.ReplaceAllText(DockingSideScreenWindowPrefab);
 			TMPConverter.ReplaceAllText(DupeTransferSecondarySideScreenWindowPrefab);
 			TMPConverter.ReplaceAllText(SpaceConstructionSideScreenWindowPrefab);
-			TMPConverter.ReplaceAllText(SpaceConstructionTargetScreenWindowPrefab);
+			TMPConverter.ReplaceAllText(ConstructionSelector_SecondarySidescreenPrefab);
+			TMPConverter.ReplaceAllText(RocketBlueprints_SecondarySidescreenPrefab);
 
 			DupeTransferSecondarySideScreen = DupeTransferSecondarySideScreenWindowPrefab.AddComponent<CrewAssignmentSidescreen>();
-			SpaceConstructionTargetSecondarySideScreen = SpaceConstructionTargetScreenWindowPrefab.AddComponent<SpaceConstructionTargetScreen>();
+			ConstructionSelector_SecondarySidescreen = ConstructionSelector_SecondarySidescreenPrefab.AddComponent<SpaceConstructionTargetScreen>();
+			RocketBlueprintSecondarySideScreen = RocketBlueprints_SecondarySidescreenPrefab.AddComponent<RocketBlueprintsSecondarySidescreen>();
 		}
 
 		public static float DefaultDrillconeHarvestSpeed = ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE / 3600f;
 
-		
+
 
 		public static float GetMiningPilotSkillMultiplier(Clustercraft clustercraft)
 		{
@@ -134,7 +140,7 @@ namespace Rockets_TinyYetBig
 
 				multiplier = Mathf.Max(0.75f, (flyingSpeedMultiplier * 0.5f + miningSpeedMultiplier * 0.5f));
 				//SgtLogger.l($"Total MiningMultiplier: {multiplier}, flying: {flyingSpeedMultiplier}, mining: {miningSpeedMultiplier}.");
-				multiplier = (multiplier - 1) * 2 + 1;
+				multiplier = Mathf.Clamp((multiplier - 1) * 2 + 1, 0.75f, 2.00f);
 				//SgtLogger.l($"Total MiningMultiplier adjusted: {multiplier}.");
 			}
 			return multiplier;
@@ -156,6 +162,29 @@ namespace Rockets_TinyYetBig
 			}
 		}
 
+		internal static void SpawnItem(Tag mat, float amount, Vector3 pos)
+		{
+			GameObject item;
+			Element element = ElementLoader.GetElement(mat);
+			if (element != null)
+			{
+				if (element.IsGas)
+					item = GasSourceManager.Instance.CreateChunk(element, amount, element.defaultValues.temperature, byte.MaxValue, 0, pos).gameObject;
+				else if (element.IsLiquid)
+					item = LiquidSourceManager.Instance.CreateChunk(element, amount, element.defaultValues.temperature, byte.MaxValue, 0, pos).gameObject;
+				else if (element.IsSolid)
+				{
+					item = element.substance.SpawnResource(pos, amount, element.defaultValues.temperature, byte.MaxValue, 0, true, manual_activation: true);
+					element.substance.ActivateSubstanceGameObject(item, byte.MaxValue, 0);
+				}
+			}
+			else if (Assets.TryGetPrefab(mat))
+			{
+				item = Util.KInstantiate(Assets.TryGetPrefab(mat), pos);
+				item.GetComponent<PrimaryElement>().Units = amount;
+				item.SetActive(true);
+			}
+		}
 
 		public static string DeepSpaceScienceID = "rtb_deepspace";
 		public class Techs
@@ -168,7 +197,7 @@ namespace Rockets_TinyYetBig
 			public static Tech LargerRocketLivingSpaceTech;
 			public static string SpaceScienceTechID = "RTB_SpaceScienceTech";
 			public static Tech SpaceScienceTech;
-			public static string SpaceStationTechID = "RTB_SpaceStationTech"; 
+			public static string SpaceStationTechID = "RTB_SpaceStationTech";
 			public static Tech SpaceStationTech;
 			public static string SpaceStationTechMediumID = "RTB_MediumSpaceStationTech";
 			public static Tech SpaceStationTechMedium;
@@ -176,9 +205,15 @@ namespace Rockets_TinyYetBig
 			public static Tech SpaceStationTechLarge;
 			public static string HugeCargoBayTechID = "RTB_HugeCargoBayTech";
 			public static Tech HugeCargoBayTech;
+			public static string CargoBayFilterTechID = "RTB_CargoBayFilterTech";
+			public static Tech CargoBayFilterTech;
 		}
 		public class Tags
 		{
+			public static Tag BurnableCarbon = TagManager.Create("RTB_BurnableCarbon");
+
+			public static Tag AttachmentSlotStationParts = TagManager.Create("RTB_AttachmentSlotStationParts");
+			public static Tag AttachmentSlotRocketModuleUpgrades = TagManager.Create("RTB_AttachmentSlotRocketModuleUpgrades");
 			public static Tag VerticalPortAttachementPoint = TagManager.Create("RTB_verticalPortAttachmentPoint");
 
 			public static Tag AttachmentSlotDockingDoor = TagManager.Create("RTB_DockingTubeAttachmentSlot");
@@ -251,7 +286,15 @@ namespace Rockets_TinyYetBig
 			/// has Oxidizer efficiency of 6, is locked behind a space station level science upgrade
 			/// </summary>
 			public static Tag OxidizerEfficiency_6 = TagManager.Create("RTB_OxidizerEfficiency_6");
+			/// <summary>
+			/// Drillcone, Cargobay, Artifact module, any module that harvests resources in space should have this tag
+			/// </summary>
+			public static Tag SpaceHarvestModule = TagManager.Create("RTB_SpaceHarvestModule");
 
+			/// <summary>
+			/// Carbon fibre material, attached to vanilla element and Ronivans carbon composite
+			/// </summary>
+			public static Tag CarbonFibreMaterial = TagManager.Create("RTB_CarbonFiberMaterial");
 
 		}
 
@@ -263,7 +306,6 @@ namespace Rockets_TinyYetBig
 			large = 2,
 			jumpBeacon = 3,
 			jumpGate = 4,
-
 		}
 
 

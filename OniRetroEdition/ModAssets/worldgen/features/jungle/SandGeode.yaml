@@ -1,0 +1,36 @@
+shape: Circle
+borders:
+  - 1
+  - 1
+internalMobs:
+  - type: ShockWorm
+    count:
+      min: 0
+      max: 2
+blobSize:
+  min: 0.5
+  max: 2.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Sand
+        weight: 10
+        overrides:
+          massMultiplier: 5
+      - element: SandStone
+        weight: 1
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: SandStone
+        weight: 1
+      - element: Sand
+        weight: 1
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: IgneousRock
+        weight: 8
+      - element: SandStone
+        weight: 1

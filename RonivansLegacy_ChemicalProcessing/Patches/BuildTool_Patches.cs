@@ -1,14 +1,9 @@
 ﻿using HarmonyLib;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Tiles;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
@@ -21,6 +16,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Prefix(BuildTool __instance, ref BuildingDef def, IList<Tag> selected_elements)
 			{
+				if (selected_elements == null || !selected_elements.Any())
+					return;
 				var selectedMaterial = selected_elements[0];
 
 				if (MultivariantBuildings.HasMaterialVariant(def.Tag, selectedMaterial, out var targetForMaterial))
@@ -49,24 +46,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 		}
 
-		[HarmonyPatch(typeof(BuildTool), nameof(BuildTool.UpdateVis))]
-		public class BuildTool_UpdateVis_Patch
-		{
-			public static void Postfix(BuildTool __instance)
-			{
-				if(__instance != null && __instance.visualizer != null && __instance.visualizer.TryGetComponent<PortPreviewVisualizer>(out var portVis))
-				{
-					portVis.MovePortPreviews();
-				}
-			}
-		}
-
 		[HarmonyPatch(typeof(BuildTool), nameof(BuildTool.SetColor))]
 		public class BuildTool_SetColor_Patch
 		{
-			public static void Postfix(BuildTool __instance,Color c)
+			public static void Postfix(GameObject root, Color c)
 			{
-				if (__instance != null && __instance.visualizer != null && __instance.visualizer.TryGetComponent<PortPreviewVisualizer>(out var portVis))
+				if (root.TryGetComponent<PortPreviewVisualizer>(out var portVis))
 				{
 					portVis.TintPortPreviews(c);
 				}

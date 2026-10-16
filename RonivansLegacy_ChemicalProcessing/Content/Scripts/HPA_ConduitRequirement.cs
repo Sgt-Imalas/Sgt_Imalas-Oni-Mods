@@ -1,16 +1,7 @@
-﻿using FMOD;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
-using static AmbienceManager;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS;
-using static RoomTracker;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {

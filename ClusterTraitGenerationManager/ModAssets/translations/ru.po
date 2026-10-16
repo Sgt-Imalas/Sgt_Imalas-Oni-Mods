@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.9\n"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION"
@@ -211,10 +211,29 @@ msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.C
 msgid "Blacklist:"
 msgstr "Чёрный список:"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR.LABEL_SHARED
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR.LABEL_SHARED"
+msgid "Blacklist (shared):"
+msgstr "Чёрный список (общий):"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.SCROLLAREA.CONTENT.NONE.LABEL
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.SCROLLAREA.CONTENT.NONE.LABEL"
 msgid "No blacklisted geysers"
 msgstr "Нет гейзеров в чёрном списке"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.SHAREDBLACKLIST.LABEL
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.SHAREDBLACKLIST.LABEL"
+msgid "Use shared blacklist for asteroid"
+msgstr "Использовать общий чёрный список для астероидов"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.SHAREDBLACKLIST.TOOLTIP
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.SHAREDBLACKLIST.TOOLTIP"
+msgid ""
+"If disabled, the asteroid will use an individual blacklist.\n"
+"Otherwise it will share a blacklist with other asteroids"
+msgstr ""
+"В случае отключения астероид будет использовать индивидуальный чёрный список.\n"
+"В противном случае он окажется в одном чёрном списке с другими астероидами"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.ADDGEYSERBTN.TEXT
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.ADDGEYSERBTN.TEXT"
@@ -251,6 +270,16 @@ msgstr "Гейзеры на астероиде:"
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.DESCRIPTOR.NONE"
 msgid "No available geysers"
 msgstr "Нет доступных гейзеров"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDMIXINGTARGETSELECTOR.DESCRIPTOR.LABEL
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDMIXINGTARGETSELECTOR.DESCRIPTOR.LABEL"
+msgid "Asteroid Remix Target:"
+msgstr "Целевой астеройд ремикса:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDMIXINGTARGETSELECTOR.DESCRIPTOR.TOOLTIP
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDMIXINGTARGETSELECTOR.DESCRIPTOR.TOOLTIP"
+msgid "The target asteroid that is getting remixed."
+msgstr "Целевой астероид, который подвергается повторному смешиванию."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.BIOMEMISSINGWARNING
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.BIOMEMISSINGWARNING"
@@ -744,8 +773,24 @@ msgstr "Создать [STARMAPITEMTYPE]:"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STARMAPITEMENABLED.TOOLTIP
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STARMAPITEMENABLED.TOOLTIP"
-msgid "Должен ли вообще создаваться этот объекта звёздной карты?"
-msgstr "Должен ли вообще создаваться этот объекта звёздной карты?"
+msgid "Должен ли вообще создаваться этот объект звёздной карты?"
+msgstr "Должен ли вообще создаваться этот объект звёздной карты?"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STORYTRAIT.STORYTRAITBLACKLIST.DESCRIPTOR.LABEL
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STORYTRAIT.STORYTRAITBLACKLIST.DESCRIPTOR.LABEL"
+msgid "Allow Story Traits on these Asteroids:"
+msgstr "Разрешить сюжетные особенности на этих астероидах:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STORYTRAIT.STORYTRAITBLACKLIST.DESCRIPTOR.TOOLTIP
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STORYTRAIT.STORYTRAITBLACKLIST.DESCRIPTOR.TOOLTIP"
+msgid ""
+"Allows you to block the game from spawning this story trait on certain asteroids.\n"
+"\n"
+"Blocking too many asteroids can prevent the worldgen from succeeding!"
+msgstr ""
+"Позволяет заблокировать появление этой сюжетной особенности в игре на определённых астероидах.\n"
+"\n"
+"Блокирование слишком большого количества астероидов может помешать успешной генерации мира!"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STORYTRAIT.STORYTRAITENABLED.LABEL
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STORYTRAIT.STORYTRAITENABLED.LABEL"
@@ -1273,10 +1318,34 @@ msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.YES"
 msgid "Да"
 msgstr "Да"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERIC_YESNO.NO
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERIC_YESNO.NO"
+msgid "No"
+msgstr "Нет"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERIC_YESNO.YES
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERIC_YESNO.YES"
+msgid "Yes"
+msgstr "Да"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.INFOTOOLTIPS.GENERICGEYSER
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.INFOTOOLTIPS.GENERICGEYSER"
+msgid "This geyser is <style=\"KKeyword\"><b>generic</b></style> and can generate randomly."
+msgstr "Этот гейзер <style=\"KKeyword\"><b>общий</b></style> и может генерироваться случайным образом."
+
 #. ClusterTraitGenerationManager.STRINGS.UI.INFOTOOLTIPS.INFO_ONLY
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.INFOTOOLTIPS.INFO_ONLY"
 msgid "Эти данные приведены только для информации и не являются настраиваемыми."
 msgstr "Эти данные приведены только для информации и не являются настраиваемыми."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.INFOTOOLTIPS.NONGENERICGEYSER
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.INFOTOOLTIPS.NONGENERICGEYSER"
+msgid ""
+"This geyser is <style=\"KKeyword\"><b>non-generic</b></style> and can only generate naturally when declared in the worldgen file of the asteroid.\n"
+"By default, it cannot get spawned in from the \"Geoactive\" trait or similar modded variants."
+msgstr ""
+"Этот гейзер <style=\"KKeyword\"><b>не общий</b></style> и может генерироваться естественным путем только в том случае, если он указан в файле генерации астероида.\n"
+"По умолчанию он не может быть создан характиристикой \"геоактивный\" или подобных модифицированных вариантов."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SEEDLOCK.NAME
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.SEEDLOCK.NAME"

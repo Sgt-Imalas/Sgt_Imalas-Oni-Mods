@@ -1,0 +1,207 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL1
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL1"
+msgid "<link=\"LVL1\">Novice Pilot</link>"
+msgstr "<link=\"LVL1\">Phi Công Mới Vào Nghề</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL2
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL2"
+msgid "<link=\"LVL2\">Advanced Beginner Pilot</link>"
+msgstr "<link=\"LVL2\">Phi Công Sơ Cấp Nâng Cao</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL3
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL3"
+msgid "<link=\"LVL3\">Competent Pilot</link>"
+msgstr "<link=\"LVL3\">Phi Công Có Năng Lực</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL4
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL4"
+msgid "<link=\"LVL4\">Proficient Pilot</link>"
+msgstr "<link=\"LVL4\">Phi Công Thành Thạo</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL5
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL5"
+msgid "<link=\"LVL5\">Expert Pilot</link>"
+msgstr "<link=\"LVL5\">Phi Công Chuyên Gia</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL6
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL6"
+msgid "<link=\"LVL6\">Master Pilot</link>"
+msgstr "<link=\"LVL6\">Phi Công Bậc Thầy</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVLNONE
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVLNONE"
+msgid "<link=\"LVLNONE\">Automated Pilot</link>"
+msgstr "<link=\"LVLNONE\">Phi Công Tự Động</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NAME"
+msgid "{BRAINXPSTATE}"
+msgstr "{BRAINXPSTATE}"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NOBRAIN
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NOBRAIN"
+msgid "This AI-Module"
+msgstr "Khoang AI này"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.TOOLTIP
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.TOOLTIP"
+msgid "{BRAINNAME} is a {BRAINXPSTATE} ({BRAINBOOST}% total rocket speed)"
+msgstr "{BRAINNAME} là {BRAINXPSTATE} ({BRAINBOOST}% tổng tốc độ tên lửa)"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.UNNAMEDBRAIN
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.UNNAMEDBRAIN"
+msgid "This Brain"
+msgstr "Bộ Não này"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.NAME
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.NAME"
+msgid "No brain installed!"
+msgstr "Chưa lắp bộ não!"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.TOOLTIP
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.TOOLTIP"
+msgid "This Module is missing a brain!"
+msgstr "Khoang này thiếu bộ não!"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.DESC"
+msgid "[Module Deprecated]\nPlease replace with one of the new Modules"
+msgstr "[Khoang Đã Ngừng Sử Dụng]\nVui lòng thay bằng một trong các Khoang mới"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.EFFECT"
+msgid "[Module Deprecated]\nPlease replace with one of the new Modules"
+msgstr "[Khoang Đã Ngừng Sử Dụng]\nVui lòng thay bằng một trong các Khoang mới"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.NAME"
+msgid "<link=\"AIMODULE\">AI Control Module [DEPRECATED]</link>"
+msgstr "<link=\"AIMODULE\">Khoang Điều Khiển AI [ĐÃ NGỪNG SỬ DỤNG]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.DESC"
+msgid "[Module Deprecated]\nPlease replace with one of the new Modules"
+msgstr "[Khoang Đã Ngừng Sử Dụng]\nVui lòng thay bằng một trong các Khoang mới"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.EFFECT"
+msgid "[Module Deprecated]\nPlease replace with one of the new Modules"
+msgstr "[Khoang Đã Ngừng Sử Dụng]\nVui lòng thay bằng một trong các Khoang mới"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.NAME"
+msgid "<link=\"AICONTROLMODULECONFIG\">AI Control Module [DEPRECATED]</link>"
+msgstr "<link=\"AICONTROLMODULECONFIG\">Khoang Điều Khiển AI [ĐÃ NGỪNG SỬ DỤNG]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.DESC"
+msgid "Piloting is fun, even for an artificial brain!"
+msgstr "Lái tên lửa cũng vui, kể cả với một bộ não nhân tạo!"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.EFFECT"
+msgid "Requires a <link=\"BRAINCONFIG\">AI Brain</link> to function.\nBrains can be made at the <link=\"SUPERMATERIALREFINERY\">Lò luyện phân tử</link>\nA brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nWon't allow any duplicants inside"
+msgstr "Cần <link=\"BRAINCONFIG\">Bộ Não AI</link> để hoạt động.\nBộ não có thể được chế tạo tại <link=\"SUPERMATERIALREFINERY\">Lò luyện phân tử</link>\nBộ não sẽ lái tên lửa và dần tích lũy kinh nghiệm lái, giúp thời gian bay nhanh hơn.\n\nHoạt động như một Khoang Điều Khiển.\n\nMỗi tên lửa chỉ được lắp một Khoang Điều Khiển.\n\nKhông cho phép Đệ vào bên trong"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Brain Module [OLD]</link>"
+msgstr "<link=\"RRAINOSECONE\">Khoang Bộ Não AI [CŨ]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.DESC"
+msgid "Piloting is fun, even for an artificial brain!"
+msgstr "Lái tên lửa cũng vui, kể cả với một bộ não nhân tạo!"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.EFFECT"
+msgid "Requires a <link=\"BRAINCONFIG\">AI Brain</link> to function.\nBrains can be made at the <link=\"SUPERMATERIALREFINERY\">Lò luyện phân tử</link>\nA brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nWon't allow any duplicants inside"
+msgstr "Cần <link=\"BRAINCONFIG\">Bộ Não AI</link> để hoạt động.\nBộ não có thể được chế tạo tại <link=\"SUPERMATERIALREFINERY\">Lò luyện phân tử</link>\nBộ não sẽ lái tên lửa và dần tích lũy kinh nghiệm lái, giúp thời gian bay nhanh hơn.\n\nHoạt động như một Khoang Điều Khiển.\n\nMỗi tên lửa chỉ được lắp một Khoang Điều Khiển.\n\nKhông cho phép Đệ vào bên trong"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Brain Module</link>"
+msgstr "<link=\"RRAINOSECONE\">Khoang Bộ Não AI</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.DESC"
+msgid "The big camera lens helps its AI with navigation."
+msgstr "Thấu kính camera lớn giúp AI định hướng tốt hơn."
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.EFFECT"
+msgid "Will pilot a rocket without any duplicant interaction.\n\nFunctions as a Command Module an a Nosecone.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside"
+msgstr "Sẽ lái tên lửa mà không cần Đệ tương tác.\n\nHoạt động như Khoang Điều Khiển và Mũi Tên Lửa.\n\nMỗi tên lửa chỉ được lắp một Khoang Điều Khiển.\n\nPhải xây ở đỉnh Tên Lửa\n\nKhông cho phép Đệ vào bên trong"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Nosecone</link>"
+msgstr "<link=\"RRAINOSECONE\">Mũi Tên Lửa AI</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.DESC"
+msgid "Piloting a rocket, now without duplicants."
+msgstr "Lái tên lửa, giờ không cần Đệ nữa."
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.EFFECT"
+msgid "Will pilot a rocket without any duplicant interaction.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nWon't allow any duplicants inside"
+msgstr "Sẽ lái tên lửa mà không cần Đệ tương tác.\n\nHoạt động như một Khoang Điều Khiển.\n\nMỗi tên lửa chỉ được lắp một Khoang Điều Khiển.\n\nKhông cho phép Đệ vào bên trong"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.NAME"
+msgid "<link=\"RREARLYGAMEAICONTROLMODULE\">AI Control Module</link>"
+msgstr "<link=\"RREARLYGAMEAICONTROLMODULE\">Khoang Điều Khiển AI</link>"
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.DESC
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.DESC"
+msgid "This brain learned to fly."
+msgstr "Bộ não này đã học được cách bay."
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.EFFECT
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.EFFECT"
+msgid "Seated in a brain jar, this brain will fly your rockets\n\nFlying a rocket slowly increases the brains piloting skill, resulting in faster rockets.\n\nSince it does not have anything to learn, it may fly even more efficient than a duplicant."
+msgstr "Ngồi trong lọ chứa não, bộ não này sẽ lái tên lửa của bạn\n\nLái tên lửa sẽ dần tăng kỹ năng lái của bộ não, giúp tên lửa bay nhanh hơn.\n\nVì nó không có gì khác để học, nó thậm chí có thể lái hiệu quả hơn cả Đệ."
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.NAME
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.NAME"
+msgid "<link=\"BRAINCONFIG\">AI Brain</link>"
+msgstr "<link=\"BRAINCONFIG\">Bộ Não AI</link>"
+
+#. RoboRockets.STRINGS.MISC.TAGS.RR_SPACEBRAINFLYER
+msgctxt "RoboRockets.STRINGS.MISC.TAGS.RR_SPACEBRAINFLYER"
+msgid "<link=\"BRAINCONFIG\">AI Brain</link>"
+msgstr "<link=\"BRAINCONFIG\">Bộ Não AI</link>"
+
+#. RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.DESC
+msgctxt "RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.DESC"
+msgid "Grow a brain and let it reach for the stars"
+msgstr "Nuôi một bộ não và để nó vươn tới những vì sao"
+
+#. RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.NAME
+msgctxt "RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.NAME"
+msgid "<link=\"RRBRAINMODULETECH\">Artificial Learning Capabilities</link>"
+msgstr "<link=\"RRBRAINMODULETECH\">Khả Năng Học Hỏi Nhân Tạo</link>"
+
+#. RoboRockets.STRINGS.UI.STARMAP.AISTATUS.NAME
+msgctxt "RoboRockets.STRINGS.UI.STARMAP.AISTATUS.NAME"
+msgid "Ai controlled"
+msgstr "Điều khiển bởi AI"
+
+#. RoboRockets.STRINGS.UI.STARMAP.AISTATUS.TOOLTIP
+msgctxt "RoboRockets.STRINGS.UI.STARMAP.AISTATUS.TOOLTIP"
+msgid "This Rocket flies on it's own - your duplicants are scared yet impressed!"
+msgstr "Tên lửa này tự bay một mình - Đệ của bạn vừa sợ vừa nể phục!"
