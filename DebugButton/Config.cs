@@ -9,14 +9,12 @@ namespace DebugButton
 
         public static Config Instance { get; private set; } = new Config();
 
-        // 最初は空にしておき、Mod読み込み時にゲーム側からパスをもらって上書きする
         public static string ConfigPath { get; set; }
 
         public static void Load()
         {
             try
             {
-                // パスが正常に設定されており、かつファイルが存在する場合のみ読み込む
                 if (!string.IsNullOrEmpty(ConfigPath) && File.Exists(ConfigPath))
                 {
                     string json = File.ReadAllText(ConfigPath);

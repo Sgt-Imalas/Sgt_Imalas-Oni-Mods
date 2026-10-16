@@ -272,13 +272,10 @@ namespace DebugButton
 				UpdateDebugToggleState();
 			}
           
-            // 現在の設定とサンドボックスの状態に合わせて表示・非表示を切り替えるメソッド
             private static void RefreshVisibility()
             {
-                // コンフィグで「サンドボックス連動」が有効な場合
                 if (Config.Instance.DisableWhenSandboxOff)
                 {
-                    // サンドボックスがONなら表示、OFFなら非表示
                     var isOff = !Game.Instance.sandboxModeActive;
                     if (isOff)
                     {
