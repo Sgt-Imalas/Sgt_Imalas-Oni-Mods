@@ -53,6 +53,11 @@
 				public static LocString NAME = "More Tool FX";
 				public static LocString TOOLTIP = "Makes the Dig tool display different tool FX based on the material dug out.\nAlso reintroduces an unused deconstruct tool fx beam.";
 			}
+			public class LUMAFLIES
+			{
+				public static LocString NAME = "Fly Swarms on Lamps";
+				public static LocString TOOLTIP = "Light bulbs are swarmed by (decorative) flies after being on for a bit.";
+			}
 		}
 	}
 }

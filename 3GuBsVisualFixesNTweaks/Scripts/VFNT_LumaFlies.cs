@@ -30,13 +30,15 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		int _sub = -1;
 		bool _isActive = false;
 
-		float animOpacity = 0f;
+		//float animOpacity = 0f;
 
 		Coroutine ActiveChange;
 
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			if (!Config.Instance.LumaFlies)
+				return;
 			SpawnFlys();
 			_sub = Subscribe((int)GameHashes.ActiveChanged, OnActiveChanged);
 			OnActiveChanged(null);
@@ -96,8 +98,8 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			//}
 			//animOpacity = 0f;
 			yield return new WaitForSeconds(fadeOutTime);
-			FlyKbac.onAnimComplete += OnFliesFinished();
 			FlyKbac.Play("swarm_pst");
+			FlyKbac.onAnimComplete += OnFliesFinished();
 		}
 
 		KAnimControllerBase.KAnimEvent _cached = null;
@@ -120,11 +122,11 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		void SpawnFlys()
 		{
 			var pos = transform.GetPosition();
-			FlyKbac = FXHelpers.CreateEffect("fly_swarm_kanim", pos + FlyOffset, transform, layer: Grid.SceneLayer.BuildingFront);
+			FlyKbac = FXHelpers.CreateEffect("fly_swarm_kanim", pos + FlyOffset, transform, layer: Grid.SceneLayer.FXFront);
 			FlyFX = FlyKbac.gameObject;
-			FlyKbac.TintColour = clearWhite;
-			FlyKbac.Play("swarm_loop", KAnim.PlayMode.Loop);
-			FlyKbac.gameObject.SetActive(true);
+			//FlyKbac.TintColour = clearWhite;
+			//FlyKbac.Play("swarm_loop", KAnim.PlayMode.Loop);
+			FlyKbac.gameObject.SetActive(false);
 		}
 		public override void OnCleanUp()
 		{

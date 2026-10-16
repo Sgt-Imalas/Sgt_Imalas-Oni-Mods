@@ -44,5 +44,9 @@ namespace _3GuBsVisualFixesNTweaks
 		[Option("STRINGS.VFNT_MODCONFIG.MORETOOLFX.NAME", "STRINGS.VFNT_MODCONFIG.MORETOOLFX.TOOLTIP")]
 		[JsonProperty]
 		public bool MoreToolFX { get; set; } = true;
+
+		[Option("STRINGS.VFNT_MODCONFIG.LUMAFLIES.NAME", "STRINGS.VFNT_MODCONFIG.LUMAFLIES.TOOLTIP")]
+		[JsonProperty]
+		public bool LumaFlies { get; set; } = true;
 	}
 }
