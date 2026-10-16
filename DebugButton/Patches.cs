@@ -255,6 +255,15 @@ namespace DebugButton
 				tt.SetSimpleTooltip(STRINGS.UI.TOOLS.DEBUG_TOGGLE.TOOLTIP_TOGGLE);
 				DebugToggleButton.onClick = (System.Action)Delegate.Combine(DebugToggleButton.onClick, new System.Action(OnClickDebugToggle));
 
+                if (Config.Instance.DisableWhenSandboxOff)
+                {
+                    Game.Instance.Subscribe((int)GameHashes.ToggleSandbox, delegate
+                    {
+                        RefreshVisibility();
+                        UpdateDebugToggleState();
+                    });
+                }
+                RefreshVisibility();
 
 				Game.Instance.Subscribe((int)GameHashes.DebugInsantBuildModeChanged, delegate
 				{
@@ -262,6 +271,28 @@ namespace DebugButton
 				});
 				UpdateDebugToggleState();
 			}
+          
+            // 現在の設定とサンドボックスの状態に合わせて表示・非表示を切り替えるメソッド
+            private static void RefreshVisibility()
+            {
+                // コンフィグで「サンドボックス連動」が有効な場合
+                if (Config.Instance.DisableWhenSandboxOff)
+                {
+                    // サンドボックスがONなら表示、OFFなら非表示
+                    var isOff = !Game.Instance.sandboxModeActive;
+                    if (isOff)
+                    {
+                        SetSuperSpeed(false);
+                        ToggleInstaBuild(true);
+                        DebugHandler.SetDebugEnabled(false);
+                    }
+                    
+                    DebugToggleButton.gameObject.SetActive(!isOff);
+                    DebugInstaBuildButton.gameObject.SetActive(!isOff);
+                    DebugSuperSpeeButton.gameObject.SetActive(!isOff);
+                    DevToolsButton.gameObject.SetActive(!isOff);
+                }
+            }
 		}
 
 		[HarmonyPatch(typeof(TopLeftControlScreen))]
