@@ -122,7 +122,8 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		void SpawnFlys()
 		{
 			var pos = transform.GetPosition();
-			FlyKbac = FXHelpers.CreateEffect("fly_swarm_kanim", pos + FlyOffset, transform, layer: Grid.SceneLayer.FXFront);
+			FlyKbac = FXHelpers.CreateEffect("fly_swarm_kanim", pos + FlyOffset, transform, layer: Grid.SceneLayer.Front);
+			FlyKbac.SetSceneLayer(Grid.SceneLayer.Front);
 			FlyFX = FlyKbac.gameObject;
 			//FlyKbac.TintColour = clearWhite;
 			//FlyKbac.Play("swarm_loop", KAnim.PlayMode.Loop);
