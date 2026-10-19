@@ -70,6 +70,11 @@ namespace OniRetroEdition
 		[JsonProperty]
 		public bool oldShading { get; set; } = true;
 
+		[Option("Liquid Opacity")]
+		[JsonProperty]
+		[Limit(0.1f, 1f)]
+		public float waterOpacity { get; set; } = 0.4f;
+
 
 		//[Option("LightColor", "", "Lighting Settings")]
 		//[JsonProperty]

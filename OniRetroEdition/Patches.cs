@@ -782,7 +782,8 @@ namespace OniRetroEdition
 			public static void Postfix(WaterCubes __instance)
 			{
 				// make the liquids a little more see-through
-				__instance.material.SetFloat("_BlendScreen", 0.4f); //courtesy of aki; beached
+				__instance.material.SetFloat("_Opacity", Config.Instance.waterOpacity); //courtesy of aki; beached
+				//__instance.material.SetFloat("_BlendScreen", 0.4f); //courtesy of aki; beached
 			}
 		}
 
