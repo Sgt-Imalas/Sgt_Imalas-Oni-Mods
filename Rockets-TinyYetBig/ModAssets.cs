@@ -25,10 +25,15 @@ namespace Rockets_TinyYetBig
 			public static ModHashes OnStationPartConstructionFinished = new ModHashes("RTB_OnStationPartConstructionFinished");
 			public static ModHashes OnRocketModuleMoved = new ModHashes("RTB_OnRocketModuleMoved");
 			public static ModHashes OnStationMove = new ModHashes("RTB_OnStationMove");
+
+			public static ModHashes ModuleUpgradeAdded = new ModHashes("ModuleUpgradeAdded");
+			public static ModHashes ModuleUpgradeRemoved = new ModHashes("ModuleUpgradeRemoved");
+			public static ModHashes ModuleUpgradeChanged = new ModHashes("ModuleUpgradeChanged");
 		}
 
 		public static GameObject ModuleSettingsWindowPrefab;
 		public static GameObject DockingSideScreenWindowPrefab;
+		public static GameObject UpgradeSideScreenWindowPrefab;
 
 		//This is required to keep the GO of DupeTransferSecondarySideScreen from getting GCed!
 		public static GameObject DupeTransferSecondarySideScreenWindowPrefab;
@@ -43,6 +48,8 @@ namespace Rockets_TinyYetBig
 		public static GameObject RocketBlueprints_SecondarySidescreenPrefab;
 		public static KScreen RocketBlueprintSecondarySideScreen;
 
+
+		public static GameObject BlackholeFX;
 
 
 		static bool tooltipsInitialized = false;
@@ -101,13 +108,15 @@ namespace Rockets_TinyYetBig
 			ModuleSettingsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ModuleSettings.prefab");
 			DupeTransferSecondarySideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DockingTransferScreen.prefab");
 			DockingSideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DockingScreen.prefab");
+			UpgradeSideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/UpgradeList_Sidescreen.prefab");
 			SpaceConstructionSideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/SpaceAssembleMenu_Sidescreen.prefab");
 			ConstructionSelector_SecondarySidescreenPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ConstructionSelector_SecondarySidescreen.prefab");
 			RocketBlueprints_SecondarySidescreenPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/RocketBlueprints_SecondarySidescreen.prefab");
-
+			BlackholeFX = bundle.LoadAsset<GameObject>("Assets/UIs/BlackholeFX.prefab");
 
 			SgtLogger.Assert("ModuleSettingsWindowPrefab", ModuleSettingsWindowPrefab);
 			SgtLogger.Assert("DockingSideScreenWindowPrefab", DockingSideScreenWindowPrefab);
+			SgtLogger.Assert("UpgradeSideScreenWindowPrefab", UpgradeSideScreenWindowPrefab);
 			SgtLogger.Assert("DupeTransferSecondarySideScreenWindowPrefab", DupeTransferSecondarySideScreenWindowPrefab);
 			SgtLogger.Assert("SpaceConstructionSideScreenWindowPrefab", SpaceConstructionSideScreenWindowPrefab);
 			SgtLogger.Assert("ConstructionSelector_SecondarySidescreenPrefab", ConstructionSelector_SecondarySidescreenPrefab);
@@ -116,6 +125,7 @@ namespace Rockets_TinyYetBig
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(ModuleSettingsWindowPrefab);
 			TMPConverter.ReplaceAllText(DockingSideScreenWindowPrefab);
+			TMPConverter.ReplaceAllText(UpgradeSideScreenWindowPrefab);
 			TMPConverter.ReplaceAllText(DupeTransferSecondarySideScreenWindowPrefab);
 			TMPConverter.ReplaceAllText(SpaceConstructionSideScreenWindowPrefab);
 			TMPConverter.ReplaceAllText(ConstructionSelector_SecondarySidescreenPrefab);

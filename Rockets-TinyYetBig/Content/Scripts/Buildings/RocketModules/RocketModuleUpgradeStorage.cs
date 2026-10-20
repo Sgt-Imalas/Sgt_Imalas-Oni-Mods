@@ -1,79 +1,64 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Content.ModDb;
 using System.Collections.Generic;
+using System.Linq;
+using TUNING;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 {
-	internal class RocketModuleUpgradeStorage : KMonoBehaviour
+	internal class RocketModuleUpgradeStorage : Workable
 	{
-		[MyCmpReq] RocketAttachableSocket attachPoint;
 		[MyCmpReq] Building building;
+		[MyCmpReq] KSelectable selectable;
 
 		[Serialize]
 		public List<RocketModuleUpgradeInstance> StoredModuleUpgrades = [];
+
+
+		[Serialize]
+		List<string> PendingDeconstructs = new List<string>();
+		[Serialize]
+		string currentDeconstruct = null;
+		public Chore deconstructChore;
+
 		HashSet<RocketModuleUpgrade> srcUpgrades = [];
 		HashSet<RocketModuleUpgrade> allowedUpgrades = [];
-		static Dictionary<RocketAttachableSocket, RocketModuleUpgradeStorage> storages = [];
 
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
+			this.showProgressBar = true;
+			InitWorkable();
 		}
-
-		void DetachOtherModulesFromUpgradeSlot()
+		void InitWorkable()
 		{
-			//for (int i = 0; i < attachPoint.points.Length; i++)
-			//{
-			//	var hardPoint = attachPoint.points[i];
-
-			//	if (hardPoint.attachableType != ModAssets.Tags.AttachmentSlotRocketModuleUpgrades)
-			//		continue;
-			//	if (hardPoint.attachedBuilding != null && hardPoint.attachedBuilding.gameObject.TryGetComponent<RocketModuleCluster>(out var rocket))
-			//	{
-			//		SgtLogger.warning("Module upgrade slot on " + gameObject.name + " tried to connect to other rocket module: " + rocket.name);
-			//		attachPoint.points[i].attachedBuilding = null;
-			//	}
-			//}
-		}
-
-		/// <summary>
-		/// TODO: dont do attachment slots, that loops the rocket when it gets rearranged.
-		/// just do a custom rule and patch the buildingdef check like im already doing.
-		/// </summary>
-		void AddAttachmentSlot()
-		{
-			return;
-
-			if (building.Def.HeightInCells <= 2)
-				return;
-
-			//if (!attachPoint.points.Any(point => point.attachableType == ModAssets.Tags.AttachmentSlotRocketModuleUpgrades))
-			//{
-			//	int middle = Mathf.FloorToInt(Mathf.Max(building.Def.HeightInCells - 1, 1) / 2f);
-			//	attachPoint.points = attachPoint.points.Append(new BuildingAttachPoint.HardPoint(new CellOffset(0, middle), ModAssets.Tags.AttachmentSlotRocketModuleUpgrades, null));
-			//}
-			//attachPoint.TryAttachEmptyHardpoints();
-			DetachOtherModulesFromUpgradeSlot();
+			this.faceTargetWhenWorking = true;
+			this.synchronizeAnims = false;
+			this.workerStatusItem = Db.Get().DuplicantStatusItems.Deconstructing;
+			this.attributeConverter = Db.Get().AttributeConverters.ConstructionSpeed;
+			this.attributeExperienceMultiplier = DUPLICANTSTATS.ATTRIBUTE_LEVELING.MOST_DAY_EXPERIENCE;
+			this.minimumAttributeMultiplier = 0.75f;
+			this.skillExperienceSkillGroup = Db.Get().SkillGroups.Building.Id;
+			this.skillExperienceMultiplier = SKILLS.MOST_DAY_EXPERIENCE;
+			this.multitoolContext = (HashedString)"build";
+			this.multitoolHitEffectTag = (Tag)EffectConfigs.BuildSplashId;
+			this.workingPstComplete = null;
+			this.workingPstFailed = null;
 		}
 
 		public override void OnSpawn()
 		{
-			if (Config.Instance.RocketModuleUpgrades)
-				AddAttachmentSlot();
-			//storages[attachPoint] = this;
 			base.OnSpawn();
+			this.SetOffsetTable(OffsetGroups.InvertedWideTable);
 			DetermineAllowedUpgrades();
 			LoadUpgrades();
-		}
-		public override void OnCleanUp()
-		{
-			//storages.Remove(attachPoint);
-			base.OnCleanUp();
+			AdvanceDeconstructQueue();
 		}
 
 		void DetermineAllowedUpgrades()
 		{
+			allowedUpgrades.Clear();
 			if (gameObject.TryGetComponent<CargoBayCluster>(out var cargobay) && cargobay.storageType != CargoBay.CargoType.Entities)
 			{
 				allowedUpgrades.Add(ModuleUpgradeDatabase.CargoBayFilter);
@@ -106,17 +91,20 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			return true;
 		}
 
+		public bool HasCompatibleUpgrades() => allowedUpgrades.Count > 0;
+		public HashSet<RocketModuleUpgrade> GetInstalledUpgrades() => srcUpgrades;
+
 		void LoadUpgrades()
 		{
 			SgtLogger.l("Upgrade Count: " + StoredModuleUpgrades.Count);
-			if (!Config.Instance.RocketModuleUpgrades)
+			if (!Config.Instance.EnableRocketModuleUpgrades)
 				return;
 			foreach (RocketModuleUpgradeInstance upgrade in StoredModuleUpgrades)
 			{
 
 				SgtLogger.l("Stored: " + upgrade.UpgradeId + " cost: " + string.Join(',', upgrade.SerializedMaterials) + " -> " + string.Join(',', upgrade.SerializedAmounts));
-				var src = upgrade.GetSource();
-				srcUpgrades.Add(upgrade);
+				RocketModuleUpgrade src = upgrade.GetSource();
+				srcUpgrades.Add(src);
 				src.OnUpgradeAdded(gameObject);
 			}
 		}
@@ -135,14 +123,117 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 				upgrade.Dismantle(pos);
 			}
 			StoredModuleUpgrades.Clear();
+			srcUpgrades.Clear();
 		}
-
+		internal void RemoveUpgrade(string upgradeId)
+		{
+			var existingUpgrade = StoredModuleUpgrades.FirstOrDefault(u => u.UpgradeId == upgradeId);
+			StoredModuleUpgrades.RemoveAll(u => u.UpgradeId == upgradeId);
+			if (!ModuleUpgradeDatabase.TryGetUpgrade(upgradeId, out var upgrade))
+			{
+				SgtLogger.error("Tried removing nonexisting upgrade: " + upgradeId);
+				return;
+			}
+			var pos = Grid.CellToPosCCC(this.NaturalBuildingCell(), Grid.SceneLayer.Ore);
+			upgrade.OnUpgradeRemoved(gameObject);
+			existingUpgrade.Dismantle(pos);
+			srcUpgrades.Remove(existingUpgrade.GetSource());
+			this.Trigger((int)ModAssets.Hashes.ModuleUpgradeChanged, upgrade);
+			this.Trigger((int)ModAssets.Hashes.ModuleUpgradeRemoved, upgrade);
+		}
 		internal void AddUpgrade(RocketModuleUpgradeInstance upgradeInstance)
 		{
 			StoredModuleUpgrades.Add(upgradeInstance);
-			srcUpgrades.Add(upgradeInstance.GetSource());
+			var src = upgradeInstance.GetSource();
+			srcUpgrades.Add(src);
+			this.Trigger((int)ModAssets.Hashes.ModuleUpgradeChanged, src);
+			this.Trigger((int)ModAssets.Hashes.ModuleUpgradeAdded, src);
 		}
 
+		#region deconstructUpgrade
+
+		public bool IsDeconstructPending(RocketModuleUpgrade upgrade) => PendingDeconstructs.Contains(upgrade.ID);
+		public void TogglePendingUpgradeRemoval(string upgradeId)
+		{
+			if (PendingDeconstructs.Contains(upgradeId))
+			{
+				CancelUpgradeRemoval(upgradeId);
+			}
+			else
+			{
+				PendingDeconstructs.Add(upgradeId);
+				AdvanceDeconstructQueue();
+			}
+		}
+		void AdvanceDeconstructQueue()
+		{
+			if (PendingDeconstructs.Count == 0)
+				return;
+
+			string upgradeId = PendingDeconstructs[0];
+			if (!ModuleUpgradeDatabase.TryGetUpgrade(upgradeId, out var upgrade))
+			{
+				SgtLogger.error(upgradeId + " not a valid module upgrade!");
+				PendingDeconstructs.Remove(upgradeId);
+				return;
+			}
+			if (this.deconstructChore != null)
+				return;
+			this.SetWorkTime(upgrade.WorkTime * 0.5f);
+
+			Prioritizable.AddRef(this.gameObject);
+			this.deconstructChore = new WorkChore<RocketModuleUpgradeStorage>(Db.Get().ChoreTypes.Deconstruct, this, only_when_operational: false, is_preemptable: true, ignore_building_assignment: true);
+			selectable.AddStatusItem(ModStatusItems.RTB_PendingUpgradeRemoval, upgrade);
+			this.currentDeconstruct = upgradeId;
+
+			if (DebugHandler.InstantBuildMode)
+				this.OnCompleteWork(null);
+		}
+
+		void CancelUpgradeRemoval(string upgradeId)
+		{
+			PendingDeconstructs.Remove(upgradeId);
+			if (currentDeconstruct == upgradeId)
+			{
+				ClearChore();
+			}
+			selectable.RemoveStatusItem(ModStatusItems.RTB_PendingUpgradeRemoval);
+			this.ShowProgressBar(false);
+			AdvanceDeconstructQueue();
+		}
+		public override void OnCompleteWork(WorkerBase worker)
+		{
+			PlaySound();
+			base.OnCompleteWork(worker);
+			selectable.RemoveStatusItem(ModStatusItems.RTB_PendingUpgradeRemoval);
+			RemoveUpgrade(currentDeconstruct);
+			PendingDeconstructs.Remove(currentDeconstruct);
+			ClearChore();
+			AdvanceDeconstructQueue();
+		}
+
+		void ClearChore()
+		{
+			if (deconstructChore != null)
+				deconstructChore.Cancel("deconstruct canceled");
+			deconstructChore = null;
+			currentDeconstruct = null;
+		}
+		public override void OnStartWork(WorkerBase worker)
+		{
+			this.ShowProgressBar(true);
+			base.OnStartWork(worker);
+		}
+		void PlaySound()
+		{
+			string sound = GlobalAssets.GetSound("Finish_Deconstruction_small");
+			if (sound == null)
+				return;
+			KMonoBehaviour.PlaySound3DAtLocation(sound, this.gameObject.transform.GetPosition());
+		}
+
+
+		#endregion
 		//internal static bool GetFromAttachable(BuildingAttachPoint attachable, out RocketModuleUpgradeStorage storage) => storages.TryGetValue(attachable, out storage);
 	}
 }

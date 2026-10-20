@@ -26,6 +26,12 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "Deep space research data that can be processed into " + DEEPSPACERESEARCH.NAME + " points.";
 					public static LocString RECIPE_DESC = NAME_PLURAL+ " generated from analyzing the depths of space with a Deep Space Analyzer";
 				}
+				public class RTB_STATIONCORE
+				{
+					public static LocString NAME = FormatAsLink("Graviton Anchor", "RTB_STATIONCORE");
+					public static LocString NAME_PLURAL = FormatAsLink("Graviton Anchors", "RTB_STATIONCORE");
+					public static LocString DESC = "It seems to have the ability to anchor itself at its current position.\nThis can be used to do stuff(todo!)";
+				}
 			}			
 		}
 
@@ -664,14 +670,12 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_CARGOBAYFILTER
 				{
-					public static LocString NAME = FormatAsLink("Cargo Bay Filter Upgrade", "RTB_CARGOBAYFILTER");
+					public static LocString NAME = FormatAsLink("Cargobay Collection Filter Upgrade", "RTB_CARGOBAYFILTER");
 					public static LocString DESC = "Turns out not collecting it in the first place beats having to dump the unwanted resources later.";
-					public static LocString EFFECT = UIUtils.EmboldenText(PRE_KEYWORD+"Rocket Module Upgrade"+ PST_KEYWORD) +
-						", must be constructed attached to compatible rocket modules" +
+					public static LocString EFFECT = UIUtils.EmboldenText(PRE_KEYWORD+"Rocket Module Upgrade"+ PST_KEYWORD) + ", must be constructed attached to compatible rocket modules" +
 						"\n\nCompatible with regular cargo bay modules." +
 						$"\nEnables filtering of items collected by {PRE_KEYWORD}Cargo Bays{PST_KEYWORD} via their storage filters.";
 				}
-
 			}
 		}
 
@@ -768,6 +772,12 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = "Part Deconstruction Errand";
 					public static LocString TOOLTIP = "Stored station part will be deconstructed once a Duplicant is available";
 				}
+				public class RTB_PENDINGUPGRADEREMOVAL
+				{
+					public static LocString NAME = "Module Upgrade Deconstruction Errand";
+					public static LocString TOOLTIP = "Installed upgrade {0} will be removed from the module once a Duplicant is available";
+				}
+				
 			}
 		}
 
@@ -1004,7 +1014,23 @@ namespace Rockets_TinyYetBig
 					public static LocString TEXT_USE = "Construct selected template";
 				}
 			}
-
+			public class UPGRADELIST_SIDESCREEN
+			{
+				public class TITLE
+				{
+					public static LocString TITLETEXT = "Installed Module Upgrades";
+				}
+				public class CONTENT
+				{
+					public class SCROLLRECTCONTAINER
+					{
+						public class NONE
+						{
+							public static LocString PARTLABEL = "No module upgrades installed";
+						}
+					}
+				}
+			}
 		}
 
 		public class UI_MOD

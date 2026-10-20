@@ -28,9 +28,29 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		public static StatusItem RTB_SpaceStation_OrbitHealth;
 		public static StatusItem RTB_DockingActive;
 		public static StatusItem RTB_PendingStationPartDeconstruction;
+		public static StatusItem RTB_PendingUpgradeRemoval;
+		
 
 		public static void Register()
 		{
+			RTB_PendingUpgradeRemoval = new StatusItem(
+				  "RTB_PENDINGUPGRADEREMOVAL",
+				  "BUILDING",
+				  "status_item_pending_deconstruction",
+				  StatusItem.IconType.Custom,
+				  NotificationType.Neutral,
+				  false,
+				  OverlayModes.None.ID
+				  );
+			RTB_PendingUpgradeRemoval.resolveTooltipCallback = (string str, object obj) =>
+			{
+				if (obj is RocketModuleUpgrade upgrade)
+				{
+					return str.Replace("{0}", upgrade.GetName());
+				}
+				return str;
+			};
+
 			RTB_PendingStationPartDeconstruction = new StatusItem(
 				  "RTB_PENDINGSTATIONPARTDECONSTRUCTION",
 				  "BUILDING",

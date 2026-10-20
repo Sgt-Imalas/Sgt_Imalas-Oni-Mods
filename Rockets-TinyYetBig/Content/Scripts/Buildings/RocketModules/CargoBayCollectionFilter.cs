@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			if(!Config.Instance.RocketModuleUpgrades)
+			if(!Config.Instance.EnableRocketModuleUpgrades)
 			{
 				Destroy(this);
 				return;
@@ -40,7 +40,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 				return false;
 			if (!map.TryGetValue(storage, out var filter))
 				return false;
-			return filter.OnlyCollectFilteredItems;
+			return filter.OnlyCollectFilteredItems && filter.UpgradeInstalled;
 		}
 		public static bool BlockedByFilters(Storage storage, Tag ID)
 		{
@@ -62,14 +62,14 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 
 		public string CheckboxTooltip => UpgradeInstalled ? STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP : STRINGS.UI.RTB_CARGOBAYFILTER.TOOLTIP_NOTCONSTRUCTED;
 
-		public bool GetCheckboxValue() => OnlyCollectFilteredItems;
+		public bool GetCheckboxValue() => OnlyCollectFilteredItems && UpgradeInstalled;
 
 		public bool GetIsCheckboxInteractable() => UpgradeInstalled;
 
 		public void SetCheckboxValue(bool value) => OnlyCollectFilteredItems = value;
 
 		///TODO: only show after research is unlocked!
-		public bool GetShowCheckbox() => true;
+		public bool GetShowCheckbox() => true; // ModAssets.Techs.SpaceStationTechMedium?.IsComplete() ;
 
 
 		public int GetVerticalSortOrder() => -50;

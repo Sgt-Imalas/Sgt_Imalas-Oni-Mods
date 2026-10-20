@@ -145,7 +145,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, Category_FuelLoaders);
 				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, Category_FuelLoaders);
 			}
-			if (Config.Instance.RocketModuleUpgrades)
+			if (Config.Instance.EnableRocketModuleUpgrades)
 			{
 				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ModuleUpgradeDatabase.CargoBayFilter.ID, Category_ModuleUpgrades);
 			}

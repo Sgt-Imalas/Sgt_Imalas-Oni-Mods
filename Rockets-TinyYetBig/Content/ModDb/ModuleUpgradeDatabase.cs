@@ -130,6 +130,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		private System.Action<GameObject> onUpgradeAdded, onUpgradeRemoved;
 		public Tag[] BuildTags;
 		public float[] BuildCosts;
+		public float WorkTime = 60f;
+
+		public string GetName() => Strings.Get($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.NAME");
+		public string GetDescription() => Strings.Get($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.EFFECT");
+
 		public RocketModuleUpgrade(string id)
 		{
 			ID = id;
@@ -150,6 +155,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			Debug.Assert(tags.Count() == amounts.Count(), "Failure to create RocketModuleUpgrade: tags count was not equal to amounts count");
 			BuildTags = tags;
 			BuildCosts = amounts;
+			return this;
+		}
+		public RocketModuleUpgrade Time(float time)
+		{
+			WorkTime = time;
 			return this;
 		}
 

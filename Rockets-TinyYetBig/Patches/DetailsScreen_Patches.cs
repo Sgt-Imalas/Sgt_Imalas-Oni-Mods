@@ -12,6 +12,8 @@ namespace Rockets_TinyYetBig.Patches
 			public static void Postfix(DetailsScreen __instance)
 			{
 				SgtLogger.l("Registering RE sidescreens");
+				
+				UIUtils.AddCustomSideScreen<UpgradeListSidescreen>("RTB_ModuleUpgradeSidescreen", ModAssets.UpgradeSideScreenWindowPrefab);
 				UIUtils.AddCustomSideScreen<DockingSidescreen>("RTB_DockingSidescreen", ModAssets.DockingSideScreenWindowPrefab);
 				UIUtils.AddCustomSideScreen<SpaceConstructionSidescreen>("RTB_SpaceConstructionSidescreen", ModAssets.SpaceConstructionSideScreenWindowPrefab);
 			}

@@ -8,9 +8,9 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.RocketModuleUpgrades
 {
 	internal static class RocketModuleUpgradeBase
 	{
-		public static BuildingDef CreateRocketModuleUpgrade(RocketModuleUpgrade upgradeBase, string anim, float constructionTime = 60f)
+		public static BuildingDef CreateRocketModuleUpgrade(RocketModuleUpgrade upgradeBase, string anim)
 		{
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(upgradeBase.ID, 1, 1, anim, 1000, constructionTime, upgradeBase.BuildCosts, upgradeBase.BuildTags.Select(t => t.ToString()).ToArray(), 9999f, BuildLocationRule.BuildingAttachPoint, DECOR.NONE, NOISE_POLLUTION.NONE);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(upgradeBase.ID, 1, 1, anim, 1000, upgradeBase.WorkTime, upgradeBase.BuildCosts, upgradeBase.BuildTags.Select(t => t.ToString()).ToArray(), 9999f, BuildLocationRule.BuildingAttachPoint, DECOR.NONE, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateRocketBuildingDef(buildingDef);
 			buildingDef.AttachmentSlotTag = ModAssets.Tags.AttachmentSlotRocketModuleUpgrades;
 			buildingDef.OverheatTemperature = 2273.15f;

@@ -96,7 +96,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 						yDiff: -1.15f);
 				}
 			}
-			if (Config.Instance.RocketModuleUpgrades)
+			if (Config.Instance.EnableRocketModuleUpgrades)
 			{
 				if (Config.SpaceStationsPossible)
 				{
@@ -236,16 +236,17 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				}
 				);
 			}
-			if (Config.Instance.RocketModuleUpgrades)
+			if (Config.Instance.EnableRocketModuleUpgrades)
 			{
 				ModAssets.Techs.CargoBayFilterTech = new Tech(ModAssets.Techs.CargoBayFilterTechID, [ModuleUpgradeDatabase.CargoBayFilter.ID],
 				instance
 				, new Dictionary<string, float>()
 				{
-						{TechUtils.ID.BASIC, 100f },
-						{TechUtils.ID.ADVANCED, 150f},
-						{TechUtils.ID.ORBITAL, 250f},
-						{TechUtils.ID.NUCLEAR, 150f},
+					//TODO: refine these:
+						{TechUtils.ID.BASIC, 75f },
+						{TechUtils.ID.ADVANCED, 75f},
+						{TechUtils.ID.ORBITAL, 75f},
+						{TechUtils.ID.NUCLEAR, 75f},
 				}
 				);
 			}

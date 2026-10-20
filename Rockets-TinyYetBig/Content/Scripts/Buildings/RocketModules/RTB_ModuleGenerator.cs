@@ -452,6 +452,6 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		public bool GetIsCheckboxInteractable() => !AlwaysActive;
 		public bool GetShowCheckbox() => !AlwaysActive;
-		public int GetVerticalSortOrder() => 20;
+		public int GetVerticalSortOrder() => 10;
 	}
 }
