@@ -13,7 +13,7 @@ namespace DebugButton
 {
 	internal class Patches
 	{
-		static bool isAppleSilicon => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+		static bool IsAppleSilicon => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
 		static bool triedInitTraverse = false;
 		static bool traverseSuccessful = false;
@@ -44,6 +44,16 @@ namespace DebugButton
 		}
 
 
+		[HarmonyPatch(typeof(TopLeftControlScreen), nameof(TopLeftControlScreen.UpdateSandboxToggleState))]
+		public class TopLeftControlScreen_UpdateSandboxToggleState_Patch
+		{
+			public static void Postfix(TopLeftControlScreen __instance)
+			{
+				Add_Debug_Button.RefreshVisibility();
+				Add_Debug_Button.UpdateDebugToggleState();
+			}
+		}
+
 		public static DebugHandler _debugHandler;
 		[HarmonyPatch(typeof(TopLeftControlScreen))]
 		[HarmonyPatch(nameof(TopLeftControlScreen.OnActivate))]
@@ -51,18 +61,38 @@ namespace DebugButton
 		{
 			static SpeedButtonRefresher SpeedRefresherLogic;
 			static DevToolsButtonRefresher DevToolsButtonRefresher;
+
+			static MultiToggle DebugToggleButton = null;
 			static MultiToggle DebugInstaBuildButton = null;
 			static MultiToggle DebugSuperSpeeButton = null;
-			static MultiToggle DebugToggleButton = null;
+			static MultiToggle DevToolsButton = null;
+
 			static ToolTip DebugInstaBuildButtonTooltip = null;
 			static ToolTip DebugSuperSpeedButtonTooltip = null;
-			static MultiToggle DevToolsButton = null;
 			static ToolTip DevToolsButtonTooltip = null;
 			static Image bugImage = null;
 			static Sprite bugOn, bugOff;
 
+			static bool ButtonsVisible => !Config.Instance.SandboxModeOnly || SaveGame.Instance.sandboxEnabled;
+
+			public static void RefreshVisibility()
+			{
+				bool showButtons = ButtonsVisible;
+				if (DebugToggleButton != null)
+					DebugToggleButton.gameObject.SetActive(showButtons);
+				if (DebugInstaBuildButton != null)
+					DebugInstaBuildButton.gameObject.SetActive(showButtons);
+				if (DebugSuperSpeeButton != null)
+					DebugSuperSpeeButton.gameObject.SetActive(showButtons);
+				if (DevToolsButton != null)
+					DevToolsButton.gameObject.SetActive(showButtons);
+			}
+
 			public static void UpdateDebugToggleState()
 			{
+				if (!ButtonsVisible)
+					return;
+
 				if (DevToolsButtonRefresher != null)
 					DevToolsButtonRefresher.RefreshToggleState();
 
@@ -199,7 +229,7 @@ namespace DebugButton
 				//var isAppleSilicon = isOSX;
 
 				InitTraverse();
-				if (!isAppleSilicon)
+				if (!IsAppleSilicon)
 				{
 					var devToolsButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
 					//UIUtils.ListAllChildrenWithComponents(debugButton);
@@ -255,7 +285,7 @@ namespace DebugButton
 				tt.SetSimpleTooltip(STRINGS.UI.TOOLS.DEBUG_TOGGLE.TOOLTIP_TOGGLE);
 				DebugToggleButton.onClick = (System.Action)Delegate.Combine(DebugToggleButton.onClick, new System.Action(OnClickDebugToggle));
 
-
+				RefreshVisibility();
 				Game.Instance.Subscribe((int)GameHashes.DebugInsantBuildModeChanged, delegate
 				{
 					UpdateDebugToggleState();
@@ -295,18 +325,6 @@ namespace DebugButton
 			public static void Postfix()
 			{
 				Add_Debug_Button.UpdateDebugToggleState();
-			}
-		}
-
-		/// <summary>
-		/// Init. auto translation
-		/// </summary>
-		[HarmonyPatch(typeof(Localization), "Initialize")]
-		public static class Localization_Initialize_Patch
-		{
-			public static void Postfix()
-			{
-				LocalisationUtil.Translate(typeof(STRINGS), true);
 			}
 		}
 

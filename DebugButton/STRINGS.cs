@@ -27,6 +27,11 @@
 					public static LocString NAME = "DEV TOOLS";
 					public static LocString TOOLTIP_TOGGLE = "Toggle Dev Tools";
 				}
+				public class CFG_SANDBOX_ONLY
+				{
+					public static LocString NAME = "Show in Sandbox only";
+					public static LocString TOOLTIP_TOGGLE = "Only show the buttons when sandbox mode is enabled for the current save";
+				}
 			}
 		}
 	}
