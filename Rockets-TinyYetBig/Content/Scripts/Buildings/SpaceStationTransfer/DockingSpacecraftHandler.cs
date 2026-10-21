@@ -1,6 +1,8 @@
-﻿using Rockets_TinyYetBig.ClustercraftRouting;
+﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.ClustercraftRouting;
 using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.SpaceStations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +44,7 @@ namespace Rockets_TinyYetBig.Docking
 		}
 		public override void OnCleanUp()
 		{
-			DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
+			DockingManagerSingleton.Instance.UnregisterSpacecraftHandler(this);
 
 			foreach (var handler in _handlers)
 				Unsubscribe(handler);
@@ -92,7 +94,7 @@ namespace Rockets_TinyYetBig.Docking
 			world = GetComponent<WorldContainer>();
 			if (world == null)
 			{
-				DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
+				DockingManagerSingleton.Instance.UnregisterSpacecraftHandler(this);
 				RefreshCachedWorldId();
 			}
 			else
@@ -258,6 +260,13 @@ namespace Rockets_TinyYetBig.Docking
 		internal bool HasDoors()
 		{
 			return WorldDockables.Count > 0;
+		}
+
+		internal bool OwnsDoor(DockingDoor overrideDoor)
+		{
+			if(overrideDoor == null) 
+				return false;
+			return WorldDockables.ContainsValue(overrideDoor);
 		}
 
 		public enum DockableType

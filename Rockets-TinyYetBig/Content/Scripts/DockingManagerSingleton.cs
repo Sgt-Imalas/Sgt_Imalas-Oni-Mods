@@ -24,9 +24,9 @@ namespace Rockets_TinyYetBig.Docking
 
 
 		//private Dictionary<string, AssignmentGroupController> MinionAssignmentGroupControllers = new Dictionary<string, AssignmentGroupController>();
-		public Dictionary<string, IDockable> IDockables = new Dictionary<string, IDockable>();
-		public HashSet<DockingSpacecraftHandler> DockingSpacecraftHandlers = new HashSet<DockingSpacecraftHandler>();
-		public Dictionary<int, DockingSpacecraftHandler> WorldToDockingSpacecraftHandlers = new Dictionary<int, DockingSpacecraftHandler>();
+		private readonly Dictionary<string, IDockable> IDockables = [];
+		private readonly HashSet<DockingSpacecraftHandler> DockingSpacecraftHandlers = [];
+		private readonly Dictionary<int, DockingSpacecraftHandler> WorldToDockingSpacecraftHandlers = [];
 
 		//public void OnLoading()
 		//{
@@ -49,6 +49,7 @@ namespace Rockets_TinyYetBig.Docking
 		public override void OnSpawn()
 		{
 			//OnLoading();
+			Instance = this;
 			base.OnSpawn();
 			SgtLogger.l("DockingManager OnSpawn");
 		}
@@ -88,11 +89,10 @@ namespace Rockets_TinyYetBig.Docking
 			List<int> ToRemove = new List<int>();
 			foreach (var kvp in PendingToStationDocks)
 			{
-				if (WorldToDockingSpacecraftHandlers.ContainsKey((int)kvp.Key) && WorldToDockingSpacecraftHandlers.ContainsKey((int)kvp.Value))
+				if (WorldToDockingSpacecraftHandlers.TryGetValue(kvp.Key, out var rocketHandler)
+					&& WorldToDockingSpacecraftHandlers.TryGetValue(kvp.Value, out var StationHandler))
 				{
-					var RocketHandler = WorldToDockingSpacecraftHandlers[kvp.Key];
-					var StationHandler = WorldToDockingSpacecraftHandlers[(int)kvp.Value];
-					if (TryInitializingDockingBetweenHandlers(RocketHandler, StationHandler))
+					if (TryInitializingDockingBetweenHandlers(rocketHandler, StationHandler))
 					{
 						//SgtLogger.l(kvp.Key + " intialized");
 						ToRemove.Add(kvp.Key);
@@ -111,6 +111,12 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			if (!DockingSpacecraftHandlers.Contains(handler) && handler.WorldId != -1)
 			{
+				if (WorldToDockingSpacecraftHandlers.ContainsKey(handler.WorldId))
+				{
+					SgtLogger.error("failed to register world docking handler for world " + handler.WorldId + " - already registered!");
+					return;
+				}
+
 				SgtLogger.l("registering spacecraft docking handler for " + handler.GetProperName() + ", world id: " + handler.WorldId);
 				DockingSpacecraftHandlers.Add(handler);
 				WorldToDockingSpacecraftHandlers.Add(handler.WorldId, handler);
@@ -130,7 +136,7 @@ namespace Rockets_TinyYetBig.Docking
 				}
 			}
 		}
-		public void UnregisterSpacecraftHander(DockingSpacecraftHandler handler)
+		public void UnregisterSpacecraftHandler(DockingSpacecraftHandler handler)
 		{
 			if (DockingSpacecraftHandlers.Contains(handler))
 			{
@@ -187,6 +193,8 @@ namespace Rockets_TinyYetBig.Docking
 
 		public bool AddPendingDock(string first, string second)
 		{
+			if (first == second)
+				return false;
 			if (PendingUndocks.ContainsKey(first) || PendingUndockBlockers.Contains(first))
 			{
 				SgtLogger.warning(first + " is already on the list of pending undocks");
@@ -197,12 +205,12 @@ namespace Rockets_TinyYetBig.Docking
 				SgtLogger.warning(second + " is already on the list of pending undocks");
 				return false;
 			}
-			if (PendingDocks.ContainsKey(first) || PendingDockBlockers.Contains(first))
+			if (IsPendingDock(first))
 			{
 				SgtLogger.warning(first + " is already on the list of pending docks");
 				return false;
 			}
-			if (PendingDocks.ContainsKey(second) || PendingDockBlockers.Contains(second))
+			if (IsPendingDock(second))
 			{
 				SgtLogger.warning(second + " is already on the list of pending docks");
 				return false;
@@ -213,28 +221,37 @@ namespace Rockets_TinyYetBig.Docking
 			PendingDockBlockers.Add(second);
 			return true;
 		}
-		public bool AddPendingUndock(string first, string second, System.Action UiRefreshActionOnFinished = null)
+		public bool IsPendingDock(string id) => PendingDocks.ContainsKey(id) || PendingDockBlockers.Contains(id);
+		public bool IsPendingUndock(string id) => PendingUndocks.ContainsKey(id) || PendingUndockBlockers.Contains(id);
+
+		public bool AddPendingUndock(string first, string second)
 		{
-			if (PendingDocks.ContainsKey(first) || PendingDockBlockers.Contains(first))
+			if (first == second)
+				return false;
+
+			if (IsPendingDock(first))
 			{
 				SgtLogger.warning(first + " is already on the list of pending docks");
 				return false;
 			}
-			if (PendingDocks.ContainsKey(second) || PendingDockBlockers.Contains(second))
+			if (IsPendingDock(second))
 			{
 				SgtLogger.warning(second + " is already on the list of pending docks");
 				return false;
 			}
-			if (PendingUndocks.ContainsKey(first) || PendingUndockBlockers.Contains(first))
+			if (IsPendingUndock(first))
 			{
 				SgtLogger.warning(first + " is already on the list of pending undocks");
 				return false;
 			}
-			if (PendingUndocks.ContainsKey(second) || PendingUndockBlockers.Contains(second))
+			if (IsPendingUndock(second))
 			{
 				SgtLogger.warning(second + " is already on the list of pending undocks");
 				return false;
 			}
+			if (!DockingConnections.ContainsKey(first) || !DockingConnections.ContainsKey(second))
+				return false;
+
 			if (DockingConnections[first] != second || DockingConnections[second] != first)
 			{
 				SgtLogger.l(first + " and " + second + " were not docked");
@@ -272,12 +289,12 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			dockable = null;
 
-			if (ID == null || ID.Length == 0)
+			if (ID.IsNullOrWhiteSpace())
 				return false;
 
-			if (IDockables.ContainsKey(ID) && IsDocked(ID, out var DOckedID) && IDockables.ContainsKey(DOckedID))
+			if (IDockables.ContainsKey(ID) && IsDocked(ID, out var dockedId) && IDockables.ContainsKey(dockedId))
 			{
-				dockable = IDockables[DOckedID];
+				dockable = IDockables[dockedId];
 				return true;
 			}
 
@@ -290,7 +307,7 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			dockable = null;
 
-			if (ID == null || ID.Length == 0)
+			if (ID.IsNullOrWhiteSpace())
 				return false;
 
 			if (IDockables.ContainsKey(ID))
@@ -319,18 +336,19 @@ namespace Rockets_TinyYetBig.Docking
 		public bool HandlersConnected(DockingSpacecraftHandler first, DockingSpacecraftHandler second, out IDockable firstDock, out IDockable secondDock)
 		{
 
-			SgtLogger.l("Handlers connected? " + first.GetProperName() + " " + first.WorldId + " & " + second.GetProperName() + " " + second.WorldId);
 			firstDock = null;
 			secondDock = null;
 
 			if (first == null || second == null)
 				return false;
 
-			if (first == second)
-				SgtLogger.error("first handler was also the second");
+			SgtLogger.l("Handlers connected? " + first.GetProperName() + " " + first.WorldId + " & " + second.GetProperName() + " " + second.WorldId);
 
 			if (first == second)
+			{
+				SgtLogger.error("first handler was also the second");
 				return false;
+			}
 
 			foreach (var handlerFirst in first.WorldDockables.Values)
 			{
@@ -351,17 +369,20 @@ namespace Rockets_TinyYetBig.Docking
 
 		bool CurrentlyInDockingProcess(string ID)
 		{
-			bool currentlyInProcess = PendingDockBlockers.Contains(ID) && PendingUndockBlockers.Contains(ID);
+			bool currentlyInProcess = PendingDockBlockers.Contains(ID) || PendingUndockBlockers.Contains(ID);
 			SgtLogger.l(ID + " currently in a docking process? " + currentlyInProcess);
 
 			return currentlyInProcess;
 		}
 
-		public bool TryGetAvailableDockable(DockingSpacecraftHandler handler, out IDockable dockable, DockingDoor overrideDoor = null)
+		public bool TryGetAvailableDockable(DockingSpacecraftHandler handler, out IDockable dockable, DockingDoor tryUseDoor = null)
 		{
 			dockable = null;
 			if (handler == null)
-				SgtLogger.error("Handler was null" + handler);
+			{
+				SgtLogger.error("Handler was null");
+				return false;
+			}
 
 			SgtLogger.l("trying to get dockable for " + handler.GetProperName());
 			if (!DockingSpacecraftHandlers.Contains(handler))
@@ -374,43 +395,47 @@ namespace Rockets_TinyYetBig.Docking
 				return false;
 
 
-			if (overrideDoor != null)
+			if (tryUseDoor != null && handler.OwnsDoor(tryUseDoor))
 			{
-				var entry = handler.WorldDockables.Values.ToList().FirstOrDefault(data => !IsDocked(data.GUID, out _) && data == overrideDoor && !CurrentlyInDockingProcess(data.GUID));
+				var entry = handler.WorldDockables.Values.FirstOrDefault(data => !IsDocked(data.GUID, out _) && data == tryUseDoor && !CurrentlyInDockingProcess(data.GUID));
 
 				if (entry != null)
 					dockable = entry;
 			}
 			if (dockable == null)
-				dockable = handler.WorldDockables.Values.ToList().FirstOrDefault(entry => !IsDocked(entry.GUID, out _) && !CurrentlyInDockingProcess(entry.GUID));
+				dockable = handler.WorldDockables.Values.FirstOrDefault(entry => !IsDocked(entry.GUID, out _) && !CurrentlyInDockingProcess(entry.GUID));
 
 			SgtLogger.l(handler.GetProperName() + " can currently dock? " + (dockable != null));
 
 			return dockable != null;
 		}
-		public bool TryInitializingDockingBetweenHandlers(DockingSpacecraftHandler first, DockingSpacecraftHandler second, DockingDoor overrideDoor = null)
+		public bool TryInitializingDockingBetweenHandlers(DockingSpacecraftHandler first, DockingSpacecraftHandler second, DockingDoor tryUseDoor = null)
 		{
+			if (first == null || second == null || first == second)
+				return false;
 
 			SgtLogger.l("trying to dock " + first.GetProperName() + " and " + second.GetProperName());
 
 
-			if (TryGetAvailableDockable(first, out var firstDock, overrideDoor))
+			if (TryGetAvailableDockable(first, out var firstDock, tryUseDoor))
 			{
-				if (TryGetAvailableDockable(second, out var secondDock, overrideDoor))
+				if (TryGetAvailableDockable(second, out var secondDock, tryUseDoor))
 					return AddPendingDock(firstDock.GUID, secondDock.GUID);
 				SgtLogger.warning("no dockable on " + second);
 			}
 			SgtLogger.warning("no dockable on " + first);
 			return false;
 		}
-		public bool TryInitializingUndockingBetweenHandlers(DockingSpacecraftHandler first, DockingSpacecraftHandler second, DockingDoor overrideDoor = null, System.Action UiRefreshActionOnFinished = null)
+		public bool TryInitializingUndockingBetweenHandlers(DockingSpacecraftHandler first, DockingSpacecraftHandler second, DockingDoor overrideDoor = null)
 		{
+			if (first == null || second == null || first == second)
+				return false;
 			SgtLogger.l("trying to undock " + first.GetProperName() + " and " + second.GetProperName());
 			foreach (var door in first.WorldDockables)
 			{
-				if (TryGetDockableIfDocked(door.Value.GUID, out var dockedTo) && dockedTo.spacecraftHandler == second)
+				if (TryGetDockableIfDocked(door.Value.GUID, out var dockedTo) && dockedTo.spacecraftHandler == second && (overrideDoor == null || overrideDoor == door.Value))
 				{
-					return AddPendingUndock(door.Value.GUID, dockedTo.GUID, UiRefreshActionOnFinished);
+					return AddPendingUndock(door.Value.GUID, dockedTo.GUID);
 				}
 			}
 			return false;
@@ -428,10 +453,12 @@ namespace Rockets_TinyYetBig.Docking
 			if (!TryGetDockable(firstId, out IDockable first))
 			{
 				SgtLogger.error(firstId + " not found in finalizeUndocking");
+				return;
 			}
 			if (!TryGetDockable(secondId, out IDockable second))
 			{
 				SgtLogger.error(secondId + " not found in finalizeUndocking");
+				return;
 			}
 			///Removing docking entry in list
 			DockingConnections[firstId] = null;
@@ -456,11 +483,13 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			if (!TryGetDockable(firstId, out IDockable first))
 			{
-				SgtLogger.error(firstId + " not found in finalizeUndocking");
+				SgtLogger.error(firstId + " not found in finalizeDocking");
+				return;
 			}
 			if (!TryGetDockable(secondId, out IDockable second))
 			{
-				SgtLogger.error(secondId + " not found in finalizeUndocking");
+				SgtLogger.error(secondId + " not found in finalizeDocking");
+				return;
 			}
 			DockingConnections[firstId] = secondId;
 			DockingConnections[secondId] = firstId;
@@ -473,17 +502,21 @@ namespace Rockets_TinyYetBig.Docking
 
 
 			///Space stations are always the parent, otherwise the first becomes the child
-			if (SpaceStationManager.WorldIsSpaceStationInterior(first.WorldId))
+			var firstWorld = ClusterManager.Instance.GetWorld(first.WorldId);
+			var secondWorld = ClusterManager.Instance.GetWorld(second.WorldId);
+			if (firstWorld != null && secondWorld != null)
 			{
-				ClusterManager.Instance.GetWorld(second.WorldId).SetParentIdx(first.WorldId);
+				if (SpaceStationManager.WorldIsSpaceStationInterior(first.WorldId))
+				{
+					secondWorld.SetParentIdx(first.WorldId);
+				}
+				else if (SpaceStationManager.WorldIsSpaceStationInterior(second.WorldId))
+				{
+					firstWorld.SetParentIdx(second.WorldId);
+				}
+				else
+					firstWorld.SetParentIdx(second.WorldId);
 			}
-			else if (SpaceStationManager.WorldIsSpaceStationInterior(second.WorldId))
-			{
-				ClusterManager.Instance.GetWorld(first.WorldId).SetParentIdx(second.WorldId);
-			}
-			else
-				ClusterManager.Instance.GetWorld(first.WorldId).SetParentIdx(second.WorldId);
-
 			///setting assigned crew rocket for each dupe to the rocket they are in
 			//CleanupWorldAssignments(new Tuple<string, string>(firstId, secondId));
 			first.UpdateDockingConnection();
@@ -492,12 +525,14 @@ namespace Rockets_TinyYetBig.Docking
 		}
 		public void PrepareWorldAssignments(Tuple<string, string> connection)
 		{
-			var firstDockable = IDockables[connection.first];
-			var secondDockable = IDockables[connection.second];
+			if (!IDockables.TryGetValue(connection.first, out var firstDockable)
+				|| !IDockables.TryGetValue(connection.second, out var secondDockable))
+				return;
 
 			var worldFirst = ClusterManager.Instance.GetWorld(firstDockable.WorldId);
 			var worldSecond = ClusterManager.Instance.GetWorld(secondDockable.WorldId);
-
+			if (worldFirst == null || worldSecond == null)
+				return;
 
 			foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(worldFirst.id))
 			{
@@ -522,36 +557,36 @@ namespace Rockets_TinyYetBig.Docking
 
 
 
-		/// <summary>
-		/// Clean up world assignments if there was an unexpected decoupling (by blow up or deconstruction)
-		/// </summary>
-		/// <param name="targetWorldId"></param>
-		public void CleanupWorldAssignments(Tuple<string, string> connection)
-		{
-			return;
-			var firstDockable = IDockables[connection.first];
-			var secondDockable = IDockables[connection.second];
+		///// <summary>
+		///// Clean up world assignments if there was an unexpected decoupling (by blow up or deconstruction)
+		///// </summary>
+		///// <param name="targetWorldId"></param>
+		//public void CleanupWorldAssignments(Tuple<string, string> connection)
+		//{
+		//	return;
+		//	var firstDockable = IDockables[connection.first];
+		//	var secondDockable = IDockables[connection.second];
 
-			var worldFirst = ClusterManager.Instance.GetWorld(firstDockable.WorldId);
-			var worldSecond = ClusterManager.Instance.GetWorld(secondDockable.WorldId);
-
-
-			foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(worldFirst.id))
-			{
-				if (firstDockable.spacecraftHandler.IsRocket)
-				{
-					SgtLogger.l("assigning " + minion.GetProperName() + " to " + worldFirst.GetProperName());
-					SetMinionAssignment(minion, worldFirst);
-				}
+		//	var worldFirst = ClusterManager.Instance.GetWorld(firstDockable.WorldId);
+		//	var worldSecond = ClusterManager.Instance.GetWorld(secondDockable.WorldId);
 
 
-			}
-			foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(worldSecond.id))
-			{
-				SgtLogger.l("assigning " + minion.GetProperName() + " to " + worldSecond.GetProperName());
-				SetMinionAssignment(minion, worldSecond);
-			}
-		}
+		//	foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(worldFirst.id))
+		//	{
+		//		if (firstDockable.spacecraftHandler.IsRocket)
+		//		{
+		//			SgtLogger.l("assigning " + minion.GetProperName() + " to " + worldFirst.GetProperName());
+		//			SetMinionAssignment(minion, worldFirst);
+		//		}
+
+
+		//	}
+		//	foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(worldSecond.id))
+		//	{
+		//		SgtLogger.l("assigning " + minion.GetProperName() + " to " + worldSecond.GetProperName());
+		//		SetMinionAssignment(minion, worldSecond);
+		//	}
+		//}
 		public void SetMinionAssignment(MinionIdentity minion, WorldContainer world) => SetMinionAssignment(minion.assignableProxy, world.id);
 
 		public void SetMinionAssignment(Ref<MinionAssignablesProxy> proxy, int worldId)
@@ -571,22 +606,25 @@ namespace Rockets_TinyYetBig.Docking
 
 
 
-		HashSet<Tuple<string, string>> ToRemove = new HashSet<Tuple<string, string>>();
+		private HashSet<Tuple<string, string>> ToRemove = new();
+		private HashSet<string> StalePendings = [];
+
 		public void Sim1000ms(float dt)
 		{
 			UpdatePendingStationDockings();
-
-
+			StalePendings.Clear();
 			foreach (var undockingProcess in PendingUndocks)
 			{
 				List<MinionIdentity> MoveToSecondDupes = new List<MinionIdentity>();
 				List<MinionIdentity> MoveToFirstDupes = new List<MinionIdentity>();
-				if (TryGetDockable(undockingProcess.Key, out var first) && TryGetDockable(undockingProcess.Value, out var second)
-					&& first is DockingDoor && second is DockingDoor
-					)
+
+				bool firstFound = TryGetDockable(undockingProcess.Key, out var first);
+				bool secondFound = TryGetDockable(undockingProcess.Value, out var second);
+				if (!firstFound || !secondFound)
+					StalePendings.Add(undockingProcess.Key);
+
+				if (firstFound && secondFound && first is DockingDoor firstDoor && second is DockingDoor secondDoor)
 				{
-
-
 					foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(first.WorldId))
 					{
 						if (TryGetMinionAssignment(minion, out var minionWorldId))
@@ -608,13 +646,11 @@ namespace Rockets_TinyYetBig.Docking
 						}
 					}
 
-					DockingDoor firstDoor = first as DockingDoor;
-					DockingDoor secondDoor = second as DockingDoor;
-
 					foreach (var minion in MoveToSecondDupes)
 					{
 						var smi = minion.GetSMI<RocketPassengerMonitor.Instance>();
-						smi.SetMoveTarget(secondDoor.GetPorterCell());
+						if (smi != null)
+							smi.SetMoveTarget(secondDoor.GetPorterCell());
 						firstDoor.RefreshAccessStatus(minion, false);
 						secondDoor.RefreshAccessStatus(minion, true);
 
@@ -622,7 +658,8 @@ namespace Rockets_TinyYetBig.Docking
 					foreach (var minion in MoveToFirstDupes)
 					{
 						var smi = minion.GetSMI<RocketPassengerMonitor.Instance>();
-						smi.SetMoveTarget(firstDoor.GetPorterCell());
+						if (smi != null)
+							smi.SetMoveTarget(firstDoor.GetPorterCell());
 
 						firstDoor.RefreshAccessStatus(minion, true);
 						secondDoor.RefreshAccessStatus(minion, false);
@@ -635,16 +672,31 @@ namespace Rockets_TinyYetBig.Docking
 					}
 				}
 			}
-
 			foreach (var finalized in ToRemove)
 			{
 				FinalizeUndocking(finalized.first, finalized.second);
 			}
 			ToRemove.Clear();
 
+			foreach (var stale in StalePendings)
+			{
+				if (PendingUndocks.TryGetValue(stale, out var staleConnection))
+				{
+					PendingUndocks.Remove(stale);
+					PendingUndockBlockers.Remove(stale);
+					PendingUndockBlockers.Remove(staleConnection);
+				}
+			}
+			StalePendings.Clear();
+
 			foreach (var dockingProcess in PendingDocks)
 			{
-				if (TryGetDockable(dockingProcess.Key, out var first) && TryGetDockable(dockingProcess.Value, out var second))
+				bool firstFound = TryGetDockable(dockingProcess.Key, out var first);
+				bool secondFound = TryGetDockable(dockingProcess.Value, out var second);
+				if (!firstFound || !secondFound)
+					StalePendings.Add(dockingProcess.Key);
+
+				if (firstFound && secondFound)
 				{
 					WorldContainer firstWorld = ClusterManager.Instance.GetWorld(first.WorldId), secondWorld = ClusterManager.Instance.GetWorld(second.WorldId);
 					if (firstWorld != null && firstWorld.TryGetComponent<DockingSpacecraftHandler>(out var firstEntity)
@@ -665,6 +717,16 @@ namespace Rockets_TinyYetBig.Docking
 				FinalizeDocking(doDock.first, doDock.second);
 			}
 			ToRemove.Clear();
+			foreach (var stale in StalePendings)
+			{
+				if (PendingDocks.TryGetValue(stale, out var staleConnection))
+				{
+					PendingDocks.Remove(stale);
+					PendingDockBlockers.Remove(stale);
+					PendingDockBlockers.Remove(staleConnection);
+				}
+			}
+			StalePendings.Clear();
 		}
 
 		internal List<DockingSpacecraftHandler> GetAllAvailableDockingHandlersAtPosition(AxialI location)
@@ -672,7 +734,7 @@ namespace Rockets_TinyYetBig.Docking
 			var values = new List<DockingSpacecraftHandler>();
 			foreach (var handler in DockingSpacecraftHandlers)
 			{
-				if (handler.clustercraft.Location.Equals(location) && handler.HasDoors() 
+				if (handler.clustercraft.Location.Equals(location) && handler.HasDoors()
 					//&& handler.InSpace //Docked to space station == not in space
 					)
 					values.Add(handler);
@@ -690,9 +752,9 @@ namespace Rockets_TinyYetBig.Docking
 		}
 		internal bool HasPendingDocks(DockingSpacecraftHandler dockableHandler)
 		{
-			foreach(var door in dockableHandler.GetAllDockables())
-				if(PendingDockBlockers.Contains(door.GUID))
-					return true; 
+			foreach (var door in dockableHandler.GetAllDockables())
+				if (PendingDockBlockers.Contains(door.GUID))
+					return true;
 			return false;
 		}
 		public bool HasPendingUndocks(string first, string second) => HasPendingUndocks(first) || HasPendingUndocks(second);
