@@ -37,6 +37,7 @@ namespace UtilLibs
 			//ModVersionCheck.VersionChecker.FixVersionPatch(usermod, harmony);
 			CompatibilityNotifications.FixLogging(harmony);
 			ModsScreenMarkIncompatbileMods.Register();
+			SearchUtilCrashFix.Register();
 			debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
 		}
 		public static void l(string message, string assemblyOverride = "")
