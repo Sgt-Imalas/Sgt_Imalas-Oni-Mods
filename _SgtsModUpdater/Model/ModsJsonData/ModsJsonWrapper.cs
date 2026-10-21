@@ -87,8 +87,9 @@ namespace _SgtsModUpdater.Model.ModsJsonData
 			{
 				this.mods = new List<LocalModWrapper>();
 			}
-			mods.Add(new(localMod, mod));
-			ModsObservable.Add(new(localMod, mod));
+			int index = mods.Count + 1;
+			mods.Add(new(localMod, mod, index));
+			ModsObservable.Add(new(localMod, mod, index));
 		}
 
 

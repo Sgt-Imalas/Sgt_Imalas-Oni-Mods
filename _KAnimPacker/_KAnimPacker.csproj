@@ -53,5 +53,7 @@
 		<Reference Remove="Newtonsoft.Json" />
 		<Reference Remove="netstandard" />
 		<Reference Remove="UnityEngine.WebRequestModule" />
+		<Reference Remove="UnityEngine.SharedInternalsModule" />
+		<Reference Remove="UnityEngine.*" />
 	</ItemGroup>
 </Project>

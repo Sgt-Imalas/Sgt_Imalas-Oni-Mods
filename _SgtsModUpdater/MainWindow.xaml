@@ -59,7 +59,7 @@
 					</Grid.RowDefinitions>
 					<TextBox DockPanel.Dock="Top" Grid.Column="0" Grid.Row="0" Margin="0,0,0,4" Name="txtFilter" TextChanged="txtFilter_TextChanged"/>
 
-					<ListView Name="ModListView" Grid.Column="0" Grid.Row="1" Visibility="Hidden">
+					<ListView Name="ModListView" Grid.Column="0" Grid.Row="1" Visibility="Hidden" Loaded="ModListView_Loaded">
 						<ListView.ItemContainerStyle>
 							<Style TargetType="ListViewItem">
 								<Setter Property="ToolTip" Value="{Binding Path=ModDesc}" />
@@ -68,7 +68,7 @@
 						<ListView.View >
 							<GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Repo Mod Information">
 
-								<GridViewColumn Header="" Width="33">
+								<GridViewColumn Header="Status" Width="33">
 									<GridViewColumn.CellTemplate>
 										<DataTemplate>
 											<Label Foreground="{Binding Path=StatusColor}">⬤</Label>
@@ -162,8 +162,8 @@
 								</CheckBox>
 							</Border>
 						</StackPanel>
-						
-						<ListView Name="CurrentModView" Grid.Row="1">
+
+						<ListView Name="CurrentModView" Grid.Row="1" Loaded="CurrentModView_Loaded" AlternationCount="2147483647">
 							<ListView.ItemContainerStyle>
 								<Style TargetType="ListViewItem">
 									<Setter Property="ToolTip" Value="{Binding Path=ModDesc}" />
@@ -171,6 +171,8 @@
 							</ListView.ItemContainerStyle>
 							<ListView.View >
 								<GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Local mods">
+
+									<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModIndex}" Header="#" Width="30"/>
 									<GridViewColumn DisplayMemberBinding="{Binding Path=ModName}" Header="Mod Name" Width="180"/>
 									<GridViewColumn DisplayMemberBinding="{Binding Path=InstalledVersion}" Width="100" Header="Installed Version"/>
 									<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModType}" Width="50" Header="Type"/>

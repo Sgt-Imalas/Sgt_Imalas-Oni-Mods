@@ -1,6 +1,7 @@
 ﻿using _SgtsModUpdater.Model;
 using _SgtsModUpdater.Model.ModsJsonData;
 using _SgtsModUpdater.Model.Update;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -194,5 +195,86 @@ public partial class MainWindow : Window
 	{
 		if (!RepoViewActive)
 			CollectionViewSource.GetDefaultView(CurrentModView.ItemsSource).Refresh();
+	}
+
+	private GridViewColumnHeader _lastHeaderClicked;
+	private ListSortDirection _lastDirection = ListSortDirection.Ascending;
+	private void CurrentModView_Loaded(object sender, RoutedEventArgs e)
+	{
+		CurrentModView.AddHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(SortLocalModList));
+	}
+	private void SortLocalModList(object sender, RoutedEventArgs e)
+	{
+		if (e.OriginalSource is not GridViewColumnHeader header)
+			return;
+
+		if (header.Column == null)
+			return;
+
+		string sortBy = header.Column.Header?.ToString() switch
+		{
+			"Base Game" => "Enabled_Base",
+			"Spaced Out" => "Enabled_SO",
+			_ => (header.Column.DisplayMemberBinding as Binding)?.Path.Path
+		};
+		if (string.IsNullOrEmpty(sortBy))
+			return;
+
+
+		ListSortDirection direction =
+			header == _lastHeaderClicked &&
+			_lastDirection == ListSortDirection.Ascending
+				? ListSortDirection.Descending
+				: ListSortDirection.Ascending;
+
+		ICollectionView dataView = CollectionViewSource.GetDefaultView(CurrentModView.ItemsSource);
+
+		dataView.SortDescriptions.Clear();
+		dataView.SortDescriptions.Add(new SortDescription(sortBy, direction));
+
+		dataView.Refresh();
+
+		_lastHeaderClicked = header;
+		_lastDirection = direction;
+	}
+
+	private void ModListView_Loaded(object sender, RoutedEventArgs e)
+	{
+		ModListView.AddHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(SortRemoteModList));
+	}
+	private void SortRemoteModList(object sender, RoutedEventArgs e)
+	{
+		if (e.OriginalSource is not GridViewColumnHeader header)
+			return;
+
+		if (header.Column == null)
+			return;
+
+		string sortBy = header.Column.Header?.ToString() switch
+		{
+			_ => (header.Column.DisplayMemberBinding as Binding)?.Path.Path
+		};
+		if (ModListView?.View is GridView gridView && gridView.Columns.IndexOf(header.Column) == 0)
+			sortBy = "ColorSortState";
+
+		if (string.IsNullOrEmpty(sortBy))
+			return;
+
+
+		ListSortDirection direction =
+			header == _lastHeaderClicked &&
+			_lastDirection == ListSortDirection.Ascending
+				? ListSortDirection.Descending
+				: ListSortDirection.Ascending;
+
+		ICollectionView dataView = CollectionViewSource.GetDefaultView(ModListView.ItemsSource);
+
+		dataView.SortDescriptions.Clear();
+		dataView.SortDescriptions.Add(new SortDescription(sortBy, direction));
+
+		dataView.Refresh();
+
+		_lastHeaderClicked = header;
+		_lastDirection = direction;
 	}
 }

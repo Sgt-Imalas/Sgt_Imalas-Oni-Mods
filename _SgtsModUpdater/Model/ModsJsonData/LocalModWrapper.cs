@@ -15,6 +15,8 @@ namespace _SgtsModUpdater.Model.ModsJsonData
 
 		public string InstalledVersion => LocalMod?.Version ?? "?";
 
+		public int LocalModIndex { get; set; } 
+
 		public string Folder => LocalMod?.FolderPath ?? Path.Combine(Paths.ModsFolder,KleiMod.label.distribution_platform.ToString(), KleiMod.label.id);
 
 		public bool Enabled_Base
@@ -62,10 +64,11 @@ namespace _SgtsModUpdater.Model.ModsJsonData
 			}
 		}
 
-		public LocalModWrapper(LocalMod localMod, KleiMod kleiMod)
+		public LocalModWrapper(LocalMod localMod, KleiMod kleiMod, int index)
 		{
 			LocalMod = localMod;
 			KleiMod = kleiMod;
+			LocalModIndex = index;
 		}
 
 		internal KleiMod UnWrap()

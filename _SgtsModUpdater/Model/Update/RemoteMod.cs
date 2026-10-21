@@ -28,6 +28,7 @@ namespace _SgtsModUpdater.Model.Update
 
 		//Hex string color for status dot
 		public string StatusColor => ColorTranslator.ToHtml(localInstall == null ? Color.Red : IsNewVersionAvailable() ? Color.Yellow : Color.Green);
+		public string ColorSortState => localInstall == null ? "0" : IsNewVersionAvailable() ? "1" : "2";
 		public string GetActionString => GetActionText();
 		public string Version => version;
 		public string ModName => string.IsNullOrWhiteSpace(modName) ? staticID : Paths.StripFormatting(modName);
