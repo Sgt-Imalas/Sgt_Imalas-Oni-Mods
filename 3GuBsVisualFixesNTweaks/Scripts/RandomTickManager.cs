@@ -1,4 +1,5 @@
 ﻿using _3GuBsVisualFixesNTweaks.Defs.Entities.FX;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 	{
 		const int CHUNK_EDGE = 8;
 
-		static int CHUNK_SIZE = CHUNK_EDGE * CHUNK_EDGE;
+		static readonly int CHUNK_SIZE = CHUNK_EDGE * CHUNK_EDGE;
 		private static int widthInChunks;
 		private static int heightInChunks;
 		private static int chunkCount;
@@ -22,10 +23,10 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 
 		private static int[] RandomCellAccess;
 		private static int ReshuffleIndex = 0;
-		HashSet<Vector3> PendingMagmaBubbles = new HashSet<Vector3>();
+		readonly ConcurrentDictionary<Vector3, byte> PendingMagmaBubbles = [];
 
 
-		System.Random rng = new System.Random();
+		readonly System.Random rng = new System.Random();
 		Color MagmaColor = UIUtils.rgb(253, 171, 87);
 
 		public override void OnSpawn()
@@ -49,9 +50,10 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		public void UpdateCells()
 		{
 			// SgtLogger.l(RandomCellAccess[ReshuffleIndex]+" <- cell, index -> "+ ReshuffleIndex);
+			PendingMagmaBubbles.Clear();
 			Parallel.For(0, chunkCount, (chunk) => MarkMagmaBubbleCells(GetRandomCellInChunk(chunk)));
 
-			foreach (var magmaBubblePos in PendingMagmaBubbles)
+			foreach (var magmaBubblePos in PendingMagmaBubbles.Keys)
 			{
 				var bubble = GameUtil.KInstantiate(MagmaBubblePrefab, magmaBubblePos, Grid.SceneLayer.FXFront2);
 				bubble.SetActive(true);
@@ -91,7 +93,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			var pos = Grid.CellToPosCBC(cell, Grid.SceneLayer.FXFront);
 			pos += new Vector3(0, calculatedHeight);
 
-			PendingMagmaBubbles.Add(pos);
+			PendingMagmaBubbles.TryAdd(pos, 0);
 			//KBatchedAnimController component2 = hitEffect.GetComponent<KBatchedAnimController>();
 			//hitEffect.SetActive(value: true);
 			//component2.sceneLayer = Grid.SceneLayer.FXFront2;
@@ -136,7 +138,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 
 			magmaIdx = ElementLoader.GetElementIndex(SimHashes.Magma);
 			maxMagmaMass = ElementLoader.FindElementByHash(SimHashes.Magma).maxMass; //1840kg
-			RandomCellAccess = Enumerable.Range(0, CHUNK_SIZE).ToArray();
+			RandomCellAccess = [.. Enumerable.Range(0, CHUNK_SIZE)];
 			MagmaBubblePrefab = Assets.GetPrefab(MagmaBubbleFXConfig.ID);
 			Shuffle();
 		}
