@@ -262,6 +262,10 @@ namespace SetStartDupes
 		public bool ExtraSkillPoints { get; set; } = false;
 
 
+		[Option("STRINGS.UI.DSS_OPTIONS.REBALANCE_TRAIT_LEGENDARYDOWN.NAME", "STRINGS.UI.DSS_OPTIONS.REBALANCE_TRAIT_LEGENDARYDOWN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
+		[JsonProperty]
+		public bool TraitRebalance_AncientKnowledge { get; set; } = false;
+
 
 		public Config()
 		{

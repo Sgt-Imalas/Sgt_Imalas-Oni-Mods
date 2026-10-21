@@ -524,6 +524,11 @@ namespace SetStartDupes
 					public static LocString NAME = "Extra starting skill points";
 					public static LocString TOOLTIP = "Add extra skill points to new duplicant via a selection in the modification window.\nRequires printing pod duplicant modification to be active to add extra skillpoints to printing pod duplicants.";
 				}
+				public class REBALANCE_TRAIT_LEGENDARYDOWN
+				{
+					public static LocString NAME = "Rebalance \"Ancient Knowledge\"";
+					public static LocString TOOLTIP = "Reduces the internal rarity of this trait down to 1 (from 5).\nThis results in the trait rolling of duplicants with this trait towards picking less severe negative traits.";
+				}
 			}
 			public class DUPESKILLSPOPUP
 			{

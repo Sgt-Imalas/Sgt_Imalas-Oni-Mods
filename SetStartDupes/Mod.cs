@@ -64,6 +64,19 @@ namespace SetStartDupes
 					id = workaholic_ID,
 					rarity = RARITY_COMMON
 				});
+
+			if (Config.Instance.TraitRebalance_AncientKnowledge)
+			{
+				string ak = "AncientKnowledge";
+
+				var ancientKnowledgeTraitVal = SPECIALTRAITS.First(trait => trait.id == ak);
+				ancientKnowledgeTraitVal.rarity = RARITY_COMMON;
+
+				//structs...
+				SPECIALTRAITS.RemoveAll(traitval => traitval.id == ak);
+				SPECIALTRAITS.Insert(0, ancientKnowledgeTraitVal);
+			}
+
 			FixSkinny();
 		}
 
