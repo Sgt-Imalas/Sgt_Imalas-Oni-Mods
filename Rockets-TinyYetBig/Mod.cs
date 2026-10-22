@@ -1,9 +1,11 @@
-﻿using HarmonyLib;
+﻿using ElementUtilNamespace;
+using HarmonyLib;
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using Rockets_TinyYetBig.Content.ModDb.ModIntegrations;
 using Rockets_TinyYetBig.Patches;
+using System;
 using System.Collections.Generic;
 using UtilLibs;
 using UtilLibs.SharedTweaks;
@@ -42,14 +44,27 @@ namespace Rockets_TinyYetBig
 			SgtLogger.debuglog("Initialized");
 			///mod applies fix to rocketConduitports leaking
 			PRegistry.PutData("Bugs.RocketConduitPorts", true);
-			ElementUtilNamespace.SgtElementUtil.ExecuteElementEnumPatches(harmony);
+			TryCatchElements(harmony);
 
 
 			ResearchScreenBetterConnectionLines.Register();
 			AttachmentPointTagNameFix.Register();
 			TranslationFix.Register();
 		}
-
+		void TryCatchElements(Harmony harmony)
+		{
+			try
+			{
+				SgtElementUtil.ExecuteElementEnumPatches(harmony);
+				SgtLogger.l("Testing enum.tostring...");
+				SgtLogger.l(SimHashes.Aerogel.ToString());
+			}
+			catch (Exception ex)
+			{
+				SgtLogger.l("This system is incompatible with elemental patches in its current state.\nIf this is a Proton app under Linux, turn off Proton.\nIf you are on windows, enable BottomUp-ASLR in your exploit protection settings to get running again.\n\nException below:");
+				Debug.LogException(ex);
+			}
+		}
 
 		[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.GetSpeed))]
 		public class Clustercraft_GetSpeed_Patch
