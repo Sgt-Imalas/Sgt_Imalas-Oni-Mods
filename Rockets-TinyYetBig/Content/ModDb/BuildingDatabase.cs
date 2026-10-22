@@ -268,7 +268,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, POICapacitySensorConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.Computing, RocketLogicLaunchConditionSetterConfig.ID);
 			}
-			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CrashPlan, AIOCargoBayModuleConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, AIOCargoBayModuleConfig.ID);
 			if (Config.Instance.EnableRocketModuleUpgrades)
 			{
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, ModuleUpgradeDatabase.CargoBayFilter.ID);

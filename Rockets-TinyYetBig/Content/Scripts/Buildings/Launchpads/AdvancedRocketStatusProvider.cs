@@ -17,8 +17,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 		public HashedString ignoreWarningInput;
 		const int RocketPath = 1, RocketConstruction = 2, RocketStorage = 4, RocketCrew = 8;
 
-		[Serialize]
-		int LaunchSignalValue = 0;
+		//[Serialize]
+		//int LaunchSignalValue = 0;
 		[Serialize]
 		bool[] LaunchSignalBits = null;
 
@@ -26,6 +26,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 		private MeterController CargoStateMeter;
 
 		Status status_flight, status_prep, status_storage, status_board;
+		int logicHandle = -1, operationalHandle = -1;
 
 		public override void OnSpawn()
 		{
@@ -44,8 +45,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 				Grid.SceneLayer.NoLayer, []);
 
 			StartCoroutine(DelayedRefresh());
-			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
-			Subscribe((int)GameHashes.OperationalChanged, OnOperationalChanged);
+			logicHandle = Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			operationalHandle = Subscribe((int)GameHashes.OperationalChanged, OnOperationalChanged);
 		}
 
 		IEnumerator DelayedRefresh()
@@ -57,8 +58,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
-			Unsubscribe((int)GameHashes.OperationalChanged, OnOperationalChanged);
+			Unsubscribe(logicHandle);
+			Unsubscribe(operationalHandle);
 
 		}
 		void OnOperationalChanged(object data)
@@ -100,14 +101,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 
 		void UpdateVisuals()
 		{
-			bool isEnabled = operational.IsOperational;
-
 			//colorblindness color support
 			var colourGood = AccessibilityUtils.LogicGood;
 			var colourBad = AccessibilityUtils.LogicBad;
 			var colourWarning = AccessibilityUtils.LogicWarning;
 
-			if (!isEnabled)
+			if (!operational.IsOperational)
 			{
 				return;
 			}
@@ -193,7 +192,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 
 			if (hasLandedRocket)
 			{
-				bool engineUsesOxidizer = true, engineFound = false;
+				bool
+					//engineUsesOxidizer = true, 
+					engineFound = false;
 				float maxCargo = 0, maxFuel = 0, currentCargo = 0, currentEffectiveOxidizer = 0;
 				//SgtLogger.l("RocketModuleCount: " + craftModuleInterface.clusterModules.Count);
 				foreach (var moduleRef in craftModuleInterface.clusterModules)
@@ -218,7 +219,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 					if (module.TryGetComponent<RocketEngineCluster>(out var rocketEngine))
 					{
 						engineFound = true;
-						engineUsesOxidizer = rocketEngine.requireOxidizer;
+						//engineUsesOxidizer = rocketEngine.requireOxidizer;
 					}
 				}
 				if (engineFound)
@@ -232,7 +233,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 				}
 				else
 				{
-					CargoStateMeter.meterController.SetPositionPercent(0);
+					FuelStateMeter.meterController.SetPositionPercent(0);
 				}
 
 				if (maxCargo <= 0)
