@@ -91,7 +91,7 @@ namespace SetStartDupes
 
 			base.OnKeyDown(e);
 		}
-		private void SetOpenedType(Tag minionModel,OpenedFrom from = OpenedFrom.Undefined, AccessorySlot slot = null)
+		private void SetOpenedType(Tag minionModel, OpenedFrom from = OpenedFrom.Undefined, AccessorySlot slot = null)
 		{
 			MinionModel = minionModel;
 			openedFrom = from;
@@ -255,7 +255,9 @@ namespace SetStartDupes
 
 
 			var traitsDb = Db.Get().traits;
-			var interests = Db.Get().SkillGroups.resources;
+			var interests = new List<SkillGroup>(Db.Get().SkillGroups.resources);
+			interests.RemoveAll(interest => !interest.allowAsAptitude);
+			var sortedInterests = interests.OrderBy(interest => interest.Name);
 
 			var orderedNextTypes = new List<NextType>()
 			{
@@ -286,13 +288,11 @@ namespace SetStartDupes
 
 				}
 			}
-			if(ModAssets.TraitAllowedInCurrentDLC(ModAssets.MINNOW_DLC_LOCKED))
+			if (ModAssets.TraitAllowedInCurrentDLC(ModAssets.MINNOW_DLC_LOCKED))
 				CategoryEntries[OpenedFrom.Trait].Add(AddUIContainer(traitsDb.TryGet(ModAssets.MINNOW_DLC_LOCKED.id), NextType.congenital));
 
 			foreach (var item in interests)
 			{
-				if(item.choreGroupID == null) continue;
-
 				CategoryEntries[OpenedFrom.Interest].Add(AddUIContainer(item));
 			}
 			HashSet<string> validMinionAttributes = new(AttributeHelper.GetValidMinionAttributeIDs());
@@ -379,7 +379,7 @@ namespace SetStartDupes
 						}
 						else
 						{
-							entry.Value.SetActive(ShowInFilter(filterstring, new string[] { entry.Key.ToString()}));
+							entry.Value.SetActive(ShowInFilter(filterstring, new string[] { entry.Key.ToString() }));
 						}
 					}
 				}
