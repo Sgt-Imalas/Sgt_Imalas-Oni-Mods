@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.Content.Scripts.Buildings
+namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 {
 
 	public class BunkerLaunchpadDigger : StateMachineComponent<BunkerLaunchpadDigger.StatesInstance>
@@ -108,11 +108,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 
 			int currentFrame = SawbladeKbac.currentFrame;
 			float percentage = currentFrame < sawFrameTurnpoint
-				? (float)currentFrame / (float)sawFrameTurnpoint
-				: 1f - (((float)currentFrame - (float)sawFrameTurnpoint) / (float)sawFrameTurnpoint);
+				? currentFrame / (float)sawFrameTurnpoint
+				: 1f - (currentFrame - (float)sawFrameTurnpoint) / sawFrameTurnpoint;
 
 
-			int targetCellOffset = Mathf.RoundToInt(percentage * (float)width);
+			int targetCellOffset = Mathf.RoundToInt(percentage * width);
 			int targetCell = minCell + targetCellOffset;
 
 			//SgtLogger.l($"Frame: {currentFrame}, percentage: {percentage}, offsetTarget: {targetCellOffset}, targeting: {targetCell}");

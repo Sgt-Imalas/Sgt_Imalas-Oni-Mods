@@ -16,6 +16,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		[Serialize] public ProcessConditionType conditionType = ProcessConditionType.RocketBoard;
 
 		private ConditionLogicInputActive lastConditionApplied = null;
+		private bool logicOn = false;
+		public bool LogicOn => logicOn;
 
 		public override void OnSpawn()
 		{
@@ -32,7 +34,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			}
 			Subscribe((int)GameHashes.NameChanged, OnNameChanged);
 			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			RefreshLogic();
 			AddCurrentCondition();
+		}
+		void RefreshLogic()
+		{
+			logicOn = logicPorts.GetInputValue(LogicOperationalController.PORT_ID) == 1;
 			RefreshAnimation();
 		}
 
@@ -44,7 +51,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		}
 
 		void OnNameChanged(object data) => RefreshCondition();
-		void OnLogicValueChanged(object data) => RefreshAnimation();
+		void OnLogicValueChanged(object data) => RefreshLogic();
 
 		void RefreshAnimation()
 		{

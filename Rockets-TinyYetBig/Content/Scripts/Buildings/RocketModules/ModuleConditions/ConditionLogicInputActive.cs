@@ -28,14 +28,10 @@ namespace Rockets_TinyYetBig.Content.Scripts
 				}
 			}
 
-			if (handler.logicPorts.GetInputValue(LogicOperationalController.PORT_ID) == 1)
-			{
-				return Status.Ready;
-			}
-			return Status.Failure;
+			return handler.LogicOn ? Status.Ready : Status.Failure;
 		}
 		public override bool ShowInUI() => handler.worldModule != null;
-		public override string GetStatusMessage(ProcessCondition.Status status) => handler.nameable.savedName;
+		public override string GetStatusMessage(ProcessCondition.Status status) => handler != null ? handler.nameable.savedName : string.Empty;
 
 		public override string GetStatusTooltip(ProcessCondition.Status status) =>
 			(status == ProcessCondition.Status.Ready)

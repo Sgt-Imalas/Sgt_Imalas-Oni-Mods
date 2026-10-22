@@ -2,7 +2,7 @@
 using UnityEngine;
 using UtilLibs;
 
-namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms
+namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 {
 	/// <summary>
 	/// load order of buildings can lead to rocket platforms failing to detect the rocket above it because its engine module hasnt been deserialized yet.

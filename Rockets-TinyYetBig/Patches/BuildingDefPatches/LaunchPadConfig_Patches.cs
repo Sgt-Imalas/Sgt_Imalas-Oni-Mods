@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches

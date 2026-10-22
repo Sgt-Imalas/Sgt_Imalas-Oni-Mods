@@ -1,5 +1,5 @@
 ﻿using Rockets_TinyYetBig.Content.Scripts.Buildings;
-using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads;
 using System.Collections.Generic;
 using UnityEngine;
 

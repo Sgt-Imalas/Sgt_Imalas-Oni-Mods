@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using System.Reflection;
 using UtilLibs;
 using Rockets_TinyYetBig.NonRocketBuildings;
-using Rockets_TinyYetBig.Content.Scripts.Buildings;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads;
 
 namespace Rockets_TinyYetBig.Patches.RocketPlatformPatches
 {
