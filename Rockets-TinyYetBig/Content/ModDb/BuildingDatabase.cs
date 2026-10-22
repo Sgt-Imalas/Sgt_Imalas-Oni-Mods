@@ -15,6 +15,7 @@ using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
 using Rockets_TinyYetBig.Content.Defs.Buildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.StationParts;
+using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
@@ -32,6 +33,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			if (Mod.Instance.mod.IsDev)
 				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, StationPOISolarPanelConfig.ID, "power");
 
+			AddRocketModuleToBuildList(AIOCargoBayModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, }, ArtifactCargoBayConfig.ID, true);
 
 			AddRocketModuleToBuildList(SolarPanelModuleWideConfig.ID, RocketCategory.power, SolarPanelModuleConfig.ID);
 
@@ -64,7 +66,6 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			{
 				AddRocketModuleToBuildList(FridgeModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, ArtifactCargoBayConfig.ID, true);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, FridgeModuleAccessHatchConfig.ID, RefrigeratorConfig.ID);
-				//AddRocketModuleToBuildList(AIOCargoBayModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo,}, ArtifactCargoBayConfig.ID, true);
 			}
 
 
@@ -266,6 +267,13 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			{
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, POICapacitySensorConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.Computing, RocketLogicLaunchConditionSetterConfig.ID);
+			}
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CrashPlan, AIOCargoBayModuleConfig.ID);
+			if (Config.Instance.EnableRocketModuleUpgrades)
+			{
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, ModuleUpgradeDatabase.CargoBayFilter.ID);
+
+				
 			}
 		}
 	}

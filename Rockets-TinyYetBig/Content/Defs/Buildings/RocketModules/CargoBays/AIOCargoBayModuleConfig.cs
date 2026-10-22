@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays
 			EffectorValues tieR2 = NOISE_POLLUTION.NONE;
 			EffectorValues none = BUILDINGS.DECOR.NONE;
 			EffectorValues noise = tieR2;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 2, "coal_generator_module_kanim", 1000, 60f, cargoMass, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "module_aio_cargobay_module_kanim", 1000, 60f, cargoMass, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
 			BuildingTemplates.CreateRocketBuildingDef(buildingDef);
 			buildingDef.SceneLayer = Grid.SceneLayer.Building;
 			buildingDef.OverheatTemperature = 2273.15f;
@@ -52,6 +52,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays
 			combinedStorage.capacityKg = Config.Instance.SolidCargoBayKgPerUnit + Config.Instance.LiquidCargoBayKgPerUnit + Config.Instance.GasCargoBayKgPerUnit;
 			combinedStorage.storageFilters = STORAGEFILTERS.STORAGE_SOLID_CARGO_BAY.Concat(STORAGEFILTERS.LIQUIDS).Concat(STORAGEFILTERS.GASES).ToList();
 			combinedStorage.SetDefaultStoredItemModifiers(Config.Instance.InsulatedCargoBays ? Storage.StandardInsulatedStorage : Storage.StandardSealedStorage);
+			combinedStorage.allowSettingOnlyFetchMarkedItems = false;
 
 			TreeFilterable treeFilterable = go.AddOrGet<TreeFilterable>();
 			treeFilterable.dropIncorrectOnFilterChange = false;

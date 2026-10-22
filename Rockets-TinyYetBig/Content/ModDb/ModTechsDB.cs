@@ -96,25 +96,25 @@ namespace Rockets_TinyYetBig.Content.ModDb
 						yDiff: -1.15f);
 				}
 			}
-			if (Config.Instance.EnableRocketModuleUpgrades)
-			{
-				if (Config.SpaceStationsPossible)
-				{
-					TechUtils.AddNode(instance,
-						ModAssets.Techs.CargoBayFilterTechID,
-						ModAssets.Techs.SpaceStationTechID,
-						xDiff: 1,
-						yDiff: 1);
-				}
-				else
-				{
-					TechUtils.AddNode(instance,
-						ModAssets.Techs.CargoBayFilterTechID,
-						bigCargoBays ? ModAssets.Techs.HugeCargoBayTechID  : GameStrings.Technology.SolidMaterial.HighVelocityTransport,
-						xDiff: 1,
-						yDiff: bigCargoBays  ? 0 : - 1.15f);
-				}
-			}
+			//if (Config.Instance.EnableRocketModuleUpgrades)
+			//{
+			//	if (Config.SpaceStationsPossible)
+			//	{
+			//		TechUtils.AddNode(instance,
+			//			ModAssets.Techs.CargoBayFilterTechID,
+			//			ModAssets.Techs.SpaceStationTechID,
+			//			xDiff: 1,
+			//			yDiff: 1);
+			//	}
+			//	else
+			//	{
+			//		TechUtils.AddNode(instance,
+			//			ModAssets.Techs.CargoBayFilterTechID,
+			//			bigCargoBays ? ModAssets.Techs.HugeCargoBayTechID  : GameStrings.Technology.SolidMaterial.HighVelocityTransport,
+			//			xDiff: 1,
+			//			yDiff: bigCargoBays  ? 0 : - 1.15f);
+			//	}
+			//}
 		}
 
 
@@ -236,20 +236,20 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				}
 				);
 			}
-			if (Config.Instance.EnableRocketModuleUpgrades)
-			{
-				ModAssets.Techs.CargoBayFilterTech = new Tech(ModAssets.Techs.CargoBayFilterTechID, [ModuleUpgradeDatabase.CargoBayFilter.ID],
-				instance
-				, new Dictionary<string, float>()
-				{
-					//TODO: refine these:
-						{TechUtils.ID.BASIC, 75f },
-						{TechUtils.ID.ADVANCED, 75f},
-						{TechUtils.ID.ORBITAL, 75f},
-						{TechUtils.ID.NUCLEAR, 75f},
-				}
-				);
-			}
+			//if (Config.Instance.EnableRocketModuleUpgrades)
+			//{
+			//	ModAssets.Techs.CargoBayFilterTech = new Tech(ModAssets.Techs.CargoBayFilterTechID, [ModuleUpgradeDatabase.CargoBayFilter.ID],
+			//	instance
+			//	, new Dictionary<string, float>()
+			//	{
+			//		//TODO: refine these:
+			//			{TechUtils.ID.BASIC, 75f },
+			//			{TechUtils.ID.ADVANCED, 75f},
+			//			{TechUtils.ID.ORBITAL, 75f},
+			//			{TechUtils.ID.NUCLEAR, 75f},
+			//	}
+			//	);
+			//}
 
 			if (Config.SpaceStationsPossible)
 			{

@@ -9,18 +9,41 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		[SerializeField] private float solidCapacity, liquidCapacity, gasCapacity;
 
 		[MyCmpReq] public TreeFilterable Filterable;
+		[MyCmpReq] public KBatchedAnimController kbac;
 		[MyCmpReq] public Storage Storage;
 		[Serialize] protected float userCapacitySolid = -1, userCapacityLiquid = -1, userCapacityGas = -1;
-
+		MeterController mc_solid, mc_liquid, mc_gas;
+		int meterHandle = -1;
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			if (userCapacitySolid < 0)
+			if (userCapacitySolid < 0 || userCapacitySolid > solidCapacity)
 				userCapacitySolid = solidCapacity;
-			if(userCapacityLiquid < 0)
+			if (userCapacityLiquid < 0 || userCapacityLiquid > liquidCapacity)
 				userCapacityLiquid = liquidCapacity;
-			if(userCapacityGas < 0)
+			if (userCapacityGas < 0 || userCapacityGas > gasCapacity)
 				userCapacityGas = gasCapacity;
+			InitMeters();
+		}
+		public override void OnCleanUp()
+		{
+			Unsubscribe(meterHandle);
+			base.OnCleanUp();
+		}
+		void InitMeters()
+		{
+			mc_solid = new MeterController(kbac, "mt_solid", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer);
+			mc_liquid = new MeterController(kbac, "mt_liquid", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer);
+			mc_gas = new MeterController(kbac, "mt_gas", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer);
+
+			meterHandle = Subscribe((int)GameHashes.OnStorageChange, OnStorageChanged);
+			OnStorageChanged(null);
+		}
+		void OnStorageChanged(object _)
+		{
+			mc_solid.SetPositionPercent(HasSolidStorage ? GetMassFor(CargoBay.CargoType.Solids) / userCapacitySolid : 0);
+			mc_liquid.SetPositionPercent(HasLiquidStorage ? GetMassFor(CargoBay.CargoType.Liquids) / userCapacityLiquid : 0);
+			mc_gas.SetPositionPercent(HasGasStorage ? GetMassFor(CargoBay.CargoType.Gasses) / userCapacityGas : 0);
 		}
 
 		public void Configure(float solid = 0f, float liquid = 0f, float gas = 0f)
@@ -28,10 +51,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			solidCapacity = solid;
 			liquidCapacity = liquid;
 			gasCapacity = gas;
-
-			userCapacitySolid = solid;
-			userCapacityLiquid = liquid;
-			userCapacityGas = gas;
 		}
 
 		internal float RemainingCapacityFor(GameObject gameObject)
@@ -51,38 +70,30 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			}
 			else if (HasGasStorage && primaryElement.Element.IsGas)
 			{
-				return Mathf.Max(0,userCapacityGas - Storage.GetMassAvailable(GameTags.Gas));
+				return Mathf.Max(0, userCapacityGas - Storage.GetMassAvailable(GameTags.Gas));
 			}
 			return 0f;
 		}
 
 		internal float RemainingCapacityFor(CargoBay.CargoType cargoType)
 		{
-			switch (cargoType)
+			return cargoType switch
 			{
-				case CargoBay.CargoType.Solids:
-					return HasSolidStorage ? solidCapacity - Storage.GetMassAvailable(GameTags.Solid) : 0f;
-				case CargoBay.CargoType.Liquids:
-					return HasLiquidStorage ? liquidCapacity - Storage.GetMassAvailable(GameTags.Liquid) : 0f;
-				case CargoBay.CargoType.Gasses:
-					return HasGasStorage ? gasCapacity - Storage.GetMassAvailable(GameTags.Gas) : 0f;
-				default:
-					return 0f;
-			}
+				CargoBay.CargoType.Solids => HasSolidStorage ? userCapacitySolid - Storage.GetMassAvailable(GameTags.Solid) : 0f,
+				CargoBay.CargoType.Liquids => HasLiquidStorage ? userCapacityLiquid - Storage.GetMassAvailable(GameTags.Liquid) : 0f,
+				CargoBay.CargoType.Gasses => HasGasStorage ? userCapacityGas - Storage.GetMassAvailable(GameTags.Gas) : 0f,
+				_ => 0f,
+			};
 		}
 		internal float GetMassFor(CargoBay.CargoType cargoType)
 		{
-			switch (cargoType)
+			return cargoType switch
 			{
-				case CargoBay.CargoType.Solids:
-					return HasSolidStorage ? Storage.GetMassAvailable(GameTags.Solid) : 0f;
-				case CargoBay.CargoType.Liquids:
-					return HasLiquidStorage ? Storage.GetMassAvailable(GameTags.Liquid) : 0f;
-				case CargoBay.CargoType.Gasses:
-					return HasGasStorage ? Storage.GetMassAvailable(GameTags.Gas) : 0f;
-				default:
-					return 0f;
-			}
+				CargoBay.CargoType.Solids => HasSolidStorage ? Storage.GetMassAvailable(GameTags.Solid) : 0f,
+				CargoBay.CargoType.Liquids => HasLiquidStorage ? Storage.GetMassAvailable(GameTags.Liquid) : 0f,
+				CargoBay.CargoType.Gasses => HasGasStorage ? Storage.GetMassAvailable(GameTags.Gas) : 0f,
+				_ => 0f,
+			};
 		}
 
 		public bool SidescreenEnabled() => true;
@@ -107,7 +118,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			}
 		}
 
-		private ISliderControl[] _sliderControls  = null;
+		private ISliderControl[] _sliderControls = null;
 
 		class ElementTypeSliderControl : ISingleSliderControl
 		{
@@ -135,23 +146,20 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 					return "???";
 				}
 				//"global::STRINGS.UI.UISIDESCREENS.CAPACITY_CONTROL_SIDE_SCREEN.MAX_LABEL";
-				
+
 			}
 
 			public string SliderUnits => GameUtil.GetCurrentMassUnit();
 
 			public float GetSliderMax(int index)
 			{
-				switch (state)
+				return state switch
 				{
-					case Element.State.Solid:
-						return parent.solidCapacity;
-					case Element.State.Liquid:
-						return parent.liquidCapacity;
-					case Element.State.Gas:
-						return parent.gasCapacity;
-				}
-				return 0;
+					Element.State.Solid => parent.solidCapacity,
+					Element.State.Liquid => parent.liquidCapacity,
+					Element.State.Gas => parent.gasCapacity,
+					_ => 0,
+				};
 			}
 
 			public float GetSliderMin(int index) => 0;
@@ -162,16 +170,13 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 
 			public float GetSliderValue(int index)
 			{
-				switch (state)
+				return state switch
 				{
-					case Element.State.Solid:
-						return parent.userCapacitySolid;
-					case Element.State.Liquid:
-						return parent.userCapacityLiquid;
-					case Element.State.Gas:
-						return parent.userCapacityGas;
-				}
-				return 0;
+					Element.State.Solid => parent.userCapacitySolid,
+					Element.State.Liquid => parent.userCapacityLiquid,
+					Element.State.Gas => parent.userCapacityGas,
+					_ => 0,
+				};
 			}
 
 			public void SetSliderValue(float percent, int index)
