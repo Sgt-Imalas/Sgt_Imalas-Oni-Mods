@@ -16,10 +16,11 @@ namespace Rockets_TinyYetBig.Patches
 				go.AddOrGet<ModuleDeliveryModeHandler>();
 				if (go.TryGetComponent<Storage>(out var databankStorage))
 				{
+					var databankTag = DatabankHelper.TAG;
 					if (databankStorage.storageFilters == null)
-						databankStorage.storageFilters = new List<Tag>() { DatabankHelper.TAG };
-					else if (!databankStorage.storageFilters.Contains(DatabankHelper.TAG))
-						databankStorage.storageFilters.Add(DatabankHelper.TAG);
+						databankStorage.storageFilters = [databankTag];
+					else if (!databankStorage.storageFilters.Contains(databankTag))
+						databankStorage.storageFilters.Add(databankTag);
 				}
 			}
 		}

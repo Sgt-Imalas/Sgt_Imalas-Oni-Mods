@@ -24,10 +24,11 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                 go.AddOrGet<ModuleDeliveryModeHandler>();
                 if (go.TryGetComponent<Storage>(out var diamondStorage))
                 {
+                    var diamondTag = SimHashes.Diamond.CreateTag();
                     if (diamondStorage.storageFilters == null)
-                        diamondStorage.storageFilters = new List<Tag>() { SimHashes.Diamond.CreateTag() };
-                    else if (!diamondStorage.storageFilters.Contains(SimHashes.Diamond.CreateTag()))
-                        diamondStorage.storageFilters.Add(SimHashes.Diamond.CreateTag());
+						diamondStorage.storageFilters = [diamondTag];
+                    else if (!diamondStorage.storageFilters.Contains(diamondTag))
+                        diamondStorage.storageFilters.Add(diamondTag);
                 }
             }
         }
