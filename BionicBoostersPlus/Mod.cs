@@ -7,12 +7,14 @@ namespace BionicBoostersPlus
 {
 	public class Mod : UserMod2
 	{
+		public static bool ModActive { get; private set; } = true;
 		public override void OnLoad(Harmony harmony)
 		{
 			harmony.RegisterForLocalization(typeof(STRINGS), true);
 			SgtLogger.LogVersion(this, harmony);
 			if(!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID))
 			{
+				ModActive = false;
 				SgtLogger.error("Bionic booster pack not owned!");
 				return;
 			}

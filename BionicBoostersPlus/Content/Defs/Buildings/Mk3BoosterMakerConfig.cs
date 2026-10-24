@@ -25,6 +25,11 @@ namespace BionicBoostersPlus.Content.Defs.Buildings
 				TUNING.BUILDINGS.DECOR.PENALTY.TIER2,
 				NOISE_POLLUTION.NOISY.TIER6);
 
+			if (Mod.ModActive == false)
+			{
+				return buildingDef;
+			}
+
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 480f;
 			buildingDef.SelfHeatKilowattsWhenActive = 8f;
