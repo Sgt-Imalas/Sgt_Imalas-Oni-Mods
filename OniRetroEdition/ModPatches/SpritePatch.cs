@@ -34,6 +34,9 @@ namespace OniRetroEdition.ModPatches
 				InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.Liquid_Input_Connected);
 				InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.Liquid_Input_Disconnected);
 
+				InjectionMethods.AddSpriteToAssets(__instance, "retro_progressbar");
+				InjectionMethods.AddSpriteToAssets(__instance, "retro_progressbar_fg");
+
 				//InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.DigHex);
 				//InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.DigHardness);
 				//InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.DigMass);
