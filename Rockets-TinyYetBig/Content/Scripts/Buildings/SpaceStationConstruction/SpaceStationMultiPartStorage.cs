@@ -5,6 +5,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 {
 	internal class SpaceStationMultiPartStorage : KMonoBehaviour
 	{
-		[Serialize] List<StoredStationPart> StoredParts = [];
+		[Serialize] readonly List<StoredStationPart> StoredParts = [];
 	}
 }

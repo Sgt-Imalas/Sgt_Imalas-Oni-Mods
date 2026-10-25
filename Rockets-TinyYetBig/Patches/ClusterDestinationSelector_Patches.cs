@@ -14,7 +14,7 @@ namespace Rockets_TinyYetBig.Patches
                 if (!__result)
                     return;
                 if (SpaceStationManager.GetSpaceStationAtLocation(__instance.m_destination, out _))
-                    __result = false;
+                    __result = true;
             }
         }
 	}

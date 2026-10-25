@@ -145,20 +145,6 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
         }
 
         /// <summary>
-        /// Adding custom sidescreen
-        /// </summary>
-        [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
-        public static class CustomSideScreenPatch_SatelliteCarrier
-        {
-            public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
-            {
-                // UIUtils.AddClonedSideScreen<SpaceStationBuilderModuleSideScreen>("SpaceStationBuilderModuleSideScreen", "ArtableSelectionSideScreen", typeof(ArtableSelectionSideScreen));
-                UIUtils.AddClonedSideScreen<SpaceStationSideScreen>("SpaceStationSideScreen", "ClusterGridWorldSideScreen", typeof(ClusterGridWorldSideScreen));
-            }
-        }
-
-
-        /// <summary>
         /// Removing that method from space station interiors (to prevent crash)
         /// </summary>
         [HarmonyPatch(typeof(ClusterManager), "UpdateWorldReverbSnapshot")]
@@ -342,7 +328,7 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
         {
             public static bool Prefix(Clustercraft __instance)
             {
-                if (__instance is SpaceStation || __instance is DerelictStation)
+                if (__instance is SpaceStation)
                     return false;
                 return true;
             }
@@ -354,7 +340,7 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
         {
             public static bool Prefix(ClusterMapVisualizer __instance, ClusterGridEntity ___entity)
             {
-                if (___entity is SpaceStation || ___entity is DerelictStation)
+                if (___entity is SpaceStation)
                 {
                     //new ClusterMapFXAnimator.StatesInstance(__instance, ___entity).StartSM();
                     return false;
@@ -372,7 +358,7 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
         {
             public static bool Prefix(Clustercraft __instance, ref float __result)
             {
-                if (__instance is SpaceStation || __instance is DerelictStation)
+                if (__instance is SpaceStation)
                 {
                     __result = 0f;
                     return false;
@@ -387,7 +373,7 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
         {
             public static bool Prefix(Clustercraft __instance, ref bool __result)
             {
-                if (__instance is SpaceStation || __instance is DerelictStation)
+                if (__instance is SpaceStation)
                 {
                     __result = false;
                     return false;
@@ -466,7 +452,7 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
         {
             public static bool Prefix(Clustercraft __instance, ref Clustercraft.PadLandingStatus __result)
             {
-                if (__instance is SpaceStation || __instance is DerelictStation)
+                if (__instance is SpaceStation)
                 {
                     __result = Clustercraft.PadLandingStatus.CanNeverLand;
                     return false;

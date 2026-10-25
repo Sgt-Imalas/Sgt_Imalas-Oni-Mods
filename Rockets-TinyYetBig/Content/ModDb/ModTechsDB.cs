@@ -5,13 +5,55 @@ using Rockets_TinyYetBig.Buildings.Habitats;
 using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
 	internal class ModTechsDB
 	{
+		internal static void RegisterCustomTechTypes(ResearchTypes instance)
+		{
+			instance.Types.Add(new ResearchType(
+					ModAssets.DeepSpaceScienceID,
+					STRINGS.DEEPSPACERESEARCH.NAME,
+					STRINGS.DEEPSPACERESEARCH.DESC,
+					Assets.GetSprite((HashedString)"research_type_deep_space_icon"),
+					new Color32(100, 100, 100, byte.MaxValue),
+					null,
+					2400f,
+					(HashedString)"research_center_kanim",
+					[],
+					STRINGS.DEEPSPACERESEARCH.RECIPEDESC
+				));
+			instance.Types.Add(new ResearchType(
+					ModAssets.DerelictUnlock1,
+					STRINGS.RTB_DERELICT_UNLOCK_1.NAME,
+					STRINGS.RTB_DERELICT_UNLOCK_1.DESC,
+					Assets.GetSprite((HashedString)"starmap_telescope_target"),
+					UIUtils.rgb(3, 33, 102),
+					null,
+					2400f,
+					(HashedString)"research_center_kanim",
+					[],
+					STRINGS.RTB_DERELICT_UNLOCK_1.DESC
+				));
+			instance.Types.Add(new ResearchType(
+					ModAssets.DerelictUnlock2,
+					STRINGS.RTB_DERELICT_UNLOCK_2.NAME,
+					STRINGS.RTB_DERELICT_UNLOCK_2.DESC,
+					Assets.GetSprite((HashedString)"ghosts_of_gravitas"),
+					UIUtils.rgb(3, 33, 102),
+					null,
+					2400f,
+					(HashedString)"research_center_kanim",
+					[],
+					STRINGS.RTB_DERELICT_UNLOCK_2.DESC
+				));
+		}
+
 		internal static void RegisterTechCards(ResourceTreeLoader<ResourceTreeNode> instance)
 		{
 			if (Config.Instance.RocketDocking)
@@ -167,9 +209,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				{
 						{"basic", 0f },
 						{"advanced", 0f},
-						{"orbital", 0f},
+						{"orbital", 25f},
 						{"nuclear", 0f},
-						{ModAssets.DeepSpaceScienceID,1f }
+						{ModAssets.DeepSpaceScienceID, 1f },
+					//	{ModAssets.DerelictUnlock1,1f }
 				});
 				//tech items are reversed
 				ModAssets.Techs.SpaceStationTech = new Tech(ModAssets.Techs.SpaceStationTechID, new List<string>

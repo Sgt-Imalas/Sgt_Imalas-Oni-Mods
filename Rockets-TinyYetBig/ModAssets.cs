@@ -197,6 +197,8 @@ namespace Rockets_TinyYetBig
 		}
 
 		public static string DeepSpaceScienceID = "rtb_deepspace";
+		public static string DerelictUnlock1 = "rtb_derelict_unlock_1";
+		public static string DerelictUnlock2 = "rtb_derelict_unlock_2";
 		public class Techs
 		{
 			public static string FuelLoaderTechID = "RTB_FuelLoadersTech";

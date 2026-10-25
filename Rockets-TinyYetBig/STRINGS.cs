@@ -126,6 +126,16 @@ namespace Rockets_TinyYetBig
 			public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 
 		}
+		public class RTB_DERELICT_UNLOCK_1
+		{
+			public static LocString NAME = FormatAsLink("Space Scanning", nameof(RTB_DERELICT_UNLOCK_1));
+			public static LocString DESC = "Uncover station derelicts drifting in the depths of space.";
+		}
+		public class RTB_DERELICT_UNLOCK_2
+		{
+			public static LocString NAME = FormatAsLink("Derelict Exploration", nameof(RTB_DERELICT_UNLOCK_2));
+			public static LocString DESC = "Explore the drifting remains of long gone civilizations to gather new insights.";
+		}
 
 		public class ROCKETBUILDMENUCATEGORIES
 		{

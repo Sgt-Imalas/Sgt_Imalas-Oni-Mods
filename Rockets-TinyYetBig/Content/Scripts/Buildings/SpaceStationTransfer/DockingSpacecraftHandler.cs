@@ -20,6 +20,7 @@ namespace Rockets_TinyYetBig.Docking
 		//public PassengerRocketModule PassengerModule;
 
 		public bool IsSpaceStation => Type == DockableType.SpaceStation;
+		public bool IsRocket => Type == DockableType.Rocket;
 
 		bool isLoading = false;
 
@@ -30,8 +31,6 @@ namespace Rockets_TinyYetBig.Docking
 		public CraftModuleInterface Interface;
 
 		DockableType Type = DockableType.Rocket;
-
-		public bool IsRocket => Type == DockableType.Rocket;
 		public DockableType CraftType => Type;
 
 		public int WorldId => _worldIdCached;

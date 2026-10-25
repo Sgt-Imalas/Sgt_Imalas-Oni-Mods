@@ -9,7 +9,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 {
 	public static class ModuleUpgradeDatabase
 	{
-		static Dictionary<string, RocketModuleUpgrade> _upgrades = [];
+		static readonly Dictionary<string, RocketModuleUpgrade> _upgrades = [];
 		internal static void Add(RocketModuleUpgrade rocketModuleUpgrade) => _upgrades[rocketModuleUpgrade.ID] = rocketModuleUpgrade;
 
 		//no add/remove action, is handled by the logic component in the cargo bay

@@ -171,18 +171,7 @@ namespace Rockets_TinyYetBig
 			}
 		}
 
-		/// <summary>
-		/// Add Custom Sidescreen for laser drillcone
-		/// </summary>
-		[HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
-		public static class CustomSideScreenPatch_LaserDrillcone
-		{
-			public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
-			{
-				UIUtils.AddClonedSideScreen<ResourceHarvestModuleHEPSideScreen>("HarvestModuleHEPSideScreen", "HarvestModuleSideScreen", typeof(HarvestModuleSideScreen));
-				UIUtils.AddClonedSideScreen<DisableableCheckboxControlSideScreen>("DisableableCheckboxControlSideScreen", "SingleCheckboxSideScreen", typeof(SingleCheckboxSideScreen));
-			}
-		}
+	
 
 		/// <summary>
 		/// add direction selection sidescreen to rad battery

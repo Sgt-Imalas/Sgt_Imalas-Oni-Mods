@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.ModDb;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches.ResearchPatches
@@ -14,19 +15,7 @@ namespace Rockets_TinyYetBig.Patches.ResearchPatches
 			/// <param name="__instance"></param>
 			public static void Postfix(ResearchTypes __instance)
 			{
-
-				__instance.Types.Add(new ResearchType(
-					ModAssets.DeepSpaceScienceID,
-					STRINGS.DEEPSPACERESEARCH.NAME,
-					STRINGS.DEEPSPACERESEARCH.NAME,
-					Assets.GetSprite((HashedString)"research_type_deep_space_icon"),
-					new Color32(100, 100, 100, byte.MaxValue),
-					null,
-					2400f,
-					(HashedString)"research_center_kanim",
-					[],
-					STRINGS.DEEPSPACERESEARCH.RECIPEDESC
-				));
+				ModTechsDB.RegisterCustomTechTypes(__instance);
 			}
 		}
 	}

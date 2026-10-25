@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Epic.OnlineServices.UserInfo;
+using HarmonyLib;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -47,10 +48,23 @@ namespace Rockets_TinyYetBig.Patches
 			internal static IEnumerable<MethodBase> TargetMethods()
 			{
 				const string name = nameof(IBuildingConfig.ConfigureBuildingTemplate);
+				//wall ports
 				yield return typeof(RocketInteriorGasInputPortConfig).GetMethod(name);
 				yield return typeof(RocketInteriorGasOutputPortConfig).GetMethod(name);
 				yield return typeof(RocketInteriorLiquidInputPortConfig).GetMethod(name);
 				yield return typeof(RocketInteriorLiquidOutputPortConfig).GetMethod(name);
+				//wall attachments
+				yield return typeof(RocketInteriorGasInputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorGasOutputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorLiquidInputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorLiquidOutputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorSolidInputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorSolidOutputConfig).GetMethod(name);
+				//wire port
+				yield return typeof(RocketInteriorPowerPlugConfig).GetMethod(name);
+				//rocket control station
+				yield return typeof(RocketControlStationConfig).GetMethod(name);
+
 			}
 		}
 

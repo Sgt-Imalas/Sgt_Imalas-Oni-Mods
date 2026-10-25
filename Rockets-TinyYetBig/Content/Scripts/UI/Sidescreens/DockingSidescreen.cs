@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
 			ConnectReference();
 			ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockableAdded, new Action<object>(ManagerAddedHandler));
-			ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockableRemoved , new System.Action<object>(this.ManagerRemovedHandler));
+			ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockableRemoved, new System.Action<object>(this.ManagerRemovedHandler));
 
 		}
 
@@ -30,7 +30,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 		{
 			if (obj is IDockable mng)
 			{
-				SgtLogger.l("OnDockableAdded: " + obj); 
+				SgtLogger.l("OnDockableAdded: " + obj);
 				if (!DockingTargets.ContainsKey(mng.spacecraftHandler))
 				{
 					AddOrGetRowEntry(mng.spacecraftHandler);
@@ -211,7 +211,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 		}
 		void DelayedRefresh()
 		{
-			if(this.isActiveAndEnabled)
+			if (this.isActiveAndEnabled)
 				StartCoroutine(DelayedRefreshCor());
 		}
 		void ToggleDockingProcess(DockingSpacecraftHandler target)
@@ -328,14 +328,14 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			var location = targetSpacecraftHandler.clustercraft.Location;
 			var allDockers = DockingManagerSingleton.Instance.GetAllAvailableDockingHandlersAtPosition(location);
 
-			SgtLogger.l(location.Q + "," + location.R + " <- count here: " + allDockers.Count);
-			foreach (var dock in allDockers)
-				SgtLogger.l(dock + " is station? " + dock.IsSpaceStation + ", is rocketInMove: " + (dock.CraftType == DockableType.Rocket && RocketryUtils.IsRocketTraveling(dock.clustercraft)));
+			//SgtLogger.l(location.Q + "," + location.R + " <- count here: " + allDockers.Count);
+			//foreach (var dock in allDockers)
+			//	SgtLogger.l(dock + " is station? " + dock.IsSpaceStation + ", is rocketInMove: " + (dock.CraftType == DockableType.Rocket && RocketryUtils.IsRocketTraveling(dock.clustercraft)));
 
 			if (targetSpacecraftHandler.IsSpaceStation)
 				allDockers.RemoveAll(x => x.IsSpaceStation);
 			allDockers.Remove(targetSpacecraftHandler);
-			allDockers.RemoveAll(x => x.CraftType == DockableType.Rocket && RocketryUtils.IsRocketTraveling(x.clustercraft));
+			allDockers.RemoveAll(x => x.IsRocket && (RocketryUtils.IsRocketTraveling(x.clustercraft) || x.clustercraft.Status != Clustercraft.CraftStatus.InFlight));
 
 
 			foreach (var manager in allDockers)
@@ -356,10 +356,10 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 				bool currentlyUndocking = currentlyConnected && (DockingManagerSingleton.Instance.HasPendingUndocks(firstDock.GUID, secondDock.GUID));
 				bool currentlyDocking = DockingManagerSingleton.Instance.HasPendingDocks(manager);
 
-				logic.SetIsDockable(CanDock,CanUnDock);
+				logic.SetIsDockable(CanDock, CanUnDock);
 				logic.SetHasInterior(canViewInterior);
 				if (Rotatings.ContainsKey(manager))
-					Rotatings[manager].gameObject.SetActive(currentlyUndocking|| currentlyDocking);
+					Rotatings[manager].gameObject.SetActive(currentlyUndocking || currentlyDocking);
 			}
 		}
 
