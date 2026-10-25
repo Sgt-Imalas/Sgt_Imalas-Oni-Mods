@@ -34,7 +34,25 @@ namespace Rockets_TinyYetBig.Patches
 				yield return typeof(RocketInteriorLiquidOutputPortConfig).GetMethod(name);
 			}
 		}
-
+		[HarmonyPatch]
+		public static class ProhibitRocketInteriorPortsInStations
+		{
+			[HarmonyPostfix]
+			public static void Postfix(GameObject go)
+			{
+				KPrefabID component = go.GetComponent<KPrefabID>();
+				component.AddTag(ModAssets.Tags.RocketInteriorOnlyBuilding);
+			}
+			[HarmonyTargetMethods]
+			internal static IEnumerable<MethodBase> TargetMethods()
+			{
+				const string name = nameof(IBuildingConfig.ConfigureBuildingTemplate);
+				yield return typeof(RocketInteriorGasInputPortConfig).GetMethod(name);
+				yield return typeof(RocketInteriorGasOutputPortConfig).GetMethod(name);
+				yield return typeof(RocketInteriorLiquidInputPortConfig).GetMethod(name);
+				yield return typeof(RocketInteriorLiquidOutputPortConfig).GetMethod(name);
+			}
+		}
 
 
 		/// <summary>
