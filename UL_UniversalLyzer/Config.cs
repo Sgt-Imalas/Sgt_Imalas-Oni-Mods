@@ -10,97 +10,61 @@ namespace UL_UniversalLyzer
 	[ModInfo("Universal Electrolyzer")]
 	public class Config : SingletonOptions<Config>
 	{
-		[Option("Piped Output Compatibility - Use piped outputs", "Does nothing on its own.\nWhen the mod \"Piped Output\" or \"Piped Everything\" is installed,\nthe Electrolyzer will ignore that mod unless this option here is checked.\nIf checked and piped output is enabled, the electrolyzer will gain two additional piped outputs,\nchlorine and polluted oxygen", "(1) General Settings")]
-		[JsonProperty]
+
+		[Option("STRINGS.UL_CONFIGSTRINGS.IS_PIPED.NAME", "STRINGS.UL_CONFIGSTRINGS.IS_PIPED.DESC", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.A_GENERAL")]
 		public bool IsPiped { get; set; }
 
-		[Option("Solid Debris", "Using polluted water, salt water or brine will cause a tiny amount of debris to drop. Deactivate to have that mass added to the gasses instead.", "(1) General Settings")]
-		[JsonProperty]
+		[Option("STRINGS.UL_CONFIGSTRINGS.SOLID_DEBRIS.NAME", "STRINGS.UL_CONFIGSTRINGS.SOLID_DEBRIS.DESC", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.A_GENERAL")]
 		public bool SolidDebris { get; set; }
 
-
-		[Option("Water Type used affects Electrolyzer", "When active, the power consumption, output temperature and overpressurisation threshold are affected by the water type.", "(1) General Settings")]
-		[JsonProperty]
+		[Option("STRINGS.UL_CONFIGSTRINGS.PERLIQUIDSETTINGS.NAME", "STRINGS.UL_CONFIGSTRINGS.PERLIQUIDSETTINGS.DESC", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.A_GENERAL")]
 		public bool PerLiquidSettings { get; set; }
 
-		[Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Water.\nWhen \"Liquid Conductivity\" is disabled, this option defines the general electrolyzer power consumption.", "(2) Default Settings / Water")]
-		[JsonProperty]
-		[Limit(10, 300)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.NAME", "STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.DESC_WATER", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.B_WATER")]
 		public int consumption_water { get; set; }
-		[Option("Minimum Gas Output Temperature", "Minimum Temperature of the Output Gasses in °C ", "(2) Default Settings / Water")]
-		[JsonProperty]
-		[Limit(10, 160)]
+
+		[Option("STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.NAME", "STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.DESC", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.B_WATER")]
 		public int minOutputTemp_water { get; set; }
-		[Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Water.", "(2) Default Settings / Water")]
-		[JsonProperty]
-		[Limit(1, 15)]
+
+		[Option("STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.NAME", "STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.DESC_WATER", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.B_WATER")]
 		public float PressureThresholdMass_water { get; set; }
 
-
-
-		[Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Polluted Water.", "(3) Polluted Water")]
-		[JsonProperty]
-		[Limit(10, 300)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.NAME", "STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.DESC_POLLUTEDWATER", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.C_POLLUTEDWATER")]
 		public int consumption_pollutedwater { get; set; }
 
-		[Option("Minimum Gas Output Temperature", "Minimum Temperature of the Output Gasses in °C ", "(3) Polluted Water")]
-		[JsonProperty]
-		[Limit(10, 160)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.NAME", "STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.DESC", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.C_POLLUTEDWATER")]
 		public int minOutputTemp_pollutedwater { get; set; }
-		[Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Polluted Water.", "(3) Polluted Water")]
-		[JsonProperty]
-		[Limit(1, 15)]
+
+		[Option("STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.NAME", "STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.DESC_POLLUTEDWATER", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.C_POLLUTEDWATER")]
 		public float PressureThresholdMass_pollutedwater { get; set; }
 
-
-
-
-		[Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Salt Water.", "(4) Salt Water")]
-		[JsonProperty]
-		[Limit(10, 300)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.NAME", "STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.DESC_SALTWATER", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.D_SALTWATER")]
 		public int consumption_saltwater { get; set; }
 
-		[Option("Minimum Gas Output Temperature", "Minimum Temperature of the Output Gasses in °C ", "(4) Salt Water")]
-		[JsonProperty]
-		[Limit(10, 160)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.NAME", "STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.DESC", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.D_SALTWATER")]
 		public int minOutputTemp_saltwater { get; set; }
 
-		[Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Salt Water.", "(4) Salt Water")]
-		[JsonProperty]
-		[Limit(1, 15)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.NAME", "STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.DESC_SALTWATER", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.D_SALTWATER")]
 		public float PressureThresholdMass_saltwater { get; set; }
 
-
-
-
-		[Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Brine.", "(5) Brine")]
-		[JsonProperty]
-		[Limit(10, 300)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.NAME", "STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.DESC_BRINE", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.E_BRINE")]
 		public int consumption_brine { get; set; }
 
-		[Option("Minimum Gas Output Temperature", "Minimum Temperature of the Output Gasses in °C ", "(5) Brine")]
-		[JsonProperty]
-		[Limit(10, 160)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.NAME", "STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.DESC", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.E_BRINE")]
 		public int minOutputTemp_brine { get; set; }
-		[Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Brine.", "(5) Brine")]
-		[JsonProperty]
-		[Limit(1, 15)]
+
+		[Option("STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.NAME", "STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.DESC_BRINE", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.E_BRINE")]
 		public float PressureThresholdMass_brine { get; set; }
 
-
-		[Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Brine.", "(6) Polluted Brine")]
-		[JsonProperty]
-		[Limit(10, 300)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.NAME", "STRINGS.UL_CONFIGSTRINGS.CONSUMPTION.DESC_MURKYBRINE", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.F_MURKYBRINE")]
 		public int consumption_murkybrine { get; set; }
 
-		[Option("Minimum Gas Output Temperature", "Minimum Temperature of the Output Gasses in °C ", "(6) Polluted Brine")]
-		[JsonProperty]
-		[Limit(10, 160)]
+		[Option("STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.NAME", "STRINGS.UL_CONFIGSTRINGS.MINOUTPUTTEMP.DESC", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.F_MURKYBRINE")]
 		public int minOutputTemp_murkybrine { get; set; }
-		[Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Brine.", "(6) Polluted Brine")]
-		[JsonProperty]
-		[Limit(1, 15)]
+
+		[Option("STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.NAME", "STRINGS.UL_CONFIGSTRINGS.PRESSURETHRESHOLDMASS.DESC_MURKYBRINE", "STRINGS.UL_CONFIGSTRINGS.CATEGORIES.F_MURKYBRINE")]
 		public float PressureThresholdMass_murkybrine { get; set; }
+
 
 		public Config()
 		{
