@@ -22,6 +22,7 @@ namespace Rockets_TinyYetBig.Patches.BuildingDefPatches
 				{
 					rocketEngineCluster.fuelTag = GameTags.CombustibleLiquid;
 					tank.FuelType = GameTags.CombustibleLiquid;
+					go.AddOrGet<EngineFuelFilter>();
 				}
 				ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 				conduitConsumer.conduitType = ConduitType.Liquid;
@@ -30,7 +31,6 @@ namespace Rockets_TinyYetBig.Patches.BuildingDefPatches
 				conduitConsumer.capacityKG = tank.storage.capacityKg;
 				conduitConsumer.forceAlwaysSatisfied = true;
 				conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-				go.AddOrGet<EngineFuelFilter>();
 			}
 		}
 	}
