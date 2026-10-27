@@ -96,7 +96,7 @@ namespace UtilLibs
 		private static bool IsCellInRocket(int _cell)
 		{
 			WorldContainer w = Grid.IsValidCell(_cell) && (int)Grid.WorldIdx[_cell] != (int)ClusterManager.INVALID_WORLD_IDX ? ClusterManager.Instance.GetWorld((int)Grid.WorldIdx[_cell]) : (WorldContainer)null;
-			return w.IsModuleInterior;
+			return w != null && w.IsModuleInterior;
 		}
 	}
 }

@@ -85,7 +85,7 @@ namespace LogicSatellites.Buildings
 			var mdh = go.AddOrGet<MoveDupeHereSM>();
 			mdh.targetCellOffset = new CellOffset(0, 1);
 
-			BuildingUtil.RenderAboveLiquids(go);
+			KanimUtils.RenderAboveLiquids(go);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

@@ -2,6 +2,11 @@
 
 namespace UtilLibs
 {
+	/// <summary>
+	/// Provides and caches state colors good, warning, bad
+	/// these colors are by default: green, yellow, red
+	/// but can be different if the user has colorblindness options set
+	/// </summary>
 	public static class AccessibilityUtils
 	{
 		private static Color _logicBad, _logicWarning, _logicGood;

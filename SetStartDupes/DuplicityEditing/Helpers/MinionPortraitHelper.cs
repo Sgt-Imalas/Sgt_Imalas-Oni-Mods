@@ -69,7 +69,7 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 			if (kbac == null)
 				kbac = gameObject.GetComponentInChildren<KBatchedAnimController>();
 
-			MinionAnimUtils.ApplyNewAccessories(kbac, soc, accessories);			
+			KanimUtils.ApplyNewAccessories(kbac, soc, accessories);			
 			StartCoroutine(ActivatePortraitsWhenReady());
 		}
 		private IEnumerator ActivatePortraitsWhenReady()

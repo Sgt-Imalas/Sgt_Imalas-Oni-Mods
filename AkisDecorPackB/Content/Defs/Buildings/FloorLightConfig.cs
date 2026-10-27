@@ -13,7 +13,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 
-			var def = BuildingUtil.CreateTileDef(
+			var def = BuildingUtils.CreateTileDef(
 				ID,
 				"dpii_floor_lamp_kanim",
 				[150f, 50f],
