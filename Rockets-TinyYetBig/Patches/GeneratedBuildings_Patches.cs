@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -7,14 +8,15 @@ namespace Rockets_TinyYetBig.Patches
 	{
 		/// <summary>
 		/// This patch registers all buildings to the build screen 
-		/// and all rocket modules to the rocket module selection screen and their building categories, added by RE 
+		/// and all rocket modules to the rocket module selection screen and their building categories
 		/// </summary>
 		[HarmonyPatch(typeof(GeneratedBuildings), nameof(GeneratedBuildings.LoadGeneratedBuildings))]
 		public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
 		{
 			public static void Postfix()
 			{
-				BuildingDatabase.AddBuildingsToPlanscreen();
+				BuildingDatabase.MoveVanillaBuildings();
+				BuildingManager.AddBuildingsToPlanScreen();
 			}
 		}
 	}

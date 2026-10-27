@@ -165,12 +165,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		{
 			if (Config.Instance.RocketDocking)
 			{
-				ModAssets.Techs.DockingTech = new Tech(ModAssets.Techs.DockingTechID, new List<string>
-				{
-					DockingTubeDoorConfig.ID,
-                    //AI_DockingPortConfig.ID,
-                    //SpaceStationDockingDoorConfig.ID
-                },
+				ModAssets.Techs.DockingTech = new Tech(ModAssets.Techs.DockingTechID, [],
 			instance
 			//,new Dictionary<string, float>()
 			//{
@@ -184,27 +179,18 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 			if (Config.Instance.EnableExtendedHabs)
 			{
-				ModAssets.Techs.LargerRocketLivingSpaceTech = new Tech(ModAssets.Techs.LargerRocketLivingSpaceTechID, new List<string>
-					{
-						HabitatModuleMediumExpandedConfig.ID,
-						HabitatModulePlatedNoseconeLargeConfig.ID,
-					},
+				ModAssets.Techs.LargerRocketLivingSpaceTech = new Tech(ModAssets.Techs.LargerRocketLivingSpaceTechID, [],
 				instance
 				);
 			}
 
-			ModAssets.Techs.FuelLoaderTech = new Tech(ModAssets.Techs.FuelLoaderTechID, new List<string>
-				{
-					UniversalFuelLoaderConfig.ID,
-					UniversalOxidizerLoaderConfig.ID,
-					HEPFuelLoaderConfig.ID,
-				},
+			ModAssets.Techs.FuelLoaderTech = new Tech(ModAssets.Techs.FuelLoaderTechID, [],
 			instance
 			);
 
 			if (Config.SpaceStationsPossible)
 			{
-				ModAssets.Techs.SpaceScienceTech = new Tech(ModAssets.Techs.SpaceScienceTechID, new List<string>(), instance,
+				ModAssets.Techs.SpaceScienceTech = new Tech(ModAssets.Techs.SpaceScienceTechID, [], instance,
 					new Dictionary<string, float>()
 				{
 						{"basic", 0f },
@@ -215,13 +201,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 					//	{ModAssets.DerelictUnlock1,1f }
 				});
 				//tech items are reversed
-				ModAssets.Techs.SpaceStationTech = new Tech(ModAssets.Techs.SpaceStationTechID, new List<string>
-					{
-						SpaceStationDockingDoorConfig.ID,
-						SpaceStationBuilderModuleConfig.ID,
-						DeepSpaceResearchCenterConfig.ID,
-						DeepSpaceResearchTelescopeConfig.ID,
-					},
+				ModAssets.Techs.SpaceStationTech = new Tech(ModAssets.Techs.SpaceStationTechID, [],
 				instance
 				, new Dictionary<string, float>()
 				{
@@ -232,9 +212,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 						{ModAssets.DeepSpaceScienceID,3f }
 				}
 				);
-				ModAssets.Techs.SpaceStationTechMedium = new Tech(ModAssets.Techs.SpaceStationTechMediumID, new List<string>
-				{
-				},
+				ModAssets.Techs.SpaceStationTechMedium = new Tech(ModAssets.Techs.SpaceStationTechMediumID, [],
 				instance
 				, new Dictionary<string, float>()
 				{
@@ -246,9 +224,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				}
 				);
 
-				ModAssets.Techs.SpaceStationTechLarge = new Tech(ModAssets.Techs.SpaceStationTechLargeID, new List<string>
-				{
-				},
+				ModAssets.Techs.SpaceStationTechLarge = new Tech(ModAssets.Techs.SpaceStationTechLargeID, [],
 				instance
 				, new Dictionary<string, float>()
 				{
@@ -263,12 +239,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			}
 			if (Config.Instance.EnableLargeCargoBays)
 			{
-				ModAssets.Techs.HugeCargoBayTech = new Tech(ModAssets.Techs.HugeCargoBayTechID, new List<string>
-					{
-						SolidCargoBayClusterLargeConfig.ID,
-						LiquidCargoBayClusterLargeConfig.ID,
-						GasCargoBayClusterLargeConfig.ID
-					},
+				ModAssets.Techs.HugeCargoBayTech = new Tech(ModAssets.Techs.HugeCargoBayTechID, [],
 				instance
 				, new Dictionary<string, float>()
 				{

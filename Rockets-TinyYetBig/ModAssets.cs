@@ -48,6 +48,7 @@ namespace Rockets_TinyYetBig
 		public static GameObject RocketBlueprints_SecondarySidescreenPrefab;
 		public static KScreen RocketBlueprintSecondarySideScreen;
 
+		public static GameObject BuildingEditorWindowPrefab;
 
 		public static GameObject BlackholeFX;
 
@@ -82,7 +83,7 @@ namespace Rockets_TinyYetBig
 		/// </summary>
 		public static HashSet<int> LastBlockingCells = new();
 
-		private static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
+		private static readonly Dictionary<int, string> Tooltips = new Dictionary<int, string>();
 		private static void InitializeCategoryTooltipDictionary()
 		{
 			if (tooltipsInitialized)
@@ -101,6 +102,11 @@ namespace Rockets_TinyYetBig
 			Tooltips.Add((int)RocketCategory.utility, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY);
 			Tooltips.Add((int)RocketCategory.uncategorized, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED);
 		}
+		public static Dictionary<int, string> GetTooltips()
+		{
+			InitializeCategoryTooltipDictionary();
+			return Tooltips;
+		}
 
 		public static void LoadAssets()
 		{
@@ -113,6 +119,7 @@ namespace Rockets_TinyYetBig
 			ConstructionSelector_SecondarySidescreenPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ConstructionSelector_SecondarySidescreen.prefab");
 			RocketBlueprints_SecondarySidescreenPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/RocketBlueprints_SecondarySidescreen.prefab");
 			BlackholeFX = bundle.LoadAsset<GameObject>("Assets/UIs/BlackholeFX.prefab");
+			BuildingEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/RE_BuildingEditor.prefab");
 
 			SgtLogger.Assert("ModuleSettingsWindowPrefab", ModuleSettingsWindowPrefab);
 			SgtLogger.Assert("DockingSideScreenWindowPrefab", DockingSideScreenWindowPrefab);
@@ -130,6 +137,7 @@ namespace Rockets_TinyYetBig
 			TMPConverter.ReplaceAllText(SpaceConstructionSideScreenWindowPrefab);
 			TMPConverter.ReplaceAllText(ConstructionSelector_SecondarySidescreenPrefab);
 			TMPConverter.ReplaceAllText(RocketBlueprints_SecondarySidescreenPrefab);
+			TMPConverter.ReplaceAllText(BuildingEditorWindowPrefab);
 
 			DupeTransferSecondarySideScreen = DupeTransferSecondarySideScreenWindowPrefab.AddComponent<CrewAssignmentSidescreen>();
 			ConstructionSelector_SecondarySidescreen = ConstructionSelector_SecondarySidescreenPrefab.AddComponent<SpaceConstructionTargetScreen>();

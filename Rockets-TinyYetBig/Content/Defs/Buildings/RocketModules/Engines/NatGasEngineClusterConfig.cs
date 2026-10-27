@@ -1,18 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Engines
 {
-	public class NatGasEngineClusterConfig : IBuildingConfig
+	public class NatGasEngineClusterConfig : IBuildingConfig, IGeneratorBuilding, IHasConfigurableRange, IHasConfigurableWattage
 	{
 		public const string ID = "RTB_NatGasEngineCluster";
 		public const string kanim = "rocket_natgas_engine_kanim"; //rocket_petro_engine_small_kanim
 		public const SimHashes FUEL = SimHashes.Methane;
-		public const float Wattage = 480f;
-		public const float TankCapacity = 450f;
+		static float _wattage = 480f;
+		static int _flightRange = 15;
+		const float TankCapacity = 450f;
 		public const int RocketHeight = 23;
+
+		public int GetTileRange() => _flightRange;
+		public void SetTileRange(int hexes) => _flightRange = hexes;
+		public string GetDescriptorTextRange() => global::STRINGS.DUPLICANTS.ATTRIBUTES.FUELRANGEPERKILOGRAM.NAME;
+		public string RangeUnitLabel() => global::STRINGS.UI.CLUSTERMAP.TILES;
+		public string RangeTooltip() => STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TOOLTIP;
+		public Tuple<int, int> GetLimitsRange() => new(8, 24);
+		public float GetWattage() => _wattage;
+		public void SetWattage(float wattage) => _wattage = wattage;
+		public Tuple<int, int> GetLimitsWattage() => new(120, 960);
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
@@ -45,7 +57,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
 			buildingDef.AttachmentSlotTag = GameTags.Rocket;
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.attachablePosition = new CellOffset(0, 0);
-			buildingDef.GeneratorWattageRating = Wattage;
+			buildingDef.GeneratorWattageRating = _wattage;
 			buildingDef.GeneratorBaseCapacity = 20000f;
 			buildingDef.RequiresPowerInput = false;
 			buildingDef.RequiresPowerOutput = false;
@@ -108,7 +120,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
 			conduitConsumer.forceAlwaysSatisfied = true;
 			conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
-			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS, 40f, TankCapacity / Config.Instance.NatGasEngineRange / 600f);
+			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS, 40f, TankCapacity / _flightRange / 600f);
 			go.GetComponent<KPrefabID>().prefabInitFn += inst => { };
 		}
 	}

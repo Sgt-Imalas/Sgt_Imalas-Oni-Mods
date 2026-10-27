@@ -1,13 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-	public class DrillconeStorageModuleConfig : IBuildingConfig
+	public class DrillconeStorageModuleConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public const string ID = "RTB_DrillConeDiamondStorage";
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+
+		static float _storageCapacity = 1500;
+		public static float StorageCapacity => _storageCapacity;
+		public float GetStorageCapacity() => _storageCapacity;
+		public string GetStorageLabel() => null;
+		public void SetStorageCapacity(float mass) => _storageCapacity = mass;
+		public Tuple<int, int> GetLimitsStorage() => new(1_000, 10_000);
+		public string StorageUnitLabel() => null;
+		public string GetStorageTooltip() => STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP;
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -48,7 +58,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			Storage storage = go.AddOrGet<Storage>();
-			storage.capacityKg = (float)Config.Instance.DrillconeSupportDiamondMass;
+			storage.capacityKg = GetStorageCapacity();
 			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			storage.showCapacityStatusItem = true;
 			storage.storageFilters = new List<Tag>() { SimHashes.Diamond.CreateTag() };

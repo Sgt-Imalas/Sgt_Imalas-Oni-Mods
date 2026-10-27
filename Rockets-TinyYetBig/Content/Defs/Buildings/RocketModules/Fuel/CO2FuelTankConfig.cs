@@ -1,12 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Fuel
 {
-	public class CO2FuelTankConfig : IBuildingConfig
+	public class CO2FuelTankConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public const string ID = "RTB_Co2FuelTank";
+		static float _storageCapacity = 50;
+		public static float StorageCapacity => _storageCapacity;
+		public float GetStorageCapacity() => _storageCapacity;
+		public string GetStorageLabel() => null;
+		public void SetStorageCapacity(float mass) => _storageCapacity = mass;
+		public Tuple<int, int> GetLimitsStorage() => new(25, 100);
+		public string StorageUnitLabel() => null;
+		public string GetStorageTooltip() => null;
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
@@ -51,7 +60,7 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			Storage storage = go.AddOrGet<Storage>();
-			storage.capacityKg = 50f;
+			storage.capacityKg = _storageCapacity;
 			storage.SetDefaultStoredItemModifiers(new List<Storage.StoredItemModifier>()
 			{
 				Storage.StoredItemModifier.Hide,

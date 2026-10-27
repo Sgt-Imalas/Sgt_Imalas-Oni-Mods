@@ -1,13 +1,23 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
-	public class CritterStasisModuleConfig : IBuildingConfig
+	public class CritterStasisModuleConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public const string ID = "RTB_CritterStasisModule";
+
+		static int _storageCapacity = 5;
+		public static int StorageCapacity => _storageCapacity;
+		public float GetStorageCapacity() => _storageCapacity;
+		public string GetStorageLabel() => null;
+		public void SetStorageCapacity(float mass) => _storageCapacity = Mathf.RoundToInt(mass);
+		public Tuple<int, int> GetLimitsStorage() => new(1, 16);
+		public string StorageUnitLabel() => global::STRINGS.UI.UNITSUFFIXES.CRITTERS;
+		public string GetStorageTooltip() => STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TOOLTIP;
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
@@ -48,7 +58,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			{
 				new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket,  null)
 			};
-			go = ExtendBuildingToDeliverableStorage(go, Config.Instance.CritterStorageCapacity);
+			go = ExtendBuildingToDeliverableStorage(go, StorageCapacity);
 			go.AddOrGet<CritterStasisChamberModule>();
 
 		}

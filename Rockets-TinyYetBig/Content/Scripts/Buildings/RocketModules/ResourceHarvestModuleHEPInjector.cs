@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Buildings.Nosecones;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
@@ -24,7 +25,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			SgtLogger.l("ResourceHarvestModuleHEPInjector.OnSpawn");
 
 
-			rocketModule.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, new ConditionHasRadbolts(storage, Config.Instance.LaserDrillconeCapacity));
+			rocketModule.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, new ConditionHasRadbolts(storage, NoseConeHEPHarvestConfig.StorageCapacity));
 			onStorageChangeHandle = Subscribe((int)GameHashes.OnStorageChange, Inject_UpdateMeter);
 			//meter = new MeterController(GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, []);
 

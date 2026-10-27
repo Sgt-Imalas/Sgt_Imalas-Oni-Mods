@@ -1,14 +1,25 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Nosecones
 {
-	class NoseConeHEPHarvestConfig : IBuildingConfig
+	class NoseConeHEPHarvestConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public const string ID = "RYB_NoseConeHEPHarvest";
+
+		static float _storageCapacity = 6_000;
+		public static float StorageCapacity => _storageCapacity;
+		public float GetStorageCapacity() => _storageCapacity;
+		public string GetStorageLabel() => null;
+		public void SetStorageCapacity(float mass) => _storageCapacity = mass;
+		public Tuple<int, int> GetLimitsStorage() => new(1_000, 20_000);
+		public string StorageUnitLabel() => global::STRINGS.UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES;
+		public string GetStorageTooltip() => STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP;
+
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -61,7 +72,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			id.AddTag(TagManager.Create(NoseconeHarvestConfig.ID));
 
 			HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
-			energyParticleStorage.capacity = Config.Instance.LaserDrillconeCapacity;
+			energyParticleStorage.capacity = _storageCapacity;
 			energyParticleStorage.autoStore = true;
 			energyParticleStorage.PORT_ID = ID;
 			energyParticleStorage.showCapacityStatusItem = true;

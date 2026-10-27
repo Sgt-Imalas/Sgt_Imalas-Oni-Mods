@@ -324,13 +324,13 @@ namespace Rockets_TinyYetBig
 				
 				public class RTB_SPACESTATIONDOCKINGDOOR
 				{
-					public static LocString NAME = FormatAsLink("[WIP] Orbital Docking Port", nameof(RTB_SPACESTATIONDOCKINGDOOR));
+					public static LocString NAME = FormatAsLink("Orbital Docking Port [WIP]", nameof(RTB_SPACESTATIONDOCKINGDOOR));
 					public static LocString DESC = "Connecting with another (rocket) has never been easier.";
 					public static LocString EFFECT = ("Enables docking with rockets to dock\n\nAllows loading and unloading docked rockets\n\nRockets require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.");
 				}
 				public class RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE
 				{
-					public static LocString NAME = FormatAsLink("[WIP] Core Orbital Docking Port", nameof(RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE));
+					public static LocString NAME = FormatAsLink("Core Orbital Docking Port [WIP]", nameof(RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE));
 					public static LocString DESC = "Connecting with another (rocket) has never been easier.";
 					public static LocString EFFECT = ("Enables docking with rockets to dock\n\nAllows loading and unloading docked rockets\n\nRockets require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.");
 				}
@@ -348,7 +348,7 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_SPACESTATIONMODULEBUILDER
 				{
-					public static LocString NAME = FormatAsLink("[WIP] Orbital Construction Module", nameof(RTB_SPACESTATIONMODULEBUILDER));
+					public static LocString NAME = FormatAsLink("Orbital Construction Module [WIP]", nameof(RTB_SPACESTATIONMODULEBUILDER));
 					public static LocString DESC = "TODO";
 					public static LocString EFFECT = "Allows construction in deep space.";
 				}
@@ -397,13 +397,13 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_DEEPSPACERESEARCHTELESCOPE
 				{
-					public static LocString NAME = FormatAsLink("[WIP] Deep Space Analysis Station", nameof(RTB_DEEPSPACERESEARCHTELESCOPE));
+					public static LocString NAME = FormatAsLink("Deep Space Analysis Station [WIP]", nameof(RTB_DEEPSPACERESEARCHTELESCOPE));
 					public static LocString DESC = "Deep space analysis stations scan and collect data on deep space anomalies";
 					public static LocString EFFECT = ("Allows " + DEEPSPACERESEARCH.NAME + " to be accumulated.\n\nRequires a " + RTB_DEEPSPACEINSIGHT.NAME + " to function.");
 				}
 				public class RTB_DEEPSPACERESEARCHCENTER
 				{
-					public static LocString NAME = FormatAsLink("[WIP] Quantum Computer", nameof(RTB_DEEPSPACERESEARCHCENTER));
+					public static LocString NAME = FormatAsLink("Quantum Computer [WIP]", nameof(RTB_DEEPSPACERESEARCHCENTER));
 					public static LocString DESC = "Quantum computers unlock new breakthroughs from the analysis of deep space anomalies.\n\nRequires active cooling to function optimally";
 					public static LocString EFFECT = ("Conducts " + DEEPSPACERESEARCH.NAME + " to unlock new technologies.\n\nConsumes " + RTB_DEEPSPACEINSIGHT.NAME_PLURAL + ".\n\nAssigned Duplicants must possess the " + global::STRINGS.DUPLICANTS.ROLES.SPACE_RESEARCHER.NAME + " skill.");
 				}
@@ -793,6 +793,91 @@ namespace Rockets_TinyYetBig
 
 		public class UI
 		{
+			public class RE_BUILDINGEDITOR
+			{
+				public static LocString TITLE = "Building Configuration Editor";
+
+				public static LocString MOD_ORIGIN_TEXT = "This building is categorized as:";
+				public static LocString BUILDINGCONFIGURABLE = "This building has settings that can be modified.";
+				public class BUILDINGENABLEDREASONS
+				{
+					public static LocString IS_ENABLED = "The building is currently enabled";
+					public static LocString IS_DISABLED = "You disabled the building.";
+					public static LocString GROUP_DISABLED = "Building disabled by group setting.";
+				}
+				public class RESETALLCHANGES
+				{
+					public static LocString TITLE = "Reset Changes";
+					public static LocString TEXT = "Are you sure you want to reset all modifications you have done to the building configuration?";
+				}
+				public class HORIZONTALLAYOUT
+				{
+					public class OBJECTLIST
+					{
+						public class SCROLLAREA
+						{
+							public class NONEAVAILABLE
+							{
+								public static LocString LABEL = "No buildings found";
+							}
+						}
+						public class SEARCHBAR
+						{
+							public static LocString CLEARTOOLTIP = "Clear search bar";
+							public class INPUT
+							{
+								public class TEXTAREA
+								{
+									public static LocString PLACEHOLDER = "Filter buildings...";
+									public static LocString TEXT = "";
+								}
+							}
+						}
+						public class FILTERS
+						{
+							public class FILTERBUTTON
+							{
+								public static LocString TEXT = "Filter by Category";
+							}
+						}
+					}
+					public class ITEMINFO
+					{
+						public class SCROLLAREA
+						{
+							public class CONTENT
+							{
+								public static LocString ENABLEBUILDING = "Enable Building:";
+								public static LocString CAPACITYSETTINGS = "Storage Capacity:";
+								public static LocString WATTAGESETTINGS = "Power Consumption:";
+								public static LocString WATTAGESETTINGS_GENERATOR = "Power Generation:";
+								public static LocString RANGESETTINGS = "Rocket Range:";
+								public static LocString RANGESETTINGS_PUMP = "Pump Range:";
+								public class RESETBUTTON
+								{
+									public static LocString TEXT = "Reset To Default";
+								}
+							}
+						}
+
+					}
+
+				}
+				public class BUTTONS
+				{
+					public class CLOSEBUTTON
+					{
+						public static LocString TEXT = "Return";
+						public static LocString TOOLTIP = "Close window";
+					}
+					public class RESETBUTTON
+					{
+						public static LocString TEXT = "Reset All Changes";
+						public static LocString TOOLTIP = "Reset all changes you have made";
+					}
+				}
+			}
+
 			public static class RTB_ROCKET_UPGRADES
 			{
 				public static class FAILURE_REASONS
@@ -1215,7 +1300,7 @@ namespace Rockets_TinyYetBig
 			public class ETHANOLENGINES
 			{
 				public static LocString TITLE = "Burn Combustible Liquids as fuel";
-				public static LocString TOOLTIP = "Allows Petroleum Engines to also burn other combustible liquids as fuel.";
+				public static LocString TOOLTIP = "Allows Petroleum Engines to also burn other combustible liquids as fuel.\nAlso adds a filter to limit the type of fuel loaded automatically by fuel loaders";
 			}
 			public class BUFFLARGEOXIDIZER
 			{
@@ -1254,19 +1339,6 @@ namespace Rockets_TinyYetBig
 			public class ENABLECRITTERSTORAGE
 			{
 				public static LocString TITLE = "Enable Critter Containment Module";
-			}
-			public class ENABLEPOISENSOR
-			{
-				public static LocString TITLE = "Enable POI Capacity Sensor";
-			}
-			public class RADBOLTSTORAGECAPACITY
-			{
-				public static LocString TITLE = "Radbolt Storage Module Capacity";
-				public static LocString TOOLTIP = "Set the total radbolt capacity of the Radbolt Chamber Module.";
-			}
-			public class ENABLERADBOLTSTORAGE
-			{
-				public static LocString TITLE = "Enable Radbolt Storage Module";
 			}
 			public class INSULATEDCARGOBAYS
 			{
@@ -1377,6 +1449,11 @@ namespace Rockets_TinyYetBig
 			{
 				public static LocString TITLE = "Improved World Selector";
 				public static LocString TOOLTIP = "Makes world selector planets collapsible and improves internal performance.\nRequired for space stations.";
+			}
+			public class OPENBUILDINGEDITOR
+			{
+				public static LocString TITLE = "Open Building Configuration Editor";
+				public static LocString TOOLTIP = "Open up the building configuration editor to individually toggle\neach modded building and to configure stats for them.\n\nSome Buildings are also dependent on a group setting in the regular config.";
 			}
 		}
 		public class MODIFIEDVANILLASTRINGS

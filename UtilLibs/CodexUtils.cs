@@ -3,11 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 namespace UtilLibs
 {
 	public static class CodexUtils
 	{
+		public static void HideFromCodex(GameObject go)
+		{
+			go.AddTag(GameTags.HideFromCodex);
+			go.AddTag(GameTags.DeprecatedContent);
+			go.AddTag(GameTags.HideFromSpawnTool);
+		}
 		public static void PostProcess(List<CodexEntry> resultList)
 		{
 			foreach (CodexEntry codexEntry in resultList)

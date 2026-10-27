@@ -2,29 +2,75 @@
 using Rockets_TinyYetBig.Buildings.Utility;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using Rockets_TinyYetBig.RocketFueling;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UtilLibs;
 using static Rockets_TinyYetBig.RocketFueling.FuelLoaderComponent;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
 	internal class RocketPortCargoLoading
 	{
-		public static float TotalMassStoredOfItems(IEnumerable<GameObject> items)
+		readonly struct OxTankEntry
 		{
-			float num = 0f;
-			foreach (var item in items)
+			public readonly OxidizerTank Tank;
+			public readonly FlatTagFilterable Filter;   // null for single-oxidizer tanks
+			public readonly Tag CapacityTag;            // default for multi-oxidizer tanks
+
+			public Storage Storage => Tank.storage;
+			public OxTankEntry(OxidizerTank tank)
 			{
-				if (item != null && item.TryGetComponent<PrimaryElement>(out var element))
+				Tank = tank;
+				if (tank.supportsMultipleOxidizers)
 				{
-					num += element.Mass;
+					Filter = tank.GetComponent<FlatTagFilterable>();
+					CapacityTag = Tag.Invalid;
+				}
+				else if (tank.TryGetComponent<ConduitConsumer>(out var consumer))
+				{
+					Filter = null;
+					CapacityTag = consumer.capacityTag;
+				}
+				else
+				{
+					Filter = null;
+					CapacityTag = Tag.Invalid;
+					Report(tank);
 				}
 			}
+			static void Report(OxidizerTank tank)
+			{
+				if (_malformedOxidizerTanks.Contains(tank.GetInstanceID()))
+					return;
+				_malformedOxidizerTanks.Add(tank.GetInstanceID());
+				SgtLogger.error("Invalid oxidizer tank found: " + tank.PrefabID());
+			}
 
-			return Mathf.RoundToInt(num * 1000f) / 1000f;
+			static readonly HashSet<int> _malformedOxidizerTanks = [];
+
+			public bool OxidizerAllowed(KPrefabID prefabId)
+			{
+				if (Tank.supportsMultipleOxidizers && Filter != null)
+					return prefabId.HasAnyTags(Filter.selectedTags);
+				return prefabId.HasTag(CapacityTag);
+			}
 		}
+		readonly struct CargobayEntry
+		{
+			public readonly CargoBayCluster Cargobay;
+			public readonly TreeFilterable Filter;
+			public Storage Storage => Cargobay.storage;
+			public CargobayEntry(CargoBayCluster cargobay)
+			{
+				Cargobay = cargobay;
+				Filter = cargobay.GetComponent<TreeFilterable>();
+			}
+			public bool ItemAccepted(Tag itemId)
+			{
+				return Filter.AcceptedTags.Contains(itemId);
+			}
+		}
+
 
 		public static void ReplacedCargoUnloadingMethod(CraftModuleInterface craftInterface, HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain, System.Action<bool> SetCompleteAction)
 		{
@@ -32,7 +78,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			CargoBaysPool[CargoBay.CargoType.Solids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
 			CargoBaysPool[CargoBay.CargoType.Liquids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
 			CargoBaysPool[CargoBay.CargoType.Gasses] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
-			var HEPStorages = ListPool<HighEnergyParticleStorage, CraftModuleInterface>.Allocate();
+			//var HEPStorages = ListPool<HighEnergyParticleStorage, CraftModuleInterface>.Allocate();
 			var multiMaterialCargoBays = ListPool<MultiMaterialCargoBay, CraftModuleInterface>.Allocate();
 
 			//SgtLogger.l("Unloading on " + craftInterface);
@@ -43,8 +89,8 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				var clusterModule = clusterModuleRef.Get();
 
 
-				if (clusterModule.TryGetComponent<HighEnergyParticleStorage>(out var hepStorage) && clusterModule.TryGetComponent<RadiationBatteryOutputHandler>(out _)) //only allow battery module to unload
-					HEPStorages.Add(hepStorage);
+				//if (clusterModule.TryGetComponent<HighEnergyParticleStorage>(out var hepStorage) && clusterModule.TryGetComponent<RadiationBatteryOutputHandler>(out _)) //only allow battery module to unload
+				//	HEPStorages.Add(hepStorage);
 
 
 				if (clusterModule.TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType != CargoBay.CargoType.Entities && cargoBay.storage.Count > 0f)
@@ -52,7 +98,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 					CargoBaysPool[cargoBay.storageType].Add(cargoBay);
 					//SgtLogger.l(" has cargo bay with " + cargoBay.storage.Count + " items", clusterModule.gameObject.GetProperName());
 				}
-				if (clusterModule.TryGetComponent<MultiMaterialCargoBay>(out var advCargoBay) && advCargoBay.Storage.items.Any())
+				if (clusterModule.TryGetComponent<MultiMaterialCargoBay>(out var advCargoBay) && advCargoBay.Storage.items.Count > 0)
 				{
 					multiMaterialCargoBays.Add(advCargoBay);
 					//SgtLogger.l(" has multi material cargo bay with " + advCargoBay.Storage.Count + " items", clusterModule.gameObject.GetProperName());
@@ -61,18 +107,22 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			bool hasUnloadingProcess = false;
 			foreach (ChainedBuilding.StatesInstance receiver in (HashSet<ChainedBuilding.StatesInstance>)chain)
 			{
-				ModularConduitPortController.Instance smi2 = receiver.GetSMI<ModularConduitPortController.Instance>();
+				ModularConduitPortController.Instance portControllerSmi = receiver.GetSMI<ModularConduitPortController.Instance>();
 				IConduitDispenser conduitDispenser = receiver.GetComponent<IConduitDispenser>();
 				Operational component2 = receiver.GetComponent<Operational>();
 				bool isUnloading = false;
-				if (conduitDispenser != null && (smi2 == null || smi2.SelectedMode == ModularConduitPortController.Mode.Unload || smi2.SelectedMode == ModularConduitPortController.Mode.Both) && (component2 == null || component2.IsOperational))
+				if (conduitDispenser != null && (portControllerSmi == null || portControllerSmi.SelectedMode == ModularConduitPortController.Mode.Unload || portControllerSmi.SelectedMode == ModularConduitPortController.Mode.Both) && (component2 == null || component2.IsOperational)
+					&& receiver.gameObject.TryGetComponent<TreeFilterable>(out var treeFilterable)
+					)
 				{
-					smi2.SetRocket(true);
-					TreeFilterable treeFilterable = receiver.GetComponent<TreeFilterable>();
+					portControllerSmi?.SetRocket(true);
 					float amount = conduitDispenser.Storage.RemainingCapacity();
 					//SgtLogger.l("remaining capacity: " + amount, receiver.gameObject.GetProperName());
 					foreach (var multiMaterialCargoBay in multiMaterialCargoBays)
 					{
+						if (amount <= 0f && isUnloading)
+							break;
+
 						if (multiMaterialCargoBay.Storage.Count > 0)
 						{
 							for (int index = multiMaterialCargoBay.Storage.items.Count - 1; index >= 0; --index)
@@ -82,16 +132,15 @@ namespace Rockets_TinyYetBig.Content.ModDb
 								{
 									isUnloading = true;
 									hasUnloadingProcess = true;
-									if (amount > 0.0f)
+									if (amount <= 0f)
+										break;
+									Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
+									if (pickupable != null)
 									{
-										Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
-										if (pickupable != null)
-										{
-											conduitDispenser.Storage.Store(pickupable.gameObject);
-											amount -= pickupable.PrimaryElement.Mass;
-										}
+										conduitDispenser.Storage.Store(pickupable.gameObject);
+										amount -= pickupable.PrimaryElement.Mass;
 									}
-									else
+									if (amount <= 0f)
 										break;
 								}
 							}
@@ -100,6 +149,9 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 					foreach (CargoBayCluster cargoBayCluster in CargoBaysPool[CargoBayConduit.ElementToCargoMap[conduitDispenser.ConduitType]])
 					{
+						if (amount <= 0f && isUnloading)
+							break;
+
 						if (cargoBayCluster.storage.Count > 0)
 						{
 							for (int index = cargoBayCluster.storage.items.Count - 1; index >= 0; --index)
@@ -109,23 +161,22 @@ namespace Rockets_TinyYetBig.Content.ModDb
 								{
 									isUnloading = true;
 									hasUnloadingProcess = true;
-									if (amount > 0.0f)
+									if (amount <= 0f)
+										break;
+									Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
+									if (pickupable != null)
 									{
-										Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
-										if (pickupable != null)
-										{
-											conduitDispenser.Storage.Store(pickupable.gameObject);
-											amount -= pickupable.PrimaryElement.Mass;
-										}
+										conduitDispenser.Storage.Store(pickupable.gameObject);
+										amount -= pickupable.PrimaryElement.Mass;
 									}
-									else
+									if (amount <= 0f)
 										break;
 								}
 							}
 						}
 					}
 				}
-				smi2?.SetUnloading(isUnloading);
+				portControllerSmi?.SetUnloading(isUnloading);
 			}
 			chain.Recycle();
 			CargoBaysPool[CargoBay.CargoType.Solids].Recycle();
@@ -133,7 +184,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			CargoBaysPool[CargoBay.CargoType.Gasses].Recycle();
 			CargoBaysPool.Recycle();
 			multiMaterialCargoBays.Recycle();
-			HEPStorages.Recycle();
+			//HEPStorages.Recycle();
 
 			SetCompleteAction.Invoke(!hasUnloadingProcess);
 		}
@@ -145,39 +196,50 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		/// <param name="craftInterface"></param>
 		/// <param name="chain"></param>
 		/// <param name="SetCompleteAction"></param>
+		static readonly List<GameObject> ItemsInStorage = new List<GameObject>(64);
+		static void CacheFuelLoaderItems(FuelLoaderComponent fuelLoader)
+		{
+			ItemsInStorage.Clear();
+			ItemsInStorage.AddRange(fuelLoader.solidStorage.items);
+			ItemsInStorage.AddRange(fuelLoader.liquidStorage.items);
+			if (fuelLoader.loaderType == LoaderType.Fuel)
+				ItemsInStorage.AddRange(fuelLoader.gasStorage.items);
+		}
+
 		public static void ReplacedCargoLoadingMethod(CraftModuleInterface craftInterface, HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain, System.Action<bool> SetCompleteAction)
 		{
 			bool HasLoadingProcess = false;
-			var CargoBaysPool = DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, CraftModuleInterface>.PooledList, CraftModuleInterface>.Allocate();
-			CargoBaysPool[CargoBay.CargoType.Solids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
-			CargoBaysPool[CargoBay.CargoType.Liquids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
-			CargoBaysPool[CargoBay.CargoType.Gasses] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
+			var CargoBaysPool = DictionaryPool<CargoBay.CargoType, ListPool<CargobayEntry, CraftModuleInterface>.PooledList, CraftModuleInterface>.Allocate();
+			CargoBaysPool[CargoBay.CargoType.Solids] = ListPool<CargobayEntry, CraftModuleInterface>.Allocate();
+			CargoBaysPool[CargoBay.CargoType.Liquids] = ListPool<CargobayEntry, CraftModuleInterface>.Allocate();
+			CargoBaysPool[CargoBay.CargoType.Gasses] = ListPool<CargobayEntry, CraftModuleInterface>.Allocate();
 
 			var FuelTanksPool = DictionaryPool<Element.State, ListPool<FuelTank, CraftModuleInterface>.PooledList, CraftModuleInterface>.Allocate();
 			FuelTanksPool[Element.State.Solid] = ListPool<FuelTank, CraftModuleInterface>.Allocate();
 			FuelTanksPool[Element.State.Liquid] = ListPool<FuelTank, CraftModuleInterface>.Allocate();
 			FuelTanksPool[Element.State.Gas] = ListPool<FuelTank, CraftModuleInterface>.Allocate();
 
-			var OxidizerTanks = ListPool<OxidizerTank, CraftModuleInterface>.Allocate();
+			var OxidizerTanks = ListPool<OxTankEntry, CraftModuleInterface>.Allocate();
 			var HEPStorages = ListPool<HighEnergyParticleStorage, CraftModuleInterface>.Allocate();
 			var DrillConeStorages = ListPool<Storage, CraftModuleInterface>.Allocate();
 			var multiMaterialCargoBays = ListPool<MultiMaterialCargoBay, CraftModuleInterface>.Allocate();
 
+			Tag FuelTag = Tag.Invalid;
 
-			Tag FuelTag = SimHashes.Void.CreateTag();
-
-			bool hasOxidizer;
+			//bool hasOxidizer;
 
 			foreach (Ref<RocketModuleCluster> clusterModuleRef in craftInterface.ClusterModules)
 			{
 				var clusterModule = clusterModuleRef.Get();
 
+				bool isRocketEngine = false;
 				if (clusterModule.TryGetComponent<RocketEngineCluster>(out var engine))
 				{
+					isRocketEngine = true;
 					FuelTag = engine.fuelTag;
-					hasOxidizer = engine.requireOxidizer;
+					//hasOxidizer = engine.requireOxidizer;
 				}
-				if(clusterModule.TryGetComponent<EngineFuelFilter>(out var fuelFilter))
+				if (clusterModule.TryGetComponent<EngineFuelFilter>(out var fuelFilter))
 				{
 					FuelTag = fuelFilter.SelectedFuel;
 				}
@@ -216,19 +278,22 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				}
 
 				if (clusterModule.TryGetComponent<HighEnergyParticleStorage>(out var hepStorage))
-					HEPStorages.Add(hepStorage);
+					if (isRocketEngine)
+						HEPStorages.Insert(0, hepStorage);
+					else
+						HEPStorages.Add(hepStorage);
 
 				if (clusterModule.TryGetComponent<OxidizerTank>(out var oxTank))
 				{
-					hasOxidizer = true;
-					OxidizerTanks.Add(oxTank);
+					//hasOxidizer = true;
+					OxidizerTanks.Add(new(oxTank));
 				}
 
 				if (clusterModule.TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType != CargoBay.CargoType.Entities && cargoBay.RemainingCapacity > 0f)
 				{
-					CargoBaysPool[cargoBay.storageType].Add(cargoBay);
+					CargoBaysPool[cargoBay.storageType].Add(new(cargoBay));
 				}
-				else if(clusterModule.TryGetComponent<MultiMaterialCargoBay>(out var advCargoBay))
+				else if (clusterModule.TryGetComponent<MultiMaterialCargoBay>(out var advCargoBay))
 				{
 					multiMaterialCargoBays.Add(advCargoBay);
 				}
@@ -250,6 +315,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				}
 			}
 
+			var solidFuelTanks = FuelTanksPool[Element.State.Solid];
+			var liquidFuelTanks = FuelTanksPool[Element.State.Liquid];
+			var gasFuelTanks = FuelTanksPool[Element.State.Gas];
+
 			foreach (ChainedBuilding.StatesInstance smi1 in chain)
 			{
 				ModularConduitPortController.Instance modularConduitPortController = smi1.GetSMI<ModularConduitPortController.Instance>();
@@ -264,35 +333,60 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				bool isLoading = false;
 				if (fuelLoader != null && operational.IsOperational && (modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
 				{
-					//shouldDoNormal = false;
 					modularConduitPortController.SetRocket(true);
-					if (fuelLoader.loaderType == LoaderType.Fuel)
+					if (fuelLoader.loaderType == LoaderType.Fuel && FuelTag != Tag.Invalid)
 					{
-						GameObject[] AllItems = Concat(fuelLoader.solidStorage.items, fuelLoader.liquidStorage.items, fuelLoader.gasStorage.items).ToArray();
-						for (int index = AllItems.Count() - 1; index >= 0; --index)
+						CacheFuelLoaderItems(fuelLoader);
+						for (int index = ItemsInStorage.Count - 1; index >= 0; --index)
 						{
-							GameObject toTransferFuel = AllItems[index];
-							if (!toTransferFuel.TryGetComponent<PrimaryElement>(out var primaryElement) || primaryElement.Element.IsVacuum)
+							GameObject toTransferFuel = ItemsInStorage[index];
+							if (!toTransferFuel.TryGetComponent<Pickupable>(out var fuelPickupable) || fuelPickupable.primaryElement.Element.IsVacuum || !fuelPickupable.TryGetComponent<KPrefabID>(out var fuelPrefabId))
 								continue;
-							//Mask out non-state related bits
-							var elementState = primaryElement.Element.state & Element.State.Solid;
 
-							foreach (FuelTank fueltank in FuelTanksPool[elementState])
+							//items that are not valid engine fuel can never be transferred
+							if (!fuelPrefabId.HasTag(FuelTag))
+								continue;
+
+							var itemElement = fuelPickupable.primaryElement;
+							float remainingMass = itemElement.Mass;
+
+							if (remainingMass <= 0f)
+								continue;
+
+							//Mask out non-state related bits
+							var elementState = itemElement.Element.state & Element.State.Solid;
+
+							var fuelTanks = elementState switch
 							{
+								Element.State.Solid => solidFuelTanks,
+								Element.State.Liquid => liquidFuelTanks,
+								Element.State.Gas => gasFuelTanks,
+								_ => null
+							};
+							if (fuelTanks == null)
+								continue;
+
+							foreach (FuelTank fueltank in fuelTanks)
+							{
+								//if the tank has a limiting fuel tag, also check for that
+								if (fueltank.fuelType != null && !fuelPrefabId.HasTag(fueltank.fuelType))
+									continue;
+
 								float remainingCapacity = fueltank.Storage.RemainingCapacity();
-								float loaderItemsMass = TotalMassStoredOfItems(AllItems);
-								//SgtLogger.l($"{fueltank}; TankFuelType: {fueltank.fuelType} EngineTargetTag: {FuelTag}: {toTransferFuel.HasTag(FuelTag)} && has fueltank type: {toTransferFuel.HasTag(fueltank.fuelType)} ");
-								if (remainingCapacity > 0 && loaderItemsMass > 0 && toTransferFuel.HasTag(FuelTag) && (fueltank.fuelType == null || toTransferFuel.HasTag(fueltank.fuelType)))
+								if (remainingCapacity <= 0)
+									continue;
+
+								isLoading = true;
+								HasLoadingProcess = true;
+								Pickupable pickupable = fuelPickupable.Take(remainingCapacity);
+								if (pickupable != null)
 								{
-									isLoading = true;
-									HasLoadingProcess = true;
-									Pickupable pickupable = toTransferFuel.GetComponent<Pickupable>().Take(remainingCapacity);
-									if (pickupable != null)
-									{
-										fueltank.storage.Store(pickupable.gameObject, true);
-										//float internalMassStored = remainingCapacity - pickupable.PrimaryElement.Mass;
-									}
+									fueltank.storage.Store(pickupable.gameObject, true);
+									remainingMass -= pickupable.primaryElement.Mass;
+									//float internalMassStored = remainingCapacity - pickupable.PrimaryElement.Mass;
 								}
+								if (remainingMass <= 0)
+									break;
 							}
 						}
 					}
@@ -316,28 +410,38 @@ namespace Rockets_TinyYetBig.Content.ModDb
 					}
 					else if (fuelLoader.loaderType == LoaderType.Oxidizer)
 					{
-						GameObject[] AllOXItems = Concat(fuelLoader.solidStorage.items, fuelLoader.liquidStorage.items).ToArray();
-						for (int index = AllOXItems.Count() - 1; index >= 0; --index)
+						CacheFuelLoaderItems(fuelLoader);
+						for (int index = ItemsInStorage.Count - 1; index >= 0; --index)
 						{
-							GameObject storageItem = AllOXItems[index];
-							foreach (OxidizerTank oxTank in OxidizerTanks)
+							GameObject storageItem = ItemsInStorage[index];
+
+							if (!storageItem.TryGetComponent<Pickupable>(out var oxidizerPickupable) || oxidizerPickupable.primaryElement.Element.IsVacuum || !storageItem.TryGetComponent<KPrefabID>(out var prefabID))
+								continue;
+							var itemElement = oxidizerPickupable.primaryElement;
+							float remainingMass = itemElement.Mass;
+
+							if (remainingMass <= 0f)
+								continue;
+
+							foreach (OxTankEntry oxTank in OxidizerTanks)
 							{
-								float remainingCapacity = oxTank.storage.RemainingCapacity();
-								float massStoredLoader = oxTank.supportsMultipleOxidizers ? fuelLoader.solidStorage.MassStored() : fuelLoader.liquidStorage.MassStored();
-								bool tagAllowed = oxTank.supportsMultipleOxidizers
-									? storageItem.GetComponent<KPrefabID>().HasAnyTags(oxTank.GetComponent<FlatTagFilterable>().selectedTags)
-									: storageItem.HasTag(oxTank.GetComponent<ConduitConsumer>().capacityTag);
-								if (remainingCapacity > 0 && massStoredLoader > 0.0 && tagAllowed)
+								if (!oxTank.OxidizerAllowed(prefabID))
+									continue;
+
+								float remainingCapacity = oxTank.Storage.RemainingCapacity();
+								if (remainingCapacity <= 0)
+									continue;
+
+								isLoading = true;
+								HasLoadingProcess = true;
+								Pickupable pickupable = oxidizerPickupable.Take(remainingCapacity);
+								if (pickupable != null)
 								{
-									isLoading = true;
-									HasLoadingProcess = true;
-									Pickupable pickupable = storageItem.GetComponent<Pickupable>().Take(remainingCapacity);
-									if (pickupable != null)
-									{
-										oxTank.storage.Store(pickupable.gameObject, true);
-										//float internalMassStored = remainingCapacity - pickupable.PrimaryElement.Mass;
-									}
+									oxTank.Storage.Store(pickupable.gameObject, true);
+									remainingMass -= pickupable.primaryElement.Mass;
 								}
+								if (remainingMass <= 0)
+									break;
 							}
 						}
 					}
@@ -345,67 +449,92 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				else if (operational.IsOperational && (modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both) && conduitConsumerComponent != null)
 				{
 					modularConduitPortController.SetRocket(true);
+					ListPool<CargobayEntry, CraftModuleInterface>.PooledList cargoBayEntries = null;
+
 					for (int num = conduitConsumerComponent.Storage.items.Count - 1; num >= 0; num--)
 					{
 						GameObject item = conduitConsumerComponent.Storage.items[num];
+						if (!item.TryGetComponent<Pickupable>(out var itemPickupable))
+							continue;
 
-						foreach(MultiMaterialCargoBay mmcb in multiMaterialCargoBays)
+						float remainingMass = itemPickupable.primaryElement.Mass;
+
+						if (remainingMass <= 0f)
+							continue;
+
+						Tag itemId = item.PrefabID();
+
+
+						foreach (MultiMaterialCargoBay mmcb in multiMaterialCargoBays)
 						{
-							float remainingCapacity = mmcb.RemainingCapacityFor(item);
-							float loaderMassStored = conduitConsumerComponent.Storage.MassStored();
+							if (!mmcb.Filterable.AcceptedTags.Contains(itemId))
+								continue;
 
-							if (remainingCapacity > 0f && loaderMassStored > 0f && mmcb.Filterable.AcceptedTags.Contains(item.PrefabID()))
+							float remainingCapacity = mmcb.RemainingCapacityFor(itemPickupable.primaryElement);
+							if (remainingCapacity <= 0f)
+								continue;
+
+							isLoading = true;
+							HasLoadingProcess = true;
+							Pickupable pickupable = itemPickupable.Take(remainingCapacity);
+							if (pickupable != null)
 							{
-								isLoading = true;
-								HasLoadingProcess = true;
-								Pickupable pickupable = item.GetComponent<Pickupable>().Take(remainingCapacity);
-								if (pickupable != null)
-								{
-									mmcb.Storage.Store(pickupable.gameObject);
-									remainingCapacity -= pickupable.PrimaryElement.Mass;
-								}
+								mmcb.Storage.Store(pickupable.gameObject);
+								remainingMass -= pickupable.primaryElement.Mass;
 							}
+							if (remainingMass <= 0)
+								break;
 						}
 
-						if (item == null)
+						if (remainingMass <= 0)
 							continue;
 
 						foreach (var diamondStorage in DrillConeStorages)
 						{
-							float remainingCapacity = diamondStorage.RemainingCapacity();
-							float loaderMassStored = conduitConsumerComponent.Storage.MassStored();
 							bool filterable = diamondStorage.storageFilters != null && diamondStorage.storageFilters.Count > 0;
-							if (remainingCapacity > 0f && loaderMassStored > 0f && (filterable ? diamondStorage.storageFilters.Contains(item.PrefabID()) : true))
+							if (filterable && !diamondStorage.storageFilters.Contains(itemId))
+								continue;
+
+							float remainingCapacity = diamondStorage.RemainingCapacity();
+							if (remainingCapacity <= 0f)
+								continue;
+
+							isLoading = true;
+							HasLoadingProcess = true;
+							Pickupable pickupable = itemPickupable.Take(remainingCapacity);
+							if (pickupable != null)
 							{
-								isLoading = true;
-								HasLoadingProcess = true;
-								Pickupable pickupable = item.GetComponent<Pickupable>().Take(remainingCapacity);
-								if (pickupable != null)
-								{
-									diamondStorage.Store(pickupable.gameObject);
-									remainingCapacity -= pickupable.PrimaryElement.Mass;
-								}
+								diamondStorage.Store(pickupable.gameObject);
+								remainingMass -= pickupable.primaryElement.Mass;
 							}
+							if (remainingMass <= 0)
+								break;
 						}
-						if (item == null)
+						if (remainingMass <= 0)
 							continue;
 
-						foreach (CargoBayCluster cargoBayCluster in CargoBaysPool[CargoBayConduit.ElementToCargoMap[conduitConsumerComponent.ConduitType]])
-						{
-							float remainingCapacity = cargoBayCluster.RemainingCapacity;
-							float loaderMassStored = conduitConsumerComponent.Storage.MassStored();
+						if (cargoBayEntries == null)
+							cargoBayEntries = CargoBaysPool[CargoBayConduit.ElementToCargoMap[conduitConsumerComponent.ConduitType]];
 
-							if (remainingCapacity > 0f && loaderMassStored > 0f && cargoBayCluster.GetComponent<TreeFilterable>().AcceptedTags.Contains(item.PrefabID()))
+						foreach (CargobayEntry entry in cargoBayEntries)
+						{
+							if (!entry.ItemAccepted(itemId))
+								continue;
+
+							float remainingCapacity = entry.Cargobay.RemainingCapacity;
+							if (remainingCapacity <= 0f)
+								continue;
+
+							isLoading = true;
+							HasLoadingProcess = true;
+							Pickupable pickupable = itemPickupable.Take(remainingCapacity);
+							if (pickupable != null)
 							{
-								isLoading = true;
-								HasLoadingProcess = true;
-								Pickupable pickupable = item.GetComponent<Pickupable>().Take(remainingCapacity);
-								if (pickupable != null)
-								{
-									cargoBayCluster.storage.Store(pickupable.gameObject);
-									remainingCapacity -= pickupable.PrimaryElement.Mass;
-								}
+								entry.Storage.Store(pickupable.gameObject);
+								remainingMass -= pickupable.primaryElement.Mass;
 							}
+							if (remainingMass <= 0)
+								break;
 						}
 					}
 				}
@@ -428,15 +557,9 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			HEPStorages.Recycle();
 			OxidizerTanks.Recycle();
 			multiMaterialCargoBays.Recycle();
+			ItemsInStorage.Clear();
 
 			SetCompleteAction.Invoke(!HasLoadingProcess);
-		}
-
-		public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] arr)
-		{
-			foreach (IEnumerable col in arr)
-				foreach (T item in col)
-					yield return item;
 		}
 	}
 }

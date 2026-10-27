@@ -91,7 +91,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			go.AddOrGet<WallAdapter_TrueTilesHandler>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
 
-			BuildingUtil.RenderAboveLiquids(go);
+			KanimUtils.RenderAboveLiquids(go);
 		}
 	}
 }

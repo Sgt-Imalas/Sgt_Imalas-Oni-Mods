@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
@@ -6,11 +7,18 @@ using static Storage;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
-	class FridgeModuleConfig : IBuildingConfig
+	class FridgeModuleConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public const string ID = "RTB_FridgeCargoBay";
-		public float CAPACITY = 550f;
 
+		static int _storageCapacity = 550;
+		public static int StorageCapacity => _storageCapacity;
+		public float GetStorageCapacity() => _storageCapacity;
+		public string GetStorageLabel() => null;
+		public void SetStorageCapacity(float mass) => _storageCapacity = Mathf.RoundToInt(mass);
+		public Tuple<int, int> GetLimitsStorage() => new(100, 4_000);
+		public string StorageUnitLabel() => global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM;
+		public string GetStorageTooltip() => null;
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
@@ -57,7 +65,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			//go.AddOrGet<ModuleEnergyConsumer>();
 
 			Storage storage = go.AddOrGet<Storage>();
-			storage.capacityKg = CAPACITY;
+			storage.capacityKg = StorageCapacity;
 			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			storage.showCapacityStatusItem = true;
 			storage.storageFilters = STORAGEFILTERS.FOOD;

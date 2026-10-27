@@ -118,6 +118,16 @@ namespace UtilLibs.UIcmp //Source: Aki
 				}
 			});
 		}
+		public void AddEndListener(System.Action<string> onValueChangedEvent)
+		{
+			inputField.onEndEdit.AddListener((e) =>
+			{
+				if (!DataTextUpdate)
+				{
+					onValueChangedEvent(e);
+				}
+			});
+		}
 
 
 		public override void OnPrefabInit()

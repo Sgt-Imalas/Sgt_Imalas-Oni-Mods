@@ -33,11 +33,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			var buildingType = typeof(T);
 
-			var IdField = AccessTools.Field(buildingType, "ID");
-			if(IdField == null)
-			{
-				throw new ArgumentException($"Building type {buildingType.Name} does not have a static ID field.");
-			}
+			var IdField = AccessTools.Field(buildingType, "ID") ?? throw new ArgumentException($"Building type {buildingType.Name} does not have a static ID field.");
 			var buildingId = (string)IdField.GetValue(null);
 
 			BuildingConfigurationEntry entry = AddOrGetEntry(buildingId);

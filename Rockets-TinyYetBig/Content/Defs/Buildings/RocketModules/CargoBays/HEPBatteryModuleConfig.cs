@@ -1,5 +1,6 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings.Utility;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System.Collections.Generic;
 using TUNING;
@@ -7,11 +8,20 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
-	public class HEPBatteryModuleConfig : IBuildingConfig
+	public class HEPBatteryModuleConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public const string ID = "RTB_HEPBatteryModule";
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+
+		static float _storageCapacity = 3_000;
+		public static float StorageCapacity => _storageCapacity;
+		public float GetStorageCapacity() => _storageCapacity;
+		public string GetStorageLabel() => null;
+		public void SetStorageCapacity(float mass) => _storageCapacity = mass;
+		public Tuple<int, int> GetLimitsStorage() => new(1_000, 10_000);
+		public string StorageUnitLabel() => global::STRINGS.UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES;
+		public string GetStorageTooltip() => null;
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -80,7 +90,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			};
 
 			HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
-			energyParticleStorage.capacity = Config.Instance.RadboltStorageCapacity;
+			energyParticleStorage.capacity = StorageCapacity;
 			energyParticleStorage.autoStore = true;
 			energyParticleStorage.PORT_ID = ID;
 			energyParticleStorage.showCapacityStatusItem = true;
@@ -88,7 +98,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
 			go.AddOrGet<LoopingSounds>();
 			var HEPBatteryModule = go.AddOrGet<RadiationBatteryOutputHandler>();
-			HEPBatteryModule.physicalFuelCapacity = Config.Instance.RadboltStorageCapacity;
+			HEPBatteryModule.physicalFuelCapacity = StorageCapacity;
 			go.AddOrGet<DrillConeAssistentModuleHEP>();
 		}
 

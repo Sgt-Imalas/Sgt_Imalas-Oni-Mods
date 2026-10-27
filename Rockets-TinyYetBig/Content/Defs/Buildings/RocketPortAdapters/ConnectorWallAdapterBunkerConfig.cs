@@ -85,7 +85,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			prefabId.AddTag(GameTags.FloorTiles);
 			prefabId.AddTag(GameTags.Bunker);
 
-			BuildingUtil.RenderAboveLiquids(go);
+			KanimUtils.RenderAboveLiquids(go);
 		}
 	}
 }

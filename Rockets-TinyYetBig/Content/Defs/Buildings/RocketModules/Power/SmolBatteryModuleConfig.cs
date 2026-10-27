@@ -1,12 +1,22 @@
-﻿using TUNING;
+﻿using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Generators
 {
-	public class SmolBatteryModuleConfig : IBuildingConfig
+	public class SmolBatteryModuleConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public const string ID = "RTB_SmolBatteryModule";
 		private static readonly CellOffset PLUG_OFFSET = new CellOffset(-1, 0);
+
+		static float _storageCapacity = 40; //in KJ
+		public static float StorageCapacity => _storageCapacity;
+		public float GetStorageCapacity() => _storageCapacity;
+		public string GetStorageLabel() => null;
+		public void SetStorageCapacity(float mass) => _storageCapacity = mass;
+		public Tuple<int, int> GetLimitsStorage() => new(10, 100);
+		public string StorageUnitLabel() => global::STRINGS.UI.UNITSUFFIXES.ELECTRICAL.KILOJOULE;
+		public string GetStorageTooltip() => null;
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
@@ -51,7 +61,7 @@ namespace Rockets_TinyYetBig.Buildings.Generators
 		{
 			Prioritizable.AddRef(go);
 			ModuleBattery moduleBattery = go.AddOrGet<ModuleBattery>();
-			moduleBattery.capacity = 40000f;
+			moduleBattery.capacity = StorageCapacity * 1_000f;
 			moduleBattery.joulesLostPerSecond = 1f;
 			WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
 			virtualNetworkLink.link1 = PLUG_OFFSET;

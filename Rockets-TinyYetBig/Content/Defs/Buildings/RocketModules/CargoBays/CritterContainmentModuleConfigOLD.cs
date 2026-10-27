@@ -47,7 +47,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			{
 				new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket,  null)
 			};
-			go = ExtendBuildingToDeliverableStorage(go, Config.Instance.CritterStorageCapacity);
+			go = ExtendBuildingToDeliverableStorage(go, CritterStasisModuleConfig.StorageCapacity);
 
 		}
 

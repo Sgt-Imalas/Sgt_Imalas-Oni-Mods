@@ -1,14 +1,20 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
-	public class SteamGeneratorModuleConfig : IBuildingConfig
+	public class SteamGeneratorModuleConfig : IBuildingConfig, IGeneratorBuilding, IHasConfigurableWattage
 	{
 		public const string ID = "RTB_SteamGeneratorModule";
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+
+		static float _wattage = 425;
+		public float GetWattage() => _wattage;
+		public void SetWattage(float wattage) => _wattage = wattage;
+		public Tuple<int, int> GetLimitsWattage() => new(240, 960);
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -39,8 +45,8 @@ namespace Rockets_TinyYetBig
 
 			buildingDef.attachablePosition = new CellOffset(0, 0);
 
-			buildingDef.GeneratorWattageRating = 425f;
-			buildingDef.GeneratorBaseCapacity = 2400f;
+			buildingDef.GeneratorWattageRating = _wattage;
+			buildingDef.GeneratorBaseCapacity = _wattage * 10;
 			buildingDef.RequiresPowerInput = false;
 			buildingDef.RequiresPowerOutput = false;
 			return buildingDef;

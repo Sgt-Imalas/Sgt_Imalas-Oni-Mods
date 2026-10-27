@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Content.ModDb;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		private List<FetchOrder2> fetches;
 		//private static StatusItem capacityStatusItem;
 		[Serialize]
-		public int CurrentMaxCapacity = Config.Instance.CritterStorageCapacity;
+		public int CurrentMaxCapacity = CritterStasisModuleConfig.StorageCapacity;
 
 		private static readonly EventSystem.IntraObjectHandler<CritterStasisChamberModule> RefreshCreatureCountDelegate = new EventSystem.IntraObjectHandler<CritterStasisChamberModule>(((component, data) => component.RefreshCreatureCount(data)));
 		public int CurrentCapacity => storedCritters.Count;
@@ -255,7 +256,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		public float MinCapacity => 1;
 
-		float IUserControlledCapacity.MaxCapacity => Config.Instance.CritterStorageCapacity;
+		float IUserControlledCapacity.MaxCapacity => CritterStasisModuleConfig.StorageCapacity;
 
 		public bool WholeValues => true;
 

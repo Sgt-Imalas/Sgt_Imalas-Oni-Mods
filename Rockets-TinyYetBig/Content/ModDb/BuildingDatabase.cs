@@ -1,21 +1,25 @@
-﻿using Rockets_TinyYetBig.Buildings.CargoBays;
+﻿using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Engines;
 using Rockets_TinyYetBig.Buildings.Fuel;
 using Rockets_TinyYetBig.Buildings.Generators;
 using Rockets_TinyYetBig.Buildings.Habitats;
 using Rockets_TinyYetBig.Buildings.Nosecones;
 using Rockets_TinyYetBig.Buildings.Utility;
-using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.Content.Defs.Buildings;
+using Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings;
+using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
+using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays;
+using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModuleUpgrades;
+using Rockets_TinyYetBig.Content.Defs.Buildings.StationParts;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
-using static UtilLibs.RocketryUtils;
+using System;
 using UtilLibs;
-using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
-using Rockets_TinyYetBig.Content.Defs.Buildings;
-using Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings;
-using Rockets_TinyYetBig.Content.Defs.Buildings.StationParts;
-using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays;
+using static UtilLibs.GameStrings;
+using static UtilLibs.RocketryUtils;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
@@ -23,257 +27,320 @@ namespace Rockets_TinyYetBig.Content.ModDb
 	{
 		const string
 			Category_FuelLoaders = "rocketfueling",
-			Category_ModuleUpgrades = "rtb_moduleupgrades"
+			Category_ModuleUpgrades = "rtb_moduleupgrades",
+			Category_StationParts = "rtb_stationparts"
 			;
-		public static void AddBuildingsToPlanscreen()
+
+		const string Sync_Freezer = "RTB_FreezerModuleGroup";
+
+		public static void RegisterBuildings()
 		{
-			//Assign categories to each vanilla module
 			CategorizeVanillaModules();
 
-			if (Mod.Instance.mod.IsDev)
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, StationPOISolarPanelConfig.ID, "power");
-
-			AddRocketModuleToBuildList(AIOCargoBayModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, }, ArtifactCargoBayConfig.ID, true);
-
-			AddRocketModuleToBuildList(SolarPanelModuleWideConfig.ID, RocketCategory.power, SolarPanelModuleConfig.ID);
-
-			if (Config.Instance.EnableExtendedHabs)
-			{
-				AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallConfig.ID);
-				AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleMediumConfig.ID);
-				AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, NoseconeBasicConfig.ID);
-				AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallExpandedConfig.ID);
-			}
-
-			//if (Config.Instance.Boosters)
-			//{
-			//    AddRocketModuleToBuildList(PetroleumBoosterClusterConfig.ID, RocketryUtils.RocketCategory.engines, KeroseneEngineClusterConfig.ID);
-			//    AddRocketModuleToBuildList(IonEngineBoosterClusterConfig.ID, RocketryUtils.RocketCategory.engines, HydrogenEngineClusterConfig.ID);
-			//}
-			//if (Config.Instance.EnableElectricEngine)
-			//{
-			//    AddRocketModuleToBuildList(IonEngineClusterConfig.ID, RocketryUtils.RocketCategory.engines, HydrogenEngineClusterConfig.ID);
-			//}
-
-			if (Config.Instance.EnableRadboltStorage)
-				AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
-
-			if (Config.Instance.EnableCritterStorage)
-				AddRocketModuleToBuildList(CritterStasisModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
-
-
-			if (Config.Instance.EnableFridge)
-			{
-				AddRocketModuleToBuildList(FridgeModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, ArtifactCargoBayConfig.ID, true);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, FridgeModuleAccessHatchConfig.ID, RefrigeratorConfig.ID);
-			}
-
-
-			if (Config.Instance.EnableLaserDrill)
-			{
-				AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
-			}
-			if (Config.Instance.EnableDrillSupport)
-			{
-				AddRocketModuleToBuildList(DrillconeStorageModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, NoseconeHarvestConfig.ID);
-			}
-
-
-			if (Config.Instance.EnableGenerators)
-			{
-				AddRocketModuleToBuildList(CoalGeneratorModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID);
-				AddRocketModuleToBuildList(RTGModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID);
-				AddRocketModuleToBuildList(SteamGeneratorModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID);
-			}
-
-			if (Config.Instance.EnableBunkerPlatform)
-			{
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, LaunchPadConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID, LaunchPadConfig.ID);
-				//AddRocketModuleToBuildList(PlatformDeployerModuleConfig.ID, new RocketCategory[] { RocketCategory.deployables, RocketCategory.utility }, PioneerModuleConfig.ID);
-			}
-
-			if (Config.Instance.EnableSolarNosecone)
-				AddRocketModuleToBuildList(NoseConeSolarConfig.ID, new RocketCategory[] { RocketCategory.nosecones, RocketCategory.power }, NoseconeBasicConfig.ID);
-
-			if (Config.Instance.EnableSmolBattery)
-				AddRocketModuleToBuildList(SmolBatteryModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID, true);
-
-			if (Config.Instance.EnableNatGasEngine)
-				AddRocketModuleToBuildList(NatGasEngineClusterConfig.ID, RocketCategory.engines, SteamEngineClusterConfig.ID);
-
-			//if (Config.Instance.LandingLegs)
-			//    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
-			//AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility);
-
-			if (Config.Instance.RocketDocking)
-			{
-
-				//AddRocketModuleToBuildList(AI_DockingPortConfig.ID, RocketCategory.utility, ScannerModuleConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, GantryConfig.ID);
-			}
-			if (Config.SpaceStationsPossible)
-			{
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, DeepSpaceResearchCenterConfig.ID, DLC1CosmicResearchCenterConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, DeepSpaceResearchTelescopeConfig.ID, DLC1CosmicResearchCenterConfig.ID);
-
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
-				AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, new RocketCategory[] { RocketCategory.deployables, RocketCategory.utility }, OrbitalCargoModuleConfig.ID);
-
-				if (Config.Derelicts)
-				{
-					string stationPartsCategory = "RTB_StationParts";
-					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, GravitonCoreConfig.ID, subcategoryID: stationPartsCategory);
-				}
-			}
-
-			if (Config.Instance.EnableWallAdapter)
-			{
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, VerticalAdapterPieceConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, VerticalAdapterBaseConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, LoaderFirepoleAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, ReinforcedLadderConfig.ID, LadderConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterBunkerConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				//InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorBypassAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				//InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderTravelTubeAdapterConfig.ID, "rocketfueling"); ///Too buggy atm
-			}
-
-			if (Config.Instance.EnableFuelLoaders)
-			{
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalFuelLoaderConfig.ID, Category_FuelLoaders);
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, Category_FuelLoaders);
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, Category_FuelLoaders);
-			}
-			if (Config.Instance.EnableRocketModuleUpgrades)
-			{
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ModuleUpgradeDatabase.CargoBayFilter.ID, Category_ModuleUpgrades);
-			}
-			if (Config.Instance.EnableEarlyGameFuelTanks)
-			{
-				AddRocketModuleToBuildList(CO2FuelTankConfig.ID, RocketryUtils.RocketCategory.fuel, CO2EngineConfig.ID);
-				AddRocketModuleToBuildList(LiquidFuelTankClusterSmallConfig.ID, RocketryUtils.RocketCategory.fuel, LiquidFuelTankClusterConfig.ID, true);
-				AddRocketModuleToBuildList(LiquidChlorineOxidizerTankConfig.ID, RocketryUtils.RocketCategory.fuel, OxidizerTankLiquidClusterConfig.ID, true);
-			}
-			if (Config.Instance.EnableLargeCargoBays)
-			{
-				AddRocketModuleToBuildList(SolidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, GasCargoBayClusterConfig.ID);
-				AddRocketModuleToBuildList(LiquidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, SolidCargoBayClusterLargeConfig.ID);
-				AddRocketModuleToBuildList(GasCargoBayClusterLargeConfig.ID, RocketCategory.cargo, LiquidCargoBayClusterLargeConfig.ID);
-			}
-
-			if (Config.Instance.EnablePOISensor)
-			{
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Automation, POICapacitySensorConfig.ID, CometDetectorConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, RocketLogicLaunchConditionSetterConfig.ID, LogicClusterLocationSensorConfig.ID);
-			}
+			BuildingManager.LoadConfigFile();
+			RegisterBuildings_RocketModules();
+			RegisterBuildings_RegularBuildings();
+			RegisterBuildings_DevBuildings();
+			RegisterBuildings_StationParts();
+			RegisterBuildings_ModuleUpgrades();
 		}
 
-		//to be executed after DbInit
-		public static void AddBuildingsToTech()
-
+		static void RegisterBuildings_RocketModules()
 		{
-			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SpacePower, SolarPanelModuleWideConfig.ID);
-			if (Config.Instance.EnableExtendedHabs)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CrashPlan, HabitatModuleSmallExpandedConfig.ID);
-				//InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HabitatModuleStargazerConfig.ID);
-			}
+			BuildingManager.CreateEntry<AIOCargoBayModuleConfig>()
+			.AddToCategory(RocketCategory.cargo, ArtifactCargoBayConfig.ID, ModUtil.BuildingOrdering.Before)
+			.AddToTech(Technology.ColonyDevelopment.DurableLifeSupport)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
 
-			if (Config.Instance.EnableRadboltStorage)
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadboltContainment, HEPBatteryModuleConfig.ID);
+			BuildingManager.CreateEntry<SolarPanelModuleWideConfig>()
+			.AddToCategory(RocketCategory.power, SolarPanelModuleConfig.ID)
+			.AddToTech(Technology.Power.SpacePower)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
 
-			if (Config.Instance.EnableCritterStorage)
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.AnimalControl, CritterStasisModuleConfig.ID);
-			//InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.AnimalControl, CritterContainmentModuleConfig.ID);
+			BuildingManager.CreateEntry<HabitatModulePlatedNoseconeLargeConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableExtendedHabs)
+			.AddToCategory([RocketCategory.habitats, RocketCategory.nosecones], HabitatModuleSmallConfig.ID)
+			.AddToTech(ModAssets.Techs.LargerRocketLivingSpaceTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.A_ROCKETRYPLUS);
 
-			if (Config.Instance.EnableFridge)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleAccessHatchConfig.ID);
-			}
-			//if (Config.Instance.Boosters)
-			//{
-			//    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.HydrocarbonPropulsion, PetroleumBoosterClusterConfig.ID);
-			//    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CryoFuelPropulsion, IonEngineBoosterClusterConfig.ID);
-			//}
-			//if (Config.Instance.EnableElectricEngine)
-			//{
-			//    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CryoFuelPropulsion, IonEngineClusterConfig.ID);
-			//}
+			BuildingManager.CreateEntry<HabitatModuleSmallExpandedConfig>()
+			.AddToCategory([RocketCategory.habitats, RocketCategory.nosecones], HabitatModuleSmallConfig.ID)
+			.AddToTech(Technology.ColonyDevelopment.CrashPlan)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.A_ROCKETRYPLUS);
+
+			BuildingManager.CreateEntry<HabitatModuleMediumExpandedConfig>()
+			.ConfigEnabled(()=>Config.Instance.EnableExtendedHabs)
+			.AddToCategory(RocketCategory.habitats, HabitatModuleMediumConfig.ID)
+			.AddToTech(ModAssets.Techs.LargerRocketLivingSpaceTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.A_ROCKETRYPLUS);
+
+			BuildingManager.CreateEntry<HabitatModuleStargazerConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableExtendedHabs)
+			.AddToCategory([RocketCategory.habitats, RocketCategory.nosecones], NoseconeBasicConfig.ID)
+			.AddToTech(Technology.ColonyDevelopment.CelestialDetection)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.A_ROCKETRYPLUS);
+			BuildingManager.CreateEntry<HEPBatteryModuleConfig>()
+
+			.AddToCategory(RocketCategory.cargo, GasCargoBayClusterConfig.ID)
+			.AddToTech(Technology.RadiationTechnologies.RadboltContainment)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			BuildingManager.CreateEntry<CritterStasisModuleConfig>()
+			.AddToCategory(RocketCategory.cargo, SpecialCargoBayClusterConfig.ID)
+			.AddToTech(Technology.Food.AnimalControl)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			BuildingManager.CreateEntry<FridgeModuleConfig>()
+			.CategoryLink(Sync_Freezer)
+			.AddToCategory([RocketCategory.cargo, RocketCategory.utility], ArtifactCargoBayConfig.ID, ModUtil.BuildingOrdering.Before)
+			.AddToTech(Technology.Food.FoodRepurposing)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			BuildingManager.CreateEntry<NoseConeHEPHarvestConfig>()
+			.AddToCategory(RocketCategory.nosecones, NoseconeHarvestConfig.ID)
+			.AddToTech(Technology.SolidMaterial.HighVelocityDestruction)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			BuildingManager.CreateEntry<DrillconeStorageModuleConfig>()
+			.AddToCategory([RocketCategory.cargo, RocketCategory.utility], NoseconeHarvestConfig.ID)
+			.AddToTech(Technology.SolidMaterial.HighVelocityDestruction)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			BuildingManager.CreateEntry<CoalGeneratorModuleConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableGenerators)
+			.AddToCategory(RocketCategory.power, BatteryModuleConfig.ID)
+			.AddToTech(Technology.Power.AdvancedPowerRegulation)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
+
+			BuildingManager.CreateEntry<RTGModuleConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableGenerators)
+			.AddToCategory(RocketCategory.power, BatteryModuleConfig.ID)
+			.AddToTech(Technology.RadiationTechnologies.RadboltPropulsion)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
+
+			BuildingManager.CreateEntry<SteamGeneratorModuleConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableGenerators)
+			.AddToCategory(RocketCategory.power, BatteryModuleConfig.ID)
+			.AddToTech(Technology.Power.RenewableEnergy)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
+
+			BuildingManager.CreateEntry<NoseConeSolarConfig>()
+			.AddToCategory([RocketCategory.nosecones, RocketCategory.power], NoseconeBasicConfig.ID)
+			.AddToTech(Technology.Power.SpacePower)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
+
+			BuildingManager.CreateEntry<SmolBatteryModuleConfig>()
+			.AddToCategory(RocketCategory.power, BatteryModuleConfig.ID, ModUtil.BuildingOrdering.Before)
+			.AddToTech(Technology.Power.SoundAmplifiers)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
+
+			BuildingManager.CreateEntry<NatGasEngineClusterConfig>()
+			.AddToCategory(RocketCategory.engines, SteamEngineClusterConfig.ID)
+			.AddToTech(Technology.Food.GourmetMealPreparation)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.A_ROCKETRYPLUS);
+
+			BuildingManager.CreateEntry<CO2FuelTankConfig>()
+			.AddToCategory(RocketCategory.fuel, CO2EngineConfig.ID)
+			.AddToTech(Technology.Gases.GasDistribution)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.A_ROCKETRYPLUS);
+
+			BuildingManager.CreateEntry<LiquidFuelTankClusterSmallConfig>()
+			.AddToCategory(RocketCategory.fuel, LiquidFuelTankClusterConfig.ID, ModUtil.BuildingOrdering.Before)
+			.AddToTech(Technology.Liquids.LiquidTuning)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.A_ROCKETRYPLUS);
+
+			BuildingManager.CreateEntry<LiquidChlorineOxidizerTankConfig>()
+			.AddToCategory(RocketCategory.fuel, OxidizerTankLiquidClusterConfig.ID, ModUtil.BuildingOrdering.Before)
+			.AddToTech(Technology.Power.ImprovedHydrocarbonPropulsion)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.A_ROCKETRYPLUS);
+
+			BuildingManager.CreateEntry<GasCargoBayClusterLargeConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableLargeCargoBays)
+			.AddToCategory(RocketCategory.cargo, GasCargoBayClusterConfig.ID)
+			.AddToTech(ModAssets.Techs.HugeCargoBayTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			BuildingManager.CreateEntry<LiquidCargoBayClusterLargeConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableLargeCargoBays)
+			.AddToCategory(RocketCategory.cargo, GasCargoBayClusterConfig.ID)
+			.AddToTech(ModAssets.Techs.HugeCargoBayTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			BuildingManager.CreateEntry<SolidCargoBayClusterLargeConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableLargeCargoBays)
+			.AddToCategory(RocketCategory.cargo, GasCargoBayClusterConfig.ID)
+			.AddToTech(ModAssets.Techs.HugeCargoBayTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			BuildingManager.CreateEntry<SpaceStationBuilderModuleConfig>()
+			.ConfigEnabled(() => Config.SpaceStationsPossible)
+			.AddToCategory([RocketCategory.deployables, RocketCategory.utility], OrbitalCargoModuleConfig.ID)
+			.AddToTech(ModAssets.Techs.SpaceStationTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.E_SPACEEXPANSION);
+		}
+
+		static void RegisterBuildings_RegularBuildings()
+		{
+			//launchpads
+			BuildingManager.CreateEntry<BunkeredLaunchPadConfig>()
+			.AddToCategory(PlanMenuCategory.Rocketry, LaunchPadConfig.ID)
+			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
+
+			BuildingManager.CreateEntry<AdvancedLaunchPadConfig>()
+			.AddToCategory(PlanMenuCategory.Rocketry, LaunchPadConfig.ID)
+			.AddToTech(Technology.Computers.ParallelAutomation)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
+
+			//docking
+			BuildingManager.CreateEntry<DockingTubeDoorConfig>()
+			.ConfigEnabled(() => Config.Instance.RocketDocking)
+			.AddToCategory(PlanMenuCategory.Rocketry, GantryConfig.ID)
+			.AddToTech(ModAssets.Techs.DockingTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.E_SPACEEXPANSION);
+
+			//fridge
+			BuildingManager.CreateEntry<FridgeModuleAccessHatchConfig>()
+			.CategoryLink(Sync_Freezer)
+			.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
+			.AddToTech(Technology.Food.FoodRepurposing)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+
+			//wall adapters
+
+			BuildingManager.CreateEntry<VerticalAdapterBaseConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableWallAdapter)
+			.AddToCategory(PlanMenuCategory.Rocketry, ModularLaunchpadPortBridgeConfig.ID)
+			.AddToTech(Technology.SolidMaterial.Smelting)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
+
+			BuildingManager.CreateEntry<VerticalAdapterPieceConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableWallAdapter)
+			.AddToCategory(PlanMenuCategory.Rocketry, ModularLaunchpadPortBridgeConfig.ID)
+			.AddToTech(Technology.SolidMaterial.Smelting)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
+
+			BuildingManager.CreateEntry<LoaderLadderAdapterConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableWallAdapter)
+			.AddToCategory(PlanMenuCategory.Rocketry, ModularLaunchpadPortBridgeConfig.ID)
+			.AddToTech(Technology.SolidMaterial.Smelting)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
+
+			BuildingManager.CreateEntry<ReinforcedLadderConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableWallAdapter)
+			.AddToCategory(PlanMenuCategory.Base, LadderConfig.ID)
+			.AddToTech(Technology.SolidMaterial.Smelting)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
+
+			BuildingManager.CreateEntry<LoaderFirepoleAdapterConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableWallAdapter)
+			.AddToCategory(PlanMenuCategory.Rocketry, ModularLaunchpadPortBridgeConfig.ID)
+			.AddToTech(Technology.SolidMaterial.RefinedRenovations)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
 
 
-			if (Config.Instance.EnableLaserDrill)
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, NoseConeHEPHarvestConfig.ID);
+			BuildingManager.CreateEntry<ConnectorWallAdapterConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableWallAdapter)
+			.AddToCategory(PlanMenuCategory.Rocketry, ModularLaunchpadPortBridgeConfig.ID)
+			.AddToTech(Technology.Gases.TemperatureModulation)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
 
-			if (Config.Instance.EnableDrillSupport)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, DrillconeStorageModuleConfig.ID);
-			}
+			BuildingManager.CreateEntry<ConnectorWallAdapterBunkerConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableWallAdapter)
+			.AddToCategory(PlanMenuCategory.Rocketry, ModularLaunchpadPortBridgeConfig.ID)
+			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
 
-			if (Config.Instance.EnableBunkerPlatform)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, BunkeredLaunchPadConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.ParallelAutomation, AdvancedLaunchPadConfig.ID);
-			}
+			//fuel loaders
+			BuildingManager.CreateEntry<UniversalFuelLoaderConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableFuelLoaders)
+			.AddToCategory(PlanMenuCategory.Rocketry, string.Empty)
+			.SubCategory(Category_FuelLoaders)
+			.AddToTech(ModAssets.Techs.FuelLoaderTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
 
-			if (Config.Instance.EnableGenerators)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadboltPropulsion, RTGModuleConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.RenewableEnergy, SteamGeneratorModuleConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, CoalGeneratorModuleConfig.ID);
-			}
-			if (Config.Instance.EnableLargeCargoBays)
-			{
-				// InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, SolidCargoBayClusterLargeConfig.ID);
-			}
+			BuildingManager.CreateEntry<UniversalOxidizerLoaderConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableFuelLoaders)
+			.AddToCategory(PlanMenuCategory.Rocketry, string.Empty)
+			.SubCategory(Category_FuelLoaders)
+			.AddToTech(ModAssets.Techs.FuelLoaderTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
 
-			if (Config.Instance.EnableSolarNosecone)
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SpacePower, NoseConeSolarConfig.ID);
+			BuildingManager.CreateEntry<HEPFuelLoaderConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableFuelLoaders)
+			.AddToCategory(PlanMenuCategory.Rocketry, string.Empty)
+			.SubCategory(Category_FuelLoaders)
+			.AddToTech(ModAssets.Techs.FuelLoaderTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.C_FUELLOGISTICS);
 
-			if (Config.Instance.EnableSmolBattery)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SoundAmplifiers, SmolBatteryModuleConfig.ID);
+			//sensors
+			BuildingManager.CreateEntry<POICapacitySensorConfig>()
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING)
+			.AddToCategory(PlanMenuCategory.Automation, CometDetectorConfig.ID)
+			.AddToTech(Technology.Computers.SensitiveMicroimaging);
 
-			}
-			if (Config.Instance.EnableSmolBattery || Config.Instance.HabitatPowerPlug)
+			BuildingManager.CreateEntry<RocketLogicLaunchConditionSetterConfig>()
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING)
+			.AddToCategory(PlanMenuCategory.Rocketry, LogicClusterLocationSensorConfig.ID)
+			.AddToTech(Technology.Computers.Computing);
+
+			//space stations
+			BuildingManager.CreateEntry<DeepSpaceResearchCenterConfig>()
+			.ConfigEnabled(() => Config.SpaceStationsPossible)
+			.AddToCategory(PlanMenuCategory.Stations, DLC1CosmicResearchCenterConfig.ID)
+			.AddToTech(ModAssets.Techs.SpaceStationTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.E_SPACEEXPANSION);
+
+			BuildingManager.CreateEntry<DeepSpaceResearchTelescopeConfig>()
+			.ConfigEnabled(() => Config.SpaceStationsPossible)
+			.AddToCategory(PlanMenuCategory.Stations, DLC1CosmicResearchCenterConfig.ID)
+			.AddToTech(ModAssets.Techs.SpaceStationTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.E_SPACEEXPANSION);
+
+			BuildingManager.CreateEntry<SpaceStationDockingDoorConfig>()
+			.ConfigEnabled(() => Config.SpaceStationsPossible )
+			.AddToCategory(PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID)
+			.AddToTech(ModAssets.Techs.SpaceStationTechID)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.E_SPACEEXPANSION);
+		}
+
+		static void RegisterBuildings_StationParts()
+		{
+			//station parts
+			if (!Config.Derelicts && !Mod.IsDev)
+				return;
+
+			BuildingManager.CreateEntry<GravitonCoreConfig>()
+			.ConfigEnabled(() => Config.SpaceStationsPossible)
+			.AddToCategory(PlanMenuCategory.Rocketry, string.Empty)
+			.SubCategory(Category_StationParts)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.E_SPACEEXPANSION);
+		}
+		static void RegisterBuildings_ModuleUpgrades()
+		{
+			BuildingManager.CreateEntry<Upgrade_CargoBayCollectionFilterConfig>()
+			.ConfigEnabled(() => Config.Instance.EnableRocketModuleUpgrades)
+			.AddToCategory(PlanMenuCategory.Rocketry, string.Empty)
+			.SubCategory(Category_ModuleUpgrades)
+			.AddToTech(Technology.Computers.SensitiveMicroimaging)
+			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
+		}
+
+		static void RegisterBuildings_DevBuildings()
+		{
+			if (!Mod.Instance.mod.IsDev)
+				return;
+
+			BuildingManager.CreateEntry<StationPOISolarPanelConfig>()
+			.AddToCategory(PlanMenuCategory.Rocketry, string.Empty)
+			.SubCategory("power");
+		}
+
+		internal static void MoveVanillaBuildings()
+		{
+			if (Config.Instance.HabitatPowerPlug)
 			{
 				InjectionMethods.MoveItemToNewTech(RocketInteriorPowerPlugConfig.ID, GameStrings.Technology.Power.SpacePower, GameStrings.Technology.Power.AdvancedPowerRegulation);
-			}
-
-			if (Config.Instance.EnableWallAdapter)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.TemperatureModulation, ConnectorWallAdapterConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, ConnectorWallAdapterBunkerConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, LoaderLadderAdapterConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.RefinedRenovations, LoaderFirepoleAdapterConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, ReinforcedLadderConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, VerticalAdapterBaseConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, VerticalAdapterPieceConfig.ID);
-			}
-			if (Config.Instance.EnableNatGasEngine)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.GourmetMealPreparation, NatGasEngineClusterConfig.ID);
-			}
-			if (Config.Instance.EnableEarlyGameFuelTanks)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.GasDistribution, CO2FuelTankConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, LiquidFuelTankClusterSmallConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.ImprovedHydrocarbonPropulsion, LiquidChlorineOxidizerTankConfig.ID);
-			}
-			if (Config.Instance.EnablePOISensor)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, POICapacitySensorConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.Computing, RocketLogicLaunchConditionSetterConfig.ID);
-			}
-			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, AIOCargoBayModuleConfig.ID);
-			if (Config.Instance.EnableRocketModuleUpgrades)
-			{
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, ModuleUpgradeDatabase.CargoBayFilter.ID);
-
-				
 			}
 		}
 	}

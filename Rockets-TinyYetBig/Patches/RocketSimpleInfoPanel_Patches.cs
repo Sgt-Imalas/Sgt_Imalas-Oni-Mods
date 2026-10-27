@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.SpaceStations;
 using System.Collections.Generic;
 using UnityEngine;
@@ -690,7 +691,7 @@ namespace Rockets_TinyYetBig.Patches
 								{
 									var critterHolder = currentModule.CritterModule;
 
-									string CargobayText = $"{critterHolder.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(critterHolder.CurrentCapacity)}/{Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity)}";
+									string CargobayText = $"{critterHolder.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(critterHolder.CurrentCapacity)}/{Util.FormatWholeNumber(CritterStasisModuleConfig.StorageCapacity)}";
 									string ToolTip = critterHolder.GetStatusItem();
 
 

@@ -92,7 +92,7 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public static List<Tag> GetNonLiquifiableSolids()
 		{
-			return STORAGEFILTERS.NOT_EDIBLE_SOLIDS.Where(item => item != GameTags.Liquifiable).ToList();
+			return [.. STORAGEFILTERS.NOT_EDIBLE_SOLIDS.Where(item => item != GameTags.Liquifiable)];
 		}
 		public static string GetHPASteelIngredient()
 		{
@@ -110,9 +110,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		internal static void HideFromCodex(GameObject go)
 		{
-			go.AddTag(GameTags.HideFromCodex);
-			go.AddTag(GameTags.DeprecatedContent);
-			go.AddTag(GameTags.HideFromSpawnTool);
+			CodexUtils.HideFromCodex(go);
 		}
 
 		internal static void AdjustValveAnimFlowAnim(ValveBase instance, float maxFlow)
@@ -125,14 +123,6 @@ namespace RonivansLegacy_ChemicalProcessing
 				var hpaMaxFlow = new ValveBase.AnimRangeInfo(maxFlow, lastAnimIndex.animName);
 				instance.animFlowRanges = instance.animFlowRanges.Append(hpaMaxFlow);
 			}
-		}
-		internal static void AddFridgeAtmospherePort(GameObject go)
-		{
-			if (true)//Config.Instance.AdvFreezerAtmosphereInput
-				return;
-
-			var atmoStorage = go.AddComponent<Storage>();
-			atmoStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 		}
 	}
 }

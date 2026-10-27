@@ -27,7 +27,10 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 		public SpaceStation GetSpaceStationFromWorldId(int worldId)
 		{
-			if (ClusterManager.Instance.GetWorld(worldId).TryGetComponent<SpaceStation>(out var component))
+			if(worldId < 0 || ClusterManager.Instance == null || worldId >= ClusterManager.Instance.WorldContainers.Count)
+				return null;
+
+			if (ClusterManager.Instance.GetWorld(worldId) != null && ClusterManager.Instance.GetWorld(worldId).TryGetComponent<SpaceStation>(out var component))
 			{
 				return component;
 
@@ -50,7 +53,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 		public static bool GetRockets(out List<Clustercraft> rockets)
 		{
-			rockets = new List<Clustercraft>();
+			rockets = [];
 			foreach (Clustercraft potRocket in Components.Clustercrafts)
 			{
 				if (!potRocket.TryGetComponent<SpaceStation>(out var s))
@@ -175,8 +178,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 				world.SpacePodAllDupes(clusterLocation, SimHashes.Cuprite);
 				world.CancelChores();
-				HashSet<int> noRefundTiles;
-				world.DestroyWorldBuildings(out noRefundTiles);
+				world.DestroyWorldBuildings(out HashSet<int> noRefundTiles);
 				station.ClearAllBarriers(world, ref noRefundTiles);
 
 				ClusterManager.Instance.UnregisterWorldContainer(world);

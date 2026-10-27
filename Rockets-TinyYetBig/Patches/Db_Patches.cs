@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -15,7 +16,7 @@ namespace Rockets_TinyYetBig.Patches
 			}
             public static void Postfix(Db __instance)
 			{
-				BuildingDatabase.AddBuildingsToTech();
+				BuildingManager.AddBuildingsToTechs();
 				CarbonField_AnimationFix.ExecutePatch();
 				CustomOxidizers.RegisterCustomOxidizers();
 				ModStatusItems.Register();

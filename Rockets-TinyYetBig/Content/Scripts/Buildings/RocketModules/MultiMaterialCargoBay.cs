@@ -74,6 +74,22 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			}
 			return 0f;
 		}
+		internal float RemainingCapacityFor(PrimaryElement primaryElement)
+		{
+			if (HasSolidStorage && primaryElement.Element.IsSolid)
+			{
+				return Mathf.Max(0, userCapacitySolid - Storage.GetMassAvailable(GameTags.Solid));
+			}
+			else if (HasLiquidStorage && primaryElement.Element.IsLiquid)
+			{
+				return Mathf.Max(0, userCapacityLiquid - Storage.GetMassAvailable(GameTags.Liquid));
+			}
+			else if (HasGasStorage && primaryElement.Element.IsGas)
+			{
+				return Mathf.Max(0, userCapacityGas - Storage.GetMassAvailable(GameTags.Gas));
+			}
+			return 0f;
+		}
 
 		internal float RemainingCapacityFor(CargoBay.CargoType cargoType)
 		{

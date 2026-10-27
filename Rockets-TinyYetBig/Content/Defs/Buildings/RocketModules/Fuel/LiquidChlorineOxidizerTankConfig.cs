@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Fuel
 {
-	public class LiquidChlorineOxidizerTankConfig : IBuildingConfig
+	public class LiquidChlorineOxidizerTankConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public const string ID = "RTB_LiquidChlorineOxidizerTank";
-		public const float FuelCapacity = 450f;
+		static float _storageCapacity = 450;
+		public static float StorageCapacity => _storageCapacity;
+		public float GetStorageCapacity() => _storageCapacity;
+		public string GetStorageLabel() => null;
+		public void SetStorageCapacity(float mass) => _storageCapacity = mass;
+		public Tuple<int, int> GetLimitsStorage() => new(225, 900);
+		public string StorageUnitLabel() => null;
+		public string GetStorageTooltip() => null;
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
@@ -82,8 +90,8 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
 			oxidizerTank.supportsMultipleOxidizers = false;
 			oxidizerTank.consumeOnLand = false;
 			oxidizerTank.storage = storage;
-			oxidizerTank.targetFillMass = FuelCapacity;
-			oxidizerTank.maxFillMass = FuelCapacity;
+			oxidizerTank.targetFillMass = StorageCapacity;
+			oxidizerTank.maxFillMass = StorageCapacity;
 			go.AddOrGet<CopyBuildingSettings>();
 			go.AddOrGet<DropToUserCapacity>();
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
