@@ -12,6 +12,7 @@ namespace OniRetroEdition.ModPatches
 			public static void Postfix(GameObject go)
 			{
 				Tinkerable.MakePowerTinkerable(go);
+				KanimUtils.RenderAboveLiquids(go);
 			}
 		}
 
