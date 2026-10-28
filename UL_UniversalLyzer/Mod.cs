@@ -24,6 +24,7 @@ namespace UL_UniversalLyzer
 
 			SgtLogger.debuglog("Initialized");
 			SgtLogger.LogVersion(this, harmony);
+			LocalisationUtil.RegisterForLocalization(harmony, typeof(STRINGS));
 
 			RegisterPipedEverything();
 		}
