@@ -1,5 +1,6 @@
 ﻿using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Generators
 {
@@ -40,6 +41,8 @@ namespace Rockets_TinyYetBig.Buildings.Generators
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
+			CodexUtils.HideFromCodex(go);
+
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 			go.AddOrGet<LoopingSounds>();
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);

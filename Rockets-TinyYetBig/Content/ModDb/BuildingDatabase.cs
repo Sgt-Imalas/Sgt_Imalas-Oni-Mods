@@ -52,10 +52,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			.AddToTech(Technology.ColonyDevelopment.DurableLifeSupport)
 			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
 
-			BuildingManager.CreateEntry<SolarPanelModuleWideConfig>()
-			.AddToCategory(RocketCategory.power, SolarPanelModuleConfig.ID)
-			.AddToTech(Technology.Power.SpacePower)
-			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
+			//BuildingManager.CreateEntry<SolarPanelModuleWideConfig>()
+			//.AddToCategory(RocketCategory.power, SolarPanelModuleConfig.ID)
+			//.AddToTech(Technology.Power.SpacePower)
+			//.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
 
 			BuildingManager.CreateEntry<HabitatModulePlatedNoseconeLargeConfig>()
 			.ConfigEnabled(() => Config.Instance.EnableExtendedHabs)

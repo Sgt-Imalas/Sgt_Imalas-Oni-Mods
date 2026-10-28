@@ -13,6 +13,7 @@ namespace Rockets_TinyYetBig.Patches
 			public static void Prefix()
 			{
 				//SpaceStationRoomsDB.PatchRoomsConstructor();
+				SkinDatabase.AddSkins();
 			}
             public static void Postfix(Db __instance)
 			{
