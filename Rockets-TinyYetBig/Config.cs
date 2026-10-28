@@ -143,6 +143,14 @@ namespace Rockets_TinyYetBig
 		[JsonProperty]
 		public bool SlimLargeEngines { get; set; } = false;
 
+		[Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.AUTORETRACTGANTRIES.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.AUTORETRACTGANTRIES.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
+		[JsonProperty]
+		public bool AutoGantries { get; set; } = true;
+
+		[Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.FIXGANTRYFLOOR.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.FIXGANTRYFLOOR.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
+		[JsonProperty]
+		public bool GantryNoFloorWhenBroken { get; set; } = true;
+
 		#endregion
 
 		#region mining&shipping

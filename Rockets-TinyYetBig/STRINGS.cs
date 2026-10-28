@@ -1466,6 +1466,16 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Open Building Configuration Editor";
 				public static LocString TOOLTIP = "Open up the building configuration editor to individually toggle\neach modded building and to configure stats for them.\n\nSome Buildings are also dependent on a group setting in the regular config.";
 			}
+			public class FIXGANTRYFLOOR
+			{
+				public static LocString TITLE = "Fix broken gantries still working";
+				public static LocString TOOLTIP = "Bugfix: Stops broken gantries from still working as floor for duplicants.";
+			}
+			public class AUTORETRACTGANTRIES
+			{
+				public static LocString TITLE = "Gantries retract automatically";
+				public static LocString TOOLTIP = "Gantries automatically retract when a rocket they overlap with starts or lands, then expand again afterwards\nOnly works for powered gantries, only takes effect for extended gantries.";
+			}
 		}
 		public class MODIFIEDVANILLASTRINGS
 		{

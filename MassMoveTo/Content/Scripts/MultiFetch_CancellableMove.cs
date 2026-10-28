@@ -14,8 +14,6 @@ namespace MassMoveTo.Content.Scripts
 		ConditionalWeakTable <Movable, MultiFetch_MovePickupableChore> MultiFetch_Chores = [];
 		ConditionalWeakTable<Chore, Movable> MultiFetch_Chores_ReverseLookup = [];
 
-
-		readonly List<int> _handles = [];
 		public override void OnSpawn()
 		{
 			//we redo the logic of this here for multi chores
@@ -35,8 +33,8 @@ namespace MassMoveTo.Content.Scripts
 				InitNewChores();
 			}
 
-			_handles.Add(Subscribe((int)GameHashes.RefreshUserMenu, OnRefreshUserMenu));
-			_handles.Add(Subscribe((int)GameHashes.Cancel, OnCancel));
+			this.Sub(GameHashes.RefreshUserMenu, OnRefreshUserMenu);
+			this.Sub(GameHashes.Cancel, OnCancel);
 			kPrefabId.AddTag(GameTags.HasChores);
 			int cell = Grid.PosToCell(this);
 			Grid.Objects[cell, (int)ObjectLayer.MovePlacer] = this.gameObject;
@@ -46,8 +44,7 @@ namespace MassMoveTo.Content.Scripts
 		{
 			//base.OnCleanUp();
 
-			foreach (int handle in _handles)
-				Unsubscribe(handle);
+			this.UnsubAll();
 
 			int cell = Grid.PosToCell(this);
 			Grid.Objects[cell, 44] = null;

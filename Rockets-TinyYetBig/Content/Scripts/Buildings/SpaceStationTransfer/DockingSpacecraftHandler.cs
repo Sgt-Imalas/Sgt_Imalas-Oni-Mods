@@ -44,12 +44,9 @@ namespace Rockets_TinyYetBig.Docking
 		public override void OnCleanUp()
 		{
 			DockingManagerSingleton.Instance.UnregisterSpacecraftHandler(this);
-
-			foreach (var handler in _handlers)
-				Unsubscribe(handler);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
-		List<int> _handlers = [];
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -67,8 +64,8 @@ namespace Rockets_TinyYetBig.Docking
 			SgtLogger.l("DockingHandler " + gameObject.name + " OnSpawn. Type: " + Type);
 			if(Type == DockableType.Rocket)
 			{
-				_handlers.Add(Subscribe((int)GameHashes.ClusterDestinationChanged, OnClusterDestinationChanged));
-				_handlers.Add(Subscribe((int)GameHashes.RocketModuleChanged, OnRocketModulesChanged));
+				this.Sub(GameHashes.ClusterDestinationChanged, OnClusterDestinationChanged);
+				this.Sub(GameHashes.RocketModuleChanged, OnRocketModulesChanged);
 			}
 		}
 		void OnRocketModulesChanged(object _)

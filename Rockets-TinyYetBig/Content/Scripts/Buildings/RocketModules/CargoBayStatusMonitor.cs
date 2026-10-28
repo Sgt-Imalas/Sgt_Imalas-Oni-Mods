@@ -40,22 +40,20 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 		}
 		private void UpdatePortsOnMoveCB(object data) => this.UpdateLogicAndActiveState();
 
-		List<int> handlers = [];
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			handlers.Add(Subscribe((int)GameHashes.OnStorageChange, UpdateLogicCircuitCBDelegate));
-			handlers.Add(Subscribe((int)GameHashes.OperationalChanged, UpdateLogicCircuitCBDelegate));
-			handlers.Add(Subscribe((int)GameHashes.StorageCapacityChanged, UpdateLogicCircuitCBDelegate));
-			handlers.Add(Subscribe((int)GameHashes.ReorderableBuildingChanged, UpdateLogicCircuitCBDelegate));
-			handlers.Add(Subscribe((int)GameHashes.ClustercraftStateChanged, UpdateLogicCircuitCBDelegate));
+			this.Sub(GameHashes.OnStorageChange, UpdateLogicCircuitCBDelegate);
+			this.Sub(GameHashes.OperationalChanged, UpdateLogicCircuitCBDelegate);
+			this.Sub(GameHashes.StorageCapacityChanged, UpdateLogicCircuitCBDelegate);
+			this.Sub(GameHashes.ReorderableBuildingChanged, UpdateLogicCircuitCBDelegate);
+			this.Sub(GameHashes.ClustercraftStateChanged, UpdateLogicCircuitCBDelegate);
 			UpdateLogicAndActiveState();
 
 		}
 		public override void OnCleanUp()
 		{
-			foreach(var ha in handlers)
-				Unsubscribe(ha);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 	}

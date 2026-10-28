@@ -17,7 +17,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		const float RefinerySlowDown = 1f / 2f;
 		Tag SUPERCOOLANT;
-		readonly List<int> handles = [];
 		bool SuperCoolantInRefinery;
 
 		public bool Multiplicative => true;
@@ -26,15 +25,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			base.OnSpawn();
 			SUPERCOOLANT = SimHashes.SuperCoolant.CreateTag();
-			handles.Add(Subscribe((int)GameHashes.FabricatorOrderCompleted, OnRecipeCompletedAction));
-			handles.Add(Subscribe(ModAssets.FabricatorOrderCanceled, OnRecipeCompletedAction));
-			handles.Add(Subscribe((int)GameHashes.FabricatorOrderStarted, OnRecipeStartedAction));
+			this.Sub(GameHashes.FabricatorOrderCompleted, OnRecipeCompletedAction);
+			this.Sub(ModAssets.FabricatorOrderCanceled, OnRecipeCompletedAction);
+			this.Sub(GameHashes.FabricatorOrderStarted, OnRecipeStartedAction);
 		}
 		public override void OnCleanUp()
 		{
-			foreach (var handle in handles)
-				Unsubscribe(handle);
-			handles.Clear();
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 
