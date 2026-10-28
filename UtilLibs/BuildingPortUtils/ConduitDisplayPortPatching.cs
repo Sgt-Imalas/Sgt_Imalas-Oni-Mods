@@ -126,14 +126,12 @@ namespace UtilLibs.BuildingPortUtils
 				if (textStyle == null)
 				{
 					var existingFontStyle = __instance.Styles_Title.Standard;
-					textStyle = new TextStyleSetting()
-					{
-						sdfFont = existingFontStyle.sdfFont,
-						fontSize = existingFontStyle.fontSize,
-						textColor = existingFontStyle.textColor,
-						style = existingFontStyle.style,
-						enableWordWrapping = existingFontStyle.enableWordWrapping
-					};
+					textStyle = ScriptableObject.CreateInstance<TextStyleSetting>();
+					textStyle.sdfFont = existingFontStyle.sdfFont;
+					textStyle.fontSize = existingFontStyle.fontSize;
+					textStyle.textColor = existingFontStyle.textColor;
+					textStyle.style = existingFontStyle.style;
+					textStyle.enableWordWrapping = existingFontStyle.enableWordWrapping;
 					textStyle.fontSize = 16;
 				}
 
