@@ -1476,6 +1476,11 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Gantries retract automatically";
 				public static LocString TOOLTIP = "Gantries automatically retract when a rocket they overlap with starts or lands, then expand again afterwards\nOnly works for powered gantries, only takes effect for extended gantries.";
 			}
+			public class ROCKETTRANSFER_POPUP_SUPRESSION
+			{
+				public static LocString TITLE = "Supress rocket transfer popups";
+				public static LocString TOOLTIP = "Disables popup notifications for material deliveries in rocket cargo transfer (loading and unloading)";
+			}
 		}
 		public class MODIFIEDVANILLASTRINGS
 		{

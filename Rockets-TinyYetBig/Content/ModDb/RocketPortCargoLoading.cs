@@ -74,6 +74,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 		public static void ReplacedCargoUnloadingMethod(CraftModuleInterface craftInterface, HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain, System.Action<bool> SetCompleteAction)
 		{
+			bool hidePopups = Config.Instance.CargoTransferPopupSupression;
 			var CargoBaysPool = DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, CraftModuleInterface>.PooledList, CraftModuleInterface>.Allocate();
 			CargoBaysPool[CargoBay.CargoType.Solids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
 			CargoBaysPool[CargoBay.CargoType.Liquids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
@@ -137,7 +138,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 									Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
 									if (pickupable != null)
 									{
-										conduitDispenser.Storage.Store(pickupable.gameObject);
+										conduitDispenser.Storage.Store(pickupable.gameObject, hidePopups);
 										amount -= pickupable.PrimaryElement.Mass;
 									}
 									if (amount <= 0f)
@@ -166,7 +167,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 									Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
 									if (pickupable != null)
 									{
-										conduitDispenser.Storage.Store(pickupable.gameObject);
+										conduitDispenser.Storage.Store(pickupable.gameObject, hidePopups);
 										amount -= pickupable.PrimaryElement.Mass;
 									}
 									if (amount <= 0f)
@@ -225,6 +226,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			var multiMaterialCargoBays = ListPool<MultiMaterialCargoBay, CraftModuleInterface>.Allocate();
 
 			Tag FuelTag = Tag.Invalid;
+			bool hidePopups = Config.Instance.CargoTransferPopupSupression;
 
 			//bool hasOxidizer;
 
@@ -479,7 +481,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 							Pickupable pickupable = itemPickupable.Take(remainingCapacity);
 							if (pickupable != null)
 							{
-								mmcb.Storage.Store(pickupable.gameObject);
+								mmcb.Storage.Store(pickupable.gameObject, hidePopups);
 								remainingMass -= pickupable.primaryElement.Mass;
 							}
 							if (remainingMass <= 0)
@@ -504,7 +506,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 							Pickupable pickupable = itemPickupable.Take(remainingCapacity);
 							if (pickupable != null)
 							{
-								diamondStorage.Store(pickupable.gameObject);
+								diamondStorage.Store(pickupable.gameObject, hidePopups);
 								remainingMass -= pickupable.primaryElement.Mass;
 							}
 							if (remainingMass <= 0)
@@ -530,7 +532,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 							Pickupable pickupable = itemPickupable.Take(remainingCapacity);
 							if (pickupable != null)
 							{
-								entry.Storage.Store(pickupable.gameObject);
+								entry.Storage.Store(pickupable.gameObject, hidePopups);
 								remainingMass -= pickupable.primaryElement.Mass;
 							}
 							if (remainingMass <= 0)
