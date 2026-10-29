@@ -26,9 +26,12 @@ namespace Rockets_TinyYetBig
 			public static ModHashes OnRocketModuleMoved = new ModHashes("RTB_OnRocketModuleMoved");
 			public static ModHashes OnStationMove = new ModHashes("RTB_OnStationMove");
 
-			public static ModHashes ModuleUpgradeAdded = new ModHashes("ModuleUpgradeAdded");
-			public static ModHashes ModuleUpgradeRemoved = new ModHashes("ModuleUpgradeRemoved");
-			public static ModHashes ModuleUpgradeChanged = new ModHashes("ModuleUpgradeChanged");
+			public static ModHashes ModuleUpgradeAdded = new ModHashes("RTB_ModuleUpgradeAdded");
+			public static ModHashes ModuleUpgradeRemoved = new ModHashes("RTB_ModuleUpgradeRemoved");
+			public static ModHashes ModuleUpgradeChanged = new ModHashes("RTB_ModuleUpgradeChanged");
+
+			public static ModHashes RocketLaunchFinalized = new ModHashes("RTB_RocketLaunchFinalized");
+			public static ModHashes RocketLandingInitialized = new ModHashes("RTB_RocketLandingInitialized");
 		}
 
 		public static GameObject ModuleSettingsWindowPrefab;

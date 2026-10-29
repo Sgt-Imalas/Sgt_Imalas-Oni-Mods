@@ -28,14 +28,5 @@ namespace Rockets_TinyYetBig.Patches
 					__result = isWideOverride;
 			}
 		}
-
-		[HarmonyPatch(typeof(VerticalModuleTiler), nameof(VerticalModuleTiler.OnNeighbourCellsUpdated))]
-		public class VerticalModuleTiler_OnNeighbourCellsUpdated_Patch
-		{
-			public static void Postfix(VerticalModuleTiler __instance)
-			{
-				SgtLogger.l("OnNeightbourcellsUpdated: "+__instance.name);
-			}
-		}
 	}
 }

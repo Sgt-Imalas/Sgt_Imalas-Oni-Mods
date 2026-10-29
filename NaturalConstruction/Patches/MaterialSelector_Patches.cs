@@ -9,7 +9,7 @@ namespace NaturalConstruction.Patches
 {
 	internal class MaterialSelector_Patches
 	{
-        static ConditionalWeakTable<MaterialSelector, MaterialFilterBar> SearchBars = [];
+        static readonly ConditionalWeakTable<MaterialSelector, MaterialFilterBar> SearchBars = [];
 
         /// <summary>
         /// happens after all the toggles have been created and put into the correct order
@@ -24,7 +24,6 @@ namespace NaturalConstruction.Patches
 
 				if (!searchbar.HasFilter())
 					return;
-
 
 				foreach (KeyValuePair<Tag, KToggle> elementToggle in __instance.ElementToggles)
 				{
