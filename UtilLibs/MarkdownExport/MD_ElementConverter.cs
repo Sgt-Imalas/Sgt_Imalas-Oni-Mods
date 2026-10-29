@@ -32,7 +32,7 @@ namespace UtilLibs.MarkdownExport
 				foreach (var output in converter.outputElements)
 				{
 					var temp = string.Empty;
-					if (!output.useEntityTemperature)
+					if (!output.useEntityTemperature && output.minOutputTemperature > 0)
 					{
 						temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(output.minOutputTemperature, TemperatureUnit.Celsius).ToString());
 					}
