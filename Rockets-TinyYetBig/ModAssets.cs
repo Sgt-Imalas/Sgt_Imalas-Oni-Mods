@@ -1,10 +1,12 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts;
 using Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.UIcmp;
 using static UtilLibs.RocketryUtils;
 
 namespace Rockets_TinyYetBig
@@ -71,20 +73,131 @@ namespace Rockets_TinyYetBig
 		}
 
 
-		public static void ClearBlockedBy()
+		public static void ClearBlockedBy_Construction()
 		{
-			LastBlockingBuildings.Clear();
-			LastBlockingCells.Clear();
+			//LastBlockingBuildings.Clear();
+			//LastBlockingCells.Clear();
+			_LastBlockingBuilding_Construction = null;
+			_lastBlockingCell_Construction = Grid.InvalidCell;
 		}
+		public static void ClearBlockedBy_Flight()
+		{
+			//LastBlockingBuildings.Clear();
+			//LastBlockingCells.Clear();
+			_LastBlockingBuilding_Flight = null;
+			_lastBlockingCell_Flight = Grid.InvalidCell;
+		}
+		public static void SetBlocker(int cell, bool construction, out string Name)
+		{
+			Name = string.Empty;
+
+			var building = Grid.Objects[cell, (int)ObjectLayer.Building];
+			if (building == null) //gantries have their own layer
+				building = Grid.Objects[cell, (int)ObjectLayer.Gantry];
+
+			if (construction)
+			{
+				_LastBlockingBuilding_Construction = building;
+				_lastBlockingCell_Construction = building != null ? Grid.InvalidCell : cell;
+			}
+			else
+			{
+				_LastBlockingBuilding_Flight = building;
+				_lastBlockingCell_Flight = building != null ? Grid.InvalidCell : cell;
+			}
+
+			if (!Grid.IsValidCell(cell))
+				return;
+
+			if (building != null)
+				Name = building.GetProperName();
+			else
+				Name = Grid.Element[cell].name;
+		}
+		public static void SelectBlocker_Flight()
+		{
+			if (_LastBlockingBuilding_Flight != null)
+			{
+				//SgtLogger.l("Selecting Blocking Building: " + ModAssets.LastBlockingBuildings.First().name);
+				KFMOD.PlayUISound(UISoundHelper.ClickOpen);
+				GameUtil.FocusCamera(_LastBlockingBuilding_Flight.transform);
+			}
+			else if (_lastBlockingCell_Flight != Grid.InvalidCell && Grid.IsValidCell(_lastBlockingCell_Flight))
+			{
+				KFMOD.PlayUISound(UISoundHelper.ClickOpen);
+				var targetCell = _lastBlockingCell_Flight;
+				if (!Grid.IsValidCell(targetCell))
+					return;
+				GameUtil.FocusCamera(targetCell);
+				var cellProxy = CellSelectionObject.selectionObjectA.Selectable != SelectTool.Instance.selected
+					? CellSelectionObject.selectionObjectA
+					: CellSelectionObject.selectionObjectB;
+
+				var pos = Grid.CellToPos(targetCell) + cellProxy.offset;
+				pos.z = cellProxy.zDepth;
+				cellProxy.transform.SetPosition(pos);
+				SelectTool.Instance.Select(cellProxy.Selectable);
+			}
+		}
+
+		static KSelectable _selectDelayed = null;
+		public static void SelectConstructableDelayed(object data)
+		{
+			if (_selectDelayed == null)
+				return;
+			SelectTool.Instance.Select(_selectDelayed, false);
+		}
+		public static void SelectBlocker_Construction()
+		{
+			SelectTool.Instance.Select(null);
+			UIScheduler.Instance.Schedule("DelayedSelect", 0.2f, SelectBlocker_ConstructionDelayed);
+		}
+
+		private static void SelectBlocker_ConstructionDelayed(object _)
+		{
+			if (_LastBlockingBuilding_Construction != null)
+			{
+				KFMOD.PlayUISound(UISoundHelper.ClickOpen);
+				GameUtil.FocusCamera(Grid.PosToCell(_LastBlockingBuilding_Construction));
+				SelectTool.Instance.Select(null);
+				_selectDelayed = _LastBlockingBuilding_Construction.GetComponent<KSelectable>();
+				//SgtLogger.l("Selecting item: " + _LastBlockingBuilding_Construction);
+			}
+			else if (_lastBlockingCell_Construction != Grid.InvalidCell && Grid.IsValidCell(_lastBlockingCell_Construction))
+			{
+				//SgtLogger.l("Selecting cell: " + _lastBlockingCell_Construction);
+				KFMOD.PlayUISound(UISoundHelper.ClickOpen);
+				var targetCell = _lastBlockingCell_Construction;
+				if (!Grid.IsValidCell(targetCell))
+					return;
+				GameUtil.FocusCamera(targetCell);
+				var cellProxy = CellSelectionObject.selectionObjectA.Selectable != SelectTool.Instance.selected
+					? CellSelectionObject.selectionObjectA
+					: CellSelectionObject.selectionObjectB;
+
+				var pos = Grid.CellToPos(targetCell) + cellProxy.offset;
+				pos.z = cellProxy.zDepth;
+				cellProxy.transform.SetPosition(pos);
+				SelectTool.Instance.Select(cellProxy.Selectable);
+			}
+		}
+
 		/// <summary>
 		/// Filled by ConditionFlightPathIsClear check, contains all buildings that block the currently selected rocket
 		/// </summary>
-		public static HashSet<GameObject> LastBlockingBuildings = new();
+		//public static HashSet<GameObject> LastBlockingBuildings = new();
 		/// <summary>
 		/// Filled by ConditionFlightPathIsClear check, contains all (natural) cells that block the currently selected rocket
 		/// buildings will not populate this hashset, only natural cells (or some building on a non-standard layer)
 		/// </summary>
-		public static HashSet<int> LastBlockingCells = new();
+		//public static HashSet<int> LastBlockingCells = new();
+
+		//only cache the first entry.
+		private static GameObject _LastBlockingBuilding_Flight = null;
+		private static GameObject _LastBlockingBuilding_Construction = null;
+		private static int _lastBlockingCell_Flight = Grid.InvalidCell;
+		private static int _lastBlockingCell_Construction = Grid.InvalidCell;
+
 
 		private static readonly Dictionary<int, string> Tooltips = new Dictionary<int, string>();
 		private static void InitializeCategoryTooltipDictionary()

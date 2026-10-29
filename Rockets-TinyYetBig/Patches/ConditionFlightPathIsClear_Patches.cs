@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -12,7 +13,7 @@ namespace Rockets_TinyYetBig.Patches
 		{
 			public static void Postfix(ConditionFlightPathIsClear __instance, ProcessCondition.Status status, ref string __result)
 			{
-				ModAssets.ClearBlockedBy();
+				ModAssets.ClearBlockedBy_Flight();
 
 				if (status == ProcessCondition.Status.Ready)
 					return;
@@ -28,7 +29,9 @@ namespace Rockets_TinyYetBig.Patches
 				int y = (int)modules.First().GetMyWorld().maximumBounds.y;
 
 
-				HashSet<int> obstructingCells = new HashSet<int>();
+				//HashSet<int> obstructingCells = new HashSet<int>();
+				string blockingName = string.Empty;
+				int cellBlock = Grid.InvalidCell;
 
 				for (int i = 0; i < modules.Count; i++)
 				{
@@ -47,37 +50,42 @@ namespace Rockets_TinyYetBig.Patches
 							upwardsCell = Grid.CellAbove(upwardsCell);
 						if (Grid.IsSolidCell(upwardsCell) || Grid.CellToXY(upwardsCell).y != y)
 						{
-							obstructingCells.Add(upwardsCell);
+							cellBlock = upwardsCell;
+							//obstructingCells.Add(upwardsCell);
 							breakAfter = true;
+							break;
 						}
 					}
 					if (breakAfter)
 						break;
 				}
-				string blockedBy = "\n\n" + STRINGS.UI_MOD.RTB_ROCKETBLOCKEDBY;
 				//skip double mentions
-				foreach (var cell in obstructingCells)
-				{
-					var building = Grid.Objects[cell, (int)ObjectLayer.Building];
-					if (building == null) //gantries have their own layer
-						building = Grid.Objects[cell, (int)ObjectLayer.Gantry];
+				ModAssets.SetBlocker(cellBlock, false, out blockingName);
+				string blockedBy = "\n\n" + STRINGS.UI_MOD.RTB_ROCKETBLOCKEDBY + " " + blockingName + " " + STRINGS.UI_MOD.RTB_CLICKTOSELECT;
 
-					if (building != null)
-					{
-						if (!ModAssets.LastBlockingBuildings.Contains(building))
-						{
-							ModAssets.LastBlockingBuildings.Add(building);
-							blockedBy += "\n• ";
-							blockedBy += building.GetProperName();
-						}
-					}
-					else
-					{
-						ModAssets.LastBlockingCells.Add(cell);
-						blockedBy += "\n• ";
-						blockedBy += Grid.Element[cell].name;
-					}
-				}
+				//foreach (var cell in obstructingCells)
+				//{
+				//	var building = Grid.Objects[cell, (int)ObjectLayer.Building];
+				//	if (building == null) //gantries have their own layer
+				//		building = Grid.Objects[cell, (int)ObjectLayer.Gantry];
+
+				//	if (building != null)
+				//	{
+				//		if (!ModAssets.LastBlockingBuildings.Contains(building))
+				//		{
+				//			ModAssets.LastBlockingBuildings.Add(building);
+				//			blockedBy += "\n• ";
+				//			blockedBy += UIUtils.StripAllFormatting(building.GetProperName());
+				//		}
+				//	}
+				//	else
+				//	{
+				//		ModAssets.LastBlockingCells.Add(cell);
+				//		blockedBy += "\n• ";
+				//		blockedBy += Grid.Element[cell].name;
+				//	}
+				//}
+				//blockedBy += "\n" + STRINGS.UI_MOD.RTB_CLICKTOSELECT;
 				__result += blockedBy;
 			}
 		}

@@ -1142,6 +1142,8 @@ namespace Rockets_TinyYetBig
 		public class UI_MOD
 		{
 			public static LocString RTB_ROCKETBLOCKEDBY = "Launch path blocked by:";
+			public static LocString RTB_CONSTRUCTIONBLOCKEDBY = " by:";
+			public static LocString RTB_CLICKTOSELECT = "(click to select obstacle)";
 			public class CLUSTERMAPROCKETSIDESCREEN
 			{
 

@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 				return;
 			init = true;
 
-			UIUtils.ListAllChildrenPath(transform);
+			//UIUtils.ListAllChildrenPath(transform);
 			var tr = transform.Find("Contents/CheckboxGroup");
 
 			toggle = tr.Find("CheckBox").gameObject.GetComponent<KToggle>();

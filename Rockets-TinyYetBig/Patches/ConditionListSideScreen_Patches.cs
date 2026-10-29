@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.Scripts.UI;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,41 +10,6 @@ namespace Rockets_TinyYetBig.Patches
 {
 	internal class ConditionListSideScreen_Patches
 	{
-
-		class GoToBlockingLocationHandler : KMonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
-		{
-			private bool mouseOver = false;
-			public void OnPointerEnter(PointerEventData eventData)
-			{
-				mouseOver = true;
-			}
-
-			public void OnPointerExit(PointerEventData eventData)
-			{
-				mouseOver = false;
-			}
-
-			public void OnPointerDown(PointerEventData eventData)
-			{
-				GoToBlockingLocation();
-			}
-
-			void GoToBlockingLocation()
-			{
-				//SgtLogger.l("OnClick GoToBlockingLocationHandler");
-				if (ModAssets.LastBlockingBuildings.Any())
-				{					
-					PlaySound(UISoundHelper.ClickOpen);
-					GameUtil.FocusCamera(ModAssets.LastBlockingBuildings.First().transform);
-				}
-				else if (ModAssets.LastBlockingCells.Any())
-				{
-					PlaySound(UISoundHelper.ClickOpen);
-					GameUtil.FocusCamera(ModAssets.LastBlockingCells.First());
-				}
-			}
-		}
-
 		/// <summary>
 		/// not usable, the method is not called directly in SO
 		/// </summary>
@@ -80,7 +46,7 @@ namespace Rockets_TinyYetBig.Patches
 				if (conditionFulfilled)
 					return;
 
-				row.AddOrGet<GoToBlockingLocationHandler>();
+				row.AddOrGet<GoToBlockingLocationHandler>().FlightMode = true;
 			}
 		}
 	}
