@@ -1,4 +1,5 @@
 ﻿using PeterHan.PLib.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace UtilLibs.BuildingPortUtils
 	[SkipSaveFileSerialization]
 	public class PortDisplayController : KMonoBehaviour
 	{
+		private static readonly List<Func<PortDisplay2, string>> AdditionalTooltipInfoGetters = [];
+
 		[SerializeField]
 		private HashedString lastMode = OverlayModes.None.ID;
 
@@ -134,7 +137,18 @@ namespace UtilLibs.BuildingPortUtils
 
 				if (isCompletedBuilding)
 				{
-					activePortInfo[utilityCell] = new(utilityCell, GetPortFilterDesc(port), port);
+					string portInfoText = GetPortFilterDesc(port);
+
+					foreach(var additionalInfo in AdditionalTooltipInfoGetters)
+					{
+						var addition = additionalInfo.Invoke(port);
+						if (addition != null)
+						{
+							portInfoText += "\n"+addition;
+						}
+					}
+
+					activePortInfo[utilityCell] = new(utilityCell, portInfoText, port);
 					activePortCells[port] = utilityCell;
 				}
 
@@ -340,6 +354,12 @@ namespace UtilLibs.BuildingPortUtils
 					}
 				}
 			}
+		}
+
+		public static void RegisterAdditionalTooltip(Func<PortDisplay2,string> tooltipCallback)
+		{
+			SgtLogger.l("Registering additional port toolitp callback");
+			AdditionalTooltipInfoGetters.Add(tooltipCallback);
 		}
 	}
 }

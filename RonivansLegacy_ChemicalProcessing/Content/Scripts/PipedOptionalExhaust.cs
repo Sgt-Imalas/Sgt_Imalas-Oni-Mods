@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -118,6 +119,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			return null;
 		}
 
+
 		public void Sim200ms(float dt)
 		{
 			GameObject storedObject = GetFirstViableStoredItem();
@@ -179,6 +181,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			bool blocked = spillingBlocked || overfilled;
 
 			this.operational.SetFlag(outputFlag, !blocked);
+		}
+
+		internal bool IsAssignedTo(PortDisplay2 exhaustPort)
+		{
+			if(dispenser == null)
+				return false;
+
+			return
+				dispenser.conduitType == exhaustPort.ConduitType &&
+				dispenser.conduitOffset == exhaustPort.ConduitOffset &&
+				dispenser.conduitOffsetFlipped == exhaustPort.ConduitOffsetFlipped;
 		}
 	}
 }

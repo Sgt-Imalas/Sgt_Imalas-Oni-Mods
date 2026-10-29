@@ -102,7 +102,6 @@ namespace UtilLibs.BuildingPortUtils
 				else if (prefab != null)
 					sb.Append(prefab.GetProperName());
 			}
-
 			return sb.ToString();
 		}
 

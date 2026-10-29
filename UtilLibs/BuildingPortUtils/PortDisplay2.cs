@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UtilLibs.BuildingPortUtils
 {
@@ -36,7 +37,9 @@ namespace UtilLibs.BuildingPortUtils
 
 		public bool Input => input;
 		public Sprite Sprite => sprite;
-		public ConduitType Type => type;
+		public ConduitType ConduitType => type;
+		public CellOffset ConduitOffset => offset;
+		public CellOffset ConduitOffsetFlipped => offsetFlipped;
 
 		internal void AssignPort(DisplayConduitPortInfo port)
 		{
@@ -60,13 +63,6 @@ namespace UtilLibs.BuildingPortUtils
 				this.lastUtilityCell = utilityCell;
 				visualizer.DrawUtilityIcon(utilityCell, this.sprite, ref portObject, color);
 			}
-		}
-
-		void AttachTooltip(string tooltip)
-		{
-			if (portObject == null)
-				return;
-			//UIUtils.AddSimpleTooltipToObject(portObject, tooltip);
 		}
 
 		public int GetUtilityCell(Building building)
@@ -97,6 +93,27 @@ namespace UtilLibs.BuildingPortUtils
 			{
 				UnityEngine.Object.Destroy(this.portObject);
 			}
+		}
+
+		public bool IsAssignedTo(PortConduitDispenserBase dispenser)
+		{
+			if (dispenser == null || this.Input)
+				return false;
+
+			return
+				dispenser.conduitType == ConduitType &&
+				dispenser.conduitOffset == ConduitOffset &&
+				dispenser.conduitOffsetFlipped == ConduitOffsetFlipped;
+		}
+		public bool IsAssignedTo(PortConduitConsumer consumer)
+		{
+			if (consumer == null || !this.Input)
+				return false;
+
+			return
+				consumer.conduitType == ConduitType &&
+				consumer.conduitOffset == ConduitOffset &&
+				consumer.conduitOffsetFlipped == ConduitOffsetFlipped;
 		}
 	}
 }

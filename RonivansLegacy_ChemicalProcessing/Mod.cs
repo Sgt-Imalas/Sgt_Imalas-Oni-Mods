@@ -11,6 +11,7 @@ using ElementUtilNamespace;
 using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 using UtilLibs.SharedTweaks;
+using System.Text;
 
 namespace RonivansLegacy_ChemicalProcessing
 {
@@ -41,6 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			TryCatchElements(harmony);
 			ConduitDisplayPortPatching.PatchAll(harmony);
+			PortDisplayController.RegisterAdditionalTooltip(OptionalPortInfoCallback);
 			BuildingDatabase.RegisterAdditionalBuildingElements();
 			AdditionalRecipes.RegisterTags();
 
@@ -57,7 +59,61 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			TranslationFix.Register();
 		}
+		static StringBuilder sb = new StringBuilder();
+		string OptionalPortInfoCallback(PortDisplay2 portInfo)
+		{
+			if (portInfo == null)
+				return null;
+			sb.Clear();
+			bool optionalCheckSuccessful = false;
+			bool exhaustCheckSuccessful = false;
 
+			foreach (var outputPort in portInfo.GetComponents<PortConduitDispenserBase>())
+			{
+				if (portInfo.IsAssignedTo(outputPort))
+				{
+					optionalCheckSuccessful = true;
+					break;
+				}
+			}
+			if (!optionalCheckSuccessful)
+			{
+				foreach (var inputPort in portInfo.GetComponents<PortConduitConsumer>())
+				{
+					if (portInfo.IsAssignedTo(inputPort))
+					{
+						optionalCheckSuccessful = true;
+						break;
+					}
+				}
+			}
+
+			var exhausts = portInfo.GetComponents<PipedOptionalExhaust>();
+			foreach (var exhaust in exhausts)
+			{
+				var exhaustPort = exhaust.dispenser;
+				if (exhaustPort == null)
+					continue;
+
+				if (exhaust.IsAssignedTo(portInfo))
+				{
+					exhaustCheckSuccessful = true;
+					break;
+				}
+			}
+
+			if (!exhaustCheckSuccessful && !optionalCheckSuccessful)
+				return null;
+			sb.AppendLine();
+
+			if (optionalCheckSuccessful)
+				sb.AppendLine(STRINGS.UI.TOOLTIPS.AIO_OPTIONAL_PORT_INFO);
+			if (exhaustCheckSuccessful)
+				sb.AppendLine(STRINGS.UI.TOOLTIPS.AIO_EXHAUSTS_OTHERWISE);
+
+			return sb.ToString();
+
+		}
 
 		void TryCatchElements(Harmony harmony)
 		{
@@ -67,7 +123,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				SgtLogger.l("Testing enum.tostring...");
 				SgtLogger.l(SimHashes.Aerogel.ToString());
 			}
-			catch (Exception ex) 
+			catch (Exception ex)
 			{
 				SgtLogger.l("This system is incompatible with elemental patches in its current state.\nIf this is a Proton app under Linux, turn off Proton.\nIf you are on windows, enable BottomUp-ASLR in your exploit protection settings to get running again.\n\nException below:");
 				Debug.LogException(ex);
@@ -128,7 +184,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				var m_OilWellCapConfig_ConfigureBuildingTemplate = AccessTools.Method(typeof(OilWellCapConfig), nameof(OilWellCapConfig.ConfigureBuildingTemplate));
 				var patches = Harmony.GetPatchInfo(m_OilWellCapConfig_ConfigureBuildingTemplate);
-				if(patches != null)
+				if (patches != null)
 				{
 					foreach (var patch in patches.Prefixes)
 						SgtLogger.l($"OilWell prefix patched by {patch.owner}:{patch.PatchMethod.Name}");

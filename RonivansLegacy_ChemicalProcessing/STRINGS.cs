@@ -1655,7 +1655,6 @@ namespace RonivansLegacy_ChemicalProcessing
 				#endregion
 			}
 		}
-
 		public class BUILDING
 		{
 			public class EFFECTS
@@ -2312,6 +2311,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class TOOLTIPS
 			{
 				public static LocString HELP_BUILDLOCATION_HPA_RAIL = "Obstructed by Heavy-Duty Rail";
+				public static LocString AIO_OPTIONAL_PORT_INFO = "Port connection is optional";
+				public static LocString AIO_EXHAUSTS_OTHERWISE = "Exhausts elements into world when not connected";
 			}
 			public class KLEI_INVENTORY_SCREEN
 			{
