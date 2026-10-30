@@ -9,6 +9,7 @@
 		<LangVersion>preview</LangVersion>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<IncludeGameReferences>true</IncludeGameReferences>
 	</PropertyGroup>
 	<!--<UsingTask TaskName="RecursiveFolderHashing" AssemblyFile="HashService.dll"/>-->
 
@@ -18,7 +19,7 @@
 		<!--MSB3277: Ignore this warning for System.Compression -->
 		<!--CS0169,CS0649: Ignore never assigned warnings for MyCmpGet,MyCmpReq-->
 		<!--CS8632: Ignore nullable-->
-		<NoWarn>MSB3277,CS0169,CS0649,CS8632</NoWarn>		
+		<NoWarn>MSB3277,CS0169,CS0649,CS8632</NoWarn>
 	</PropertyGroup>
 
 
@@ -50,6 +51,7 @@
 		<BeachedDlcBeta>731233</BeachedDlcBeta>
 		<BeachedDlcRelease>736649</BeachedDlcRelease>
 		<BeachedDlcHotfix1>737790</BeachedDlcHotfix1>
+		<U60Beta1>761015</U60Beta1>
 		<!--Latest-->
 		<TargetGameVersion>$(BeachedDlcHotfix1)</TargetGameVersion>
 	</PropertyGroup>

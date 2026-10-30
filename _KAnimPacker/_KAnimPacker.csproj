@@ -3,6 +3,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
+		<IncludeGameReferences>false</IncludeGameReferences>
 		<TargetFramework>netstandard2.0</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>

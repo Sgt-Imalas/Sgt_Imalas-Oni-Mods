@@ -6,6 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
+		<IncludeGameReferences>false</IncludeGameReferences>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Magick.NET.Core" Version="14.16.0" />

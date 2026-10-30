@@ -1,16 +1,19 @@
-﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
-
-[h1]Introduction[/h1]
+﻿[h1]Introduction[/h1]
 [h2]More Rockets - more fun![/h2]
 
 This mod aims to increase rocket versatility by adding new rocket modules, rocket mechanics and in general adding to the experience of rocketry in Spaced Out.
 While including a large number of features, the mod is higly modular so every player can choose for themselves what features they want to use.
 
-[h1]Current latest Version: 2.5.5[/h1]
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_NoBase.png[/img]
+
+[h1]Current latest Version: 2.15[/h1]
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2983351482][img]https://i.imgur.com/ZkvCgga.png[/img]Adds 4 additional Twitch Events to the Twitch Integration Mod![/url]
 
 [hr][/hr]
 [h1]Features[/h1]
 [list]
+[*] Building Configuration Editor - each added building can be toggled individually
 [*] Interior Shrinking: Rockets no longer take up 32x32 Tiles, instead the interior size gets set dependant on the actual interior space used (disableable, a change only applies to newly constructed modules).
 [*] Removal of Rocket cap of 16 (This is possible due to the space saving from the interior shrinking).
 [*] Huge amount of new Rocket Modules -> look through the steam images for a list
@@ -18,45 +21,39 @@ While including a large number of features, the mod is higly modular so every pl
 [*] Generator Modules (produce power while not landed without the need to move the rocket)
 [*] Loader adapters - add ladders or insulated walls between launchpads without preventing loader access
 [*] Fuel Loaders - no more overheating pipes due to rocket start, just fuel them via these new loader buildings
-[*] Rocket Docking - Exchange dupes during the flight, rescue stranded dupes without blowing up the respective rocket and more to come...
+[*] Rocket Docking - Exchange dupes during the flight, rescue stranded dupes without blowing up the respective rocket, tow stranded rockets and more to come...
 [*] Habitat Power Plug - Connect the internal electric grid to the outside without the need for a battery module
 [*] Extended Rocket Stats in the rocket sidescreen
 [*] Better World Selector with collapsible categories
+[*] Rocket Templates (blueprints) that allow easy replication of your established rocket designs (combine with BlueprintsExpanded for module setting storage)
 [*] Tweaks to Vanilla Modules & Mechanics: [list]
-	[*]Cartographic Module Buff: The Cartographic Module will now instantly reveal all Space Hexes in a radius of 1 ( adjustable in mod settings).
+	[*]Cartographic Module Buff: The Cartographic Module will now functions as an automated telescope.
 	[*]Petroleum Engines: Can now also be fueled with Ethanol
 	[*]Large Solid Oxidizer Tank Buff: Capacity 900 -> 1350, this gives it 3x the capacity of one small tank while taking 2.5x height and weight of one (and gives a reason to use this module)
 	[*]Rocket gas/liquid input/output wall tiles have their radiation absorption fixed and count as "Rocket Wall", thus allow the constructing of Fittings connected to it
-	[*]Starmap sensor has an option to
+	[*]Cargo bays insulate their contents and have their capacity buffed based on type
+                   [*]Cargobays can be upgraded to filter collection items
 	[*]more wip.[/list]
 [*] each new module and most features can be individually toggled on&off / tweaked in the mod config.
+[*] Huge amount of bug fixes and performance improvements for the rocketry systems
+[*] Automatic Gantry retraction (can be turned off)
+[*] Module Skins
 [/list]
 
 [h1]Credits[/h1]
 Options made with PLib.
-Animations for the Solar Nosecone & Natural Gas Engine made by the wonderful 3GuB
+Animations for the a lot of modules were made by the wonderful 3GuB
+
 
 [hr][/hr]
-[h1]Known Issues[/h1]
-[list]
-[*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
-[*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
-[*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
-[*] Cannot place something in the rocket / space blocked / invisible mining tiles - game hiccup for not removing invisible world border neutronium, reloading fixes this.
-[/list]
 
-[h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
 
-Where to find the Log:
-[list]
-[*]Windows: 
-    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
-[*]Mac: 
-    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
-[*] Linux: 
-~/.config/unity3d/Klei/Oxygen Not Included/Player.log
-[/list] 
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for debugging![/b] 
 
 [hr][/hr]
 
@@ -66,9 +63,6 @@ Also check out these mods for more Rocketry Additions:[list]
 [/list] 
 
 [hr][/hr]
-
-Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
-
 
 [h1]FAQ[/h1]
 [h2]What does "Interior Shrinking" mean for the game?[/h2]
@@ -86,3 +80,8 @@ For comparison, this is the space taken by 9 normal sized rocket interiors:
 This is the space taken by 16 shrunken (medium) interiors:
 
 [img]https://i.imgur.com/lrbg559.png[/img]
+
+[hr][/hr]
+
+Do you like the mods I make? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+Do u like 3GuB's art and animations? you can support him on [url=https://ko-fi.com/03gub]Kofi[/url].

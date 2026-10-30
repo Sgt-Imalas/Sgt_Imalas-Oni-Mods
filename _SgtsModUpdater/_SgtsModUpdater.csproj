@@ -8,6 +8,7 @@
 		<UseWPF>true</UseWPF>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+		<IncludeGameReferences>false</IncludeGameReferences>
     <PublishSingleFile>true</PublishSingleFile>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>

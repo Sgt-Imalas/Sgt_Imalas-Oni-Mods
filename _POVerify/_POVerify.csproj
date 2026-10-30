@@ -4,6 +4,7 @@
 		<Nullable>enable</Nullable>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
 		<TargetFramework>netstandard2.0</TargetFramework>
+		<IncludeGameReferences>false</IncludeGameReferences>
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Include="ValidatePOFiles.cs" />

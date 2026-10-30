@@ -99,7 +99,7 @@ namespace _WorldGenStateCapture
 				}
 
 
-				GameScheduler.Instance.ScheduleNextFrame("collect data", (_) =>
+				GameScheduler.Instance.ScheduleNextGameTick("collect data", (_) =>
 				{
 					ModAssets.AccumulateSeedData();
 				});
