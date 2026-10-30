@@ -15,7 +15,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		[SerializeField] public bool TintGeneratorMeter = false;
 		[SerializeField] public bool TintPolymerizer = false;
 
-		private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.UpdateTint());
+		private static readonly System.Action<object, object> OnStorageChangeDelegate = (tintable, data) => (tintable as ContentTintable).UpdateTint();
 		//private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.ClearTint());
 		HashSet<string> ExistingTintSymbols = [];
 		HashSet<string> ExistingFGTintSymbols = [];
@@ -25,7 +25,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
+			this.Sub(GameHashes.OnStorageChange, OnStorageChangeDelegate);
 			//Subscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
 		public override void OnSpawn()
@@ -40,7 +40,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			}
 			if (TintGeneratorMeter && TryGetComponent<EnergyGenerator>(out var generator) && generator.hasMeter)
 			{
-				GameScheduler.Instance.ScheduleNextFrame("grep controller", (_) =>
+				GameScheduler.Instance.ScheduleNextGameTick("grep controller", (_) =>
 				{
 					kbacMeter = generator.meter.meterController;
 					AssignTintables();
@@ -49,7 +49,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			}
 			else if (TintPolymerizer && TryGetComponent<Polymerizer>(out var polymerizer))
 			{
-				GameScheduler.Instance.ScheduleNextFrame("grep controller", (_) =>
+				GameScheduler.Instance.ScheduleNextGameTick("grep controller", (_) =>
 				{
 					kbacMeter = polymerizer.oilMeter.meterController;
 					AssignTintables();
@@ -92,8 +92,8 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 
 		public override void OnCleanUp()
 		{
+			this.UnsubAll();
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
 			//Unsubscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
 

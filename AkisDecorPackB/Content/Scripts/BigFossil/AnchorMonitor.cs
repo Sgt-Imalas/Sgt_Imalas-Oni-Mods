@@ -96,7 +96,8 @@ namespace AkisDecorPackB.Content.Scripts.BigFossil
 					7,
 					1,
 					GameScenePartitioner.Instance.solidChangedLayer,
-					OnSolidChanged)
+					(ctx,data)=>OnSolidChanged(data), this)
+				
 			];
 
 			for (int i = 0; i < 7; i++)

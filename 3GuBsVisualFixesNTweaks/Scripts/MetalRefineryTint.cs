@@ -13,15 +13,14 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		KBatchedAnimController kbacMeter;
 		public override void OnSpawn()
 		{
-			Subscribe((int)GameHashes.OnStorageChange, UpdateTint);
-			Subscribe(ModAssets.OnRefineryAnimPlayed, DropAllProducts);
+			this.Sub((int)GameHashes.OnStorageChange, UpdateTint);
+			this.Sub(ModAssets.OnRefineryAnimPlayed, DropAllProducts);
 			base.OnSpawn();
 			UpdateTint(null);
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.OnStorageChange, UpdateTint);
-			Unsubscribe(ModAssets.OnRefineryAnimPlayed, DropAllProducts);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 		void UpdateTint(object _)

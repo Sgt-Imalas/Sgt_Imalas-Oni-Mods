@@ -8,7 +8,7 @@
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.VentAnimatingChanged, UpdateTint);
+			this.Sub((int)GameHashes.VentAnimatingChanged, UpdateTint);
 		}
 		public override void OnSpawn()
 		{
@@ -17,7 +17,7 @@
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.VentAnimatingChanged, UpdateTint);
+			this.UnsubAll();
 		}
 		void UpdateTint(object data)
 		{

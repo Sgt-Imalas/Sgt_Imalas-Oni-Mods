@@ -43,7 +43,7 @@ namespace AkisDecorPackB.Content.ModDb
 		public static class BuildLocationRules
 		{
 			public static BuildLocationRule OnAnyWall = (BuildLocationRule)(-1569291063);
-			public static BuildLocationRule GiantFossilRule = (BuildLocationRule)Hash.SDBMLower("DecorPackB_FloorOrHanging");
+			public static BuildLocationRule GiantFossilRule = (BuildLocationRule)ModHashes.SDBMLower("DecorPackB_FloorOrHanging");
 		}
 	}
 }

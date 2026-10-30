@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UtilLibs;
 
 namespace AkisDecorPackB.Content.Scripts
 {
@@ -32,8 +33,8 @@ namespace AkisDecorPackB.Content.Scripts
 
 		public static Dictionary<SimHashes, Func<Vector3, Color>> colorFns = new()
 		{
-			{ (SimHashes)Hash.SDBMLower("UnobtaniumAlloy"), GetRainbowColor },
-			{ (SimHashes)Hash.SDBMLower("UnobtaniumDust"), GetRainbowColor }
+			{ (SimHashes)ModHashes.SDBMLower("UnobtaniumAlloy"), GetRainbowColor },
+			{ (SimHashes)ModHashes.SDBMLower("UnobtaniumDust"), GetRainbowColor }
 		};
 
 		public override void OnSpawn()

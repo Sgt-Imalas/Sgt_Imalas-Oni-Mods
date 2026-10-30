@@ -8,7 +8,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 	public class FloorLightConfig : IBuildingConfig
 	{
 		public const string ID = $"DecorPackB_FloorLight";
-		public static readonly int BlockTileConnectorID = Hash.SDBMLower("decorpackb_lamp_tops");
+		public static readonly int BlockTileConnectorID = ModHashes.SDBMLower("decorpackb_lamp_tops");
 
 		public override BuildingDef CreateBuildingDef()
 		{

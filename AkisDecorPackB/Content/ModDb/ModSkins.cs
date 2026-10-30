@@ -17,7 +17,7 @@ namespace AkisDecorPackB.Content.ModDb
 		public static HashSet<string> pots = new();
 		public static HashSet<string> fountains = new();
 
-		public static PermitCategory fossil = (PermitCategory)Hash.SDBMLower("DecorPackB_Fossil");
+		public static PermitCategory fossil = (PermitCategory)ModHashes.SDBMLower("DecorPackB_Fossil");
 
 		public static HashSet<string> myFacades = [];
 		public static HashSet<string> useMuseumDefs =
