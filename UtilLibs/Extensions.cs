@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +13,29 @@ namespace UtilLibs
 {
 	public static class Extensions
 	{
+		public static bool TryGetTokenValue<T>(this JObject jObject, string key, out T value, JsonSerializer serializer = null)
+		{
+			value = default;
+			if (jObject == null || !jObject.TryGetValue(key, out JToken token) || token.Type == JTokenType.Null)
+				return false;
+
+			if (token is JValue jValue && jValue.Value is T direct)
+			{
+				value = direct;
+				return true;
+			}
+
+			try
+			{
+				value = serializer != null ? token.ToObject<T>(serializer) : token.ToObject<T>();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 		public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
 		{
 			var known = new HashSet<TKey>();
@@ -42,7 +67,7 @@ namespace UtilLibs
 			byte[] compressedData;
 			using (var memoryStream = new MemoryStream())
 			{
-				using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))	
+				using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
 					gZipStream.Write(buffer, 0, buffer.Length);
 				compressedData = memoryStream.ToArray();
 			}

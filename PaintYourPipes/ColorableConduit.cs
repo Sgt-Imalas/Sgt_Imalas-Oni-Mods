@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UtilLibs;
 
 namespace PaintYourPipes
 {
@@ -19,20 +20,11 @@ namespace PaintYourPipes
 		{
 			if (source.TryGetComponent<ColorableConduit>(out var behavior))
 			{
-				var t1 = data.GetValue("colorHex");
-				if (t1 == null)
-					return;
-				var colorHex = t1.Value<string>(); //"Value1"
+				if (data.TryGetTokenValue("colorHex", out string colorHex) && data.TryGetTokenValue("secondaryColorHex", out string secondaryColorHex))
+					behavior.SetColorHexValues(colorHex, secondaryColorHex);
 
-				var t2 = data.GetValue("secondaryColorHex");
-				if (t2 == null)
-					return;
-				var secondaryColorHex = t1.Value<string>(); //"Value2"
-				behavior.SetColorHexValues(colorHex, secondaryColorHex);
-
-				var t3 = data.GetValue("useGreyscaleAnim");
-				if (t3 != null)
-					behavior.SetCheckboxValue(t3.Value<bool>());
+				if(data.TryGetTokenValue("useGreyscaleAnim", out bool useGreyscaleAnim))
+					behavior.SetCheckboxValue(useGreyscaleAnim);
 			}
 		}
 		/// <summary>
