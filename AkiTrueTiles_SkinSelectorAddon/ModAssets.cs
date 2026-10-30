@@ -23,7 +23,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 				DirtyCells.Add(cell);
 				if (!RefreshScheduled)
 				{
-					GameScheduler.Instance.ScheduleNextFrame("refresh dirty cells", obj => RefreshCells());
+					GameScheduler.Instance.ScheduleNextGameTick("refresh dirty cells", obj => RefreshCells());
 					RefreshScheduled = true;
 				}
 			}

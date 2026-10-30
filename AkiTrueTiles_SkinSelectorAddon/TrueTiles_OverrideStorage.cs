@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -64,7 +65,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		public BuildingDef Def => building.Def;
 
 		[MyCmpAdd] CopyBuildingSettings copyBuildingSettings;
-		private static readonly EventSystem.IntraObjectHandler<TrueTiles_OverrideStorage> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<TrueTiles_OverrideStorage>((System.Action<TrueTiles_OverrideStorage, object>)((component, data) => component.OnCopySettings(data)));
+		private static readonly Action<object, object> OnCopySettingsDelegate = (component, data) => ((TrueTiles_OverrideStorage)component).OnCopySettings(data);
 
 		int handle = -1;
 		public override void OnSpawn()
@@ -78,7 +79,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 				SetOverride(OverrideElement, true);
 			}
 			ModAssets.ScheduleCellRefresh(cell);
-			handle = this.Subscribe(-905833192, OnCopySettingsDelegate);
+			handle = this.Subscribe(-905833192, OnCopySettingsDelegate, this);
 		}
 		public override void OnCleanUp()
 		{

@@ -28,7 +28,7 @@ namespace AkisSnowThings.Content.Scripts.Entities
 		{
 			base.OnSpawn();
 			growth = this.GetComponent<Growing>();
-			GameScheduler.Instance.ScheduleNextFrame("logging tree", (_) =>
+			GameScheduler.Instance.ScheduleNextGameTick("logging tree", (_) =>
 			{
 				foreach (var modifier in plantModifiers.GetAmounts().ModifierList)
 					SgtLogger.l("Modifier: " + modifier.amount.Name + ": " + modifier.value);
@@ -73,7 +73,7 @@ namespace AkisSnowThings.Content.Scripts.Entities
 			if (plantModifiers != null)
 			{
 				var db = Db.Get();
-				float totalWoodYield = plantModifiers.GetPreModifiedAttributeValue(db.PlantAttributes.YieldAmount);
+				float totalWoodYield = plantModifiers.GetPreModifiedAttributeValue(db.PlantAttributes.YieldFactor);
 
 				float yieldModifier =  totalWoodYield / EvergreenTreeConfig.HARVEST_MASS;
 				//SgtLogger.l("yield modifier: "+yieldModifier);

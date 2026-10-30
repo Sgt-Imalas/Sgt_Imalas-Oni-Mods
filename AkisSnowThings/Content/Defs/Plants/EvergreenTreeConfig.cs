@@ -18,6 +18,8 @@ namespace AkisSnowThings.Content.Defs.Plants
 		public const float SAP_CAPACITY = 20f;
 		public const float WOOD_PER_SECOND = HARVEST_MASS / GROWTH_TIME;
 		public static CellOffset OUTPUT_CONDUIT_CELL_OFFSET = new CellOffset(0, 1);
+		public static Crop.CropVal HARVEST = new Crop.CropVal("WoodLog", GROWTH_TIME, HARVEST_MASS);
+		//new Crop.CropVal(TreeRemainsConfig.ID, EvergreenTreeConfig.GROWTH_TIME, EvergreenTreeConfig.HARVEST_MASS)
 
 		public GameObject CreatePrefab()
 		{
@@ -35,16 +37,16 @@ namespace AkisSnowThings.Content.Defs.Plants
 
 			EntityTemplates.ExtendEntityToBasicPlant(
 				prefab,
+				HARVEST,
 				UtilMethods.GetKelvinFromC(-90),
 				UtilMethods.GetKelvinFromC(-40),
 				UtilMethods.GetKelvinFromC(50),
 				UtilMethods.GetKelvinFromC(90),
-				crop_id: TreeRemainsConfig.ID,
 				should_grow_old: false,
-
 				max_radiation: TUNING.PLANTS.RADIATION_THRESHOLDS.TIER_2,
 				baseTraitId: ID + "Original",
-				baseTraitName: SNOWSCULPTURES_EVERGREEN_TREE.NAME);
+				baseTraitName: SNOWSCULPTURES_EVERGREEN_TREE.NAME)
+				;
 
 			UnityEngine.Object.DestroyImmediate(prefab.GetComponent<HarvestDesignatable>());
 			prefab.AddComponent<EvergreenHarvestDesignatable>().SetHarvestWhenReady(false);
