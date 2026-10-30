@@ -32,7 +32,7 @@ namespace AmogusMorb.TwitchEvents.Events
 				if (Components.Telepads.GetWorldItems(worldID).Count > 0)
 					Printer = Components.Telepads.GetWorldItems(worldID).First();
 				else
-					Printer = Components.Telepads.items.data.GetRandom();
+					Printer = Components.Telepads.GetRandom();
 
 				int dupecount = Components.MinionIdentities.Items.Count();
 				var printerCoords = Printer.transform.position;

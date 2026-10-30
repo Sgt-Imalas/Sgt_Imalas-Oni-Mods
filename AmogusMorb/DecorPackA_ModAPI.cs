@@ -4,6 +4,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UtilLibs;
 
 // You can copy paste this file straight into your mod, just change the namespace and you are good to go
 // Decor Pack I promises to not make breaking changes to this API
@@ -11,7 +12,7 @@ namespace AmogusMorb
 {
 	public class DecorPackA_ModAPI
 	{
-		public static int MoodlampChangedEvent = Hash.SDBMLower("DecorPackA_OnMoodlampChanged");
+		public static int MoodlampChangedEvent = ModHashes.SDBMLower("DecorPackA_OnMoodlampChanged");
 
 		public struct VariantChangedEvent
 		{

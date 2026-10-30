@@ -1,6 +1,7 @@
 ﻿// version 1.0
 
 using HarmonyLib;
+using Shared;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace BathTub.Duck
 {
 	public class DecorPackA_ModAPI
 	{
-		public static int MoodlampChangedEvent = Hash.SDBMLower("DecorPackA_OnMoodlampChanged");
+		public static int MoodlampChangedEvent = UtilLibs.ModHashes.SDBMLower("DecorPackA_OnMoodlampChanged");
 
 		public struct VariantChangedEvent
 		{

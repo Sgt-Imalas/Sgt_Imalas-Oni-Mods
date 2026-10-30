@@ -21,12 +21,12 @@ namespace BathTub.Duck
 		{
 			this.m_onSelectObjectDelegate = new System.Action<object>(this.OnSelect);
 			base.OnSpawn();
-			this.Subscribe((int)GameHashes.SelectObject, m_onSelectObjectDelegate);
+			this.Sub((int)GameHashes.SelectObject, m_onSelectObjectDelegate);
 			ScheduleNextQuack();
 		}
 		public override void OnCleanUp()
 		{
-			this.Unsubscribe((int)GameHashes.SelectObject, m_onSelectObjectDelegate);
+			this.UnsubAll();
 			if (NextQuackHandle.IsValid)
 				NextQuackHandle.ClearScheduler();
 

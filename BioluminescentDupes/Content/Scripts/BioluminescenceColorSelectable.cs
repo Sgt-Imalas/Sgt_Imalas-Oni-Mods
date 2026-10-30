@@ -27,7 +27,7 @@ namespace BioluminescentDupes.Content.Scripts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			GameScheduler.Instance.ScheduleNextFrame("BioluminescenceColorSelectable.OnSpawn", (_)=>RefreshLamp());
+			GameScheduler.Instance.ScheduleNextGameTick("BioluminescenceColorSelectable.OnSpawn", (_)=>RefreshLamp());
 		}
 
 		internal void SetColor(Color color)

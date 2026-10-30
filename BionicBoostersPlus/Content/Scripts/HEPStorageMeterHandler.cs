@@ -12,12 +12,12 @@
 		{
 			base.OnSpawn();
 			hepMeter = new MeterController(kbac, "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, ["meter_target", "meter_fill", "meter_frame", "meter_OL"]);			
-			Subscribe((int)GameHashes.OnParticleStorageChanged, OnParticleStorageChanged);
+			this.Sub((int)GameHashes.OnParticleStorageChanged, OnParticleStorageChanged);
 			OnParticleStorageChanged(null);
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.OnParticleStorageChanged, OnParticleStorageChanged);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 		void OnParticleStorageChanged(object data)
