@@ -1,17 +1,26 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig
 {
-	public class RTGModuleConfig : IBuildingConfig
+	public class RTGModuleConfig : IBuildingConfig, IHasOtherConfigurables
 	{
 		public static readonly Tag RTB_RTG = TagManager.Create("RTB_RTG");
 		public const string ID = "RTB_RtgGeneratorModule";
 		public const float UraniumCapacity = 50f;
 		public const float energyProduction = 120f;
 		public float ConsumptionRate = (UraniumCapacity / Config.Instance.IsotopeDecayTime) / 600f;
-		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1; 
+		public List<string> OtherConfigLabels()
+		{
+			return [
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE,
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TITLE
+				];
+		}
 
 		public override BuildingDef CreateBuildingDef()
 		{

@@ -1,6 +1,8 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.ModDb;
 using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
 using Rockets_TinyYetBig.Content.Scripts.Buildings;
+using System.Collections.Generic;
 using System.Linq;
 using TUNING;
 using UnityEngine;
@@ -9,7 +11,7 @@ using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace Rockets_TinyYetBig
 {
-	public class CoalGeneratorModuleConfig : IBuildingConfig, IGeneratorBuilding, IHasConfigurableWattage
+	public class CoalGeneratorModuleConfig : IBuildingConfig, IGeneratorBuilding, IHasConfigurableWattage, IHasOtherConfigurables
 	{
 		public const string ID = "RTB_GeneratorCoalModule";
 
@@ -19,6 +21,11 @@ namespace Rockets_TinyYetBig
 		public Tuple<int, int> GetLimitsWattage() => new(90, 720);
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+		public List<string> OtherConfigLabels() {
+			return [
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE
+				];
+		}
 
 		public override BuildingDef CreateBuildingDef()
 		{

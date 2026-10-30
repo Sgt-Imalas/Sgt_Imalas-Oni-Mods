@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			CargoBayCapacityLvl2,
 			CargoBayCapacityLvl3,
 			
-			CargoBayCollectionSpeed
+			CargoBayCollectionSpeed//eeh kinda useless.
 			;
 
 		static void ToggleCargoBayInsulation(GameObject cargobayGO, bool enableInsulation)
@@ -70,6 +71,21 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 		public static bool TryGetUpgrade(string item, out RocketModuleUpgrade upgrade) => _upgrades.TryGetValue(item, out upgrade);
 
+		internal static void ConfigureAllowedUpgrades(RocketModuleUpgradeStorage rocketModuleUpgradeStorage)
+		{
+			var gameObject = rocketModuleUpgradeStorage.gameObject;
+
+			if (gameObject.TryGetComponent<CargoBayCluster>(out var cargobay) && cargobay.storageType != CargoBay.CargoType.Entities)
+			{
+				rocketModuleUpgradeStorage.SetAllowed(CargoBayFilter);
+			}
+			//Big TODO:
+			//if (gameObject.TryGetComponent<LaunchableRocketCluster>( out _))
+			//{
+			//	rocketModuleUpgradeStorage.SetAllowed(FlightComputerUpgrade);
+			//}
+
+		}
 	}
 	[Serializable]
 	[SerializationConfig(MemberSerialization.OptIn)]

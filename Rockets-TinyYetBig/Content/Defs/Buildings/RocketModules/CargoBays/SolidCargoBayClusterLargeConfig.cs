@@ -1,17 +1,20 @@
 ﻿using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
-	public class SolidCargoBayClusterLargeConfig : IBuildingConfig
+	public class SolidCargoBayClusterLargeConfig : IBuildingConfig, IHasOtherConfigurables
 	{
 		public const string ID = "RTB_CargoBayClusterLarge";
 		public static float CAPACITY => !Config.Instance.RebalancedCargoCapacity ? CAPACITY_OFF : CAPACITY_ON;
 		public static float CAPACITY_OFF => 50000f;
 		public static float CAPACITY_ON => Config.Instance.SolidCargoBayKgPerUnit * Config.Instance.CollossalCargoBayUnits;
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+		public List<string> OtherConfigLabels() => ConfigLabelHelper.GetLargeCargobayDescriptors(CargoBay.CargoType.Solids);
 
 		public override BuildingDef CreateBuildingDef()
 		{

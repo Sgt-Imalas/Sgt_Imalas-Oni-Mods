@@ -14,9 +14,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 		LocText Label;
 		FToggle EnabledCheckbox;
 		Image CheckboxBG;
-		ToolTip ToolTip;
+		ToolTip ToolTip, OtherDescsTT;
 		FButton SelectButton;
-		GameObject Gear;
+		GameObject Gear, Info;
 
 		public override void OnPrefabInit()
 		{
@@ -34,7 +34,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 			Label = transform.Find("Label")?.GetComponent<LocText>();			
 			ToolTip = UIUtils.AddSimpleTooltipToObject(gameObject, "");
 			Gear = transform.Find("Gear")?.gameObject;
+			Info = transform.Find("Info")?.gameObject;
 			UIUtils.AddSimpleTooltipToObject(Gear, STRINGS.UI.RE_BUILDINGEDITOR.BUILDINGCONFIGURABLE);
+			OtherDescsTT = UIUtils.AddSimpleTooltipToObject(Info, STRINGS.UI.RE_BUILDINGEDITOR.OTHERCONFIGLOCATION);
 
 			EnabledCheckbox = transform.Find("Checkbox").gameObject.AddOrGet<FToggle>();
 			CheckboxBG = EnabledCheckbox.gameObject.GetComponent<Image>();
@@ -77,7 +79,14 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 			}
 			Label?.SetText(TargetOutline.GetDisplayName());
 
-			Gear.SetActive(TargetOutline.HasConfigurables());
+			Gear.SetActive(TargetOutline.HasEditorConfigurables());
+			if(TargetOutline.GetOtherConfigStrings(out var descs))
+			{
+				Info.SetActive(true);
+				OtherDescsTT.SetSimpleTooltip(descs);
+			}
+			else
+				Info.SetActive(false);
 			EnabledCheckbox.SetOnFromCode(TargetOutline.ShowBuildingEnabled(out string reason));
 			bool catDisabled = TargetOutline.DisabledByCategory();
 			EnabledCheckbox.SetInteractable(TargetOutline.IsInjected && !catDisabled);

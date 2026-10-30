@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Content.ModDb;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TUNING;
@@ -59,10 +60,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		void DetermineAllowedUpgrades()
 		{
 			allowedUpgrades.Clear();
-			if (gameObject.TryGetComponent<CargoBayCluster>(out var cargobay) && cargobay.storageType != CargoBay.CargoType.Entities)
-			{
-				allowedUpgrades.Add(ModuleUpgradeDatabase.CargoBayFilter);
-			}
+			ModuleUpgradeDatabase.ConfigureAllowedUpgrades(this);
 		}
 
 		public bool UpgradeAllowed(string upgradeId, out string failure)
@@ -230,6 +228,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			if (sound == null)
 				return;
 			KMonoBehaviour.PlaySound3DAtLocation(sound, this.gameObject.transform.GetPosition());
+		}
+
+		internal void SetAllowed(RocketModuleUpgrade cargoBayFilter)
+		{
+			if(!allowedUpgrades.Contains(cargoBayFilter))
+				allowedUpgrades.Add(cargoBayFilter);
 		}
 
 

@@ -1,16 +1,21 @@
-﻿using TUNING;
+﻿using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
+using TUNING;
 using UnityEngine;
 using static Rockets_TinyYetBig.Patches.ModIntegration_Patches.Rocketry_Interior_WeightLimit;
 
 namespace Rockets_TinyYetBig
 {
-	class HabitatModuleMediumExpandedConfig : IBuildingConfig
+	class HabitatModuleMediumExpandedConfig : IBuildingConfig, IHasOtherConfigurables
 	{
 		public const string ID = "RTB_HabitatModuleMediumExpanded";
 		private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(-2, 0));
 		private ConduitPortInfo gasOutputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(2, 0));
 		private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-2, 5));
 		private ConduitPortInfo liquidOutputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(2, 5));
+
+		public List<string> OtherConfigLabels() => ConfigLabelHelper.GetHabitatConfigLabels();
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 

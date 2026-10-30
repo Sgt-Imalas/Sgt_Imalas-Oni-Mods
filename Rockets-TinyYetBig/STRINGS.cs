@@ -687,6 +687,40 @@ namespace Rockets_TinyYetBig
 						"\n\nCompatible with regular cargo bay modules." +
 						$"\nEnables filtering of items collected by {PRE_KEYWORD}Cargo Bays{PST_KEYWORD} via their storage filters.";
 				}
+				public class RTB_FLIGHTCOMPUTERUPGRADE
+				{
+					public static LocString NAME = FormatAsLink("Flight Computer Upgrade", "RTB_FLIGHTCOMPUTERUPGRADE");
+					public static LocString DESC = "Roundtrips with only two destinations are kinda boring aren't they?";
+					public static LocString EFFECT = UIUtils.EmboldenText(PRE_KEYWORD + "Rocket Module Upgrade" + PST_KEYWORD) + ", must be constructed attached to compatible rocket modules" +
+						"\n\nCompatible with spacefarer and robopilot modules." +
+						$"\nAllows setting advanced flight paths.";
+				}
+				public class RTB_FLIGHTCOMPUTERUPGRADEINTERFACE
+				{
+					public static LocString NAME = FormatAsLink("Flight Computer Interface", "RTB_FLIGHTCOMPUTERUPGRADEINTERFACE");
+					public static LocString DESC = "Plugging a wire into a flying rocket from the outside is kinda difficult.";
+					public static LocString EFFECT = "Allows triggering a flight computer wait condition that is set to wait at the destination for logic signal.\n" +
+													"\n\nMust be constructed inside a rocket module.";
+
+
+
+					public static LocString LOGIC_PORT = "Trigger Flight Computer waiting condition";
+					public static LocString LOGIC_PORT_ACTIVE = (FormatAsAutomationState("Green Signal", AutomationState.Active) + ": The connected flight computer sets course towards the next target if its current destination is set to wait for a logic signal");
+					public static LocString LOGIC_PORT_INACTIVE = (FormatAsAutomationState("Red Signal", AutomationState.Standby) + ": The connected flight computer waits at the current destination if its configured to wait for a logic signal");
+				}
+				public class RTB_LOGICDESTINATIONSELECTOR
+				{
+					public static LocString NAME = FormatAsLink("Flight Destination Picker", "RTB_LOGICDESTINATIONSELECTOR");
+					public static LocString DESC = "\"I'm sorry Devon, I'm afraid I can't do that\"";
+					public static LocString EFFECT = "Allows configuration of flight destinations to a specific ribbon value.\n" +
+													"Makes the rocket load the configured value as flight destination when the ribbon value matches one of the configurations." +				
+													"\n\nMust be constructed inside a rocket module.";
+
+
+					public static LocString LOGIC_PORT = "Select Rocket Destination";
+					public static LocString LOGIC_PORT_ACTIVE = (FormatAsAutomationState("Green Signal", AutomationState.Active) + ": Sets the rocket target to the configured value");
+					public static LocString LOGIC_PORT_INACTIVE = (FormatAsAutomationState("Red Signal", AutomationState.Standby) + ": Sets the rocket target to the configured value.");
+				}
 			}
 		}
 
@@ -799,7 +833,9 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Building Configuration Editor";
 
 				public static LocString MOD_ORIGIN_TEXT = "This building is categorized as:";
-				public static LocString BUILDINGCONFIGURABLE = "This building has settings that can be modified.";
+				public static LocString BUILDINGCONFIGURABLE = "This building has configurables settings that can be modified in this editor.";
+				public static LocString OTHERCONFIGLOCATION = "This building has configurable settings\n" +
+															  "that can be modified in the regular mod config:";
 				public class BUILDINGENABLEDREASONS
 				{
 					public static LocString IS_ENABLED = "The building is currently enabled";
@@ -1453,7 +1489,7 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Compress Interiors & Remove Rocket Limit";
 				public static LocString TOOLTIP = "Removes the rocket limit of 16 and trims excessive space outside of the rocket walls in spacefarer interiors\nRequired for space stations.";
 			}
-			public class CEMTEREDINTERIORS
+			public class CENTEREDINTERIORS
 			{
 				public static LocString TITLE = "Center Interiors";
 				public static LocString TOOLTIP = "Centers the rocket interior template in the rocket (it is offset by 1 otherwise)\nAlways active with Compressed Interiors.";

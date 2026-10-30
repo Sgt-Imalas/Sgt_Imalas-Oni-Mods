@@ -1,11 +1,14 @@
-﻿using TUNING;
+﻿using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static Rockets_TinyYetBig.Patches.ModIntegration_Patches.Rocketry_Interior_WeightLimit;
 
 namespace Rockets_TinyYetBig.Buildings.Habitats
 {
-	public class HabitatModulePlatedNoseconeLargeConfig : IBuildingConfig
+	public class HabitatModulePlatedNoseconeLargeConfig : IBuildingConfig, IHasOtherConfigurables
 	{
 		public const string ID = "RTB_HabitatModulePlatedLarge";
 		private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(-2, 0));
@@ -13,6 +16,7 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
 		private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-2, 1));
 		private ConduitPortInfo liquidOutputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(2, 1));
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+		public List<string> OtherConfigLabels() => ConfigLabelHelper.GetHabitatConfigLabels();
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] denseTieR1 = new float[] { 300f, 300 };

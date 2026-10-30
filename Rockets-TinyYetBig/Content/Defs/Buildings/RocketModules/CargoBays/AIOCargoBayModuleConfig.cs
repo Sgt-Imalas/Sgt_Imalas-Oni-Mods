@@ -1,14 +1,18 @@
-﻿using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
+﻿using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
+using System.Collections.Generic;
 using System.Linq;
 using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays
 {
-	internal class AIOCargoBayModuleConfig : IBuildingConfig
+	internal class AIOCargoBayModuleConfig : IBuildingConfig, IHasOtherConfigurables
 	{
 		public const string ID = "RTB_AIOCargoBayCluster";
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+		public List<string> OtherConfigLabels() => ConfigLabelHelper.GetAIOCargobayDescriptors();
 
 		public override BuildingDef CreateBuildingDef()
 		{

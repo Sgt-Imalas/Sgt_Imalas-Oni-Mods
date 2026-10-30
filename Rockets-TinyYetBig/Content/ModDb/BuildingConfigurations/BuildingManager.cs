@@ -102,6 +102,16 @@ namespace Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations
 			{
 				entry.SetIsGenerator(true);
 			}
+			if (typeof(IHasOtherConfigurables).IsAssignableFrom(buildingType))
+			{
+				var otherConfigurablesInfo = (IHasOtherConfigurables)Activator.CreateInstance(buildingType);
+				if (otherConfigurablesInfo != default)
+				{
+					entry.SetIsOtherConfigurable(true, otherConfigurablesInfo.OtherConfigLabels());
+				}
+				else
+					entry.SetIsOtherConfigurable(true);
+			}
 			if (typeof(IHasConfigurableRange).IsAssignableFrom(buildingType))
 			{
 				var rangeConfigurator = (IHasConfigurableRange)Activator.CreateInstance(buildingType);

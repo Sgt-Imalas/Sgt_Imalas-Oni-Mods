@@ -28,6 +28,8 @@ namespace Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations
 
 		[JsonIgnore] public BuildingInjectionEntry BuildingInjection = null;
 		[JsonIgnore] public bool IsGenerator;
+		[JsonIgnore] public bool IsOtherConfigurable;
+		[JsonIgnore] public string OtherConfigurablesDescription = null;
 
 		[JsonIgnore] public string RangeLabel = null;
 		[JsonIgnore] public string StorageLabel = null;
@@ -188,14 +190,33 @@ namespace Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations
 			return text;
 		}
 
-		internal bool HasConfigurables()
+		internal bool HasEditorConfigurables()
 		{
 			return HasWattage(out _) || HasStorageCapacity(out _) || HasTileRange(out _);
+		}
+		internal bool GetOtherConfigStrings(out string descs)
+		{
+			descs = OtherConfigurablesDescription;
+			return IsOtherConfigurable;
 		}
 
 		internal void SetIsGenerator(bool v)
 		{
 			IsGenerator = v;
+		}
+		internal void SetIsOtherConfigurable(bool v, List<string> descriptions = null)
+		{
+			IsOtherConfigurable = v;
+			string tt = STRINGS.UI.RE_BUILDINGEDITOR.OTHERCONFIGLOCATION;
+			if (descriptions != null && descriptions.Count > 0)
+			{
+				tt += ":";
+				foreach (var desc in descriptions)
+				{
+					tt += "\n• " + desc;
+				}
+			}
+			OtherConfigurablesDescription = tt;
 		}
 	}
 }

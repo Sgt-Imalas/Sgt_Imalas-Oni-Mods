@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-	public class DrillconeStorageModuleConfig : IBuildingConfig, IHasConfigurableStorageCapacity
+	public class DrillconeStorageModuleConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasOtherConfigurables
 	{
 		public const string ID = "RTB_DrillConeDiamondStorage";
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
@@ -18,6 +18,14 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 		public Tuple<int, int> GetLimitsStorage() => new(1_000, 10_000);
 		public string StorageUnitLabel() => null;
 		public string GetStorageTooltip() => STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP;
+
+		public List<string> OtherConfigLabels()
+		{
+			return [
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TITLE,
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TITLE,
+				];
+		}
 
 		public override BuildingDef CreateBuildingDef()
 		{

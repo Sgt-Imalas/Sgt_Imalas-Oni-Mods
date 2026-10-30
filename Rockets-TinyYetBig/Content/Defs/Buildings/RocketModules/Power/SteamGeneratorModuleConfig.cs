@@ -1,12 +1,13 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
-	public class SteamGeneratorModuleConfig : IBuildingConfig, IGeneratorBuilding, IHasConfigurableWattage
+	public class SteamGeneratorModuleConfig : IBuildingConfig, IGeneratorBuilding, IHasConfigurableWattage, IHasOtherConfigurables
 	{
 		public const string ID = "RTB_SteamGeneratorModule";
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
@@ -15,6 +16,12 @@ namespace Rockets_TinyYetBig
 		public float GetWattage() => _wattage;
 		public void SetWattage(float wattage) => _wattage = wattage;
 		public Tuple<int, int> GetLimitsWattage() => new(240, 960);
+		public List<string> OtherConfigLabels()
+		{
+			return [
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE
+				];
+		}
 
 		public override BuildingDef CreateBuildingDef()
 		{

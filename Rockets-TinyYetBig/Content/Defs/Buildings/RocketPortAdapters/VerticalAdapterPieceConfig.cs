@@ -1,12 +1,21 @@
-﻿using TUNING;
+﻿using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations.BuildingConfigInterfaces;
+using System.Collections.Generic;
+using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
-	internal class VerticalAdapterPieceConfig : IBuildingConfig
+	internal class VerticalAdapterPieceConfig : IBuildingConfig, IHasOtherConfigurables
 	{
 		public const string ID = "RTB_VerticalAdapterPiece";
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
+
+		public List<string> OtherConfigLabels()
+		{
+			return [
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TITLE,
+				];
+		}
 		public override BuildingDef CreateBuildingDef()
 		{
 

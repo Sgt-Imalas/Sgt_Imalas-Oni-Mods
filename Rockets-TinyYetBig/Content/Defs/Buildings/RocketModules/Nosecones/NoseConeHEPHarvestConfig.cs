@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Nosecones
 {
-	class NoseConeHEPHarvestConfig : IBuildingConfig, IHasConfigurableStorageCapacity
+	class NoseConeHEPHarvestConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasOtherConfigurables
 	{
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public const string ID = "RYB_NoseConeHEPHarvest";
@@ -19,6 +19,14 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 		public Tuple<int, int> GetLimitsStorage() => new(1_000, 20_000);
 		public string StorageUnitLabel() => global::STRINGS.UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES;
 		public string GetStorageTooltip() => STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP;
+
+		public List<string> OtherConfigLabels()
+		{
+			return [
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TITLE,
+				STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TITLE,
+				];
+		}
 
 
 		public override BuildingDef CreateBuildingDef()
