@@ -39,16 +39,19 @@ namespace Rockets_TinyYetBig.RocketFueling
 			base.OnSpawn();
 		}
 
+		List<int> launchpadHandles = new List<int>();
 		public void OnSelectLaunchpad(LaunchPad launchPad)
 		{
 
 			if (TargetLaunchpad != null)
 			{
-				TargetLaunchpad.Unsubscribe((int)GameHashes.RocketLanded, OnRocketLanded);
-				TargetLaunchpad.Unsubscribe((int)GameHashes.RocketLaunched, OnRocketLaunched);
-				TargetLaunchpad.Unsubscribe((int)GameHashes.RocketModuleChanged, OnRocketModuleChanged);
+				foreach(var handle in launchpadHandles)
+					TargetLaunchpad.Unsubscribe(handle);
+
+				launchpadHandles.Clear();
 				if (TargetLaunchpad.HasRocket())
 				{
+
 				}
 			}
 			TargetLaunchpad = launchPad;
@@ -59,9 +62,9 @@ namespace Rockets_TinyYetBig.RocketFueling
 				Game.Instance.electricalConduitSystem.AddToVirtualNetworks(TargetLaunchpad.LandedRocket.CraftInterface, this, true);
 				Game.Instance.electricalConduitSystem.AddSemiVirtualLink(this.powerInputCell, TargetLaunchpad.LandedRocket.CraftInterface);
 
-				TargetLaunchpad.Subscribe((int)GameHashes.RocketLanded, OnRocketLanded);
-				TargetLaunchpad.Subscribe((int)GameHashes.RocketLaunched, OnRocketLaunched);
-				TargetLaunchpad.Subscribe((int)GameHashes.RocketModuleChanged, OnRocketModuleChanged);
+				launchpadHandles.Add(TargetLaunchpad.Subscribe((int)GameHashes.RocketLanded, OnRocketLanded));
+				launchpadHandles.Add(TargetLaunchpad.Subscribe((int)GameHashes.RocketLaunched, OnRocketLaunched));
+				launchpadHandles.Add(TargetLaunchpad.Subscribe((int)GameHashes.RocketModuleChanged, OnRocketModuleChanged));
 			}
 		}
 		void OnRocketModuleChanged(object data)

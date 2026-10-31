@@ -49,7 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			simCellOccupier.movementSpeedMultiplier = 1.2f; //== DUPLICANTSTATS.MOVEMENT_MODIFIERS.BONUS_5;
 
 			go.AddOrGet<TileTemperature>();
-			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("tiles_wooden_comp_tops");
+			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = ModHashes.SDBMLower("tiles_wooden_comp_tops");
 			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 			//go.AddOrGet<TileTemperature>();
 		}

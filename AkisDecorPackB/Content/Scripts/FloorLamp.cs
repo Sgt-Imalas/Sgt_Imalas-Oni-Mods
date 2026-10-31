@@ -33,8 +33,8 @@ namespace AkisDecorPackB.Content.Scripts
 
 		public static Dictionary<SimHashes, Func<Vector3, Color>> colorFns = new()
 		{
-			{ (SimHashes)ModHashes.SDBMLower("UnobtaniumAlloy"), GetRainbowColor },
-			{ (SimHashes)ModHashes.SDBMLower("UnobtaniumDust"), GetRainbowColor }
+			{ (SimHashes)Hash.SDBMLower("UnobtaniumAlloy"), GetRainbowColor },
+			{ (SimHashes)Hash.SDBMLower("UnobtaniumDust"), GetRainbowColor }
 		};
 
 		public override void OnSpawn()

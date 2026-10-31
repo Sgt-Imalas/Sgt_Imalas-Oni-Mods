@@ -158,7 +158,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 			m_clusterTraveler.validateTravelCB = null;
 
 
-			this.Subscribe<SpaceStation>(1102426921, NameChangedHandler);
+			this.Sub(1102426921, (data)=> SetStationName(data));
 		}
 		private new static EventSystem.IntraObjectHandler<SpaceStation> NameChangedHandler = new EventSystem.IntraObjectHandler<SpaceStation>(((cmp, data) => cmp.SetStationName(data)));
 		public void SetStationName(object newName)
@@ -320,6 +320,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 		public override void OnCleanUp()
 		{
 			RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Remove(SpaceStationInteriorId);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 

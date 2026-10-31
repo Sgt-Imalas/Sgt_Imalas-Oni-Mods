@@ -425,6 +425,10 @@ namespace UtilLibs
 			hex = hex.Replace("#", string.Empty);
 			return "<color=#" + hex + ">" + text + "</color>";
 		}
+		public static string ColorText(Color32 color, string text)
+		{
+			return ColorText(text, Util.ToHexString(color));
+		}
 		public static string ColorText(string text, Color color)
 		{
 			return ColorText(text, Util.ToHexString(color));

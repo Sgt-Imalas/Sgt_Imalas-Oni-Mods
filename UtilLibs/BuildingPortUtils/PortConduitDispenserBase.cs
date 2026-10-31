@@ -130,7 +130,7 @@ namespace UtilLibs.BuildingPortUtils
 		}
 
 
-		private void OnConduitConnectionChanged(object data)
+		private void OnConduitConnectionChanged(object _)
 		{
 			IsConnected_Cache = this.IsConnected;
 			base.BoxingTrigger((int)GameHashes.ConduitConnectionChanged, IsConnected_Cache);
@@ -155,12 +155,13 @@ namespace UtilLibs.BuildingPortUtils
 
 			int layerInt = GetConduitLayer(conduitType);
 			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[layerInt];
-			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, OnConduitConnectionChanged);
+			this.partitionerEntry = GameScenePartitioner.Instance.Add("PortConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, ConnectionChangedCallback);
 			GetConduitFlow(conduitType).AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.LastPostUpdate);
 			this.OnConduitConnectionChanged(null);
 			UpdateNotifications(false);
 		}
 
+		private static readonly Action<object, object> ConnectionChangedCallback = ((ctx, data) => ((PortConduitDispenserBase)ctx).OnConduitConnectionChanged(data));
 		public override void OnCleanUp()
 		{
 			GetConduitMng(conduitType).RemoveFromNetworks(this.utilityCell, this.networkItem, true);

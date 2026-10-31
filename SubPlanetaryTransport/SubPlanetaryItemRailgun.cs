@@ -79,8 +79,6 @@ namespace SubPlanetaryTransport
         private MeterController Firing;
         private Guid connectedStatus;
 
-        private static readonly EventSystem.IntraObjectHandler<TravelTubeEntrance> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<TravelTubeEntrance>((System.Action<TravelTubeEntrance, object>)((component, data) => component.OnRefreshUserMenu(data)));
-        private static readonly EventSystem.IntraObjectHandler<TravelTubeEntrance> OnOperationalChangedDelegate = new EventSystem.IntraObjectHandler<TravelTubeEntrance>((System.Action<TravelTubeEntrance, object>)((component, data) => component.OnOperationalChanged(data)));
 
 
         public CellOffset StartPosition = new CellOffset(2, 2);
@@ -211,14 +209,15 @@ namespace SubPlanetaryTransport
             ChargeMeter = new MeterController(Rotation.meterController, "meter_target_charge", "battery_meter", Meter.Offset.Behind, Grid.SceneLayer.TransferArm, Array.Empty<string>());
             Firing = new MeterController(Rotation.meterController, "ShootChargeMeter_target", "rail_shooting_meter", Meter.Offset.Infront, Grid.SceneLayer.BuildingFront, Array.Empty<string>());
 
-            this.Subscribe(-592767678, OnOperationalChangedDelegate);
-            this.Subscribe(-1697596308, new System.Action<object>(this.OnStorageChanged));
+            //this.Sub(-592767678, (_)=> this.ope);
+            this.Sub(-1697596308, new System.Action<object>(this.OnStorageChanged));
             this.UpdateCharge();
 
             currentLerpValue = 0;
         }
         public override void OnCleanUp()
         {
+            this.UnsubAll();
             //Conduit.GetNetworkManager(this.portInfo.conduitType).RemoveFromNetworks(this.secondaryInputCell, this.flowNetworkItem, true);
 
             //this.Unsubscribe(493375141, OnRefreshUserMenuDelegate);

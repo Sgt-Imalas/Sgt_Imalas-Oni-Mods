@@ -77,9 +77,40 @@
 		<!--Publicized Versions of the main dlls, everything here is made public-->
 		<AssemblyPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</AssemblyPublicized>
 		<AssemblyFirstpassPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</AssemblyFirstpassPublicized>
+		<GameLibTest>true</GameLibTest>
 	</PropertyGroup>
 
-	<ItemGroup>
+	<PropertyGroup Condition="'$(GameLibTest)' == 'true' and '$(IncludeGameReferences)' == 'true'">
+		<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(GameLibTest)' == 'true' and '$(IncludeGameReferences)' == 'true'">
+		<Reference Include="netstandard">
+			<HintPath>$(GameLibsFolder)/netstandard.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="mscorlib">
+			<HintPath>$(GameLibsFolder)/mscorlib.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System">
+			<HintPath>$(GameLibsFolder)/System.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.Core">
+			<HintPath>$(GameLibsFolder)/System.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.IO.Compression">
+			<HintPath>$(GameLibsFolder)/System.IO.Compression.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.IO.Compression.FileSystem">
+			<HintPath>$(GameLibsFolder)/System.IO.Compression.FileSystem.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(IncludeGameReferences)' == 'true'">
 		<Reference Include="Assembly-CSharp">
 			<HintPath>$(AssemblyPublicized)</HintPath>
 			<HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp_public.dll</HintPath>

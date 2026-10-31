@@ -18,7 +18,7 @@ namespace OniRetroEdition.Entities
 			List<AttributeModifier> AttributeModifiers = new List<AttributeModifier>();
 			AttributeModifiers.Add(new AttributeModifier(TUNING.EQUIPMENT.ATTRIBUTE_MOD_IDS.ATHLETICS, (float)TUNING.EQUIPMENT.SUITS.OXYGEN_MASK_ATHLETICS, global::STRINGS.EQUIPMENT.PREFABS.OXYGEN_MASK.NAME));
 			this.expertAthleticsModifier = new AttributeModifier(TUNING.EQUIPMENT.ATTRIBUTE_MOD_IDS.ATHLETICS, (float)-TUNING.EQUIPMENT.SUITS.OXYGEN_MASK_ATHLETICS, Db.Get().Skills.Suits1.Name);
-			EquipmentDef equipmentDef = EquipmentTemplates.CreateEquipmentDef(ID, TUNING.EQUIPMENT.SUITS.SLOT, SimHashes.Dirt, 15f, "oxygen_mask_kanim", "mask_oxygen", "", 6, AttributeModifiers, additional_tags: new Tag[2]
+			EquipmentDef equipmentDef = EquipmentTemplates.CreateEquipmentDef(ID, TUNING.EQUIPMENT.SUITS.SLOT, SimHashes.Dirt, 15f, "oxygen_mask_kanim", "mask_oxygen", "", 6, AttributeModifiers, AdditionalTags: new Tag[2]
 			{
 				GameTags.Suit,
 				GameTags.Clothes

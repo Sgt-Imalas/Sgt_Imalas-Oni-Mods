@@ -12,6 +12,7 @@ using UnityEngine;
 using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
+using static STRINGS.UI.NEWBUILDCATEGORIES;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -290,21 +291,29 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// Result:      Methane -> cKal per kg amount * units * kCalToMethane
 			//              Dirt -> 50kg
 			//-------------------------------------------------------------------------
+			HashSet<string> plantCrops = [];
+			foreach (var crop in CROPS.CROP_TYPES)
+			{
+				if(crop.products == null)
+					continue;
+				foreach (var product in crop.products)
+					plantCrops.Add(product.cropId);
+			}
 
 
-			HashSet<string> FoodPlants = CROPS.CROP_TYPES.Select(croptype => croptype.cropId).ToHashSet();
+			//HashSet<string> plantProducts = CROPS.CROP_TYPES.Select(croptype => croptype.products != null && croptype.products. Id).ToHashSet();
 
 			///starter foods, need to be added to if theres a new one
 			//Muckroot
-			FoodPlants.Add("BasicForagePlant");
+			plantCrops.Add("BasicForagePlant");
 			//Hexalent
-			FoodPlants.Add("ForestForagePlant");
+			plantCrops.Add("ForestForagePlant");
 			//Swampchard
-			FoodPlants.Add("SwampForagePlant");
+			plantCrops.Add("SwampForagePlant");
 			//Sherberry
-			FoodPlants.Add("IceCavesForagePlant");
+			plantCrops.Add("IceCavesForagePlant");
 			//Snac Fruit
-			FoodPlants.Add("GardenForagePlant");
+			plantCrops.Add("GardenForagePlant");
 
 
 			int count = 0;
@@ -317,7 +326,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				if (!food.TryGetComponent<Edible>(out var edible))
 					continue;
 
-				if (!FoodPlants.Contains(prefabID.PrefabTag.ToString()))
+				if (!plantCrops.Contains(prefabID.PrefabTag.ToString()))
 				{
 					//SgtLogger.l(food.GetProperName() + " was not a plant product!");
 					continue;

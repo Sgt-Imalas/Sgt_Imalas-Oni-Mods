@@ -11,7 +11,6 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 		Storage TargetStorage = null;
 
 		private void OnStorageChange(object data) => this.meter.SetPositionPercent(this.DiamondStorage.MassStored() / this.DiamondStorage.Capacity());
-		private static readonly EventSystem.IntraObjectHandler<DrillConeAssistentModule> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<DrillConeAssistentModule>(((component, data) => component.OnStorageChange(data)));
 
 		public void Sim4000ms(float dt)
 		{
@@ -28,7 +27,11 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 				}
 			}
 		}
-
+		public override void OnCleanUp()
+		{
+			this.UnsubAll();
+			base.OnCleanUp();
+		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -39,7 +42,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 			this.meter = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, null);
 			this.meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
 
-			this.Subscribe<DrillConeAssistentModule>(-1697596308, OnStorageChangeDelegate);
+			this.Sub(GameHashes.OnStorageChange, (_)=>OnStorageChange(_));
 			this.GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, (ProcessCondition)new ConditionHasResource(this.DiamondStorage, SimHashes.Diamond, DrillconeStorageModuleConfig.StorageCapacity));
 		}
 

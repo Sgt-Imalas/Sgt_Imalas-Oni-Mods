@@ -7,7 +7,7 @@
 			Components.Batteries.Add(this);
 			Building component = GetComponent<Building>();
 			PowerCell = component.GetPowerInputCell();
-			Subscribe(-1582839653, OnTagsChangedDelegate);
+			Subscribe(-1582839653, OnTagsChangedDelegate, this);
 			OnTagsChanged(null);
 			bool flag = GetComponent<PowerTransformer>();
 			meter = (flag ? null : new MeterController(GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Behind, Grid.SceneLayer.NoLayer, "meter_target", "meter_fill", "meter_frame", "meter_OL"));

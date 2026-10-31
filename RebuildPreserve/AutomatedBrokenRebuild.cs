@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using System;
 using UnityEngine;
 
 namespace RebuildPreserve
@@ -15,8 +16,7 @@ namespace RebuildPreserve
 		[Serialize]
 		public bool RebuildOnBreaking = false;
 
-		private static readonly EventSystem.IntraObjectHandler<AutomatedBrokenRebuild> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<AutomatedBrokenRebuild>((component, data) => component.OnCopySettings(data));
-
+		private static readonly Action<object, object> OnCopySettingsDelegate = (component, data) => ((AutomatedBrokenRebuild)component).OnCopySettings(data);
 		public bool IsValidForRebuilding => CanRebuild();
 
 		bool CanRebuild()
@@ -45,13 +45,13 @@ namespace RebuildPreserve
 				return;
 			}
 			if (CanRebuild())
-				Subscribe((int)GameHashes.BuildingBroken, OnBuildingBroken);
+				this.Sub((int)GameHashes.BuildingBroken, OnBuildingBroken);
 		}
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
 			if (CanRebuild())
-				Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+				this.Sub((int)GameHashes.CopySettings, OnCopySettingsDelegate);
 		}
 		public override void OnCleanUp()
 		{
@@ -60,8 +60,7 @@ namespace RebuildPreserve
 			{
 				return;
 			}
-			Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
-			Unsubscribe((int)GameHashes.BuildingBroken, OnBuildingBroken);
+			this.UnsubAll();
 		}
 
 		public void OnBuildingBroken(object data)

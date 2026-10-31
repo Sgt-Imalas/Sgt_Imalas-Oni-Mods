@@ -52,7 +52,7 @@ namespace CustomGameSettingsModifier
 		{
 			PauseScreen.Instance.RefreshButtons();
 			CustomSettingsController.ShowWindow();
-			GameScheduler.Instance.ScheduleNextFrame("OpenCustomSettings", (System.Action<object>)(_ =>
+			GameScheduler.Instance.ScheduleNextGameTick("OpenCustomSettings", (System.Action<object>)(_ =>
 			{
 				PauseScreen.Instance.RefreshButtons();
 			}));

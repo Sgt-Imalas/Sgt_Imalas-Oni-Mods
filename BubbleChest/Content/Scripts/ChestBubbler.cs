@@ -3,6 +3,7 @@ using Klei.AI;
 using KSerialization;
 using System.Linq;
 using UnityEngine;
+using static BubbleManager;
 
 namespace BubbleChest.Content.Scripts
 {
@@ -70,8 +71,9 @@ namespace BubbleChest.Content.Scripts
 			cellColumnHeight = 0;
 			int cell = cellAbove;
 
+			ShouldPop shouldPop = new ShouldPop(lastGas);
 
-			while (!BubbleManager.ShouldPop(Grid.CellToPos(cell), lastGas, out _))
+			while (shouldPop.CheckCell(cell) == ShouldPop.Result.DoNotPop)
 			{
 				if (Grid.IsValidCell(cell))
 				{

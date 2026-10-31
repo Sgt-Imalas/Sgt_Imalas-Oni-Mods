@@ -1,6 +1,8 @@
-﻿using Rockets_TinyYetBig.Content.Defs.Entities;
+﻿using Klei.AI;
+using Rockets_TinyYetBig.Content.Defs.Entities;
 using System.Collections.Generic;
 using UnityEngine;
+using static Diggable;
 
 namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 {
@@ -120,6 +122,31 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 			HandleSounds(true);
 		}
 
+		Element targetElement;
+		float targetMass;
+		float targetHardness;
+		float icehardness = -1;
+		void TryDigging(int cell, float dtAmount)
+		{
+			if (!Grid.IsValidCell(cell) || !Grid.IsSolidCell(cell) || Grid.Foundation[cell])
+				return;
+
+			targetElement = Grid.Element[cell];
+			targetHardness = targetElement.hardness;
+			if (targetHardness == byte.MaxValue)
+				return;
+			targetMass = Grid.Mass[cell];
+			if (icehardness == -1)
+				icehardness = ElementLoader.FindElementByHash(SimHashes.Ice).hardness;
+
+			float hardnessMultiplier = targetHardness / icehardness;
+			float minDigAmount = 4f * (Mathf.Min(targetMass, 400f) / 400f);
+			float approxDigTime = minDigAmount + hardnessMultiplier * minDigAmount;
+
+			WorldDamage.Instance.ApplyDamage(cell, dtAmount / approxDigTime, -1, WorldDamage.DamageType.NoBuildingDamage);
+
+		}
+
 		void DigForCell(int cell, float dt)
 		{
 			List<int> directAdjacentCells =
@@ -135,10 +162,10 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 
 			if (Grid.IsValidCell(above))
 			{
-				Diggable.DoDigTick(above, digAmount);
+				TryDigging(above, digAmount);
 				DamageEntitiesInCell(above, EntityDamagePerSecond * dt);
 			}
-			Diggable.DoDigTick(cell, digAmount);
+			TryDigging(cell, digAmount);
 			DamageEntitiesInCell(cell, EntityDamagePerSecond * dt);
 			float adjacentDamage = 0.5f * EntityDamagePerSecond * dt;
 			foreach (var adj in directAdjacentCells)
@@ -146,7 +173,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Launchpads
 				if (!Grid.IsValidCell(adj))
 					continue;
 
-				Diggable.DoDigTick(cell, 0.5f * digAmount);
+				TryDigging(cell, 0.5f * digAmount);
 				DamageEntitiesInCell(cell, adjacentDamage);
 			}
 		}

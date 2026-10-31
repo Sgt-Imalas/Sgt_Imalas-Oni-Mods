@@ -184,8 +184,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 				ClusterManager.Instance.UnregisterWorldContainer(world);
 
 				if (refund)
-					GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
-				GameScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteWorldObjects", (System.Action<object>)(obj => DeleteWorldObjects(world)));
+					GameScheduler.Instance.ScheduleNextGameTick("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
+				GameScheduler.Instance.ScheduleNextGameTick("ClusterManager.DeleteWorldObjects", (System.Action<object>)(obj => DeleteWorldObjects(world)));
 				SpaceStationWorlds.Remove(world_id);
 			}
 		}

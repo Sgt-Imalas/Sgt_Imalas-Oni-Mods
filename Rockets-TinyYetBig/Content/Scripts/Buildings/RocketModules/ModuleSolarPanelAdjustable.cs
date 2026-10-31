@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			new CellOffset(1, 0),
 			new CellOffset(2, 0)
 		};
-		private static readonly EventSystem.IntraObjectHandler<ModuleSolarPanelAdjustable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ModuleSolarPanelAdjustable>((System.Action<ModuleSolarPanelAdjustable, object>)((component, data) => component.OnActiveChanged(data)));
+		//private static readonly EventSystem.IntraObjectHandler<ModuleSolarPanelAdjustable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ModuleSolarPanelAdjustable>((System.Action<ModuleSolarPanelAdjustable, object>)((component, data) => component.OnActiveChanged(data)));
 
 		public override void OnPrefabInit()
 		{
@@ -33,7 +33,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		{
 			this.VirtualCircuitKey = this.GetComponent<RocketModuleCluster>().CraftInterface;
 			base.OnSpawn();
-			this.Subscribe<ModuleSolarPanelAdjustable>(824508782, ModuleSolarPanelAdjustable.OnActiveChangedDelegate);
+			this.Sub(824508782, OnActiveChanged);
 			this.smi = new ModuleSolarPanelAdjustable.StatesInstance(this);
 			this.smi.StartSM();
 			this.accumulator = Game.Instance.accumulators.Add("Element", (KMonoBehaviour)this);
@@ -53,6 +53,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		{
 			this.smi.StopSM("cleanup");
 			Game.Instance.accumulators.Remove(this.accumulator);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 

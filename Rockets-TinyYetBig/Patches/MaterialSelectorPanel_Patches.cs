@@ -33,7 +33,7 @@ namespace Rockets_TinyYetBig.Patches
 
 				if (!isRocketModule)
 					return;
-				__instance.ResearchRequired.AddOrGet<GoToBlockingLocationHandler>();
+				__instance.ResearchRequiredSection.AddOrGet<GoToBlockingLocationHandler>();
 			}
 		}
 	}

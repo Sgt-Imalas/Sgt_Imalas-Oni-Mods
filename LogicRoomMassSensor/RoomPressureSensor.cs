@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,12 +30,12 @@ namespace LogicRoomMassSensor
 
 		HashSet<int> RoomCells = new HashSet<int>();
 
-		private static readonly EventSystem.IntraObjectHandler<RoomPressureSensor> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<RoomPressureSensor>((System.Action<RoomPressureSensor, object>)((component, data) => component.OnCopySettings(data)));
+		private static readonly Action<object, object> OnCopySettingsDelegate = (component, data) => ((RoomPressureSensor)component).OnCopySettings(data);
 
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			this.Subscribe(-905833192, OnCopySettingsDelegate);
+			this.Sub(-905833192, OnCopySettingsDelegate);
 		}
 
 		public void Sim4000ms(float dt)
@@ -66,7 +67,7 @@ namespace LogicRoomMassSensor
 		}
 		public override void OnCleanUp()
 		{
-			this.Unsubscribe(-905833192, OnCopySettingsDelegate);
+			this.UnsubAll();
 			//this.Unsubscribe((int)GameHashes.UpdateRoom, OnRoomRebuild);
 			base.OnCleanUp();
 		}

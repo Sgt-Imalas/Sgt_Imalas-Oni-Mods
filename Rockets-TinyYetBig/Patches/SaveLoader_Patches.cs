@@ -173,7 +173,7 @@ namespace Rockets_TinyYetBig.Patches
 			/// <returns></returns>
 			public static bool HasEnoughGridSpace(Vector2I size)
 			{
-				Vector2I gridOffset = BestFit.GetGridOffset(ClusterManager.Instance.WorldContainers, size, out _);
+				Vector2I gridOffset = BestFit.GetGridOffset(ClusterManager.Instance.WorldContainers, ClusterManager.Instance.PendingRocketInteriorDestructions, size, out _);
 				if (gridOffset.X <= Grid.WidthInCells && gridOffset.Y <= Grid.HeightInCells)
 				{
 					return true;

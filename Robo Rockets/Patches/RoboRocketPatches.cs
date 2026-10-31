@@ -31,19 +31,20 @@ namespace RoboRockets
 		[HarmonyPatch(typeof(LimitOneCommandModule), nameof(LimitOneCommandModule.EvaluateCondition))]
 		public static class LimitOneCommandModule_AI_Patch
 		{
+			static readonly List<GameObject> _modulesPool = [];
 			public static bool Prefix(bool __result,
 				GameObject existingModule,
 				SelectModuleCondition.SelectionContext selectionContext)
 			{
 
-				if (existingModule == null || !existingModule.TryGetComponent<AttachableBuilding>(out _))
+				if (existingModule == null || !existingModule.TryGetComponent<AttachableBuilding>(out var attachable))
 				{
 					__result = true;
 					return false;
 				}
-
-
-				foreach (GameObject gameObject in AttachableBuilding.GetAttachedNetwork(existingModule.GetComponent<AttachableBuilding>()))
+				_modulesPool.Clear();
+				AttachableBuilding.CollectAttachedBuildings(attachable, _modulesPool);
+				foreach (GameObject gameObject in _modulesPool)
 				{
 					if (
 						(selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule || !(gameObject == existingModule.gameObject))

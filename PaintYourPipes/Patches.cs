@@ -378,7 +378,7 @@ namespace PaintYourPipes
 			{
 				Color targetColor;
 				ColorableConduit.ToggleNormalTint((int)ObjectLayer.LogicGate);
-				foreach (KBatchedAnimController wireController in __instance.wireControllers)
+				foreach (KBatchedAnimController wireController in __instance.wireControllers.AsList())
 				{
 					if (!ColorableConduit.ShowOverlayTint || wireController == null || !wireController.TryGetComponent<ColorableConduit>(out var building))
 					{
@@ -389,7 +389,7 @@ namespace PaintYourPipes
 					building.RefreshColor(targetColor);
 				}
 
-				foreach (KBatchedAnimController ribbonController in __instance.ribbonControllers)
+				foreach (KBatchedAnimController ribbonController in __instance.ribbonControllers.AsList())
 				{
 					if (ribbonController == null || !ribbonController.TryGetComponent<ColorableConduit>(out var building))
 					{
@@ -480,7 +480,7 @@ namespace PaintYourPipes
 				if (!ColorableConduit.ShowOverlayTint)
 					return;
 
-				foreach (SaveLoadRoot layerTarget in __instance.layerTargets)
+				foreach (SaveLoadRoot layerTarget in __instance.layerTargets.AsList())
 				{
 					if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
 					{
@@ -547,7 +547,7 @@ namespace PaintYourPipes
 				if (!ColorableConduit.ShowOverlayTint)
 					return;
 
-				foreach (SaveLoadRoot layerTarget in __instance.layerTargets)
+				foreach (SaveLoadRoot layerTarget in __instance.layerTargets.AsList())
 				{
 					if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
 					{
@@ -603,7 +603,7 @@ namespace PaintYourPipes
 				if (!ColorableConduit.ShowOverlayTint)
 					return;
 
-				foreach (SaveLoadRoot layerTarget in __instance.layerTargets)
+				foreach (SaveLoadRoot layerTarget in __instance.layerTargets.AsList())
 				{
 					if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
 					{

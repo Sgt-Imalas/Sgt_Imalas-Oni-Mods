@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static Operational;
+using static ProcGen.Mob;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -303,7 +305,7 @@ namespace Rockets_TinyYetBig.Patches
 					if (ClusterManager.Instance != null && __instance != null && __instance.gameObject != null && __instance.gameObject.TryGetComponent(out WorldContainer RocketInterior) && !worldIdsThatAreInRemoval.Contains(RocketInterior.id))
 					{
 						worldIdsThatAreInRemoval.Add(RocketInterior.id);
-						GameScheduler.Instance.ScheduleNextFrame("rm broken rocket interior", (ob) =>
+						GameScheduler.Instance.ScheduleNextGameTick("rm broken rocket interior", (ob) =>
 						{
 							DestroyRocketInteriorWithoutDoorReference(RocketInterior, __instance);
 						});
@@ -357,24 +359,20 @@ namespace Rockets_TinyYetBig.Patches
 				world.DestroyWorldBuildings(out var noRefundTiles);
 				ClusterManager.Instance.UnregisterWorldContainer(world);
 
-				if (IsInSpace)
+				ClusterManager.Instance.PendingRocketInteriorDestructions.Add(new PendingRocketInteriorDestruction()
 				{
-					GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", delegate
-					{
-						world.TransferResourcesToDebris(clustercraft.Location, noRefundTiles, SimHashes.Cuprite);
-					});
-				}
-				else
-				{
-					GameScheduler.Instance.ScheduleNextFrame("RocketCleanup_ClusterManager.world.TransferResourcesToParentWorld", delegate
-					{
-						world.TransferResourcesToParentWorld(outdoorPos + new Vector3(0f, 0.5f, 0f), noRefundTiles);
-					});
-				}
-				GameScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteWorldObjects", delegate
-				{
-					ClusterManager.Instance.DeleteWorldObjects(world);
+					container = world,
+					position = world.WorldOffset,
+					size = world.WorldSize,
+					inFlight = IsInSpace,
+					inventory = world.GetComponent<WorldInventory>(),
+					rocketModuleWorldPos = outdoorPos,
+					noRefundTiles = noRefundTiles,
+					clusterLocation = clustercraft.Location,
+					elementID = SimHashes.Cuprite
 				});
+				ClusterManager.Instance.CanSave = false;
+				UIScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteRocketInteriorWorld", ClusterManager._DeleteWorldObjectDelegate, ClusterManager.Instance);
 			}
 		}
 

@@ -17,14 +17,14 @@ namespace UtilLibs.SharedTweaks
 		{
 			new ElementConverterDescriptionImprovement().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 0);
+		public override Version Version => new Version(2, 0, 0, 0);
 
 		public override void Initialize(Harmony plibInstance)
 		{
 			try
 			{
 
-				var targetMethod = AccessTools.Method(typeof(ElementConverter), nameof(ElementConverter.GetDescriptors));
+				var targetMethod = AccessTools.Method(typeof(ElementConverter), nameof(ElementConverter.CollectDescriptors));
 				var replaceElementConverterPrefix = AccessTools.Method(typeof(ElementConverterDescriptionImprovement), nameof(ReplaceElementConverterDescriptorsPrefix));
 				plibInstance.Patch(targetMethod, prefix: new(replaceElementConverterPrefix));
 				Debug.Log(this.GetType().ToString() + " successfully patched");
@@ -35,7 +35,7 @@ namespace UtilLibs.SharedTweaks
 				Debug.LogWarning(e.Message);
 			}
 		}
-		public static bool ReplaceElementConverterDescriptorsPrefix(ElementConverter __instance, GameObject go, ref List<Descriptor> __result)
+		public static bool ReplaceElementConverterDescriptorsPrefix(ElementConverter __instance, GameObject go, List<Descriptor> descriptors)
 		{
 			int visibleConverterCount = 0;
 			var converters = go.GetComponents<ElementConverter>();
@@ -101,8 +101,7 @@ namespace UtilLibs.SharedTweaks
 			string text = string.Format(CRAFTINGTABLE.RECIPE_DESCRIPTION, consumptionString, productionString);
 			Descriptor item = default(Descriptor);
 			item.SetupDescriptor(text, tooltip, Descriptor.DescriptorType.Effect);
-			__result = [item];
-
+			descriptors.Add(item);
 			return false;
 		}
 	}

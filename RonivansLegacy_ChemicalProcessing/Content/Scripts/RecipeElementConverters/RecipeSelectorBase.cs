@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -19,7 +20,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.RecipeElementConvert
 		public string GetDescriptor(ElementConverter e)
 		{
 			sb.Clear();
-			foreach (var desc in e.GetDescriptors(gameObject))
+			List<Descriptor> descs = [];
+			e.CollectDescriptors(gameObject, descs);
+
+			foreach (var desc in descs)
 			{
 				sb.AppendLine(desc.text);
 			}

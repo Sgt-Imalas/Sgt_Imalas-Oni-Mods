@@ -14,7 +14,7 @@ namespace NaturalConstruction.Content.Scripts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			//GameScheduler.Instance.ScheduleNextFrame("spawn nat tile" ,(_)=>			SpawnNaturalTile());
+			//GameScheduler.Instance.ScheduleNextGameTick("spawn nat tile" ,(_)=>			SpawnNaturalTile());
 			//StartCoroutine(DelayedReplacement());
 			SpawnNaturalTile();
 		}

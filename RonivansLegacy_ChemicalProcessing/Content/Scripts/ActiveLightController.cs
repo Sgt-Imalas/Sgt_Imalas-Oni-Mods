@@ -6,12 +6,12 @@
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			Subscribe((int)GameHashes.ActiveChanged, OnActiveChanged);
+			this.Sub((int)GameHashes.ActiveChanged, OnActiveChanged);
 			OnActiveChanged(null);
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.ActiveChanged, OnActiveChanged);
+			this.UnsubAll();
 			base.OnCleanUp();
 
 		}

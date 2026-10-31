@@ -211,7 +211,7 @@ namespace ElementUtilNamespace
 
 		public static SimHashes RegisterSimHash(string name)
 		{
-			var simHash = (SimHashes)Hash.SDBMLower(name);
+			var simHash = (SimHashes) Hash.SDBMLower((string)name);
 			SgtLogger.l("Element: " + name + ", simhash " + simHash);
 			SimHashNameLookup.Add(simHash, name);
 			//StringifiedSimHashToTagLookup.Add(simHash.ToString(), name);
@@ -320,7 +320,7 @@ namespace ElementUtilNamespace
 
 		private static void SetTexture(Material material, string texture, string property)
 		{
-			var path = LoadCompressedTextures 
+			var path = LoadCompressedTextures
 				? Path.Combine(UtilMethods.ModPath, "assets", "textures_packed", texture + ".zip")
 				: Path.Combine(UtilMethods.ModPath, "assets", "textures", texture + ".png");
 

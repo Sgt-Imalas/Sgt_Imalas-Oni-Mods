@@ -10,12 +10,12 @@ namespace RotatableRadboltStorage
 		public override void OnSpawn()
 		{
 			directionController = this.GetComponent<IHighEnergyParticleDirection>();
-			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			this.Sub((int)GameHashes.LogicEvent, OnLogicValueChanged);
 			base.OnSpawn();
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 		void OnLogicValueChanged(object _)

@@ -96,7 +96,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			if (conduitConsumer != null && IsNonSolidConduit)
 				conduitConsumer.isConsuming = false;
 
-			partitionerEntry = GameScenePartitioner.Instance.Add("MultiElementFilterConduitExists", this.gameObject, this.filteredOutputCell, GetConduitPartitionerLayer(), (_ => StartCoroutine(DelayedConduitCheck())));
+			partitionerEntry = GameScenePartitioner.Instance.Add("MultiElementFilterConduitExists", this.gameObject, this.filteredOutputCell, GetConduitPartitionerLayer(), (ctx,data) => (ctx as MultiTagConduitFilter).StartCoroutine(DelayedConduitCheck()), this);
 
 			UpdateConduitBlockedStatus();
 			UpdateConduitExistsStatus();

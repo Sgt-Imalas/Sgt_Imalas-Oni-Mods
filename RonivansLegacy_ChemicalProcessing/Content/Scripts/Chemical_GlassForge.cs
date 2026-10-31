@@ -22,7 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.ConduitConnectionChanged, CheckPipesDelegate);
+			this.Sub((int)GameHashes.ConduitConnectionChanged, CheckPipes);
 		}
 		public override void OnSpawn()
 		{
@@ -32,7 +32,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.ConduitConnectionChanged, CheckPipesDelegate);
+			this.UnsubAll();
 		}
 
 		public void CheckPipes(object _)

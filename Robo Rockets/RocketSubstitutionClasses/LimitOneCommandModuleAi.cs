@@ -1,12 +1,14 @@
 ﻿
 using RoboRockets;
 using STRINGS;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace KnastoronOniMods
 {
 	class LimitOneCommandModuleAi : LimitOneCommandModule
 	{
+		static readonly List<GameObject> _modulesPool = [];
 		public override bool EvaluateCondition(
 	   GameObject existingModule,
 	   BuildingDef selectedPart,
@@ -14,7 +16,10 @@ namespace KnastoronOniMods
 		{
 			if (existingModule == null)
 				return true;
-			foreach (GameObject gameObject in AttachableBuilding.GetAttachedNetwork(existingModule.GetComponent<AttachableBuilding>()))
+
+			_modulesPool.Clear();
+			AttachableBuilding.CollectAttachedBuildings(existingModule.GetComponent<AttachableBuilding>(), _modulesPool);
+			foreach (GameObject gameObject in _modulesPool)
 			{
 				if ((selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule || !(gameObject == existingModule.gameObject)) && (gameObject.GetComponent<RocketAiConditions>() != null || gameObject.GetComponent<BuildingUnderConstruction>() != null && gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketCommandConditions>() != null))
 					return false;

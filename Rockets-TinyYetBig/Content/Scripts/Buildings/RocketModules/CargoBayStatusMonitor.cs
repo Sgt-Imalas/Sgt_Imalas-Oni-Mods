@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
 
@@ -18,7 +19,8 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
 		[MyCmpGet]
 		private Operational operational;
-		private static readonly EventSystem.IntraObjectHandler<CargoBayStatusMonitor> UpdateLogicCircuitCBDelegate = new(((component, data) => component.UpdateLogicCircuitCB(data)));
+		private static readonly Action<object, object> UpdateLogicCircuitCBDelegate = (ctx, data) => (ctx as CargoBayStatusMonitor).UpdateLogicAndActiveState();
+		//private readonly Action<object> UpdateLogicCircuitCBDelegate = (_) => (ctx as CargoBayStatusMonitor).UpdateLogicAndActiveState();
 		//private static readonly EventSystem.IntraObjectHandler<CargoBayStatusMonitor> UpdateLogicCircuitOnMoveCBDelegate = new(((component, data) => component.UpdatePortsOnMoveDelayedCB(data)));
 
 		private void UpdateLogicCircuitCB(object data) => this.UpdateLogicAndActiveState();

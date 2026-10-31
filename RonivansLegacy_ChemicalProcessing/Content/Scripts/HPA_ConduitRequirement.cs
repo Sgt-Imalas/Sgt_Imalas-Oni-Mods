@@ -186,9 +186,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		void SetupPartitioners()
 		{
 			if (consumerCell > 0)
-				this.partitionerEntryInput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Input", gameObject, consumerCell, GetConduitLayer(inputType), (data => StartCoroutine(ScheduledRequirementUpdate())));
+				this.partitionerEntryInput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Input", gameObject, consumerCell, GetConduitLayer(inputType), (ctx, data) => (ctx as HPA_ConduitRequirement).StartCoroutine(ScheduledRequirementUpdate()),this);
 			if (dispenserCell > 0)
-				this.partitionerEntryOutput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Output", gameObject, dispenserCell, GetConduitLayer(outputType), (data => StartCoroutine(ScheduledRequirementUpdate())));
+				this.partitionerEntryOutput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Output", gameObject, dispenserCell, GetConduitLayer(outputType), (ctx, data) => (ctx as HPA_ConduitRequirement).StartCoroutine(ScheduledRequirementUpdate()), this);
 		}
 		void ClearPartitioners()
 		{

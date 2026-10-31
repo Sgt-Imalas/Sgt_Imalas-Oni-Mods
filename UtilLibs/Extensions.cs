@@ -13,6 +13,12 @@ namespace UtilLibs
 {
 	public static class Extensions
 	{
+		public static void AppendLine(this in KleiStringBuilder sb, ReadOnlySpan<char> chars = default)
+		{
+			sb.Append(chars);
+			sb.Append('\n');
+		}
+
 		public static bool TryGetTokenValue<T>(this JObject jObject, string key, out T value, JsonSerializer serializer = null)
 		{
 			value = default;

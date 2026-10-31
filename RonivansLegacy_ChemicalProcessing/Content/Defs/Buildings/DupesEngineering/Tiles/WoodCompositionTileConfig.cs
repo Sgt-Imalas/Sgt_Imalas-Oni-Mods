@@ -52,7 +52,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			go.AddOrGet<Insulator>();
 
 			go.AddOrGet<TileTemperature>();
-			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("tiles_wooden_comp_tops");
+			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = ModHashes.SDBMLower("tiles_wooden_comp_tops");
 			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 			//go.AddOrGet<TileTemperature>();
 		}

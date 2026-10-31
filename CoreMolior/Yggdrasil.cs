@@ -153,7 +153,7 @@ namespace Starmap_Shenanigans
                         var go = Util.KInstantiate(Assets.GetPrefab(mob.Value), pos);
 
                         //necessary to delay a frame so that plants don't die immediately instead of remaining planted
-                        GameScheduler.Instance.ScheduleNextFrame("SpawnMob", (object obj) =>
+                        GameScheduler.Instance.ScheduleNextGameTick("SpawnMob", (object obj) =>
                         {
                             var spawnedMob = (GameObject)obj;
                             spawnedMob.SetActive(true);

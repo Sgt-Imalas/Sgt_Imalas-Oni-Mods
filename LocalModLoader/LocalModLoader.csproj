@@ -34,10 +34,14 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Reference Include="System.Net.Http" />
+	<ItemGroup >
+		<Reference Condition="'$(GameLibTest)' == 'true'" Include="System.NET.Http">
+			<HintPath>$(GameLibsFolder)/System.NET.Http.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
+	
 </Project>

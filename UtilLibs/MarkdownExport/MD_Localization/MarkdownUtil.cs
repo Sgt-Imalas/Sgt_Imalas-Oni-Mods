@@ -355,6 +355,18 @@ namespace UtilLibs.MarkdownExport
 
 			return property;
 		}
+		public static void AddTimeSliceText(StringBuilder builder, GameUtil.TimeSlice timeSlice)
+		{
+			switch (timeSlice)
+			{
+				case GameUtil.TimeSlice.PerSecond:
+					builder.Append(STRINGS.UI.UNITSUFFIXES.PERSECOND);
+					break;
+				case GameUtil.TimeSlice.PerCycle:
+					builder.Append(STRINGS.UI.UNITSUFFIXES.PERCYCLE);
+					break;
+			}
+		}
 
 		public static string FormatRadbolts(int amount)
 		{
@@ -463,14 +475,18 @@ namespace UtilLibs.MarkdownExport
 			if (includeSuffix)
 			{
 				builder.Append(value);
+
 				AddTimeSliceText(builder, timeSlice);
 			}
 		}
+		static readonly StringBuilder _massFormatter = new();
 		public static string GetFormattedMass(float mass, TimeSlice timeSlice = TimeSlice.None, MetricMassFormat massFormat = MetricMassFormat.UseThreshold, bool includeSuffix = true, string floatFormat = "{0:0.#}")
 		{
-			StringBuilder stringBuilder = GlobalStringBuilderPool.Alloc();
-			AppendFormattedMass(stringBuilder, mass, timeSlice, massFormat, includeSuffix, floatFormat);
-			return GlobalStringBuilderPool.ReturnAndFree(stringBuilder);
+			_massFormatter.Clear();
+			AppendFormattedMass(_massFormatter, mass, timeSlice, massFormat, includeSuffix, floatFormat);
+			string result = _massFormatter.ToString();
+			_massFormatter.Clear();
+			return result;
 		}
 		internal static string GetFormattedMass(Tag material, float amount, GameUtil.TimeSlice slice = GameUtil.TimeSlice.None, string extraSuffix = "")
 		{
@@ -538,7 +554,7 @@ namespace UtilLibs.MarkdownExport
 					break;
 			}
 
-			AppendFloatToString(builder, watts, "###0.##");
+			builder.Append(GetFormattedSimple(watts, TimeSlice.None, "###0.##"));
 			if (displayUnits && text != null)
 			{
 				builder.Append(text);

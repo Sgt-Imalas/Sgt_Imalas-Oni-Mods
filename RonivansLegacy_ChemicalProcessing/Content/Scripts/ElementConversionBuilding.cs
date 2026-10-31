@@ -95,10 +95,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public bool ShowWorkingStatus = true;
 
-		public static readonly EventSystem.IntraObjectHandler<ElementConversionBuilding> OnConduitConnectionChangedDelegate = new EventSystem.IntraObjectHandler<ElementConversionBuilding>(delegate (ElementConversionBuilding component, object data)
-		{
-			component.OnConduitConnectionChanged(data);
-		});
 
 		public override void OnSpawn()
 		{
@@ -128,7 +124,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			deliveryComponents = GetComponents<ManualDeliveryKG>();
 			if(consumer != null)
 				OnConduitConnectionChanged(BoxedBools.Box(consumer.IsConnected));
-			Subscribe((int)GameHashes.ConduitConnectionChanged, OnConduitConnectionChangedDelegate);
+			this.Sub((int)GameHashes.ConduitConnectionChanged, OnConduitConnectionChanged);
 			base.smi.StartSM();
 		}
 		public bool HasEnoughMassToStartConverting()

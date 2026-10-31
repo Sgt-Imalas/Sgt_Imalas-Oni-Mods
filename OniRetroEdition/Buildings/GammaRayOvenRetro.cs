@@ -60,7 +60,7 @@ namespace OniRetroEdition.Buildings
 					"meter_target"
 				});
 
-				hepStorage.Subscribe((int)GameHashes.OnParticleStorageChanged, UpdateMeter);
+				this.Sub(GameHashes.OnParticleStorageChanged, UpdateMeter);
 			}
 
 			complexFabricatorWorkable.OnWorkTickActions = (Action<WorkerBase, float>)Delegate.Combine(complexFabricatorWorkable.OnWorkTickActions, (Action<WorkerBase, float>)delegate (WorkerBase worker, float dt)
@@ -96,7 +96,7 @@ namespace OniRetroEdition.Buildings
 		{
 			if (UseRads)
 			{
-				hepStorage.Unsubscribe((int)GameHashes.OnParticleStorageChanged, UpdateMeter);
+				this.UnsubAll();
 			}
 			base.OnCleanUp();
 		}
@@ -114,11 +114,9 @@ namespace OniRetroEdition.Buildings
 			return list;
 		}
 
-		public override List<Descriptor> GetDescriptors(GameObject go)
+		public override void CollectDescriptors(GameObject go, List<Descriptor> descriptors)
 		{
-			List<Descriptor> descriptors = base.GetDescriptors(go);
 			descriptors.Add(new Descriptor(global::STRINGS.UI.BUILDINGEFFECTS.REMOVES_DISEASE, global::STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.REMOVES_DISEASE));
-			return descriptors;
 		}
 	}
 }

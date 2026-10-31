@@ -25,6 +25,7 @@ namespace RoboRockets.LearningBrain
 		public KAnimHashedString BrainSymbol = new KAnimHashedString("brain_insert");
 		//[Serialize]
 		//AxialI oldLocation;
+		int craftSub = -1;
 
 		public override void OnSpawn()
 		{
@@ -34,7 +35,7 @@ namespace RoboRockets.LearningBrain
 			//brain_content.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
 			//GetComponent<KBatchedAnimController>().SetSymbolVisiblity
 
-			craft.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.OnClusterLocationChanged));
+			craftSub = craft.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.OnClusterLocationChanged));
 
 
 			OnStorageChange(null);
@@ -100,7 +101,7 @@ namespace RoboRockets.LearningBrain
 
 		public override void OnCleanUp()
 		{
-			craft.Unsubscribe((int)GameHashes.ClusterDestinationChanged, new System.Action<object>(this.OnClusterLocationChanged));
+			craft.Unsubscribe(craftSub);
 			base.OnCleanUp();
 		}
 

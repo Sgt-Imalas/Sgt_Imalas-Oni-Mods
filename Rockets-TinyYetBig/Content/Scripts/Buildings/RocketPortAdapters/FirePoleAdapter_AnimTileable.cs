@@ -17,7 +17,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPortAdapters
 		{
 			base.OnSpawn();
 			Extents extents = new Extents(this.extents.x - 1, this.extents.y - 1, this.extents.width + 2, this.extents.height + 2);
-			partitionerEntry2 = GameScenePartitioner.Instance.Add("FirePoleAdapter_AnimTileable.OnSpawn", base.gameObject, extents, GameScenePartitioner.Instance.objectLayers[(int)objectLayer], OnNeighbourCellsUpdated2);
+			partitionerEntry2 = GameScenePartitioner.Instance.Add("FirePoleAdapter_AnimTileable.OnSpawn", base.gameObject, extents, GameScenePartitioner.Instance.objectLayers[(int)objectLayer], (ctx, data)=> (ctx as FirePoleAdapter_AnimTileable).OnNeighbourCellsUpdated2(data));
 			UpdateEndCaps2();
 		}
 		public override void OnCleanUp()

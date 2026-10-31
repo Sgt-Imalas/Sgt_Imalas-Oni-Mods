@@ -42,15 +42,13 @@ namespace Rockets_TinyYetBig.Patches
 		/// <summary>
 		/// fixes a vanilla crash that can happen when this has eventID==null
 		/// </summary>
-		[HarmonyPatch(typeof(ClusterMapMeteorShower.Def))]
-		[HarmonyPatch(nameof(ClusterMapMeteorShower.Def.GetDescriptors))]
+		[HarmonyPatch(typeof(ClusterMapMeteorShower.Def), nameof(ClusterMapMeteorShower.Def.CollectDescriptors))]
 		public static class FixesVanillaCrashOnPlanetSelection
 		{
-			public static bool Prefix(ClusterMapMeteorShower.Def __instance, ref List<Descriptor> __result)
+			public static bool Prefix(ClusterMapMeteorShower.Def __instance)
 			{
 				if (__instance.eventID == string.Empty || __instance.eventID == null)
 				{
-					__result = new List<Descriptor>();
 					return false;
 				}
 				return true;

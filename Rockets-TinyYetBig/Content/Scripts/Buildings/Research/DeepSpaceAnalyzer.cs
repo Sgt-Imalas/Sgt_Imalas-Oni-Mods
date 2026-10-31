@@ -28,14 +28,13 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Research
 			CheckRoomType(null);
 			RecalculateSpaceEfficiency(null);
 
-			Subscribe(ModAssets.Hashes.OnStationMove, RecalculateSpaceEfficiency);
-			Subscribe((int)GameHashes.UpdateRoom, CheckRoomType);
+			this.Sub(ModAssets.Hashes.OnStationMove, RecalculateSpaceEfficiency);
+			this.Sub((int)GameHashes.UpdateRoom, CheckRoomType);
 		}
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.UpdateRoom, CheckRoomType);
-			Unsubscribe(ModAssets.Hashes.OnStationMove, RecalculateSpaceEfficiency);
+			this.UnsubAll();
 		}
 
 		void CheckRoomType(object data)

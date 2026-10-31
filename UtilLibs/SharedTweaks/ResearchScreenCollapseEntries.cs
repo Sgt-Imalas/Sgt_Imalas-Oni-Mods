@@ -21,7 +21,7 @@ namespace UtilLibs.SharedTweaks
 		{
 			new ResearchScreenCollapseEntries().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 0);
+		public override Version Version => new Version(2, 0, 0, 0);
 
 		public override void Initialize(Harmony plibInstance)
 		{
@@ -151,7 +151,13 @@ namespace UtilLibs.SharedTweaks
 			entry.researchName.GetComponent<ToolTip>().SizingSetting = ToolTip.ToolTipSizeSetting.MaxWidthWrapContent;
 
 			//avoid GetFreeIcon method to not collect this
-			GameObject freeIcon = Util.KInstantiateUI(entry.iconPrefab, entry.iconPanel);
+			GameObject freeIcon = Util.KInstantiateUI(entry.iconPrefab.gameObject, entry.iconPanel);
+			if(freeIcon.TryGetComponent<ResearchEntryIcon>(out var cmpToRemove))
+			{
+				UnityEngine.Object.Destroy(cmpToRemove.contextInfoButton.gameObject);
+				UnityEngine.Object.Destroy(cmpToRemove);
+			}
+
 			freeIcon.SetActive(true);
 			var hr = freeIcon.GetComponent<HierarchyReferences>();
 

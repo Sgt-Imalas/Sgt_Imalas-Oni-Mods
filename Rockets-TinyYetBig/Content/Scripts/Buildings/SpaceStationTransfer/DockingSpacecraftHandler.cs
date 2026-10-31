@@ -59,7 +59,7 @@ namespace Rockets_TinyYetBig.Docking
 				Type = DockableType.Derelict;
 			//else
 			//{
-			//    GameScheduler.Instance.ScheduleNextFrame("CheckIfWaiting", (_) => UpdateWaitingStatus());
+			//    GameScheduler.Instance.ScheduleNextGameTick("CheckIfWaiting", (_) => UpdateWaitingStatus());
 			//}
 			SgtLogger.l("DockingHandler " + gameObject.name + " OnSpawn. Type: " + Type);
 			if(Type == DockableType.Rocket)
@@ -135,11 +135,11 @@ namespace Rockets_TinyYetBig.Docking
 			if (!IsLoading && destinationSelector.Repeat)
 			{
 				UndockAll();
-				if (destinationSelector is ExtendedRocketClusterDestinationSelector Extended)
-				{
-					Extended.ProceedToNextTarget();
-				}
-				else
+				//if (destinationSelector is ExtendedRocketClusterDestinationSelector Extended)
+				//{
+				//	Extended.ProceedToNextTarget();
+				//}
+				//else
 				{
 					destinationSelector.SetUpReturnTrip();
 				}

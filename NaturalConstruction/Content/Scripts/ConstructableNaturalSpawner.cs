@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using System;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
@@ -14,7 +15,7 @@ namespace NaturalConstruction.Content.Scripts
 		[Serialize] float lastNaturalMass = 0;
 		bool backwallBuilding;
 		public bool Backwall => backwallBuilding;
-		private static readonly EventSystem.IntraObjectHandler<ConstructableNaturalSpawner> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ConstructableNaturalSpawner>((System.Action<ConstructableNaturalSpawner, object>)((component, data) => component.OnCopySettings(data)));
+		private static readonly Action<object, object> OnCopySettingsDelegate = (component, data) => ((ConstructableNaturalSpawner)component).OnCopySettings(data);
 		int handle = -1;
 		public override void OnPrefabInit()
 		{
@@ -32,7 +33,7 @@ namespace NaturalConstruction.Content.Scripts
 			waitForFetchesBeforeDigging = true;
 			backwallBuilding = building.Def.ObjectLayer == ObjectLayer.Backwall;
 			RefreshFetchIfNeeded();
-			handle = this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			handle = this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate, this);
 		}
 		public override void OnCleanUp()
 		{

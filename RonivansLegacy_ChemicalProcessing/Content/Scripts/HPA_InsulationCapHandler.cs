@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			cell_d = Grid.CellBelow(cell);
 			cell_l = Grid.CellLeft(cell);
 			cell_r = Grid.CellRight(cell);
-			Subscribe((int)GameHashes.ConnectionsChanged, OnUtilityConnectionsChanged);
+			this.Sub((int)GameHashes.ConnectionsChanged, OnUtilityConnectionsChanged);
 			base.OnSpawn();
 
 			string name = this.name + "_CapVisualizer";
@@ -44,7 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.ConnectionsChanged, OnUtilityConnectionsChanged);
+			this.UnsubAll();
 			base.OnCleanUp();
 			UnityEngine.Object.Destroy(CapVisualizer);
 		}

@@ -144,7 +144,7 @@ namespace Imalas_TwitchChaosEvents
 
 				WorkerOnStrike.SetResolveStringCallback((str, obj) =>
 				{
-					System.Random rand = new System.Random(Hash.SDBMLower(obj.ToString()));					
+					System.Random rand = new System.Random(ModHashes.SDBMLower(obj.ToString()));					
 					string randomReason = StrikeDemands[rand.Next(0, StrikeDemands.Count)];
 					return string.Format(str, randomReason);
 				});

@@ -24,17 +24,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public float MaxWattage = 80f;
 		public CellOffset[] solarCellOffsets = [new(0, 2), new(0, 3), new(0, 4)];
-		private static readonly EventSystem.IntraObjectHandler<RotatableSmallSolarPanel> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<RotatableSmallSolarPanel>((component, data) => component.OnActiveChanged(data));
 		private float EnergyMultiplier = 1f;
+		[MyCmpGet]
+		KSelectable selectable;
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
 		}
-
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			this.Subscribe(824508782, OnActiveChangedDelegate);
+			this.Sub(824508782, OnActiveChanged);
 			this.smi = new StatesInstance(this);
 			this.smi.StartSM();
 			this.accumulator = Game.Instance.accumulators.Add("Element", this);
@@ -110,6 +110,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public override void OnCleanUp()
 		{
+			this.UnsubAll();
 			//RemoveSolidBaseTile();
 			SetLightBlockIfHorizontal(false);
 			this.smi.StopSM("cleanup");
@@ -119,8 +120,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		protected void OnActiveChanged(object data)
 		{
-			StatusItem status_item = ((Operational)data).IsActive ? Db.Get().BuildingStatusItems.Wattage : Db.Get().BuildingStatusItems.GeneratorOffline;
-			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Power, status_item, this);
+			if (data is not Operational op)
+				return;
+			StatusItem status_item = op.IsActive ? Db.Get().BuildingStatusItems.Wattage : Db.Get().BuildingStatusItems.GeneratorOffline;
+			selectable.SetStatusItem(Db.Get().StatusItemCategories.Power, status_item, this);
 		}
 
 		private void UpdateStatusItem()

@@ -61,7 +61,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		private Guid hasPipeOutputGuid, hasPipeInputGuid;
 		Tuple<ConduitType, Tag> StatusItemData;
 		public static readonly Operational.Flag overheatedFlag = new Operational.Flag("aio_capacitorOverheated", Operational.Flag.Type.Requirement);
-		private static readonly EventSystem.IntraObjectHandler<ContinuousLiquidCooledFabricatorAddon> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ContinuousLiquidCooledFabricatorAddon>(((component, data) => component.OnCopySettings(data)));
+		private static readonly Action<object, object> OnCopySettingsDelegate = (component, data) => ((ContinuousLiquidCooledFabricatorAddon)component).OnCopySettings(data);
 		int copySettingsHandle;
 
 		public string SliderTitleKey => "STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT";
@@ -108,7 +108,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			selectable.AddStatusItem(StatusItemsDatabase.ThermalBattery_StorageLevel, this);
 			//Subscribe((int)GameHashes.DeconstructComplete, DumpRemainingHeatIntoBuilding);
 			UpdatePort();
-			copySettingsHandle = Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			copySettingsHandle = Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate, this);
 		}
 		public void DumpRemainingHeatIntoBuilding(object _)
 		{

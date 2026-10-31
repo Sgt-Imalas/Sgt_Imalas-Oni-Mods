@@ -12,12 +12,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			Subscribe((int)GameHashes.OnStorageChange, OnStorageChanged);
+			this.Sub((int)GameHashes.OnStorageChange, OnStorageChanged);
 			RecalculateTint();
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.OnStorageChange, OnStorageChanged);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 

@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RoboRockets.Scripts
 {
 	internal class LimitOneAiCommandModule : SelectModuleCondition
 	{
+		static readonly List<GameObject> _modulesPool = [];
 		public override bool EvaluateCondition(GameObject existingModule, BuildingDef selectedPart, SelectionContext selectionContext)
 		{
 			if (existingModule == null)
@@ -14,7 +16,9 @@ namespace RoboRockets.Scripts
 				existingModule = moduleUnderConstruction.Def.BuildingComplete;
 			}
 
-			foreach (GameObject otherModuleGO in AttachableBuilding.GetAttachedNetwork(existingModule.GetComponent<AttachableBuilding>()))
+			_modulesPool.Clear();
+			AttachableBuilding.CollectAttachedBuildings(existingModule.GetComponent<AttachableBuilding>(), _modulesPool);
+			foreach (GameObject otherModuleGO in _modulesPool)
 			{
 				GameObject moduleGOToCheck = otherModuleGO;
 				if (moduleGOToCheck.TryGetComponent<BuildingUnderConstruction>(out var constructing))

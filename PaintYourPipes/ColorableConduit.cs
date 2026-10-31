@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -173,7 +174,7 @@ namespace PaintYourPipes
 		[MyCmpGet]
 		KBatchedAnimController kbac;
 		public KBatchedAnimController AnimController => kbac;
-		private static readonly EventSystem.IntraObjectHandler<ColorableConduit> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ColorableConduit>((component, data) => component.OnCopySettings(data));
+		private static readonly Action<object, object> OnCopySettingsDelegate = (component, data) => ((ColorableConduit)component).OnCopySettings(data);
 
 		public bool IsTinted => ColorHex != null && ColorHex != "FFFFFF";
 
@@ -295,7 +296,7 @@ namespace PaintYourPipes
 
 			AllConduits.Add(this);
 			base.OnSpawn();
-			//GameScheduler.Instance.ScheduleNextFrame("deayed initial refresh", (_) => RefreshColor());
+			//GameScheduler.Instance.ScheduleNextGameTick("deayed initial refresh", (_) => RefreshColor());
 			NetworkItem = this.GetComponent<IBridgedNetworkItem>();
 			RefreshColor();
 			if (useGreyscaleAnim)
@@ -304,8 +305,8 @@ namespace PaintYourPipes
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
-			Subscribe((int)GameHashes.NewConstruction, OnNewConstruction);
+			this.Sub((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			this.Sub((int)GameHashes.NewConstruction, OnNewConstruction);
 		}
 
 		public override void OnCleanUp()
@@ -313,7 +314,7 @@ namespace PaintYourPipes
 			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove((buildingComplete.PlacementCells.Min()));
 			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove((buildingComplete.PlacementCells.Max()));
 			AllConduits.Remove(this);
-			Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 

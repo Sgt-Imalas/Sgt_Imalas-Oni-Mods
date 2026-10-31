@@ -24,20 +24,19 @@ namespace RotatableRadboltStorage
 		[MyCmpAdd]
 		CopyBuildingSettings settings;
 
-		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> OnCopySettingsDelegate = new((component, data) => component.OnCopySettings(data));
-		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> UpdateLogicCircuitDelegate = new((component, data) => component.UpdateLogicCircuit(null));
+		private static readonly System.Action<object,object> OnCopySettingsDelegate = new((component, data) => (component as HEPStorageThreshold).OnCopySettings(data));
+		private static readonly System.Action<object,object> UpdateLogicCircuitDelegate = new((component, data) => (component as HEPStorageThreshold).UpdateLogicCircuit(null));
 
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
-			this.Subscribe((int)GameHashes.OperationalChanged, UpdateLogicCircuitDelegate);
+			this.Sub((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			this.Sub((int)GameHashes.OperationalChanged, UpdateLogicCircuitDelegate);
 
 		}
 		public override void OnCleanUp()
 		{
-			this.Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
-			this.Unsubscribe((int)GameHashes.OperationalChanged, UpdateLogicCircuitDelegate);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 

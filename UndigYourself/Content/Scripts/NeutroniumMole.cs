@@ -15,12 +15,12 @@ namespace UndigYourself.Content.Scripts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			Subscribe((int)GameHashes.EntombedChanged, OnEntombedChanged);
+			this.Sub((int)GameHashes.EntombedChanged, OnEntombedChanged);
 			OnEntombedChanged(null);
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.EntombedChanged, OnEntombedChanged);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 

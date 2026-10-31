@@ -23,8 +23,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 			HandleTrueTilesSymbolOverrides();
 			if (TrueTilesEnabled)
 			{
-				Subscribe((int)GameHashes.SelectObject, OnSelectionChanged);
-				Subscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
+				this.Sub((int)GameHashes.SelectObject, OnSelectionChanged);
+				this.Sub((int)GameHashes.HighlightObject, OnHighlightChanged);
 			}
 			//ApplyBiomeTint();
 		}
@@ -32,8 +32,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 		{
 			if (TrueTilesEnabled)
 			{
-				Unsubscribe((int)GameHashes.SelectObject, OnSelectionChanged);
-				Unsubscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
+				this.UnsubAll();
 			}
 			base.OnCleanUp();
 			if (TrueTileWall_Bottom != null && TrueTileWall_Bottom.gameObject)

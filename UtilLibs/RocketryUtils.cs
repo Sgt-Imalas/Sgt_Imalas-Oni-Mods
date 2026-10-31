@@ -381,7 +381,7 @@ namespace UtilLibs
 				if (conditions.Contains(condition))
 				{
 					conditions.Remove(condition);
-					//GameScheduler.Instance.ScheduleNextFrame("Remove Rocket Logic Launch Condition", (_)=>);					
+					//GameScheduler.Instance.ScheduleNextGameTick("Remove Rocket Logic Launch Condition", (_)=>);					
 				}
 			}
 		}

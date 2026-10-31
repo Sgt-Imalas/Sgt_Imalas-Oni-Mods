@@ -14,7 +14,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField] public bool TintPolymerizer = false;
 		[SerializeField] public string[] TintableSymbols = new string[] { "tint", "tint_column" };
 		int handle = -1;
-		private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.UpdateTint());
 		//private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.ClearTint());
 		public override void OnPrefabInit()
 		{
@@ -24,7 +23,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			handle = Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
+			handle = Subscribe((int)GameHashes.OnStorageChange, OnStorageChanged);
 			if (kbacFG == null)
 			{
 				if (kbac.layering.layerControllers?.TryGetValue(KAnim.SymbolFlags.FG, out var kba) ?? false)
@@ -50,7 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			Unsubscribe(handle);
 			//Unsubscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
-
+		void OnStorageChanged(object _)=>UpdateTint();
 		public void UpdateTint()
 		{
 			bool tinted = false;

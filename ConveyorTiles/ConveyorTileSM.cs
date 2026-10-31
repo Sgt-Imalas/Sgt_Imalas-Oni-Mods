@@ -112,9 +112,9 @@ namespace ConveyorTiles
 		private HandleVector<int>.Handle floorSwitchActivatorChangedEntry;
 
 		int moveItemCell, myCell;
-		private static readonly EventSystem.IntraObjectHandler<ConveyorTileSM> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ConveyorTileSM>((component, data) => component.OnCopySettings(data));
-		private static readonly EventSystem.IntraObjectHandler<ConveyorTileSM> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<ConveyorTileSM>((System.Action<ConveyorTileSM, object>)((component, data) => component.OnRefreshUserMenu(data)));
-		public override void OnPrefabInit() => this.Subscribe<ConveyorTileSM>(493375141, OnRefreshUserMenuDelegate);
+		private static readonly System.Action<object,object> OnCopySettingsDelegate = (component, data) => (component as ConveyorTileSM).OnCopySettings(data);
+		private static readonly System.Action<object,object> OnRefreshUserMenuDelegate = (component, data) => (component as ConveyorTileSM).OnRefreshUserMenu(data);
+		public override void OnPrefabInit() => this.Sub(493375141, OnRefreshUserMenuDelegate);
 		private void OnRefreshUserMenu(object data) => Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_mirror", STRINGS.MODBUTTONS.FLIPBUTTON.LABEL, new System.Action(this.Reverse), Action.BuildingUtility1, tooltipText: STRINGS.MODBUTTONS.FLIPBUTTON.TOOLTIP));
 
 		private void OnCopySettings(object obj)
@@ -213,7 +213,7 @@ namespace ConveyorTiles
 			moveItemCell = Grid.CellAbove(myCell);
 			AdjustTileSpeed();
 			this.smi.StartSM();
-			this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			this.Sub((int)GameHashes.CopySettings, OnCopySettingsDelegate);
 			TileSMs[myCell] = this;
 
 			if (!Config.Instance.NoLogicInputs)
@@ -340,11 +340,7 @@ namespace ConveyorTiles
 		{
 			GameScenePartitioner.Instance.Free(ref this.pickupablesChangedEntry);
 			GameScenePartitioner.Instance.Free(ref this.floorSwitchActivatorChangedEntry);
-
-			if (!Config.Instance.NoLogicInputs)
-				Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
-			Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
-			Unsubscribe(493375141, OnRefreshUserMenuDelegate);
+			this.UnsubAll();
 			TileSMs.Remove(myCell);
 			base.OnCleanUp();
 		}

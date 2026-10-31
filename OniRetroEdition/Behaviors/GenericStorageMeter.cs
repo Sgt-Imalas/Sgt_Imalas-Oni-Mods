@@ -29,14 +29,15 @@ namespace OniRetroEdition.Behaviors
 				meterTarget
 			});
 
-			storage.Subscribe((int)GameHashes.OnStorageChange, UpdateMeter);
+			handle = storage.Subscribe((int)GameHashes.OnStorageChange, UpdateMeter);
 
 			UpdateMeter(null);
 		}
+		int handle;
 		public override void OnCleanUp()
 		{
 
-			storage.Unsubscribe((int)GameHashes.OnStorageChange, UpdateMeter);
+			storage.Unsubscribe(handle);
 
 			base.OnCleanUp();
 		}

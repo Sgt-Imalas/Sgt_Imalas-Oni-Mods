@@ -55,7 +55,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			fft = GetComponent<ForceFieldTile>();
 			OccupyArea component = this.GetComponent<OccupyArea>();
 			this.extents = !(component != null) ? this.GetComponent<Building>().GetExtents() : component.GetExtents();
-			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConnectorTileable.OnSpawn", this.gameObject, new Extents(this.extents.x - 1, this.extents.y - 1, this.extents.width + 2, this.extents.height + 2), GameScenePartitioner.Instance.objectLayers[(int)this.objectLayer], new System.Action<object>(this.OnNeighbourCellsUpdated));
+			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConnectorTileable.OnSpawn", this.gameObject, new Extents(this.extents.x - 1, this.extents.y - 1, this.extents.width + 2, this.extents.height + 2), GameScenePartitioner.Instance.objectLayers[(int)this.objectLayer], (ctx,data) => (ctx as ConnectorTileable).OnNeighbourCellsUpdated(data), this);
 			this.UpdateEndCaps();
 		}
 

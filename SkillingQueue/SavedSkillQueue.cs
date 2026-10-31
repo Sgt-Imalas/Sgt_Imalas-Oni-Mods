@@ -18,16 +18,17 @@ namespace SkillingQueue
 		{
 			SkillIds = new List<string>(32);
 		}
+		int handle = -1;
 		public override void OnSpawn()
 		{
 			Patches.ResumeQueues.Add(refResume, this);
-			Game.Instance.Subscribe((int)GameHashes.SkillPointAquired, OnSkillPointAquired);
+			handle = Game.Instance.Subscribe((int)GameHashes.SkillPointAquired, OnSkillPointAquired);
 			base.OnSpawn();
 		}
 		public override void OnCleanUp()
 		{
 			Patches.ResumeQueues.Remove(refResume);
-			Game.Instance.Unsubscribe((int)GameHashes.SkillPointAquired, OnSkillPointAquired);
+			Game.Instance.Unsubscribe(handle);
 			base.OnCleanUp();
 		}
 

@@ -189,12 +189,13 @@ namespace UtilLibs.BuildingPortUtils
 			GetConduitMng(conduitType).AddToNetworks(this.utilityCell, this.networkItem, true);
 
 			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[GetConduitLayer(conduitType)];
-			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, new Action<object>(this.OnConduitConnectionChanged));
+			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", gameObject, this.utilityCell, layer, ConnectionChangedCallback, this);
 			GetConduitFlow(conduitType).AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.Default);
 			this.OnConduitConnectionChanged(null);
 
 			UpdateNotifications();
 		}
+		private static readonly Action<object, object> ConnectionChangedCallback = ((ctx, data) => ((PortConduitConsumer)ctx).OnConduitConnectionChanged(data));
 
 		public override void OnCleanUp()
 		{

@@ -172,7 +172,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			this.ingredientVariants = ingredientVariants.Select(item => item.first).Distinct().ToArray();
 			//float min = 0, max = 0;
 
-			StringBuilder infoTooltipBuilder = GlobalStringBuilderPool.Alloc();
+			var infoTooltipBuilder = KleiStringBuilder.BorrowFromPool();
+
+			infoTooltipBuilder.Clear();
 			infoTooltipBuilder.AppendLine(STRINGS.MISC.CODEXINFO.COMBINED_RECIPE_TOOLTIP);
 
 			foreach (var ingredientVariant in ingredientVariants)
@@ -218,7 +220,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				rotatingItems[tag] = rotGo;
 			}
 			RefreshRotatablePosition();
-			UIUtils.AddSimpleTooltipToObject(info, GlobalStringBuilderPool.ReturnAndFree(infoTooltipBuilder));
+			UIUtils.AddSimpleTooltipToObject(info, infoTooltipBuilder.TakeContent());
 		}
 
 		void SelectVariant(Tag tag)

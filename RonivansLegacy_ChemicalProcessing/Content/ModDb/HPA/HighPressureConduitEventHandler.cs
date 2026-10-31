@@ -27,7 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA
 		{
 			if (handle != null && handle.Value.IsValid)
 				return;
-			handle = GameScheduler.Instance.ScheduleNextFrame("ExecuteQueuedEvents", (_) => ExecuteQueuedEventActions());
+			handle = GameScheduler.Instance.ScheduleNextGameTick("ExecuteQueuedEvents", (_) => ExecuteQueuedEventActions());
 		}
 
 

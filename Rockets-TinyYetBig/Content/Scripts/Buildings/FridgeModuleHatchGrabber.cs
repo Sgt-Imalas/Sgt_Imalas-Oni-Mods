@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 
 		List<CargoBayCluster> ConnectedFridgeModules = new List<CargoBayCluster>();
-
+		int moduleSub;
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			SgtLogger.Assert("craftModuleInterface", craftModuleInterface);
 			//SgtLogger.l("AAAA");
 
-			craftModuleInterface.gameObject.Subscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
+			moduleSub = craftModuleInterface.gameObject.Subscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
 			UpdateModules(null);
 			StatusItemHandle = selectable.AddStatusItem(ModStatusItems.RTB_AccessHatchStorage, this);
 			ModAssets.FridgeModuleGrabbers.Add(this);
@@ -80,7 +80,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		public override void OnCleanUp()
 		{
 			ModAssets.FridgeModuleGrabbers.Remove(this);
-			craftModuleInterface.gameObject.Unsubscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
+			craftModuleInterface.gameObject.Unsubscribe(moduleSub);
 			base.OnCleanUp();
 		}
 

@@ -23,8 +23,6 @@ namespace Rockets_TinyYetBig.Behaviours
 		private EightDirection _direction;
 		private MeterController directionController;
 
-		private static readonly EventSystem.IntraObjectHandler<RadiationBatteryOutputHandler> OnStorageChangedDelegate
-			= new EventSystem.IntraObjectHandler<RadiationBatteryOutputHandler>((component, data) => component.OnStorageChange(data));
 
 		[MyCmpReq]
 		public HighEnergyParticleStorage hepStorage;
@@ -248,10 +246,10 @@ namespace Rockets_TinyYetBig.Behaviours
 			Direction = Direction;
 			OnStorageChange(null);
 			//this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.ParticleStorageCapacityChanged, OnStorageChangedDelegate);
-			Subscribe((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
-			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
-			Subscribe((int)GameHashes.CopySettings, OnCopySettings);
-			Subscribe((int)GameHashes.ClustercraftStateChanged, OnLogicValueChanged);
+			this.Sub((int)GameHashes.OnParticleStorageChanged, OnStorageChange);
+			this.Sub((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			this.Sub((int)GameHashes.CopySettings, OnCopySettings);
+			this.Sub((int)GameHashes.ClustercraftStateChanged, OnLogicValueChanged);
 		}
 
 		public void OnCopySettings(object data)
@@ -268,9 +266,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
-			Unsubscribe((int)GameHashes.LogicEvent, new Action<object>(OnLogicValueChanged));
-			Unsubscribe(-905833192, OnCopySettings);
+			this.UnsubAll();
 		}
 
 		//private bool OnParticleCaptureAllowed(HighEnergyParticle particle) => true;

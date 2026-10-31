@@ -85,13 +85,12 @@ namespace RotatableRadboltStorage
 			directionController = new MeterController(GetComponent<KBatchedAnimController>(), "redirector_target", "redirector", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
 			directionController.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
 			Direction = Direction;
-			Subscribe(-905833192, OnCopySettings);
+			this.Sub(-905833192, OnCopySettings);
 		}
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-
-			Unsubscribe(-905833192, OnCopySettings);
+			this.UnsubAll();
 		}
 		public static void Blueprints_SetData(GameObject source, JObject data)
 		{

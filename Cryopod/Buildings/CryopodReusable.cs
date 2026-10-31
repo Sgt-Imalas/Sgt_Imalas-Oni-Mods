@@ -43,7 +43,6 @@ namespace Cryopod.Buildings
 
 		private Chore AnimationChore;
 
-		private static readonly EventSystem.IntraObjectHandler<CryopodReusable> OnLogicValueChangedDelegate = new EventSystem.IntraObjectHandler<CryopodReusable>((component, data) => component.OnLogicValueChanged(data));
 		private void OnLogicValueChanged(object data)
 		{
 			if (data is not LogicValueChanged logicData)
@@ -129,12 +128,12 @@ namespace Cryopod.Buildings
 			this.smi.StartSM();
 			ModAssets.CryoPods.Add(this);
 
-			this.Subscribe(-801688580, OnLogicValueChangedDelegate);
+			this.Sub(-801688580, OnLogicValueChanged);
 		}
 
 		public override void OnCleanUp()
 		{
-			this.Unsubscribe(-801688580, OnLogicValueChangedDelegate);
+			this.UnsubAll();
 			ModAssets.CryoPods.Remove(this);
 			if (this.HoldingDupe())
 			{

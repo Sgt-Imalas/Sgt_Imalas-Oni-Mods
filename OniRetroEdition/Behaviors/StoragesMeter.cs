@@ -1,6 +1,7 @@
 ﻿using KSerialization;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UtilLibs;
 
@@ -29,7 +30,7 @@ namespace OniRetroEdition.Behaviors
 			else
 				meterTarget = "meter_target";
 
-			SgtLogger.l("initializing meter on "+gameObject.name+", meter target: " + meterTarget+", in front? "+inFront);
+			SgtLogger.l("initializing meter on " + gameObject.name + ", meter target: " + meterTarget + ", in front? " + inFront);
 			storageMeter = new MeterController(kbac, meterTarget, "meter", inFront ? Meter.Offset.Infront : Meter.Offset.Behind, Grid.SceneLayer.NoLayer, new string[]
 			{
 				meterTarget
@@ -37,15 +38,19 @@ namespace OniRetroEdition.Behaviors
 
 			foreach (Storage s in storages)
 			{
-				s.Subscribe((int)GameHashes.OnStorageChange, UpdateMeter);
+				_handles[s] = s.Subscribe((int)GameHashes.OnStorageChange, UpdateMeter);
 			}
 			UpdateMeter(null);
 		}
+		Dictionary<Storage, int> _handles = [];
 		public override void OnCleanUp()
 		{
 			foreach (Storage s in storages)
 			{
-				s.Unsubscribe((int)GameHashes.OnStorageChange, UpdateMeter);
+				if (s != null && _handles.TryGetValue(s, out int handle))
+				{
+					s.Unsubscribe(handle);
+				}
 			}
 
 			base.OnCleanUp();

@@ -18,8 +18,6 @@ namespace Rockets_TinyYetBig.Behaviours
 		//private static StatusItem capacityStatusItem;
 		[Serialize]
 		public int CurrentMaxCapacity = CritterStasisModuleConfig.StorageCapacity;
-
-		private static readonly EventSystem.IntraObjectHandler<CritterStasisChamberModule> RefreshCreatureCountDelegate = new EventSystem.IntraObjectHandler<CritterStasisChamberModule>(((component, data) => component.RefreshCreatureCount(data)));
 		public int CurrentCapacity => storedCritters.Count;
 
 		public string GetStatusItem()
@@ -135,7 +133,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			this.Subscribe<CritterStasisChamberModule>((int)GameHashes.FixedCaptureComplete, CritterStasisChamberModule.RefreshCreatureCountDelegate);
+			this.Sub((int)GameHashes.FixedCaptureComplete, (_)=>RefreshCreatureCount(null));
 			this.RefreshCreatureCount();
 			UpdateStatusItem();
 		}

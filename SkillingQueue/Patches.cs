@@ -20,7 +20,7 @@ namespace SkillingQueue
 		/// </summary>
 		[HarmonyPatch(typeof(BaseMinionConfig), nameof(BaseMinionConfig.BaseMinion))]
 		public static class BaseMinionConfig_BaseMinion_Patch
-		{			
+		{
 			public static void Postfix(GameObject __result)
 			{
 				__result.AddOrGet<SavedSkillQueue>();
@@ -29,19 +29,19 @@ namespace SkillingQueue
 
 
 
-        //[HarmonyPatch(typeof(MinionResume), nameof(MinionResume.AddExperience))]
-        //public static class DEBUG_MULTIPLIER
-        //{
-        //    public static void Prefix(ref float amount)
-        //    {
-        //        amount *= 100f;
-        //    }
-        //}
+		//[HarmonyPatch(typeof(MinionResume), nameof(MinionResume.AddExperience))]
+		//public static class DEBUG_MULTIPLIER
+		//{
+		//    public static void Prefix(ref float amount)
+		//    {
+		//        amount *= 100f;
+		//    }
+		//}
 
-        /// <summary>
-        /// refresh queue on skill learned
-        /// </summary>
-        [HarmonyPatch(typeof(MinionResume), nameof(MinionResume.MasterSkill))]
+		/// <summary>
+		/// refresh queue on skill learned
+		/// </summary>
+		[HarmonyPatch(typeof(MinionResume), nameof(MinionResume.MasterSkill))]
 		public static class MinionResume_MasterSkill_Patch
 		{
 			public static void Postfix(MinionResume __instance, string skillId)
@@ -85,7 +85,12 @@ namespace SkillingQueue
 
 						positionText = UIUtils.ColorText(positionText, targetColor);
 
-						__instance.Name.text = skill.Name + positionText + "\n(" + Db.Get().SkillGroups.Get(skill.skillGroup).Name + ")";
+						string groupName = Db.Get().SkillGroups.Get(skill.skillGroup)?.Name ?? string.Empty;
+						if (groupName.IsNullOrWhiteSpace())
+							__instance.Name.text = skill.Name + positionText + "\n(" + groupName + ")";
+						else
+
+							__instance.Name.text = skill.Name + positionText;
 
 						currentTooltip += string.Format(STRINGS.SKILLQUEUE.DEQUEUE, index, keyCode);
 					}

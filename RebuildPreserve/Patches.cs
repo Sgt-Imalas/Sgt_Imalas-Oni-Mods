@@ -128,7 +128,7 @@ namespace RebuildPreserve
                     if (cachedData.TryGetComponent<ConduitDirectionInfo>(out var targetConduitDirectionInfo) && targetConduitDirectionInfo.initialized)
                     {
 
-                        GameScheduler.Instance.ScheduleNextFrame("delayed conduit applying", (_) =>
+                        GameScheduler.Instance.ScheduleNextGameTick("delayed conduit applying", (_) =>
                         {
                             targetConduitDirectionInfo.ApplyConduitConnections(false);
                             if (__result.TryGetComponent<KAnimGraphTileVisualizer>(out var targetAnimGraphTileVisualizer))
@@ -198,7 +198,7 @@ namespace RebuildPreserve
             {
                 public static void Postfix(GameplayEventManager __instance)
                 {
-                    __instance.Subscribe(-1661515756, OnBuildingConstructed);
+                    __instance.Sub(-1661515756, OnBuildingConstructed);
                 }
             }
             [HarmonyPatch(typeof(GameplayEventManager), "OnCleanUp")]
@@ -206,7 +206,7 @@ namespace RebuildPreserve
             {
                 public static void Postfix(GameplayEventManager __instance)
                 {
-                    __instance.Unsubscribe(-1661515756, OnBuildingConstructed);
+                    __instance.UnsubAll();
                 }
             }
             static void OnBuildingConstructed(object data)
@@ -232,7 +232,7 @@ namespace RebuildPreserve
                         cachedGameObject.AddOrGet<KPrefabID>().PrefabTag = previousPrefabId;
 
 
-                        GameScheduler.Instance.ScheduleNextFrame("delayed settings application", (_) =>
+                        GameScheduler.Instance.ScheduleNextGameTick("delayed settings application", (_) =>
                         {
                             targetBuilding.Trigger((int)GameHashes.CopySettings, cachedGameObject);
                             if (targetBuilding.TryGetComponent<KAnimGraphTileVisualizer>(out var targetAnimGraphTileVisualizer))

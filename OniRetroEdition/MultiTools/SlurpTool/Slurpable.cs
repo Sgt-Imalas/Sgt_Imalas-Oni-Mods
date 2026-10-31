@@ -24,8 +24,8 @@ namespace OniRetroEdition.SlurpTool
 			new CellOffset(1, 0),
 			new CellOffset(-1, 0)
 		};
-		private static readonly EventSystem.IntraObjectHandler<Slurpable> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<Slurpable>(((component, data) => component.OnRefreshUserMenu(data)));
-		private static readonly EventSystem.IntraObjectHandler<Slurpable> OnReachableChangedDelegate = new EventSystem.IntraObjectHandler<Slurpable>(((component, data) => component.OnReachableChanged(data)));
+		private static readonly System.Action<object,object> OnRefreshUserMenuDelegate = (component, data) => (component as Slurpable).OnRefreshUserMenu(data);
+		private static readonly System.Action<object,object> OnReachableChangedDelegate =(component, data) => (component as Slurpable).OnReachableChanged(data);
 		int refreshHandle = -1, reachableHandle = -1; 
 
 		private Slurpable() => this.showProgressBar = false;
@@ -62,16 +62,16 @@ namespace OniRetroEdition.SlurpTool
 				faceTargetWhenWorking = true;
 				multitoolContext = "fetchliquid";
 				multitoolHitEffectTag = WaterSuckEffect.ID;
-				this.partitionerEntry = GameScenePartitioner.Instance.Add("Slurpable.OnSpawn", this.gameObject, new Extents(Grid.PosToCell((KMonoBehaviour)this), new CellOffset[1]
+				this.partitionerEntry = GameScenePartitioner.Instance.Add("Slurpable.OnSpawn", this.gameObject, new Extents(Grid.PosToCell(this), new CellOffset[1]
 				{
 					new CellOffset(0, 0)
-				}), GameScenePartitioner.Instance.liquidChangedLayer, new System.Action<object>(this.OnLiquidChanged));
+				}), GameScenePartitioner.Instance.liquidChangedLayer, (ctx, data)=>(ctx as Slurpable).OnLiquidChanged(data));
 				this.Refresh();
 				new ReachabilityMonitor.Instance((Workable)this).StartSM();
 				SimAndRenderScheduler.instance.Remove(this);
 				SetOffsetTable(OffsetGroups.InvertedStandardTable);
-				refreshHandle = this.Subscribe<Slurpable>((int)GameHashes.RefreshUserMenu, Slurpable.OnRefreshUserMenuDelegate);
-				reachableHandle = this.Subscribe<Slurpable>((int)GameHashes.ReachableChanged, Slurpable.OnReachableChangedDelegate);
+				refreshHandle = this.Subscribe((int)GameHashes.RefreshUserMenu, Slurpable.OnRefreshUserMenuDelegate, this);
+				reachableHandle = this.Subscribe((int)GameHashes.ReachableChanged, Slurpable.OnReachableChangedDelegate, this);
 			}
 		}
 

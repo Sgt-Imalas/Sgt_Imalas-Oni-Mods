@@ -12,17 +12,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		//[MyCmpReq] 
 		Tinkerable TinkerTarget;
 
-		private static readonly EventSystem.IntraObjectHandler<TinkerableCopySettingsHandler> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<TinkerableCopySettingsHandler>((component, data) => component.OnCopySettings(data));
 		public override void OnSpawn()
 		{
 			copyBuildingSettings = gameObject.AddOrGet<CopyBuildingSettings>();
 			TryGetComponent(out TinkerTarget);
-			this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			this.Sub((int)GameHashes.CopySettings, OnCopySettings);
 			base.OnSpawn();
 		}
 		public override void OnCleanUp()
 		{
-			this.Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			this.UnsubAll();
 			base.OnCleanUp();
 		}
 		private void OnCopySettings(object data)

@@ -40,7 +40,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 			TryReattach();
 			AllAttachments.Add(this);
 			handle = Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
-			partitionerEntry = GameScenePartitioner.Instance.Add("ComplexFabricatorRecipeControlAttachment.RefreshAttachement", (object)this.gameObject, building.GetExtents(), GameScenePartitioner.Instance.objectLayers[(int)ObjectLayer.Building], OnAttachableBuildingChanged);
+			partitionerEntry = GameScenePartitioner.Instance.Add("ComplexFabricatorRecipeControlAttachment.RefreshAttachement", (object)this.gameObject, building.GetExtents(), GameScenePartitioner.Instance.objectLayers[(int)ObjectLayer.Building], (ctx, data)=>(ctx  as ComplexFabricatorRecipeControlAttachment).OnAttachableBuildingChanged(data));
 
 			UpdateSymbolColors();
 			RefreshRecipeOrders();

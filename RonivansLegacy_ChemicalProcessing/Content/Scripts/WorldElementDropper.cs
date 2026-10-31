@@ -24,13 +24,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			this.Unsubscribe((int)GameHashes.OnStorageChange, OnStorageChanged);
+			this.UnsubAll();
 
 		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			this.Subscribe((int)GameHashes.OnStorageChange, OnStorageChanged);
+			this.Sub((int)GameHashes.OnStorageChange, OnStorageChanged);
 		}
 		void OnStorageChanged(object data)
 		{

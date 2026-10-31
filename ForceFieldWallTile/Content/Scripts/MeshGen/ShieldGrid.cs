@@ -6,6 +6,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 {
 	internal class ShieldGrid
 	{
+		private static readonly List<int> _subs = []; 
 		public static void ClearAll()
 		{
 			ShieldNodes.Clear();
@@ -17,7 +18,8 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			Filter = null;
 			Renderer = null;
 
-			Game.Instance?.Unsubscribe((int)GameHashes.ActiveWorldChanged, (_) => GenerateMesh());
+			foreach (var sub in _subs)
+				Game.Instance?.Unsubscribe(sub);
 		}
 		public static Dictionary<int, Node> ShieldNodes = [];
 
@@ -53,7 +55,8 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			if (RendererGO != null)
 				return;
 
-			Game.Instance?.Subscribe((int)GameHashes.ActiveWorldChanged, (_) => GenerateMesh());
+			if(Game.Instance != null)
+				_subs.Add(Game.Instance.Subscribe((int)GameHashes.ActiveWorldChanged, (_) => GenerateMesh()));
 
 			RendererGO = new GameObject("ShieldMesh", typeof(MeshFilter), typeof(MeshRenderer));
 			RendererGO.SetActive(true);

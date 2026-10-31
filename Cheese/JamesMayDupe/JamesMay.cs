@@ -7,7 +7,7 @@ namespace Cheese.JamesMayDupe
 	internal class JamesMay
 	{
 		public const string JAMESMAY = "JAMESMAY";
-		public static readonly int JAMESMAY_HASH = Hash.SDBMLower(JAMESMAY);
+		public static readonly int JAMESMAY_HASH = ModHashes.SDBMLower(JAMESMAY);
 
 		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
 		static class Db_Init_Patch

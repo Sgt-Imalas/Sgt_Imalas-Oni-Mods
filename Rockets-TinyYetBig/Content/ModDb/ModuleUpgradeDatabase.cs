@@ -18,6 +18,12 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			new RocketModuleUpgrade("RTB_CargoBayFilter")
 			.Costs([GameTags.Steel, GameTags.RefinedMetal], [50, 50]);
 
+		//loop (circular routes) + pingpong (=Bidirectional)
+		//space destination stops -> configurable to stay there until end or condition fulfilled
+		public static RocketModuleUpgrade FlightComputerUpgrade =
+			new RocketModuleUpgrade("RTB_FlightComputerUpgrade")
+			.Costs([GameTags.Steel, GameTags.RefinedMetal], [125, 75]); //maybe microchips here? or mechatronics skill?
+
 		public static RocketModuleUpgrade CargoBayInsulation =
 			new RocketModuleUpgrade("RTB_CargoBayInsulation")
 			.Costs([GameTags.Insulator], [800])

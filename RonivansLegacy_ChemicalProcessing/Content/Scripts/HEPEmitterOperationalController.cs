@@ -8,15 +8,14 @@
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			Subscribe((int)GameHashes.OperationalChanged, OnOperationalChanged);
-			Subscribe((int)GameHashes.ActiveChanged, OnOperationalChanged);
+			this.Sub((int)GameHashes.OperationalChanged, OnOperationalChanged);
+			this.Sub((int)GameHashes.ActiveChanged, OnOperationalChanged);
 			OnOperationalChanged(null);
 		}
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.OperationalChanged, OnOperationalChanged);
-			Unsubscribe((int)GameHashes.ActiveChanged, OnOperationalChanged);
+			this.UnsubAll();
 		}
 		void OnOperationalChanged(object data)
 		{

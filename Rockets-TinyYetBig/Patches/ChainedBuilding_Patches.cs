@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.RocketFueling;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
 
@@ -56,7 +57,8 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 				return false;
 			}
 		}
-
+		
+		static Dictionary<int, int> ChainedBuildingSubs = new Dictionary<int, int>();
 		[HarmonyPatch(typeof(ChainedBuilding.StatesInstance), nameof(ChainedBuilding.StatesInstance.StartSM))]
 		public class ChainedBuilding_StatesInstance_StartSM_Patch //constructor not directly patchable (?)
 		{
@@ -66,7 +68,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 			/// <param name="__instance"></param>
 			public static void Prefix(ChainedBuilding.StatesInstance __instance)
 			{
-				__instance.Subscribe((int)GameHashes.ChainedNetworkChanged, (_) => StopWorkingOnDisconnect(__instance));
+				ChainedBuildingSubs[__instance.gameObject.GetInstanceID()] = __instance.Subscribe((int)GameHashes.ChainedNetworkChanged, (_) => StopWorkingOnDisconnect(__instance));
 
 				if (__instance.gameObject.TryGetComponent<VerticalPortAttachment>(out var portAttachment))
 				{
@@ -112,7 +114,8 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 		{
 			public static void Postfix(ChainedBuilding.StatesInstance __instance)
 			{
-				__instance.Unsubscribe((int)GameHashes.ChainedNetworkChanged, (_) => StopWorkingOnDisconnect(__instance));
+				if(ChainedBuildingSubs.TryGetValue(__instance.gameObject.GetInstanceID(), out int handle))
+					__instance.Unsubscribe(handle);
 			}
 		}
 	}
