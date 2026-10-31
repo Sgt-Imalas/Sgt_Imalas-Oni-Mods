@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 
@@ -7,8 +8,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Disease
 	/// <summary>
 	/// Several chemicals in the game can cause acid burns to dupes. This monitor checks for hazardous chemicals and applies damage accordingly.
 	/// </summary>
-	public class AcidBurnMonitor : KMonoBehaviour
+	public class AcidBurnMonitor : KMonoBehaviour, ISim200ms
 	{
+
+		[MyCmpGet] OxygenBreather breather;
 		[MyCmpReq] Health health;
 		[MyCmpReq] KSelectable selectable;
 		[MyCmpGet] SuitEquipper suitEquipper;
@@ -75,6 +78,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Disease
 				}
 			}
 			return null;
+		}
+
+		public void Sim200ms(float dt)
+		{
+			CheckForAcidChemicals(dt);
 		}
 
 		public AcidBurnMonitor()

@@ -9,18 +9,13 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		/// <summary>
 		/// burn duplicants that step into acidic chemicals with chemical burns
 		/// </summary>
-		[HarmonyPatch(typeof(OxygenBreather), nameof(OxygenBreather.Sim200ms))]
-        public class OxygenBreather_Sim200ms_Patch
+
+        [HarmonyPatch(typeof(OxygenBreather), nameof(OxygenBreather.OnSpawn))]
+        public class OxygenBreather_OnSpawn_Patch
         {
-            static Dictionary<OxygenBreather,AcidBurnMonitor> acidBurnMonitors = new Dictionary<OxygenBreather, AcidBurnMonitor>();
-			public static void Postfix(OxygenBreather __instance, float dt)
+            public static void Postfix(OxygenBreather __instance)
             {
-                if(!acidBurnMonitors.TryGetValue(__instance,out var acidBurnMonitor))
-                {
-					acidBurnMonitor = __instance.gameObject.AddOrGet<AcidBurnMonitor>();
-					acidBurnMonitors.Add(__instance, acidBurnMonitor);
-				}
-                acidBurnMonitor.CheckForAcidChemicals(dt);
+                __instance.gameObject.AddOrGet<AcidBurnMonitor>();
             }
         }
     }
