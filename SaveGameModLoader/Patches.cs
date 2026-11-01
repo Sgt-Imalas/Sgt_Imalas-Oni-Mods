@@ -605,17 +605,21 @@ namespace SaveGameModLoader
 					);
 			}
 
-			public static void Postfix(KMod.Mod __result)
+			public static void Postfix(object __result)
 			{
-				if (__result == null || __result.staticID == null || __result.label.id == null)
+				if (__result is not Steam.MakeModResult makeModResult)
+					return;
+				var result = makeModResult.mod;
+
+				if (result == null || result.staticID == null || result.label.id == null)
 					return;
 
-				__result.on_managed = () =>
+				result.on_managed = () =>
 				{
 					if (UseSteamOverlay && SteamUtils.IsOverlayEnabled())
-						SteamFriends.ActivateGameOverlayToWebPage("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
+						SteamFriends.ActivateGameOverlayToWebPage("https://steamcommunity.com/sharedfiles/filedetails/?id=" + result.label.id);
 					else
-						App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
+						App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + result.label.id);
 				};
 			}
 		}
