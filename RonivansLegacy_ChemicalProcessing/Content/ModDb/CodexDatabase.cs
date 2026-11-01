@@ -50,7 +50,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 
 
-		public static void GenerateFertilizationInfo(GameObject template, ref SimHashes[] safe_elements, string crop_id, bool can_tinker)
+		public static void GenerateFertilizationInfo(GameObject template, ref SimHashes[] safe_elements, Crop.CropVal harvest, bool can_tinker)
 		{
 			if (template == null)
 				return;
@@ -59,7 +59,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (template.HasTag(GameTags.PlantBranch))
 				return;
 
-			bool hasCrop = crop_id != null || template.PrefabID() == "SpaceTree"; //spacetree gets a non-default implementation..
+			bool hasCrop = harvest != null && harvest.products != null && harvest.products.Count > 0 || template.PrefabID() == "SpaceTree"; //spacetree gets a non-default implementation..
 
 			if (!hasCrop)
 				return;

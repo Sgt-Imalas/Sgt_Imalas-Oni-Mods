@@ -3,6 +3,7 @@ using PeterHan.PLib.Core;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System.Reflection;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
@@ -39,15 +40,22 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch]
 		public class EntityTemplates_ExtendEntityToBasicPlant_Patch
 		{
+			private static MethodBase _target;
 			[HarmonyTargetMethod]
-			static MethodBase GetTarget()
+			public static MethodBase TargetMethod() => _target;
+
+			[HarmonyPrepare]
+			public static bool Prepare()
 			{
-				return typeof(EntityTemplates).GetOverloadWithMostArguments(nameof(EntityTemplates.ExtendEntityToBasicPlant), true);
+				_target = typeof(EntityTemplates).GetLatestOverloadPatchTarget(nameof(EntityTemplates.ExtendEntityToBasicPlant), true);
+				if (_target == null)
+					SgtLogger.error("ExtendEntityToBasicPlant not found!");
+				return _target != null;
 			}
 
-			public static void Prefix(GameObject template, ref SimHashes[] safe_elements, string crop_id, bool can_tinker)
+			public static void Prefix(GameObject template, Crop.CropVal harvest, ref SimHashes[] safe_elements, bool can_tinker)
 			{
-				CodexDatabase.GenerateFertilizationInfo(template, ref safe_elements, crop_id, can_tinker);
+				CodexDatabase.GenerateFertilizationInfo(template, ref safe_elements, harvest, can_tinker);
 			}
 		}
 	}

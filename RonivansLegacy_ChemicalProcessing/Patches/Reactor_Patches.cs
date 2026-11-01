@@ -67,10 +67,19 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch]
 		public class PatchInnerMeltdownLoop
 		{
+			private static MethodBase _target;
+			[HarmonyTargetMethod]
+			public static MethodBase TargetMethod() => _target;
 
 			[HarmonyPrepare]
-			public static bool Prepare() => FindReactorMeltdownLoop() != null;
-			[HarmonyTargetMethod]
+			public static bool Prepare()
+			{
+				_target = FindReactorMeltdownLoop();
+				if (_target == null)
+					SgtLogger.error("ExtendEntityToBasicPlant not found!");
+				return _target != null;
+			}
+			[HarmonyPrepare]
 			public static MethodBase FindReactorMeltdownLoop()
 			{
 				SgtLogger.l("Finding Reactor meltdown loop method...");

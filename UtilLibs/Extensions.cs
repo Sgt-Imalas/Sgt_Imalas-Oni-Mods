@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HarmonyLib;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -7,6 +8,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace UtilLibs
@@ -57,8 +59,77 @@ namespace UtilLibs
 			}
 		}
 		public static T CreateDelegate<T>(this MethodInfo method) where T : MulticastDelegate => (T)Delegate.CreateDelegate(typeof(T), method);
+		
 
+		/// <summary>
+		/// Returns the overload that no other overload of the same name forwards away from,
+		/// i.e. the end of the wrapper chain. Null if none or ambiguous.
+		/// </summary>
+		public static MethodInfo GetLatestOverloadPatchTarget(this Type type, string name, bool isStatic)
+		{
+			var overloads = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | (isStatic ? BindingFlags.Static : BindingFlags.Instance)).Where(m => m.Name == name).ToList();
+			if (overloads.Count == 0)
+				return null;
 
+			// overload -> sibling overloads it calls
+			var forwardsTo = new Dictionary<MethodBase, List<MethodBase>>();
+			foreach (var m in overloads)
+			{
+				var callees = new List<MethodBase>();
+				try
+				{
+					foreach (var instr in PatchProcessor.ReadMethodBody(m))
+					{
+						if (instr.Key != OpCodes.Call && instr.Key != OpCodes.Callvirt)
+							continue;
+						if (instr.Value is not MethodBase callee || Same(callee, m))
+							continue;
+
+						var sibling = overloads.FirstOrDefault(o => Same(o, callee));
+						if (sibling != null && !callees.Contains(sibling))
+							callees.Add(sibling);
+					}
+				}
+				catch (Exception e)
+				{
+					Debug.LogWarning($"[MyMod] Could not read body of {m}: {e.Message}");
+				}
+				forwardsTo[m] = callees;
+			}
+
+			// when theres one "newest" method thats not called by any other overload, return it.
+			var leaves = overloads
+				.Where(m => forwardsTo[m].Count == 0 && !m.IsDefined(typeof(ObsoleteAttribute), false))
+				.ToList();
+
+			if (leaves.Count == 1)
+				return leaves[0];
+
+			if (leaves.Count == 0)
+				return null;
+
+			// multiple "newest" methods: pick the one most wrappers eventually reach. Unique winner only.
+			var reach = leaves
+				.Select(leaf => (leaf, count: overloads.Count(o => !Same(o, leaf) && Reaches(o, leaf, forwardsTo, new HashSet<MethodBase>()))))
+				.OrderByDescending(x => x.count)
+				.ToList();
+
+			if (reach.Count > 1 && reach[0].count == reach[1].count)
+				return null;
+
+			return reach[0].leaf;
+		}
+		private static bool Same(MethodBase a, MethodBase b) => a.MetadataToken == b.MetadataToken && a.Module == b.Module;
+
+		private static bool Reaches(MethodBase from, MethodBase to, Dictionary<MethodBase, List<MethodBase>> graph, HashSet<MethodBase> seen)
+		{
+			if (!seen.Add(from))
+				return false;
+			foreach (var next in graph[from])
+				if (Same(next, to) || Reaches(next, to, graph, seen))
+					return true;
+			return false;
+		}
 
 
 		/// <summary>
@@ -105,6 +176,9 @@ namespace UtilLibs
 				return string.Empty;
 			}
 		}
+
+
+		//return typeof(EntityTemplates).GetOverloadWithMostArguments(nameof(EntityTemplates.ExtendEntityToBasicPlant), true);
 
 	}
 }
