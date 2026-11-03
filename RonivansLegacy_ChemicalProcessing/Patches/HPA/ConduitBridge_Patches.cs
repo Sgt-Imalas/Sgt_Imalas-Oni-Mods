@@ -68,14 +68,13 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				targetConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(targetCell, type);
 
 				//no pipe at output cell of bridge
-				if (!HighPressureConduitRegistration.HasConduitAt(targetCell,type))
+				if (!HighPressureConduitRegistration.HasConduitAt(targetCell, type))
 					return contents;
 
 				targetBridgeCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(targetCell, type,true);
 
-				//damage the bridge when the target pipe is a HPA bridge 
-				if (conduitMass > targetBridgeCapacity * 1.1f)
-					HighPressureConduitEventHandler.ScheduleForDamage(bridge.gameObject, (int)conduitMass, (int)targetBridgeCapacity);
+				//damage the bridge when the target bridge is not a HPA bridge
+				HighPressureConduitEventHandler.PressureDamageHandlingBridge(bridge.gameObject, conduitMass, targetBridgeCapacity);
 
 				//If the ConduitBridge is not supposed to support the amount of fluid currently in the contents, only make the bridge's intended max visible
 				//Also immediately deal damage if the current contents are higher than 110% of the intended max (110% is set because at 100%, a system with no pressurized pipes would seem to randomly deal damage as if the contents
@@ -85,7 +84,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 					float initial = contents.mass;
 					float removed = contents.RemoveMass(initial - targetBridgeCapacity);
 					float ratio = removed / initial;
-					contents.diseaseCount = (int)((float)contents.diseaseCount * ratio);
+					contents.diseaseCount = (int)(contents.diseaseCount * ratio);
 				}
 				///damage target conduit if it got too much mass transfered to it
 				HighPressureConduitEventHandler.PressureDamageHandling(targetCell, type, contents.mass, targetConduitCapacity);

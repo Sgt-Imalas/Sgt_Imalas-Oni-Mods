@@ -156,6 +156,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					$"\n- Solid: capacity: {_solidCap_hp}, multiplier: {_solidMult}" +
 					$"\n- Liquid: capacity: {_liquidCap_hp}, multiplier: {_liquidMult}" +
 					$"\n- Gas: capacity: {_gasCap_hp}, multiplier: {_gasMult}");
+
+				HighPressureConduitEventHandler.RefreshDamageSetting();
 			}
 		}
 

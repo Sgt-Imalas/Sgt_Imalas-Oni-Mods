@@ -2718,6 +2718,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = "Allow Heavy-Duty Rails in walls";
 				public static LocString TOOLTIP = "Allows placement of heavy-duty rails inside of walls like regular rails.";
 			}
+			public class HPA_NOPRESSUREDAMAGE
+			{
+				public static LocString NAME = "Disable Overpressurization Mechanic";
+				public static LocString TOOLTIP = "Overpressurization mechanic gets disabled; regular pipes directly connected to a high pressure input without a reduction valve do not get damaged by the pressure.";
+			}
 			public class REFRIGERATION_ATMOSPHEREINPUT
 			{
 				public static LocString NAME = "High-Tech Fridge atmosphere ports";
