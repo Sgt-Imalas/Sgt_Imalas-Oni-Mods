@@ -13,13 +13,13 @@ namespace UtilLibs.SharedTweaks
 		{
 			new SearchUtilCrashFix().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 0);
+		public override Version Version => new Version(2, 0, 0, 0);
 
 		public override void Initialize(Harmony plibInstance)
 		{
 			try
 			{
-				var targetMethod = AccessTools.Method(typeof(Db), nameof(Db.Initialize));
+				var targetMethod = AccessTools.Method(typeof(SearchUtil), nameof(SearchUtil.CanonicalizePhrase));
 				var prefix = AccessTools.Method(typeof(SearchUtilCrashFix), nameof(Prefix));
 				plibInstance.Patch(targetMethod, new(prefix));
 				Debug.Log(Assembly.GetExecutingAssembly().GetName().Name + ": " + this.GetType().ToString() + " successfully patched");
@@ -31,8 +31,11 @@ namespace UtilLibs.SharedTweaks
 			}
 		}
 		/// <summary>
-		/// fixes translations of things falling back to english due to loading too early from mods
+		/// Skip SearchUtil.CanonicalizePhrase if the string is null or whitespace to prevent a crash in it.
 		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="__result"></param>
+		/// <returns></returns>
 		public static bool Prefix(string s, ref string __result)
 		{
 			__result = string.Empty;

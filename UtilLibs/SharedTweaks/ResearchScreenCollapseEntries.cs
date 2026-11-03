@@ -21,7 +21,7 @@ namespace UtilLibs.SharedTweaks
 		{
 			new ResearchScreenCollapseEntries().RegisterForForwarding();
 		}
-		public override Version Version => new Version(2, 0, 0, 0);
+		public override Version Version => new Version(3, 0, 0, 0);
 
 		public override void Initialize(Harmony plibInstance)
 		{
@@ -57,13 +57,13 @@ namespace UtilLibs.SharedTweaks
 			}
 		}
 
-		public static void CollectEntriesPostfix(ResearchEntry __instance, ref GameObject __result)
+		public static void CollectEntriesPostfix(ResearchEntry __instance, ref ResearchEntryIcon __result)
 		{
 			if (__instance.targetTech?.unlockedItems.Count() <= 8)
 				return;
 			if (!CollectedIcons.ContainsKey(__instance))
 				CollectedIcons[__instance] = new(8);
-			CollectedIcons[__instance].Add(__result);
+			CollectedIcons[__instance].Add(__result.gameObject);
 		}
 		public static void TurnOffPostfix(ResearchEntry __instance)
 		{
