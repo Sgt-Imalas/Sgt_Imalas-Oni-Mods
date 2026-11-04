@@ -77,7 +77,7 @@
 		<!--Publicized Versions of the main dlls, everything here is made public-->
 		<AssemblyPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</AssemblyPublicized>
 		<AssemblyFirstpassPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</AssemblyFirstpassPublicized>
-		<GameLibTest>true</GameLibTest>
+		<GameLibTest>false</GameLibTest>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(GameLibTest)' == 'true' and '$(IncludeGameReferences)' == 'true'">

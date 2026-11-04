@@ -1,9 +1,7 @@
 ﻿using HarmonyLib;
 using PeterHan.PLib.Core;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace UtilLibs.SharedTweaks
 {
@@ -26,7 +24,7 @@ namespace UtilLibs.SharedTweaks
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning(this.GetType().ToString() + " patch failed!");
+				Debug.LogWarning(Assembly.GetExecutingAssembly().GetName().Name + ": " + this.GetType().ToString() + " patch failed!");
 				Debug.LogWarning(e.Message);
 			}
 		}
