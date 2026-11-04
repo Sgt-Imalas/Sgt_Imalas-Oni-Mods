@@ -14,8 +14,14 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 {
 	class DockingSidescreen : SideScreenContent, IRender200ms
 	{
-
 		private CrewAssignmentSidescreen crewScreen;
+
+		public override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			this.CheckShouldShowTopTitle = () => false;
+			//titleKey = "STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.TITLE";
+		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -155,11 +161,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 		}
 
 		private void RefreshAll(object data = null) => DelayedRefresh();
-		public override void OnPrefabInit()
-		{
-			base.OnPrefabInit();
-			//titleKey = "STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.TITLE";
-		}
 		public override string GetTitle()
 		{
 			return DOCKINGSCREEN.TITLE.TITLETEXT;
