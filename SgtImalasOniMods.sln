@@ -312,6 +312,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickSaveActions", "QuickSa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KleiPaintings", "KleiPaintings\KleiPaintings.csproj", "{526D25A5-E9CA-4602-88BD-2BAC4E517C74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeProjector", "ShapeProjector\ShapeProjector.csproj", "{873FAA2B-EE6E-4EB4-8789-DCBA5A4A9CA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -856,6 +858,10 @@ Global
 		{526D25A5-E9CA-4602-88BD-2BAC4E517C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{526D25A5-E9CA-4602-88BD-2BAC4E517C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{526D25A5-E9CA-4602-88BD-2BAC4E517C74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{873FAA2B-EE6E-4EB4-8789-DCBA5A4A9CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{873FAA2B-EE6E-4EB4-8789-DCBA5A4A9CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{873FAA2B-EE6E-4EB4-8789-DCBA5A4A9CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{873FAA2B-EE6E-4EB4-8789-DCBA5A4A9CA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

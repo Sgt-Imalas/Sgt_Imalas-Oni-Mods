@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using UnityEngine;
 
 namespace UtilLibs
 {
@@ -19,6 +20,27 @@ namespace UtilLibs
 		{
 			sb.Append(chars);
 			sb.Append('\n');
+		}
+		public static bool TryGetInterfaceSMIOrComponent<InterfaceType>(this GameObject go, out InterfaceType interfaceImplementation) where InterfaceType : class
+		{
+			if(go.TryGetComponent<InterfaceType>(out interfaceImplementation))
+				return true;
+			if(go.TryGetSMI<InterfaceType>(out interfaceImplementation))
+				return true;
+			return false;
+		}
+		public static bool TryGetSMI<StateMachineInstanceType>(this Component cmp, out StateMachineInstanceType smi) where StateMachineInstanceType : class
+		{
+			return cmp.gameObject.TryGetSMI<StateMachineInstanceType>(out smi);
+		}
+		public static bool TryGetSMI<StateMachineInstanceType>(this GameObject go, out StateMachineInstanceType smi) where StateMachineInstanceType : class
+		{
+			smi = null;
+			if (!go.TryGetComponent<StateMachineController>(out var smc))
+				return false;
+
+			smi = smc.GetSMI<StateMachineInstanceType>();
+			return smi != null;
 		}
 
 		public static bool TryGetTokenValue<T>(this JObject jObject, string key, out T value, JsonSerializer serializer = null)

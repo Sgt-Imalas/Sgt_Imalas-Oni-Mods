@@ -123,6 +123,10 @@ namespace UtilLibs.UI.FUI
 				OnSelectionChanged?.Invoke(SelectedEntry);
 				RefreshPallette();
 			}
+			else if(PalletteEntries.TryGetValue(item, out var entry))
+			{
+				entry.Refresh(SelectedEntry);
+			}				
 		}
 	}
 }
