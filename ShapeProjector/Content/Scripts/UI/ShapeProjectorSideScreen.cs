@@ -122,6 +122,7 @@ namespace ShapeProjector.Content.Scripts.UI
 					MakeNewShapeEntry(shape);
 				}
 			}
+			ColorPicker.SetSelected(Target.HighlightColor);
 		}
 		ProjectionShapeUIEntry MakeNewShapeEntry(ShapeProjectorLogic.ShapeData shapeData)
 		{

@@ -24,7 +24,7 @@ namespace ShapeProjector.Content.Defs.Buildings
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = -1f;
 			buildingDef.DefaultAnimState = "off";
-			buildingDef.ObjectLayer = ObjectLayer.Gantry;
+			buildingDef.ObjectLayer = ObjectLayer.LogicGate;
 			buildingDef.SceneLayer = Grid.SceneLayer.Backwall;
 			//buildingDef.AddLogicPowerPort = true;
 

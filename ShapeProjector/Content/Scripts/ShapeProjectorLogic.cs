@@ -18,8 +18,8 @@ namespace ShapeProjector.Content.Scripts
 		#region saveload
 		public struct SaveloadShapeData
 		{
-			public string shapeId;
-			public int width, height;
+			public string shapeId, originId;
+			public int width, height, rotationState;
 			public bool isActive, linkedDimensions, isThicc;
 		}
 		public class ShapeData
@@ -29,11 +29,13 @@ namespace ShapeProjector.Content.Scripts
 				return new ShapeData()
 				{
 					shapeId = data.shapeId,
+					originId = data.originId,
 					width = data.width,
 					height = data.height,
 					isActive = data.isActive,
 					isThicc = data.isThicc,
-					linkedDimensions = data.linkedDimensions
+					linkedDimensions = data.linkedDimensions,
+					rotationState = data.rotationState
 				};
 			}
 			public SaveloadShapeData ToSerializable()
@@ -41,16 +43,19 @@ namespace ShapeProjector.Content.Scripts
 				return new SaveloadShapeData()
 				{
 					shapeId = this.shapeId,
+					originId = this.originId,
 					width = this.width,
 					height = this.height,
 					isActive = this.isActive,
 					isThicc = this.isThicc,
-					linkedDimensions = this.linkedDimensions
+					linkedDimensions = this.linkedDimensions,
+					rotationState = this.rotationState
 				};
 			}
-			public string shapeId;
+			public string shapeId, originId;
 			public int width, height;
 			public bool isActive, linkedDimensions, isThicc;
+			public int rotationState;
 		}
 		[System.Runtime.Serialization.OnSerializing]
 		public void OnSerializing()
@@ -321,9 +326,11 @@ namespace ShapeProjector.Content.Scripts
 			var data = new ShapeData()
 			{
 				shapeId = ModAssets.Shape_Circle_ID,
-				width = 5,
-				height = 5,
+				originId = ModAssets.Origin_Center,
+				width = 7,
+				height = 7,
 				isActive = true,
+				isThicc = false,
 				linkedDimensions = true
 			};
 			AddShape(data);

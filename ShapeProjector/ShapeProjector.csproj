@@ -22,7 +22,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>ShapeProjector</ModName>
+		<ModName>Shape Preview Projector</ModName>
 		<ModDescription></ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

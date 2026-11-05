@@ -14,10 +14,15 @@ namespace ShapeProjector.Patches
         {
             public static void Prefix(Assets __instance)
 			{
-				var textnoteIcons = AssetUtils.AddAllSpritesInAssetsSubDir(__instance, "shapesymbols");
-				foreach (var sprite in textnoteIcons)
+				var shapesymbols = AssetUtils.AddAllSpritesInAssetsSubDir(__instance, "shapesymbols");
+				foreach (var sprite in shapesymbols)
 				{
-					ModAssets.SymbolMap[sprite.name] = sprite;
+					ModAssets.ShapeSymbolMap[sprite.name] = sprite;
+				}
+				var originsymbols = AssetUtils.AddAllSpritesInAssetsSubDir(__instance, "originsymbols");
+				foreach (var sprite in originsymbols)
+				{
+					ModAssets.OriginSymbolMap[sprite.name] = sprite;
 				}
 			}
         }
