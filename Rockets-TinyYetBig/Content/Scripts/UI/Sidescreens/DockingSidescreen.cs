@@ -27,9 +27,17 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			base.OnSpawn();
 
 			ConnectReference();
-			ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockableAdded, new Action<object>(ManagerAddedHandler));
-			ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockableRemoved, new System.Action<object>(this.ManagerRemovedHandler));
+			added = ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockableAdded, new Action<object>(ManagerAddedHandler));
+			removed = ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockableRemoved, new System.Action<object>(this.ManagerRemovedHandler));
 
+		}
+		int added, removed;
+
+		public override void OnCleanUp()
+		{
+			ClusterManager.Instance?.Unsubscribe(added);
+			ClusterManager.Instance?.Unsubscribe(removed);
+			base.OnCleanUp();
 		}
 
 		private void ManagerAddedHandler(object obj)

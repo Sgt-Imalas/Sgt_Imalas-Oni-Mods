@@ -49,7 +49,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		}
 		static Dictionary<int, ForceFieldTile> ShieldProjectors = new Dictionary<int, ForceFieldTile>();
 
-		List<string> Tintables = ["tintable_bloom", "tintable_fx", "tintable_off"];
+		readonly List<string> Tintables = ["tintable_bloom", "tintable_fx", "tintable_off"];
 
 		public bool IsAltVariant = false;
 		float loadTime;
