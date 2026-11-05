@@ -88,7 +88,6 @@ namespace SetStartDupes.DuplicityEditing
 							SgtLogger.warning("Invalid trait id \"" + traitId + "\" found, skipping that");
 							continue;
 						}
-
 						if (ModAssets.TryGetTraitsOfCategory(DupeTraitManager.NextType.joy, stats.Model).Any(trait => trait.id == traitId))
 						{
 							stats.JoyTraitId = traitId;
@@ -374,7 +373,7 @@ namespace SetStartDupes.DuplicityEditing
 				var traitDb = Db.Get().traits;
 				foreach (var toAddTrait in ToAdd)
 				{
-					var trait = traitDb.Get(toAddTrait);
+					var trait = traitDb.TryGet(toAddTrait);
 
 					if (trait == null)
 					{
@@ -386,7 +385,7 @@ namespace SetStartDupes.DuplicityEditing
 				}
 				foreach (var toRemoveTrait in ToRemove)
 				{
-					var trait = traitDb.Get(toRemoveTrait);
+					var trait = traitDb.TryGet(toRemoveTrait);
 					if (trait == null)
 					{
 						SgtLogger.warning("trait to remove not existing: " + toRemoveTrait);
@@ -491,7 +490,9 @@ namespace SetStartDupes.DuplicityEditing
 		{
 			if (!Effects.ContainsKey(id))
 			{
-				var effect = Db.Get().effects.Get(id);
+				var effect = Db.Get().effects.TryGet(id);
+				if (effect == null)
+					return;
 
 				Effects[id] = effect.duration > 0 ? effect.duration : 0;
 				EffectsPending = true;
