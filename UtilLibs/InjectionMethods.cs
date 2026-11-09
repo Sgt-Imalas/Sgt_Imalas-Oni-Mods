@@ -56,7 +56,7 @@ namespace UtilLibs
 					count += LoadPackedKanims(file.FullName);
 				}
 			}
-			SgtLogger.l("loaded " + count + " animations from "+ dirInfo.Name);
+			SgtLogger.l("loaded " + count + " animations from " + dirInfo.Name);
 			return count;
 		}
 
@@ -594,12 +594,45 @@ namespace UtilLibs
 
 		public static void MoveItemToNewTech(string buildingId, string oldTechId, string newTechId)
 		{
-			var techs = Db.Get().Techs;
-			if (techs.Exists(oldTechId) && techs.Exists(newTechId) && techs.Get(oldTechId).unlockedItemIDs.Contains(buildingId))
+			var db = Db.Get();
+			var techs = db.Techs;
+			var techItems = db.TechItems;
+			bool oldTechExists = techs.Exists(oldTechId);
+			if (!oldTechExists)
 			{
-				techs.Get(oldTechId).unlockedItemIDs.Remove(buildingId);
-				techs.Get(newTechId).unlockedItemIDs.Add(buildingId);
+				SgtLogger.warning("Could not move " + buildingId + " - old tech " + oldTechId + " does not exist");
+				return;
 			}
+			bool newTechExists = techs.Exists(newTechId);
+			if (!newTechExists)
+			{
+				SgtLogger.warning("Could not move " + buildingId + " - new tech " + newTechId + " does not exist");
+				return;
+			}
+			bool itemIsInOldTech = oldTechExists && techs.TryGet(oldTechId).unlockedItemIDs.Contains(buildingId);
+			if (!itemIsInOldTech)
+			{
+				SgtLogger.warning("Could not move " + buildingId + " - it was not in the existing id list of " + oldTechId);
+				return;
+			}
+			var oldTech = techs.Get(oldTechId);
+			var newTech = techs.Get(newTechId);
+			var buildingItem = techItems.TryGet(buildingId);
+			oldTech.RemoveUnlockedItemIDs(buildingId);
+			newTech.AddUnlockedItemIDs(buildingId);
+			if (buildingItem != null)
+			{
+				oldTech.unlockedItems.Remove(buildingItem);
+				buildingItem.parentTechId = newTechId;
+				buildingItem.OnPostProcess();
+				newTech.unlockedItems.Add(buildingItem);
+				SgtLogger.l("Moved " + buildingId + " from " + oldTechId + " to " + newTechId);
+			}
+			else
+			{
+				SgtLogger.warning("Could not find techitem for building " + buildingId);
+			}
+
 		}
 
 		public static void AddBuildingToTechnologyOfOther(string buildingId, string otherBuildingId)

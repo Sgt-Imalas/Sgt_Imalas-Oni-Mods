@@ -207,7 +207,6 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			.PrimaryConfigCategory(RTB_BuildingCategoryType.B_MININGSHIPPING);
 
 			//wall adapters
-
 			BuildingManager.CreateEntry<VerticalAdapterBaseConfig>()
 			.ConfigEnabled(() => Config.Instance.EnableWallAdapter)
 			.AddToCategory(PlanMenuCategory.Rocketry, ModularLaunchpadPortBridgeConfig.ID)
@@ -340,6 +339,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		{
 			if (Config.Instance.HabitatPowerPlug)
 			{
+				SgtLogger.l("Moving interior power fitting to earlier tech");
 				InjectionMethods.MoveItemToNewTech(RocketInteriorPowerPlugConfig.ID, GameStrings.Technology.Power.SpacePower, GameStrings.Technology.Power.AdvancedPowerRegulation);
 			}
 		}
