@@ -46,7 +46,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		}
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			StorageRefrigeratorThresholds.AddComponent(go);
 			SoundEventVolumeCache.instance.AddVolume("cabinet_frozen_kanim", "StorageLocker_Hit_metallic_low", TUNING.NOISE_POLLUTION.NOISY.TIER1);
 			Prioritizable.AddRef(go);
 			//go.AddOrGet<Automatable>();

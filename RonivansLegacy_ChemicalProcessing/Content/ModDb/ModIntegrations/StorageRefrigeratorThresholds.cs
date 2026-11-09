@@ -11,7 +11,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 		public static Type StorageRefrigeratorThresholdsType = null;
 		public delegate void AddComponentDelegate(GameObject go);
 
-		public static void AddComponent(GameObject buildingPrefab)
+		public static void AddComponentIfNotFound(GameObject buildingPrefab)
 		{
 			InitTypes();
 			if (StorageRefrigeratorThresholdsType != null && buildingPrefab.GetComponent(StorageRefrigeratorThresholdsType) == null)
