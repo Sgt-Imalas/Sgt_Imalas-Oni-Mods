@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -41,6 +42,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
+			StorageRefrigeratorThresholds.AddComponent(go);
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 
 			Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);

@@ -60,6 +60,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			StorageRefrigeratorThresholds.AddComponent(go);
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.KitchenRefrigerator, false);
 			Storage storage = go.AddOrGet<Storage>();
 			storage.showInUI = true;
