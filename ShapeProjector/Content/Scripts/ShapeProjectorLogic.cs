@@ -165,9 +165,11 @@ namespace ShapeProjector.Content.Scripts
 		ShapeProjectorVisualizerEffect visualizer;
 
 		readonly HashSet<int> projectedCells = new HashSet<int>();
-
+		private int _worldId;
+		public int WorldId => _worldId;
 		public override void OnSpawn()
 		{
+			_worldId = this.GetMyWorldId();
 			base.OnSpawn();
 			DisableConnectors();
 			if (ActiveShapes.Count > 0)

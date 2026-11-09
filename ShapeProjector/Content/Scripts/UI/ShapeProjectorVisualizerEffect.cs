@@ -25,6 +25,9 @@ namespace ShapeProjector.Content.Scripts.UI
 			if (_master == null)
 				return;
 
+			if (_master.WorldId != ClusterManager.Instance.activeWorldId)
+				return;
+
 			HashSet<int> activeCells = _master.GetActiveCells();
 			if (activeCells == null || activeCells.Count == 0)
 				return;
