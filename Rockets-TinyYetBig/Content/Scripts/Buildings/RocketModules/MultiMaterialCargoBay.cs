@@ -4,7 +4,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 {
-	internal class MultiMaterialCargoBay : KMonoBehaviour, IMultiSliderControl
+	public class MultiMaterialCargoBay : KMonoBehaviour, IMultiSliderControl
 	{
 		[SerializeField] private float solidCapacity, liquidCapacity, gasCapacity;
 
@@ -90,7 +90,16 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			}
 			return 0f;
 		}
-
+		internal bool HasAnyCapacityFor(CargoBay.CargoType cargoType)
+		{
+			return cargoType switch
+			{
+				CargoBay.CargoType.Solids => userCapacitySolid > 0,
+				CargoBay.CargoType.Liquids => userCapacityLiquid > 0,
+				CargoBay.CargoType.Gasses => userCapacityGas > 0,
+				_ => false,
+			};
+		}
 		internal float RemainingCapacityFor(CargoBay.CargoType cargoType)
 		{
 			return cargoType switch

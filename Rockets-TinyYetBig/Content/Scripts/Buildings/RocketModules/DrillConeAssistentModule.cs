@@ -4,7 +4,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 {
 	public class DrillConeAssistentModule : KMonoBehaviour, ISim4000ms
 	{
-		[MyCmpGet] public Storage DiamondStorage;
+		[MyCmpReq] public Storage DiamondStorage;
 		[MyCmpGet] RocketModuleCluster module;
 		private MeterController meter;
 
@@ -27,13 +27,18 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 				}
 			}
 		}
+
+
 		public override void OnCleanUp()
 		{
 			this.UnsubAll();
 			base.OnCleanUp();
 		}
+		public bool TagAllowedByStorageFilter(Tag tag) => DiamondStorage.storageFilters.Contains(tag);
 		public override void OnSpawn()
 		{
+			Debug.Assert(DiamondStorage.storageFilters.Count > 0, "DrillConeAssistentModule had no material filter set!");
+
 			base.OnSpawn();
 			CheckTarget();
 
