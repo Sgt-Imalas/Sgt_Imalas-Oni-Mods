@@ -176,7 +176,10 @@ namespace UtilLibs
 		//    return -1;
 		//}
 
-
+		public static void PrintError(string msg)
+		{
+			SgtLogger.error("TRANSPILER ERROR: "+msg);
+		}
 
 		public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes, bool extendedInfo = false)
 		{

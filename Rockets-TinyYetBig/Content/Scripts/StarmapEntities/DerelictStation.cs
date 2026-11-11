@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig.Derelicts
 		public string m_Anim;
 		public override string Name => l_name;
 
-		public override EntityLayer Layer => EntityLayer.POI;
+		public override EntityLayer Layer => ENTITY_LAYER;
 
 		public override List<AnimConfig> AnimConfigs => new List<AnimConfig>
 		{

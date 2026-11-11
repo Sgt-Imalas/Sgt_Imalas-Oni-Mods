@@ -7,8 +7,28 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 {
-	internal class RocketClusterDestinationSelector_Patches
+	internal static class RocketClusterDestinationSelector_Patches
 	{
+		//public static string Log(this AxialI pos) => "("+pos.Q + "," + pos.R + ")";
+
+
+		//[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.SetUpReturnTrip))]
+		//public class RocketClusterDestinationSelector_SetUpReturnTrip_Patch
+		//{
+		//	public static void Prefix(RocketClusterDestinationSelector __instance)
+		//	{
+		//		SgtLogger.l("RocketClusterDestinationSelector Setting Up ReturnTrip");
+		//	}
+		//}
+
+		//[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.WaitForPOIHarvest))]
+		//public class TargetType_TargetMethod_Patch
+		//{
+		//	public static void Prefix(RocketClusterDestinationSelector __instance)
+		//	{
+		//		SgtLogger.l("RocketClusterDestinationSelector wait for POI harvest");
+		//	}
+		//}
 		[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.OnClusterLocationChanged))]
 		public static class RocketClusterDestinationSelector_OnClusterLocationChanged_Patch
 		{
@@ -20,11 +40,16 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 			/// <returns></returns>
 			public static bool Prefix(RocketClusterDestinationSelector __instance, object data)
 			{
+				//ClusterLocationChangedEvent locationChangedEvent = (ClusterLocationChangedEvent)data;
+				//SgtLogger.l("OnClusterLocationChanged] target: " + __instance.m_destination.Log() + ", current " + locationChangedEvent.newLocation.Log());
+				ClusterGrid_Patches.SkipStations(true);
 				if (__instance.Repeat && __instance.TryGetComponent<DockingSpacecraftHandler>(out var mng))
 				{
+					//SgtLogger.l("craft status: " + mng.clustercraft.Status);
+
 					if (mng.clustercraft.status != Clustercraft.CraftStatus.InFlight)
 					{
-						SgtLogger.l(__instance.name + " not in flight anymore, undocking");
+						//SgtLogger.l(__instance.name + "RocketClusterDestinationSelector not in flight anymore, undocking all");
 						mng.UndockAll();
 						return true;
 					}
@@ -34,8 +59,14 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 						return true;
 
 
-					//Skips immediate RoundTrip-return if there is a station at the target location
-					if (SpaceStationManager.GetSpaceStationAtLocation(locationChangedEvent.newLocation, out var station))
+					//bool entityAtLayer = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(locationChangedEvent.newLocation, EntityLayer.POI) != (UnityEngine.Object)null;
+					//bool canDrill = __instance.CanRocketDrill();
+					//bool canCollecc = __instance.CanCollectFromHexCellInventory();
+					//SgtLogger.l($"RocketClusterDestinationSelector at targetLocation - rocket state: {mng.clustercraft.Status} EntityAtLAyer: {entityAtLayer}, canDrill: {canDrill}, canCollecc: {canCollecc}");
+
+
+					//Skips immediate RoundTrip-return if there is a station at the target location and the rocket cannot land there
+					if (SpaceStationManager.GetSpaceStationAtLocation(locationChangedEvent.newLocation, out var station) && SpaceStationManager.CanDockAtSpacestation(mng.clustercraft, locationChangedEvent.newLocation))
 					{
 						mng.clustercraft.ModuleInterface.TriggerEventOnCraftAndRocket(GameHashes.ClusterDestinationReached, null);
 						return false;
@@ -43,6 +74,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 				}
 				return true;
 			}
+			public static void Postfix() => ClusterGrid_Patches.SkipStations(false);
 		}
 		#region HEP-Drillcone
 

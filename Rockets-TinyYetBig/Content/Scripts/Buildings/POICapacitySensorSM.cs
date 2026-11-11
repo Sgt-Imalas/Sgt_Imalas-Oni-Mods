@@ -147,7 +147,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		void UpdateEntity(object __)
 		{
 			var location = locationSelector.GetDestination();
-			var entity = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(location, EntityLayer.POI);
+			var entity = ModAssets.GetPOIEntity(location);
 			Symbol symbol = null;
 			if (entity != null)
 			{

@@ -2,6 +2,7 @@
 using Rockets_TinyYetBig.Content.Scripts;
 using Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens;
 using Rockets_TinyYetBig.NonRocketBuildings;
+using Rockets_TinyYetBig.Patches;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
@@ -320,9 +321,18 @@ namespace Rockets_TinyYetBig
 			}
 		}
 
-		public static string DeepSpaceScienceID = "rtb_deepspace";
-		public static string DerelictUnlock1 = "rtb_derelict_unlock_1";
-		public static string DerelictUnlock2 = "rtb_derelict_unlock_2";
+		internal static ClusterGridEntity GetPOIEntity(AxialI location)
+		{
+			ClusterGridEntity target;
+			ClusterGrid_Patches.SkipStations(true);
+			target = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(location, EntityLayer.POI);
+			ClusterGrid_Patches.SkipStations(false);
+			return target;
+		}
+
+		public static readonly string DeepSpaceScienceID = "rtb_deepspace";
+		public static readonly string DerelictUnlock1 = "rtb_derelict_unlock_1";
+		public static readonly string DerelictUnlock2 = "rtb_derelict_unlock_2";
 		public class Techs
 		{
 			public static string FuelLoaderTechID = "RTB_FuelLoadersTech";

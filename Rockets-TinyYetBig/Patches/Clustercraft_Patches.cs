@@ -69,13 +69,7 @@ namespace Rockets_TinyYetBig.Patches
 				};
 
 
-				if (__instance.status == CraftStatus.InFlight //In space on a station hex
-					&& __instance.Location == clusterDestinationSelector.GetDestination() //at destination
-					&& !LaunchPad.GetLaunchPadsForDestination(__instance.Location).Any(pad => pad.LandedRocket == null) //no pads to land on
-					&& __instance.TryGetComponent<DockingSpacecraftHandler>(out var handler)
-					&& SpaceStationManager.GetSpaceStationAtLocation(__instance.Location, out var TargetStation)
-					&& TargetStation.TryGetComponent<DockingSpacecraftHandler>(out var stationHandler)
-					&& !DockingManagerSingleton.Instance.HandlersConnected(handler, stationHandler, out _, out _))
+				if (SpaceStationManager.CanDockAtSpacestation(__instance,clusterDestinationSelector.GetDestination(), out var handler, out var stationHandler))
 				{
 					SgtLogger.l("onDestinationReached dock: " + __instance.Name);
 					DockingManagerSingleton.Instance.AddPendingToStationDock(handler.WorldId, stationHandler.WorldId);
@@ -159,7 +153,7 @@ namespace Rockets_TinyYetBig.Patches
 					&& __instance.TryGetComponent<DockingSpacecraftHandler>(out var manager)
 					&& !craft_status.Equals(CraftStatus.InFlight))
 				{
-					SgtLogger.l(__instance.name + " craft status setter not in flight anymore, undocking");
+					//SgtLogger.l(__instance.name + " craft status setter in flight, undocking");
 					manager.UndockAll();
 				}
 			}
@@ -301,6 +295,7 @@ namespace Rockets_TinyYetBig.Patches
 			/// <param name="__instance"></param>
 			public static void Postfix(Clustercraft __instance)
 			{
+				SgtLogger.l("Clustercraft.OnSpawn: " + __instance.Name);
 				RebalanceCollectors(__instance);
 				__instance.m_clusterTraveler.onTravelCB += () =>
 				{

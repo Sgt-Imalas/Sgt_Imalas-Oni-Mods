@@ -81,7 +81,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 		public override string Name => this.l_name;
 		//public override bool IsVisible => true;
-		public override EntityLayer Layer => EntityLayer.POI;
+		public override EntityLayer Layer => ENTITY_LAYER;
 		public override bool SpaceOutInSameHex() => false;
 		public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
 
@@ -331,6 +331,9 @@ namespace Rockets_TinyYetBig.SpaceStations
 		public string SidescreenButtonText => CanUpgrade ? "Upgrade Space Station" : "No Upgrade Available";
 
 		public string SidescreenButtonTooltip => CanUpgrade ? "Upgrade your space station to the next level, increasing its available space" : this._currentSpaceStationType == 2 ? "station has reached its max size" : "find more artifacts to unlock the next station size";
+
+		public static readonly EntityLayer ENTITY_LAYER = EntityLayer.POI;
+
 		public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
 		{
 		}

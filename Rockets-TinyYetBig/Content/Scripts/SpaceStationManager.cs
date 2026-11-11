@@ -1,9 +1,12 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Derelicts;
+using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using static Clustercraft;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -276,6 +279,26 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 			}
 			return true;
+		}
+		internal static bool CanDockAtSpacestation(Clustercraft clusterCraft, AxialI rocketDestination)=> CanDockAtSpacestation(clusterCraft, rocketDestination, out _, out _);
+		internal static bool CanDockAtSpacestation(Clustercraft clusterCraft, AxialI rocketDestination, out DockingSpacecraftHandler craftDockingPort, out DockingSpacecraftHandler stationDockingPort)
+		{
+			stationDockingPort = null;
+			craftDockingPort = null;
+			if (clusterCraft is SpaceStation)
+				return false;
+			var rocketLocation = clusterCraft.Location;
+
+			if (clusterCraft.status == CraftStatus.InFlight //In space on a station hex
+			  && rocketLocation == rocketDestination // at destination
+			  && !LaunchPad.GetLaunchPadsForDestination(rocketLocation).Any(pad => pad.LandedRocket == null) //no pads to land on
+			  && clusterCraft.TryGetComponent(out craftDockingPort) && craftDockingPort.HasDoors() && craftDockingPort.AvailableConnections() > 0
+			  && GetSpaceStationAtLocation(rocketLocation, out SpaceStation TargetStation)
+			  && TargetStation.TryGetComponent(out stationDockingPort) && stationDockingPort.HasDoors() && stationDockingPort.AvailableConnections() > 0
+			  && !DockingManagerSingleton.Instance.HandlersConnected(craftDockingPort, stationDockingPort, out _, out _))
+				return true;
+
+			return false;
 		}
 	}
 }
