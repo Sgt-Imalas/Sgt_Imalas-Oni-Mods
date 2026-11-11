@@ -19,8 +19,8 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			};
 			string[] construction_materials_ = new string[2]
 			{
-				"RefinedMetal",
-				"Glass"
+				MATERIALS.REFINED_METAL,
+				MATERIALS.ALL_GLASSES,
 			};
 			EffectorValues noiseLevel = NOISE_POLLUTION.NONE;
 			EffectorValues none = BUILDINGS.DECOR.NONE;
