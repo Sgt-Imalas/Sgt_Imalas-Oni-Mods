@@ -4,7 +4,9 @@ using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
+using UtilLibs;
 
 namespace ForceFieldWallTile.Content.Scripts
 {
@@ -55,6 +57,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		float loadTime;
 
 		public static bool ForceFieldAt(int cell, out ForceFieldTile tile) => ShieldProjectors.TryGetValue(cell, out tile);
+		public static bool ActiveForceFieldAt(int cell) => ForceFieldAt(cell, out var tile) && tile.ShieldActive;
 
 		public override void OnSpawn()
 		{
@@ -88,14 +91,14 @@ namespace ForceFieldWallTile.Content.Scripts
 
 		void ForceRefresh()
 		{
-			if (IsOperational()) 
+			if (IsOperational())
 			{
-				if(smi.IsInsideState(smi.sm.off))
+				if (smi.IsInsideState(smi.sm.off))
 					smi.GoTo(smi.sm.on);
 			}
 			else
 			{
-				if(smi.IsInsideState(smi.sm.on))
+				if (smi.IsInsideState(smi.sm.on))
 					smi.GoTo(smi.sm.off);
 			}
 		}
@@ -108,6 +111,12 @@ namespace ForceFieldWallTile.Content.Scripts
 				return;
 			tile.OnCometImpact(comet);
 		}
+		public void HandleFallingSnad(UnstableGround snad)
+		{
+			if (!ShieldActive) return;
+			DropFallingSnad(snad);
+		}
+
 
 		void OnCometImpact(Comet comet)
 		{
@@ -133,6 +142,25 @@ namespace ForceFieldWallTile.Content.Scripts
 		public static Vector3 GetPointOnUnitSphereCap(Vector3 targetDirection, float angle)
 		{
 			return GetPointOnUnitSphereCap(Quaternion.LookRotation(targetDirection), angle);
+		}
+		void DropFallingSnad(UnstableGround snad)
+		{
+			var element = ElementLoader.FindElementByHash(snad.element);
+			if (element == null)
+			{
+				SgtLogger.error("tried spawning invalid element from faller: " + snad.element);
+				return;
+			}
+
+			var splinter = element.substance.SpawnResource(Grid.CellToPosCTC(this.NaturalBuildingCell(), Grid.SceneLayer.Ore), snad.mass * (Config.Instance.MeteorMassPercentage / 100f), snad.temperature, snad.diseaseIdx, snad.diseaseCount);
+			if (splinter != null)
+			{
+				if (GameComps.Fallers.Has(splinter))
+				{
+					GameComps.Fallers.Remove(splinter);
+				}
+				GameComps.Fallers.Add(splinter, Vector2.down);
+			}
 		}
 		static void DropMeteorDebris(Comet CometToDropMats)
 		{
@@ -276,7 +304,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			//var affectedLocations = ProcGen.Util.GetFilledCircle(transform.position, radius);
 			var cells = affectedLocations.Select(pos => Grid.PosToCell(pos)).ToHashSet();
 			Dictionary<ForceFieldTile, float> AffectedTiles = [];
-			float totalWeight = GetStrengthWeight(this,1);
+			float totalWeight = GetStrengthWeight(this, 1);
 			AffectedTiles[this] = 1;
 			foreach (var cell in cells)
 			{
@@ -370,7 +398,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		}
 		void SetPartialLightBlocking(bool on)
 		{
-			if(on)
+			if (on)
 				SimMessages.SetCellProperties(cell, PartialLightBlocking.PartialLightBlockingProperties);
 			else
 				SimMessages.ClearCellProperties(cell, PartialLightBlocking.PartialLightBlockingProperties);
@@ -386,7 +414,7 @@ namespace ForceFieldWallTile.Content.Scripts
 				SimMessages.ReplaceAndDisplaceElement(cell, SimHashes.Vacuum, CellEventLogger.Instance.DoorOpen, 0);
 			}
 			else
-			{	
+			{
 				ShieldGrid.RemoveNode(cell, GridNode);
 				SimMessages.ClearCellProperties(cell, (byte)simCellProperties);
 				ResetBarrier();
@@ -499,7 +527,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		{
 			if (!Config.Instance.PressureDamage)
 				return;
-			
+
 			HandlePressureInCell(top, dt);
 			HandlePressureInCell(bottom, dt);
 			HandlePressureInCell(left, dt);
@@ -507,7 +535,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		}
 		private void HandlePressureInCell(int cell, float dt)
 		{
-			if(!Grid.IsValidCell(cell)) 
+			if (!Grid.IsValidCell(cell))
 				return;
 
 			if (ShieldProjectors.ContainsKey(cell) || Grid.IsSolidCell(cell))

@@ -52,7 +52,7 @@ namespace ForceFieldWallTile
 		{
 			public static void Prefix()
 			{
-				ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, ForceFieldTileConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, ForceFieldTileConfig.ID, ThermalBlockConfig.ID);
 			}
 		}
 
@@ -65,6 +65,28 @@ namespace ForceFieldWallTile
 			public static void Postfix()
 			{
 				LocalisationUtil.Translate(typeof(STRINGS), true);
+			}
+		}
+
+		[HarmonyPatch(typeof(UnstableGroundManager), nameof(UnstableGroundManager.Update))]
+		public class UnstableGroundManager_Update_Patch
+		{
+			public static void Postfix(UnstableGroundManager __instance)
+			{
+				if (App.isLoading)
+					return;
+				var fallingSnads = __instance.fallingObjects;
+				for(int i = fallingSnads.Count - 1; i >= 0; i--)
+				{
+					var snad = fallingSnads[i];
+					int cell = Grid.PosToCell(snad);
+					if(ForceFieldTile.ForceFieldAt(cell, out var ff) && ff.ShieldActive && snad.TryGetComponent<UnstableGround>(out var snadInfo))
+					{
+						ff.HandleFallingSnad(snadInfo);
+						fallingSnads.RemoveAt(i);
+						__instance.ReleaseGO(snad);
+					}
+				}
 			}
 		}
 	}
