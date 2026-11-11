@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Buildings.Utility;
+using Rockets_TinyYetBig.Content.Scripts.Buildings;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,19 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 {
 	public class RocketConduitStorageAccess_Patches
 	{
+
+		[HarmonyPatch(typeof(RocketConduitStorageAccess), nameof(RocketConduitStorageAccess.OnSpawn))]
+		public class RocketConduitStorageAccess_OnSpawn_Patch
+		{
+			public static void Postfix(RocketConduitStorageAccess __instance)
+			{
+				__instance.gameObject.AddOrGet<RocketConduitSenderSleepMode>();
+			}
+		}
+
 		[HarmonyPatch(typeof(RocketConduitStorageAccess), nameof(RocketConduitStorageAccess.Sim200ms))]
 		public static class RocketConduitStorageAccess_Sim200ms_Patch
 		{
-			const float MinTransfer = 0.00001f;
 			/// <summary>
 			/// This throws out food that is not allowed in cargo bays if there is no freezer module
 			/// Also allows feeding the drillcone support module from inside the rocket
@@ -38,7 +48,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 			/// returns true of the pickupable was not completely transfered and there is still mass on it left
 			/// </summary>
 			/// <returns>if the item was not yet fully transferred and has mass left</returns>
-			static bool PushItemToRocketStorage(Pickupable item, Storage target, float remainingCargoCapacity, ref float remainingItemMass)
+			static bool PushItemToRocketStorage(Pickupable item, Storage target, float remainingCargoCapacity, ref float remainingItemMass, ref bool activeTransfer)
 			{
 				if (remainingCargoCapacity <= 0.00001f)
 					return true;
@@ -47,6 +57,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 				if (part == null)
 					return true;
 
+				activeTransfer = true;
 				float transferredMass = part.primaryElement.Mass;
 				target.Store(part.gameObject, true);
 				remainingItemMass -= transferredMass;
@@ -56,7 +67,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 			/// puts item in storage and returns true if the remaining storagecapacity is > 0
 			/// </summary>
 			/// <returns>true if remainingStorageCapacity > 0</returns>
-			static bool PullItemFromRocketStorage(Pickupable item, Storage target, ref float remainingStorageCapacity)
+			static bool PullItemFromRocketStorage(Pickupable item, Storage target, ref float remainingStorageCapacity, ref bool activeTransfer)
 			{
 				if (remainingStorageCapacity <= 0.00001f)
 					return false;
@@ -65,13 +76,16 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 				if (part == null)
 					return true;
 
+				activeTransfer = true;
 				remainingStorageCapacity -= part.primaryElement.Mass;
 				target.Store(part.gameObject, true);
 				return remainingStorageCapacity > 0f;
 			}
 
-			static void TransferToRocketStorages(RocketConduitStorageAccess instance)
+			static bool TransferToRocketStorages(RocketConduitStorageAccess instance)
 			{
+				bool activeTransfer = false;
+
 				bool RefillDiamonds = instance.cargoType == CargoBay.CargoType.Solids && Config.Instance.RefillDrillSupport;
 
 				var cargobays = ListPool<CargoBayCluster, RocketConduitStorageAccess>.Allocate();
@@ -113,7 +127,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 							if (!supportModule.TagAllowedByStorageFilter(itemId))
 								continue;
 							var diamondStorage = supportModule.DiamondStorage;
-							if (!PushItemToRocketStorage(itemPickupable, diamondStorage, diamondStorage.RemainingCapacity(), ref remainingItemMass))
+							if (!PushItemToRocketStorage(itemPickupable, diamondStorage, diamondStorage.RemainingCapacity(), ref remainingItemMass, ref activeTransfer))
 								break;
 						}
 					}
@@ -125,7 +139,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 						if (!mmcb.Filterable.AcceptedTags.Contains(itemId))
 							continue;
 
-						if (!PushItemToRocketStorage(itemPickupable, mmcb.Storage, mmcb.RemainingCapacityFor(itemPickupable.primaryElement), ref remainingItemMass))
+						if (!PushItemToRocketStorage(itemPickupable, mmcb.Storage, mmcb.RemainingCapacityFor(itemPickupable.primaryElement), ref remainingItemMass, ref activeTransfer))
 							break;
 					}
 
@@ -137,7 +151,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 						if (!CouldStorageAllowThisTag(itemId, cargoBay.storage))
 							continue;
 
-						if (!PushItemToRocketStorage(itemPickupable, cargoBay.storage, cargoBay.RemainingCapacity, ref remainingItemMass))
+						if (!PushItemToRocketStorage(itemPickupable, cargoBay.storage, cargoBay.RemainingCapacity, ref remainingItemMass, ref activeTransfer))
 							break;
 					}
 				}
@@ -146,12 +160,16 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 				multiMaterialCargoBays.Recycle();
 				if (RefillDiamonds)
 					drillconeSupportModules.Recycle();
+
+				return activeTransfer;
 			}
-			static void TransferFromRocketStorages(RocketConduitStorageAccess instance, float remainingCapacity)
+			static bool TransferFromRocketStorages(RocketConduitStorageAccess instance, float remainingCapacity)
 			{
+				bool activeTransfer = false;
+
 				var filter = instance.filterable;
 				if (filter == null)
-					return;
+					return false;
 
 				var cargobays = ListPool<CargoBayCluster, RocketConduitStorageAccess>.Allocate();
 				var multiMaterialCargoBays = ListPool<MultiMaterialCargoBay, RocketConduitStorageAccess>.Allocate();
@@ -191,7 +209,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 						if (!itemElement.Element.IsState(allowedElementState))
 							continue;
 
-						if ((acceptAny || filterTag == kprefabId.PrefabTag) && !PullItemFromRocketStorage(itemPickupable, targetStorage, ref remainingCapacity))
+						if ((acceptAny || filterTag == kprefabId.PrefabTag) && !PullItemFromRocketStorage(itemPickupable, targetStorage, ref remainingCapacity, ref activeTransfer))
 							break;
 					}
 					if (remainingCapacity <= 0)
@@ -206,7 +224,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 							var itemInStorage = cb.storage.items[i];
 							if (!itemInStorage.TryGetComponent<Pickupable>(out var itemPickupable) || itemPickupable.primaryElement.Element.IsVacuum || !itemInStorage.TryGetComponent<KPrefabID>(out var kprefabId))
 								continue;
-							if ((acceptAny || filterTag == kprefabId.PrefabTag) && !PullItemFromRocketStorage(itemPickupable, targetStorage, ref remainingCapacity))
+							if ((acceptAny || filterTag == kprefabId.PrefabTag) && !PullItemFromRocketStorage(itemPickupable, targetStorage, ref remainingCapacity, ref activeTransfer))
 								break;
 						}
 						if (remainingCapacity <= 0)
@@ -215,9 +233,10 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 				}
 				cargobays.Recycle();
 				multiMaterialCargoBays.Recycle();
+
+				return activeTransfer;
 			}
-			public static bool Prefix(float dt,
-				RocketConduitStorageAccess __instance)
+			public static bool Prefix(float dt, RocketConduitStorageAccess __instance)
 			{
 				var operational = __instance.operational;
 
@@ -225,10 +244,11 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 					return false;
 				float currentMassStored = __instance.storage.MassStored();
 
-				if (currentMassStored >= __instance.targetLevel - 0.01f && currentMassStored <= __instance.targetLevel + 0.01f)
+				if (currentMassStored >= __instance.targetLevel - RocketConduitStorageAccess.TOLERANCE && currentMassStored <= __instance.targetLevel + RocketConduitStorageAccess.TOLERANCE)
+				{
 					return false;
+				}
 
-				operational?.SetActive(true);
 
 				//targetLevel: positive values = pulls into storage, negative values = puts stuff into cargobay
 				float amoundToTransfer = __instance.targetLevel - currentMassStored;
@@ -237,33 +257,16 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 				if (amoundToTransfer == 0)
 					return false;
 
+				bool shouldSetActive;
 				if (__instance.targetLevel > 0)
-					TransferFromRocketStorages(__instance, amoundToTransfer);
+					shouldSetActive = TransferFromRocketStorages(__instance, amoundToTransfer);
 				else
-					TransferToRocketStorages(__instance);
+					shouldSetActive = TransferToRocketStorages(__instance);
+
+				operational?.SetActive(shouldSetActive);
 				return false;
 			}
 
 		}
-
-		/// <summary>
-		/// Adds consumables and medicine to Loader to allow the loading of the freezer module
-		/// </summary>
-		[HarmonyPatch(typeof(BaseModularLaunchpadPortConfig))]
-		[HarmonyPatch(nameof(BaseModularLaunchpadPortConfig.ConfigureBuildingTemplate))]
-		public static class FoodLoading
-		{
-			public static void Postfix(GameObject go, ConduitType conduitType)
-			{
-				if (conduitType == ConduitType.Solid)
-				{
-					if (go.TryGetComponent<Storage>(out var storage))
-					{
-						storage.storageFilters = [.. STORAGEFILTERS.NOT_EDIBLE_SOLIDS, .. STORAGEFILTERS.FOOD];
-					}
-				}
-			}
-		}
-
 	}
 }

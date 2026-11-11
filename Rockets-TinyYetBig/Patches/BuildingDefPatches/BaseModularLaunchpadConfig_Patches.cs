@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
+using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
@@ -35,7 +36,7 @@ namespace Rockets_TinyYetBig.Patches
 			/// also add a workable to drop all contents
 			/// </summary>
 			/// <param name="go"></param>
-			public static void Postfix(GameObject go)
+			public static void Postfix(GameObject go, ConduitType conduitType)
 			{
 				ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
 				def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
@@ -43,6 +44,15 @@ namespace Rockets_TinyYetBig.Patches
 
 				DropAllWorkable dropAllWorkable = go.AddOrGet<DropAllWorkable>();
 				dropAllWorkable.dropWorkTime = 15f;
+
+				// Adds consumables and medicine to Loader to allow the loading of the freezer module
+				if (conduitType == ConduitType.Solid)
+				{
+					if (go.TryGetComponent<Storage>(out var storage))
+					{
+						storage.storageFilters = [.. STORAGEFILTERS.NOT_EDIBLE_SOLIDS, .. STORAGEFILTERS.FOOD];
+					}
+				}
 			}
 		}
 	}
