@@ -970,6 +970,12 @@ namespace Rockets_TinyYetBig
 				public static LocString LABEL = "Load via Cargo Loader";
 				public static LocString TOOLTIP = "toggle between automatic and manual loading";
 			}
+			public static class AUTOMATIC_GANTRY_SIDESCREEN
+			{
+				public static LocString TITLE = "Automatic Gantry";
+				public static LocString LABEL = "Gantry retracts automatically";
+				public static LocString TOOLTIP = "The gantry will automatically retract when a flying rocket crosses it.";
+			}
 			public static class CLUSTERLOCATIONSENSORADDON
 			{
 				public static LocString TITLE = "Extra green signal at";

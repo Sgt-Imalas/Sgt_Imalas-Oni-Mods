@@ -6,7 +6,7 @@ using static Rockets_TinyYetBig.ModAssets;
 
 namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 {
-	internal class AutomaticGantry : KMonoBehaviour
+	internal class AutomaticGantry : KMonoBehaviour, IDisableableCheckboxControl
 	{
 		[MyCmpReq] Gantry gantry;
 		[MyCmpReq] OccupyArea area;
@@ -21,6 +21,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 		private bool _forcedRetracted;
 		private bool _breakFloors;
 		int _turnOffActiveHandle = -1;
+		[Serialize] bool _activateAutomaticRetraction = true;
 
 		bool HasPendingExtends => _pendingRockets.Count > 0;
 
@@ -33,7 +34,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 			_breakFloors = Config.Instance.GantryNoFloorWhenBroken;
 			bool autoGantries = Config.Instance.AutoGantries;
 
-			if(_breakFloors ||  autoGantries)
+			if (_breakFloors || autoGantries)
 			{
 				this.Sub(GameHashes.TagsChanged, OnTagChanged);
 			}
@@ -100,6 +101,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 		}
 		void AutoRetract_Launch_Start(object data)
 		{
+			if (!_activateAutomaticRetraction)
+				return;
 			//SgtLogger.l("Launching Start");
 			StartAutoRetraction(data, true);
 		}
@@ -110,6 +113,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 		}
 		void AutoRetract_Landing_Start(object data)
 		{
+			if (!_activateAutomaticRetraction)
+				return;
 			//SgtLogger.l("Landing Start");
 			StartAutoRetraction(data, false);
 		}
@@ -247,5 +252,13 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 				gantry.SetWalkable(on);
 		}
 
+		public string CheckboxTitleKey => "STRINGS.UI.AUTOMATIC_GANTRY_SIDESCREEN.TITLE";
+		public string CheckboxLabel => STRINGS.UI.AUTOMATIC_GANTRY_SIDESCREEN.LABEL;
+		public string CheckboxTooltip => STRINGS.UI.AUTOMATIC_GANTRY_SIDESCREEN.TOOLTIP;
+		public bool GetCheckboxValue() => _activateAutomaticRetraction;
+		public void SetCheckboxValue(bool value) => _activateAutomaticRetraction = value;
+		public bool GetIsCheckboxInteractable() => true;
+		public bool GetShowCheckbox() => Config.Instance.AutoGantries;
+		public int GetVerticalSortOrder() => 10;
 	}
 }
