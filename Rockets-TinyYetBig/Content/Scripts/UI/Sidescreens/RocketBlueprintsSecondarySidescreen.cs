@@ -141,7 +141,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
 			_loadOrGenerateButton.SetInteractable(false);
 
-			bool hasRocket = _targetPad.HasRocket();
+			bool hasRocket =  PadHasRocketInAnyState();
 			if (_selected != null && !hasRocket)
 			{
 				ConstructRocketOnPad(_selected);
@@ -194,6 +194,16 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 			}
 		}
 
+		bool PadHasRocketInAnyState()
+		{
+			if(_targetPad == null)
+				return false;
+
+			Grid.ObjectLayers[(int)ObjectLayer.Building].TryGetValue(_targetPad.RocketBottomPosition, out GameObject value);
+			return (value != null && value.TryGetComponent<RocketModuleCluster>(out _));
+		}
+
+
 		void TextInputChanged(string newText)
 		{
 			newText = newText.Trim();
@@ -203,11 +213,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
 			UpdateEntries(newText);
 
-			SetButtonInfo(_targetPad.HasRocket());
+			SetButtonInfo( PadHasRocketInAnyState());
 		}
 		void UpdateEntries(string filterText)
 		{
-			bool hasRocket = _targetPad.HasRocket();
+			bool hasRocket = PadHasRocketInAnyState();
 			if (hasRocket)
 			{
 
@@ -297,7 +307,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 				var moduleItem = Util.KInstantiateUI<RocketPreviewVis>(_visPrefab.gameObject, _visContainer);
 				bool canPlace = TestModuleSpace(simulatedModuleCell, module.def);
 				string reason = string.Empty;
-				if ((!canPlace || !module.CanConstructModule(_targetPad.gameObject, out reason)) && !_targetPad.HasRocket())
+				if ((!canPlace || !module.CanConstructModule(_targetPad.gameObject, out reason)) && ! PadHasRocketInAnyState())
 				{
 					if (!canPlace && !reason.Contains(global::STRINGS.UI.UISIDESCREENS.SELECTMODULESIDESCREEN.CONSTRAINTS.SPACE_AVAILABLE.FAILED))
 					{
@@ -364,7 +374,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 				}
 				_selected = bp;
 				SetVisualizers(bp);
-				SetButtonInfo(_targetPad.HasRocket());
+				SetButtonInfo( PadHasRocketInAnyState());
 			});
 			_entries.Add(bp, moduleItem);
 			return moduleItem;
