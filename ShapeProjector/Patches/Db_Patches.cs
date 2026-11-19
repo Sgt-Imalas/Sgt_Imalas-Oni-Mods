@@ -16,7 +16,7 @@ namespace ShapeProjector.Patches
             public static void Postfix(Db __instance)
 			{
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.InteriorDecor, ShapeProjectorConfig.ID);
-				ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, ShapeProjectorConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, ShapeProjectorConfig.ID,subcategoryID: TUNING.BUILDINGS.PlanSubcategoryName.conveyancestructures.ToString());
 			}
         }
 	}

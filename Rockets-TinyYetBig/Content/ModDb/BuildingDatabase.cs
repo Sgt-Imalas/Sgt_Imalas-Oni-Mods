@@ -10,7 +10,7 @@ using Rockets_TinyYetBig.Content.Defs.Buildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
 using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays;
-using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.Nosecones;
+//using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.Nosecones;
 using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModuleUpgrades;
 using Rockets_TinyYetBig.Content.Defs.Buildings.StationParts;
 using Rockets_TinyYetBig.Content.ModDb.BuildingConfigurations;
