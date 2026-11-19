@@ -93,6 +93,7 @@ namespace Rockets_TinyYetBig
 				public static LocString RTB_ATTACHMENTSLOTROCKETMODULEUPGRADES = "Module Upgrade Installation Slot";
 
 				public static LocString RTB_BURNABLECARBON = "Burnable Carbon";
+				public static LocString RTB_LIFESUPORTMODULEBUILDING = "Life Support Module";
 			}
 
 		}
@@ -575,11 +576,31 @@ namespace Rockets_TinyYetBig
 				public class RTB_NOSECONESOLAR
 				{
 					public static LocString NAME = FormatAsLink("Solar Nosecone", nameof(RTB_NOSECONESOLAR));
-					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.DESC;
+					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.DESC + "\nThis one comes with professionally installed solar panels!";
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.EFFECT + "\n\n" +
 						"Converts " + FormatAsLink("Sunlight", "LIGHT") + " into electrical " + FormatAsLink("Power", "POWER") + " for use on rockets.\n\nMust be exposed to space.";
 				}
-
+				public class RTB_INTERIOR_LIFESUPPORTACCESS
+				{
+					public static LocString NAME = FormatAsLink("Air Recycler", nameof(RTB_INTERIOR_LIFESUPPORTACCESS));
+					public static LocString DESC = "Food spoilage can be slowed by ambient conditions as well as by refrigerators.";
+					public static LocString EFFECT =
+						$"Filters  {FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE")} from the surrounding atmosphere and dispenses {FormatAsLink("Oxygen", "OXYGEN")}.\n\n" +
+						"Has to be attached to the rocket wall.\n\n" +
+						"Requires at least one Life Support Module in the rocket to function\n\n" +
+						"Stores a small amount of " + FormatAsLink("Food", "FOOD") + " at an ideal " + FormatAsLink("Temperature", "HEAT") + " to prevent spoilage.\n\n" +
+						"Connects to Life Support modules and requires at least one to function.";
+				}
+				public class RTB_NOSECONELIFESUPPORT
+				{
+					public static LocString NAME = FormatAsLink("Life Support Nosecone", nameof(RTB_NOSECONELIFESUPPORT));
+					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.DESC + "\nThis one makes oxygen!";
+					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.EFFECT + "\n\n" +
+						$"This module uses a culture of {FormatAsLink("Algae", "ALGAE")} to generate {FormatAsLink("Oxygen", "OXYGEN")} from {FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE")}.\n" +
+						$"Algae require {FormatAsLink("Water", "WATER")}, {FormatAsLink("Fertilizer", "FERTILIZER")} and {FormatAsLink("Sunlight", "LIGHT")} to do so.\n" +
+						$"These can be loaded manually, via pipe or cargo port loaders.\n" +
+						$"Carbon Dioxide will be drawn from and Oxygen dispensed into the Spacefarer Interior via a connected {RTB_INTERIOR_LIFESUPPORTACCESS.NAME}";
+					}
 
 				public class RTB_HEPBATTERYMODULE
 				{
@@ -713,7 +734,7 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = FormatAsLink("Flight Destination Picker", "RTB_LOGICDESTINATIONSELECTOR");
 					public static LocString DESC = "\"I'm sorry Devon, I'm afraid I can't do that\"";
 					public static LocString EFFECT = "Allows configuration of flight destinations to a specific ribbon value.\n" +
-													"Makes the rocket load the configured value as flight destination when the ribbon value matches one of the configurations." +				
+													"Makes the rocket load the configured value as flight destination when the ribbon value matches one of the configurations." +
 													"\n\nMust be constructed inside a rocket module.";
 
 
@@ -723,7 +744,6 @@ namespace Rockets_TinyYetBig
 				}
 			}
 		}
-
 		public class BUILDING
 		{
 			public class STATUSITEMS
@@ -822,7 +842,21 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = "Module Upgrade Deconstruction Errand";
 					public static LocString TOOLTIP = "Installed upgrade {0} will be removed from the module once a Duplicant is available";
 				}
-
+				public class RTB_NOSUNLIGHT
+				{
+					public static LocString NAME = "Not enough Sunlight";
+					public static LocString TOOLTIP = "This building is currently not operational due to a lack of sunlight.";
+				}
+				public class RTB_MISSINGELEMENT
+				{
+					public static LocString NAME = "Not enough {0}";
+					public static LocString TOOLTIP = "This building is currently missing {0}.";
+				}
+				public class RTB_MISSINGROCKETMODULE
+				{
+					public static LocString NAME = "No {MODULE_TYPE} in rocket!";
+					public static LocString TOOLTIP = "This building reqires a {MODULE_TYPE} as part of the rocket to function.";
+				}
 			}
 		}
 
@@ -1175,6 +1209,27 @@ namespace Rockets_TinyYetBig
 						public class NONE
 						{
 							public static LocString PARTLABEL = "No module upgrades installed";
+						}
+					}
+				}
+			}
+
+			public class STARMAP
+			{
+				public class LAUNCHCHECKLIST
+				{
+					public class RTB_HASINTERIORBUILDING
+					{
+						public class STATUS
+						{
+							public static LocString READY = (LocString)"{0} installed inside rocket";
+							public static LocString FAILURE = (LocString)"No {0} inside of rocket!";
+						}
+
+						public class TOOLTIP
+						{
+							public static LocString READY = (LocString)"A {0} is installed inside of the rocket interior.";
+							public static LocString FAILURE = (LocString)"A module requires the installation of {0} inside of the rocket interior.";
 						}
 					}
 				}

@@ -125,10 +125,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			.AddToTech(Technology.Power.RenewableEnergy)
 			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
 
-			BuildingManager.CreateEntry<NoseConeLifeSupportConfig>()
-			.AddToCategory([RocketCategory.nosecones, RocketCategory.utility], NoseconeBasicConfig.ID)
-			.AddToTech(Technology.Food.Bioengineering)
-			.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
+			//BuildingManager.CreateEntry<NoseConeLifeSupportConfig>()
+			//.AddToCategory([RocketCategory.nosecones, RocketCategory.utility], NoseconeBasicConfig.ID)
+			//.AddToTech(Technology.Food.Bioengineering)
+			//.PrimaryConfigCategory(RTB_BuildingCategoryType.D_POWERUTILITY);
 
 			BuildingManager.CreateEntry<NoseConeSolarConfig>()
 			.AddToCategory([RocketCategory.nosecones, RocketCategory.power], NoseconeBasicConfig.ID)
