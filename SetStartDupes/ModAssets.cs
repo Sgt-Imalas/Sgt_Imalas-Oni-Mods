@@ -1027,8 +1027,8 @@ namespace SetStartDupes
 
 		public static string GetChoreGroupNameForSkillgroup(SkillGroup group)
 		{
-			if (group.choreGroupID == string.Empty && group.Id.ToLowerInvariant() == "suits")
-				return Strings.Get("STRINGS.DUPLICANTS.ROLES.GROUPS.SUITS");
+			if (group.Id.ToLowerInvariant() == "suits")
+				return DUPLICANTS.ROLES.GROUPS.SUITS;
 
 			if (group.choreGroupID != null)
 				return Strings.Get("STRINGS.DUPLICANTS.CHOREGROUPS." + group.choreGroupID.ToUpperInvariant() + ".NAME");
