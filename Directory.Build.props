@@ -52,8 +52,9 @@
 		<BeachedDlcRelease>736649</BeachedDlcRelease>
 		<BeachedDlcHotfix1>737790</BeachedDlcHotfix1>
 		<U60Beta1>761015</U60Beta1>
+		<U60Release>763796</U60Release>
 		<!--Latest-->
-		<TargetGameVersion>$(BeachedDlcHotfix1)</TargetGameVersion>
+		<TargetGameVersion>$(U60Release)</TargetGameVersion>
 	</PropertyGroup>
 
 
