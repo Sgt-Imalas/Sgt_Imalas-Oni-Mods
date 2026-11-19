@@ -35,8 +35,7 @@ namespace Starmap_Shenanigans
             var worldSize = world.worldsize;
 
 
-            var gridSize = BestFit.GetGridOffset(ClusterManager.Instance.WorldContainers, worldSize,
-                out Vector2I worldOffset);
+            var gridSize = BestFit.GetGridOffset(ClusterManager.Instance.WorldContainers, ClusterManager.Instance.PendingRocketInteriorDestructions, worldSize, out Vector2I worldOffset);
             if (gridSize.y > Grid.HeightInCells)
             {
                 Debug.LogWarning("Yggdrasil: Not enough space to create world.\nIncrease Grid on next load.");
