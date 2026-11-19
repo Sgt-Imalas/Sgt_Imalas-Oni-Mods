@@ -41,8 +41,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 			moduleSub = craftModuleInterface.gameObject.Subscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
 			UpdateModules(null);
-			StatusItemHandle = selectable.AddStatusItem(ModStatusItems.RTB_AccessHatchStorage, this);
-			ModAssets.FridgeModuleGrabbers.Add(this);
+			StatusItemHandle = selectable.AddStatusItem(StatusItemDatabase.RTB_AccessHatchStorage, this);
+			ModComps.FridgeModuleGrabbers.Add(this);
 			//GetAllMassDesc();
 			//this.filteredStorage.FilterChanged();
 			CreateMeter();
@@ -79,7 +79,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		}
 		public override void OnCleanUp()
 		{
-			ModAssets.FridgeModuleGrabbers.Remove(this);
+			ModComps.FridgeModuleGrabbers.Remove(this);
 			craftModuleInterface.gameObject.Unsubscribe(moduleSub);
 			base.OnCleanUp();
 		}

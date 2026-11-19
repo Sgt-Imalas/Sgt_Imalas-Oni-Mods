@@ -106,7 +106,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 		public override void OnStartWork(WorkerBase worker)
 		{
 			this.progressBar.barColor = ProgressBarsConfig.Instance.GetBarColor("DeconstructBar");
-			selectable.RemoveStatusItem(ModStatusItems.RTB_PendingStationPartDeconstruction);
+			selectable.RemoveStatusItem(StatusItemDatabase.RTB_PendingStationPartDeconstruction);
 		}
 		public override void OnCompleteWork(WorkerBase worker)
 		{
@@ -127,7 +127,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 					Prioritizable.AddRef(this.gameObject);
 					this.requiredSkillPerk = Db.Get().SkillPerks.CanDemolish.Id;
 					this.chore = (Chore)new WorkChore<SpaceStationAttachablePartStorage>(Db.Get().ChoreTypes.Demolish, this, only_when_operational: false, override_anims: Assets.GetAnim((HashedString)"anim_interacts_clothingfactory_kanim"), is_preemptable: true, ignore_building_assignment: true);
-					selectable.AddStatusItem(ModStatusItems.RTB_PendingStationPartDeconstruction, this);
+					selectable.AddStatusItem(StatusItemDatabase.RTB_PendingStationPartDeconstruction, this);
 					this.isMarkedForPartDeconstruction = true;
 					this.Trigger((int)GameHashes.WorkChoreDisabled, "Demolish");
 				}
@@ -141,7 +141,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 			{
 				this.chore.Cancel("Cancelled demolition");
 				this.chore = (Chore)null;
-				selectable.RemoveStatusItem(ModStatusItems.RTB_PendingStationPartDeconstruction);
+				selectable.RemoveStatusItem(StatusItemDatabase.RTB_PendingStationPartDeconstruction);
 				this.ShowProgressBar(false);
 				this.isMarkedForPartDeconstruction = false;
 				Prioritizable.RemoveRef(this.gameObject);

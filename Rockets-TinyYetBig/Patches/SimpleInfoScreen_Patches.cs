@@ -1,60 +1,62 @@
-﻿using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
+﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
 	internal class SimpleInfoScreen_Patches
 	{
-		public static void ClearAll()
-		{
-			StationPartPanel = null;
-			//	StationPartDrawer = null;
-			LastParent = null;
-			RocketModulesPanel = null;
-		}
+
+		///TODO: Remember what this was about
+
 		public static CollapsibleDetailContentPanel StationPartPanel = null;
 		public static CollapsibleDetailContentPanel RocketModulesPanel = null;
 		//public static DetailsPanelDrawer StationPartDrawer = null;
 		public static GameObject LastParent = null;
 
+
+		[HarmonyPatch(typeof(SimpleInfoScreen), nameof(SimpleInfoScreen.OnPrefabInit))]
+		public class SimpleInfoScreen_OnPrefabInit_Patch
+		{
+			public static void Postfix(SimpleInfoScreen __instance)
+			{
+				InitStationPartPanel(__instance);
+				InitRocketModulesPanel(__instance);
+			}
+		}
+		private static void InitStationPartPanel(SimpleInfoScreen instance)
+		{
+
+			if (!StationPartPanel.IsNullOrDestroyed())
+			{
+				UnityEngine.Object.Destroy(StationPartPanel.gameObject);
+			}
+			StationPartPanel = Util.KInstantiateUI<CollapsibleDetailContentPanel>(ScreenPrefabs.Instance.CollapsableContentPanel, instance.gameObject);
+			//StationPartDrawer = new DetailsPanelDrawer(instance.attributesLabelTemplate, StationPartPanel.Content.gameObject);
+			LastParent = instance.gameObject;
+			StationPartPanel.HeaderLabel.text = "Station Parts";
+
+		}
+		private static void InitRocketModulesPanel(SimpleInfoScreen instance)
+		{
+			if (!RocketModulesPanel.IsNullOrDestroyed())
+			{
+				UnityEngine.Object.Destroy(RocketModulesPanel.gameObject);
+			}
+			RocketModulesPanel = Util.KInstantiateUI<CollapsibleDetailContentPanel>(ScreenPrefabs.Instance.CollapsableContentPanel, instance.gameObject);
+			//StationPartDrawer = new DetailsPanelDrawer(instance.attributesLabelTemplate, StationPartPanel.Content.gameObject);
+			LastParent = instance.gameObject;
+			RocketModulesPanel.HeaderLabel.text = STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS.ToString().ToUpperInvariant();
+		}
+
 		///[HarmonyPatch(typeof(SimpleInfoScreen), nameof(SimpleInfoScreen.OnSelectTarget))]
 		public class SimpleInfoScreen_OnSelectTarget_Patch
 		{
-
-			private static void InitStationPartPanel(SimpleInfoScreen instance)
-			{
-				if (StationPartPanel == null || LastParent != instance.gameObject)
-				{
-					if (StationPartPanel != null)
-					{
-						UnityEngine.Object.Destroy(StationPartPanel.gameObject);
-					}
-					StationPartPanel = Util.KInstantiateUI<CollapsibleDetailContentPanel>(ScreenPrefabs.Instance.CollapsableContentPanel, instance.gameObject);
-					//StationPartDrawer = new DetailsPanelDrawer(instance.attributesLabelTemplate, StationPartPanel.Content.gameObject);
-					LastParent = instance.gameObject;
-					StationPartPanel.HeaderLabel.text = "Station Parts";
-				}
-			}
-			private static void InitRocketModulesPanel(SimpleInfoScreen instance)
-			{
-				if (RocketModulesPanel == null || LastParent != instance.gameObject)
-				{
-					if (RocketModulesPanel != null)
-					{
-						UnityEngine.Object.Destroy(RocketModulesPanel.gameObject);
-					}
-					RocketModulesPanel = Util.KInstantiateUI<CollapsibleDetailContentPanel>(ScreenPrefabs.Instance.CollapsableContentPanel, instance.gameObject);
-					//StationPartDrawer = new DetailsPanelDrawer(instance.attributesLabelTemplate, StationPartPanel.Content.gameObject);
-					LastParent = instance.gameObject;
-					RocketModulesPanel.HeaderLabel.text = STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS.ToString().ToUpperInvariant();
-				}
-			}
 			public static void Prefix(SimpleInfoScreen __instance, GameObject target)
 			{
 				if (target != null && target.TryGetComponent<StationDeconstructable>(out var decon))
 				{
 					InitStationPartPanel(__instance);
-					bool shouldShow = false;
 					StationPartPanel.gameObject.SetActive(true);
 					// TraitsDrawer.BeginDrawing();
 					int count = 0;
@@ -63,6 +65,7 @@ namespace Rockets_TinyYetBig.Patches
 					{
 						entry.Value.used = false;
 					}
+					bool shouldShow = false;
 
 					foreach (var res in decon.Resources)
 					{

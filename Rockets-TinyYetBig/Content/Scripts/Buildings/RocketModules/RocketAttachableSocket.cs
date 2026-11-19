@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.Content.ModDb;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,12 +7,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 {
 	internal class RocketAttachableSocket : KMonoBehaviour
 	{
-		public static void ClearAll()
-		{
-			Components.Clear();
-		}
-		public static HashSet<RocketAttachableSocket> Components = [];
-
 		[MyCmpGet] Rotatable rotatable;
 		[MyCmpGet] RocketModuleUpgradeStorage upgradeStorage;
 
@@ -54,12 +49,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		}
 		public override void OnSpawn()
 		{
-			Components.Add(this);
+			ModComps.AttachableRocketSockets.Add(this);
 			base.OnSpawn();
 		}
 		public override void OnCleanUp()
 		{
-			Components.Remove(this);
+			ModComps.AttachableRocketSockets.Remove(this);
 			base.OnCleanUp();
 		}
 
@@ -82,7 +77,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			var pos = Grid.OffsetCell(Grid.PosToCell(attachableBuilding), attachableBuilding.GetComponent<Building>()?.Def.attachablePosition ?? new CellOffset(0, 0));
 
 
-			foreach (var attachable in Components)
+			foreach (var attachable in ModComps.AttachableRocketSockets.Items)
 			{
 				if(attachable.AcceptsAttachment(attachmentTag,pos))
 					return attachable;

@@ -125,17 +125,17 @@ namespace Rockets_TinyYetBig.Patches
 
 				if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager) && manager.GetConnectedWorlds().Count > 0)
 				{
-					selectable.SetStatusItem(Db.Get().StatusItemCategories.WoundEffects, ModStatusItems.RTB_DockingActive, manager.GetConnectedWorlds());
+					selectable.SetStatusItem(Db.Get().StatusItemCategories.WoundEffects, StatusItemDatabase.RTB_DockingActive, manager.GetConnectedWorlds());
 				}
 				else
-					selectable.RemoveStatusItem(ModStatusItems.RTB_DockingActive);
+					selectable.RemoveStatusItem(StatusItemDatabase.RTB_DockingActive);
 
 				if (constructionModule != null)
 				{
-					selectable.SetStatusItem(Db.Get().StatusItemCategories.AccessControl, ModStatusItems.RTB_SpaceStationConstruction_Status, constructionModule);
+					selectable.SetStatusItem(Db.Get().StatusItemCategories.AccessControl, StatusItemDatabase.RTB_SpaceStationConstruction_Status, constructionModule);
 				}
 				else
-					selectable.RemoveStatusItem(ModStatusItems.RTB_SpaceStationConstruction_Status);
+					selectable.RemoveStatusItem(StatusItemDatabase.RTB_SpaceStationConstruction_Status);
 
 			}
 

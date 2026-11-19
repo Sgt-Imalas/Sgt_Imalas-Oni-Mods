@@ -205,7 +205,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 				if (statusTarget.TryGetComponent<KSelectable>(out var selectable))
 				{
 					selectable.RemoveStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting);
-					selectable.RemoveStatusItem(ModStatusItems.RTB_MiningInformationBoons);
+					selectable.RemoveStatusItem(StatusItemDatabase.RTB_MiningInformationBoons);
 				}
 			}
 			static void BuildBoostStatusString(GameObject statusTarget, float harvestRate, KSelectable selectable)
@@ -229,7 +229,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 						.Replace("{BOOSTPERCENTAGE}", boostPercentagePilot.ToString("0"));
 					tooltipString += "\n";
 				}
-				selectable.AddStatusItem(ModStatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalSupportBoostPercentage, tooltipString));
+				selectable.AddStatusItem(StatusItemDatabase.RTB_MiningInformationBoons, new Tuple<float, string>(totalSupportBoostPercentage, tooltipString));
 
 				//selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(harvestRate, tooltipString));
 

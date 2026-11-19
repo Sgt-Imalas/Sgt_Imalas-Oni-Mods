@@ -48,7 +48,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 			this.meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
 
 			this.Sub(GameHashes.OnStorageChange, (_)=>OnStorageChange(_));
-			this.GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, (ProcessCondition)new ConditionHasResource(this.DiamondStorage, SimHashes.Diamond, DrillconeStorageModuleConfig.StorageCapacity));
+			module.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, (ProcessCondition)new ConditionHasResource(this.DiamondStorage, SimHashes.Diamond, DrillconeStorageModuleConfig.StorageCapacity));
 		}
 
 		private void TransferDiamond()

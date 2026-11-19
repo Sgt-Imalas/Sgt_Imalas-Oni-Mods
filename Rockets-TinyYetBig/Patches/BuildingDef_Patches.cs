@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.ModDb;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System.Collections.Generic;
 using System.Reflection;
@@ -22,7 +23,7 @@ namespace Rockets_TinyYetBig.Patches
 
 				bool attachmentPosValid = false, upgradeProhibited = false;
 				string upgradeFail = string.Empty;
-				foreach (var attachable in RocketAttachableSocket.Components)
+				foreach (var attachable in ModComps.AttachableRocketSockets.GetWorldItems(ClusterManager.Instance.activeWorldId))
 				{
 					if (attachable.AcceptsAttachment(slotTag, Grid.OffsetCell(cell, slotPos)))
 					{

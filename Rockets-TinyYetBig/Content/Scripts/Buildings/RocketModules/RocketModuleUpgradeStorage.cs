@@ -181,7 +181,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 
 			Prioritizable.AddRef(this.gameObject);
 			this.deconstructChore = new WorkChore<RocketModuleUpgradeStorage>(Db.Get().ChoreTypes.Deconstruct, this, only_when_operational: false, is_preemptable: true, ignore_building_assignment: true);
-			selectable.AddStatusItem(ModStatusItems.RTB_PendingUpgradeRemoval, upgrade);
+			selectable.AddStatusItem(StatusItemDatabase.RTB_PendingUpgradeRemoval, upgrade);
 			this.currentDeconstruct = upgradeId;
 
 			if (DebugHandler.InstantBuildMode)
@@ -195,7 +195,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			{
 				ClearChore();
 			}
-			selectable.RemoveStatusItem(ModStatusItems.RTB_PendingUpgradeRemoval);
+			selectable.RemoveStatusItem(StatusItemDatabase.RTB_PendingUpgradeRemoval);
 			this.ShowProgressBar(false);
 			AdvanceDeconstructQueue();
 		}
@@ -203,7 +203,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		{
 			PlaySound();
 			base.OnCompleteWork(worker);
-			selectable.RemoveStatusItem(ModStatusItems.RTB_PendingUpgradeRemoval);
+			selectable.RemoveStatusItem(StatusItemDatabase.RTB_PendingUpgradeRemoval);
 			RemoveUpgrade(currentDeconstruct);
 			PendingDeconstructs.Remove(currentDeconstruct);
 			ClearChore();

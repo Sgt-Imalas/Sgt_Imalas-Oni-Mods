@@ -311,7 +311,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 			if (_currentSpaceStationType > 0)
 				return;
-
+			_currentSpaceStationType = 1;
 			var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
 			DrawOuterBarriers(world);
 			DrawLeveledBarriers(world, lvl1Width);

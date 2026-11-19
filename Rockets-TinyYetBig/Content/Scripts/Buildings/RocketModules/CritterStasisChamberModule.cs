@@ -120,7 +120,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		private void UpdateStatusItem()
 		{
-			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModStatusItems.RTB_CritterModuleContent, this);
+			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, StatusItemDatabase.RTB_CritterModuleContent, this);
 		}
 
 		public override void OnPrefabInit()

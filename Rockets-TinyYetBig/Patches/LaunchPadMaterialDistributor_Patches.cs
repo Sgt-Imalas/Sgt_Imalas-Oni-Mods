@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 
 
                 Action<bool> onFillComplete = new Action<bool>((fillingOngoing) => __instance.sm.fillComplete.Set(fillingOngoing, __instance));
-				RocketPortCargoLoading.ReplacedCargoLoadingMethod(craftInterface, chain, onFillComplete);
+				RocketPortCargoLoadingRewrite.ReplacedCargoLoadingMethod(craftInterface, chain, onFillComplete);
                 return false;
             }
         }
@@ -38,7 +38,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 
 				System.Action<bool> emptyCompleteACtion = new Action<bool>((isLoading) => __instance.sm.emptyComplete.Set(isLoading, __instance));
 
-				RocketPortCargoLoading.ReplacedCargoUnloadingMethod(craftInterface, chain, emptyCompleteACtion);
+				RocketPortCargoLoadingRewrite.ReplacedCargoUnloadingMethod(craftInterface, chain, emptyCompleteACtion);
                 return false;
 			}
         }

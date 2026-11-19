@@ -203,7 +203,7 @@ namespace Rockets_TinyYetBig
 			public static void Postfix()
 			{
 				if (Config.Instance.CompressInteriors)
-					ClusterManager.MAX_ROCKET_INTERIOR_COUNT = 100;
+					ClusterManager.MAX_ROCKET_INTERIOR_COUNT = byte.MaxValue - 1;
 			}
 		}
 

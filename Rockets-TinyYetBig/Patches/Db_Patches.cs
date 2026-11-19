@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig.Patches
 				BuildingManager.AddBuildingsToTechs();
 				CarbonField_AnimationFix.ExecutePatch();
 				CustomOxidizers.RegisterCustomOxidizers();
-				ModStatusItems.Register();
+				StatusItemDatabase.Register();
 			}
         }
 	}

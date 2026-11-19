@@ -184,7 +184,7 @@ namespace Rockets_TinyYetBig
 
 				System.Action<bool> emptyCompleteACtion = new Action<bool>((isLoading) => this.sm.emptyComplete.Set(isLoading, this.smi));
 
-				RocketPortCargoLoading.ReplacedCargoUnloadingMethod(craftInterface, chain, emptyCompleteACtion);
+				RocketPortCargoLoadingRewrite.ReplacedCargoUnloadingMethod(craftInterface, chain, emptyCompleteACtion);
 			}
 
 			public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] arr)
@@ -203,7 +203,7 @@ namespace Rockets_TinyYetBig
 
 				System.Action<bool> fillCompleteAction = new Action<bool>((isLoading) => this.sm.fillComplete.Set(isLoading, this.smi));
 
-				RocketPortCargoLoading.ReplacedCargoLoadingMethod(craftInterface, chain, fillCompleteAction);
+				RocketPortCargoLoadingRewrite.ReplacedCargoLoadingMethod(craftInterface, chain, fillCompleteAction);
 			}
 		}
 	}

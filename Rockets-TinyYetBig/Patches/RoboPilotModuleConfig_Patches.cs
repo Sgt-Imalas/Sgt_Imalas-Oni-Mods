@@ -13,7 +13,7 @@ namespace Rockets_TinyYetBig.Patches
         {
 			public static void Postfix(GameObject go)
 			{
-				go.AddOrGet<ModuleDeliveryModeHandler>();
+				go.AddOrGet<ModuleManualDeliveryModeHandler>();
 				if (go.TryGetComponent<Storage>(out var databankStorage))
 				{
 					var databankTag = DatabankHelper.TAG;

@@ -1,23 +1,38 @@
 ﻿using KSerialization;
+using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-	public class ModuleDeliveryModeHandler : KMonoBehaviour, ICheckboxControl
+	/// <summary>
+	/// allows a manual delivery on a rocket module to be switched to use cargo port loading instead
+	/// </summary>
+	public class ModuleManualDeliveryModeHandler : KMonoBehaviour, ICheckboxControl
 	{
-		[MyCmpGet] public Storage DiamondStorage;
+		[SerializeField] public Storage TargetStorage;
 		[Serialize] bool IsAutoLoader = false;
-		[Serialize] float ManualDeliveryOriginalCapacity;
+		private float ManualDeliveryOriginalCapacity;
+		[MyCmpGet] public ManualDeliveryKG ManualDelivery;
 
 
 		public bool LoadingAllowed => IsAutoLoader;
 
+		public bool AllowedToStore(KPrefabID item)
+		{
+			if(TargetStorage.storageFilters == null ||TargetStorage.storageFilters.Count == 0) 
+				return true;
+			return item.HasAnyTags(TargetStorage.storageFilters);
+		}
+
 		public override void OnSpawn()
 		{
+			if (TargetStorage == null)
+				TargetStorage = GetComponent<Storage>();
+
 			base.OnSpawn();
-			if (gameObject.TryGetComponent<ManualDeliveryKG>(out var deliveryKG))
+			if (ManualDelivery != null)
 			{
-				ManualDeliveryOriginalCapacity = deliveryKG.capacity;
+				ManualDeliveryOriginalCapacity = ManualDelivery.capacity;
 			}
 			ToggleBetweenAutoAndManual();
 		}

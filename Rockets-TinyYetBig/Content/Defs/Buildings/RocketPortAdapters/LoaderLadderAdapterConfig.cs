@@ -83,7 +83,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			var anim = go.AddOrGet<AnimTileable>();
-			anim.tags = [LoaderLadderAdapterConfig.ID,ReinforcedLadderConfig.ID];
+			anim.tags = [LoaderLadderAdapterConfig.ID, ReinforcedLadderConfig.ID];
 			go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
 			go.AddOrGet<RocketPortLadderHider>();
 		}

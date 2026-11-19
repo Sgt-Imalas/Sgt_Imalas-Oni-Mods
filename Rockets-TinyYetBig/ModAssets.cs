@@ -281,22 +281,6 @@ namespace Rockets_TinyYetBig
 			return multiplier;
 		}
 
-		internal static void FreeGridSpace_Fixed(Vector2I size, Vector2I offset)
-		{
-			int cell = Grid.XYToCell(offset.x, offset.y), width = size.x, stride =
-				Grid.WidthInCells - width;
-			for (int y = size.y; y > 0; y--)
-			{
-				for (int x = width; x > 0; x--)
-				{
-					if (Grid.IsValidCell(cell))
-						SimMessages.ReplaceElement(cell, SimHashes.Vacuum, null, 0.0f);
-					cell++;
-				}
-				cell += stride;
-			}
-		}
-
 		internal static void SpawnItem(Tag mat, float amount, Vector3 pos)
 		{
 			GameObject item;
@@ -374,6 +358,7 @@ namespace Rockets_TinyYetBig
 
 			public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
 			public static Tag NeutroniumAlloy = TagManager.Create("RTB_NeutroniumAlloyMaterial");
+			public static Tag LifeSupportModule = TagManager.Create("RTB_LifeSuportModuleBuilding");
 
 			/// <summary>
 			///Use this tag to add the radiation shielding tag to a material, making it available for constructing the plated nosecone.
@@ -504,10 +489,6 @@ namespace Rockets_TinyYetBig
 				)
 			}
 		};
-
-		public static Components.Cmps<FridgeModuleHatchGrabber> FridgeModuleGrabbers = new Components.Cmps<FridgeModuleHatchGrabber>();
-		//public static Components.Cmps<FridgeModuleItemDistributor> FridgeModuleDistributors = new Components.Cmps<FridgeModuleItemDistributor>();
-		//public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
 
 		public static Dictionary<Tuple<BuildingDef, int>, GameObject> CategorizedButtons = new Dictionary<Tuple<BuildingDef, int>, GameObject>();
 

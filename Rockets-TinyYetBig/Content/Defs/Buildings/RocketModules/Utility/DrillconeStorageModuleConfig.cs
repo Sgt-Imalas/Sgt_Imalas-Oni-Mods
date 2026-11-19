@@ -80,7 +80,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 			manualDeliveryKg.refillMass = storage.capacityKg;
 			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 			go.AddOrGet<DrillConeAssistentModule>();
-			go.AddOrGet<ModuleDeliveryModeHandler>();
+			go.AddOrGet<ModuleManualDeliveryModeHandler>().TargetStorage = storage;
 
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
 		}

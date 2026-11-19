@@ -7,6 +7,11 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 {
+	/// <summary>
+	/// attaches to a rocket engine module.
+	/// allows picking one specific fuel for fuel loading instead of any thats valid for the normal tag
+	/// used by kerosene engines with CombustibleLiquids config enabled
+	/// </summary>
 	internal class EngineFuelFilter : KMonoBehaviour, FewOptionSideScreen.IFewOptionSideScreen
 	{
 		[Serialize] public Tag SelectedFuel = Tag.Invalid;

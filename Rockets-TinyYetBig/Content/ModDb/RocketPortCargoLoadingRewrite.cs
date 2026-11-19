@@ -2,6 +2,7 @@
 using Rockets_TinyYetBig.Buildings.Utility;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using Rockets_TinyYetBig.RocketFueling;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
@@ -9,7 +10,7 @@ using static Rockets_TinyYetBig.RocketFueling.FuelLoaderComponent;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
-	internal class RocketPortCargoLoading
+	internal class RocketPortCargoLoadingRewrite
 	{
 		readonly struct OxTankEntry
 		{
@@ -68,6 +69,24 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			public bool ItemAccepted(Tag itemId)
 			{
 				return Filter.AcceptedTags.Contains(itemId);
+			}
+		}
+		readonly struct DeliveryTargetEntry
+		{
+			public readonly Storage Storage;
+			public readonly Func<float> GetRemainingCapacity;
+			public readonly Func<KPrefabID, bool> IsItemAllowed;
+			public DeliveryTargetEntry(ModuleManualDeliveryModeHandler manualDeliveryHandler)
+			{
+				Storage = manualDeliveryHandler.TargetStorage;
+				GetRemainingCapacity = Storage.RemainingCapacity;
+				IsItemAllowed = manualDeliveryHandler.AllowedToStore;
+			}
+			public DeliveryTargetEntry(RocketLoaderDeliveryTarget target)
+			{
+				Storage = target.TargetStorage;
+				GetRemainingCapacity = target.GetRemainingCapacity;
+				IsItemAllowed = target.AllowedToStore;
 			}
 		}
 
@@ -222,7 +241,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 			var OxidizerTanks = ListPool<OxTankEntry, CraftModuleInterface>.Allocate();
 			var HEPStorages = ListPool<HighEnergyParticleStorage, CraftModuleInterface>.Allocate();
-			var DrillConeStorages = ListPool<Storage, CraftModuleInterface>.Allocate();
+			var customDeliveryTargets = ListPool<DeliveryTargetEntry, CraftModuleInterface>.Allocate();
 			var multiMaterialCargoBays = ListPool<MultiMaterialCargoBay, CraftModuleInterface>.Allocate();
 
 			Tag FuelTag = Tag.Invalid;
@@ -240,12 +259,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 					isRocketEngine = true;
 					FuelTag = engine.fuelTag;
 					//hasOxidizer = engine.requireOxidizer;
+					if (clusterModule.TryGetComponent<EngineFuelFilter>(out var fuelFilter))
+					{
+						FuelTag = fuelFilter.SelectedFuel;
+					}
 				}
-				if (clusterModule.TryGetComponent<EngineFuelFilter>(out var fuelFilter))
-				{
-					FuelTag = fuelFilter.SelectedFuel;
-				}
-
 
 				if (clusterModule.TryGetComponent<FuelTank>(out var fueltank))
 				{
@@ -309,11 +327,17 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				//{
 				//    DrillConeStorages.Add(helperModule.DiamondStorage);
 				//}
-
-				if (clusterModule.TryGetComponent<ModuleDeliveryModeHandler>(out var Handler))
+				ModuleManualDeliveryModeHandler[] manualModeHandlers = clusterModule.GetComponents<ModuleManualDeliveryModeHandler>();
+				for (int i = 0; i < manualModeHandlers.Length; i++)
 				{
-					if (Handler.LoadingAllowed)
-						DrillConeStorages.Add(Handler.DiamondStorage);
+					var handler = manualModeHandlers[i];
+					if (handler.LoadingAllowed)
+						customDeliveryTargets.Add(new(handler));
+				}
+				var deliveryTargetComps = clusterModule.GetComponents<RocketLoaderDeliveryTarget>();
+				for (int i = 0; i < deliveryTargetComps.Length; i++)
+				{
+					customDeliveryTargets.Add(new(deliveryTargetComps[i]));
 				}
 			}
 
@@ -342,8 +366,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 						for (int index = ItemsInStorage.Count - 1; index >= 0; --index)
 						{
 							GameObject toTransferFuel = ItemsInStorage[index];
-							if (!toTransferFuel.TryGetComponent<Pickupable>(out var fuelPickupable) || fuelPickupable.primaryElement.Element.IsVacuum || !fuelPickupable.TryGetComponent<KPrefabID>(out var fuelPrefabId))
+							if (!toTransferFuel.TryGetComponent<Pickupable>(out var fuelPickupable) || fuelPickupable.primaryElement.Element.IsVacuum)
 								continue;
+
+							KPrefabID fuelPrefabId = fuelPickupable.KPrefabID;
 
 							//items that are not valid engine fuel can never be transferred
 							if (!fuelPrefabId.HasTag(FuelTag))
@@ -417,13 +443,14 @@ namespace Rockets_TinyYetBig.Content.ModDb
 						{
 							GameObject storageItem = ItemsInStorage[index];
 
-							if (!storageItem.TryGetComponent<Pickupable>(out var oxidizerPickupable) || oxidizerPickupable.primaryElement.Element.IsVacuum || !storageItem.TryGetComponent<KPrefabID>(out var prefabID))
+							if (!storageItem.TryGetComponent<Pickupable>(out var oxidizerPickupable) || oxidizerPickupable.primaryElement.Element.IsVacuum)
 								continue;
 							var itemElement = oxidizerPickupable.primaryElement;
 							float remainingMass = itemElement.Mass;
-
 							if (remainingMass <= 0f)
 								continue;
+
+							KPrefabID prefabID = oxidizerPickupable.KPrefabID;
 
 							foreach (OxTankEntry oxTank in OxidizerTanks)
 							{
@@ -459,12 +486,13 @@ namespace Rockets_TinyYetBig.Content.ModDb
 						if (!item.TryGetComponent<Pickupable>(out var itemPickupable))
 							continue;
 
+						var itemPrefabId = itemPickupable.KPrefabID;
 						float remainingMass = itemPickupable.primaryElement.Mass;
 
 						if (remainingMass <= 0f)
 							continue;
 
-						Tag itemId = item.PrefabID();
+						Tag itemId = itemPrefabId.PrefabTag;
 
 
 						foreach (MultiMaterialCargoBay mmcb in multiMaterialCargoBays)
@@ -491,13 +519,12 @@ namespace Rockets_TinyYetBig.Content.ModDb
 						if (remainingMass <= 0)
 							continue;
 
-						foreach (var diamondStorage in DrillConeStorages)
+						foreach (var deliveryTarget in customDeliveryTargets)
 						{
-							bool filterable = diamondStorage.storageFilters != null && diamondStorage.storageFilters.Count > 0;
-							if (filterable && !diamondStorage.storageFilters.Contains(itemId))
+							if (!deliveryTarget.IsItemAllowed(itemPrefabId))
 								continue;
 
-							float remainingCapacity = diamondStorage.RemainingCapacity();
+							float remainingCapacity = deliveryTarget.GetRemainingCapacity();
 							if (remainingCapacity <= 0f)
 								continue;
 
@@ -507,7 +534,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 							if (pickupable != null)
 							{
 								remainingMass -= pickupable.primaryElement.Mass;
-								diamondStorage.Store(pickupable.gameObject, hidePopups);
+								deliveryTarget.Storage.Store(pickupable.gameObject, hidePopups);
 							}
 							if (remainingMass <= 0)
 								break;
@@ -555,7 +582,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			FuelTanksPool[Element.State.Gas].Recycle();
 			FuelTanksPool.Recycle();
 
-			DrillConeStorages.Recycle();
+			customDeliveryTargets.Recycle();
 			HEPStorages.Recycle();
 			OxidizerTanks.Recycle();
 			multiMaterialCargoBays.Recycle();

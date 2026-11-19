@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
         {
             public static void Postfix(GameObject go)
             {
-                go.AddOrGet<ModuleDeliveryModeHandler>();
+                go.AddOrGet<ModuleManualDeliveryModeHandler>();
                 if (go.TryGetComponent<Storage>(out var diamondStorage))
                 {
                     var diamondTag = SimHashes.Diamond.CreateTag();
@@ -135,7 +135,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                     }
 
 
-                    selectable.AddStatusItem(ModStatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalRatePercentage, tooltipString));
+                    selectable.AddStatusItem(StatusItemDatabase.RTB_MiningInformationBoons, new Tuple<float, string>(totalRatePercentage, tooltipString));
 
 					//selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(harvestRate, tooltipString));
 
@@ -156,7 +156,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
             {
                 if (statusTarget.TryGetComponent<KSelectable>(out var selectable))
                 {
-                    selectable.RemoveStatusItem(ModStatusItems.RTB_MiningInformationBoons);
+                    selectable.RemoveStatusItem(StatusItemDatabase.RTB_MiningInformationBoons);
                 }
             }
 

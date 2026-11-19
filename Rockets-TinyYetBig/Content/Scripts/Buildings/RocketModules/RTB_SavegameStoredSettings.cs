@@ -5,11 +5,6 @@ namespace Rockets_TinyYetBig.Behaviours
 {
 	internal class RTB_SavegameStoredSettings : KMonoBehaviour
 	{
-		public static void ClearAll()
-		{
-			Instance = null;
-		}
-
 		public static RTB_SavegameStoredSettings Instance;
 
 
@@ -40,7 +35,8 @@ namespace Rockets_TinyYetBig.Behaviours
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Instance = null;
+			if(Instance == this)
+				Instance = null;
 		}
 
 		public bool CheckCompressionState()

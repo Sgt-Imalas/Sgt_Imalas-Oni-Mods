@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.Patches
 	/// </summary>
 	class WorldSelector_Patches
 	{
-		public static void ClearAll()
+		private static void ClearAll()
 		{
 			collapseButtons.Clear();
 			ShouldCollapseDic.Clear();
@@ -31,8 +31,15 @@ namespace Rockets_TinyYetBig.Patches
 		public const int RocketHeaderId = -102;
 		public static MultiToggle RocketHeader = null;
 
-		[HarmonyPatch(typeof(WorldSelector))]
-		[HarmonyPatch(nameof(WorldSelector.SortRows))]
+
+
+		[HarmonyPatch(typeof(WorldSelector), nameof(WorldSelector.OnSpawn))]
+		public class WorldSelector_OnSpawn_Patch
+		{
+			public static void Prefix(WorldSelector __instance) => ClearAll();
+		}
+
+		[HarmonyPatch(typeof(WorldSelector), nameof(WorldSelector.SortRows))]
 		public static class WorldSelectorReplacement
 		{
 			enum WorldType
@@ -282,97 +289,6 @@ namespace Rockets_TinyYetBig.Patches
 						collapseButtons.Remove(num);
 					}
 				}
-			}
-		}
-
-
-
-		/// <summary>
-		/// A crash preventing method if a habitat mod got removed; written for akis mod fixer mod
-		/// </summary>
-		[HarmonyPatch(typeof(Clustercraft))]
-		[HarmonyPatch(nameof(Clustercraft.GetUISprite))]
-		public static class MissingHabitat_OnLoadCrashFix
-		{
-			static List<int> worldIdsThatAreInRemoval = new List<int>();
-			public static bool Prefix(Clustercraft __instance, ref Sprite __result)
-			{
-				if (__instance.ModuleInterface.GetPassengerModule() == null)
-				{
-					Debug.LogWarning($"PassengerModule for {__instance} was null!");
-					__result = Assets.GetSprite("unknown");
-
-					if (ClusterManager.Instance != null && __instance != null && __instance.gameObject != null && __instance.gameObject.TryGetComponent(out WorldContainer RocketInterior) && !worldIdsThatAreInRemoval.Contains(RocketInterior.id))
-					{
-						worldIdsThatAreInRemoval.Add(RocketInterior.id);
-						GameScheduler.Instance.ScheduleNextGameTick("rm broken rocket interior", (ob) =>
-						{
-							DestroyRocketInteriorWithoutDoorReference(RocketInterior, __instance);
-						});
-
-					}
-					return false;
-				}
-
-				return true;
-			}
-			public static void DestroyRocketInteriorWithoutDoorReference(WorldContainer world, Clustercraft clustercraft)
-			{
-				if (ClusterManager.Instance.activeWorldId == world.id)
-				{
-					WorldContainer targetWorld;
-					if (world.ParentWorldId == world.id)
-					{
-						targetWorld = ClusterManager.Instance.GetStartWorld();
-					}
-					else
-					{
-						targetWorld = ClusterManager.Instance.GetWorld(world.ParentWorldId);
-					}
-					ClusterManager.Instance.SetActiveWorld(targetWorld.id);
-				}
-
-				if (world.TryGetComponent<OrbitalMechanics>(out var orbitalMechanics))
-				{
-					UnityEngine.Object.Destroy(orbitalMechanics);
-				}
-				bool IsInSpace = (clustercraft.status == Clustercraft.CraftStatus.InFlight);
-
-				Vector3 outdoorPos = default;
-
-				if (IsInSpace)
-				{
-					world.SpacePodAllDupes(clustercraft.Location, SimHashes.Cuprite);
-				}
-				else
-				{
-					if (clustercraft.ModuleInterface.modules.Count > 0)
-						outdoorPos = clustercraft.ModuleInterface.modules.First().Get().gameObject.transform.position;
-					else
-						outdoorPos = Grid.CellToPos(ClusterManager.Instance.GetStartWorld().GetSafeCell());
-					world.EjectAllDupes(outdoorPos);
-				}
-
-
-
-				world.CancelChores();
-				world.DestroyWorldBuildings(out var noRefundTiles);
-				ClusterManager.Instance.UnregisterWorldContainer(world);
-
-				ClusterManager.Instance.PendingRocketInteriorDestructions.Add(new PendingRocketInteriorDestruction()
-				{
-					container = world,
-					position = world.WorldOffset,
-					size = world.WorldSize,
-					inFlight = IsInSpace,
-					inventory = world.GetComponent<WorldInventory>(),
-					rocketModuleWorldPos = outdoorPos,
-					noRefundTiles = noRefundTiles,
-					clusterLocation = clustercraft.Location,
-					elementID = SimHashes.Cuprite
-				});
-				ClusterManager.Instance.CanSave = false;
-				UIScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteRocketInteriorWorld", ClusterManager._DeleteWorldObjectDelegate, ClusterManager.Instance);
 			}
 		}
 

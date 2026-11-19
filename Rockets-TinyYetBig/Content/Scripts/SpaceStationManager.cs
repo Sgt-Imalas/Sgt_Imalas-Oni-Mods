@@ -12,16 +12,25 @@ namespace Rockets_TinyYetBig.SpaceStations
 {
 	class SpaceStationManager : KMonoBehaviour
 	{
-
-		private static Lazy<SpaceStationManager> lazy =
-		new Lazy<SpaceStationManager>(() => new SpaceStationManager());
-
-		public static SpaceStationManager Instance { get { return lazy.Value; } }
-		public static void ClearAll()
+		public static SpaceStationManager Instance;
+		public override void OnSpawn()
 		{
-			lazy = new();
-		}
+			base.OnSpawn();
 
+			foreach (var World in ClusterManager.Instance.GetWorldIDsSorted())
+			{
+				if (WorldIsSpaceStationInterior(World))
+				{
+					SpaceStationWorlds.Add(World);
+				}
+			}
+		}
+		public override void OnCleanUp()
+		{
+			base.OnCleanUp();
+			if(Instance == this)
+				Instance = null;
+		}
 
 		public static bool ActiveWorldIsSpaceStationInterior() => RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(ClusterManager.Instance.activeWorldId);
 		public static bool ActiveWorldIsRocketInterior() => !RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(ClusterManager.Instance.activeWorldId) && ClusterManager.Instance.activeWorld.IsModuleInterior;
@@ -42,17 +51,6 @@ namespace Rockets_TinyYetBig.SpaceStations
 		}
 
 		public HashSet<int> SpaceStationWorlds = new HashSet<int>();
-
-		public SpaceStationManager()
-		{
-			foreach (var World in ClusterManager.Instance.GetWorldIDsSorted())
-			{
-				if (WorldIsSpaceStationInterior(World))
-				{
-					SpaceStationWorlds.Add(World);
-				}
-			}
-		}
 
 		public static bool GetRockets(out List<Clustercraft> rockets)
 		{
@@ -174,8 +172,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 				if (world.TryGetComponent<OrbitalMechanics>(out var component))
 					UnityEngine.Object.Destroy((UnityEngine.Object)component);
 
-				SpaceStation station;
-				world.TryGetComponent<SpaceStation>(out station);
+				world.TryGetComponent(out SpaceStation station);
 
 				AxialI clusterLocation = station.Location;
 
@@ -183,12 +180,23 @@ namespace Rockets_TinyYetBig.SpaceStations
 				world.CancelChores();
 				world.DestroyWorldBuildings(out HashSet<int> noRefundTiles);
 				station.ClearAllBarriers(world, ref noRefundTiles);
-
 				ClusterManager.Instance.UnregisterWorldContainer(world);
 
-				if (refund)
-					GameScheduler.Instance.ScheduleNextGameTick("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
-				GameScheduler.Instance.ScheduleNextGameTick("ClusterManager.DeleteWorldObjects", (System.Action<object>)(obj => DeleteWorldObjects(world)));
+				ClusterManager.Instance.PendingRocketInteriorDestructions.Add(new PendingRocketInteriorDestruction()
+				{
+					container = world,
+					position = world.WorldOffset,
+					size = world.WorldSize,
+					inFlight = true,
+					inventory = world.GetComponent<WorldInventory>(),
+					rocketModuleWorldPos = Vector3.one,
+					noRefundTiles = noRefundTiles,
+					clusterLocation = clusterLocation,
+					elementID = refund ? SimHashes.Cuprite : SimHashes.Void,
+					saveBlockerID = ClusterManager.Instance.AddSaveBlocker("RocketryExpanded: SpaceStation interior destruction")
+				});
+
+				UIScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteSpaceStationInteriorWorld", ClusterManager._DeleteWorldObjectDelegate, ClusterManager.Instance);
 				SpaceStationWorlds.Remove(world_id);
 			}
 		}
@@ -209,18 +217,6 @@ namespace Rockets_TinyYetBig.SpaceStations
 			}
 			pooledHashSet.Recycle();
 			return (int)ClusterManager.INVALID_WORLD_IDX;
-		}
-		private void DeleteWorldObjects(WorldContainer world)
-		{
-			ModAssets.FreeGridSpace_Fixed(world.WorldSize, world.WorldOffset);
-			WorldInventory worldInventory = (WorldInventory)null;
-			if (world != null)
-			{
-				if (world.TryGetComponent<WorldInventory>(out worldInventory))
-					Destroy(worldInventory);
-
-				Destroy(world);
-			}
 		}
 
 

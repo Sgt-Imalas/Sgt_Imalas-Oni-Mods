@@ -3,6 +3,7 @@ using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.Elements;
 using Rockets_TinyYetBig.Science;
+using Rockets_TinyYetBig.SpaceStations;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -22,6 +23,7 @@ namespace Rockets_TinyYetBig.Patches
 				RTB_SavegameStoredSettings.Instance = __instance.gameObject.AddOrGet<RTB_SavegameStoredSettings>();
 				DockingManagerSingleton.Instance = __instance.gameObject.AddOrGet<DockingManagerSingleton>();
 				DeepSpaceScienceManager.Instance = __instance.gameObject.AddOrGet<DeepSpaceScienceManager>();
+				SpaceStationManager.Instance = __instance.gameObject.AddOrGet<SpaceStationManager>();
 			}
 		}
 	}

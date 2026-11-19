@@ -198,14 +198,14 @@ namespace Rockets_TinyYetBig.Behaviours
 			if (active)
 			{
 				this.ActiveStatusItemHandle = this.AlwaysActive ?
-					this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModStatusItems.RTB_AlwaysActiveOn, this) :
-					this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModStatusItems.RTB_ModuleGeneratorPowered, this);
+					this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, StatusItemDatabase.RTB_AlwaysActiveOn, this) :
+					this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, StatusItemDatabase.RTB_ModuleGeneratorPowered, this);
 			}
 			else
 			{
 				this.ActiveStatusItemHandle = this.AlwaysActive ?
-						this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModStatusItems.RTB_AlwaysActiveOff, this) :
-						this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModStatusItems.RTB_ModuleGeneratorNotPowered, this);
+						this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, StatusItemDatabase.RTB_AlwaysActiveOff, this) :
+						this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, StatusItemDatabase.RTB_ModuleGeneratorNotPowered, this);
 
 			}
 		}
@@ -432,9 +432,9 @@ namespace Rockets_TinyYetBig.Behaviours
 		public void UpdateLandedStatusItem()
 		{
 			if (produceWhileLanded)
-				this.selectable.AddStatusItem(ModStatusItems.RTB_ModuleGeneratorLandedEnabled);
+				this.selectable.AddStatusItem(StatusItemDatabase.RTB_ModuleGeneratorLandedEnabled);
 			else
-				this.selectable.RemoveStatusItem(ModStatusItems.RTB_ModuleGeneratorLandedEnabled);
+				this.selectable.RemoveStatusItem(StatusItemDatabase.RTB_ModuleGeneratorLandedEnabled);
 
 		}
 
