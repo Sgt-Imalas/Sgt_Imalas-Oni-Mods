@@ -1,6 +1,8 @@
 ﻿using DuperyFixed;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using UtilLibs;
 
 namespace Dupery
@@ -190,6 +192,23 @@ namespace Dupery
 		const string AquaticModModel = "AquaticMinion"; 
 
 		static HashSet<string> ValidModels = new() { "Minion", "BionicMinion" }; //tags arent initialized yet so they are null, update from GameTags.Minions.Models.AllModels when new minion type releases
+		public static bool IsNumberOrHash(string str)
+		{
+			if (string.IsNullOrEmpty(str))
+				return false;
+
+			int start = str[0] == '-' ? 1 : 0;
+			if (start == str.Length)
+				return false;
+
+			for (int i = start; i < str.Length; i++)
+			{
+				if (str[i] < '0' || str[i] > '9')
+					return false;
+			}
+
+			return true;
+		}
 		public bool ToPersonality(string nameStringKey, out Personality outPersonality, out string failReason)
 		{
 			failReason = null;
@@ -383,8 +402,10 @@ namespace Dupery
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Eyes.Id, Eyes);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Mouth.Id, Mouth);
 
-			if (Body != null && Body.Length > 1 && Body.Contains("torso"))
+			if (Body != null && Body.Length > 1 && !IsNumberOrHash(Body)) // filter out the number hashes
 			{
+
+				SgtLogger.l(nameStringKey+": assigning custom body: " + Body);
 				DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
 				string armId = Body.Replace("torso", "arm_sleeve");
 				DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Arm.Id, armId);
