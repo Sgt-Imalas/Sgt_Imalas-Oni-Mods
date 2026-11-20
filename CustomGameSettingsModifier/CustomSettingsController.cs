@@ -19,8 +19,8 @@ namespace CustomGameSettingsModifier
         GameObject CustomGameSettingsContainer;
 
 
-        Dictionary<string, FToggle> CustomGameSettingsToggleConfigs = new();
-        Dictionary<string, FCycle> CustomGameSettingsCycleConfigs = new();
+        private readonly Dictionary<string, FToggle> CustomGameSettingsToggleConfigs = [];
+        private readonly Dictionary<string, FCycle> CustomGameSettingsCycleConfigs = [];
 
         public FButton CloseButton;
 		public FButton CloseButton2;
@@ -53,15 +53,7 @@ namespace CustomGameSettingsModifier
 			{
 				this.Show(false);
 			}
-
 			base.OnKeyDown(e);
-		}
-
-		private void AddMissingCustomGameSetting(SettingConfig type)
-		{
-
-			SgtLogger.warning(type.GetType().ToString() + " value not found, defaulting");
-			CustomGameSettings.Instance.QualitySettings[type.id] = type;
 		}
         static bool ShowQualitySetting(SettingConfig setting)
         {
@@ -105,10 +97,10 @@ namespace CustomGameSettingsModifier
         private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId)
 		{
 			string valueToSet = valueId.ToString();
-			if (valueId is bool)
+			if (valueId is bool val)
 			{
 				var toggle = ConfigToSet as ToggleSettingConfig;
-				valueToSet = ((bool)valueId) ? toggle.on_level.id : toggle.off_level.id;
+				valueToSet = val ? toggle.on_level.id : toggle.off_level.id;
 			}
 			SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentQualitySetting(ConfigToSet).id + " to " + valueToSet.ToString());
 			CustomGameSettings.Instance.SetQualitySetting(ConfigToSet, valueToSet);
@@ -135,7 +127,7 @@ namespace CustomGameSettingsModifier
 
             var settingLabel = toggle.transform.Find("Label").gameObject.AddOrGet<LocText>();
             settingLabel.text = ConfigToSet.label;
-            UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip, alignCenter: true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip.Replace("\n\n","\n"), alignCenter: true, onBottom: true);
 
             toggle.SetCheckmark("Background/Checkmark");
             toggle.OnClick += (v) =>
@@ -157,10 +149,10 @@ namespace CustomGameSettingsModifier
                 cycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
                 cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
 
-            cycle.Options = new List<FCycle.Option>();
+            cycle.Options = [];
             foreach (var config in ConfigToSet.GetLevels())
             {
-                cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+                cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip.Replace("\n\n", "\n")));
             }
             cycle.OnChange += (val) =>
             {
