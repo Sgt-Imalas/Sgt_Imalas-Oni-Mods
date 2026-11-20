@@ -133,7 +133,7 @@ namespace UtilLibs.BuildingPortUtils
 		private void OnConduitConnectionChanged(object _)
 		{
 			IsConnected_Cache = this.IsConnected;
-			base.BoxingTrigger((int)GameHashes.ConduitConnectionChanged, IsConnected_Cache);
+			base.Trigger((int)GameHashes.ConduitConnectionChanged, BoxedBools.Box(IsConnected_Cache));
 			UpdateNotifications(false);
 			if (GetSolidConduitCapacityTarget != null)
 			{
@@ -155,7 +155,7 @@ namespace UtilLibs.BuildingPortUtils
 
 			int layerInt = GetConduitLayer(conduitType);
 			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[layerInt];
-			this.partitionerEntry = GameScenePartitioner.Instance.Add("PortConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, ConnectionChangedCallback);
+			this.partitionerEntry = GameScenePartitioner.Instance.Add("PortConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, ConnectionChangedCallback, this);
 			GetConduitFlow(conduitType).AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.LastPostUpdate);
 			this.OnConduitConnectionChanged(null);
 			UpdateNotifications(false);

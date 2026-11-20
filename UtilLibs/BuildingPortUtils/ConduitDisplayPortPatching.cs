@@ -53,8 +53,7 @@ namespace UtilLibs.BuildingPortUtils
 			if (__instance is BuildingCellVisualizer bcVis && buildings.Contains(bcVis.building.Def.PrefabID))
 			{
 				UnityEngine.GameObject go = bcVis.building.gameObject;
-				PortDisplayController controller = go.GetComponent<PortDisplayController>();
-				if (controller != null)
+				if (go != null && go.TryGetComponent<PortDisplayController>(out var controller))
 				{
 					controller.Draw(bcVis, mode, go);
 				}
@@ -66,12 +65,12 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			foreach (PortDisplay2 portDisplay in __instance.BuildingComplete.GetComponents<PortDisplay2>())
 			{
-				ConduitType secondaryConduitType2 = portDisplay.type;
-				ObjectLayer objectLayerForConduitType4 = Grid.GetObjectLayerForConduitType(secondaryConduitType2);
-				CellOffset rotatedCellOffset8 = Rotatable.GetRotatedCellOffset(portDisplay.offset, orientation);
-				int cell11 = Grid.OffsetCell(cell, rotatedCellOffset8);
-				__instance.MarkOverlappingPorts(Grid.Objects[cell11, (int)objectLayerForConduitType4], go);
-				Grid.Objects[cell11, (int)objectLayerForConduitType4] = go;
+				ConduitType portConduitType = portDisplay.type;
+				ObjectLayer portConduitTypeObjectLayer = Grid.GetObjectLayerForConduitType(portConduitType);
+				CellOffset rotatedPortOffset = Rotatable.GetRotatedCellOffset(portDisplay.offset, orientation);
+				int portCell = Grid.OffsetCell(cell, rotatedPortOffset);
+				__instance.MarkOverlappingPorts(Grid.Objects[portCell, (int)portConduitTypeObjectLayer], go);
+				Grid.Objects[portCell, (int)portConduitTypeObjectLayer] = go;
 			}
 		}
 		public static void AreConduitPortsInValidPositionsPostfix(BuildingDef __instance, ref bool __result, GameObject source_go, int cell, Orientation orientation, ref string fail_reason)
@@ -242,11 +241,11 @@ namespace UtilLibs.BuildingPortUtils
 			M_NeedGasOut.resolveStringCallback = delegate (string str, object data)
 			{
 				List<Tag> tags = null;
-				if(data is Tuple<ConduitType, Tag> singularTagInfo)
+				if (data is Tuple<ConduitType, Tag> singularTagInfo)
 				{
 					tags = [singularTagInfo.second];
 				}
-				else if(data is Tuple<ConduitType, List<Tag>> multipleTagsInfo)
+				else if (data is Tuple<ConduitType, List<Tag>> multipleTagsInfo)
 				{
 					tags = multipleTagsInfo.second;
 				}
