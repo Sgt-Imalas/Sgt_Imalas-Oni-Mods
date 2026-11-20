@@ -36,6 +36,8 @@ namespace ItemDropPrevention.Patches
 
 			public static void Postfix(ref IList<KButtonMenu.ButtonInfo> ___buttons)
 			{
+				if (!Config.Instance.DisplayInPauseMenu)
+					return;
 				SgtLogger.l("adding custom settings button");
 				List<KButtonMenu.ButtonInfo> list = [.. ___buttons];
 				CustomSettingsButton.isEnabled = true;

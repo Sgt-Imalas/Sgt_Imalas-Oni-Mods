@@ -25,6 +25,10 @@ namespace ItemDropPrevention
 		public bool WrangleDroppedCritters { get; set; } = true;
 
 
+		[Option("STRINGS.IDP_MOD_CONFIG.SHOW_PAUSED", "STRINGS.IDP_MOD_CONFIG.SHOW_PAUSED_TOOLTIP")]
+		[JsonProperty]
+		public bool DisplayInPauseMenu { get; set; } = true;
+
 		public IEnumerable<IOptionsEntry> CreateOptions()
 		{
 			return [];

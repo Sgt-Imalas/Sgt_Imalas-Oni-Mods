@@ -12,6 +12,9 @@
 
 			public static LocString SWEEP_DROPPED_ITEMS = "Schedule sweep task for dropped items.";
 			public static LocString SWEEP_DROPPED_ITEMS_TOOLTIP = "Automatically issue a sweep task for items that were dropped before reaching their destinations";
+
+			public static LocString SHOW_PAUSED = "Display options in pause menu.";
+			public static LocString SHOW_PAUSED_TOOLTIP = "Displays an access to the mod config in the pause screen.";
 		}
 	}
 }
