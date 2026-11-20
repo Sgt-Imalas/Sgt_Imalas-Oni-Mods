@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>ShapeProjector</PackageId>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -22,8 +22,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Shape Preview Projector</ModName>
-		<ModDescription></ModDescription>
+		<ModName>Shape Projector</ModName>
+		<ModDescription>Projects abstract shapes to assist with base building</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
