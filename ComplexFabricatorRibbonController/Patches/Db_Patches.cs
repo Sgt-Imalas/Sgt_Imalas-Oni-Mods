@@ -13,6 +13,7 @@ namespace ComplexFabricatorRibbonController.Patches
             public static void Postfix(Db __instance)
 			{
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.ParallelAutomation, ComplexFabricatorRecipeControlAttachmentConfig.ID);
+                ModAssets.StatusItems.RegisterStatusItems(__instance.BuildingStatusItems);
 			}
         }
     }

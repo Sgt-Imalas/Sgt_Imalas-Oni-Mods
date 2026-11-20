@@ -7,6 +7,7 @@ using ComplexFabricatorRibbonController.Content.Defs.Buildings;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 {
@@ -26,6 +27,9 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 		[Serialize]
 		public string[] selectedRecipeIds = [null, null, null, null];
 		bool[] RibbonBits = null;
+		bool[] noSelectedRecipesWithOnBits = [false, false, false, false];
+
+		bool anyGreenBitNoRecipe = false;
 
 		public int Cell => _cell;
 		private int _cell = -1;
@@ -40,7 +44,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 			TryReattach();
 			AllAttachments.Add(this);
 			handle = Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
-			partitionerEntry = GameScenePartitioner.Instance.Add("ComplexFabricatorRecipeControlAttachment.RefreshAttachement", (object)this.gameObject, building.GetExtents(), GameScenePartitioner.Instance.objectLayers[(int)ObjectLayer.Building], (ctx, data)=>(ctx  as ComplexFabricatorRecipeControlAttachment).OnAttachableBuildingChanged(data));
+			partitionerEntry = GameScenePartitioner.Instance.Add("ComplexFabricatorRecipeControlAttachment.RefreshAttachement", (object)this.gameObject, building.GetExtents(), GameScenePartitioner.Instance.objectLayers[(int)ObjectLayer.Building], (ctx, data) => (ctx as ComplexFabricatorRecipeControlAttachment).OnAttachableBuildingChanged(data), this);
 
 			UpdateSymbolColors();
 			RefreshRecipeOrders();
@@ -55,33 +59,65 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 			Unsubscribe(handle);
 		}
 
-		void RefreshStatusItem()
+		void RefreshStatusItems()
 		{
-			selectable.SetStatusItem(Db.Get().StatusItemCategories.Role, HasParentFab ? null : ModAssets.NotAttachedToFabricator);
+			selectable.SetStatusItem(Db.Get().StatusItemCategories.Role, HasParentFab ? null : ModAssets.StatusItems.NotAttachedToFabricator);
+			selectable.SetStatusItem(Db.Get().StatusItemCategories.Power, anyGreenBitNoRecipe ? ModAssets.StatusItems.GreenBitNoRecipe : null, this);
+		}
+		public static string GreenBitRecipeCallback(string text, object data)
+		{
+			if (data is not ComplexFabricatorRecipeControlAttachment attachment)
+				return text;
+			var builder = KleiStringBuilder.BorrowFromPool();
+
+			var recipeCount = attachment.selectedRecipeIds.Length;
+			for (int i = 0; i < recipeCount; i++)
+			{
+				bool bitAffected = attachment.noSelectedRecipesWithOnBits[i];
+				if (bitAffected)
+				{
+					builder.Append(i + 1);
+					if (i < recipeCount - 1)
+						builder.Append(',');
+				}
+			}
+			return string.Format(text, builder.TakeContent());
 		}
 
 		void RefreshRecipeOrders()
 		{
-			RefreshStatusItem();
-			if (!HasParentFab)
-				return;
+			var recipeManager = ComplexRecipeManager.Get();
+			anyGreenBitNoRecipe = false;
 
 			for (int i = 0; i < selectedRecipeIds.Length; i++)
 			{
-				if (selectedRecipeIds[i] == null)
-					continue;
-				var recipe = ComplexRecipeManager.Get().GetRecipe(selectedRecipeIds[i]);
-				if (recipe == null)
-					continue;
 				bool bitOn = GetBitState(i);
+
+				if (selectedRecipeIds[i] == null)
+				{
+					if (bitOn)
+						anyGreenBitNoRecipe = true;
+					noSelectedRecipesWithOnBits[i] = true;
+					continue;
+				}
+				var recipe = recipeManager.GetRecipe(selectedRecipeIds[i]);
+				if (recipe == null)
+				{
+					if (bitOn)
+						anyGreenBitNoRecipe = true;
+					noSelectedRecipesWithOnBits[i] = true;
+					continue;
+				}
+				noSelectedRecipesWithOnBits[i] = false;
 				ParentFab.SetRecipeQueueCount(recipe, bitOn ? ComplexFabricator.QUEUE_INFINITE : 0);
 			}
+			RefreshStatusItems();
 		}
 
 		public void Detatch()
 		{
 			ParentFab = null;
-			RefreshStatusItem();
+			RefreshStatusItems();
 		}
 
 		void OnAttachableBuildingChanged(object _)
@@ -95,7 +131,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 		{
 			yield return null;
 			TryReattach();
-			RefreshStatusItem();
+			RefreshStatusItems();
 			PendingReattachmentCheck = null;
 		}
 
@@ -123,7 +159,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 			}
 			var recipeIds = ParentFab.GetRecipes().Select(r => r.id).ToHashSet();
 
-			for(int i = 0; i < selectedRecipeIds.Length; i++)
+			for (int i = 0; i < selectedRecipeIds.Length; i++)
 			{
 				var recipeId = selectedRecipeIds[i];
 				if (recipeId != null && !recipeIds.Contains(recipeId))
@@ -230,7 +266,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 
 		public ComplexRecipe GetRecipe(int bit)
 		{
-			if(bit < 0 || bit >= selectedRecipeIds.Length)
+			if (bit < 0 || bit >= selectedRecipeIds.Length)
 				return null;
 
 			if (selectedRecipeIds[bit] == null)
@@ -247,7 +283,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 				recipeId = recipe.id;
 			}
 
-			if(recipe != null && !ParentFab.GetRecipes().Contains(recipe)) //trying to set a recipe that is not available on this fabricator
+			if (recipe != null && !ParentFab.GetRecipes().Contains(recipe)) //trying to set a recipe that is not available on this fabricator
 				return;
 
 			if (IsRecipeSelected(recipe, out int inUse) && inUse != bit)

@@ -1,6 +1,9 @@
-﻿using ComplexFabricatorRibbonController.Content.UI;
+﻿using ComplexFabricatorRibbonController.Content.Scripts.Buildings;
+using ComplexFabricatorRibbonController.Content.UI;
+using Database;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.ELEMENTS;
 
 namespace ComplexFabricatorRibbonController
 {
@@ -10,30 +13,35 @@ namespace ComplexFabricatorRibbonController
 		public static KScreen RecipeSelectionSecondarySidescreen;
 		public static GameObject SelectRecipeSecondarySidescreenGO;
 		public const string NoRecipeSelection = "NoRecipeSelection";
-		public static StatusItem NotAttachedToFabricator
+
+		public static class StatusItems
 		{
-			get
+			public static StatusItem NotAttachedToFabricator, GreenBitNoRecipe;
+			public static void RegisterStatusItems(BuildingStatusItems bsi)
 			{
-				if (_notAttachedToFabricator == null)
-					RegisterStatusItems();
-				return _notAttachedToFabricator;
+				NotAttachedToFabricator = bsi.CreateStatusItem(
+						  "CFRC_NOTLINKEDTOHEAD",
+						  STRINGS.BUILDING.STATUSITEMS.CFRC_NOTLINKEDTOHEAD.NAME,
+						  STRINGS.BUILDING.STATUSITEMS.CFRC_NOTLINKEDTOHEAD.TOOLTIP,
+						  "status_item_not_linked",
+						  StatusItem.IconType.Custom,
+						  NotificationType.BadMinor,
+						  false,
+						  OverlayModes.None.ID);
+
+				GreenBitNoRecipe = bsi.CreateStatusItem(
+						  "CFRC_GREENBITNORECIPE",
+						  STRINGS.BUILDING.STATUSITEMS.CFRC_GREENBITNORECIPE.NAME,
+						  STRINGS.BUILDING.STATUSITEMS.CFRC_GREENBITNORECIPE.TOOLTIP,
+						  "status_item_no_filter_set",
+						  StatusItem.IconType.Custom,
+						  NotificationType.BadMinor,
+						  false,
+						  OverlayModes.None.ID)
+					.TooltipCallback(ComplexFabricatorRecipeControlAttachment.GreenBitRecipeCallback);
 			}
 		}
-
-		static StatusItem _notAttachedToFabricator;
-
-		public static void RegisterStatusItems()
-		{
-			_notAttachedToFabricator = new StatusItem(
-					  "CFRC_NotAttached",
-					  STRINGS.BUILDING.STATUSITEMS.CFRC_NOTLINKEDTOHEAD.NAME,
-					  STRINGS.BUILDING.STATUSITEMS.CFRC_NOTLINKEDTOHEAD.TOOLTIP,
-					  "status_item_not_linked",
-					  StatusItem.IconType.Custom,
-					  NotificationType.BadMinor,
-					  false,
-					  OverlayModes.None.ID);
-		}
+		
 
 		private static Tag _microchip_Buildable = null;
 

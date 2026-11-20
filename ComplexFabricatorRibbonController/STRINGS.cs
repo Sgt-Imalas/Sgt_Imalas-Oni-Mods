@@ -13,6 +13,11 @@ namespace ComplexFabricatorRibbonController
 					public static LocString NAME = "Not attached to a fabricator";
 					public static LocString TOOLTIP = "This building is not attached to a fabricator!";
 				}
+				public class CFRC_GREENBITNORECIPE
+				{
+					public static LocString NAME = "No recipe set on some active bits!";
+					public static LocString TOOLTIP = "This fabricator currently has a green logic signal on some bits that have no recipe configured!\nAffected bits: {0}";
+				}
 			}
 		}
 		public class BUILDINGS
