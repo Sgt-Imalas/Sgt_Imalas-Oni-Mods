@@ -1,6 +1,7 @@
 name: Build all mods for full release
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master" ]
 
