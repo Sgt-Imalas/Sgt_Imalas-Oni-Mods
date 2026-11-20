@@ -9,10 +9,10 @@ namespace SkillsInfoScreen
 	{
 		public override void OnLoad(Harmony harmony)
 		{
-			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
 			ModAssets.LoadAssets();
 			ModAssets.LoadConfig();
+			base.OnLoad(harmony);
 		}
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

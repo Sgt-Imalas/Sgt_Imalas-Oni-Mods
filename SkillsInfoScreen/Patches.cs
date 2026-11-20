@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using static KIconToggleMenu;
 
 namespace SkillsInfoScreen
 {
@@ -106,10 +107,10 @@ namespace SkillsInfoScreen
 			}
 		}
 
-		[HarmonyPatch(typeof(KIconToggleMenu), nameof(KIconToggleMenu.Setup), [typeof(IList<KIconToggleMenu.ToggleInfo>)])]
+		[HarmonyPatch(typeof(KIconToggleMenu), nameof(KIconToggleMenu.Setup), [typeof(List<ToggleInfo>)])]
 		public class KIconToggleMenu_Setup_Patch
 		{
-			public static void Prefix(KIconToggleMenu __instance, IList<KIconToggleMenu.ToggleInfo> toggleInfo)
+			public static void Prefix(KIconToggleMenu __instance, List<ToggleInfo> toggleInfo)
 			{
 				if (__instance is not ManagementMenu)
 					return;
