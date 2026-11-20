@@ -35,10 +35,6 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		public static StatusItem RTB_MissingElement;
 		public static StatusItem RTB_MissingRocketModule;
 
-		public static StatusItem StringCallback(this StatusItem item, Func<string, object, string> cb) { item.resolveStringCallback = cb; return item; }
-		public static StatusItem TooltipCallback(this StatusItem item, Func<string, object, string> cb) { item.resolveTooltipCallback = cb; return item; }
-		public static StatusItem TextCallback(this StatusItem item, Func<string, object, string> cb) => item.StringCallback(cb).TooltipCallback(cb);
-
 		public static void Register()
 		{
 			var bsi = Db.Get().BuildingStatusItems;

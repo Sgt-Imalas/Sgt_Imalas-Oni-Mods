@@ -16,6 +16,35 @@ namespace UtilLibs
 {
 	public static class Extensions
 	{
+		/// <summary>
+		/// Builder Pattern string callback setter for statusitem
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="cb"></param>
+		/// <returns></returns>
+		public static StatusItem StringCallback(this StatusItem item, Func<string, object, string> cb) { item.resolveStringCallback = cb; return item; }
+
+		/// <summary>
+		/// Builder Pattern tooltip callback setter for statusitem
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="cb"></param>
+		/// <returns></returns>
+		public static StatusItem TooltipCallback(this StatusItem item, Func<string, object, string> cb) { item.resolveTooltipCallback = cb; return item; }
+
+		/// <summary>
+		/// Builder Pattern string + tooltip callback setter for statusitem
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="cb"></param>
+		/// <returns></returns>
+		public static StatusItem TextCallback(this StatusItem item, Func<string, object, string> cb) => item.StringCallback(cb).TooltipCallback(cb);
+
+		/// <summary>
+		/// AppendLine mirror from regular string builder for KleiStringBuilder
+		/// </summary>
+		/// <param name="sb"></param>
+		/// <param name="chars"></param>
 		public static void AppendLine(this in KleiStringBuilder sb, ReadOnlySpan<char> chars = default)
 		{
 			sb.Append(chars);
@@ -23,9 +52,9 @@ namespace UtilLibs
 		}
 		public static bool TryGetInterfaceSMIOrComponent<InterfaceType>(this GameObject go, out InterfaceType interfaceImplementation) where InterfaceType : class
 		{
-			if(go.TryGetComponent<InterfaceType>(out interfaceImplementation))
+			if (go.TryGetComponent<InterfaceType>(out interfaceImplementation))
 				return true;
-			if(go.TryGetSMI<InterfaceType>(out interfaceImplementation))
+			if (go.TryGetSMI<InterfaceType>(out interfaceImplementation))
 				return true;
 			return false;
 		}
@@ -81,7 +110,7 @@ namespace UtilLibs
 			}
 		}
 		public static T CreateDelegate<T>(this MethodInfo method) where T : MulticastDelegate => (T)Delegate.CreateDelegate(typeof(T), method);
-		
+
 
 		/// <summary>
 		/// Returns the overload that no other overload of the same name forwards away from,
