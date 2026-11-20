@@ -46,7 +46,7 @@ namespace Rockets_TinyYetBig
 			PRegistry.PutData("Bugs.RocketConduitPorts", true);
 			TryCatchElements(harmony);
 
-
+			ResearchScreenCollapseEntries.Register();
 			ResearchScreenBetterConnectionLines.Register();
 			AttachmentPointTagNameFix.Register();
 			TranslationFix.Register();
