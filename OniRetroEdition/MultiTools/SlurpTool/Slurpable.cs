@@ -65,7 +65,7 @@ namespace OniRetroEdition.SlurpTool
 				this.partitionerEntry = GameScenePartitioner.Instance.Add("Slurpable.OnSpawn", this.gameObject, new Extents(Grid.PosToCell(this), new CellOffset[1]
 				{
 					new CellOffset(0, 0)
-				}), GameScenePartitioner.Instance.liquidChangedLayer, (ctx, data)=>(ctx as Slurpable).OnLiquidChanged(data));
+				}), GameScenePartitioner.Instance.liquidChangedLayer, (ctx, data)=>(ctx as Slurpable).OnLiquidChanged(data), this);
 				this.Refresh();
 				new ReachabilityMonitor.Instance((Workable)this).StartSM();
 				SimAndRenderScheduler.instance.Remove(this);
