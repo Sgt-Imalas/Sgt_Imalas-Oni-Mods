@@ -8,7 +8,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPortAdapters
 		[MyCmpReq] AnimTileable at;
 		[MyCmpReq] KPrefabID kpid;
 
-
 		public const string topLeftCap = "cap_top_left", topRightCap = "cap_top_right", capCentral = "cap_top";
 
 		public HandleVector<int>.Handle partitionerEntry2;
@@ -17,7 +16,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPortAdapters
 		{
 			base.OnSpawn();
 			Extents extents = new Extents(this.extents.x - 1, this.extents.y - 1, this.extents.width + 2, this.extents.height + 2);
-			partitionerEntry2 = GameScenePartitioner.Instance.Add("FirePoleAdapter_AnimTileable.OnSpawn", base.gameObject, extents, GameScenePartitioner.Instance.objectLayers[(int)objectLayer], (ctx, data)=> (ctx as FirePoleAdapter_AnimTileable).OnNeighbourCellsUpdated2(data));
+			partitionerEntry2 = GameScenePartitioner.Instance.Add("FirePoleAdapter_AnimTileable.OnSpawn", base.gameObject, extents, GameScenePartitioner.Instance.objectLayers[(int)objectLayer], (ctx, data)=> (ctx as FirePoleAdapter_AnimTileable).OnNeighbourCellsUpdated2(data), this);
 			UpdateEndCaps2();
 		}
 		public override void OnCleanUp()
