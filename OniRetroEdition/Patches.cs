@@ -2,6 +2,7 @@
 using OniRetroEdition.Behaviors;
 using OniRetroEdition.BuildingDefModification;
 using OniRetroEdition.Buildings;
+using OniRetroEdition.Buildings.Splitters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,12 @@ namespace OniRetroEdition
 
 			public static void Postfix()
 			{
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Ventilation, SplitterGasRConfig.ID, GasConduitBridgeConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Ventilation, SplitterGasLConfig.ID, GasConduitBridgeConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Plumbing, SplitterLiquidRConfig.ID, LiquidConduitBridgeConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Plumbing, SplitterLiquidLConfig.ID, LiquidConduitBridgeConfig.ID);
+
+
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, WallLampConfig.ID, CeilingLightConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, GammaRayOvenConfig.ID, MicrobeMusherConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Power, BatteryLargeConfig.ID, BatteryMediumConfig.ID);
@@ -79,6 +86,10 @@ namespace OniRetroEdition
 				InjectionMethods.AddBuildingToTechnologyOfOther(MetalReclaimerConfig.ID, RockCrusherConfig.ID);
 				InjectionMethods.AddBuildingToTechnologyOfOther(SmelterConfig.ID, MetalReclaimerConfig.ID);
 
+				InjectionMethods.AddBuildingToTechnologyOfOther(SplitterGasRConfig.ID, GasConduitBridgeConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(SplitterGasLConfig.ID, GasConduitBridgeConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(SplitterLiquidRConfig.ID, LiquidConduitBridgeConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(SplitterLiquidLConfig.ID, LiquidConduitBridgeConfig.ID);
 
 
 				foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
@@ -783,7 +794,7 @@ namespace OniRetroEdition
 			{
 				// make the liquids a little more see-through
 				__instance.material.SetFloat("_Opacity", Config.Instance.waterOpacity); //courtesy of aki; beached
-				//__instance.material.SetFloat("_BlendScreen", 0.4f); //courtesy of aki; beached
+																						//__instance.material.SetFloat("_BlendScreen", 0.4f); //courtesy of aki; beached
 			}
 		}
 

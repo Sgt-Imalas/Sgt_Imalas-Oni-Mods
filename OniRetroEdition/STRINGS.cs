@@ -53,12 +53,29 @@ namespace OniRetroEdition
 
 					public static LocString EFFECT = "Stores " + FormatAsLink("Power", "POWER") + " from generators, then provides that power to buildings.\n\nSlightly loses charge over time.";
 				}
-
-				public class RETROONI_WALLLAMP
+				public class RETRO_LIQUIDSPLITTER_MIRRORED
 				{
-					public static LocString NAME = FormatAsLink("Wall Lamp", nameof(RETROONI_WALLLAMP));
-					public static LocString DESC = "The light helps imitate the Duplicants' natural aboveground habitat.\nSort of. Maybe.";
-					public static LocString EFFECT = "Improves " + FormatAsLink("Decor", "DECOR") + " and reduces " + FormatAsLink("Stress", "STRESS") + " by providing " + FormatAsLink("light", "LIGHT") + ".";
+					public static LocString NAME = FormatAsLink("Liquid Flow Splitter (Left)", nameof(RETRO_LIQUIDSPLITTER_MIRRORED));
+					public static LocString DESC = "Perfect flow splitting!";
+					public static LocString EFFECT = "Splits Liquids into two pipes, the split ratio can be configured\nIf one pipe is full, it will overflow into the other.";
+				}
+				public class RETRO_LIQUIDSPLITTER
+				{
+					public static LocString NAME = FormatAsLink("Liquid Flow Splitter (Right)", nameof(RETRO_LIQUIDSPLITTER));
+					public static LocString DESC = "Perfect flow splitting!";
+					public static LocString EFFECT = "Splits Liquids into two pipes, the split ratio can be configured\nIf one pipe is full, it will overflow into the other.";
+				}
+				public class RETRO_GASSPLITTER_MIRRORED
+				{
+					public static LocString NAME = FormatAsLink("Gas Flow Splitter (Left)", nameof(RETRO_GASSPLITTER_MIRRORED));
+					public static LocString DESC = "Perfect flow splitting!";
+					public static LocString EFFECT = "Splits Gasses into two pipes, the split ratio can be configured\nIf one pipe is full, it will overflow into the other.";
+				}
+				public class RETRO_GASSPLITTER
+				{
+					public static LocString NAME = FormatAsLink("Gas Flow Splitter (Right)", nameof(RETRO_GASSPLITTER));
+					public static LocString DESC = "Perfect flow splitting!";
+					public static LocString EFFECT = "Splits Gasses into two pipes, the split ratio can be configured\nIf one pipe is full, it will overflow into the other.";
 				}
 			}
 		}
@@ -134,7 +151,11 @@ namespace OniRetroEdition
 			{
 				public static LocString MANAGEMENTMENU_REQUIRES_SKILL_STATION_RETRO = ("Build a Skills Board to unlock this menu\n\nThe " + (string)global::STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME + " can be found in the " + global::STRINGS.UI.FormatAsBuildMenuTab("Stations Tab", Action.Plan10) + " of the Build Menu");
 			}
-
+			public class RETRO_SPLITTERS
+			{
+				public static LocString TITLE = "Right Output Flow Percentage";
+				public static LocString TOOLTIP = "Set the percentage amount of flow that is directed towards the right output flow.";
+			}
 		}
 	}
 }
