@@ -26,7 +26,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
-				var Colorset_GetColorByName = AccessTools.Method(typeof(ColorSet), nameof(ColorSet.GetColorByName));
+				//var Colorset_GetColorByName = AccessTools.Method(typeof(ColorSet), nameof(ColorSet.GetColorByName));
 				var ReplaceConduitColor = AccessTools.Method(typeof(OverlayModes_ConduitMode_Update_Patch), nameof(ReplaceHPConduitColor));
 
 				var GetColorByName = AccessTools.Method(typeof(ColorSet), nameof(ColorSet.GetColorByName));
@@ -35,7 +35,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				var codes = orig.ToList();
 
 				// SaveLoadRoot layerTarget;
-				int layerTargetIdx = 12;
+				int layerTargetIdx = 13;
 				var lastCall = codes.FindLast(ci => ci.operand?.ToString().Contains("get_Current") == true);
 				if (lastCall != null)
 				{
