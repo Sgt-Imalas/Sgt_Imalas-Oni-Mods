@@ -30,7 +30,7 @@ namespace ModOriginInfo.Patches
 
 			public static void Prefix(IMultiEntityConfig config)
 			{
-				SgtLogger.l("Register Entities: " + config.GetType().Name);
+				SgtLogger.l("Register MultiEntities: " + config.GetType().Name);
 				cachedConfigs = config;
 			}
 
