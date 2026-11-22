@@ -40,6 +40,10 @@ namespace BionicBoostersPlus.Patches
 					break;
 				}
 			}
+
+			if (!hasEfficiencyPerk)
+				return;
+
 			float currentWattage = smi.Wattage;
 
 			float reduction = (float)Math.Round(-currentWattage * BB_SkillPerks.CIRCUITS_WATTAGEREDUCTIONPERCENTAGE, 2);

@@ -16,7 +16,7 @@ namespace BionicBoostersPlus.Content.Scripts
 
 		public new class Def : BionicUpgrade_SM<BionicUpgrade_BatterySlot, Instance>.Def
 		{
-			public AttributeModifier[] modifiers;
+			public AttributeModifier[] modifiers = [];
 			public Def(string upgradeID, AttributeModifier[] modifiers = null) : base(upgradeID)
 			{
 				this.modifiers = modifiers;
@@ -64,7 +64,6 @@ namespace BionicBoostersPlus.Content.Scripts
 			private void ToggleAttributeModifiers(bool on)
 			{
 				Klei.AI.Attributes attributes = resume.GetIdentity.GetAttributes();
-
 				foreach (AttributeModifier modifier in ((Def)smi.def).modifiers)
 				{
 					if (on)
