@@ -32,7 +32,8 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 				if (otherGO == null)
 					return false;
 
-				otherGO.TryGetComponent<KPrefabID>(out var component);
+				if (!otherGO.TryGetComponent<KPrefabID>(out var component))
+					return false;
 
 				var instancePosXY = Grid.CellToXY(Grid.PosToCell(__instance));
 				var otherGOPosXY = Grid.CellToXY(Grid.PosToCell(otherGO));
@@ -46,12 +47,27 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 					)
 					return false;
 
+				bool selfVertical = __instance.gameObject.TryGetComponent<VerticalPortAttachment>(out var selfAttach);
+				bool otherVertical = otherGO.TryGetComponent<VerticalPortAttachment>(out var otherAttach);
 
-
-				if (instancePosXY.Y != otherGOPosXY.Y && (__instance.gameObject.TryGetComponent<VerticalPortAttachment>(out _) != otherGO.TryGetComponent<VerticalPortAttachment>(out _)))
+				if (selfVertical || otherVertical)
 				{
-					return false;
+					bool selfCross = selfVertical && selfAttach.CrossPiece;
+					bool otherCross = otherVertical && otherAttach.CrossPiece;
+
+					// regular port connection: plain horizontal components and crosspieces
+					bool selfH = !selfVertical || selfCross;
+					bool otherH = !otherVertical || otherCross;
+
+					bool allowed = instancePosXY.Y == otherGOPosXY.Y
+						? selfH && otherH               // horizontal neighbours
+						: selfVertical && otherVertical; // same column, different row
+
+					if (!allowed)
+						return false;
 				}
+				///allowed to connect
+
 
 				otherGO.GetSMI<ChainedBuilding.StatesInstance>()?.CollectToChain(ref chain, ref foundHead, ignoredLink);
 				return false;
