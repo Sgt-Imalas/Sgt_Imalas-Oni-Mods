@@ -77,6 +77,12 @@ namespace OniRetroEdition
 					public static LocString DESC = "Perfect flow splitting!";
 					public static LocString EFFECT = "Splits Gasses into two pipes, the split ratio can be configured\nIf one pipe is full, it will overflow into the other.";
 				}
+				public class RETROONI_WALLLAMP
+				{
+					public static LocString NAME = FormatAsLink("Wall Lamp", nameof(RETROONI_WALLLAMP));
+					public static LocString DESC = "The light helps imitate the Duplicants' natural aboveground habitat.\nSort of. Maybe.";
+					public static LocString EFFECT = "Improves " + FormatAsLink("Decor", "DECOR") + " and reduces " + FormatAsLink("Stress", "STRESS") + " by providing " + FormatAsLink("light", "LIGHT") + ".";
+				}
 			}
 		}
 		public class MISC
