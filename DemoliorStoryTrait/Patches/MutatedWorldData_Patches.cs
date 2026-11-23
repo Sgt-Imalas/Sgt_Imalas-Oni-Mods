@@ -53,7 +53,7 @@ namespace DemoliorStoryTrait.Patches
 				//SgtLogger.l("applying story trait: " + storyTrait.filePath);
 				if (storyTrait.filePath == Stories_Patches.CGM_Impactor_Path)
 				{
-					if (WorldTypeIsStartWorld(settings.worldType))
+					if (WorldTypeIsStartWorld(settings))
 					{
 						settings.mutatedWorldData.world.AddSeasons(["LargeImpactor"]);
 						SgtLogger.l("Adding extra season for impactor story trait to " + settings.mutatedWorldData.world.filePath);
@@ -65,7 +65,7 @@ namespace DemoliorStoryTrait.Patches
 				}
 			}
 		}
-		static bool WorldTypeIsStartWorld(WorldPlacement.LocationType type) => DlcManager.IsPureVanilla() || type == WorldPlacement.LocationType.Startworld;
+		static bool WorldTypeIsStartWorld(WorldGenSettings worldgenSettings) => DlcManager.IsPureVanilla() || worldgenSettings.worldType == WorldPlacement.LocationType.Startworld || worldgenSettings.world.filePath.ToLowerInvariant().Contains("baator");
 
 		/// <summary>
 		/// Prevent the story trait from landing on other asteroids that arent the startworld
@@ -78,7 +78,7 @@ namespace DemoliorStoryTrait.Patches
 				ref HashSet<string> usedTemplates,
 				ref bool __result)
 			{
-				bool isStartWorld = WorldTypeIsStartWorld(settings.worldType);
+				bool isStartWorld = WorldTypeIsStartWorld(settings);
 				if (rule.names == null)
 					return true;
 
