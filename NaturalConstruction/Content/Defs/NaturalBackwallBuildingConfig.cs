@@ -30,12 +30,10 @@ namespace NaturalConstruction.Content.Defs
 			buildingDef.ReplacementLayer = ObjectLayer.ReplacementBackwall;
 			buildingDef.ReplacementCandidateLayers = new List<ObjectLayer>()
 			{
-				ObjectLayer.FoundationTile,
 				ObjectLayer.Backwall
 			};
 			buildingDef.ReplacementTags = new List<Tag>()
 			{
-				GameTags.FloorTiles,
 				GameTags.Backwall
 			};
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.TILE);
@@ -47,7 +45,7 @@ namespace NaturalConstruction.Content.Defs
 			go.GetComponent<KPrefabID>();
 			GeneratedBuildings.MakeBuildingAlwaysOperational(go);
 			go.AddOrGet<AnimTileable>().objectLayer = ObjectLayer.Backwall;
-			go.AddComponent<ZoneTile>();
+			//go.AddComponent<ZoneTile>();
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 		}
 

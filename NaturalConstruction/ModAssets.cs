@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UtilLibs;
 
 namespace NaturalConstruction
 {
 	internal class ModAssets
 	{
+		public static readonly ModHashes PlantPreviewChanged = new("NC_PlantPreviewChanged");
+
 		public const float MaxMass = 5000f;
 		public const float MinMass = 1f;
 		public static void MovePickupables(int cell)

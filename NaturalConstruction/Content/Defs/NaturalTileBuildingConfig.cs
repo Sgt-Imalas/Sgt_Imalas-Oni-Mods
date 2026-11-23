@@ -26,7 +26,7 @@ namespace NaturalConstruction.Content.Defs
 			buildingDef.BaseTimeUntilRepair = -1f;
 			buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
 			buildingDef.ConstructionOffsetFilter = BuildingDef.ConstructionOffsetFilter_OneDown;
-			buildingDef.DragBuild = true;
+			buildingDef.DragBuild = false;
 			return buildingDef;
 		}
 

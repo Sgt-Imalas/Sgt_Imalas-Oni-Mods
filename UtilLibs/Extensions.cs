@@ -228,6 +228,22 @@ namespace UtilLibs
 			}
 		}
 
+		static readonly Color NoSelection = new(0, 0, 0, 0);
+		public static void SubToHighlighingChanges(this KMonoBehaviour parent, KBatchedAnimController kbac)
+		{
+			parent.Sub((int)GameHashes.HighlightObject, OnHoveredChanged,kbac);
+			parent.Sub((int)GameHashes.SelectObject, OnSelectedChanged, kbac);
+		}
+		static void OnHoveredChanged(object ctx, object data)
+		{
+			bool isHovered = ((Boxed<bool>)data).value;
+			(ctx as KBatchedAnimController).HighlightColour = isHovered ? KSelectable.hoverColor : NoSelection;
+		}
+		static void OnSelectedChanged(object ctx, object data)
+		{
+			bool isSelected = ((Boxed<bool>)data).value;
+			(ctx as KBatchedAnimController).HighlightColour = isSelected ? KSelectable.selectedColor : NoSelection;
+		}
 
 		//return typeof(EntityTemplates).GetOverloadWithMostArguments(nameof(EntityTemplates.ExtendEntityToBasicPlant), true);
 

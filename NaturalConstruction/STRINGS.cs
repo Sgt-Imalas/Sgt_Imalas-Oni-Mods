@@ -20,6 +20,24 @@ namespace NaturalConstruction
 					public static LocString DESC = "Very natural, much wow.";
 					public static LocString EFFECT = $"Creates a natural backwall on finishing construction.\nMass can be configured during construction.";
 				}
+				public class NC_NATURALPLANTER
+				{
+					public static LocString NAME = FormatAsLink("Wild Planting Tile", nameof(NC_NATURALPLANTER));
+					public static LocString DESC = "Very natural, much wow.";
+					public static LocString EFFECT = $"Allows selecting a single seed to be wild planted.\nWill also create a natural tile on seed planting.\nTile mass can be configured during construction.";
+				}
+				public class NC_NATURALPLANTERWIDE
+				{
+					public static LocString NAME = FormatAsLink("Wide Wild Planting Tile", nameof(NC_NATURALPLANTERWIDE));
+					public static LocString DESC = "Very natural, much wow.";
+					public static LocString EFFECT = $"Allows selecting a single large seed to be wild planted.\nWill also create three natural tiles on seed planting.\nTotal tile mass can be configured during construction.";
+				}
+				public class NC_NATURALPLANTERBACKWALL
+				{
+					public static LocString NAME = FormatAsLink("Wild Planting Backwall", nameof(NC_NATURALPLANTERBACKWALL));
+					public static LocString DESC = "Very natural, much wow.";
+					public static LocString EFFECT = $"Allows selecting a single large backwall-planted seed to be wild planted.\nWill also create 4 natural backwalls on seed planting.\ntotal backwall mass can be configured during construction.";
+				}
 			}
 		}
 		public class UI

@@ -25,6 +25,11 @@ public static class EventExtensions
 		int handle = self.Subscribe(hash, contextAndData, self);
 		registry.GetOrCreateValue(self).Add(handle);
 	}
+	public static void Sub(this KMonoBehaviour self, int hash, Action<object, object> contextAndData, object ctx)
+	{
+		int handle = self.Subscribe(hash, contextAndData, ctx);
+		registry.GetOrCreateValue(self).Add(handle);
+	}
 
 	public static void UnsubAll(this KMonoBehaviour self)
 	{

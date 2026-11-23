@@ -1,7 +1,10 @@
-﻿using HarmonyLib;
+﻿using ElementUtilNamespace;
+using HarmonyLib;
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
+using UtilLibs;
+using UtilLibs.SharedTweaks;
 
 namespace NaturalConstruction
 {
@@ -11,6 +14,8 @@ namespace NaturalConstruction
 		{
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));
+			SgtLogger.LogVersion(this,harmony);
+			ResearchScreenCollapseEntries.Register();
 			base.OnLoad(harmony);
 		}
 	}

@@ -11,7 +11,7 @@ namespace NaturalConstruction.Patches
         {
             public static bool Prefix(Constructable __instance, WorkerBase workerForGameplayEvent)
             {
-                if(__instance is ConstructableNaturalSpawner natTile)
+                if(__instance is ConstructableNaturalSpawner natTile && natTile.DoReplaceOnFinishConstruction())
                 {
                     natTile.SpawnNaturalTile(workerForGameplayEvent);
 					return false;

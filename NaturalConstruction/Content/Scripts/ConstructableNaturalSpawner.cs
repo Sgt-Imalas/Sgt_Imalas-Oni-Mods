@@ -13,10 +13,17 @@ namespace NaturalConstruction.Content.Scripts
 		[MyCmpGet] KSelectable selectable;
 		[Serialize] float naturalMass = -1;
 		[Serialize] float lastNaturalMass = 0;
+
+		[SerializeField] public bool ReplaceOnFinish = true;
+
 		bool backwallBuilding;
 		public bool Backwall => backwallBuilding;
 		private static readonly Action<object, object> OnCopySettingsDelegate = (component, data) => ((ConstructableNaturalSpawner)component).OnCopySettings(data);
 		int handle = -1;
+		int occupyCellCount = 1;
+
+		public float NaturalMass => naturalMass;
+
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
@@ -29,12 +36,14 @@ namespace NaturalConstruction.Content.Scripts
 				naturalMass = building.Def.Mass[0];
 				lastNaturalMass = naturalMass;
 			}
+			occupyCellCount = building.PlacementCells.Length;
 			base.OnSpawn();
 			waitForFetchesBeforeDigging = true;
 			backwallBuilding = building.Def.ObjectLayer == ObjectLayer.Backwall;
 			RefreshFetchIfNeeded();
 			handle = this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate, this);
 		}
+		internal bool DoReplaceOnFinishConstruction() => ReplaceOnFinish;
 		public override void OnCleanUp()
 		{
 			Unsubscribe(handle);
@@ -95,14 +104,14 @@ namespace NaturalConstruction.Content.Scripts
 		//	SpawnNaturalTile();
 		//}
 
-		public 	void SpawnNaturalTile(WorkerBase workerForGameplayEvent)
+		public void SpawnNaturalTile(WorkerBase workerForGameplayEvent)
 		{
+			SgtLogger.l(this.GetProperName() + " spawn natural tile at construction finish");
 			if (selectable.IsSelected)
 				selectable.Unselect();
 			UnmarkArea();
 			finished = true;
 			PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Building, selectable.GetName(), base.transform);
-			int cell = Grid.PosToCell(this);
 			var element = storage.items.First()?.GetComponent<PrimaryElement>();
 			ushort elementIdx;
 			float temperature;
@@ -132,28 +141,31 @@ namespace NaturalConstruction.Content.Scripts
 				temperature = UtilMethods.GetKelvinFromC(20);
 			}
 			float multiplier = Mathf.Clamp(Config.Instance.SpawningMassMultiplier, 1f, 2f);
-
-			if (backwallBuilding)
+			int placementCellCount = building.PlacementCells.Length;
+			foreach (var tile in building.PlacementCells)
 			{
-				SimMessages.SetBackwallData(cell, elementIdx, naturalMass * multiplier, temperature);
-			}
-			else
-			{
+				if (backwallBuilding)
+				{
+					SimMessages.SetBackwallData(tile, elementIdx, naturalMass / placementCellCount, temperature);
+					GameScenePartitioner.Instance.TriggerEvent(tile, GameScenePartitioner.Instance.backwallChangedLayer, null);
+				}
+				else
+				{
 
-				//SgtLogger.l("ISREPLACEMENTTILE: " + IsReplacementTile);
-				ModAssets.MovePickupables(cell);
-				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass * multiplier, temperature, diseaseIdx, diseaseAmount);
-				GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
-				//SgtLogger.l("Solid: " + Grid.Solid[cell] + ", foundation: " + Grid.Foundation[cell]);
-				//for (int layer = 0; layer < 45; ++layer)
-				//{
-				//	if (Grid.Objects[cell, layer] != null && Grid.Objects[cell, layer].GetComponent<Constructable>() != null)
-				//		SgtLogger.l("Object at layer " + layer + ": " + Grid.Objects[cell, layer]);
-				//}
-				Grid.Foundation[cell] = false;
+					//SgtLogger.l("ISREPLACEMENTTILE: " + IsReplacementTile);
+					ModAssets.MovePickupables(tile);
+					SimMessages.ReplaceAndDisplaceElement(tile, elementId, CellEventLogger.Instance.TemplateLoader, naturalMass / placementCellCount, temperature, diseaseIdx, diseaseAmount / placementCellCount);
+					GameScenePartitioner.Instance.TriggerEvent(tile, GameScenePartitioner.Instance.solidChangedLayer, null);
+					//for (int layer = 0; layer < 45; ++layer)
+					//{
+					//	if (Grid.Objects[cell, layer] != null && Grid.Objects[cell, layer].GetComponent<Constructable>() != null)
+					//		SgtLogger.l("Object at layer " + layer + ": " + Grid.Objects[cell, layer]);
+					//}
+					Grid.Foundation[tile] = false;
+				}
 			}
 			storage.ConsumeAllIgnoringDisease();
-			gameObject.Trigger((int)GameHashes.NewConstruction, (object)this);
+			//gameObject.Trigger((int)GameHashes.NewConstruction, (object)this);
 			this.DeleteObject();
 		}
 
@@ -167,7 +179,7 @@ namespace NaturalConstruction.Content.Scripts
 
 		public float GetSliderMin(int index) => ModAssets.MinMass;
 
-		public float GetSliderMax(int index) => ModAssets.MaxMass;
+		public float GetSliderMax(int index) => ModAssets.MaxMass * occupyCellCount;
 
 		public float GetSliderValue(int index) => naturalMass;
 
