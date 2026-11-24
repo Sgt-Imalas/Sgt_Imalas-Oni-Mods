@@ -148,8 +148,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
-				if (entry.Value.Source.IsBuildingEnabled() && TechExists(entry.Value.TechID))
-					entry.Value.RegisterTech();
+				var injection = entry.Value;
+				if (!injection.Source.IsBuildingEnabled())
+					continue;
+				 if(TechExists(injection.TechID))
+					injection.RegisterTech();
+				injection.RegisterSupport();
 			}
 		}
 		internal static void ResetConfigChanges()

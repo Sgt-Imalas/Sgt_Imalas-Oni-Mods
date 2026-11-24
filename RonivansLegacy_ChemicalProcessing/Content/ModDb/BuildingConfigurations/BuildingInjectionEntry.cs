@@ -9,7 +9,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		bool MoveExisting = false;
 		string _buildingID;
         string _techID;
-        string _planScreenCategory;
+        string _supportID;
+		string _planScreenCategory;
         string PlanScreenRelativeBuildingID;
 		public string BuildingID => _buildingID;
 		public string TechID => _techID;
@@ -83,6 +84,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			}
 			return this;
 		}
+		public BuildingInjectionEntry SupportedBy(string supportEffectId)
+		{
+			_supportID = supportEffectId;
+			return this;
+		}
 
 		public List<SourceModInfo> GetModsFrom()
 		{
@@ -95,6 +101,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 				return;
 			}
 			InjectionMethods.AddBuildingToTechnology(_techID, _buildingID);
+		}
+		internal void RegisterSupport()
+		{
+			if (string.IsNullOrEmpty(_supportID))
+			{
+				return;
+			}
+			var boosts = Db.Get().SupportBuildingBoosts;
+			var targetBoost = boosts.TryGet(_supportID);			
+			if (targetBoost == null)
+			{
+				SgtLogger.warning("Could not find support building boost with the id " + _supportID);
+				return;
+			}
+			targetBoost.AddCompatibleReceptorTag(_buildingID);
 		}
 		internal void RegisterPlanscreen()
 		{

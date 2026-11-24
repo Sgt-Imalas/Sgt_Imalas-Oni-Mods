@@ -150,13 +150,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddToCategory(PlanMenuCategory.Refinement, KilnConfig.ID)
 			.AddToTech(Technology.SolidMaterial.Smelting)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_AdvancedKiln");
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_AdvancedKiln")
+			.SupportedBy(SupportBuildings.FORGE);
 
 			BuildingManager.CreateEntry<Chemical_AdvancedMetalRefineryConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, MetalRefineryConfig.ID)
 			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_AdvMetalRefinery");
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_AdvMetalRefinery")
+			.SupportedBy(SupportBuildings.FORGE);
 
 			BuildingManager.CreateEntry<Chemical_AmmoniaBreakerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
@@ -172,7 +174,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_BallCrusherMillConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
 			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO); 
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.SupportedBy(SupportBuildings.WORKSHOP); 
 			
 			BuildingManager.CreateEntry<Chemical_ChlorineCompressorConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
@@ -224,13 +227,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddToCategory(PlanMenuCategory.Refinement, GlassForgeConfig.ID)
 			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_GlassFoundry");
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_GlassFoundry")
+			.SupportedBy(SupportBuildings.FORGE);
 
 			BuildingManager.CreateEntry<Chemical_SmallCrusherMillConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
 			.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_JawCrusherMill");
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_JawCrusherMill")
+			.SupportedBy(SupportBuildings.WORKSHOP);
 
 			BuildingManager.CreateEntry<Chemical_MixingUnitConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
@@ -262,12 +267,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_RayonLoomConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, EthanolDistilleryConfig.ID)
 			.AddToTech(Technology.Decor.TextileProduction)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.SupportedBy(SupportBuildings.WORKSHOP);
 
 			BuildingManager.CreateEntry<Chemical_SelectiveArcFurnaceConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, SupermaterialRefineryConfig.ID)
 			.AddToTech(Technology.SolidMaterial.Smelting)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.SupportedBy(SupportBuildings.FORGE);
 
 			BuildingManager.CreateEntry<Chemical_SoilMixerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, CompostConfig.ID)
@@ -393,7 +400,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Mining_CNCMachineConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, SupermaterialRefineryConfig.ID)
 				.AddToTech(ModTechs.Mining_Mk2DrillTech_ID)
-				.AddModFrom(SourceModInfo.MineralProcessing_Mining);
+				.AddModFrom(SourceModInfo.MineralProcessing_Mining)
+				.SupportedBy(SupportBuildings.WORKSHOP);
 
 			BuildingManager.CreateEntry<Mining_AugerDrillConfig>()
 				.AddToCategory(PlanMenuCategory.Utilities, OilWellCapConfig.ID)
@@ -412,13 +420,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Refinement, GlassForgeConfig.ID)
 				.AddToTech(ModTechs.Metallurgy_PlasmaBasedRefinementTech_ID)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+				.SupportedBy(SupportBuildings.FORGE);
 
 			BuildingManager.CreateEntry<Metallurgy_PyrolysisKilnConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, KilnConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO, "Chemical_PlasmaFurnace");
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO, "Chemical_PlasmaFurnace")
+				.SupportedBy(SupportBuildings.FORGE);
 
 			BuildingManager.CreateEntry<Metallurgy_BasicOilRefineryConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID, ModUtil.BuildingOrdering.Before)
@@ -428,7 +438,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Metallurgy_BallCrusherMillConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SuperheatedForging)
-				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
+				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
+				.SupportedBy(SupportBuildings.WORKSHOP);
 		}
 		private static void RegisterBuildings_DupesMachinery()
 		{
@@ -466,12 +477,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<HepCalcinatorConfig>()
 				.AddToCategory(PlanMenuCategory.Radiation, UraniumCentrifugeConfig.ID)
 				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
-				.AddModFrom(SourceModInfo.NuclearProcessing);
+				.AddModFrom(SourceModInfo.NuclearProcessing)
+				.SupportedBy(SupportBuildings.WORKSHOP);
 
 			BuildingManager.CreateEntry<HepCentrifugeConfig>()
 				.AddToCategory(PlanMenuCategory.Radiation, UraniumCentrifugeConfig.ID)
 				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
-				.AddModFrom(SourceModInfo.NuclearProcessing);
+				.AddModFrom(SourceModInfo.NuclearProcessing)
+				.SupportedBy(SupportBuildings.FORGE);
 
 			BuildingManager.CreateEntry<HepProjectorConfig>()
 				.AddToCategory(PlanMenuCategory.Radiation, RadiationLightConfig.ID)
@@ -539,7 +552,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<CementMixerConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, MilkPressConfig.ID)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.SupportedBy(SupportBuildings.WORKSHOP);
 
 			///Tiles
 

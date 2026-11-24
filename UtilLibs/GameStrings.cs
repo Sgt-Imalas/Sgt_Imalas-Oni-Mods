@@ -87,6 +87,13 @@
 			public const string Automated = "automated";
 		}
 
+		public static class SupportBuildings
+		{
+			public const string WORKSHOP = SupportBuildingBoost_WorkshopSpeed.ID;
+			public const string FORGE = SupportBuildingBoost_ForgeSpeed.ID;
+			public const string KITCHEN = SupportBuildingBoost_KitchenSpeed.ID;
+			public const string RESEARCH = SupportBuildingBoost_ResearchSpeed.ID;
+		}
 		public static class Technology
 		{
 			public static class Food
