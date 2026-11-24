@@ -97,7 +97,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 		public SmallGasReservoirInvertedConfig()
 		{
 			ID = INVERTED;
-			KANIM = KANIMNORMAL;
+			KANIM = KANIMINVERTED;
 			UtilityInputOffset = new CellOffset(0, 0);
 			UtilityOutputOffset = new CellOffset(0, 2); 
 		}
@@ -107,7 +107,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 		public SmallGasReservoirConfig()
 		{
 			ID = NORMAL;
-			KANIM = KANIMINVERTED;
+			KANIM = KANIMNORMAL;
 			UtilityInputOffset = new CellOffset(0, 2);
 			UtilityOutputOffset = new CellOffset(0, 0);
 		}
