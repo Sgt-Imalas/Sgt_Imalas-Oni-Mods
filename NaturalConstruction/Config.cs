@@ -28,5 +28,9 @@ namespace NaturalConstruction
 		[JsonProperty]
 		[Limit(1f, 2f)]
 		public float SpawningMassMultiplier { get; set; } = 1f;
+
+		[Option(title: "STRINGS.UI.NC_MODCONFIG.ENABLE_PLANTERS.TITLE", tooltip: "STRINGS.UI.NC_MODCONFIG.ENABLE_PLANTERS.TOOLTIP")]
+		[JsonProperty]
+		public bool EnableWildPlanters { get; set; } = true;
 	}
 }

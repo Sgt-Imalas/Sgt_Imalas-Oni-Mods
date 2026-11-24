@@ -36,6 +36,7 @@ namespace NaturalConstruction.Content.Scripts
 				naturalMass = building.Def.Mass[0];
 				lastNaturalMass = naturalMass;
 			}
+			GetComponent<KBatchedAnimController>().SetSymbolVisiblity("wire", false);
 			occupyCellCount = building.PlacementCells.Length;
 			base.OnSpawn();
 			waitForFetchesBeforeDigging = true;
@@ -63,7 +64,7 @@ namespace NaturalConstruction.Content.Scripts
 		{
 			if (!Config.Instance.ScalingConstructionTime)
 				return;
-			SetWorkTime(Mathf.Clamp(naturalMass / 20f, 5, 100));
+			SetWorkTime(Mathf.Clamp(naturalMass / 20f, 3, 90));
 		}
 		void RefreshFetchIfNeeded()
 		{

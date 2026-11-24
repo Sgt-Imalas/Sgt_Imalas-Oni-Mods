@@ -12,22 +12,29 @@ namespace NaturalConstruction.Patches
 		{
 			public static void Prefix()
 			{
+				bool planters = Config.Instance.EnableWildPlanters;
+
 				//build menu
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, NaturalTileBuildingConfig.ID, TileConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, NaturalBackwallBuildingConfig.ID, ExteriorWallConfig.ID);
 
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Farming, NaturalTilePlanterConfig.ID, FarmTileConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Farming, NaturalTilePlanterWideConfig.ID, WideFarmTileConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Farming, NaturalTilePlanterBackwallConfig.ID, LargeBackwallFarmConfig.ID);
+				if (planters)
+				{
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Farming, NaturalTilePlanterConfig.ID, FarmTileConfig.ID);
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Farming, NaturalTilePlanterWideConfig.ID, WideFarmTileConfig.ID);
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Farming, NaturalTilePlanterBackwallConfig.ID, LargeBackwallFarmConfig.ID);
+				}
 
 				//Techs
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.BasicFarming, NaturalTileBuildingConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.BasicFarming, NaturalBackwallBuildingConfig.ID);
 
-
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.MealPreparation, NaturalTilePlanterConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.Agriculture, NaturalTilePlanterWideConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.Agriculture, NaturalTilePlanterBackwallConfig.ID);
+				if (planters)
+				{
+					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.MealPreparation, NaturalTilePlanterConfig.ID);
+					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.Agriculture, NaturalTilePlanterWideConfig.ID);
+					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.Agriculture, NaturalTilePlanterBackwallConfig.ID);
+				}
 			}
 		}
 	}

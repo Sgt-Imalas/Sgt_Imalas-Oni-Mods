@@ -1,0 +1,192 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.8\n"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.DESC"
+msgid "Very natural, much wow."
+msgstr "In der Tat, äußerst natürlich das ganze."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.EFFECT"
+msgid ""
+"Creates a natural backwall on finishing construction.\n"
+"Mass can be configured during construction."
+msgstr ""
+"Erzeugt eine Naturrückwand bei Fertigstellung der Konstruction.\n"
+"Die Masse kann während des Baus konfiguriert werden."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.NAME"
+msgid "<link=\"NCNATURALBACKWALL\">Natural Backwall</link>"
+msgstr "<link=\"NCNATURALBACKWALL\">Naturrückwand</link>"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTER.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTER.DESC"
+msgid "Very natural, much wow."
+msgstr "In der Tat, äußerst natürlich das ganze."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTER.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTER.EFFECT"
+msgid ""
+"Allows selecting a single seed to be wild planted.\n"
+"Will also create a natural tile on seed planting.\n"
+"Tile mass can be configured during construction."
+msgstr ""
+"Ermöglicht die Auswahl eines einzelnen Samens, der wild gepflanzt werden soll.\n"
+"Erzeugt beim Pflanzen des Seeds zudem einen natürlichen Ziegel.\n"
+"Die Masse des Ziegels kann während des Baus konfiguriert werden."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTER.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTER.NAME"
+msgid "<link=\"NCNATURALPLANTER\">Wild Planting Tile</link>"
+msgstr "<link=\"NCNATURALPLANTER\">Wild-Pflanz-Ziegel</link>"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERBACKWALL.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERBACKWALL.DESC"
+msgid "Very natural, much wow."
+msgstr "In der Tat, äußerst natürlich das ganze."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERBACKWALL.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERBACKWALL.EFFECT"
+msgid ""
+"Allows selecting a single large backwall-planted seed to be wild planted.\n"
+"Will also create 4 natural backwalls on seed planting.\n"
+"total backwall mass can be configured during construction."
+msgstr ""
+"Ermöglicht die Auswahl eines einzelnen in eine Rückwand gepflanzten Samens, der wild "
+"gepflanzt werden soll.\n"
+"Erzeugt außerdem 4 natürliche Rückwände beim Pflanzen des Samens.\n"
+"Die Gesamtmasse der Rückwände kann während des Baus konfiguriert werden."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERBACKWALL.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERBACKWALL.NAME"
+msgid "<link=\"NCNATURALPLANTERBACKWALL\">Wild Planting Backwall</link>"
+msgstr "<link=\"NCNATURALPLANTERBACKWALL\">Wild-Pflanz-Rückwand</link>"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERWIDE.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERWIDE.DESC"
+msgid "Very natural, much wow."
+msgstr "In der Tat, äußerst natürlich das ganze."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERWIDE.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERWIDE.EFFECT"
+msgid ""
+"Allows selecting a single large seed to be wild planted.\n"
+"Will also create three natural tiles on seed planting.\n"
+"Total tile mass can be configured during construction."
+msgstr ""
+"Ermöglicht die Auswahl eines einzelnen großen Samens, der wild gepflanzt werden soll.\n"
+"Erzeugt beim Pflanzen des Samens außerdem drei natürliche Ziegel.\n"
+"Die Gesamtmasse der natürlichen Ziegel kann während des Baus konfiguriert werden."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERWIDE.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALPLANTERWIDE.NAME"
+msgid "<link=\"NCNATURALPLANTERWIDE\">Wide Wild Planting Tile</link>"
+msgstr "<link=\"NCNATURALPLANTERWIDE\">Breiter Wild-Pflanz-Ziegel</link>"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.DESC"
+msgid "Very natural, much wow."
+msgstr "In der Tat, äußerst natürlich das ganze."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.EFFECT"
+msgid ""
+"Creates a natural tile on finishing construction.\n"
+"Mass can be configured during construction."
+msgstr ""
+"Erzeugt einen Naturziegel bei Fertigstellung der Konstruktion.\n"
+"Die Masse kann während des Baus konfiguriert werden."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.NAME"
+msgid "<link=\"NCNATURALTILE\">Natural Tile</link>"
+msgstr "<link=\"NCNATURALTILE\">Naturziegel</link>"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTION_MASS_MULTIPLIER.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTION_MASS_MULTIPLIER.TITLE"
+msgid "Spawn Mass multiplier"
+msgstr "Massen-Multiplikator bei Konstruktion"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTION_MASS_MULTIPLIER.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTION_MASS_MULTIPLIER.TOOLTIP"
+msgid ""
+"Multiplies the building material mass when converting into a spawned natural tile/"
+"backwall.\n"
+"This allows compensating for the 50% mass loss on digging the natural tile.\n"
+"Example with x1.5: 100kg construction mass -> 150kg natural tile/backwall -> digging "
+"result 75kg"
+msgstr ""
+"Multipliziert die Masse des Baumaterials bei der Umwandlung in eine generierte "
+"Naturkachel/Rückwand.\n"
+"Dadurch lässt sich der Massenverlust von 50 % beim Abbau der Naturziegel ausgleichen.\n"
+"Beispiel mit x1,5: 100 kg Baumasse -> 150 kg Naturziegel/-rückwand -> Abbauergebnis 75 kg"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TITLE"
+msgid "Construction time mass scaling"
+msgstr "Konstruktionszeit skaliert mit Baumaterial-Masse"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TOOLTIP"
+msgid ""
+"When active, lets the construction time scale with the mass picked for the individual "
+"natural building.\n"
+"Otherwise defaults to 30 s."
+msgstr ""
+"Während diese Option aktiv ist, wird die Bauzeit von Gebäuden in dieser Mod mit der "
+"gewählten Konstruktionsmasse skaliert.\n"
+"Ansonsten ist diese 30 Sekunden."
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TITLE"
+msgid "Natural Backwall default mass"
+msgstr "Standardmasse Naturrückwand"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TOOLTIP"
+msgid ""
+"Configure the default value for natural backwall mass.\n"
+"This value can be changed on the building plan."
+msgstr ""
+"Legt den Standardwert für die Konstruktionsmasse der Naturrückwand fest.\n"
+"Dieser Wert kann während der Konstruktion angepasst werden."
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TITLE"
+msgid "Natural Tile default mass"
+msgstr "Standardmasse Naturziegel"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TOOLTIP"
+msgid ""
+"Configure the default value for natural tile mass.\n"
+"This value can be changed on the building plan."
+msgstr ""
+"Legt den Standardwert für die Konstruktionsmasse des Naturziegels fest.\n"
+"Dieser Wert kann während der Konstruktion angepasst werden."
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.ENABLE_PLANTERS.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.ENABLE_PLANTERS.TITLE"
+msgid "Enable Wild Planters"
+msgstr "Aktiviere Wild-Planzgefäße"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.ENABLE_PLANTERS.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.ENABLE_PLANTERS.TOOLTIP"
+msgid ""
+"Enables wild planter buildings (wide planter and backwall planter are only available "
+"with aquatic planet pack like their regular planters)"
+msgstr ""
+"Ermöglicht den Bau von Wild-Pflanz-Gebäuden (die breite Variante und die Rückwand-"
+"Variante sind wie ihre regulären Varianten nur mit dem „Aquatic Planet Pack“ verfügbar)"
