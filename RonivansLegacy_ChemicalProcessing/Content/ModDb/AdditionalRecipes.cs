@@ -71,7 +71,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.Clay, 100)
 				.InputConditional(burnables, 25, burnMaterial)
-				.Output(SimHashes.Brick, 50)
+				.Output(SimHashes.Brick, 100)
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_REFINE, 1, 1)
 				.Build();
 
