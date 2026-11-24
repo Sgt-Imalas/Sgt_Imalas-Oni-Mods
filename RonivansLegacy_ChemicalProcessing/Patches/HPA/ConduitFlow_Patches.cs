@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using UnityEngine;
 using UtilLibs;
+using UtilLibs.ModAPIClasses;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {
@@ -169,6 +171,34 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			///if the conduit is not high pressure, this check fails, therefore it should receive damage
 			HighPressureConduitEventHandler.PressureDamageHandling(cell_idx, conduitFlow.conduitType, sender.contents.mass, HighPressureConduitRegistration.GetMaxConduitCapacityAt(cell_idx, conduitFlow.conduitType));
+		}
+
+		static bool HighPressurePipeCanTakeTransitionDamage(ConduitFlow __instance, int conduit_idx)
+		{
+			GameObject conduitGo = __instance.soaInfo.GetConduitGO(conduit_idx);
+			if (conduitGo == null)
+				return true;
+			if (!HighPressureConduitRegistration.TryGetHPACapacityAt(__instance.soaInfo.GetCell(conduit_idx), __instance.conduitType, out float maxCapacity))
+				return true;
+
+
+			if (__instance.soaInfo.GetConduit(conduit_idx).GetContents(__instance).mass <= maxCapacity * ConduitFlow.PERCENT_MAX_MASS_FOR_STATE_CHANGE_DAMAGE)
+				return false;
+
+			return true;
+		}
+
+
+		[HarmonyPatch(typeof(ConduitFlow), nameof(ConduitFlow.FreezeConduitContents))]
+		public class ConduitFlow_FreezeConduitContents_Patch
+		{
+			public static bool Prefix(ConduitFlow __instance, int conduit_idx) => HighPressurePipeCanTakeTransitionDamage(__instance, conduit_idx);
+		}
+
+		[HarmonyPatch(typeof(ConduitFlow), nameof(ConduitFlow.MeltConduitContents))]
+		public class ConduitFlow_MeltConduitContents_Patch
+		{
+			public static void Prefix(ConduitFlow __instance, int conduit_idx) => HighPressurePipeCanTakeTransitionDamage(__instance, conduit_idx);
 		}
 	}
 }
