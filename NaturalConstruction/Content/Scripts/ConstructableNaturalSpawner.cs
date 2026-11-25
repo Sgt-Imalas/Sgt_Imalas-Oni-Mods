@@ -142,6 +142,8 @@ namespace NaturalConstruction.Content.Scripts
 				temperature = UtilMethods.GetKelvinFromC(20);
 			}
 			float multiplier = Mathf.Clamp(Config.Instance.SpawningMassMultiplier, 1f, 2f);
+			naturalMass *= multiplier;
+
 			int placementCellCount = building.PlacementCells.Length;
 			foreach (var tile in building.PlacementCells)
 			{

@@ -104,9 +104,10 @@ namespace NaturalConstruction.Content.Scripts
 
 			bool backwallBuilding = building.Def.ObjectLayer == ObjectLayer.Backwall;
 
-			naturalMass *= Mathf.Clamp(Config.Instance.SpawningMassMultiplier, 1f, 2f);
+			float massMultiplier = Mathf.Clamp(Config.Instance.SpawningMassMultiplier, 1f, 2f);
+			naturalMass *= massMultiplier;
 			int placementCellCount = Mathf.Max(1,building.PlacementCells.Length);
-			//SgtLogger.l("Number of placement cells: " + placementCellCount);
+			//SgtLogger.l("Number of placement cells: " + placementCellCount+ ", mass multiplier: "+ massMultiplier);
 			foreach (var tile in building.PlacementCells)
 			{
 				if (backwallBuilding)

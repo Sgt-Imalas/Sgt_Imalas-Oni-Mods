@@ -7,9 +7,6 @@ namespace OniRetroEdition.ModPatches
 {
 	internal class ProgressBarsConfig_Patches
 	{
-
-
-
 		[HarmonyPatch(typeof(ProgressBarsConfig), nameof(ProgressBarsConfig.Initialize))]
 		public class ProgressBarsConfig_Initialize_Patch
 		{
@@ -20,7 +17,6 @@ namespace OniRetroEdition.ModPatches
 				var rawImage = prefab.transform.Find("RawImage").GetComponent<RawImage>();
 				var img = prefab.transform.Find("Bar").GetComponent<Image>();
 				img.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 330);
-
 				if (rawImage == null)
 				{
 					SgtLogger.l("PROGBAR: RawImage not found!");
