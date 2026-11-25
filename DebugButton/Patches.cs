@@ -44,6 +44,23 @@ namespace DebugButton
 		}
 
 
+
+		[HarmonyPatch(typeof(LoadScreen), nameof(LoadScreen.ForceStopGame))]
+		public class LoadScreen_ForceStopGame_Patch
+		{
+			[HarmonyPrepare] public static bool Prepare() => Config.Instance.DisableOnLeave;
+			public static void Prefix(LoadScreen __instance)
+			{
+				SgtLogger.l("Disable Debug on SaveLeave"); 
+
+				if (traverseSuccessful)
+					f_showImGui.SetValue(false);
+
+				Add_Debug_Button.ToggleInstaBuild(true);
+				DebugHandler.SetDebugEnabled(false);
+			}
+		}
+
 		[HarmonyPatch(typeof(TopLeftControlScreen), nameof(TopLeftControlScreen.UpdateSandboxToggleState))]
 		public class TopLeftControlScreen_UpdateSandboxToggleState_Patch
 		{
@@ -184,7 +201,7 @@ namespace DebugButton
 					_debugHandler.ultraTestMode = isOn;
 				}
 			}
-			static void ToggleInstaBuild(bool forceOff = false)
+			public static void ToggleInstaBuild(bool forceOff = false)
 			{
 				if (forceOff && !DebugHandler.InstantBuildMode)
 					return;

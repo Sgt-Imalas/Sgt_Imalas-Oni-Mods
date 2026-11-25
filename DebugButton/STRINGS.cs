@@ -32,6 +32,11 @@
 					public static LocString NAME = "Show in Sandbox only";
 					public static LocString TOOLTIP_TOGGLE = "Only show the buttons when sandbox mode is enabled for the current save";
 				}
+				public class CFG_DISABLE_LEAVING
+				{
+					public static LocString NAME = "Turn off when quitting Game";
+					public static LocString TOOLTIP_TOGGLE = "Automatically turn off debug mode & insta build when leaving the current save";
+				}
 			}
 		}
 	}

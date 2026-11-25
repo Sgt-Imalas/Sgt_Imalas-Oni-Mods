@@ -13,5 +13,9 @@ namespace DebugButton
 		[Option("STRINGS.UI.TOOLS.CFG_SANDBOX_ONLY.NAME", "STRINGS.UI.TOOLS.CFG_SANDBOX_ONLY.TOOLTIP")]
 		[JsonProperty]
 		public bool SandboxModeOnly { get; set; } = false;
+
+		[Option("STRINGS.UI.TOOLS.CFG_DISABLE_LEAVING.NAME", "STRINGS.UI.TOOLS.CFG_DISABLE_LEAVING.TOOLTIP")]
+		[JsonProperty]
+		public bool DisableOnLeave { get; set; } = false;
 	}
 }
