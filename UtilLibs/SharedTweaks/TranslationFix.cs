@@ -15,7 +15,7 @@ namespace UtilLibs.SharedTweaks
 		{
 			new TranslationFix().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 0);
+		public override Version Version => new Version(2, 0, 0, 0);
 
 		public override void Initialize(Harmony plibInstance)
 		{
@@ -219,6 +219,10 @@ namespace UtilLibs.SharedTweaks
 				RoomConstraints.WILDPLANT.name = CRITERIA.WILDPLANT.NAME; RoomConstraints.WILDPLANT.description = CRITERIA.WILDPLANT.DESCRIPTION;
 				RoomConstraints.WILDPLANTS.name = CRITERIA.WILDPLANTS.NAME; RoomConstraints.WILDPLANTS.description = CRITERIA.WILDPLANTS.DESCRIPTION;
 				RoomConstraints.ORNAMENTDISPLAYED.name = CRITERIA.ORNAMENT.NAME; RoomConstraints.ORNAMENTDISPLAYED.description = CRITERIA.ORNAMENT.DESCRIPTION;
+				RoomConstraints.NO_BASIC_MESS_STATIONS.name = CRITERIA.NO_BASIC_MESS_STATIONS.NAME; RoomConstraints.NO_BASIC_MESS_STATIONS.description = CRITERIA.NO_BASIC_MESS_STATIONS.DESCRIPTION;
+				RoomConstraints.BIONICUPKEEP.name = CRITERIA.BIONICUPKEEP.NAME; RoomConstraints.BIONICUPKEEP.description = CRITERIA.BIONICUPKEEP.DESCRIPTION;
+				RoomConstraints.BIONIC_LUBRICATION.name = CRITERIA.BIONIC_LUBRICATION.NAME; RoomConstraints.BIONIC_LUBRICATION.description = CRITERIA.BIONIC_LUBRICATION.DESCRIPTION;
+				RoomConstraints.BIONIC_GUNKEMPTIER.name = CRITERIA.BIONIC_GUNKEMPTIER.NAME; RoomConstraints.BIONIC_GUNKEMPTIER.description = CRITERIA.BIONIC_GUNKEMPTIER.DESCRIPTION;
 			}
 			catch (Exception e)
 			{
