@@ -1,0 +1,38 @@
+﻿[h1]Unified Rate Formatting[/h1]
+
+this mod looks for all occurences of "per second" and "per cycle" and unifies their measurement display to include both variants
+
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All.png[/img]
+[h1]Current latest Version: 1.0[/h1]
+
+[hr][/hr]
+[h1]Features[/h1]
+[list][*] "Per Second"" measurements are now displayed as "Per Second (Per Cycle)".
+[*] "Per Cycle"" measurements are now displayed as "(Per Second) Per Cycle".
+[*] Unified Rate Converters:[list]
+	[*] Mass
+	[*] Units (note: per second display might get rounded to 0 for small perCycle numbers)
+	[*] Calories (note: per second display might get rounded to 0 for small perCycle numbers)
+	[*] Rads Emission info of elements[/list]
+[/list]
+
+
+[hr][/hr]
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make also sure you do NOT have the mod "Debug Console // by @Ony 👾" enabled as it breaks the game internally and makes the log useless for debugging![/b] 
+
+[h3]Mod is marked as "incompatible"?[/h3]
+This problem is caused by your system blocking the installation of the mod, leaving its folder empty.
+This issue is often caused by OneDrive, follow [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3522703974]this guide here[/url] to (temporarily) fix it.
+
+you can also grab a direct download on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]GitHub[/url] to get the latest version
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.

@@ -468,6 +468,7 @@ namespace UtilLibs
 
 			if (data.build == null)
 			{
+				DebugUtil.LogWarningArgs(symbolName, "KAnimFileData.Build is null");
 				return null;
 			}
 
@@ -489,6 +490,7 @@ namespace UtilLibs
 
 			if (data.elementCount == 0)
 			{
+				DebugUtil.LogWarningArgs(symbolName, "KAnimFileData.elementCount is 0");
 				return null;
 			}
 
@@ -501,6 +503,7 @@ namespace UtilLibs
 				DebugUtil.LogWarningArgs(animFile.name, symbolName, "placeSymbol [", frameElement.symbol, "] is missing");
 				return null;
 			}
+			SgtLogger.l("fetched " + symbolName + " from " + animFile.name);
 
 			knownSymbols[key] = symbol;
 			return symbol;
