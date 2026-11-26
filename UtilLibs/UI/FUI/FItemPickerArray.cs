@@ -117,6 +117,9 @@ namespace UtilLibs.UI.FUI
 		}
 		void OnSelectItem(string item)
 		{
+			if (item.IsNullOrWhiteSpace())
+				return;
+
 			if (item != SelectedEntry)
 			{
 				SelectedEntry = item;
