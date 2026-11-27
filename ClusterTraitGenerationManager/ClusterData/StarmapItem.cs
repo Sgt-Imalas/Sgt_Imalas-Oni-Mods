@@ -778,6 +778,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public void ClearGeyserOverrides()
 		{
+			if(IsMixed)
+			{
+				MixingAsteroidSource.ClearGeyserOverrides();
+				return;
+			}
+
 			GeyserOverrideIDs.Clear();
 			BlacklistedGeyserIds.Clear();
 			_geyserBlacklistAffectsNonGenerics = true;
@@ -824,7 +830,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					}
 				}
 			}
-			foreach (var traitID in CurrentTraits) //grabbing generics from traits
+			foreach (var traitID in currentPlanetTraits) //grabbing generics from traits
 			{
 				if (SettingsCache.worldTraits.TryGetValue(traitID, out var trait))
 				{
@@ -1073,7 +1079,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 		#region PlanetTraits
 
 		private List<string> currentPlanetTraits = new List<string>();
-		[JsonIgnore] public List<string> CurrentTraits => currentPlanetTraits;
 		public void SetWorldTraits(List<string> NEWs)
 		{
 			if (NEWs == null) NEWs = new List<string>();
@@ -1144,10 +1149,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 			return AllTraits;
 
 		}
-		public List<WorldTrait> AllowedPlanetTraits(bool ignoreWorldRules = false) => AllowedWorldTraitsFor(currentPlanetTraits, world, ignoreWorldRules);
+		public List<WorldTrait> AllowedPlanetTraits(bool ignoreWorldRules = false) => IsMixed ? MixingAsteroidSource.AllowedPlanetTraits(ignoreWorldRules) : AllowedWorldTraitsFor(currentPlanetTraits, world, ignoreWorldRules);
 
 		public bool RemoveWorldTrait(WorldTrait trait)
 		{
+			if (this.IsMixed)
+				return MixingAsteroidSource.RemoveWorldTrait(trait);
 			//SgtLogger.l(trait.filePath, "TryingToRemove");
 
 			string traitID = trait.filePath;
@@ -1158,6 +1165,9 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public bool AddWorldTrait(WorldTrait trait)
 		{
+			if (this.IsMixed)
+				return MixingAsteroidSource.AddWorldTrait(trait);
+
 			string traitID = trait.filePath;
 			bool allowed = !currentPlanetTraits.Contains(traitID);
 			if (allowed)
@@ -1166,12 +1176,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public void ClearWorldTraits()
 		{
-			currentPlanetTraits.Clear();
+			//SgtLogger.l("Clearing world traits on " + DisplayName);
+			if (this.IsMixed)
+				MixingAsteroidSource.ClearWorldTraits();
+			else
+				currentPlanetTraits.Clear();
 		}
-		public List<string> GetWorldTraits()
-		{
-			return currentPlanetTraits;
-		}
+		public List<string> GetWorldTraits() => IsMixed ? MixingAsteroidSource.GetWorldTraits() : currentPlanetTraits;
 		#endregion
 	}
 }

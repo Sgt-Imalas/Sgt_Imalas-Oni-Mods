@@ -445,7 +445,7 @@ namespace ClusterTraitGenerationManager
 					.AddMeteors(poiItem.world.seasons)
 					.AddGeysers(poiItem.GeyserOverrideIDs)
 					.AddGeyserBlacklists(poiItem.BlacklistedGeyserIds, poiItem.GeyserBlacklistAffectsNonGenerics, poiItem.GeyserBlacklistShared)
-					.AddTraits(poiItem.CurrentTraits)
+					.AddTraits(poiItem.GetWorldTraits())
 					.AddSkyTraits(poiItem)
 					.InitMixedState(poiItem);
 				;

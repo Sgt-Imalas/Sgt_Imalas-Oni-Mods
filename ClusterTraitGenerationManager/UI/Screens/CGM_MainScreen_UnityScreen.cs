@@ -3185,7 +3185,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			}
 			else
 			{
-				foreach (var activeTrait in CurrentStarmapItem.CurrentTraits)
+				foreach (var activeTrait in CurrentStarmapItem.GetWorldTraits())
 				{
 					if (Traits.TryGetValue(activeTrait, out var go))
 					{

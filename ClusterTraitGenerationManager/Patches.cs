@@ -528,6 +528,7 @@ namespace ClusterTraitGenerationManager
 				if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null && ApplyCustomGen.IsGenerating)
 				{
 					__result = CGSMClusterManager.CustomCluster.GiveWorldTraitsForWorldGen(world, seed);
+					SgtLogger.l("CGM applied world traits for " + world.filePath + ": " + string.Join(", ", __result));
 					return false;
 				}
 				return true;

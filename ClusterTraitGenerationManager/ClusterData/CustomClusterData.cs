@@ -248,6 +248,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 			else ///randomly selected planet
 			{
+				SgtLogger.l(world.filePath +" is considered random, grabbing random traits");
 				int random = new System.Random(seed).Next(101);
 				int count = 0;
 				if (random >= 85)
@@ -284,6 +285,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 
 
+			SgtLogger.l("Final: " + string.Join("; ", list));
 			return list;
 		}
 		public static List<string> AddRandomTraitsForWorld(List<string> existing, ProcGen.World world, int count, int seed)

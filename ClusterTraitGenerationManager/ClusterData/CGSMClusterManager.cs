@@ -618,7 +618,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				foreach (var item in allPlanets)
 				{
-					SgtLogger.l(item.PredefinedPlacementOrder.ToString(), item.id);
+					SgtLogger.l("planet at index " + item.PredefinedPlacementOrder.ToString() + ": " + item.id);
 				}
 			}
 			PostProcessCluster(layout, allPlanets, CustomCluster.StarterPlanet);
@@ -646,10 +646,30 @@ namespace ClusterTraitGenerationManager.ClusterData
 					.ThenBy(placement => placement.allowedRings.max - placement.allowedRings.min)
 					.ThenBy(placement => placement.world).ToList();
 			}
-			foreach (var world in layout.worldPlacements)
+
+			if (log)
+				SgtLogger.l("Custom cluster asteroids ordered:");
+
+			foreach (var placement in layout.worldPlacements)
 			{
 				if (log)
-					SgtLogger.l(world.world + ": " + world.allowedRings.ToString());
+				{
+					var worldData = SettingsCache.worlds.GetWorldData(placement.world);
+					if(worldData == null)
+					{
+						SgtLogger.error(placement.world + " was not found in settingscache!");
+						continue;
+					}
+					var customData = allPlanets.First(e => e.world == worldData); 
+					if (customData == null)
+					{
+						SgtLogger.error(placement.world + " was not found in custom cluster!");
+						continue;
+					}
+
+					string name = Strings.Get(worldData.name);
+					SgtLogger.l(name + " (" + placement.world + "), Rings: "+ placement.allowedRings.ToString()+ ", Traits: "+ string.Join(',',customData.GetWorldTraits()));
+				}
 			}
 
 
